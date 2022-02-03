@@ -20,6 +20,8 @@ if(process.env.NODE_ENV === 'production'){
     })
 }
 
+app.use('/api/trigger',require('./routes/triggerRouter'))
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,()=>{
