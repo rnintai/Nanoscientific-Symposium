@@ -1,18 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import axios from "axios";
+import React from 'react';
 
 import InnerHTML from "dangerously-set-html-content";
+import useHTML from "../../hooks/useHTML";
 
 function AsiaExhibit() {
-  const [HTML, setHTML] = useState<string>("")
-  useEffect(() => {
 
-    const getHTML = async () => {
-      const HTML = await axios.get('/api/page/asia/exhibit_hall')
-      setHTML(HTML.data);
-    }
-    getHTML()
-  }, [])
+  const HTML = useHTML('/api/page/asia/exhibit_hall')
   return (
     <InnerHTML html={HTML} />
   );
