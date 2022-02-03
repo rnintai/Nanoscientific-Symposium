@@ -1,17 +1,17 @@
 import React from 'react';
 import './App.css';
-import ASIA_Exhibit from "./pages/asia/ASIA_Exhibit";
+import AsiaExhibit from "./pages/asia/AsiaExhibit";
 
 function App() {
 
 
   return (
     <div>
-      <ASIA_Exhibit/>
+      <AsiaExhibit/>
     </div>
     // <Routes>
     //   <Route path='/' element={Landing}/>
-    //   <Route path='/asia/exhibit' element={ASIA_Exhibit}/>
+    //   <Route path='/asia/exhibit' element={AsiaExhibit}/>
     // </Routes>
   );
 }

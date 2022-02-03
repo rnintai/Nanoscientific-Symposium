@@ -3,7 +3,7 @@ import axios from "axios";
 
 import InnerHTML from "dangerously-set-html-content";
 
-function Asia_Exhibit() {
+function AsiaExhibit() {
   const [HTML, setHTML] = useState<string>("")
   useEffect(() => {
 
@@ -18,4 +18,4 @@ function Asia_Exhibit() {
   );
 }
 
-export default Asia_Exhibit;
+export default AsiaExhibit;
