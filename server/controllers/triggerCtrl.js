@@ -1,7 +1,15 @@
+const connection = require('../dbConfig')
+
+
 const triggerCtrl = {
     getTrigger: async (req, res) => {
-        res.send("바보")
-        console.log("백엔드로왔음")
+        console.log("겟트리거")
+        const sql = `UPDATE testtb SET count=3 WHERE idtesttb=1`
+        
+        connection.query(sql,(error,rows) => {
+            if(error) throw error;
+            res.json("성공")
+        })
     }
 }
 
