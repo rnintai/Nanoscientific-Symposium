@@ -2596,9 +2596,9 @@ button
 
 </script>
 
-<script>
+<script defer>
   // hotspot_jq_drag.js
-  window.onload = function () {
+(() => {
     var modal_overlay = document.querySelector(".modal-overlay");
     setHelperBar();
     jQuery(".map-wrap").each(function () {
@@ -2954,6 +2954,6 @@ button
       imageList[indexOfActive].classList.remove("image-active");
       imageList[nextIdx].classList.add("image-active");
     }
-  };
+  })();
 </script>
 <!-- drag_3d_view.js is merged to hotspot_jq.js -->
