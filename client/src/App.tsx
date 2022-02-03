@@ -1,24 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './App.css';
-import axios from "axios";
-import InnerHTML from 'dangerously-set-html-content'
+import ASIA_Exhibit from "./pages/asia/ASIA_Exhibit";
 
 function App() {
 
-  const [myHTML, setMyHTML] = useState("")
-  useEffect(() => {
-
-    const getHTML = async () => {
-      const HTML = await axios.get('/api/page/asia/exhibit_hall')
-      setMyHTML(HTML.data);
-    }
-    getHTML()
-  }, [])
-
 
   return (
-    <InnerHTML html={myHTML} />
-
+    <div>
+      <ASIA_Exhibit/>
+    </div>
+    // <Routes>
+    //   <Route path='/' element={Landing}/>
+    //   <Route path='/asia/exhibit' element={ASIA_Exhibit}/>
+    // </Routes>
   );
 }
 
