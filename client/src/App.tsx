@@ -1,28 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import axios from "axios";
+import InnerHTML from 'dangerously-set-html-content'
 
 function App() {
 
-  const clickHandler = async () => {
-    await axios.get('/api/trigger')
-  }
+  const [myHTML, setMyHTML] = useState("")
+  useEffect(() => {
+
+    const getHTML = async () => {
+      const HTML = await axios.get('/api/page/asia/exhibit_hall')
+      setMyHTML(HTML.data);
+    }
+    getHTML()
+  }, [])
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo"/>
-        <p>
-          Edit <code>src/App.tsx</code> and save to r eload.
-        </p>
-        <button onClick={clickHandler}>
+    <InnerHTML html={myHTML} />
 
-          Learn React
-        </button>
-      </header>
-    </div>
   );
 }
 
