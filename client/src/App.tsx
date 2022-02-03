@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import AsiaExhibit from "./pages/asia/AsiaExhibit";
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 import Landing from "./pages/Landing";
