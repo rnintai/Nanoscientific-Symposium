@@ -38,16 +38,16 @@ const NavBar = () => {
               <Link className="menu-link" to={`${pathname}/lecture-hall`}>LECTURE HALL</Link>
             </li>
             <li className="menu-item has-submenu">
-              <Link to={`${pathname}/exhibit`} className="menu-link">EXHIBIT HALL
+              <Link to={`${pathname}/exhibit/parksystems`} className="menu-link">EXHIBIT HALL
                 <i className="fas fa-caret-down"></i>
               </Link>
               <div className="drop-down-wrap">
                 <ul className="drop-down-list">
                   <li className="drop-down-item">
-                    <Link className="submenu-link" to="/exhibit-hall/park-systems">PARK SYSTEMS</Link>
+                    <Link className="submenu-link" to={`${pathname}/exhibit/parksystems`}>PARK SYSTEMS</Link>
                   </li>
                   <li className="drop-down-item">
-                    <Link className="submenu-link" to="/exhibit-hall/nanoscientific">NANOSCIENTIFIC</Link>
+                    <Link className="submenu-link" to={`${pathname}/exhibit/nanoscientific`}>NANOSCIENTIFIC</Link>
                   </li>
                 </ul>
               </div>

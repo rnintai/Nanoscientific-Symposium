@@ -1,11 +1,14 @@
 import React from 'react';
-import AsiaExhibit from "pages/asia/AsiaExhibit";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import AsiaExhibitParkSystems from "pages/asia/AsiaExhibit/AsiaExhibitParkSystems";
+import { Routes, Route} from "react-router-dom";
 import Landing from "pages/common/Landing";
 import AsiaLanding from "pages/asia/AsiaLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import AsiaPrograms from "pages/asia/AsiaPrograms/AsiaPrograms";
+import AsiaExhibitNanoScientific from "pages/asia/AsiaExhibit/AsiaExhibitNanoScientific";
+import AsiaLectureHall from "./pages/asia/AsiaLectureHall";
+import AsiaSponsors from "pages/asia/AsiaSponsors";
 
 function App() {
 
@@ -19,7 +22,10 @@ function App() {
         <Route path="/" element={<Landing/>}/>
         {/*asia */}
         <Route path="/asia/" element={<AsiaLanding/>}/>
-        <Route path="/asia/exhibit" element={<AsiaExhibit/>}/>
+        <Route path="/asia/lecture-hall" element={<AsiaLectureHall/>}/>
+        <Route path="/asia/exhibit/parksystems" element={<AsiaExhibitParkSystems/>}/>
+        <Route path="/asia/exhibit/nanoscientific" element={<AsiaExhibitNanoScientific/>}/>
+        <Route path="/asia/sponsors" element={<AsiaSponsors/>}/>
         <Route path="/asia/programs" element={<AsiaPrograms/>}/>
       </Routes>
     </>
