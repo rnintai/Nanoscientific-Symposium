@@ -8,4 +8,10 @@ router.route('/landing')
 router.route('/exhibit_hall')
     .get(asiaCtrl.getExhibit)
 
+router.route('/programs')
+  .get(asiaCtrl.getPrograms)
+
+router.route('/sessions')
+  .get(asiaCtrl.getSessions)
+
 module.exports = router;

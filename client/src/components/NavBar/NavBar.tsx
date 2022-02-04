@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import {NavBarContainer} from "components/NavBar/NavBarStyles";
+import usePageViews from "hooks/usePageViews";
 
 
 const NavBar = () => {
@@ -12,11 +13,13 @@ const NavBar = () => {
     setIsMobile(!isMobile)
   }
 
+  const pathname = usePageViews()
+
   return (
     <NavBarContainer>
       <nav className={'nav-wrap' + (isMobile ? ' mobile-menu-on' : '')}>
         <section className="col-logo">
-          <Link to="/" className="logo-link">
+          <Link to={`${pathname}`} className="logo-link">
             <img src="https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg" alt=""/>
           </Link>
           <div className='mobile-menu-btn' onClick={mobileToggleHandler}>
@@ -26,16 +29,16 @@ const NavBar = () => {
         <section className="col-menu">
           <ul className="menu-list">
             <li className="menu-item">
-              <Link className="menu-link" to="/speakers">SPEAKERS</Link>
+              <Link className="menu-link" to={`${pathname}/speakers`}>SPEAKERS</Link>
             </li>
             <li className="menu-item">
-              <Link className="menu-link" to="/programs">PROGRAMS</Link>
+              <Link className="menu-link" to={`${pathname}/programs`}>PROGRAMS</Link>
             </li>
             <li className="menu-item">
-              <Link className="menu-link" to="/lecture-hall">LECTURE HALL</Link>
+              <Link className="menu-link" to={`${pathname}/lecture-hall`}>LECTURE HALL</Link>
             </li>
             <li className="menu-item has-submenu">
-              <Link to={'/asia/exhibit'} className="menu-link">EXHIBIT HALL
+              <Link to={`${pathname}/exhibit`} className="menu-link">EXHIBIT HALL
                 <i className="fas fa-caret-down"></i>
               </Link>
               <div className="drop-down-wrap">
@@ -50,7 +53,7 @@ const NavBar = () => {
               </div>
             </li>
             <li className="menu-item">
-              <Link className="menu-link" to="/sponsors">SPONSORS</Link>
+              <Link className="menu-link" to={`${pathname}/sponsors`}>SPONSORS</Link>
             </li>
           </ul>
         </section>

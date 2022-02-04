@@ -4,7 +4,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Landing from "pages/common/Landing";
 import AsiaLanding from "pages/asia/AsiaLanding";
 import NavBar from "components/NavBar/NavBar";
-import usePageViews from "./hooks/usePageViews";
+import usePageViews from "hooks/usePageViews";
+import AsiaPrograms from "pages/asia/AsiaPrograms/AsiaPrograms";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         {/*asia */}
         <Route path="/asia/" element={<AsiaLanding/>}/>
         <Route path="/asia/exhibit" element={<AsiaExhibit/>}/>
+        <Route path="/asia/programs" element={<AsiaPrograms/>}/>
       </Routes>
     </>
   );
