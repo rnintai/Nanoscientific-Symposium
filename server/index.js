@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // }
 
 app.use('/api/page/asia',require('./routes/asiaRouter'))
-
+app.use('/api/page/common',require('./routes/commonRouter'))
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT,()=>{
