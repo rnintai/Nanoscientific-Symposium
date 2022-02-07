@@ -21,8 +21,10 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "wordpress-hash-node": "^1.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
