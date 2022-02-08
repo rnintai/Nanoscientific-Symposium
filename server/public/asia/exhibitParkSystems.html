@@ -1680,6 +1680,7 @@ button
   }
 
   .tooltip-mobile {
+    background-color: #fff;
     visibility: hidden;
     position: relative;
     top: 265px;
@@ -2957,3 +2958,9 @@ button
   })();
 </script>
 <!-- drag_3d_view.js is merged to hotspot_jq.js -->
+
+<script>
+  $(document).ready(function (e) {
+    $('img[usemap="#image-map"]').rwdImageMaps();
+  });
+</script>
