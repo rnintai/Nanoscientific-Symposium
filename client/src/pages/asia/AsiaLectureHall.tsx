@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
 
 const AsiaLectureHallContainer = styled.div`
@@ -15,17 +15,20 @@ const AsiaLectureHallContainer = styled.div`
     display: inline-block;
     vertical-align: baseline;
   }
+`;
 
-`
-
-
-function AsiaLectureHall() {
+const AsiaLectureHall = () => {
   return (
     <AsiaLectureHallContainer>
-      <video src="https://d25unujvh7ui3r.cloudfront.net/lecture_hall.mp4" muted autoPlay loop
-             playsInline/>
+      <video
+        src="https://d25unujvh7ui3r.cloudfront.net/lecture_hall.mp4"
+        muted
+        autoPlay
+        loop
+        playsInline
+      />
     </AsiaLectureHallContainer>
   );
-}
+};
 
 export default AsiaLectureHall;

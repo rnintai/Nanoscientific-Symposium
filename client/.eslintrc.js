@@ -26,5 +26,7 @@ module.exports = {
         namedComponents: "arrow-function",
       },
     ],
+    'camelcase': 'off',
+    "react/jsx-props-no-spreading": "off",
   },
 };

@@ -11,9 +11,8 @@ import AsiaSponsors from "pages/asia/AsiaSponsors";
 import AsiaLectureHall from "./pages/asia/AsiaLectureHall";
 
 const App = () => {
-
   const pathname = usePageViews();
- 
+
   return (
     <>
       {pathname !== "/" && <NavBar />}
@@ -23,13 +22,19 @@ const App = () => {
         {/* asia */}
         <Route path="/asia/" element={<AsiaLanding />} />
         <Route path="/asia/lecture-hall" element={<AsiaLectureHall />} />
-        <Route path="/asia/exhibit/parksystems" element={<AsiaExhibitParkSystems />} />
-        <Route path="/asia/exhibit/nanoscientific" element={<AsiaExhibitNanoScientific />} />
+        <Route
+          path="/asia/exhibit/parksystems"
+          element={<AsiaExhibitParkSystems />}
+        />
+        <Route
+          path="/asia/exhibit/nanoscientific"
+          element={<AsiaExhibitNanoScientific />}
+        />
         <Route path="/asia/sponsors" element={<AsiaSponsors />} />
         <Route path="/asia/programs" element={<AsiaPrograms />} />
       </Routes>
     </>
   );
-}
+};
 
 export default App;

@@ -90,8 +90,6 @@ export const NavBarContainer = styled.div`
     cursor: default;
   }
 
-
-
   .menu-item {
     &::after {
       content: "";
@@ -112,7 +110,6 @@ export const NavBarContainer = styled.div`
       visibility: visible;
     }
   }
-
 
   .menu-list .menu-item.has-submenu::after {
     display: none;
@@ -135,7 +132,7 @@ export const NavBarContainer = styled.div`
     width: 100%;
     opacity: 0;
     transition: visibility 0.3s ease, opacity 0.3s ease-in-out,
-    top 0.3s ease-in-out;
+      top 0.3s ease-in-out;
     z-index: 999;
   }
 
@@ -145,22 +142,21 @@ export const NavBarContainer = styled.div`
     box-shadow: 2px 2px 3px 0px #00000038;
   }
 
-  .has-submenu:hover{
-    .drop-down-wrap{
+  .has-submenu:hover {
+    .drop-down-wrap {
       visibility: visible;
       position: absolute;
       top: 43px;
       opacity: 1;
     }
   }
-  
 
   .drop-down-item {
     cursor: pointer;
     text-align: left;
     background-color: #fff;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-    &:hover{
+    &:hover {
       background-color: #21ade5;
     }
   }
@@ -295,8 +291,7 @@ export const NavBarContainer = styled.div`
       flex-direction: column;
     }
 
-    .
-    em {
+    . em {
       padding-bottom: 6px;
     }
 
@@ -356,7 +351,6 @@ export const NavBarContainer = styled.div`
       margin-right: 5px;
     }
 
-
     //모바일에서 파란줄 안보이기
     .menu-item:hover {
       &::after {
@@ -364,7 +358,6 @@ export const NavBarContainer = styled.div`
         visibility: hidden;
       }
     }
-    
   }
 
   /* deactivated */
@@ -396,4 +389,4 @@ export const NavBarContainer = styled.div`
   .menu-item.deactivated .menu-link:hover::after {
     opacity: 1;
   }
-`
+`;
