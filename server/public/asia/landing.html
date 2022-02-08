@@ -17,10 +17,10 @@
 <div class="home-wrap">
 
   <div class="video-wrap">
-    <video id="video-1" class="lazy" src="https://d25unujvh7ui3r.cloudfront.net/asia/home_1_asia.mp4" muted
-           preload="auto"></video>
-    <video id="video-2" class="lazy" src="https://d25unujvh7ui3r.cloudfront.net/asia/home_2_asia.mp4" loop muted
-           preload="auto"></video>
+    <video id="video-1"  src="https://d25unujvh7ui3r.cloudfront.net/asia/home_1_asia.mp4" loop muted
+           ></video>
+    <video id="video-2"  src="https://d25unujvh7ui3r.cloudfront.net/asia/home_2_asia.mp4" loop muted
+           ></video>
   </div>
   <button class="intro-btn"><i class="fas fa-arrow-left"></i></button>
   <section class="video-overlay flex-col">
@@ -949,7 +949,7 @@
   } */
 </style>
 
-<script>
+<script >
   var $ctrlVideo_1 = document.querySelector("#video-1"),
           $ctrlVideo_2 = document.querySelector("#video-2"),
           $btn_visit = document.querySelector(".btn-visit"),
@@ -1194,13 +1194,16 @@
     registerEvents();
 
     // after page fully loaded, coordinates are calculated
-    window.addEventListener("load", function () {
+      console.log("로드됌");
       if (checkVisited()) {
+        console.log("쿠키체크완료 ");
         $ctrlVideo_2.play();
+        setTimeout(()=>{
         document.querySelector(".btns-wrap").classList.add("active");
+
+        },500)
       }
       delayed_sizing();
-    })
   }
 
   function delayed_sizing() {
