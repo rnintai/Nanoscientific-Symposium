@@ -1,28 +1,28 @@
-import React, {useState} from 'react';
-import {Link} from "react-router-dom";
-import {NavBarContainer} from "components/NavBar/NavBarStyles";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 
 
 const NavBar = () => {
 
 
-  const [isMobile,setIsMobile] = useState<boolean>(false)
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const mobileToggleHandler = () => {
-    setIsMobile(!isMobile)
-  }
+    setIsMobile(!isMobile);
+  };
 
-  const pathname = usePageViews()
+  const pathname = usePageViews();
 
   return (
     <NavBarContainer>
-      <nav className={'nav-wrap' + (isMobile ? ' mobile-menu-on' : '')}>
+      <nav className={"nav-wrap" + (isMobile ? " mobile-menu-on" : "")}>
         <section className="col-logo">
           <Link to={`${pathname}`} className="logo-link">
-            <img src="https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg" alt=""/>
+            <img src="https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg" alt="" />
           </Link>
-          <div className='mobile-menu-btn' onClick={mobileToggleHandler}>
+          <div className="mobile-menu-btn" onClick={mobileToggleHandler}>
             <i className="fas fa-bars"></i>
           </div>
         </section>
@@ -77,6 +77,6 @@ const NavBar = () => {
 
     </NavBarContainer>
   );
-}
+};
 
 export default NavBar;

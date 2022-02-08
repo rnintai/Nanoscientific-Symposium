@@ -5,7 +5,6 @@ import useHTML from "hooks/useHTML";
 function AsiaLanding() {
   const HTML = useHTML("/api/page/asia/landing");
 
-
   return (
     <InnerHTML html={HTML} />
   );
