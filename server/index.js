@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const app = express()
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')));
@@ -20,11 +20,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     })
 // }
 
-app.use('/api/page/asia',require('./routes/asiaRouter'))
-app.use('/api/page/common',require('./routes/commonRouter'))
-app.use('/api/users',require('./routes/usersRouter'))
+app.use('/api/page/asia', require('./routes/asiaRouter'))
+app.use('/api/page/common', require('./routes/commonRouter'))
+app.use('/api/users', require('./routes/usersRouter'))
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT,()=>{
-    console.log('Sever is running on port ',PORT)
+app.listen(PORT, () => {
+    console.log('Sever is running on port ', PORT)
 })

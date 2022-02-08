@@ -6,7 +6,7 @@ router.route('/landing')
   .get(asiaCtrl.getLanding)
 
 router.route('/exhibit/parksystems')
-    .get(asiaCtrl.getExhibitParkSystems)
+  .get(asiaCtrl.getExhibitParkSystems)
 
 router.route('/exhibit/nanoscientific')
   .get(asiaCtrl.getNanoScientific)

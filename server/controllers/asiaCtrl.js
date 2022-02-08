@@ -1,4 +1,4 @@
-const {asiaConnection, koreaConnection} = require('../dbConfig')
+const { asiaConnection, koreaConnection } = require('../dbConfig')
 const path = require("path");
 
 const asiaCtrl = {
@@ -13,7 +13,7 @@ const asiaCtrl = {
     res.sendFile(path.join(__dirname, '..', 'public/asia/exhibitNanoScientific.html'))
   },
 
-  getSponsors : async (req, res) => {
+  getSponsors: async (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/asia/sponsors.html'))
   },
 
