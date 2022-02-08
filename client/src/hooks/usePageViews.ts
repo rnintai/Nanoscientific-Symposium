@@ -3,7 +3,7 @@ import {useLocation} from "react-router";
 const usePageViews = () => {
 
 
-  const {pathname} = useLocation();
+  const {pathname} = useLocation()
 
   // 두번째 슬래시 나오는곳까지 자릅니다
   const secondSlash = pathname.indexOf('/',1);

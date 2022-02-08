@@ -17,14 +17,14 @@ const NavBar = () => {
 
   return (
     <NavBarContainer>
-      <nav className={"nav-wrap" + (isMobile ? " mobile-menu-on" : "")}>
+      <nav className={`nav-wrap${  isMobile ? " mobile-menu-on" : ""}`}>
         <section className="col-logo">
           <Link to={`${pathname}`} className="logo-link">
             <img src="https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg" alt="" />
           </Link>
-          <div className="mobile-menu-btn" onClick={mobileToggleHandler}>
-            <i className="fas fa-bars"></i>
-          </div>
+          <button type="button" className="mobile-menu-btn" onClick={mobileToggleHandler}>
+            <i className="fas fa-bars" />
+          </button>
         </section>
         <section className="col-menu">
           <ul className="menu-list">
@@ -39,7 +39,7 @@ const NavBar = () => {
             </li>
             <li className="menu-item has-submenu">
               <Link to={`${pathname}/exhibit/parksystems`} className="menu-link">EXHIBIT HALL
-                <i className="fas fa-caret-down"></i>
+                <i className="fas fa-caret-down" />
               </Link>
               <div className="drop-down-wrap">
                 <ul className="drop-down-list">
