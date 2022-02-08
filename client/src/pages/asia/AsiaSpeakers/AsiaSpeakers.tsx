@@ -3,15 +3,18 @@ import axios from "axios";
 import { Button, Box, Grid, Paper } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Title from "components/Title/Title";
-import { useLocation } from "react-router";
 import { AsiaSpeakersContainer } from "./AsiaSpeakersStyles";
+import Loading from "../../../components/Loading/Loading";
 
 const AsiaSpeakers = () => {
   const [speakers, setSpeakers] = useState<Speaker.speakerType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     const getSpeakers = async () => {
+      setLoading(true);
       const speakers = await axios.get("/api/page/asia/speakers");
       setSpeakers(speakers.data);
+      setLoading(false);
     };
     getSpeakers();
   }, []);
@@ -23,6 +26,11 @@ const AsiaSpeakers = () => {
     display: "flex",
     flexDirection: "column",
   }));
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <AsiaSpeakersContainer>
       <Title fontSize={50} title="Speakers" />
