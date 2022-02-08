@@ -1,8 +1,6 @@
 import styled from "styled-components";
 
 export const AsiaProgramsContainer = styled.div`
-
-
   /* https://d25unujvh7ui3r.cloudfront.net/css/program.css */
 
   .program-wrap {
@@ -29,7 +27,6 @@ export const AsiaProgramsContainer = styled.div`
     margin-top: 20px;
     margin-left: -10px;
   }
-
 
   /* Download button */
 
@@ -73,9 +70,5 @@ export const AsiaProgramsContainer = styled.div`
     .cbp_tmtimeline:before {
       display: none;
     }
-    
-    
-
   }
-
-`
+`;

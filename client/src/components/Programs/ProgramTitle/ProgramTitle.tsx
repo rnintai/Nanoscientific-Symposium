@@ -1,11 +1,11 @@
-import React from 'react';
-import {ProgramTitleContainer} from "components/Programs/ProgramTitle/ProgramTitleStyles";
+import React from "react";
+import { ProgramTitleContainer } from "components/Programs/ProgramTitle/ProgramTitleStyles";
 
 interface ProgramTitleProps {
-  title:string
+  title: string;
 }
 
-function ProgramTitle({title}:ProgramTitleProps) {
+const ProgramTitle = ({ title }: ProgramTitleProps) => {
   return (
     <ProgramTitleContainer>
       <table className="styled-table">
@@ -15,6 +15,6 @@ function ProgramTitle({title}:ProgramTitleProps) {
       </table>
     </ProgramTitleContainer>
   );
-}
+};
 
 export default ProgramTitle;

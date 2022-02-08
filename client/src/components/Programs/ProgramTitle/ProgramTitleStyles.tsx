@@ -14,8 +14,8 @@ export const ProgramTitleContainer = styled.div`
     padding: 10px 20px;
     margin: 20px;
   }
-  
+
   @media screen and (max-width: 768px) {
     margin-top: 40px;
   }
-`
+`;

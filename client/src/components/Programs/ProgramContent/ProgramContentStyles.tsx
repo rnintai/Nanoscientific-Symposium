@@ -11,13 +11,13 @@ export const ProgramContentContainer = styled.div`
 
   li {
     position: relative;
-      span:last-child {
-        position: relative;
-        top: 2rem;
-        font-size: 1.2em;
-        font-weight: 600;
-      }
- 
+    span:last-child {
+      position: relative;
+      top: 2rem;
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+
     /* card margin */
 
     .cbp_tmlabel {
@@ -41,7 +41,6 @@ export const ProgramContentContainer = styled.div`
 
       .cbp_tmlabel:after {
         border-right-color: #009fe8;
-
       }
     }
 
@@ -86,20 +85,19 @@ export const ProgramContentContainer = styled.div`
     .session-date {
       font-size: 1.4em;
       font-weight: 600;
-      color: #009FE8;
+      color: #009fe8;
       line-height: 1.1;
     }
-    
-    .content-time{
+
+    .content-time {
       font-size: 1.2em;
       font-weight: 600;
-      color: #009FE8;
-    }
-    
-    .timezone{
-      font-size: 14px;
+      color: #009fe8;
     }
 
+    .timezone {
+      font-size: 14px;
+    }
   }
 
   li.cbp_tmlabel {
@@ -123,8 +121,6 @@ export const ProgramContentContainer = styled.div`
   }
 
   @media screen and (max-width: 768px) {
-    
-    
     .cbp_tmicon {
       display: none;
     }
@@ -136,39 +132,37 @@ export const ProgramContentContainer = styled.div`
     .cbp_tmtimeline:before {
       display: none;
     }
-    
-    li{
-      .cbp_tmtime{
+
+    li {
+      .cbp_tmtime {
         width: 100%;
         position: relative;
         padding: 0 0 20px 0;
-        
-        span{
+
+        span {
           text-align: left;
           display: inline-block;
         }
-        
-        .session-date{
+
+        .session-date {
           font-size: 1.2em;
           margin-right: 5px;
         }
-        
       }
-      
-      .timezone{
+
+      .timezone {
         text-align: left;
         display: inline-block;
         padding-left: 10px;
-
       }
-      
-      .cbp_tmlabel{
+
+      .cbp_tmlabel {
         margin: 0 0 0 0;
         padding: 1em;
         font-weight: 400;
         font-size: 95%;
-        
-        &:after{
+
+        &:after {
           right: auto;
           left: 20px;
           border-right-color: transparent;
@@ -176,16 +170,16 @@ export const ProgramContentContainer = styled.div`
           top: -20px;
         }
       }
-      
-      &:nth-child(odd){
-        .cbp_tmlabel:after{
+
+      &:nth-child(odd) {
+        .cbp_tmlabel:after {
           border-right-color: transparent;
           border-bottom-color: transparent;
           border-left: 4px solid #009fe8;
         }
       }
-      
-      .cbp_tmicon{
+
+      .cbp_tmicon {
         position: relative;
         float: right;
         left: auto;
@@ -194,7 +188,6 @@ export const ProgramContentContainer = styled.div`
     }
   }
 
-  
   //이거 안하면 원에 글자가 겹쳐짐
   @media screen and (max-width: 1300px) {
     .cbp_tmtime {
@@ -204,5 +197,4 @@ export const ProgramContentContainer = styled.div`
       position: absolute;
     }
   }
-
-`
+`;
