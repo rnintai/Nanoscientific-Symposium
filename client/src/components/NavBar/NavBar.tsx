@@ -40,12 +40,45 @@ const NavBar = () => {
         speakers: "스피커",
         programs: "프로그램",
         lectureHall: "강연장",
-        exhibitHall: "전시회",
+        exhibitHall: "전시회 ",
         sponsors: "스폰서",
       },
     ],
     [
       "/latam",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+    [
+      "/japan",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+    [
+      "/us",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+    [
+      "/europe",
       {
         logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
         speakers: "SPEAKERS",

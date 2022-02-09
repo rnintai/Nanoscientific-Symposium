@@ -11,6 +11,9 @@ import AsiaSponsors from "pages/asia/AsiaSponsors";
 import AsiaSpeakers from "pages/asia/AsiaSpeakers/AsiaSpeakers";
 import KoreaLanding from "pages/korea/KoreaLanding";
 import AsiaLectureHall from "./pages/asia/AsiaLectureHall";
+import LatamLanding from "./pages/latam/LatamLanding";
+import UsLanding from "./pages/us/usLanding";
+import JapanLanding from "./pages/japan/JapanLanding";
 
 const App = () => {
   const pathname = usePageViews();
@@ -38,6 +41,14 @@ const App = () => {
 
         {/* korea */}
         <Route path="/kr/" element={<KoreaLanding />} />
+
+        {/* latam */}
+        <Route path="/latam/" element={<LatamLanding />} />
+
+        {/* us */}
+        <Route path="/us/" element={<UsLanding />} />
+        {/* japan */}
+        <Route path="/japan/" element={<JapanLanding />} />
       </Routes>
     </>
   );
