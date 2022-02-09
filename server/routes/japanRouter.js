@@ -10,5 +10,6 @@ router.route("/programs").get(japanCtrl.getPrograms);
 router.route("/sessions").get(japanCtrl.getSessions);
 
 router.route("/speakers").get(japanCtrl.getSpeakers);
+router.route("/sponsors").get(japanCtrl.getSponsors);
 
 module.exports = router;
