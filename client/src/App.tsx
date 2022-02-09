@@ -20,6 +20,7 @@ import UsSpeakers from "pages/us/UsSpeakers/UsSpeakers";
 import UsPrograms from "pages/us/UsPrograms/UsPrograms";
 import UsLectureHall from "pages/us/UsLectureHall";
 import UsSponsors from "pages/us/UsSponsors";
+import JapanSpeakers from "./pages/japan/JapanSpeakers/JapanSpeakers";
 
 const App = () => {
   const pathname = usePageViews();
@@ -70,8 +71,11 @@ const App = () => {
         <Route path="/us/speakers" element={<UsSpeakers />} />
         <Route path="/us/programs" element={<UsPrograms />} />
         {/* japan */}
+
         <Route path="/jp/" element={<JapanLanding />} />
         <Route path="/jp/greeting" element={<JapanGreeting />} />
+
+        <Route path="/jp/speakers" element={<JapanSpeakers />} />
       </Routes>
       {pathname !== "/" && <Footer />}
     </>
