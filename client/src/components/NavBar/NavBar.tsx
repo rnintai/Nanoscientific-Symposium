@@ -58,7 +58,7 @@ const NavBar = () => {
     [
       "/japan",
       {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/japan/NS_logo.svg",
         speakers: "SPEAKERS",
         programs: "PROGRAMS",
         lectureHall: "LECTURE HALL",
@@ -69,7 +69,7 @@ const NavBar = () => {
     [
       "/us",
       {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
         speakers: "SPEAKERS",
         programs: "PROGRAMS",
         lectureHall: "LECTURE HALL",
@@ -80,7 +80,7 @@ const NavBar = () => {
     [
       "/europe",
       {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/europe/NS_logo.svg",
         speakers: "SPEAKERS",
         programs: "PROGRAMS",
         lectureHall: "LECTURE HALL",

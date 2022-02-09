@@ -1,20 +1,9 @@
-const { asiaConnection, koreaConnection } = require("../dbConfig");
+const { asiaConnection } = require("../dbConfig");
 const path = require("path");
 
 const asiaCtrl = {
   getLanding: async (req, res) => {
     res.sendFile(path.join(__dirname, "..", "public/asia/landing.html"));
-  },
-  getExhibitParkSystems: async (req, res) => {
-    res.sendFile(
-      path.join(__dirname, "..", "public/asia/exhibitParkSystems.html")
-    );
-  },
-
-  getNanoScientific: async (req, res) => {
-    res.sendFile(
-      path.join(__dirname, "..", "public/asia/exhibitNanoScientific.html")
-    );
   },
 
   getSponsors: async (req, res) => {
