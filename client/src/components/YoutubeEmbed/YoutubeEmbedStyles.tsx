@@ -15,4 +15,11 @@ export const YoutubeEmbedContainer = styled.div`
     width: 100%;
     position: absolute;
   }
+
+  @media (max-width: 900px) {
+    .video-responsive iframe {
+      height: 80%;
+      width: 80%;
+    }
+  }
 `;

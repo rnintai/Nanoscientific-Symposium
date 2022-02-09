@@ -33,14 +33,36 @@ export const JapanGreetingContainer = styled.div`
   }
 
   .video-container {
-    margin-top: 30px;
-
+    margin: 30px 10px;
     .button-container {
       margin: 10px auto;
       text-align: center;
 
       button {
         font-size: 20px;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    padding: 100px 0 0 0;
+    .content-container {
+      flex-direction: column;
+      align-items: center;
+
+      .image-container {
+        width: 70%;
+      }
+      .desc-container {
+        padding: 0;
+      }
+    }
+
+    .video-container {
+      .button-container {
+        button {
+          font-size: 14px;
+        }
       }
     }
   }
