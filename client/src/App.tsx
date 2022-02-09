@@ -5,7 +5,6 @@ import Landing from "pages/common/Landing";
 import AsiaLanding from "pages/asia/AsiaLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
-import AsiaPrograms from "pages/asia/AsiaPrograms/AsiaPrograms";
 import ExhibitNanoScientific from "pages/common/AsiaExhibit/ExhibitNanoScientific";
 import AsiaSponsors from "pages/asia/AsiaSponsors";
 import AsiaSpeakers from "pages/asia/AsiaSpeakers/AsiaSpeakers";
@@ -22,6 +21,7 @@ import UsLectureHall from "pages/us/UsLectureHall";
 import UsSponsors from "pages/us/UsSponsors";
 import JapanSpeakers from "./pages/japan/JapanSpeakers/JapanSpeakers";
 import Programs from "./pages/common/Programs/Programs";
+import JapanAttend from "./pages/japan/JapanAttend/JapanAttend";
 
 const App = () => {
   const pathname = usePageViews();
@@ -77,6 +77,7 @@ const App = () => {
         <Route path="/jp/greeting" element={<JapanGreeting />} />
         <Route path="/jp/programs" element={<Programs />} />
         <Route path="/jp/speakers" element={<JapanSpeakers />} />
+        <Route path="/jp/attend" element={<JapanAttend />} />
       </Routes>
       {pathname !== "/" && <Footer />}
     </>

@@ -102,6 +102,7 @@ const NavBar = () => {
     exhibitHall,
     sponsors,
     greeting,
+    attend,
   } = globalData.get(pathname) as globalDataType;
   return (
     <NavBarContainer>
@@ -142,6 +143,13 @@ const NavBar = () => {
                 {lectureHall}
               </Link>
             </li>
+            {attend && (
+              <li className="menu-item">
+                <Link className="menu-link" to={`${pathname}/attend`}>
+                  {attend}
+                </Link>
+              </li>
+            )}
             <li className="menu-item has-submenu">
               <Link
                 to={`${pathname}/exhibit/parksystems`}
