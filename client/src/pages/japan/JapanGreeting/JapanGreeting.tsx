@@ -1,8 +1,8 @@
 import React from "react";
 import Title from "components/Title/Title";
 import { Button } from "@mui/material";
+import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import { JapanGreetingContainer } from "./JapanGreetingStyles";
-import YoutubeEmbed from "../../../components/YoutubeEmbed/YoutubeEmbed";
 
 const JapanGreeting = () => {
   return (

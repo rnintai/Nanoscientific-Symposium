@@ -21,6 +21,7 @@ import UsPrograms from "pages/us/UsPrograms/UsPrograms";
 import UsLectureHall from "pages/us/UsLectureHall";
 import UsSponsors from "pages/us/UsSponsors";
 import JapanSpeakers from "./pages/japan/JapanSpeakers/JapanSpeakers";
+import Programs from "./pages/common/Programs/Programs";
 
 const App = () => {
   const pathname = usePageViews();
@@ -43,7 +44,7 @@ const App = () => {
           element={<ExhibitNanoScientific />}
         />
         <Route path="/asia/sponsors" element={<AsiaSponsors />} />
-        <Route path="/asia/programs" element={<AsiaPrograms />} />
+        <Route path="/asia/programs" element={<Programs />} />
         <Route path="/asia/speakers" element={<AsiaSpeakers />} />
 
         {/* korea */}
@@ -74,7 +75,7 @@ const App = () => {
 
         <Route path="/jp/" element={<JapanLanding />} />
         <Route path="/jp/greeting" element={<JapanGreeting />} />
-
+        <Route path="/jp/programs" element={<Programs />} />
         <Route path="/jp/speakers" element={<JapanSpeakers />} />
       </Routes>
       {pathname !== "/" && <Footer />}

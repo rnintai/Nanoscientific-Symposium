@@ -14,7 +14,7 @@ const JapanSpeakers = () => {
   useEffect(() => {
     const getSpeakers = async () => {
       setLoading(true);
-      const speakers = await axios.get("/api/page/japan/speakers");
+      const speakers = await axios.get("/api/page/jp/speakers");
       setSpeakers(speakers.data);
       setLoading(false);
     };

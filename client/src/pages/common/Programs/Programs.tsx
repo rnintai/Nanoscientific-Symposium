@@ -1,9 +1,8 @@
 import React from "react";
-
 import ProgramsList from "components/Programs/ProgramsList";
 
-const AsiaPrograms = () => {
+const Programs = () => {
   return <ProgramsList />;
 };
 
-export default AsiaPrograms;
+export default Programs;
