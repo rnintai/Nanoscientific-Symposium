@@ -1,8 +1,7 @@
 const { asiaPool } = require("../dbConfigPool");
 const hasher = require("wordpress-hash-node");
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-// const { router } = require('../routes/usersRouter');
+const { verifyToken } = require("../utils/jwt");
 
 const usersCtrl = {
   login: async (req, res, next) => {
@@ -17,13 +16,15 @@ const usersCtrl = {
       const sql = `SELECT email, password FROM user WHERE email='${userEmail}'`;
 
       const result = await connection.query(sql);
-
-      let dbPassword = result[0][0].password; // 해쉬화 된 db상의 wordpress 비밀번호
-      checked = hasher.CheckPassword(userPw, dbPassword);
+      if (result[0].length) {
+        let dbPassword = result[0][0].password; // 해쉬화 된 db상의 wordpress 비밀번호
+        checked = hasher.CheckPassword(userPw, dbPassword);
+      }
       connection.release();
     } catch (error) {
       await connection.rollback();
       connection.release();
+      res.status(500).json({ error });
       throw error;
     }
 
@@ -37,7 +38,6 @@ const usersCtrl = {
         await connection.beginTransaction();
         await connection.query(insertSql);
 
-        res.status(200).json({ result: true });
         await connection.commit();
         connection.release();
 
@@ -46,18 +46,32 @@ const usersCtrl = {
           expiresIn: "10m",
         });
 
-        // 두 개의 토큰을 client 쿠키에 저장
+        // 쿠키 세팅
+        res.cookie("refreshToken", refreshToken, {
+          httpOnly: true,
+        });
+
+        res
+          .status(200)
+          .json({ result: true, message: "login success", token: accessToken });
       } catch (error) {
         await connection.rollback();
         connection.release();
+        res.status(500).json({ error });
         throw error;
       }
     } else {
-      res.status(400).json({
+      res.status(200).json({
         result: false,
         message: "user info not match.",
       });
     }
+  },
+  checkToken: async (req, res, next) => {
+    // console.log(req.cookies.refreshToken);
+    verifyToken(req.cookies.refreshToken);
+
+    next();
   },
 };
 
