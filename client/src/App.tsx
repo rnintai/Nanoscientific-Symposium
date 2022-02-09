@@ -10,15 +10,16 @@ import ExhibitNanoScientific from "pages/common/AsiaExhibit/ExhibitNanoScientifi
 import AsiaSponsors from "pages/asia/AsiaSponsors";
 import AsiaSpeakers from "pages/asia/AsiaSpeakers/AsiaSpeakers";
 import KoreaLanding from "pages/korea/KoreaLanding";
-import AsiaLectureHall from "./pages/asia/AsiaLectureHall";
-import LatamLanding from "./pages/latam/LatamLanding";
-import UsLanding from "./pages/us/UsLanding";
-import JapanLanding from "./pages/japan/JapanLanding";
-import UsSpeakers from "./pages/us/UsSpeakers/UsSpeakers";
-import UsPrograms from "./pages/us/UsPrograms/UsPrograms";
-import UsLectureHall from "./pages/us/UsLectureHall";
-import UsSponsors from "./pages/us/UsSponsors";
-import Footer from "./components/Footer/Footer";
+import Footer from "components/Footer/Footer";
+import JapanGreeting from "pages/japan/JapanGreeting/JapanGreeting";
+import AsiaLectureHall from "pages/asia/AsiaLectureHall";
+import LatamLanding from "pages/latam/LatamLanding";
+import UsLanding from "pages/us/UsLanding";
+import JapanLanding from "pages/japan/JapanLanding";
+import UsSpeakers from "pages/us/UsSpeakers/UsSpeakers";
+import UsPrograms from "pages/us/UsPrograms/UsPrograms";
+import UsLectureHall from "pages/us/UsLectureHall";
+import UsSponsors from "pages/us/UsSponsors";
 
 const App = () => {
   const pathname = usePageViews();
@@ -69,7 +70,8 @@ const App = () => {
         <Route path="/us/speakers" element={<UsSpeakers />} />
         <Route path="/us/programs" element={<UsPrograms />} />
         {/* japan */}
-        <Route path="/japan/" element={<JapanLanding />} />
+        <Route path="/jp/" element={<JapanLanding />} />
+        <Route path="/jp/greeting" element={<JapanGreeting />} />
       </Routes>
       {pathname !== "/" && <Footer />}
     </>
