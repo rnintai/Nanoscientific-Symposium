@@ -24,4 +24,14 @@ declare namespace Speaker {
     image_path: string;
     show: number;
   }
+
+  interface japanSpeakerType {
+    id: number;
+    name_en: string;
+    name_jp: string;
+    belong: string;
+    image_path: string;
+    homework: string;
+    show: number;
+  }
 }

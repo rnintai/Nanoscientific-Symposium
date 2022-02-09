@@ -10,6 +10,8 @@ interface globalDataType {
   lectureHall: string;
   exhibitHall: string;
   sponsors: string;
+  greeting?: string;
+  attend?: string;
 }
 
 const NavBar = () => {
@@ -56,14 +58,16 @@ const NavBar = () => {
       },
     ],
     [
-      "/japan",
+      "/jp",
       {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/japan/NS_logo.svg",
-        speakers: "SPEAKERS",
-        programs: "PROGRAMS",
-        lectureHall: "LECTURE HALL",
-        exhibitHall: "EXHIBIT HALL",
-        sponsors: "SPONSORS",
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
+        speakers: "講演者",
+        programs: "プログラム",
+        lectureHall: "Web講演会",
+        exhibitHall: "展示会",
+        sponsors: "スポンサー",
+        greeting: "ごあいさつ",
+        attend: "参加手順",
       },
     ],
     [
@@ -90,8 +94,16 @@ const NavBar = () => {
     ],
   ]);
 
-  const { logoURL, speakers, programs, lectureHall, exhibitHall, sponsors } =
-    globalData.get(pathname) as globalDataType;
+  const {
+    logoURL,
+    speakers,
+    programs,
+    lectureHall,
+    exhibitHall,
+    sponsors,
+    greeting,
+    attend,
+  } = globalData.get(pathname) as globalDataType;
   return (
     <NavBarContainer>
       <nav className={`nav-wrap${isMobile ? " mobile-menu-on" : ""}`}>
@@ -109,6 +121,13 @@ const NavBar = () => {
         </section>
         <section className="col-menu">
           <ul className="menu-list">
+            {greeting && (
+              <li className="menu-item">
+                <Link className="menu-link" to={`${pathname}/greeting`}>
+                  {greeting}
+                </Link>
+              </li>
+            )}
             <li className="menu-item">
               <Link className="menu-link" to={`${pathname}/speakers`}>
                 {speakers}
@@ -124,6 +143,13 @@ const NavBar = () => {
                 {lectureHall}
               </Link>
             </li>
+            {attend && (
+              <li className="menu-item">
+                <Link className="menu-link" to={`${pathname}/attend`}>
+                  {attend}
+                </Link>
+              </li>
+            )}
             <li className="menu-item has-submenu">
               <Link
                 to={`${pathname}/exhibit/parksystems`}

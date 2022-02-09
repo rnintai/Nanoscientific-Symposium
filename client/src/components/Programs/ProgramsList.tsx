@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import ProgramTitle from "components/Programs/ProgramTitle/ProgramTitle";
-import ProgramContent from "components/Programs/ProgramContent/ProgramContent";
+import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
-import { AsiaProgramsContainer } from "./AsiaProgramsStyles";
+import ProgramTitle from "./ProgramTitle/ProgramTitle";
+import ProgramContent from "./ProgramContent/ProgramContent";
+import { ProgramsListContainer } from "./ProgramsListContainer";
 
-const AsiaPrograms = () => {
+const ProgramsList = () => {
+  const pathname = usePageViews();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
@@ -15,7 +17,7 @@ const AsiaPrograms = () => {
     // 프로그램 가져오기
     const getPrograms = async () => {
       setProgramLoading(true);
-      const programs = await axios.get("/api/page/asia/programs");
+      const programs = await axios.get(`/api/page${pathname}/programs`);
       setPrograms(programs.data);
       setProgramLoading(false);
     };
@@ -27,7 +29,7 @@ const AsiaPrograms = () => {
     // 세션 가져오기
     const getSessions = async () => {
       setSessionLoading(true);
-      const sessions = await axios.get("/api/page/asia/sessions");
+      const sessions = await axios.get(`/api/page${pathname}/sessions`);
       setSessions(sessions.data);
       setSessionLoading(false);
     };
@@ -40,7 +42,7 @@ const AsiaPrograms = () => {
   }
 
   return (
-    <AsiaProgramsContainer>
+    <ProgramsListContainer>
       <article className="program-wrap">
         <section
           className="timeline-wrap timeline-0"
@@ -81,8 +83,8 @@ const AsiaPrograms = () => {
       >
         DOWNLOAD
       </button>
-    </AsiaProgramsContainer>
+    </ProgramsListContainer>
   );
 };
 
-export default AsiaPrograms;
+export default ProgramsList;

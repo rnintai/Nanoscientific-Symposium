@@ -9,7 +9,7 @@ export const TitleContainer = styled.div<TitleContainerProps>`
   text-align: center;
 
   h1 {
-    color: #2a4b5a;
+    color: #0e3c7a;
     font-family: "Roboto", Sans-serif;
     font-size: ${(props) => props.fontSize}px;
     font-weight: 800;

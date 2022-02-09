@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export const AsiaProgramsContainer = styled.div`
+export const ProgramsListContainer = styled.div`
   /* https://d25unujvh7ui3r.cloudfront.net/css/program.css */
 
   .program-wrap {
-    padding-top: 120px;
+    padding: 160px;
   }
 
   .cbp_tmtimeline {
@@ -69,6 +69,13 @@ export const AsiaProgramsContainer = styled.div`
 
     .cbp_tmtimeline:before {
       display: none;
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    .program-wrap {
+      padding: 10px;
+      padding-top: 160px;
     }
   }
 `;
