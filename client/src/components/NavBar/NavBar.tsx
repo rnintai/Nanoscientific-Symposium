@@ -3,6 +3,15 @@ import { Link } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 
+interface globalDataType {
+  logoURL: string;
+  speakers: string;
+  programs: string;
+  lectureHall: string;
+  exhibitHall: string;
+  sponsors: string;
+}
+
 const NavBar = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
@@ -12,15 +21,83 @@ const NavBar = () => {
 
   const pathname = usePageViews();
 
+  const globalData = new Map<string, globalDataType>([
+    [
+      "/asia",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+    [
+      "/kr",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
+        speakers: "스피커",
+        programs: "프로그램",
+        lectureHall: "강연장",
+        exhibitHall: "전시회 ",
+        sponsors: "스폰서",
+      },
+    ],
+    [
+      "/latam",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+    [
+      "/japan",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/japan/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+    [
+      "/us",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+    [
+      "/europe",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/europe/NS_logo.svg",
+        speakers: "SPEAKERS",
+        programs: "PROGRAMS",
+        lectureHall: "LECTURE HALL",
+        exhibitHall: "EXHIBIT HALL",
+        sponsors: "SPONSORS",
+      },
+    ],
+  ]);
+
+  const { logoURL, speakers, programs, lectureHall, exhibitHall, sponsors } =
+    globalData.get(pathname) as globalDataType;
   return (
     <NavBarContainer>
       <nav className={`nav-wrap${isMobile ? " mobile-menu-on" : ""}`}>
         <section className="col-logo">
           <Link to={`${pathname}`} className="logo-link">
-            <img
-              src="https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg"
-              alt=""
-            />
+            <img src={logoURL} alt="logo" />
           </Link>
           <button
             type="button"
@@ -34,17 +111,17 @@ const NavBar = () => {
           <ul className="menu-list">
             <li className="menu-item">
               <Link className="menu-link" to={`${pathname}/speakers`}>
-                SPEAKERS
+                {speakers}
               </Link>
             </li>
             <li className="menu-item">
               <Link className="menu-link" to={`${pathname}/programs`}>
-                PROGRAMS
+                {programs}
               </Link>
             </li>
             <li className="menu-item">
               <Link className="menu-link" to={`${pathname}/lecture-hall`}>
-                LECTURE HALL
+                {lectureHall}
               </Link>
             </li>
             <li className="menu-item has-submenu">
@@ -52,7 +129,7 @@ const NavBar = () => {
                 to={`${pathname}/exhibit/parksystems`}
                 className="menu-link"
               >
-                EXHIBIT HALL
+                {exhibitHall}
                 <i className="fas fa-caret-down" />
               </Link>
               <div className="drop-down-wrap">
@@ -78,7 +155,7 @@ const NavBar = () => {
             </li>
             <li className="menu-item">
               <Link className="menu-link" to={`${pathname}/sponsors`}>
-                SPONSORS
+                {sponsors}
               </Link>
             </li>
           </ul>

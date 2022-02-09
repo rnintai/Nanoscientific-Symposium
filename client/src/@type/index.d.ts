@@ -15,3 +15,13 @@ declare namespace Program {
     date: string;
   }
 }
+
+declare namespace Speaker {
+  interface speakerType {
+    id: number;
+    name: string;
+    belong: string;
+    image_path: string;
+    show: number;
+  }
+}

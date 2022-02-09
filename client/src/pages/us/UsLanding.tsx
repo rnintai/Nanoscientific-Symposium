@@ -1,11 +1,11 @@
 import React from "react";
-
 import InnerHTML from "dangerously-set-html-content";
 import useHTML from "hooks/useHTML";
 
-const AsiaExhibitParkSystems = () => {
-  const HTML = useHTML("/api/page/asia/exhibit/parksystems");
+const UsLanding = () => {
+  const HTML = useHTML("/api/page/us/landing");
+
   return <InnerHTML html={HTML} />;
 };
 
-export default AsiaExhibitParkSystems;
+export default UsLanding;

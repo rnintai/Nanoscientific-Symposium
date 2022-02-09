@@ -1,23 +1,16 @@
-const router = require('express').Router();
-const asiaCtrl = require('../controllers/asiaCtrl')
+const router = require("express").Router();
+const asiaCtrl = require("../controllers/asiaCtrl");
 
+// page
+router.route("/landing").get(asiaCtrl.getLanding);
 
-router.route('/landing')
-  .get(asiaCtrl.getLanding)
+router.route("/sponsors").get(asiaCtrl.getSponsors);
 
-router.route('/exhibit/parksystems')
-  .get(asiaCtrl.getExhibitParkSystems)
+router.route("/sessions").get(asiaCtrl.getSessions);
 
-router.route('/exhibit/nanoscientific')
-  .get(asiaCtrl.getNanoScientific)
+// data
+router.route("/programs").get(asiaCtrl.getPrograms);
 
-router.route('/programs')
-  .get(asiaCtrl.getPrograms)
-
-router.route('/sponsors')
-  .get(asiaCtrl.getSponsors)
-
-router.route('/sessions')
-  .get(asiaCtrl.getSessions)
+router.route("/speakers").get(asiaCtrl.getSpeakers);
 
 module.exports = router;

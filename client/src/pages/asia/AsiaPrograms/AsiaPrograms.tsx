@@ -2,29 +2,42 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProgramTitle from "components/Programs/ProgramTitle/ProgramTitle";
 import ProgramContent from "components/Programs/ProgramContent/ProgramContent";
+import Loading from "components/Loading/Loading";
 import { AsiaProgramsContainer } from "./AsiaProgramsStyles";
 
 const AsiaPrograms = () => {
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
+  const [programLoading, setProgramLoading] = useState<boolean>(false);
+  const [sessionLoading, setSessionLoading] = useState<boolean>(false);
 
-  // 프로그램 가져오기
   useEffect(() => {
+    // 프로그램 가져오기
     const getPrograms = async () => {
+      setProgramLoading(true);
       const programs = await axios.get("/api/page/asia/programs");
       setPrograms(programs.data);
+      setProgramLoading(false);
     };
+
     getPrograms();
   }, []);
 
-  // 세션 가져오기
   useEffect(() => {
+    // 세션 가져오기
     const getSessions = async () => {
+      setSessionLoading(true);
       const sessions = await axios.get("/api/page/asia/sessions");
       setSessions(sessions.data);
+      setSessionLoading(false);
     };
+
     getSessions();
   }, []);
+
+  if (programLoading || sessionLoading) {
+    return <Loading />;
+  }
 
   return (
     <AsiaProgramsContainer>
