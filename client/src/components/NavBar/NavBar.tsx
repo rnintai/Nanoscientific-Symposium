@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 
+interface globalDataType {
+  logoURL: string;
+}
+
 const NavBar = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
@@ -12,15 +16,34 @@ const NavBar = () => {
 
   const pathname = usePageViews();
 
+  const globalData = new Map<string, globalDataType>([
+    [
+      "/asia",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+      },
+    ],
+    [
+      "kr",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
+      },
+    ],
+    [
+      "latam",
+      {
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+      },
+    ],
+  ]);
+
+  const { logoURL } = globalData.get(pathname) as globalDataType;
   return (
     <NavBarContainer>
       <nav className={`nav-wrap${isMobile ? " mobile-menu-on" : ""}`}>
         <section className="col-logo">
           <Link to={`${pathname}`} className="logo-link">
-            <img
-              src="https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg"
-              alt=""
-            />
+            <img src={logoURL} alt="logo" />
           </Link>
           <button
             type="button"
