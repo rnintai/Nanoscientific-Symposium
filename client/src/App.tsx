@@ -18,6 +18,7 @@ import UsSpeakers from "./pages/us/UsSpeakers/UsSpeakers";
 import UsPrograms from "./pages/us/UsPrograms/UsPrograms";
 import UsLectureHall from "./pages/us/UsLectureHall";
 import UsSponsors from "./pages/us/UsSponsors";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const pathname = usePageViews();
@@ -70,6 +71,7 @@ const App = () => {
         {/* japan */}
         <Route path="/japan/" element={<JapanLanding />} />
       </Routes>
+      {pathname !== "/" && <Footer />}
     </>
   );
 };
