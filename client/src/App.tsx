@@ -8,8 +8,9 @@ import usePageViews from "hooks/usePageViews";
 import AsiaPrograms from "pages/asia/AsiaPrograms/AsiaPrograms";
 import AsiaExhibitNanoScientific from "pages/asia/AsiaExhibit/AsiaExhibitNanoScientific";
 import AsiaSponsors from "pages/asia/AsiaSponsors";
+import AsiaSpeakers from "pages/asia/AsiaSpeakers/AsiaSpeakers";
+import KoreaLanding from "pages/korea/KoreaLanding";
 import AsiaLectureHall from "./pages/asia/AsiaLectureHall";
-import AsiaSpeakers from "./pages/asia/AsiaSpeakers/AsiaSpeakers";
 
 const App = () => {
   const pathname = usePageViews();
@@ -34,6 +35,9 @@ const App = () => {
         <Route path="/asia/sponsors" element={<AsiaSponsors />} />
         <Route path="/asia/programs" element={<AsiaPrograms />} />
         <Route path="/asia/speakers" element={<AsiaSpeakers />} />
+
+        {/* korea */}
+        <Route path="/kr/" element={<KoreaLanding />} />
       </Routes>
     </>
   );
