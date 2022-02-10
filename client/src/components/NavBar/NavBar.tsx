@@ -85,7 +85,7 @@ const NavBar = () => {
     [
       "/europe",
       {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/europe/NS_logo.svg",
+        logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
         speakers: "SPEAKERS",
         programs: "PROGRAMS",
         lectureHall: "LECTURE HALL",

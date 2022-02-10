@@ -6,6 +6,7 @@ import Title from "components/Title/Title";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import FileDownloadTwoToneIcon from "@mui/icons-material/FileDownloadTwoTone";
 
+import useCheckLocal from "hooks/useCheckLocal";
 import { JapanSpeakersContainer } from "./JapanSpeakersStyles";
 
 const JapanSpeakers = () => {
@@ -20,6 +21,7 @@ const JapanSpeakers = () => {
     };
     getSpeakers();
   }, []);
+  const isLocal = useCheckLocal();
 
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -59,7 +61,11 @@ const JapanSpeakers = () => {
               <Item>
                 <img
                   className="speaker-image"
-                  src={`http://localhost:5000/${speaker.image_path}`}
+                  src={
+                    isLocal
+                      ? `${window.location.protocol}//${window.location.host}/${speaker.image_path}`
+                      : `${window.location.protocol}//${window.location.host}:5000/${speaker.image_path}`
+                  }
                   alt="speakerImage"
                 />
                 <h3 className="name">{speaker.name_jp}</h3>

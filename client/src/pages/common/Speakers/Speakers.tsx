@@ -5,6 +5,7 @@ import { experimentalStyled as styled } from "@mui/material/styles";
 import Title from "components/Title/Title";
 import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
+import useCheckLocal from "hooks/useCheckLocal";
 import { SpeakersContainer } from "./SpeakersStyles";
 
 const Speakers = () => {
@@ -15,17 +16,13 @@ const Speakers = () => {
     const getSpeakers = async () => {
       setLoading(true);
       const speakers = await axios.get(`/api/page${pathname}/speakers`);
-      console.log(speakers.data);
       setSpeakers(speakers.data);
       setLoading(false);
     };
     getSpeakers();
   }, []);
 
-  console.log(
-    window.location.protocol + window.location.host.replace("3000", "5000"),
-  );
-
+  const isLocal = useCheckLocal();
   const globalData = new Map<string, { title: string }>([
     [
       "/asia",
@@ -77,7 +74,11 @@ const Speakers = () => {
                 {/* 같은 도메인의 백엔드 주소 가져오기 */}
                 <img
                   className="speaker-image"
-                  src={`${window.location.protocol}//${window.location.host}/${speaker.image_path}`}
+                  src={
+                    isLocal
+                      ? `${window.location.protocol}//${window.location.host}/${speaker.image_path}`
+                      : `${window.location.protocol}//${window.location.host}:5000/${speaker.image_path}`
+                  }
                   alt="speakerImage"
                 />
                 <h3 className="name">{speaker.name}</h3>
