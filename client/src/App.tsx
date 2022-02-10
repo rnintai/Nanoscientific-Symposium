@@ -1,11 +1,11 @@
 import React from "react";
-import ExhibitParkSystems from "pages/common/AsiaExhibit/ExhibitParkSystems";
+import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import { Routes, Route } from "react-router-dom";
 import Landing from "pages/common/Landing";
 import AsiaLanding from "pages/asia/AsiaLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
-import ExhibitNanoScientific from "pages/common/AsiaExhibit/ExhibitNanoScientific";
+import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import KoreaLanding from "pages/korea/KoreaLanding";
 import Footer from "components/Footer/Footer";
 import JapanGreeting from "pages/japan/JapanGreeting/JapanGreeting";
@@ -23,6 +23,7 @@ import JapanLectureHall from "./pages/japan/JapanLectureHall";
 import Sponsors from "./pages/common/Sponsors";
 import Speakers from "./pages/common/Speakers/Speakers";
 import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
+import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
 
 const App = () => {
   const pathname = usePageViews();
@@ -52,6 +53,19 @@ const App = () => {
         <Route path="/kr/" element={<KoreaLanding />} />
         <Route path="/kr/speakers" element={<Speakers />} />
         <Route path="/kr/attend" element={<KoreaAttend />} />
+        <Route path="/kr/programs" element={<Programs />} />
+        <Route path="/kr/lecture-hall" element={<KoreaLectureHall />} />
+
+        <Route
+          path="/kr/exhibit/parksystems"
+          element={<ExhibitParkSystems />}
+        />
+        <Route
+          path="/kr/exhibit/nanoscientific"
+          element={<ExhibitNanoScientific />}
+        />
+
+        <Route path="/kr/sponsors" element={<Sponsors />} />
 
         {/* latam */}
         <Route path="/latam/" element={<LatamLanding />} />

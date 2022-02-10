@@ -3,7 +3,7 @@ import InnerHTML from "dangerously-set-html-content";
 import useHTML from "hooks/useHTML";
 
 const UsSpeakers = () => {
-  const HTML = useHTML("/api/page/common/maintenance");
+  const [HTML, loading] = useHTML("/api/page/common/maintenance");
 
   return <InnerHTML html={HTML} />;
 };

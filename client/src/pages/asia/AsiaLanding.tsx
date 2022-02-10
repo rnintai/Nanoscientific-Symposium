@@ -3,7 +3,7 @@ import InnerHTML from "dangerously-set-html-content";
 import useHTML from "hooks/useHTML";
 
 const AsiaLanding = () => {
-  const HTML = useHTML("/api/page/asia/landing");
+  const [HTML, loading] = useHTML("/api/page/asia/landing");
 
   return <InnerHTML html={HTML} />;
 };
