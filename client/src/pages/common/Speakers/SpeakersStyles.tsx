@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const AsiaSpeakersContainer = styled.div`
+export const SpeakersContainer = styled.div`
   padding: 152px 30px;
 
   .speaker-image {

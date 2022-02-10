@@ -3,21 +3,39 @@ import axios from "axios";
 import { Button, Box, Grid, Paper } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Title from "components/Title/Title";
-import { AsiaSpeakersContainer } from "./AsiaSpeakersStyles";
-import Loading from "../../../components/Loading/Loading";
+import Loading from "components/Loading/Loading";
+import usePageViews from "hooks/usePageViews";
+import { SpeakersContainer } from "./SpeakersStyles";
 
-const AsiaSpeakers = () => {
+const Speakers = () => {
   const [speakers, setSpeakers] = useState<Speaker.speakerType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const pathname = usePageViews();
   useEffect(() => {
     const getSpeakers = async () => {
       setLoading(true);
-      const speakers = await axios.get("/api/page/asia/speakers");
+      const speakers = await axios.get(`/api/page${pathname}/speakers`);
       setSpeakers(speakers.data);
       setLoading(false);
     };
     getSpeakers();
   }, []);
+
+  const globalData = new Map<string, { title: string }>([
+    [
+      "/asia",
+      {
+        title: "Speakers",
+      },
+    ],
+    [
+      "/kr",
+      {
+        title: "초청 연사",
+      },
+    ],
+  ]);
+
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(2),
@@ -27,13 +45,15 @@ const AsiaSpeakers = () => {
     flexDirection: "column",
   }));
 
+  const { title } = globalData.get(pathname) as { title: string };
+
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <AsiaSpeakersContainer>
-      <Title fontSize={50} title="Speakers" />
+    <SpeakersContainer>
+      <Title fontSize={50} title={title} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
@@ -50,13 +70,14 @@ const AsiaSpeakers = () => {
                 />
                 <h3 className="name">{speaker.name}</h3>
                 <h5 className="belong">{speaker.belong}</h5>
+                {speaker.desc && <h5 className="belong">{speaker.desc}</h5>}
               </Item>
             </Grid>
           ))}
         </Grid>
       </Box>
-    </AsiaSpeakersContainer>
+    </SpeakersContainer>
   );
 };
 
-export default AsiaSpeakers;
+export default Speakers;

@@ -5,13 +5,14 @@ import usePageViews from "hooks/usePageViews";
 
 interface globalDataType {
   logoURL: string;
-  speakers: string;
+  speakers?: string;
   programs: string;
   lectureHall: string;
   exhibitHall: string;
   sponsors: string;
   greeting?: string;
   attend?: string;
+  symposium?: string;
 }
 
 const NavBar = () => {
@@ -39,11 +40,11 @@ const NavBar = () => {
       "/kr",
       {
         logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
-        speakers: "스피커",
+        symposium: "심포지엄 안내",
         programs: "프로그램",
-        lectureHall: "강연장",
-        exhibitHall: "전시회 ",
-        sponsors: "스폰서",
+        lectureHall: "온라인 강연장",
+        exhibitHall: "전시부스 ",
+        sponsors: "협찬사",
       },
     ],
     [
@@ -103,6 +104,7 @@ const NavBar = () => {
     sponsors,
     greeting,
     attend,
+    symposium,
   } = globalData.get(pathname) as globalDataType;
   return (
     <NavBarContainer>
@@ -121,6 +123,31 @@ const NavBar = () => {
         </section>
         <section className="col-menu">
           <ul className="menu-list">
+            {symposium && (
+              <li className="menu-item has-submenu">
+                <Link to={`${pathname}/`} className="menu-link">
+                  {symposium} <i className="fas fa-caret-down" />
+                </Link>
+                <div className="drop-down-wrap">
+                  <ul className="drop-down-list">
+                    <li className="drop-down-item">
+                      <Link
+                        className="submenu-link"
+                        to={`${pathname}/speakers`}
+                      >
+                        초청 연사
+                      </Link>
+                    </li>
+                    <li className="drop-down-item">
+                      <Link className="submenu-link" to={`${pathname}/attend`}>
+                        행사장 안내
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            )}
+
             {greeting && (
               <li className="menu-item">
                 <Link className="menu-link" to={`${pathname}/greeting`}>
@@ -128,11 +155,13 @@ const NavBar = () => {
                 </Link>
               </li>
             )}
-            <li className="menu-item">
-              <Link className="menu-link" to={`${pathname}/speakers`}>
-                {speakers}
-              </Link>
-            </li>
+            {speakers && (
+              <li className="menu-item">
+                <Link className="menu-link" to={`${pathname}/speakers`}>
+                  {speakers}
+                </Link>
+              </li>
+            )}
             <li className="menu-item">
               <Link className="menu-link" to={`${pathname}/programs`}>
                 {programs}

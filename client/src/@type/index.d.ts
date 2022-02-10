@@ -23,6 +23,7 @@ declare namespace Speaker {
     belong: string;
     image_path: string;
     show: number;
+    desc?: string;
   }
 
   interface japanSpeakerType {
