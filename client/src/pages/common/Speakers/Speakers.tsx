@@ -21,6 +21,10 @@ const Speakers = () => {
     getSpeakers();
   }, []);
 
+  console.log(
+    window.location.protocol + window.location.host.replace("3000", "5000"),
+  );
+
   const globalData = new Map<string, { title: string }>([
     [
       "/asia",
@@ -63,9 +67,10 @@ const Speakers = () => {
           {speakers.map((speaker) => (
             <Grid item xs={2} sm={4} md={4} key={speaker.id}>
               <Item>
+                {/* 같은 도메인의 백엔드 주소 가져오기 */}
                 <img
                   className="speaker-image"
-                  src={`http://localhost:5000/${speaker.image_path}`}
+                  src={`${window.location.protocol}//${window.location.host}/${speaker.image_path}`}
                   alt="speakerImage"
                 />
                 <h3 className="name">{speaker.name}</h3>
