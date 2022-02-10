@@ -22,6 +22,7 @@ import JapanAttend from "./pages/japan/JapanAttend/JapanAttend";
 import JapanLectureHall from "./pages/japan/JapanLectureHall";
 import Sponsors from "./pages/common/Sponsors";
 import Speakers from "./pages/common/Speakers/Speakers";
+import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
 
 const App = () => {
   const pathname = usePageViews();
@@ -50,6 +51,7 @@ const App = () => {
         {/* korea */}
         <Route path="/kr/" element={<KoreaLanding />} />
         <Route path="/kr/speakers" element={<Speakers />} />
+        <Route path="/kr/attend" element={<KoreaAttend />} />
 
         {/* latam */}
         <Route path="/latam/" element={<LatamLanding />} />
