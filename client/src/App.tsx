@@ -12,6 +12,7 @@ import AsiaLectureHall from "pages/asia/AsiaLectureHall";
 import UsSpeakers from "pages/us/UsSpeakers/UsSpeakers";
 import UsPrograms from "pages/us/UsPrograms/UsPrograms";
 import UsLectureHall from "pages/us/UsLectureHall";
+import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import JapanSpeakers from "./pages/japan/JapanSpeakers/JapanSpeakers";
 import Programs from "./pages/common/Programs/Programs";
 import JapanAttend from "./pages/japan/JapanAttend/JapanAttend";
@@ -22,10 +23,6 @@ import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
 import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
 import Landing from "./pages/common/Landing";
 import LatamLectureHall from "./pages/latam/LatamLectureHall";
-
-import SignIn from "./pages/common/SignIn/SignIn";
-
-import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 
 const App = () => {
   const pathname = usePageViews();
