@@ -15,7 +15,7 @@ module.exports = {
     if (accessToken === null) {
       if (refreshToken === null) {
         // case 1: 둘다 만료 -> 로그아웃
-        res.status(401).json({ success: false, message: "token is expired" });
+        res.status(200).json({ success: false, message: "token is expired" });
       } else {
         // case 2: access 만료, refresh 살아있음 -> access 재발급
         let newAccessToken = issueAccessToken(refreshToken.userEmail);
