@@ -20,6 +20,7 @@ import Speakers from "./pages/common/Speakers/Speakers";
 import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
 import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
 import Landing from "./pages/common/Landing";
+import LatamLectureHall from "./pages/latam/LatamLectureHall";
 
 const App = () => {
   const pathname = usePageViews();
@@ -65,6 +66,18 @@ const App = () => {
 
         {/* latam */}
         <Route path="/latam/" element={<Landing />} />
+        <Route path="/latam/lecture-hall" element={<LatamLectureHall />} />
+        <Route
+          path="/latam/exhibit/parksystems"
+          element={<ExhibitParkSystems />}
+        />
+        <Route
+          path="/latam/exhibit/nanoscientific"
+          element={<ExhibitNanoScientific />}
+        />
+        <Route path="/latam/sponsors" element={<Sponsors />} />
+        <Route path="/latam/programs" element={<Programs />} />
+        <Route path="/latam/speakers" element={<Speakers />} />
 
         {/* us */}
 

@@ -15,6 +15,7 @@ const Speakers = () => {
     const getSpeakers = async () => {
       setLoading(true);
       const speakers = await axios.get(`/api/page${pathname}/speakers`);
+      console.log(speakers.data);
       setSpeakers(speakers.data);
       setLoading(false);
     };
@@ -28,6 +29,12 @@ const Speakers = () => {
   const globalData = new Map<string, { title: string }>([
     [
       "/asia",
+      {
+        title: "Speakers",
+      },
+    ],
+    [
+      "/latam",
       {
         title: "Speakers",
       },
