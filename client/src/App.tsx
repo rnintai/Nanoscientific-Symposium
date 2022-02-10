@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import { Routes, Route } from "react-router-dom";
 import EventLanding from "pages/common/EventLanding";
@@ -22,8 +23,37 @@ import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
 import Landing from "./pages/common/Landing";
 import LatamLectureHall from "./pages/latam/LatamLectureHall";
 
+import SignIn from "./pages/common/SignIn/SignIn";
+
+import { useAuthState, useAuthDispatch } from "./context/AuthContext";
+
 const App = () => {
   const pathname = usePageViews();
+  const authState = useAuthState();
+  const authDispatch = useAuthDispatch();
+
+  useEffect(() => {
+    axios
+      .post("/api/users/check", {
+        accessToken: authState.accessToken,
+      })
+      .then((res) => {
+        const { accessToken, email, role } = res.data.data;
+
+        if (accessToken !== undefined) {
+          authDispatch({
+            type: "LOGIN",
+            authState: {
+              ...authState,
+              isLogin: true,
+              email,
+              role,
+              accessToken,
+            },
+          });
+        }
+      });
+  }, []);
 
   return (
     <>
