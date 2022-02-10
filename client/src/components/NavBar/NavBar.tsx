@@ -29,7 +29,7 @@ const NavBar = () => {
       "/asia",
       {
         logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-        speakers: "sssssss sssad",
+        speakers: "ssssssss sssad",
         programs: "PROGRAMS",
         lectureHall: "LECTURE HALL",
         exhibitHall: "EXHIBIT HALL",
