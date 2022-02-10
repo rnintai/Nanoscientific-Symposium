@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Title from "components/Title/Title";
 import { loadMapApi } from "utils/GoogleMapsUtils";
-import Map from "components/Map/Map";
+// import Map from "components/Map/Map";
 import { KoreaAttendContainer } from "./KoreaAttendStyles";
 
 const KoreaAttend = () => {
@@ -38,9 +38,9 @@ const KoreaAttend = () => {
         </div>
 
         {/* 이 밑에 Map 컴포넌트는 나중에 유동적으로 API KEY 이용해서 쓰기위함 */}
-        {scriptLoaded && (
+        {/* {scriptLoaded && (
           <Map mapType={google.maps.MapTypeId.ROADMAP} mapTypeControl />
-        )}
+        )} */}
 
         {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
         <iframe
