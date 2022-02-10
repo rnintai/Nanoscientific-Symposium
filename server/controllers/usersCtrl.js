@@ -1,11 +1,6 @@
 const { asiaPool } = require("../dbConfigPool");
 const hasher = require("wordpress-hash-node");
-const jwt = require("jsonwebtoken");
-const {
-  verifyToken,
-  issueAccessToken,
-  issueRefreshToken,
-} = require("../utils/jwt");
+const { issueAccessToken, issueRefreshToken } = require("../utils/jwt");
 
 const usersCtrl = {
   login: async (req, res, next) => {
@@ -13,7 +8,6 @@ const usersCtrl = {
 
     const userEmail = req.body.email;
     const userPw = req.body.password;
-    const userRole = "";
 
     let checked = false;
 
@@ -54,7 +48,7 @@ const usersCtrl = {
         });
 
         res.status(200).json({
-          result: true,
+          success: true,
           message: "login success",
           accessToken,
           role,
@@ -67,7 +61,7 @@ const usersCtrl = {
       }
     } else {
       res.status(200).json({
-        result: false,
+        success: false,
         message: "user info not match.",
       });
     }
