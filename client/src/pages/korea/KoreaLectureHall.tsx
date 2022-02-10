@@ -1,7 +1,7 @@
 import React from "react";
 import { VideoContainer } from "components/VideoContainer/VideoContainer";
 
-const JapanLectureHall = () => {
+const KoreaLectureHall = () => {
   return (
     <VideoContainer>
       <video
@@ -15,4 +15,4 @@ const JapanLectureHall = () => {
   );
 };
 
-export default JapanLectureHall;
+export default KoreaLectureHall;

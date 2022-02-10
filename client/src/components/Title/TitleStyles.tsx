@@ -7,7 +7,7 @@ interface TitleContainerProps {
 export const TitleContainer = styled.div<TitleContainerProps>`
   width: 100%;
   text-align: center;
-
+  margin-bottom: 40px;
   h1 {
     color: #0e3c7a;
     font-family: "Roboto", Sans-serif;

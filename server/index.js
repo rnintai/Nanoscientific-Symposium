@@ -22,7 +22,7 @@ app.use(cookies());
 // }
 
 app.use("/api/page/asia", require("./routes/asiaRouter"));
-app.use("/api/page/korea", require("./routes/koreaRouter"));
+app.use("/api/page/kr", require("./routes/koreaRouter"));
 app.use("/api/page/europe", require("./routes/europeRouter"));
 app.use("/api/page/us", require("./routes/usRouter"));
 app.use("/api/page/jp", require("./routes/japanRouter"));
