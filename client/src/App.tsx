@@ -1,18 +1,13 @@
 import React from "react";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import { Routes, Route } from "react-router-dom";
-import Landing from "pages/common/Landing";
-import AsiaLanding from "pages/asia/AsiaLanding";
+import EventLanding from "pages/common/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
-import KoreaLanding from "pages/korea/KoreaLanding";
 import Footer from "components/Footer/Footer";
 import JapanGreeting from "pages/japan/JapanGreeting/JapanGreeting";
 import AsiaLectureHall from "pages/asia/AsiaLectureHall";
-import LatamLanding from "pages/latam/LatamLanding";
-import UsLanding from "pages/us/UsLanding";
-import JapanLanding from "pages/japan/JapanLanding";
 import UsSpeakers from "pages/us/UsSpeakers/UsSpeakers";
 import UsPrograms from "pages/us/UsPrograms/UsPrograms";
 import UsLectureHall from "pages/us/UsLectureHall";
@@ -24,6 +19,7 @@ import Sponsors from "./pages/common/Sponsors";
 import Speakers from "./pages/common/Speakers/Speakers";
 import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
 import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
+import Landing from "./pages/common/Landing";
 
 const App = () => {
   const pathname = usePageViews();
@@ -33,9 +29,9 @@ const App = () => {
       {pathname !== "/" && <NavBar />}
       <Routes>
         {/* common */}
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<EventLanding />} />
         {/* asia */}
-        <Route path="/asia/" element={<AsiaLanding />} />
+        <Route path="/asia/" element={<Landing />} />
         <Route path="/asia/lecture-hall" element={<AsiaLectureHall />} />
         <Route
           path="/asia/exhibit/parksystems"
@@ -50,7 +46,7 @@ const App = () => {
         <Route path="/asia/speakers" element={<Speakers />} />
 
         {/* korea */}
-        <Route path="/kr/" element={<KoreaLanding />} />
+        <Route path="/kr/" element={<Landing />} />
         <Route path="/kr/speakers" element={<Speakers />} />
         <Route path="/kr/attend" element={<KoreaAttend />} />
         <Route path="/kr/programs" element={<Programs />} />
@@ -68,10 +64,11 @@ const App = () => {
         <Route path="/kr/sponsors" element={<Sponsors />} />
 
         {/* latam */}
-        <Route path="/latam/" element={<LatamLanding />} />
+        <Route path="/latam/" element={<Landing />} />
 
         {/* us */}
 
+        <Route path="/us/" element={<Landing />} />
         <Route path="/us/lecture-hall" element={<UsLectureHall />} />
 
         <Route
@@ -83,14 +80,12 @@ const App = () => {
           element={<ExhibitNanoScientific />}
         />
 
-        <Route path="/us/" element={<UsLanding />} />
-
         <Route path="/us/sponsors" element={<Sponsors />} />
         <Route path="/us/speakers" element={<UsSpeakers />} />
         <Route path="/us/programs" element={<UsPrograms />} />
         {/* japan */}
 
-        <Route path="/jp/" element={<JapanLanding />} />
+        <Route path="/jp/" element={<Landing />} />
         <Route path="/jp/greeting" element={<JapanGreeting />} />
         <Route path="/jp/programs" element={<Programs />} />
         <Route path="/jp/speakers" element={<JapanSpeakers />} />
