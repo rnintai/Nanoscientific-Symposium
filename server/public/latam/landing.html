@@ -78,11 +78,11 @@
     <map name="image-map" id="image-map">
       <area target="" alt="play" title="play" class="play" href="#" coords="748,275,1189,498" shape="rect"
             onmouseover="areaHover(this)" onmouseout="areaLeave(this)" onclick="play_click()" />
-      <area target="" alt="program" title="Program" class="program" href="/programs" coords="240,541,514,715"
+      <area target="" alt="program" title="Program" class="program" href="/latam/programs" coords="240,541,514,715"
             shape="rect" onmouseover="areaHover(this);" onmouseout="areaLeave(this);" />
-      <area target="" alt="lecture hall" title="Lecture Hall" class="lecture" href="/lecture-hall"
+      <area target="" alt="lecture hall" title="Lecture Hall" class="lecture" href="/latam/lecture-hall"
             coords="738,500,1197,720" shape="rect" onmouseover="areaHover(this);" onmouseout="areaLeave(this);" />
-      <area target="" alt="exhibit hall" title="Exhibit Hall" class="exhibit" href="/exhibit-hall"
+      <area target="" alt="exhibit hall" title="Exhibit Hall" class="exhibit" href="/latam/exhibit-hall"
             coords="1395,541,1667,714" shape="rect" onmouseover="areaHover(this);" onmouseout="areaLeave(this);" />
     </map>
     <!-- mobile -->
@@ -1178,15 +1178,15 @@
         $a.appendTo(`.${class_name}-map-wrap`);
         if (class_name === "program") {
           $arrowL.appendTo(`.${class_name}-map-wrap`);
-          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/program'")
+          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/latam/programs'")
         }
         else if (class_name === "lecture") {
           $arrowC.appendTo(`.${class_name}-map-wrap`);
-          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/lecture-hall'")
+          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/latam/lecture-hall'")
         }
         else if (class_name === "exhibit") {
           $arrowR.appendTo(`.${class_name}-map-wrap`);
-          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/exhibit-hall'")
+          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/latam/exhibit/parksystems'")
         }
       }
     });
@@ -1200,13 +1200,16 @@
     registerEvents();
 
     // after page fully loaded, coordinates are calculated
-    window.addEventListener("load", function () {
-      if (checkVisited()) {
-        $ctrlVideo_2.play();
+    console.log("로드됌");
+    if (checkVisited()) {
+      console.log("쿠키체크완료 ");
+      $ctrlVideo_2.play();
+      setTimeout(()=>{
         document.querySelector(".btns-wrap").classList.add("active");
-      }
-      delayed_sizing();
-    })
+
+      },500)
+    }
+    delayed_sizing();
   }
 
   function delayed_sizing() {
