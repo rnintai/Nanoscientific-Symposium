@@ -1187,16 +1187,15 @@
         $a.appendTo(`.${class_name}-map-wrap`);
         if (class_name === "program") {
           $arrowL.appendTo(`.${class_name}-map-wrap`);
-          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/programs'")
-          // jQuery(`.${class_name}-map-wrap`).attr("onclick", "alert('Coming Soon')")
+          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/kr/programs'")
         }
         else if (class_name === "lecture") {
           $arrowC.appendTo(`.${class_name}-map-wrap`);
-          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/lecture-hall'")
+          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/kr/lecture-hall'")
         }
         else if (class_name === "exhibit") {
           $arrowR.appendTo(`.${class_name}-map-wrap`);
-          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/exhibit-hall'")
+          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/kr/exhibit/parksystems'")
         }
       }
     });
@@ -1210,13 +1209,14 @@
     registerEvents();
 
     // after page fully loaded, coordinates are calculated
-    window.addEventListener("load", function () {
-      if (checkVisited()) {
-        $ctrlVideo_2.play();
+    if (checkVisited()) {
+      $ctrlVideo_2.play();
+      setTimeout(()=>{
         document.querySelector(".btns-wrap").classList.add("active");
-      }
-      delayed_sizing();
-    })
+
+      },500)
+    }
+    delayed_sizing();
   }
 
   function delayed_sizing() {
