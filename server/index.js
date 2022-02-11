@@ -29,6 +29,7 @@ app.use("/api/page/jp", require("./routes/japanRouter"));
 app.use("/api/page/latam", require("./routes/latamRouter"));
 app.use("/api/page/common", require("./routes/commonRouter"));
 app.use("/api/users", require("./routes/usersRouter"));
+app.use("/api/admin", require("./routes/adminRouter"));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

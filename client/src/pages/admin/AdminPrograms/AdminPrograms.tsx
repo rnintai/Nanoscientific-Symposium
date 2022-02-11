@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import AdminLayout from "components/AdminLayout/AdminLayout";
 import axios from "axios";
-import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import ProgramTitle from "components/Programs/ProgramTitle/ProgramTitle";
 import ProgramContent from "components/Programs/ProgramContent/ProgramContent";
 import { ProgramsListContainer } from "components/Programs/ProgramsListContainer";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
+import AddSessionForm from "../Forms/AddSessionForm";
+import ModifySessionForm from "../Forms/ModifySessionForm";
 
 const AdminPrograms = () => {
   const myCountry = "asia";
@@ -15,6 +17,16 @@ const AdminPrograms = () => {
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
+
+  const [addSessionSuccess, setAddSessionSuccess] = useState<boolean>(false);
+  const [modifySessionSuccess, setModifySessionSuccess] =
+    useState<boolean>(false);
+
+  const [openAddSessionForm, setOpenAddSesisonForm] = useState<boolean>(false);
+  const [openModifySessionForm, setOpenModifySessionForm] =
+    useState<boolean>(false);
+
+  const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
 
   useEffect(() => {
     // 프로그램 가져오기
@@ -44,9 +56,17 @@ const AdminPrograms = () => {
     return <Loading />;
   }
 
+  const openAddSessionFormHandler = () => {
+    setOpenAddSesisonForm(true);
+  };
+
   return (
-    <AdminProgramsContainer>
-      <AdminLayout title="Programs">
+    <AdminLayout
+      title="Programs"
+      menu1="Add Session"
+      menu1ClickHandler={openAddSessionFormHandler}
+    >
+      <AdminProgramsContainer>
         <ProgramsListContainer isAdmin>
           <article className="program-wrap">
             <section className="timeline-wrap timeline-0">
@@ -54,7 +74,14 @@ const AdminPrograms = () => {
               {sessions.map((session) => {
                 return (
                   <>
-                    <ProgramTitle isAdmin title={session.session_title} />
+                    <ProgramTitle
+                      onClick={() => {
+                        setSelectedSession(session);
+                        setOpenModifySessionForm(true);
+                      }}
+                      isAdmin
+                      title={session.session_title}
+                    />
                     <ul className="cbp_tmtimeline">
                       {programs
                         .filter((program) => {
@@ -75,8 +102,31 @@ const AdminPrograms = () => {
             </section>
           </article>
         </ProgramsListContainer>
-      </AdminLayout>
-    </AdminProgramsContainer>
+      </AdminProgramsContainer>
+      {openAddSessionForm && (
+        <AddSessionForm
+          openAddSessionForm={openAddSessionForm}
+          setOpenAddSesisonForm={setOpenAddSesisonForm}
+          setAddSessionSuccess={setAddSessionSuccess}
+        />
+      )}
+
+      {openModifySessionForm && (
+        <ModifySessionForm
+          seletedSession={seletedSession as Program.sessionType}
+          openModifySessionForm={openModifySessionForm}
+          setOpenModifySessionForm={setOpenModifySessionForm}
+          setModifySessionSuccess={setModifySessionSuccess}
+        />
+      )}
+
+      <TopCenterSnackBar
+        value={addSessionSuccess}
+        setValue={setAddSessionSuccess}
+        severity="success"
+        content="Success add session"
+      />
+    </AdminLayout>
   );
 };
 

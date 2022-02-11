@@ -5,11 +5,13 @@ interface ProgramTitleProps {
   title: string;
   // eslint-disable-next-line react/require-default-props
   isAdmin?: boolean;
+  // eslint-disable-next-line react/no-unused-prop-types,react/require-default-props
+  onClick?: () => void;
 }
 
-const ProgramTitle = ({ title, isAdmin }: ProgramTitleProps) => {
+const ProgramTitle = ({ title, isAdmin, onClick }: ProgramTitleProps) => {
   return (
-    <ProgramTitleContainer isAdmin={isAdmin as boolean}>
+    <ProgramTitleContainer onClick={onClick} isAdmin={isAdmin as boolean}>
       <table className="styled-table">
         <tbody className="styled-tr">
           <td>{title}</td>

@@ -62,13 +62,20 @@ const NavBar = () => {
       "/jp",
       {
         logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
-        speakers: "講演者",
-        programs: "プログラム",
-        lectureHall: "Web講演会",
-        exhibitHall: "展示会",
-        sponsors: "スポンサー",
-        greeting: "ごあいさつ",
-        attend: "参加手順",
+        // speakers: "講演者",
+        // programs: "プログラム",
+        // lectureHall: "Web講演会",
+        // exhibitHall: "展示会",
+        // sponsors: "スポンサー",
+        // greeting: "ごあいさつ",
+        // attend: "参加手順",
+        speakers: "",
+        programs: "",
+        lectureHall: "",
+        exhibitHall: "",
+        sponsors: "",
+        greeting: "",
+        attend: "",
       },
     ],
     [
@@ -215,33 +222,35 @@ const NavBar = () => {
             </li>
           </ul>
         </section>
-        <section className="col-login">
-          <ul className="login-list">
-            <li className="login-item menu-logged-in">
-              <Link className="menu-link" to="/my-account">
-                MY PAGE
-              </Link>
-            </li>
-            <li className="login-item menu-logged-in">
-              <Link className="menu-link" to="/wp-login.php?action=logout">
-                SIGN OUT
-              </Link>
-            </li>
-            <li className="login-item menu-logged-out">
-              <Link className="menu-link remember-prev" to="/sign-in">
-                SIGN IN
-              </Link>
-            </li>
-            <li className="login-item menu-logged-out">
-              <Link
-                className="menu-link boxed remember-prev"
-                to="/registration"
-              >
-                REGISTRATION
-              </Link>
-            </li>
-          </ul>
-        </section>
+        {pathname !== "/jp" && (
+          <section className="col-login">
+            <ul className="login-list">
+              <li className="login-item menu-logged-in">
+                <Link className="menu-link" to="/my-account">
+                  MY PAGE
+                </Link>
+              </li>
+              <li className="login-item menu-logged-in">
+                <Link className="menu-link" to="/wp-login.php?action=logout">
+                  SIGN OUT
+                </Link>
+              </li>
+              <li className="login-item menu-logged-out">
+                <Link className="menu-link remember-prev" to="/sign-in">
+                  SIGN IN
+                </Link>
+              </li>
+              <li className="login-item menu-logged-out">
+                <Link
+                  className="menu-link boxed remember-prev"
+                  to="/registration"
+                >
+                  REGISTRATION
+                </Link>
+              </li>
+            </ul>
+          </section>
+        )}
       </nav>
     </NavBarContainer>
   );

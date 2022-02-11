@@ -10,4 +10,8 @@ export const AdminLayoutContainer = styled.div`
   .MuiSvgIcon-root.MuiSvgIcon-fontSizeMedium.css-i4bv87-MuiSvgIcon-root {
     font-size: 20px;
   }
+
+  .css-o943dk-MuiFormLabel-root-MuiInputLabel-root {
+    font-size: 300px;
+  }
 `;

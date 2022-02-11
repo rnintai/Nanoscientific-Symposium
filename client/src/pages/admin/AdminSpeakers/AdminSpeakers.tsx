@@ -5,7 +5,7 @@ import { AdminSpeakerContainer } from "./AdminSpeakersStyles";
 const AdminSpeakers = () => {
   return (
     <AdminSpeakerContainer>
-      <AdminLayout title="Speakers">aasdasd</AdminLayout>
+      <AdminLayout title="Speakers">aasdasdaasdasdaasdasdaasdasd</AdminLayout>
     </AdminSpeakerContainer>
   );
 };

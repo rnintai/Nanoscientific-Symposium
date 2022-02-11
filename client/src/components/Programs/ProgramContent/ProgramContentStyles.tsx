@@ -6,7 +6,7 @@ export const ProgramContentContainer = styled.div<{ isAdmin: boolean }>`
   .cbp_tmtime {
     display: block;
     width: 25%;
-    padding-right: 15rem;
+    padding-right: 7rem;
     position: absolute;
   }
 

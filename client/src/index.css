@@ -19,3 +19,22 @@ code {
     background-color: #E7E8E9;
 
 }
+
+
+/*모달은 root 밑에가 아닌 portal 형태로 다르게 열려서 여기에 css를 지정해줘야함*/
+
+/*모달 라벨*/
+.css-o943dk-MuiFormLabel-root-MuiInputLabel-root{
+    font-size: 16px !important;
+
+}
+
+/*모달 인풋*/
+.css-10botns-MuiInputBase-input-MuiFilledInput-input {
+    font-size: 20px !important;
+}
+
+/*모달 버튼*/
+.css-kpm0tx-MuiButtonBase-root-MuiButton-root{
+    font-size: 16px !important;
+}
