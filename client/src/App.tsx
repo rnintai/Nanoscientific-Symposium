@@ -23,6 +23,10 @@ import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
 import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
 import Landing from "./pages/common/Landing";
 import LatamLectureHall from "./pages/latam/LatamLectureHall";
+import Admin from "./pages/admin/Admin";
+import AdminPrograms from "./pages/admin/AdminPrograms/AdminPrograms";
+import AdminSpeakers from "./pages/admin/AdminSpeakers/AdminSpeakers";
+import AdminUsers from "./pages/admin/AdminUsers/AdminUsers";
 
 const App = () => {
   const pathname = usePageViews();
@@ -51,10 +55,9 @@ const App = () => {
         }
       });
   }, []);
-
   return (
     <>
-      {pathname !== "/" && <NavBar />}
+      {pathname !== "/" && pathname !== "/admin" && <NavBar />}
       <Routes>
         {/* common */}
         <Route path="/" element={<EventLanding />} />
@@ -141,8 +144,15 @@ const App = () => {
           path="/jp/exhibit/nanoscientific"
           element={<ExhibitNanoScientific />}
         />
+
+        {/* admin */}
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin/programs" element={<AdminPrograms />} />
+        <Route path="/admin/speakers" element={<AdminSpeakers />} />
+        <Route path="/admin/users" element={<AdminUsers />} />
       </Routes>
-      {pathname !== "/" && <Footer />}
+
+      {pathname !== "/" && pathname !== "/admin" && <Footer />}
     </>
   );
 };
