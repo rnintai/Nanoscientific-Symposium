@@ -29,5 +29,13 @@ pipeline {
                 }
             }
         }
+        stage('server-build') {
+            steps {
+                     sh 'ls -al'
+                     sh "npm install"
+                     sh 'sudo cp -r ./server /home/ubuntu/server'
+            }
+        }
+
     }
 }
