@@ -11,7 +11,7 @@ pipeline {
                  sh  'ls -al'
             }
         }
-        stage('build') {
+        stage('client-build') {
             steps {
                     dir('client'){
                         sh 'ls -al'
@@ -20,7 +20,7 @@ pipeline {
                 }
             }
         }
-        stage('deploy') {
+        stage('client-deploy') {
             steps {
                     dir('client'){
                         sh 'ls -al'
