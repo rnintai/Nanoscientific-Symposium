@@ -3,6 +3,7 @@ import { ProgramContentContainer } from "components/Programs/ProgramContent/Prog
 
 interface ProgramContentProps extends Program.programType {
   index: number;
+  isAdmin: boolean;
 }
 
 const ProgramContent = ({
@@ -12,9 +13,10 @@ const ProgramContent = ({
   speakers,
   desc,
   index,
+  isAdmin,
 }: ProgramContentProps) => {
   return (
-    <ProgramContentContainer>
+    <ProgramContentContainer isAdmin={isAdmin}>
       <li>
         <time className="cbp_tmtime">
           {/* {index === 0 && <span className={"session-date"}>{moment(date).format("MMM DD")}</span>} */}

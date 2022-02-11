@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export const ProgramsListContainer = styled.div`
+export const ProgramsListContainer = styled.div<{ isAdmin?: boolean }>`
   /* https://d25unujvh7ui3r.cloudfront.net/css/program.css */
 
   .program-wrap {
-    padding: 160px;
+    padding: ${(props) => (props.isAdmin ? "0px" : "160px")};
   }
 
   .cbp_tmtimeline {
@@ -75,7 +75,7 @@ export const ProgramsListContainer = styled.div`
   @media screen and (max-width: 1280px) {
     .program-wrap {
       padding: 10px;
-      padding-top: 160px;
+      padding-top: : ${(props) => (props.isAdmin ? "0px" : "160px")};
     }
   }
 `;

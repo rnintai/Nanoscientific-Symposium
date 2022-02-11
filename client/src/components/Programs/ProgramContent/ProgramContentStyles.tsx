@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-export const ProgramContentContainer = styled.div`
+export const ProgramContentContainer = styled.div<{ isAdmin: boolean }>`
   position: relative;
+  cursor: ${(props) => props.isAdmin && "pointer"};
   .cbp_tmtime {
     display: block;
     width: 25%;
@@ -11,6 +12,7 @@ export const ProgramContentContainer = styled.div`
 
   li {
     position: relative;
+
     span:last-child {
       position: relative;
       top: 2rem;
@@ -97,6 +99,12 @@ export const ProgramContentContainer = styled.div`
 
     .timezone {
       font-size: 14px;
+    }
+
+    //for admin page UX
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      transform: translateY(${(props) => props.isAdmin && "-10px"});
     }
   }
 

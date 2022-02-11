@@ -60,6 +60,7 @@ const ProgramsList = () => {
                     })
                     .map((program, index) => (
                       <ProgramContent
+                        isAdmin={false}
                         key={program.id}
                         {...program}
                         index={index}
