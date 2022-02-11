@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }
-        stage('server-build') {
+        stage('server-deploy') {
             steps {
                     dir('server'){
                      sh 'ls -al'
