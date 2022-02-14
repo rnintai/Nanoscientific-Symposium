@@ -9,6 +9,8 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
 import AddSessionForm from "../Forms/AddSessionForm";
 import ModifySessionForm from "../Forms/ModifySessionForm";
+import AddProgramForm from "../Forms/AddProgramForm";
+import ModifyProgramForm from "../Forms/ModifyProgramForm";
 
 const AdminPrograms = () => {
   const myCountry = "asia";
@@ -22,11 +24,20 @@ const AdminPrograms = () => {
   const [modifySessionSuccess, setModifySessionSuccess] =
     useState<boolean>(false);
 
+  const [addProgramSuccess, setAddProgramSuccess] = useState<boolean>(false);
+  const [modifyProgramSuccess, setModifyProgramSuccess] =
+    useState<boolean>(false);
+
   const [openAddSessionForm, setOpenAddSesisonForm] = useState<boolean>(false);
   const [openModifySessionForm, setOpenModifySessionForm] =
     useState<boolean>(false);
 
+  const [openAddProgramForm, setOpenAddProgramForm] = useState<boolean>(false);
+  const [openModifyProgramForm, setOpenModifyProgramForm] =
+    useState<boolean>(false);
+
   const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
+  const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
 
   useEffect(() => {
     // 프로그램 가져오기
@@ -38,7 +49,7 @@ const AdminPrograms = () => {
     };
 
     getPrograms();
-  }, []);
+  }, [openAddProgramForm, openModifyProgramForm]);
 
   useEffect(() => {
     // 세션 가져오기
@@ -50,7 +61,7 @@ const AdminPrograms = () => {
     };
 
     getSessions();
-  }, []);
+  }, [openModifySessionForm, openAddSessionForm]);
 
   if (programLoading || sessionLoading) {
     return <Loading />;
@@ -60,11 +71,17 @@ const AdminPrograms = () => {
     setOpenAddSesisonForm(true);
   };
 
+  const openAddProgramFormHandler = () => {
+    setOpenAddProgramForm(true);
+  };
+
   return (
     <AdminLayout
       title="Programs"
       menu1="Add Session"
       menu1ClickHandler={openAddSessionFormHandler}
+      menu2="Add Programs"
+      menu2ClickHandler={openAddProgramFormHandler}
     >
       <AdminProgramsContainer>
         <ProgramsListContainer isAdmin>
@@ -89,6 +106,10 @@ const AdminPrograms = () => {
                         })
                         .map((program, index) => (
                           <ProgramContent
+                            onClick={() => {
+                              setSelectedProgram(program);
+                              setOpenModifyProgramForm(true);
+                            }}
                             isAdmin
                             key={program.id}
                             {...program}
@@ -120,11 +141,36 @@ const AdminPrograms = () => {
         />
       )}
 
+      {openAddProgramForm && (
+        <AddProgramForm
+          sessions={sessions}
+          openAddProgramForm={openAddProgramForm}
+          setOpenAddProgramForm={setOpenAddProgramForm}
+          setAddProgramSuccess={setAddProgramSuccess}
+        />
+      )}
+
+      {openModifyProgramForm && (
+        <ModifyProgramForm
+          sessions={sessions}
+          seletedProgram={seletedProgram as Program.programType}
+          openModifyProgramForm={openModifyProgramForm}
+          setOpenModifyProgramForm={setOpenModifyProgramForm}
+          setModifyProgramSuccess={setModifyProgramSuccess}
+        />
+      )}
+
       <TopCenterSnackBar
         value={addSessionSuccess}
         setValue={setAddSessionSuccess}
         severity="success"
         content="Success add session"
+      />
+      <TopCenterSnackBar
+        value={modifySessionSuccess}
+        setValue={setModifySessionSuccess}
+        severity="success"
+        content="Success modify session"
       />
     </AdminLayout>
   );

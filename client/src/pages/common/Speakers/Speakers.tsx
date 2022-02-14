@@ -83,7 +83,9 @@ const Speakers = () => {
                 />
                 <h3 className="name">{speaker.name}</h3>
                 <h5 className="belong">{speaker.belong}</h5>
-                {speaker.desc && <h5 className="belong">{speaker.desc}</h5>}
+                {speaker.description && (
+                  <h5 className="belong">{speaker.description}</h5>
+                )}
               </Item>
             </Grid>
           ))}

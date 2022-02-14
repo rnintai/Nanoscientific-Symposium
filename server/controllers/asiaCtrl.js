@@ -12,7 +12,7 @@ const asiaCtrl = {
 
   // 프로그램과 세션 조인시켜서 가져오는것보다 따로가져오는게 프론트에서 랜더링하기 편함
   getPrograms: async (req, res) => {
-    const sql = `SELECT * FROM programs`;
+    const sql = `SELECT * FROM programs WHERE status=1`;
     asiaConnection.query(sql, (error, rows) => {
       if (error) throw error;
       res.send(rows);
@@ -20,7 +20,7 @@ const asiaCtrl = {
   },
 
   getSessions: async (req, res) => {
-    const sql = `SELECT * FROM program_sessions`;
+    const sql = `SELECT * FROM program_sessions WHERE status=1`;
     asiaConnection.query(sql, (error, rows) => {
       if (error) throw error;
       res.send(rows);

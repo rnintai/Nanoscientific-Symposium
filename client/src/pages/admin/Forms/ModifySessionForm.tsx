@@ -3,8 +3,10 @@ import TextField from "@mui/material/TextField";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
-import CommonModal from "../../../components/CommonModal/CommonModal";
-import useInput from "../../../hooks/useInput";
+import CommonModal from "components/CommonModal/CommonModal";
+import useInput from "hooks/useInput";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 interface ModifySessionFormProps {
   openModifySessionForm: boolean;
@@ -20,7 +22,7 @@ const ModifySessionForm = ({
   seletedSession,
 }: ModifySessionFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-
+  const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(new Date(seletedSession.date));
   const title = useInput(seletedSession.session_title);
 
@@ -30,6 +32,7 @@ const ModifySessionForm = ({
       country: "asia",
       id: seletedSession.id,
       title: title.value,
+      status: status === "show" ? 1 : 0,
       date,
     });
     if (data.success) {
@@ -38,8 +41,15 @@ const ModifySessionForm = ({
       setOpenModifySessionForm(false);
     }
   };
-  const handleChange = (newValue: Date | null) => {
+  const dateChangeHandler = (newValue: Date | null) => {
     setDate(newValue);
+  };
+
+  const statusChangeHandler = (
+    event: React.MouseEvent<HTMLElement>,
+    newStatus: Common.showStatus,
+  ) => {
+    setStatus(newStatus);
   };
 
   return (
@@ -65,10 +75,21 @@ const ModifySessionForm = ({
           label="Date desktop"
           inputFormat="MM/dd/yyyy"
           value={date}
-          onChange={handleChange}
+          onChange={dateChangeHandler}
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
+      <ToggleButtonGroup
+        size="large"
+        color="primary"
+        value={status}
+        exclusive
+        onChange={statusChangeHandler}
+        sx={{ ml: 5 }}
+      >
+        <ToggleButton value="show">show</ToggleButton>
+        <ToggleButton value="hide">hide</ToggleButton>
+      </ToggleButtonGroup>
     </CommonModal>
   );
 };

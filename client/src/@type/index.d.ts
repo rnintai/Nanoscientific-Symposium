@@ -6,7 +6,7 @@ declare namespace Program {
     end_time: string;
     title: string;
     speakers: string;
-    desc: string;
+    description: string;
   }
 
   interface sessionType {
@@ -23,7 +23,7 @@ declare namespace Speaker {
     belong: string;
     image_path: string;
     show: number;
-    desc?: string;
+    description?: string;
   }
 
   interface japanSpeakerType {
@@ -35,4 +35,8 @@ declare namespace Speaker {
     homework: string;
     show: number;
   }
+}
+
+declare namespace Common {
+  type showStatus = "show" | "hide";
 }

@@ -8,4 +8,8 @@ router
   .post(adminCtrl.addSession)
   .put(adminCtrl.modifySession);
 
+router
+  .route("/program")
+  .post(adminCtrl.addProgram)
+  .put(adminCtrl.modifyProgram);
 module.exports = router;
