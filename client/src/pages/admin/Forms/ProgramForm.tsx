@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import CommonModal from "components/CommonModal/CommonModal";
@@ -10,50 +10,67 @@ import { LocalizationProvider, TimePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
 import moment from "moment";
-import useInput from "../../../hooks/useInput";
+import useInput from "hooks/useInput";
 
-interface ModifyProgramFormProps {
-  openModifyProgramForm: boolean;
-  setOpenModifyProgramForm: Dispatch<SetStateAction<boolean>>;
-  setModifyProgramSuccess: Dispatch<SetStateAction<boolean>>;
+interface ProgramFormProps {
+  openProgramForm: boolean;
+  setOpenProgramForm: Dispatch<SetStateAction<boolean>>;
+  setProgramSuccess: Dispatch<SetStateAction<boolean>>;
   seletedProgram: Program.programType;
   sessions: Program.sessionType[];
   getPrograms: () => void;
+  edit: boolean;
 }
-const ModifyProgramForm = ({
-  openModifyProgramForm,
-  setOpenModifyProgramForm,
+const ProgramForm = ({
+  openProgramForm,
+  setOpenProgramForm,
   seletedProgram,
-  setModifyProgramSuccess,
+  setProgramSuccess,
   sessions,
   getPrograms,
-}: ModifyProgramFormProps) => {
+  edit = false,
+}: ProgramFormProps) => {
   const [startTime, setStartTime] = useState<Date | null>(
-    new Date(`2022-02-14 ${seletedProgram.start_time}`),
+    edit ? new Date(`2022-02-14 ${seletedProgram.start_time}`) : new Date(),
   );
   const [endTime, setEndTime] = useState<Date | null>(
-    new Date(`2022-02-14 ${seletedProgram.end_time}`),
+    edit ? new Date(`2022-02-14 ${seletedProgram.end_time}`) : new Date(),
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
 
-  const modifyProgramSubmitHandler = async () => {
+  const programSubmitHandler = async () => {
     setLoading(true);
-    const { data } = await axios.put("/api/admin/program", {
-      country: "asia",
-      id: seletedProgram.id,
-      title: title.value,
-      speakers: speakers.value,
-      description: description.value,
-      startTime: moment(startTime).format("hh:mm:ss"),
-      endTime: moment(endTime).format("hh:mm:ss"),
-      session: selectedSession,
-      status: status === "show" ? 1 : 0,
-    });
-    if (data.success) {
+    let data;
+
+    if (edit) {
+      data = await axios.put("/api/admin/program", {
+        country: "asia",
+        id: seletedProgram.id,
+        title: title.value,
+        speakers: speakers.value,
+        description: description.value,
+        startTime: moment(startTime).format("hh:mm:ss"),
+        endTime: moment(endTime).format("hh:mm:ss"),
+        session: selectedSession,
+        status: status === "show" ? 1 : 0,
+      });
+    } else {
+      data = await axios.post("/api/admin/program", {
+        country: "asia",
+        session: selectedSession,
+        title: title.value,
+        speakers: speakers.value,
+        description: description.value,
+        startTime: moment(startTime).format("hh:mm:ss"),
+        endTime: moment(endTime).format("hh:mm:ss"),
+      });
+    }
+
+    if (data.data.success) {
       setLoading(true);
-      setModifyProgramSuccess(true);
-      setOpenModifyProgramForm(false);
+      setProgramSuccess(true);
+      setOpenProgramForm(false);
       getPrograms();
     }
   };
@@ -67,12 +84,12 @@ const ModifyProgramForm = ({
 
   // selectedProgram.session 은 id 이고 selectedSession 은 string 이 들어가야한다
   const [selectedSession, setSelectedSession] = useState<string>(
-    seletedProgram.session as unknown as string,
+    edit ? (seletedProgram.session as unknown as string) : "",
   );
 
-  const title = useInput(seletedProgram.title);
-  const speakers = useInput(seletedProgram.speakers);
-  const description = useInput(seletedProgram.description);
+  const title = useInput(edit ? seletedProgram.title : "");
+  const speakers = useInput(edit ? seletedProgram.speakers : "");
+  const description = useInput(edit ? seletedProgram.description : "");
 
   const changeSessionHandler = (event: SelectChangeEvent) => {
     setSelectedSession(event.target.value as string);
@@ -80,11 +97,15 @@ const ModifyProgramForm = ({
 
   return (
     <CommonModal
-      open={openModifyProgramForm}
-      setOpen={setOpenModifyProgramForm}
-      title="Modify Program"
-      desc="Please choose the title and date that you want to change."
-      onSubmit={modifyProgramSubmitHandler}
+      open={openProgramForm}
+      setOpen={setOpenProgramForm}
+      title={edit ? "Modify Program" : "Add Program"}
+      desc={
+        edit
+          ? "Please choose the title and date that you want to change."
+          : "Please choose the proper item to add the program."
+      }
+      onSubmit={programSubmitHandler}
       loading={loading}
     >
       <FormControl fullWidth sx={{ mt: 3, mb: 3 }}>
@@ -145,19 +166,21 @@ const ModifyProgramForm = ({
         />
       </LocalizationProvider>
 
-      <ToggleButtonGroup
-        size="large"
-        color="primary"
-        value={status}
-        exclusive
-        onChange={statusChangeHandler}
-        sx={{ ml: 5 }}
-      >
-        <ToggleButton value="show">show</ToggleButton>
-        <ToggleButton value="hide">hide</ToggleButton>
-      </ToggleButtonGroup>
+      {edit && (
+        <ToggleButtonGroup
+          size="large"
+          color="primary"
+          value={status}
+          exclusive
+          onChange={statusChangeHandler}
+          sx={{ ml: 5 }}
+        >
+          <ToggleButton value="show">show</ToggleButton>
+          <ToggleButton value="hide">hide</ToggleButton>
+        </ToggleButtonGroup>
+      )}
     </CommonModal>
   );
 };
 
-export default ModifyProgramForm;
+export default ProgramForm;

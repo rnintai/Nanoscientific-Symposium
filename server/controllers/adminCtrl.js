@@ -41,8 +41,7 @@ const adminCtrl = {
       startTime,
       endTime,
     } = req.body;
-    const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description) VALUES(${session},
-    '${startTime}','${endTime}','${title}','${speakers}','${description}')`;
+    const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}')`;
 
     asiaConnection.query(sql, (error, rows) => {
       if (error) throw error;

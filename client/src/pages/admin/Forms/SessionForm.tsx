@@ -8,7 +8,7 @@ import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-interface ModifySessionFormProps {
+interface SessionFormProps {
   openSessionForm: boolean;
   setOpenSessionForm: Dispatch<SetStateAction<boolean>>;
   setSessionSuccess: Dispatch<SetStateAction<boolean>>;
@@ -25,7 +25,7 @@ const SessionForm = ({
   getSessions,
   // 편집모달일때는 edit 이 true 로 넘어온다
   edit = false,
-}: ModifySessionFormProps) => {
+}: SessionFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(

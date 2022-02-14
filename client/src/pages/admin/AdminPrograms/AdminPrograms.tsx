@@ -8,8 +8,7 @@ import { ProgramsListContainer } from "components/Programs/ProgramsListContainer
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
 import SessionForm from "../Forms/SessionForm";
-import AddProgramForm from "../Forms/AddProgramForm";
-import ModifyProgramForm from "../Forms/ModifyProgramForm";
+import ProgramForm from "../Forms/ProgramForm";
 
 const AdminPrograms = () => {
   const myCountry = "asia";
@@ -19,17 +18,13 @@ const AdminPrograms = () => {
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
   const [sessionEdit, setSessionEdit] = useState<boolean>(false);
-
-  const [addProgramSuccess, setAddProgramSuccess] = useState<boolean>(false);
-  const [modifyProgramSuccess, setModifyProgramSuccess] =
-    useState<boolean>(false);
+  const [programEdit, setProgramEdit] = useState<boolean>(false);
 
   const [openSessionForm, setOpenSessionForm] = useState<boolean>(false);
   const [sessionSuccess, setSessionSuccess] = useState<boolean>(false);
 
-  const [openAddProgramForm, setOpenAddProgramForm] = useState<boolean>(false);
-  const [openModifyProgramForm, setOpenModifyProgramForm] =
-    useState<boolean>(false);
+  const [openProgramForm, setOpenProgramForm] = useState<boolean>(false);
+  const [programSuccess, setProgramSuccess] = useState<boolean>(false);
 
   const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
   const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
@@ -66,8 +61,9 @@ const AdminPrograms = () => {
     setOpenSessionForm(true);
   };
 
-  const openAddProgramFormHandler = () => {
-    setOpenAddProgramForm(true);
+  const openProgramFormHandler = () => {
+    setProgramEdit(false);
+    setOpenProgramForm(true);
   };
 
   return (
@@ -76,7 +72,7 @@ const AdminPrograms = () => {
       menu1="Add Session"
       menu1ClickHandler={openSessionFormHandler}
       menu2="Add Programs"
-      menu2ClickHandler={openAddProgramFormHandler}
+      menu2ClickHandler={openProgramFormHandler}
     >
       <AdminProgramsContainer>
         <ProgramsListContainer isAdmin>
@@ -104,7 +100,8 @@ const AdminPrograms = () => {
                           <ProgramContent
                             onClick={() => {
                               setSelectedProgram(program);
-                              setOpenModifyProgramForm(true);
+                              setProgramEdit(true);
+                              setOpenProgramForm(true);
                             }}
                             isAdmin
                             key={program.id}
@@ -134,28 +131,17 @@ const AdminPrograms = () => {
         />
       )}
 
-      {openAddProgramForm && (
-        <AddProgramForm
-          getPrograms={() => {
-            getPrograms();
-          }}
-          sessions={sessions}
-          openAddProgramForm={openAddProgramForm}
-          setOpenAddProgramForm={setOpenAddProgramForm}
-          setAddProgramSuccess={setAddProgramSuccess}
-        />
-      )}
-
-      {openModifyProgramForm && (
-        <ModifyProgramForm
+      {openProgramForm && (
+        <ProgramForm
           getPrograms={() => {
             getPrograms();
           }}
           sessions={sessions}
           seletedProgram={seletedProgram as Program.programType}
-          openModifyProgramForm={openModifyProgramForm}
-          setOpenModifyProgramForm={setOpenModifyProgramForm}
-          setModifyProgramSuccess={setModifyProgramSuccess}
+          openProgramForm={openProgramForm}
+          setOpenProgramForm={setOpenProgramForm}
+          setProgramSuccess={setProgramSuccess}
+          edit={programEdit}
         />
       )}
 
@@ -166,16 +152,10 @@ const AdminPrograms = () => {
         content="Success"
       />
       <TopCenterSnackBar
-        value={addProgramSuccess}
-        setValue={setAddProgramSuccess}
+        value={programSuccess}
+        setValue={setProgramSuccess}
         severity="success"
-        content="Success add program"
-      />
-      <TopCenterSnackBar
-        value={modifyProgramSuccess}
-        setValue={setModifyProgramSuccess}
-        severity="success"
-        content="Success modify program"
+        content="Success"
       />
     </AdminLayout>
   );
