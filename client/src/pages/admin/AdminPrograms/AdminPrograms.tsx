@@ -9,6 +9,7 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
 import SessionForm from "../Forms/SessionForm";
 import ProgramForm from "../Forms/ProgramForm";
+import ProgramHideForm from "../Forms/ProgramHideForm";
 
 const AdminPrograms = () => {
   const myCountry = "asia";
@@ -25,6 +26,8 @@ const AdminPrograms = () => {
 
   const [openProgramForm, setOpenProgramForm] = useState<boolean>(false);
   const [programSuccess, setProgramSuccess] = useState<boolean>(false);
+
+  const [openHideForm, setOpenHideForm] = useState<boolean>(false);
 
   const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
   const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
@@ -66,6 +69,10 @@ const AdminPrograms = () => {
     setOpenProgramForm(true);
   };
 
+  const openHideFormHandler = () => {
+    setOpenHideForm(true);
+  };
+
   return (
     <AdminLayout
       title="Programs"
@@ -73,6 +80,8 @@ const AdminPrograms = () => {
       menu1ClickHandler={openSessionFormHandler}
       menu2="Add Programs"
       menu2ClickHandler={openProgramFormHandler}
+      menu3="Hide"
+      menu3ClickHandler={openHideFormHandler}
     >
       <AdminProgramsContainer>
         <ProgramsListContainer isAdmin>
@@ -145,6 +154,16 @@ const AdminPrograms = () => {
         />
       )}
 
+      {openHideForm && (
+        <ProgramHideForm
+          openHideForm={openHideForm}
+          setOpenHideForm={setOpenHideForm}
+          refreshFunction={() => {
+            getSessions();
+            getPrograms();
+          }}
+        />
+      )}
       <TopCenterSnackBar
         value={sessionSuccess}
         setValue={setSessionSuccess}

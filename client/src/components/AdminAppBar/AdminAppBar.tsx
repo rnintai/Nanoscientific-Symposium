@@ -16,6 +16,10 @@ interface AdminAppBarProps {
   menu2?: string;
   // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
   menu2ClickHandler?: () => void;
+  // eslint-disable-next-line react/no-unused-prop-types,react/require-default-props
+  menu3?: string;
+  // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
+  menu3ClickHandler?: () => void;
 }
 
 const AdminAppBar = ({
@@ -24,6 +28,8 @@ const AdminAppBar = ({
   menu1ClickHandler,
   menu2,
   menu2ClickHandler,
+  menu3,
+  menu3ClickHandler,
 }: AdminAppBarProps) => {
   return (
     <AppBar
@@ -42,6 +48,9 @@ const AdminAppBar = ({
         </Button>
         <Button onClick={menu2ClickHandler} color="inherit">
           {menu2}
+        </Button>
+        <Button onClick={menu3ClickHandler} color="inherit">
+          {menu3}
         </Button>
       </Toolbar>
     </AppBar>
