@@ -23,6 +23,7 @@ import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
 import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
 import Landing from "./pages/common/Landing";
 import LatamLectureHall from "./pages/latam/LatamLectureHall";
+import EuropeRegistration from "./pages/europe/EuropeRegistration/EuropeRegistration";
 import Admin from "./pages/admin/Admin";
 import AdminPrograms from "./pages/admin/AdminPrograms/AdminPrograms";
 import AdminSpeakers from "./pages/admin/AdminSpeakers/AdminSpeakers";
@@ -58,9 +59,12 @@ const App = () => {
         console.log(err);
       });
   }, []);
+
   return (
     <>
-      {pathname !== "/" && pathname !== "/admin" && <NavBar />}
+      {pathname !== "/" &&
+        pathname !== "/admin" &&
+        window.location.pathname !== "/eu/registration" && <NavBar />}
       <Routes>
         {/* common */}
         <Route path="/" element={<EventLanding />} />
@@ -147,6 +151,9 @@ const App = () => {
           path="/jp/exhibit/nanoscientific"
           element={<ExhibitNanoScientific />}
         />
+
+        {/* europe */}
+        <Route path="/eu/registration" element={<EuropeRegistration />} />
 
         {/* admin */}
         <Route path="/admin" element={<Admin />} />
