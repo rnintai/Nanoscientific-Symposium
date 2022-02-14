@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
+import LoginModal from "../Modal/LoginModal";
 
 interface globalDataType {
   logoURL: string;
@@ -236,9 +237,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li className="login-item menu-logged-out">
-                <Link className="menu-link remember-prev" to="/sign-in">
-                  SIGN IN
-                </Link>
+                <LoginModal />
               </li>
               <li className="login-item menu-logged-out">
                 <Link
