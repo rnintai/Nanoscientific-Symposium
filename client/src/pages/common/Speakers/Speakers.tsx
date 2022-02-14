@@ -6,24 +6,29 @@ import Title from "components/Title/Title";
 import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
 import useCheckLocal from "hooks/useCheckLocal";
+import useSeoTitle from "hooks/useSeoTitle";
+import { globalData } from "components/NavBar/NavBar";
 import { SpeakersContainer } from "./SpeakersStyles";
 
 const Speakers = () => {
-  const [speakers, setSpeakers] = useState<Speaker.speakerType[]>([]);
+  const [speakersState, setSpeakersState] = useState<Speaker.speakerType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePageViews();
   useEffect(() => {
     const getSpeakers = async () => {
       setLoading(true);
       const speakers = await axios.get(`/api/page${pathname}/speakers`);
-      setSpeakers(speakers.data);
+      setSpeakersState(speakers.data);
       setLoading(false);
     };
     getSpeakers();
   }, []);
 
+  const { speakers } = globalData.get(pathname) as Common.globalDataType;
+  useSeoTitle(speakers as string, pathname);
+
   const isLocal = useCheckLocal();
-  const globalData = new Map<string, { title: string }>([
+  const globalDataTitle = new Map<string, { title: string }>([
     [
       "/asia",
       {
@@ -53,7 +58,7 @@ const Speakers = () => {
     flexDirection: "column",
   }));
 
-  const { title } = globalData.get(pathname) as { title: string };
+  const { title } = globalDataTitle.get(pathname) as { title: string };
 
   if (loading) {
     return <Loading />;
@@ -68,7 +73,7 @@ const Speakers = () => {
           spacing={{ xs: 4, md: 7 }}
           columns={{ xs: 1, sm: 8, md: 16 }}
         >
-          {speakers.map((speaker) => (
+          {speakersState.map((speaker) => (
             <Grid item xs={2} sm={4} md={4} key={speaker.id}>
               <Item>
                 {/* 같은 도메인의 백엔드 주소 가져오기 */}
