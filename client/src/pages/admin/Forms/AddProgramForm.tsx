@@ -15,6 +15,7 @@ interface AddProgramFormProps {
   setOpenAddProgramForm: Dispatch<SetStateAction<boolean>>;
   setAddProgramSuccess: Dispatch<SetStateAction<boolean>>;
   sessions: Program.sessionType[];
+  getPrograms: () => void;
 }
 
 const AddProgramForm = ({
@@ -22,6 +23,7 @@ const AddProgramForm = ({
   setAddProgramSuccess,
   setOpenAddProgramForm,
   sessions,
+  getPrograms,
 }: AddProgramFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const addProgramSubmitHandler = async () => {
@@ -41,6 +43,7 @@ const AddProgramForm = ({
       setLoading(true);
       setAddProgramSuccess(true);
       setOpenAddProgramForm(false);
+      getPrograms();
     }
   };
 

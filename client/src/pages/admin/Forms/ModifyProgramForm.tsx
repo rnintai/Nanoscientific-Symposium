@@ -18,6 +18,7 @@ interface ModifyProgramFormProps {
   setModifyProgramSuccess: Dispatch<SetStateAction<boolean>>;
   seletedProgram: Program.programType;
   sessions: Program.sessionType[];
+  getPrograms: () => void;
 }
 const ModifyProgramForm = ({
   openModifyProgramForm,
@@ -25,6 +26,7 @@ const ModifyProgramForm = ({
   seletedProgram,
   setModifyProgramSuccess,
   sessions,
+  getPrograms,
 }: ModifyProgramFormProps) => {
   const [startTime, setStartTime] = useState<Date | null>(
     new Date(`2022-02-14 ${seletedProgram.start_time}`),
@@ -52,6 +54,7 @@ const ModifyProgramForm = ({
       setLoading(true);
       setModifyProgramSuccess(true);
       setOpenModifyProgramForm(false);
+      getPrograms();
     }
   };
 
