@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -8,6 +8,9 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+
+import axios from "axios";
+import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
 const style = {
   position: "absolute",
@@ -23,9 +26,48 @@ const style = {
 };
 
 const LoginModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleEmailChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    setEmail(e.target.value);
+  };
+  const handlePasswordChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    setPassword(e.target.value);
+  };
+
+  const state = useAuthState();
+  const dispatch = useAuthDispatch();
+
+  const dispatchLogin = (e: string, r: string, t: string) =>
+    dispatch({
+      type: "LOGIN",
+      authState: {
+        isLogin: true,
+        role: r,
+        email: e,
+        accessToken: t,
+      },
+    });
+
+  const loginHandler = async (email: string, password: string) => {
+    axios
+      .post("/api/users/login", {
+        email,
+        password,
+      })
+      .then((res) => {
+        dispatchLogin(email, res.data.role, res.data.accessToken);
+      });
+  };
 
   return (
     <div>
@@ -72,7 +114,7 @@ const LoginModal = () => {
                 label="Email"
                 required
                 variant="outlined"
-                // onChange={handleEmailChange}
+                onChange={handleEmailChange}
               />
               <TextField
                 id="outlined-basic"
@@ -80,7 +122,7 @@ const LoginModal = () => {
                 label="Password"
                 variant="outlined"
                 required
-                // onChange={handlePasswordChange}
+                onChange={handlePasswordChange}
               />
               <Button
                 style={{ margin: "10px", borderRadius: "30px" }}
@@ -89,7 +131,7 @@ const LoginModal = () => {
                 type="submit"
                 onClick={(e: React.MouseEvent<HTMLElement>) => {
                   e.preventDefault();
-                  // loginHandler(email, password);
+                  loginHandler(email, password);
                 }}
               >
                 Login
