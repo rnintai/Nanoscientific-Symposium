@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
+import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import { LoadingButton } from "@mui/lab";
 import LoginModal from "../Modal/LoginModal";
 
 // interface globalDataType {
@@ -103,6 +105,12 @@ const NavBar = () => {
   };
 
   const pathname = usePageViews();
+  const authState = useAuthState();
+  const authDispatch = useAuthDispatch();
+
+  const logoutHandler = () => {
+    authDispatch({ type: "LOGOUT", authState });
+  };
 
   const {
     logoURL,
@@ -227,27 +235,38 @@ const NavBar = () => {
         {pathname !== "/jp" && (
           <section className="col-login">
             <ul className="login-list">
-              <li className="login-item menu-logged-in">
-                <Link className="menu-link" to="/my-account">
-                  MY PAGE
-                </Link>
-              </li>
-              <li className="login-item menu-logged-in">
-                <Link className="menu-link" to="/wp-login.php?action=logout">
-                  SIGN OUT
-                </Link>
-              </li>
-              <li className="login-item menu-logged-out">
-                <LoginModal />
-              </li>
-              <li className="login-item menu-logged-out">
-                <Link
-                  className="menu-link boxed remember-prev"
-                  to="/registration"
-                >
-                  REGISTRATION
-                </Link>
-              </li>
+              {authState.isLogin && (
+                <>
+                  <li className="login-item">
+                    <Link className="menu-link" to="/my-account">
+                      MY PAGE
+                    </Link>
+                  </li>
+                  <li className="login-item">
+                    <LoadingButton
+                      className="menu-link"
+                      onClick={logoutHandler}
+                    >
+                      SIGN OUT
+                    </LoadingButton>
+                  </li>
+                </>
+              )}
+              {!authState.isLogin && (
+                <>
+                  <li className="login-item">
+                    <LoginModal />
+                  </li>
+                  <li className="login-item">
+                    <Link
+                      className="menu-link boxed remember-prev"
+                      to="/registration"
+                    >
+                      REGISTRATION
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </section>
         )}
