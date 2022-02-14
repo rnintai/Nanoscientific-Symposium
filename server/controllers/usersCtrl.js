@@ -1,10 +1,39 @@
-const { asiaPool } = require("../dbConfigPool");
+const {
+  asiaPool,
+  koreaPool,
+  usPool,
+  japanPool,
+  europePool,
+} = require("../dbConfigPool");
 const hasher = require("wordpress-hash-node");
 const { issueAccessToken, issueRefreshToken } = require("../utils/jwt");
 
 const usersCtrl = {
   login: async (req, res, next) => {
-    const connection = await asiaPool.getConnection(async (conn) => conn);
+    const referer = req.get("Referer").split("/")[3];
+    let currentPool = "";
+    switch (referer) {
+      case "asia":
+        currentPool = asiaPool;
+        break;
+      case "kr":
+        currentPool = koreaPool;
+        break;
+      case "us":
+        currentPool = usPool;
+        break;
+      case "jp":
+        currentPool = japanPool;
+        break;
+      case "eu":
+        currentPool = europePool;
+        break;
+      default:
+        console.log("no pool");
+        break;
+    }
+
+    const connection = await currentPool.getConnection(async (conn) => conn);
 
     const userEmail = req.body.email;
     const userPw = req.body.password;

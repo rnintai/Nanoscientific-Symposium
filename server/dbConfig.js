@@ -34,16 +34,17 @@ const japanConnection = mysql.createConnection({
 
 japanConnection.connect();
 
-const latamConnection = mysql.createConnection({
+const usConnection = mysql.createConnection({
   host: conf.host,
   user: conf.user,
   password: conf.password,
   port: conf.port,
-  database: "latam",
+  database: "us",
 });
 
-latamConnection.connect();
+usConnection.connect();
+
 module.exports.asiaConnection = asiaConnection;
 module.exports.koreaConnection = koreaConnection;
 module.exports.japanConnection = japanConnection;
-module.exports.latamConnection = latamConnection;
+module.exports.usConnection = usConnection;
