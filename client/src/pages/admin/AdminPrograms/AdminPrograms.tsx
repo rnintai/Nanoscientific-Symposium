@@ -7,8 +7,8 @@ import ProgramContent from "components/Programs/ProgramContent/ProgramContent";
 import { ProgramsListContainer } from "components/Programs/ProgramsListContainer";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
-import AddSessionForm from "../Forms/AddSessionForm";
-import ModifySessionForm from "../Forms/ModifySessionForm";
+import SessionForm from "../Forms/SessionForm";
+import ProgramForm from "../Forms/ProgramForm";
 
 const AdminPrograms = () => {
   const myCountry = "asia";
@@ -17,38 +17,38 @@ const AdminPrograms = () => {
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
+  const [sessionEdit, setSessionEdit] = useState<boolean>(false);
+  const [programEdit, setProgramEdit] = useState<boolean>(false);
 
-  const [addSessionSuccess, setAddSessionSuccess] = useState<boolean>(false);
-  const [modifySessionSuccess, setModifySessionSuccess] =
-    useState<boolean>(false);
+  const [openSessionForm, setOpenSessionForm] = useState<boolean>(false);
+  const [sessionSuccess, setSessionSuccess] = useState<boolean>(false);
 
-  const [openAddSessionForm, setOpenAddSesisonForm] = useState<boolean>(false);
-  const [openModifySessionForm, setOpenModifySessionForm] =
-    useState<boolean>(false);
+  const [openProgramForm, setOpenProgramForm] = useState<boolean>(false);
+  const [programSuccess, setProgramSuccess] = useState<boolean>(false);
 
   const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
+  const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
+  const getPrograms = async () => {
+    setProgramLoading(true);
+    const programs = await axios.get(`/api/page/${myCountry}/programs`);
+    setPrograms(programs.data);
+    setProgramLoading(false);
+  };
+
+  const getSessions = async () => {
+    setSessionLoading(true);
+    const sessions = await axios.get(`/api/page/${myCountry}/sessions`);
+    setSessions(sessions.data);
+    setSessionLoading(false);
+  };
 
   useEffect(() => {
     // 프로그램 가져오기
-    const getPrograms = async () => {
-      setProgramLoading(true);
-      const programs = await axios.get(`/api/page/${myCountry}/programs`);
-      setPrograms(programs.data);
-      setProgramLoading(false);
-    };
-
     getPrograms();
   }, []);
 
   useEffect(() => {
     // 세션 가져오기
-    const getSessions = async () => {
-      setSessionLoading(true);
-      const sessions = await axios.get(`/api/page/${myCountry}/sessions`);
-      setSessions(sessions.data);
-      setSessionLoading(false);
-    };
-
     getSessions();
   }, []);
 
@@ -56,15 +56,23 @@ const AdminPrograms = () => {
     return <Loading />;
   }
 
-  const openAddSessionFormHandler = () => {
-    setOpenAddSesisonForm(true);
+  const openSessionFormHandler = () => {
+    setSessionEdit(false);
+    setOpenSessionForm(true);
+  };
+
+  const openProgramFormHandler = () => {
+    setProgramEdit(false);
+    setOpenProgramForm(true);
   };
 
   return (
     <AdminLayout
       title="Programs"
       menu1="Add Session"
-      menu1ClickHandler={openAddSessionFormHandler}
+      menu1ClickHandler={openSessionFormHandler}
+      menu2="Add Programs"
+      menu2ClickHandler={openProgramFormHandler}
     >
       <AdminProgramsContainer>
         <ProgramsListContainer isAdmin>
@@ -73,11 +81,12 @@ const AdminPrograms = () => {
               {/* 세션을 크게 돌면서 세션에 해당하는값과 일치하는 프로그램 뿌려주기 */}
               {sessions.map((session) => {
                 return (
-                  <>
+                  <React.Fragment key={session.id}>
                     <ProgramTitle
                       onClick={() => {
                         setSelectedSession(session);
-                        setOpenModifySessionForm(true);
+                        setSessionEdit(true);
+                        setOpenSessionForm(true);
                       }}
                       isAdmin
                       title={session.session_title}
@@ -89,6 +98,11 @@ const AdminPrograms = () => {
                         })
                         .map((program, index) => (
                           <ProgramContent
+                            onClick={() => {
+                              setSelectedProgram(program);
+                              setProgramEdit(true);
+                              setOpenProgramForm(true);
+                            }}
                             isAdmin
                             key={program.id}
                             {...program}
@@ -96,35 +110,52 @@ const AdminPrograms = () => {
                           />
                         ))}
                     </ul>
-                  </>
+                  </React.Fragment>
                 );
               })}
             </section>
           </article>
         </ProgramsListContainer>
       </AdminProgramsContainer>
-      {openAddSessionForm && (
-        <AddSessionForm
-          openAddSessionForm={openAddSessionForm}
-          setOpenAddSesisonForm={setOpenAddSesisonForm}
-          setAddSessionSuccess={setAddSessionSuccess}
+
+      {openSessionForm && (
+        <SessionForm
+          getSessions={() => {
+            getSessions();
+          }}
+          seletedSession={seletedSession as Program.sessionType}
+          openSessionForm={openSessionForm}
+          setOpenSessionForm={setOpenSessionForm}
+          setSessionSuccess={setSessionSuccess}
+          edit={sessionEdit}
         />
       )}
 
-      {openModifySessionForm && (
-        <ModifySessionForm
-          seletedSession={seletedSession as Program.sessionType}
-          openModifySessionForm={openModifySessionForm}
-          setOpenModifySessionForm={setOpenModifySessionForm}
-          setModifySessionSuccess={setModifySessionSuccess}
+      {openProgramForm && (
+        <ProgramForm
+          getPrograms={() => {
+            getPrograms();
+          }}
+          sessions={sessions}
+          seletedProgram={seletedProgram as Program.programType}
+          openProgramForm={openProgramForm}
+          setOpenProgramForm={setOpenProgramForm}
+          setProgramSuccess={setProgramSuccess}
+          edit={programEdit}
         />
       )}
 
       <TopCenterSnackBar
-        value={addSessionSuccess}
-        setValue={setAddSessionSuccess}
+        value={sessionSuccess}
+        setValue={setSessionSuccess}
         severity="success"
-        content="Success add session"
+        content="Success"
+      />
+      <TopCenterSnackBar
+        value={programSuccess}
+        setValue={setProgramSuccess}
+        severity="success"
+        content="Success"
       />
     </AdminLayout>
   );

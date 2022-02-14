@@ -4,17 +4,96 @@ import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import LoginModal from "../Modal/LoginModal";
 
-interface globalDataType {
-  logoURL: string;
-  speakers?: string;
-  programs: string;
-  lectureHall: string;
-  exhibitHall: string;
-  sponsors: string;
-  greeting?: string;
-  attend?: string;
-  symposium?: string;
-}
+// interface globalDataType {
+//   logoURL: string;
+//   speakers?: string;
+//   programs: string;
+//   lectureHall: string;
+//   exhibitHall: string;
+//   sponsors: string;
+//   greeting?: string;
+//   attend?: string;
+//   symposium?: string;
+// }
+
+export const globalData = new Map<string, Common.globalDataType>([
+  [
+    "/asia",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAMS",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+    },
+  ],
+  [
+    "/kr",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
+      speakers: "초청연사",
+      symposium: "심포지엄 안내",
+      programs: "프로그램",
+      lectureHall: "온라인 강연장",
+      exhibitHall: "전시부스 ",
+      sponsors: "협찬사",
+    },
+  ],
+  [
+    "/latam",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAMS",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+    },
+  ],
+  [
+    "/jp",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
+      // speakers: "講演者",
+      // programs: "プログラム",
+      // lectureHall: "Web講演会",
+      // exhibitHall: "展示会",
+      // sponsors: "スポンサー",
+      // greeting: "ごあいさつ",
+      // attend: "参加手順",
+      speakers: "",
+      programs: "",
+      lectureHall: "",
+      exhibitHall: "",
+      sponsors: "",
+      greeting: "",
+      attend: "",
+    },
+  ],
+  [
+    "/us",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAMS",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+    },
+  ],
+  [
+    "/europe",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAMS",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+    },
+  ],
+]);
 
 const NavBar = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -24,84 +103,6 @@ const NavBar = () => {
   };
 
   const pathname = usePageViews();
-
-  const globalData = new Map<string, globalDataType>([
-    [
-      "/asia",
-      {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-        speakers: "SPEAKERS",
-        programs: "PROGRAMS",
-        lectureHall: "LECTURE HALL",
-        exhibitHall: "EXHIBIT HALL",
-        sponsors: "SPONSORS",
-      },
-    ],
-    [
-      "/kr",
-      {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
-        symposium: "심포지엄 안내",
-        programs: "프로그램",
-        lectureHall: "온라인 강연장",
-        exhibitHall: "전시부스 ",
-        sponsors: "협찬사",
-      },
-    ],
-    [
-      "/latam",
-      {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
-        speakers: "SPEAKERS",
-        programs: "PROGRAMS",
-        lectureHall: "LECTURE HALL",
-        exhibitHall: "EXHIBIT HALL",
-        sponsors: "SPONSORS",
-      },
-    ],
-    [
-      "/jp",
-      {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
-        // speakers: "講演者",
-        // programs: "プログラム",
-        // lectureHall: "Web講演会",
-        // exhibitHall: "展示会",
-        // sponsors: "スポンサー",
-        // greeting: "ごあいさつ",
-        // attend: "参加手順",
-        speakers: "",
-        programs: "",
-        lectureHall: "",
-        exhibitHall: "",
-        sponsors: "",
-        greeting: "",
-        attend: "",
-      },
-    ],
-    [
-      "/us",
-      {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
-        speakers: "SPEAKERS",
-        programs: "PROGRAMS",
-        lectureHall: "LECTURE HALL",
-        exhibitHall: "EXHIBIT HALL",
-        sponsors: "SPONSORS",
-      },
-    ],
-    [
-      "/eu",
-      {
-        logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
-        speakers: "SPEAKERS",
-        programs: "PROGRAMS",
-        lectureHall: "LECTURE HALL",
-        exhibitHall: "EXHIBIT HALL",
-        sponsors: "SPONSORS",
-      },
-    ],
-  ]);
 
   const {
     logoURL,
@@ -113,7 +114,7 @@ const NavBar = () => {
     greeting,
     attend,
     symposium,
-  } = globalData.get(pathname) as globalDataType;
+  } = globalData.get(pathname) as Common.globalDataType;
   return (
     <NavBarContainer>
       <nav className={`nav-wrap${isMobile ? " mobile-menu-on" : ""}`}>
@@ -163,7 +164,7 @@ const NavBar = () => {
                 </Link>
               </li>
             )}
-            {speakers && (
+            {speakers && !symposium && (
               <li className="menu-item">
                 <Link className="menu-link" to={`${pathname}/speakers`}>
                   {speakers}

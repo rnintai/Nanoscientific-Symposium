@@ -4,6 +4,8 @@ import { ProgramContentContainer } from "components/Programs/ProgramContent/Prog
 interface ProgramContentProps extends Program.programType {
   index: number;
   isAdmin: boolean;
+  // eslint-disable-next-line react/require-default-props
+  onClick?: () => void;
 }
 
 const ProgramContent = ({
@@ -11,12 +13,13 @@ const ProgramContent = ({
   end_time,
   title,
   speakers,
-  desc,
+  description,
   index,
   isAdmin,
+  onClick,
 }: ProgramContentProps) => {
   return (
-    <ProgramContentContainer isAdmin={isAdmin}>
+    <ProgramContentContainer isAdmin={isAdmin} onClick={onClick}>
       <li>
         <time className="cbp_tmtime">
           {/* {index === 0 && <span className={"session-date"}>{moment(date).format("MMM DD")}</span>} */}
@@ -29,7 +32,7 @@ const ProgramContent = ({
         <div className="cbp_tmlabel">
           <h2>{title}</h2>
           <p>{speakers}</p>
-          <p>{desc}</p>
+          <p>{description}</p>
         </div>
       </li>
     </ProgramContentContainer>
