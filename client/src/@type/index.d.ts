@@ -39,4 +39,16 @@ declare namespace Speaker {
 
 declare namespace Common {
   type showStatus = "show" | "hide";
+
+  interface globalDataType {
+    logoURL: string;
+    speakers?: string;
+    programs: string;
+    lectureHall: string;
+    exhibitHall: string;
+    sponsors: string;
+    greeting?: string;
+    attend?: string;
+    symposium?: string;
+  }
 }
