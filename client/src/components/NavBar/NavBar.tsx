@@ -64,7 +64,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       speakers: "",
       programs: "",
       lectureHall: "",
-      exhibitHall: "",
       sponsors: "",
       greeting: "",
       attend: "",
@@ -193,7 +192,7 @@ const NavBar = () => {
                 className="menu-link"
               >
                 {exhibitHall}
-                <i className="fas fa-caret-down" />
+                {pathname !== "/jp" && <i className="fas fa-caret-down" />}
               </Link>
               <div className="drop-down-wrap">
                 <ul className="drop-down-list">

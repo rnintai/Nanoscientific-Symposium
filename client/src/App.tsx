@@ -27,6 +27,7 @@ import Admin from "./pages/admin/Admin";
 import AdminPrograms from "./pages/admin/AdminPrograms/AdminPrograms";
 import AdminSpeakers from "./pages/admin/AdminSpeakers/AdminSpeakers";
 import AdminUsers from "./pages/admin/AdminUsers/AdminUsers";
+import JapanArchive from "./pages/japan/JapanArchive/JapanArchive";
 
 const App = () => {
   const pathname = usePageViews();
@@ -135,6 +136,7 @@ const App = () => {
         <Route path="/jp/attend" element={<JapanAttend />} />
         <Route path="/jp/lecture-hall" element={<JapanLectureHall />} />
         <Route path="/jp/sponsors" element={<Sponsors />} />
+        <Route path="/jp/archive" element={<JapanArchive />} />
 
         <Route
           path="/jp/exhibit/parksystems"

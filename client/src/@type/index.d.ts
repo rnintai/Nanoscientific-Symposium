@@ -22,7 +22,7 @@ declare namespace Speaker {
     name: string;
     belong: string;
     image_path: string;
-    show: number;
+    show?: number;
     description?: string;
   }
 
@@ -45,7 +45,7 @@ declare namespace Common {
     speakers?: string;
     programs: string;
     lectureHall: string;
-    exhibitHall: string;
+    exhibitHall?: string;
     sponsors: string;
     greeting?: string;
     attend?: string;
