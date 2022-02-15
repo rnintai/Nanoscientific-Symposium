@@ -4,7 +4,8 @@ import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
+import { Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -12,6 +13,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
+interface ModalProps {
+  setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+  setFailed: React.Dispatch<React.SetStateAction<boolean>>;
+}
 const style = {
   position: "absolute",
   top: "50%",
@@ -25,10 +30,11 @@ const style = {
   p: 4,
 };
 
-const LoginModal = () => {
+const LoginModal = ({ setSuccess, setFailed }: ModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -59,13 +65,22 @@ const LoginModal = () => {
     });
 
   const loginHandler = async (email: string, password: string) => {
+    setLoading(true);
     axios
       .post("/api/users/login", {
         email,
         password,
       })
       .then((res) => {
-        dispatchLogin(email, res.data.role, res.data.accessToken);
+        if (res.data.success === true) {
+          dispatchLogin(email, res.data.role, res.data.accessToken);
+          setSuccess(true);
+        } else {
+          setFailed(true);
+        }
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -124,18 +139,30 @@ const LoginModal = () => {
                 required
                 onChange={handlePasswordChange}
               />
-              <Button
-                style={{ margin: "10px", borderRadius: "30px" }}
-                variant="outlined"
-                color="primary"
-                type="submit"
-                onClick={(e: React.MouseEvent<HTMLElement>) => {
-                  e.preventDefault();
-                  loginHandler(email, password);
-                }}
-              >
-                Login
-              </Button>
+              {!loading && (
+                <Button
+                  style={{ margin: "10px", borderRadius: "30px" }}
+                  variant="outlined"
+                  color="primary"
+                  type="submit"
+                  onClick={(e: React.MouseEvent<HTMLElement>) => {
+                    e.preventDefault();
+                    loginHandler(email, password);
+                  }}
+                >
+                  Login
+                </Button>
+              )}
+              {loading && (
+                <LoadingButton
+                  loading
+                  style={{ margin: "10px", borderRadius: "30px" }}
+                  // variant="outlined"
+                  color="primary"
+                >
+                  Loading
+                </LoadingButton>
+              )}
               <div style={{ display: "flex", justifyContent: "space-between" }}>
                 <Link to="/#"> Forgot Your Password?</Link>
                 <Link to="/#"> Create an Account</Link>

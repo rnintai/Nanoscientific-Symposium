@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import LoginModal from "../Modal/LoginModal";
 
 // interface globalDataType {
@@ -99,6 +101,10 @@ export const globalData = new Map<string, Common.globalDataType>([
 
 const NavBar = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
+  const [loginFailed, setLoginFailed] = useState<boolean>(false);
+  const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
+  const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
 
   const mobileToggleHandler = () => {
     setIsMobile(!isMobile);
@@ -108,8 +114,23 @@ const NavBar = () => {
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
 
-  const logoutHandler = () => {
-    authDispatch({ type: "LOGOUT", authState });
+  const logoutHandler = async (email: string) => {
+    setLogoutLoading(true);
+    axios
+      .post("/api/users/logout", {
+        email,
+      })
+      .then((res) => {
+        if (res.data.success === true) {
+          authDispatch({ type: "LOGOUT", authState });
+          setLogoutSuccess(true);
+        } else {
+          alert(`Error: ${res.data.message}`);
+        }
+      })
+      .finally(() => {
+        setLogoutLoading(false);
+      });
   };
 
   const {
@@ -237,15 +258,18 @@ const NavBar = () => {
             <ul className="login-list">
               {authState.isLogin && (
                 <>
-                  <li className="login-item">
+                  {/* <li className="login-item">
                     <Link className="menu-link" to="/my-account">
                       MY PAGE
                     </Link>
-                  </li>
+                  </li> */}
                   <li className="login-item">
                     <LoadingButton
                       className="menu-link"
-                      onClick={logoutHandler}
+                      style={{ fontFamily: "inherit" }}
+                      onClick={() => {
+                        logoutHandler(authState.email);
+                      }}
                     >
                       SIGN OUT
                     </LoadingButton>
@@ -255,7 +279,10 @@ const NavBar = () => {
               {!authState.isLogin && (
                 <>
                   <li className="login-item">
-                    <LoginModal />
+                    <LoginModal
+                      setSuccess={setLoginSuccess}
+                      setFailed={setLoginFailed}
+                    />
                   </li>
                   <li className="login-item">
                     <Link
@@ -271,6 +298,27 @@ const NavBar = () => {
           </section>
         )}
       </nav>
+      <TopCenterSnackBar
+        value={loginSuccess}
+        setValue={setLoginSuccess}
+        variant="filled"
+        severity="success"
+        content="Successfully signed in."
+      />
+      <TopCenterSnackBar
+        value={loginFailed}
+        setValue={setLoginFailed}
+        variant="filled"
+        severity="error"
+        content="User info not matched."
+      />
+      <TopCenterSnackBar
+        value={logoutSuccess}
+        setValue={setLogoutSuccess}
+        variant="filled"
+        severity="info"
+        content="Successfully signed out."
+      />
     </NavBarContainer>
   );
 };
