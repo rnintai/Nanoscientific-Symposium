@@ -1,4 +1,4 @@
-const { asiaPool } = require("../dbConfigPool");
+const { getCurrentPool } = require("../utils/getCurrentPool");
 const {
   verifyToken,
   issueAccessToken,
@@ -42,7 +42,8 @@ module.exports = {
 
   readUser: async (req, res, next) => {
     const accessToken = verifyToken(res.locals.accessToken);
-    const connection = await asiaPool.getConnection(async (conn) => conn);
+    const currentPool = getCurrentPool(req);
+    const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
       const sql = `SELECT 
