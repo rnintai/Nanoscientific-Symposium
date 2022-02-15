@@ -7,6 +7,7 @@ interface TopCenterSnackBarTypes {
   setValue: Dispatch<SetStateAction<boolean>>;
   severity: AlertColor;
   content: string;
+  variant?: "standard" | "filled" | "outlined" | undefined;
 }
 
 const TopCenterSnackBar = ({
@@ -14,6 +15,7 @@ const TopCenterSnackBar = ({
   setValue,
   severity,
   content,
+  variant,
 }: TopCenterSnackBarTypes) => {
   return (
     <Snackbar
@@ -24,11 +26,15 @@ const TopCenterSnackBar = ({
         setValue(false);
       }}
     >
-      <Alert severity={severity} sx={{ width: "100%" }}>
+      <Alert variant={variant} severity={severity} sx={{ width: "100%" }}>
         {content}
       </Alert>
     </Snackbar>
   );
+};
+
+TopCenterSnackBar.defaultProps = {
+  variant: undefined,
 };
 
 export default TopCenterSnackBar;
