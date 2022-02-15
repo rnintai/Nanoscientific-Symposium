@@ -81,23 +81,23 @@ export const JapanArchiveContainer = styled.div`
   }
   @media (min-width: 900px) {
     .css-1ek26j4-MuiPaper-root {
-      min-height: 450px;
+      min-height: 450px !important;
     }
   }
   @media (min-width: 1300px) {
     .css-1ek26j4-MuiPaper-root {
-      min-height: 530px;
+      min-height: 530px !important;
     }
   }
   @media (min-width: 1650px) {
     .css-1ek26j4-MuiPaper-root {
-      min-height: 550px;
+      min-height: 550px !important;
     }
   }
 
   @media (min-width: 1850px) {
     .css-1ek26j4-MuiPaper-root {
-      min-height: 630px;
+      min-height: 630px !important;
     }
   }
 
