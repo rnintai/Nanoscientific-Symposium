@@ -3,6 +3,7 @@ const {
   verifyToken,
   issueAccessToken,
   issueRefreshToken,
+  compareRefreshToken,
 } = require("../utils/jwt");
 
 module.exports = {
@@ -13,7 +14,9 @@ module.exports = {
     if (accessToken === null) {
       if (refreshToken === null) {
         // case 1: 둘다 만료 -> 로그아웃
-        res.status(200).json({ success: false, message: "token is expired" });
+        res
+          .status(200)
+          .json({ success: false, code: "T40", message: "token is expired" });
       } else {
         // case 2: access 만료, refresh 살아있음 -> access 재발급
         let newAccessToken = issueAccessToken(refreshToken.email);
@@ -30,7 +33,8 @@ module.exports = {
         });
         next();
       } else {
-        res.locals.accessToken = req.body.accessToken;
+        // case 4: 둘다 존재한다면, refresh token을 db와 비교.
+        jwt.res.locals.accessToken = req.body.accessToken;
         next();
       }
     }
@@ -41,21 +45,34 @@ module.exports = {
     const connection = await asiaPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT  
+      const sql = `SELECT 
+      email,
       role
       FROM user 
-      WHERE email="${accessToken.email}"`;
+      WHERE email="${accessToken.email}"
+      AND refresh_token="${req.cookies.refreshToken}"`;
 
       const result = await connection.query(sql);
 
-      res.locals.email = accessToken.email;
-      res.locals.role = result[0][0].role;
+      if (result[0].length === 0) {
+        // refresh token에 해당하는 유저가 없을 때
+        res.status(200).json({
+          success: false,
+          code: "T41",
+          message: "Logged in from another browser.",
+        });
+      } else {
+        res.locals.email = accessToken.email;
+        res.locals.role = result[0][0].role;
+      }
       connection.release();
       next();
     } catch (err) {
       connection.release();
       res.status(200).json({
-        success: true,
+        success: false,
+        code: "S0",
+        err,
       });
     }
   },
