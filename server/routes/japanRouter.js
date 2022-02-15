@@ -3,7 +3,7 @@ const router = require("express").Router();
 
 // page
 router.route("/landing").get(japanCtrl.getLanding);
-
+router.route("/exhibit/parksystems").get(japanCtrl.getExhibitParkSystems);
 // data
 router.route("/programs").get(japanCtrl.getPrograms);
 

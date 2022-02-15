@@ -73,6 +73,44 @@ const adminCtrl = {
       });
     });
   },
+
+  getHideProgram: async (req, res) => {
+    const sql = `SELECT * FROM programs WHERE status=0`;
+    asiaConnection.query(sql, (error, rows) => {
+      if (error) throw error;
+      res.send(rows);
+    });
+  },
+
+  getHideSession: async (req, res) => {
+    const sql = `SELECT * FROM program_sessions WHERE status=0`;
+    asiaConnection.query(sql, (error, rows) => {
+      if (error) throw error;
+      res.send(rows);
+    });
+  },
+
+  showProgram: async (req, res) => {
+    const { programs } = req.body;
+
+    programs.map((program) => {
+      const sql = `UPDATE programs SET status=1 WHERE id=${program.id}`;
+      asiaConnection.query(sql, (error, rows) => {
+        if (error) throw error;
+      });
+    });
+  },
+
+  showSession: async (req, res) => {
+    const { sessions } = req.body;
+
+    sessions.map((session) => {
+      const sql = `UPDATE program_sessions SET status=1 WHERE id=${session.id}`;
+      asiaConnection.query(sql, (error, rows) => {
+        if (error) throw error;
+      });
+    });
+  },
 };
 
 module.exports = adminCtrl;

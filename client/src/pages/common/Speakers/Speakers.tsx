@@ -8,6 +8,7 @@ import usePageViews from "hooks/usePageViews";
 import useCheckLocal from "hooks/useCheckLocal";
 import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "components/NavBar/NavBar";
+import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import { SpeakersContainer } from "./SpeakersStyles";
 
 const Speakers = () => {
@@ -19,6 +20,7 @@ const Speakers = () => {
       setLoading(true);
       const speakers = await axios.get(`/api/page${pathname}/speakers`);
       setSpeakersState(speakers.data);
+      console.log(speakers.data);
       setLoading(false);
     };
     getSpeakers();
@@ -49,15 +51,6 @@ const Speakers = () => {
     ],
   ]);
 
-  const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-    display: "flex",
-    flexDirection: "column",
-  }));
-
   const { title } = globalDataTitle.get(pathname) as { title: string };
 
   if (loading) {
@@ -74,25 +67,7 @@ const Speakers = () => {
           columns={{ xs: 1, sm: 8, md: 16 }}
         >
           {speakersState.map((speaker) => (
-            <Grid item xs={2} sm={4} md={4} key={speaker.id}>
-              <Item>
-                {/* 같은 도메인의 백엔드 주소 가져오기 */}
-                <img
-                  className="speaker-image"
-                  src={
-                    isLocal
-                      ? `${window.location.protocol}//${window.location.host}/${speaker.image_path}`
-                      : `${window.location.protocol}//${window.location.host}:5000/${speaker.image_path}`
-                  }
-                  alt="speakerImage"
-                />
-                <h3 className="name">{speaker.name}</h3>
-                <h5 className="belong">{speaker.belong}</h5>
-                {speaker.description && (
-                  <h5 className="belong">{speaker.description}</h5>
-                )}
-              </Item>
-            </Grid>
+            <SpeakerCard key={speaker.id} isLocal={isLocal} speaker={speaker} />
           ))}
         </Grid>
       </Box>

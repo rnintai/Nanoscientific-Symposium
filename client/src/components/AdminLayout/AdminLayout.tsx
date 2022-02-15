@@ -18,6 +18,10 @@ interface AdminLayoutProps {
   menu2?: string;
   // eslint-disable-next-line react/require-default-props
   menu2ClickHandler?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  menu3?: string;
+  // eslint-disable-next-line react/require-default-props
+  menu3ClickHandler?: () => void;
 }
 
 const AdminLayout = ({
@@ -27,6 +31,8 @@ const AdminLayout = ({
   menu1ClickHandler,
   menu2,
   menu2ClickHandler,
+  menu3,
+  menu3ClickHandler,
 }: AdminLayoutProps) => {
   return (
     <AdminLayoutContainer>
@@ -38,6 +44,8 @@ const AdminLayout = ({
           menu1ClickHandler={menu1ClickHandler}
           menu2={menu2}
           menu2ClickHandler={menu2ClickHandler}
+          menu3={menu3}
+          menu3ClickHandler={menu3ClickHandler}
         />
         <AdminNavBar />
         <Box component="main" sx={{ flexGrow: 1, bgcolor: "#e7e8e9", p: 3 }}>

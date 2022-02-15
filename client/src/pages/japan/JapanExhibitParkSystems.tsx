@@ -8,23 +8,18 @@ import useSeoTitle from "hooks/useSeoTitle";
 
 import { globalData } from "components/NavBar/NavBar";
 
-const ExhibitParkSystems = () => {
+// 일본은 모달에 일본어가 나타나져야하기때문에 따로 불러옵니다. 다른국가는 Common 에서 불러옵니다.
+const JapanExhibitParkSystems = () => {
   const pathname = usePageViews();
   const { exhibitHall } = globalData.get(pathname) as Common.globalDataType;
 
   useSeoTitle(exhibitHall as string, pathname);
 
-  // useEffect(() => {
-  //   document.title = `${exhibitHall} | Nanoscientific 2022 ${pathname
-  //     .replace("/", "")
-  //     .toUpperCase()}`;
-  // }, []);
-
-  const [HTML, loading] = useHTML("/api/page/common/exhibit/parksystems");
+  const [HTML, loading] = useHTML("/api/page/jp/exhibit/parksystems");
   if (loading) {
     return <Loading />;
   }
   return <InnerHTML html={HTML} />;
 };
 
-export default ExhibitParkSystems;
+export default JapanExhibitParkSystems;
