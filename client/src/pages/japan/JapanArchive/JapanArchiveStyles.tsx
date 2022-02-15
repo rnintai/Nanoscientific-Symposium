@@ -80,24 +80,24 @@ export const JapanArchiveContainer = styled.div`
     }
   }
   @media (min-width: 900px) {
-    .css-1ek26j4-MuiPaper-root {
-      min-height: 450px !important;
+    .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
+      min-height: 450px;
     }
   }
   @media (min-width: 1300px) {
-    .css-1ek26j4-MuiPaper-root {
-      min-height: 530px !important;
+    .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
+      min-height: 530px;
     }
   }
   @media (min-width: 1650px) {
-    .css-1ek26j4-MuiPaper-root {
-      min-height: 550px !important;
+    .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
+      min-height: 550px;
     }
   }
 
   @media (min-width: 1850px) {
-    .css-1ek26j4-MuiPaper-root {
-      min-height: 630px !important;
+    .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
+      min-height: 630px;
     }
   }
 
