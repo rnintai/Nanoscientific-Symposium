@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import { Routes, Route } from "react-router-dom";
@@ -32,11 +32,14 @@ import JapanArchive from "./pages/japan/JapanArchive/JapanArchive";
 import JapanExhibitParkSystems from "./pages/japan/JapanExhibitParkSystems";
 
 const App = () => {
+  const [checkLoading, setCheckLoading] = useState<boolean>(false);
+
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
 
   useEffect(() => {
+    setCheckLoading(true);
     axios
       .post("/api/users/check", {
         accessToken: authState.accessToken,
@@ -61,6 +64,9 @@ const App = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setCheckLoading(false);
       });
   }, []);
 
@@ -68,7 +74,9 @@ const App = () => {
     <>
       {pathname !== "/" &&
         pathname !== "/admin" &&
-        window.location.pathname !== "/eu/registration" && <NavBar />}
+        window.location.pathname !== "/eu/registration" && (
+          <NavBar checkLoading={checkLoading} />
+        )}
       <Routes>
         {/* common */}
         <Route path="/" element={<EventLanding />} />

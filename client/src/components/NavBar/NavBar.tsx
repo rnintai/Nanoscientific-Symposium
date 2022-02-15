@@ -8,17 +8,9 @@ import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import LoginModal from "../Modal/LoginModal";
 
-// interface globalDataType {
-//   logoURL: string;
-//   speakers?: string;
-//   programs: string;
-//   lectureHall: string;
-//   exhibitHall: string;
-//   sponsors: string;
-//   greeting?: string;
-//   attend?: string;
-//   symposium?: string;
-// }
+interface navProps {
+  checkLoading: boolean;
+}
 
 export const globalData = new Map<string, Common.globalDataType>([
   [
@@ -99,7 +91,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   ],
 ]);
 
-const NavBar = () => {
+const NavBar = ({ checkLoading }: navProps) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -256,7 +248,8 @@ const NavBar = () => {
         {pathname !== "/jp" && (
           <section className="col-login">
             <ul className="login-list">
-              {authState.isLogin && (
+              {checkLoading && <div />}
+              {authState.isLogin && !checkLoading && (
                 <>
                   {/* <li className="login-item">
                     <Link className="menu-link" to="/my-account">
@@ -276,7 +269,7 @@ const NavBar = () => {
                   </li>
                 </>
               )}
-              {!authState.isLogin && (
+              {!authState.isLogin && !checkLoading && (
                 <>
                   <li className="login-item">
                     <LoginModal
