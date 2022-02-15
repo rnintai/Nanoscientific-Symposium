@@ -120,6 +120,9 @@ const NavBar = ({ checkLoading }: navProps) => {
           alert(`Error: ${res.data.message}`);
         }
       })
+      .catch((err) => {
+        alert(err);
+      })
       .finally(() => {
         setLogoutLoading(false);
       });
