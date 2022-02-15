@@ -50,5 +50,6 @@ declare namespace Common {
     greeting?: string;
     attend?: string;
     symposium?: string;
+    archive?: string;
   }
 }

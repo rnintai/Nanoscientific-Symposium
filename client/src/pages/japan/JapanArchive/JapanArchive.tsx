@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { JapanArchiveContainer } from "./JapanArchiveStyles";
 import useCheckLocal from "../../../hooks/useCheckLocal";
 import YoutubeEmbed from "../../../components/YoutubeEmbed/YoutubeEmbed";
+import useSeoTitle from "../../../hooks/useSeoTitle";
+import usePageViews from "../../../hooks/usePageViews";
+import { globalData } from "../../../components/NavBar/NavBar";
 
 const JapanArchive = () => {
   const speakersState: Speaker.speakerType[] = [
@@ -112,6 +115,11 @@ const JapanArchive = () => {
     },
   ];
   const isLocal = useCheckLocal();
+
+  const pathname = usePageViews();
+  const { archive } = globalData.get(pathname) as Common.globalDataType;
+
+  useSeoTitle(archive as string, pathname);
 
   return (
     <JapanArchiveContainer>

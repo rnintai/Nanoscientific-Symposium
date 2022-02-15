@@ -67,6 +67,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       sponsors: "",
       greeting: "",
       attend: "",
+      archive: "アーカイブ",
     },
   ],
   [
