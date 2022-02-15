@@ -3,6 +3,7 @@ const usersCtrl = require("../controllers/usersCtrl");
 const usersMid = require("../middlewares/users");
 
 router.post("/login", usersCtrl.login);
+router.post("/logout", usersCtrl.logout);
 router.post(
   "/check",
   usersMid.checkToken,

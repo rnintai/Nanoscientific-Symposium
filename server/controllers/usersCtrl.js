@@ -1,37 +1,10 @@
-const {
-  asiaPool,
-  koreaPool,
-  usPool,
-  japanPool,
-  europePool,
-} = require("../dbConfigPool");
 const hasher = require("wordpress-hash-node");
 const { issueAccessToken, issueRefreshToken } = require("../utils/jwt");
+const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const usersCtrl = {
   login: async (req, res, next) => {
-    const referer = req.get("Referer").split("/")[3];
-    let currentPool = "";
-    switch (referer) {
-      case "asia":
-        currentPool = asiaPool;
-        break;
-      case "kr":
-        currentPool = koreaPool;
-        break;
-      case "us":
-        currentPool = usPool;
-        break;
-      case "jp":
-        currentPool = japanPool;
-        break;
-      case "eu":
-        currentPool = europePool;
-        break;
-      default:
-        console.log("no pool");
-        break;
-    }
+    const currentPool = getCurrentPool(req);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -93,6 +66,49 @@ const usersCtrl = {
         success: false,
         message: "user info not match.",
       });
+    }
+  },
+
+  logout: async (req, res) => {
+    const currentPool = getCurrentPool(req);
+
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const userEmail = req.body.email;
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+      res.status(200).json({
+        success: false,
+        message: "Refresh token not exists in client",
+      });
+      return;
+    }
+    try {
+      const sql = `UPDATE user SET refresh_token='' 
+      WHERE email='${userEmail}' AND refresh_token='${refreshToken}'`;
+
+      const result = await connection.query(sql);
+      // if (result[0].changedRows === 0) {
+      //   res.status(200).json({
+      //     success: true,
+      //     message: "Already logged out",
+      //   });
+      // } else {
+      res.cookie("refreshToken", "", {
+        httpOnly: true,
+      });
+      res.status(200).json({
+        success: true,
+        message: "Successfully logged out",
+      });
+      // }
+      connection.release();
+    } catch (error) {
+      await connection.rollback();
+      connection.release();
+      res.status(500).json({ error });
+      throw error;
     }
   },
 };
