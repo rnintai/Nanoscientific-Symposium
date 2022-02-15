@@ -42,19 +42,21 @@ const App = () => {
         accessToken: authState.accessToken,
       })
       .then((res) => {
-        const { accessToken, email, role } = res.data.data;
+        if (res.data.success !== false) {
+          const { accessToken, email, role } = res.data.data;
 
-        if (accessToken !== undefined) {
-          authDispatch({
-            type: "LOGIN",
-            authState: {
-              ...authState,
-              isLogin: true,
-              email,
-              role,
-              accessToken,
-            },
-          });
+          if (accessToken !== undefined) {
+            authDispatch({
+              type: "LOGIN",
+              authState: {
+                ...authState,
+                isLogin: true,
+                email,
+                role,
+                accessToken,
+              },
+            });
+          }
         }
       })
       .catch((err) => {
