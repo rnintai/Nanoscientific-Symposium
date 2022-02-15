@@ -62,6 +62,7 @@ module.exports = {
           code: "T41",
           message: "Logged in from another browser.",
         });
+        return;
       } else {
         res.locals.email = accessToken.email;
         res.locals.role = result[0][0].role;
