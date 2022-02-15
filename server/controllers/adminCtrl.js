@@ -111,6 +111,32 @@ const adminCtrl = {
       });
     });
   },
+
+  addSpeaker: async (req, res) => {
+    const { country, name, belong, imagePath } = req.body;
+    const sql = `INSERT INTO speakers(name,belong,image_path,status) VALUES('${name}','${belong}','${imagePath}',1)`;
+
+    asiaConnection.query(sql, (error, rows) => {
+      if (error) throw error;
+      res.status(200).json({
+        success: true,
+        message: "Success",
+      });
+    });
+  },
+  modifySpeaker: async (req, res) => {
+    const { country, name, belong, imagePath, id } = req.body;
+
+    const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}' WHERE id=${id}`;
+
+    asiaConnection.query(sql, (error, rows) => {
+      if (error) throw error;
+      res.status(200).json({
+        success: true,
+        message: "Success",
+      });
+    });
+  },
 };
 
 module.exports = adminCtrl;

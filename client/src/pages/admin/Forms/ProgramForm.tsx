@@ -68,7 +68,7 @@ const ProgramForm = ({
     }
 
     if (data.data.success) {
-      setLoading(true);
+      setLoading(false);
       setProgramSuccess(true);
       setOpenProgramForm(false);
       getPrograms();

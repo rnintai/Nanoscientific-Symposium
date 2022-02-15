@@ -114,7 +114,6 @@ const JapanArchive = () => {
         "https://user-images.githubusercontent.com/69495129/153975607-08a6ed3b-5857-463e-872c-e4c60df2a11b.png",
     },
   ];
-  const isLocal = useCheckLocal();
 
   const pathname = usePageViews();
   const { archive } = globalData.get(pathname) as Common.globalDataType;
@@ -171,7 +170,7 @@ const JapanArchive = () => {
             columns={{ xs: 1, sm: 8, md: 16 }}
           >
             {speakersState.map((speaker) => (
-              <SpeakerCard isLocal={isLocal} speaker={speaker} />
+              <SpeakerCard speaker={speaker} />
             ))}
           </Grid>
         </Box>

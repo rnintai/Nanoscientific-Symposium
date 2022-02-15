@@ -13,6 +13,11 @@ router
   .post(adminCtrl.addProgram)
   .put(adminCtrl.modifyProgram);
 
+router
+  .route("/speaker")
+  .post(adminCtrl.addSpeaker)
+  .put(adminCtrl.modifySpeaker);
+
 router.route("/hideProgram").get(adminCtrl.getHideProgram);
 router.route("/hideSession").get(adminCtrl.getHideSession);
 

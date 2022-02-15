@@ -20,7 +20,6 @@ const Speakers = () => {
       setLoading(true);
       const speakers = await axios.get(`/api/page${pathname}/speakers`);
       setSpeakersState(speakers.data);
-      console.log(speakers.data);
       setLoading(false);
     };
     getSpeakers();
@@ -67,7 +66,7 @@ const Speakers = () => {
           columns={{ xs: 1, sm: 8, md: 16 }}
         >
           {speakersState.map((speaker) => (
-            <SpeakerCard key={speaker.id} isLocal={isLocal} speaker={speaker} />
+            <SpeakerCard key={speaker.id} speaker={speaker} />
           ))}
         </Grid>
       </Box>
