@@ -12,24 +12,25 @@ import AsiaLectureHall from "pages/asia/AsiaLectureHall";
 import UsSpeakers from "pages/us/UsSpeakers/UsSpeakers";
 import UsPrograms from "pages/us/UsPrograms/UsPrograms";
 import UsLectureHall from "pages/us/UsLectureHall";
+import JapanExhibitParkSystems from "pages/japan/JapanExhibitParkSystems";
+import AdminRoute from "components/Route/AdminRoute";
+import JapanSpeakers from "pages/japan/JapanSpeakers/JapanSpeakers";
+import Programs from "pages/common/Programs/Programs";
+import JapanAttend from "pages/japan/JapanAttend/JapanAttend";
+import JapanLectureHall from "pages/japan/JapanLectureHall";
+import Sponsors from "pages/common/Sponsors";
+import Speakers from "pages/common/Speakers/Speakers";
+import KoreaAttend from "pages/korea/KoreaAttend/KoreaAttend";
+import KoreaLectureHall from "pages/korea/KoreaLectureHall";
+import Landing from "pages/common/Landing";
+import LatamLectureHall from "pages/latam/LatamLectureHall";
+import EuropeRegistration from "pages/europe/EuropeRegistration/EuropeRegistration";
+import Admin from "pages/admin/Admin";
+import AdminPrograms from "pages/admin/AdminPrograms/AdminPrograms";
+import AdminSpeakers from "pages/admin/AdminSpeakers/AdminSpeakers";
+import AdminUsers from "pages/admin/AdminUsers/AdminUsers";
+import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
-import JapanSpeakers from "./pages/japan/JapanSpeakers/JapanSpeakers";
-import Programs from "./pages/common/Programs/Programs";
-import JapanAttend from "./pages/japan/JapanAttend/JapanAttend";
-import JapanLectureHall from "./pages/japan/JapanLectureHall";
-import Sponsors from "./pages/common/Sponsors";
-import Speakers from "./pages/common/Speakers/Speakers";
-import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
-import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
-import Landing from "./pages/common/Landing";
-import LatamLectureHall from "./pages/latam/LatamLectureHall";
-import EuropeRegistration from "./pages/europe/EuropeRegistration/EuropeRegistration";
-import Admin from "./pages/admin/Admin";
-import AdminPrograms from "./pages/admin/AdminPrograms/AdminPrograms";
-import AdminSpeakers from "./pages/admin/AdminSpeakers/AdminSpeakers";
-import AdminUsers from "./pages/admin/AdminUsers/AdminUsers";
-import JapanArchive from "./pages/japan/JapanArchive/JapanArchive";
-import JapanExhibitParkSystems from "./pages/japan/JapanExhibitParkSystems";
 
 const App = () => {
   const [checkLoading, setCheckLoading] = useState<boolean>(false);
@@ -37,15 +38,6 @@ const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
-  //  / or /[첫번째 path]
-  // if(pathname=== "" || pathname= "admin") {
-  //   root일 때는 상관이 없어 사실 아무거나..
-  //   admin -> role
-  // }
-  // else (나라코드){
-  //   pathname
-  // }
-
   let nation = "";
   if (pathname === "admin") {
     nation = authState.role;
@@ -187,10 +179,39 @@ const App = () => {
         <Route path="/eu/registration" element={<EuropeRegistration />} />
 
         {/* admin */}
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/programs" element={<AdminPrograms />} />
-        <Route path="/admin/speakers" element={<AdminSpeakers />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
+
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/programs"
+          element={
+            <AdminRoute>
+              <AdminPrograms />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/speakers"
+          element={
+            <AdminRoute>
+              <AdminSpeakers />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminRoute>
+              <AdminUsers />
+            </AdminRoute>
+          }
+        />
       </Routes>
 
       {pathname !== "" && pathname !== "admin" && <Footer />}

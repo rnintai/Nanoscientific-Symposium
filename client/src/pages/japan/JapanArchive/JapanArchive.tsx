@@ -22,24 +22,21 @@ const JapanArchive = () => {
         "\n" +
         "​博士",
       description: "「半導体微細加工を発展させたMEMSとその開発支援」",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975561-3347f061-745b-4ebf-a5c6-9c0e26ca73ad.png",
+      image_path: "upload/jpArchive/jp01.png",
     },
     {
       id: 2,
       name: "福間 剛士",
       belong: "金沢大学ナノ生命科学研究所​所長・教授",
       description: "「革新的液中原子間力顕微鏡技術による未踏ナノ領域の可視化」",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975570-422f741d-15fe-42a4-864d-052227571b42.png",
+      image_path: "upload/jpArchive/jp02.png",
     },
     {
       id: 3,
       name: "嘉数 誠",
       belong: "佐賀大学大学院理工学研究科​教授",
       description: "「ダイヤモンド半導体の最近の進展」",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975577-4407ec14-fd93-4ba6-befd-5f8e2c6fb3cf.png",
+      image_path: "upload/jpArchive/jp03.png",
     },
     {
       id: 4,
@@ -56,8 +53,7 @@ const JapanArchive = () => {
         "「走査型プローブ顕微鏡を用いた\n" +
         "二次元層状化合物の基礎と\n" +
         "デバイス応用」\n",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975581-5267699c-0e61-429f-9cc5-d5208d8eb14f.png",
+      image_path: "upload/jpArchive/jp04.png",
     },
     {
       id: 5,
@@ -71,8 +67,7 @@ const JapanArchive = () => {
         "\n" +
         "​リーダー",
       description: "「住宅用防汚・抗菌材料と表面分析」",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975586-53c4490c-8df3-48d8-ab5c-f21c6b13341e.png",
+      image_path: "upload/jpArchive/jp05.png",
     },
     {
       id: 6,
@@ -89,8 +84,7 @@ const JapanArchive = () => {
         "​メタンハイドレートの\n" +
         "\n" +
         "微細構造観察」",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975591-2e441673-ba86-4183-af70-916347f37c4d.png",
+      image_path: "upload/jpArchive/jp06.png",
     },
     {
       id: 7,
@@ -102,16 +96,14 @@ const JapanArchive = () => {
         "\n" +
         "​解析研究グループ",
       description: "「積層薄膜の構造解析」",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975597-b2f9b12c-f87b-4b26-a306-d1140e46bd8c.png",
+      image_path: "upload/jpArchive/jp07.png",
     },
     {
       id: 8,
       name: "高井 治",
       belong: "関東学院大学材料・表面工学研究所​所長",
       description: "「ナノインデンテーションによる​薄膜の機械的特性評価」",
-      image_path:
-        "https://user-images.githubusercontent.com/69495129/153975607-08a6ed3b-5857-463e-872c-e4c60df2a11b.png",
+      image_path: "upload/jpArchive/jp08.png",
     },
   ];
 

@@ -255,11 +255,13 @@ const NavBar = ({ checkLoading }: navProps) => {
               {checkLoading && <div />}
               {authState.isLogin && !checkLoading && (
                 <>
-                  {/* <li className="login-item">
-                    <Link className="menu-link" to="/my-account">
-                      MY PAGE
-                    </Link>
-                  </li> */}
+                  {authState.role === "asia" && (
+                    <li className="login-item">
+                      <Link className="menu-link" to="/admin">
+                        ADMIN
+                      </Link>
+                    </li>
+                  )}
                   <li className="login-item">
                     <LoadingButton
                       className="menu-link"
