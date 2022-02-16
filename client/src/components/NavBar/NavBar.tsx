@@ -18,7 +18,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
       speakers: "SPEAKERS",
-      programs: "PROGRAMS",
+      programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
@@ -41,7 +41,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
       speakers: "SPEAKERS",
-      programs: "PROGRAMS",
+      programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
@@ -72,7 +72,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
       speakers: "SPEAKERS",
-      programs: "PROGRAMS",
+      programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
@@ -83,7 +83,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
       speakers: "SPEAKERS",
-      programs: "PROGRAMS",
+      programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
