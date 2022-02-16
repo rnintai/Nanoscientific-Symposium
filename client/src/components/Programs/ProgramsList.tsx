@@ -29,7 +29,7 @@ const ProgramsList = () => {
     // 세션 가져오기
     const getSessions = async () => {
       setSessionLoading(true);
-      const sessions = await axios.get(`/api/page${pathname}/sessions`);
+      const sessions = await axios.get(`/api/page/${pathname}/sessions`);
       setSessions(sessions.data);
       setSessionLoading(false);
     };

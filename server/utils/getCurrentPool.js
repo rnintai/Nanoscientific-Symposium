@@ -9,7 +9,7 @@ const {
 module.exports = {
   getCurrentPool: (req) => {
     let currentPool = "";
-    switch (referer) {
+    switch (req) {
       case "asia":
         currentPool = asiaPool;
         break;

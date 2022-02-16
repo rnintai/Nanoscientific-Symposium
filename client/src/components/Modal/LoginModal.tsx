@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 
 import axios from "axios";
+import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
 interface ModalProps {
@@ -33,6 +34,7 @@ const style = {
 const LoginModal = ({ setSuccess, setFailed }: ModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
+  const pathname = usePageViews();
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -70,6 +72,7 @@ const LoginModal = ({ setSuccess, setFailed }: ModalProps) => {
       .post("/api/users/login", {
         email,
         password,
+        nation: pathname,
       })
       .then((res) => {
         if (res.data.success === true) {

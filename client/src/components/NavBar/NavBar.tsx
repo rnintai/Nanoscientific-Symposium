@@ -111,6 +111,7 @@ const NavBar = ({ checkLoading }: navProps) => {
     axios
       .post("/api/users/logout", {
         email,
+        nation: pathname,
       })
       .then((res) => {
         if (res.data.success === true) {

@@ -4,7 +4,7 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const usersCtrl = {
   login: async (req, res, next) => {
-    const currentPool = getCurrentPool(req);
+    const currentPool = getCurrentPool(req.body.nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -70,7 +70,7 @@ const usersCtrl = {
   },
 
   logout: async (req, res) => {
-    const currentPool = getCurrentPool(req);
+    const currentPool = getCurrentPool(req.body.nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
 

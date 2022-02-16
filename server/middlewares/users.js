@@ -8,7 +8,7 @@ const {
 
 module.exports = {
   checkToken: async (req, res, next) => {
-    if (getCurrentPool(req.nation) === "") {
+    if (getCurrentPool(req.body.nation) === "") {
       res.status(200).json({
         success: false,
         message: "no pool selected. (root)",
@@ -41,7 +41,7 @@ module.exports = {
         next();
       } else {
         // case 4: 둘다 존재한다면, refresh token을 db와 비교.
-        jwt.res.locals.accessToken = req.body.accessToken;
+        res.locals.accessToken = req.body.accessToken;
         next();
       }
     }
@@ -49,7 +49,7 @@ module.exports = {
 
   readUser: async (req, res, next) => {
     const accessToken = verifyToken(res.locals.accessToken);
-    const currentPool = getCurrentPool(req);
+    const currentPool = getCurrentPool(req.body.nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
