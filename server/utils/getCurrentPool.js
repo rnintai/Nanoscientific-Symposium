@@ -8,7 +8,6 @@ const {
 
 module.exports = {
   getCurrentPool: (req) => {
-    const referer = req.get("Referer").split("/")[3];
     let currentPool = "";
     switch (referer) {
       case "asia":
