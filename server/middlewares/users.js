@@ -8,6 +8,13 @@ const {
 
 module.exports = {
   checkToken: async (req, res, next) => {
+    if (getCurrentPool(req) === "") {
+      res.status(200).json({
+        success: false,
+        message: "no pool selected. (root)",
+      });
+      return;
+    }
     const accessToken = verifyToken(req.body.accessToken);
     const refreshToken = verifyToken(req.cookies.refreshToken);
 
