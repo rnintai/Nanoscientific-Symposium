@@ -8,7 +8,7 @@ const {
 
 module.exports = {
   checkToken: async (req, res, next) => {
-    if (getCurrentPool(req) === "") {
+    if (getCurrentPool(req.nation) === "") {
       res.status(200).json({
         success: false,
         message: "no pool selected. (root)",
