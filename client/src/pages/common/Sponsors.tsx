@@ -7,7 +7,7 @@ import Loading from "components/Loading/Loading";
 const Sponsors = () => {
   const pathname = usePageViews();
 
-  const [HTML, loading] = useHTML(`/api/page${pathname}/sponsors`);
+  const [HTML, loading] = useHTML(`/api/page/${pathname}/sponsors`);
   if (loading) {
     return <Loading />;
   }

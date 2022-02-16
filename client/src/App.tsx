@@ -46,13 +46,21 @@ const App = () => {
   //   pathname
   // }
 
+  let nation = "";
+  if (pathname === "admin") {
+    nation = authState.role;
+  } else if (pathname === "") {
+    nation = "";
+  } else {
+    nation = pathname;
+  }
+
   useEffect(() => {
-    // const nation = route에서 따오기 | admin이면 role에서 따오기;
     setCheckLoading(true);
     axios
       .post("/api/users/check", {
         accessToken: authState.accessToken,
-        // nation,
+        nation,
       })
       .then((res) => {
         if (res.data.success !== false) {

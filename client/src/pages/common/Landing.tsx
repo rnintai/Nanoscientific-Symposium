@@ -7,7 +7,7 @@ import usePageViews from "hooks/usePageViews";
 const Landing = () => {
   const pathname = usePageViews();
 
-  const [HTML, loading] = useHTML(`/api/page${pathname}/landing`);
+  const [HTML, loading] = useHTML(`/api/page/${pathname}/landing`);
   if (loading) {
     return <Loading />;
   }

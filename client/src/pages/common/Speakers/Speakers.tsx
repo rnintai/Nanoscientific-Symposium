@@ -18,7 +18,7 @@ const Speakers = () => {
   useEffect(() => {
     const getSpeakers = async () => {
       setLoading(true);
-      const speakers = await axios.get(`/api/page${pathname}/speakers`);
+      const speakers = await axios.get(`/api/page/${pathname}/speakers`);
       setSpeakersState(speakers.data);
       setLoading(false);
     };
@@ -31,19 +31,19 @@ const Speakers = () => {
   const isLocal = useCheckLocal();
   const globalDataTitle = new Map<string, { title: string }>([
     [
-      "/asia",
+      "asia",
       {
         title: "Speakers",
       },
     ],
     [
-      "/latam",
+      "latam",
       {
         title: "Speakers",
       },
     ],
     [
-      "/kr",
+      "kr",
       {
         title: "초청 연사",
       },

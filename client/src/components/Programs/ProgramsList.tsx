@@ -17,7 +17,7 @@ const ProgramsList = () => {
     // 프로그램 가져오기
     const getPrograms = async () => {
       setProgramLoading(true);
-      const programs = await axios.get(`/api/page${pathname}/programs`);
+      const programs = await axios.get(`/api/page/${pathname}/programs`);
       setPrograms(programs.data);
       setProgramLoading(false);
     };
