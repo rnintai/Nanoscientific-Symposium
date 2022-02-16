@@ -14,7 +14,7 @@ interface navProps {
 
 export const globalData = new Map<string, Common.globalDataType>([
   [
-    "/asia",
+    "asia",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
       speakers: "SPEAKERS",
@@ -25,7 +25,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "/kr",
+    "kr",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
       speakers: "초청연사",
@@ -37,7 +37,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "/latam",
+    "latam",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
       speakers: "SPEAKERS",
@@ -48,7 +48,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "/jp",
+    "jp",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
       // speakers: "講演者",
@@ -68,7 +68,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "/us",
+    "us",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
       speakers: "SPEAKERS",
@@ -79,7 +79,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "/europe",
+    "europe",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
       speakers: "SPEAKERS",
@@ -143,7 +143,7 @@ const NavBar = ({ checkLoading }: navProps) => {
     <NavBarContainer>
       <nav className={`nav-wrap${isMobile ? " mobile-menu-on" : ""}`}>
         <section className="col-logo">
-          <Link to={`${pathname}`} className="logo-link">
+          <Link to={`/${pathname}`} className="logo-link">
             <img src={logoURL} alt="logo" />
           </Link>
           <button
@@ -158,7 +158,7 @@ const NavBar = ({ checkLoading }: navProps) => {
           <ul className="menu-list">
             {symposium && (
               <li className="menu-item has-submenu">
-                <Link to={`${pathname}/`} className="menu-link">
+                <Link to={`/${pathname}/`} className="menu-link">
                   {symposium} <i className="fas fa-caret-down" />
                 </Link>
                 <div className="drop-down-wrap">
@@ -166,13 +166,13 @@ const NavBar = ({ checkLoading }: navProps) => {
                     <li className="drop-down-item">
                       <Link
                         className="submenu-link"
-                        to={`${pathname}/speakers`}
+                        to={`/${pathname}/speakers`}
                       >
                         초청 연사
                       </Link>
                     </li>
                     <li className="drop-down-item">
-                      <Link className="submenu-link" to={`${pathname}/attend`}>
+                      <Link className="submenu-link" to={`/${pathname}/attend`}>
                         행사장 안내
                       </Link>
                     </li>
@@ -183,49 +183,49 @@ const NavBar = ({ checkLoading }: navProps) => {
 
             {greeting && (
               <li className="menu-item">
-                <Link className="menu-link" to={`${pathname}/greeting`}>
+                <Link className="menu-link" to={`/${pathname}/greeting`}>
                   {greeting}
                 </Link>
               </li>
             )}
             {speakers && !symposium && (
               <li className="menu-item">
-                <Link className="menu-link" to={`${pathname}/speakers`}>
+                <Link className="menu-link" to={`/${pathname}/speakers`}>
                   {speakers}
                 </Link>
               </li>
             )}
             <li className="menu-item">
-              <Link className="menu-link" to={`${pathname}/programs`}>
+              <Link className="menu-link" to={`/${pathname}/programs`}>
                 {programs}
               </Link>
             </li>
             <li className="menu-item">
-              <Link className="menu-link" to={`${pathname}/lecture-hall`}>
+              <Link className="menu-link" to={`/${pathname}/lecture-hall`}>
                 {lectureHall}
               </Link>
             </li>
             {attend && (
               <li className="menu-item">
-                <Link className="menu-link" to={`${pathname}/attend`}>
+                <Link className="menu-link" to={`/${pathname}/attend`}>
                   {attend}
                 </Link>
               </li>
             )}
             <li className="menu-item has-submenu">
               <Link
-                to={`${pathname}/exhibit/parksystems`}
+                to={`/${pathname}/exhibit/parksystems`}
                 className="menu-link"
               >
                 {exhibitHall}
-                {pathname !== "/jp" && <i className="fas fa-caret-down" />}
+                {pathname !== "jp" && <i className="fas fa-caret-down" />}
               </Link>
               <div className="drop-down-wrap">
                 <ul className="drop-down-list">
                   <li className="drop-down-item">
                     <Link
                       className="submenu-link"
-                      to={`${pathname}/exhibit/parksystems`}
+                      to={`/${pathname}/exhibit/parksystems`}
                     >
                       PARK SYSTEMS
                     </Link>
@@ -233,7 +233,7 @@ const NavBar = ({ checkLoading }: navProps) => {
                   <li className="drop-down-item">
                     <Link
                       className="submenu-link"
-                      to={`${pathname}/exhibit/nanoscientific`}
+                      to={`/${pathname}/exhibit/nanoscientific`}
                     >
                       NANOSCIENTIFIC
                     </Link>
@@ -242,13 +242,13 @@ const NavBar = ({ checkLoading }: navProps) => {
               </div>
             </li>
             <li className="menu-item">
-              <Link className="menu-link" to={`${pathname}/sponsors`}>
+              <Link className="menu-link" to={`/${pathname}/sponsors`}>
                 {sponsors}
               </Link>
             </li>
           </ul>
         </section>
-        {pathname !== "/jp" && (
+        {pathname !== "jp" && (
           <section className="col-login">
             <ul className="login-list">
               {checkLoading && <div />}
