@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Paper } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
+import { SpeakerCardContainer } from "./SpeakerCardStyles";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -32,6 +33,7 @@ const SpeakerCard = ({
       md={4}
       key={speaker.id}
       style={{ cursor: `${isAdmin ? "pointer" : "auto"}` }}
+      className="speaker-card"
       onClick={onClick}
     >
       <Item>
