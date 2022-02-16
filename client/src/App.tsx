@@ -37,12 +37,22 @@ const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+  //  / or /[첫번째 path]
+  // if(pathname=== "" || pathname= "admin") {
+  //   root일 때는 상관이 없어 사실 아무거나..
+  //   admin -> role
+  // }
+  // else (나라코드){
+  //   pathname
+  // }
 
   useEffect(() => {
+    // const nation = route에서 따오기 | admin이면 role에서 따오기;
     setCheckLoading(true);
     axios
       .post("/api/users/check", {
         accessToken: authState.accessToken,
+        // nation,
       })
       .then((res) => {
         if (res.data.success !== false) {
@@ -72,8 +82,8 @@ const App = () => {
 
   return (
     <>
-      {pathname !== "/" &&
-        pathname !== "/admin" &&
+      {pathname !== "" &&
+        pathname !== "admin" &&
         window.location.pathname !== "/eu/registration" && (
           <NavBar checkLoading={checkLoading} />
         )}
@@ -175,7 +185,7 @@ const App = () => {
         <Route path="/admin/users" element={<AdminUsers />} />
       </Routes>
 
-      {pathname !== "/" && pathname !== "/admin" && <Footer />}
+      {pathname !== "" && pathname !== "admin" && <Footer />}
     </>
   );
 };
