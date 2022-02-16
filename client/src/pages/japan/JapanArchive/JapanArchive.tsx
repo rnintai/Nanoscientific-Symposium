@@ -115,7 +115,7 @@ const JapanArchive = () => {
   return (
     <JapanArchiveContainer>
       <img
-        src="https://user-images.githubusercontent.com/69495129/153967864-809f8709-27f7-401a-93c9-ad8fc654fc23.png"
+        src="https://nss-integration.s3.us-west-1.amazonaws.com/upload/jpArchive/KakaoTalk_20220216_172105018.png"
         alt="banner"
         className="banner"
       />
@@ -155,7 +155,7 @@ const JapanArchive = () => {
 
       <section className="speakers">
         <Title title="SPEAKERS" fontSize={36} />
-        <Box sx={{ flexGrow: 1, p: 3 }}>
+        <Box sx={{ flexGrow: 1, p: 20 }}>
           <Grid
             container
             spacing={{ xs: 4, md: 7 }}

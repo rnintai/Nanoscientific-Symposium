@@ -4,7 +4,7 @@ export const JapanArchiveContainer = styled.div`
   padding-top: 150px;
 
   .banner {
-    width: 100vw;
+    object-fit: contain;
   }
 
   .content {
