@@ -15,9 +15,9 @@ pipeline {
             steps {
                     dir('client'){
                         sh '''
-                        'ls -al'
-                        "npm install"
-                        "CI=false npm run build"
+                        ls -al
+                        npm install
+                        CI=false npm run build
                         '''
                 }
             }
@@ -26,9 +26,9 @@ pipeline {
             steps {
                     dir('client'){
                         sh '''
-                        'ls -al'
-                        "sudo rm -rf /home/ubuntu/client/build"
-                        "sudo cp -r ./build /home/ubuntu/client/build"
+                        ls -al
+                        sudo rm -rf /home/ubuntu/client/build
+                        sudo cp -r ./build /home/ubuntu/client/build
                         '''
                 }
             }
@@ -37,9 +37,9 @@ pipeline {
             steps {
                     dir('server'){
                      sh '''
-                     'ls -al'
-                     "npm install"
-                     'sudo cp -r . /home/ubuntu/server'
+                     ls -al
+                     npm install
+                     sudo cp -r . /home/ubuntu/server
                      '''
                     }
             }
