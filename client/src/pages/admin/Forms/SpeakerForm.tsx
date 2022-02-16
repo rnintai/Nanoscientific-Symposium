@@ -24,7 +24,9 @@ const SpeakerForm = ({
   const [loading, setLoading] = useState<boolean>(false);
   const name = useInput(edit ? selectedSpeaker.name : "");
   const belong = useInput(edit ? selectedSpeaker.belong : "");
-  const [imagePath, setImagePath] = useState<string>("");
+  const [imagePath, setImagePath] = useState<string>(
+    edit ? selectedSpeaker.image_path : "",
+  );
   const [previewURL, setPreviewURL] = useState<string>("");
 
   useEffect(() => {
