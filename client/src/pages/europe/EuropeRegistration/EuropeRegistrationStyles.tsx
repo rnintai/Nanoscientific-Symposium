@@ -5,7 +5,7 @@ export const RegistrationContainer = styled.div`
   min-height: calc(100vh - 120px);
   padding: 30px 0;
   margin: 0 auto;
-  #mktoForm_1071 {
+  form {
     margin: 0 auto;
   }
 `;
