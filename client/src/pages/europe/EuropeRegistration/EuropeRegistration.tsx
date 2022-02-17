@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { PayPalButton } from "react-paypal-button-v2";
 
 import { useNavigate } from "react-router";
 import {
@@ -48,15 +47,6 @@ const EuropeRegistration = () => {
           CHECKOUT
         </Button>
       )}
-      {/* {checkout && (
-        <PayPalButton
-        amount="20.00"
-        options={{
-          clientId:
-          "Ab7DDztb5dlZOIvcQER01Iw0RsBanvxQBRNiiL6ORL56nYEZhF0CuSyTNNOj5ZwyTszzAD1ht4P4lGbA",
-        }}
-        />
-      )} */}
       {checkout && (
         <div className="paypal-container">
           <Button
@@ -100,6 +90,9 @@ const EuropeRegistration = () => {
                     },
                   ],
                 });
+              }}
+              onError={(err) => {
+                alert(err);
               }}
               onApprove={async (data, actions) => {
                 const result = actions?.order?.capture().then((details) => {
