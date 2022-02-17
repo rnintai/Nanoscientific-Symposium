@@ -252,7 +252,6 @@ const NavBar = ({ checkLoading }: navProps) => {
         {pathname !== "jp" && (
           <section className="col-login">
             <ul className="login-list">
-              {checkLoading && <div />}
               {authState.isLogin && !checkLoading && (
                 <>
                   {authState.role === "asia" && (
