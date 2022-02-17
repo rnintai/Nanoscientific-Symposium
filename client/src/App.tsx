@@ -30,7 +30,16 @@ import AdminPrograms from "pages/admin/AdminPrograms/AdminPrograms";
 import AdminSpeakers from "pages/admin/AdminSpeakers/AdminSpeakers";
 import AdminUsers from "pages/admin/AdminUsers/AdminUsers";
 import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
+
+const theme = createTheme({
+  typography: {
+    allVariants: {
+      fontFamily: ["Open Sans", "Noto Sans JP", "sans-serif"].join(","),
+    },
+  },
+});
 
 const App = () => {
   const [checkLoading, setCheckLoading] = useState<boolean>(false);
@@ -81,7 +90,7 @@ const App = () => {
   }, []);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       {pathname !== "" &&
         pathname !== "admin" &&
         window.location.pathname !== "/eu/registration" && (
@@ -217,7 +226,7 @@ const App = () => {
       {pathname !== "" && pathname !== "admin" && pathname !== "jp" && (
         <Footer />
       )}
-    </>
+    </ThemeProvider>
   );
 };
 
