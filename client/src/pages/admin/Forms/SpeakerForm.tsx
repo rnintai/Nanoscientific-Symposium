@@ -4,6 +4,7 @@ import S3Upload from "components/S3Upload/S3Upload";
 import { TextField } from "@mui/material";
 import axios from "axios";
 import useInput from "hooks/useInput";
+import { useAuthState } from "../../../context/AuthContext";
 
 interface SpeakerFormProps {
   openSpeakerForm: boolean;
@@ -28,7 +29,7 @@ const SpeakerForm = ({
     edit ? selectedSpeaker.image_path : "",
   );
   const [previewURL, setPreviewURL] = useState<string>("");
-
+  const authState = useAuthState();
   useEffect(() => {
     setPreviewURL(selectedSpeaker?.image_path);
   }, [selectedSpeaker]);
@@ -41,14 +42,14 @@ const SpeakerForm = ({
     if (edit) {
       data = await axios.put("/api/admin/speaker", {
         id: selectedSpeaker.id,
-        country: "asia",
+        nation: authState.role,
         name: name.value,
         belong: belong.value,
         imagePath,
       });
     } else {
       data = await axios.post("/api/admin/speaker", {
-        country: "asia",
+        nation: authState.role,
         name: name.value,
         belong: belong.value,
         imagePath,

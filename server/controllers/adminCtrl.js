@@ -177,29 +177,40 @@ const adminCtrl = {
   },
 
   addSpeaker: async (req, res) => {
-    const { country, name, belong, imagePath } = req.body;
-    const sql = `INSERT INTO speakers(name,belong,image_path,status) VALUES('${name}','${belong}','${imagePath}',1)`;
+    const { nation, name, belong, imagePath } = req.body;
 
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `INSERT INTO speakers(name,belong,image_path,status) VALUES('${name}','${belong}','${imagePath}',1)`;
+
+      await connection.query(sql);
       res.status(200).json({
         success: true,
         message: "Success",
       });
-    });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
   modifySpeaker: async (req, res) => {
-    const { country, name, belong, imagePath, id } = req.body;
+    const { nation, name, belong, imagePath, id } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}' WHERE id=${id}`;
 
-    const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}' WHERE id=${id}`;
-
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
+      await connection.query(sql);
       res.status(200).json({
         success: true,
         message: "Success",
       });
-    });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
 
