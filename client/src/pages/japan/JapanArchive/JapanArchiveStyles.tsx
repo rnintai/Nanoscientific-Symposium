@@ -34,6 +34,11 @@ export const JapanArchiveContainer = styled.div`
     }
   }
 
+  .greeting {
+    border-bottom: 1px solid #c2c2c2;
+    margin-bottom: 30px;
+  }
+
   .speakers {
     border-bottom: 1px solid #c2c2c2;
     .belong {
@@ -141,6 +146,19 @@ export const JapanArchiveContainer = styled.div`
         width: 90%;
         margin-top: 20px;
         border-radius: 10px;
+      }
+    }
+
+    .exhibition {
+      flex-direction: column;
+      align-items: center;
+      img {
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .string-section {
+        text-align: center;
       }
     }
   }

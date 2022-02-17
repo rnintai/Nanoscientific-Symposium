@@ -9,6 +9,7 @@ import usePageViews from "hooks/usePageViews";
 import { globalData } from "components/NavBar/NavBar";
 import { JapanArchiveContainer } from "./JapanArchiveStyles";
 import useWindowSize from "../../../hooks/useWindowSize";
+import JapanGreetingComponent from "../JapanComponent/JapanGreetingComponent";
 
 const JapanArchive = () => {
   const speakersState: Speaker.speakerType[] = [
@@ -131,7 +132,9 @@ const JapanArchive = () => {
           />
         </video>
       </section>
-
+      <section className="greeting">
+        <JapanGreetingComponent />
+      </section>
       <section className="speakers">
         <Title title="SPEAKERS" fontSize={36} />
         <Box sx={{ flexGrow: 1, p: imagePadding }}>
@@ -149,7 +152,7 @@ const JapanArchive = () => {
 
       <section className="exhibition">
         <img
-          src="https://user-images.githubusercontent.com/69495129/153973162-ff2ba30c-e845-4b1e-bfd7-1f3e958837a9.png"
+          src="https://nss-integration.s3.us-west-1.amazonaws.com/upload/jpArchive/exhibition-0217.jpg"
           alt="afm"
         />
         <div className="string-section">
