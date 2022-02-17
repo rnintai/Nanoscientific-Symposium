@@ -12,13 +12,13 @@ const JapanGreetingContainer = styled.div`
       flex-direction: column;
       align-items: center;
       img {
-        width: 100%;
+        width: 80%;
         max-width: 100%;
         height: 235px;
       }
 
       .string {
-        height: 150px;
+        height: 100px;
       }
     }
 
