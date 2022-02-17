@@ -36,6 +36,12 @@ export const JapanArchiveContainer = styled.div`
 
   .speakers {
     border-bottom: 1px solid #c2c2c2;
+    .belong {
+      white-space: pre-line;
+    }
+    .description {
+      white-space: pre-line;
+    }
   }
 
   .exhibition {

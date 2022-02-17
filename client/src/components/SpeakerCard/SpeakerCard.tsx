@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid, Paper } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
-import { SpeakerCardContainer } from "./SpeakerCardStyles";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -48,7 +47,7 @@ const SpeakerCard = ({
         </h3>
         <h5 className="belong">{speaker.belong}</h5>
         {speaker.description && (
-          <h5 className="belong">{speaker.description}</h5>
+          <h5 className="description">{speaker.description}</h5>
         )}
       </Item>
     </Grid>

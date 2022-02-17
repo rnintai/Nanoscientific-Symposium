@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Grid } from "@mui/material";
 import Title from "components/Title/Title";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
@@ -15,26 +15,22 @@ const JapanArchive = () => {
     {
       id: 1,
       name: "江刺 正喜",
-      belong:
-        "国立大学法人東北大学\n" +
-        "\n" +
-        "マイクロシステム融合開発センター\n" +
-        "\n" +
-        "​博士",
+      belong: "国立大学法人東北大学\nマイクロシステム融合開発センター\n​博士",
+
       description: "「半導体微細加工を発展させたMEMSとその開発支援」",
       image_path: "upload/jpArchive/jp01.png",
     },
     {
       id: 2,
       name: "福間 剛士",
-      belong: "金沢大学ナノ生命科学研究所​所長・教授",
+      belong: "金沢大学ナノ生命科学研究所\n​所長・教授",
       description: "「革新的液中原子間力顕微鏡技術による未踏ナノ領域の可視化」",
       image_path: "upload/jpArchive/jp02.png",
     },
     {
       id: 3,
       name: "嘉数 誠",
-      belong: "佐賀大学大学院理工学研究科​教授",
+      belong: "佐賀大学大学院理工学研究科​\n教授",
       description: "「ダイヤモンド半導体の最近の進展」",
       image_path: "upload/jpArchive/jp03.png",
     },
@@ -42,30 +38,16 @@ const JapanArchive = () => {
       id: 4,
       name: "米田 忠弘",
       belong:
-        "国立大学法人東北大学\n" +
-        "\n" +
-        "多元物質科学研究所\n" +
-        "\n" +
-        "走査プローブ計測技術研究分野\n" +
-        "\n" +
-        "​教授",
+        "国立大学法人東北大学\n多元物質科学研究所\n走査プローブ計測技術研究分野​\n教授",
       description:
-        "「走査型プローブ顕微鏡を用いた\n" +
-        "二次元層状化合物の基礎と\n" +
-        "デバイス応用」\n",
+        "「走査型プローブ顕微鏡を用いた\n二次元層状化合物の基礎と\nデバイス応用」",
       image_path: "upload/jpArchive/jp04.png",
     },
     {
       id: 5,
       name: "​井須 紀文",
       belong:
-        "株式会社LIXIL\n" +
-        "\n" +
-        "Technology Innovation 本部\n" +
-        "\n" +
-        "分析・環境技術開発部\n" +
-        "\n" +
-        "​リーダー",
+        "株式会社LIXILTechnology Innovation 本部分析・環境技術開発部​\nリーダー",
       description: "「住宅用防汚・抗菌材料と表面分析」",
       image_path: "upload/jpArchive/jp05.png",
     },
@@ -73,52 +55,41 @@ const JapanArchive = () => {
       id: 6,
       name: "藤本 亜由美",
       belong:
-        "株式会社カネカテクノリサーチ\n" +
-        "\n" +
-        "分析部 大阪分析センター\n" +
-        "\n" +
-        "​第一グループ",
+        "株式会社カネカテクノリサーチ \n分析部 大阪分析センター​第一グループ",
       description:
-        "「凍結割断レプリカ法を用いた\n" +
-        "\n" +
-        "​メタンハイドレートの\n" +
-        "\n" +
-        "微細構造観察」",
+        "「凍結割断レプリカ法を用いた\n​メタンハイドレートの微細構造観察」",
       image_path: "upload/jpArchive/jp06.png",
     },
     {
       id: 7,
       name: "近間 克己",
       belong:
-        "日産化学株式会社\n" +
-        "\n" +
-        "物質科学研究所 物質解析研究部\n" +
-        "\n" +
-        "​解析研究グループ",
+        "日産化学株式会社\n物質科学研究所 物質解析研究部\n​解析研究グループ",
       description: "「積層薄膜の構造解析」",
       image_path: "upload/jpArchive/jp07.png",
     },
     {
       id: 8,
       name: "高井 治",
-      belong: "関東学院大学材料・表面工学研究所​所長",
-      description: "「ナノインデンテーションによる​薄膜の機械的特性評価」",
+      belong: "関東学院大学材料・表面工学研究所\n​所長",
+      description: "「ナノインデンテーションによる\n​薄膜の機械的特性評価」",
       image_path: "upload/jpArchive/jp08.png",
     },
   ];
 
   const pathname = usePageViews();
   const { archive } = globalData.get(pathname) as Common.globalDataType;
-
+  const [imagePadding, setImagePadding] = useState<number>(25);
   useSeoTitle(archive as string, pathname);
   const size = useWindowSize();
-  let imagePadding = 20;
 
-  if (imagePadding < 1250) {
-    imagePadding = 5;
-  } else {
-    imagePadding = 20;
-  }
+  useEffect(() => {
+    if (size.width && size.width < 1250) {
+      setImagePadding(5);
+    } else {
+      setImagePadding(25);
+    }
+  }, [size.width]);
 
   return (
     <JapanArchiveContainer>
@@ -170,7 +141,7 @@ const JapanArchive = () => {
             columns={{ xs: 1, sm: 8, md: 16 }}
           >
             {speakersState.map((speaker) => (
-              <SpeakerCard speaker={speaker} />
+              <SpeakerCard key={speaker.id} speaker={speaker} />
             ))}
           </Grid>
         </Box>
