@@ -43,7 +43,6 @@ export const JapanArchiveContainer = styled.div`
     display: flex;
     img {
       width: 50%;
-      height: 420px;
     }
 
     .string-section {
@@ -86,18 +85,18 @@ export const JapanArchiveContainer = styled.div`
   }
   @media (min-width: 1300px) {
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
-      min-height: 530px;
+      min-height: 500px;
     }
   }
   @media (min-width: 1650px) {
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
-      min-height: 550px;
+      min-height: 530px;
     }
   }
 
   @media (min-width: 1850px) {
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
-      min-height: 630px;
+      min-height: 610px;
     }
   }
 

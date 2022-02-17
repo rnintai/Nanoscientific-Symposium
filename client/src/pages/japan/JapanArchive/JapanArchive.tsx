@@ -3,12 +3,12 @@ import { Box, Button, Grid } from "@mui/material";
 import Title from "components/Title/Title";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import { Link } from "react-router-dom";
+import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
+import useSeoTitle from "hooks/useSeoTitle";
+import usePageViews from "hooks/usePageViews";
+import { globalData } from "components/NavBar/NavBar";
 import { JapanArchiveContainer } from "./JapanArchiveStyles";
-import useCheckLocal from "../../../hooks/useCheckLocal";
-import YoutubeEmbed from "../../../components/YoutubeEmbed/YoutubeEmbed";
-import useSeoTitle from "../../../hooks/useSeoTitle";
-import usePageViews from "../../../hooks/usePageViews";
-import { globalData } from "../../../components/NavBar/NavBar";
+import useWindowSize from "../../../hooks/useWindowSize";
 
 const JapanArchive = () => {
   const speakersState: Speaker.speakerType[] = [
@@ -111,6 +111,14 @@ const JapanArchive = () => {
   const { archive } = globalData.get(pathname) as Common.globalDataType;
 
   useSeoTitle(archive as string, pathname);
+  const size = useWindowSize();
+  let imagePadding = 20;
+
+  if (imagePadding < 1250) {
+    imagePadding = 5;
+  } else {
+    imagePadding = 20;
+  }
 
   return (
     <JapanArchiveContainer>
@@ -155,7 +163,7 @@ const JapanArchive = () => {
 
       <section className="speakers">
         <Title title="SPEAKERS" fontSize={36} />
-        <Box sx={{ flexGrow: 1, p: 20 }}>
+        <Box sx={{ flexGrow: 1, p: imagePadding }}>
           <Grid
             container
             spacing={{ xs: 4, md: 7 }}
