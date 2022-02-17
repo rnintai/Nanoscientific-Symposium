@@ -5,11 +5,13 @@ type State = {
   email: string;
   role: string;
   accessToken: string;
+  isLoading: boolean;
 };
 
 type Action =
   | { type: "LOGIN"; authState: State }
-  | { type: "LOGOUT"; authState: State };
+  | { type: "LOGOUT"; authState: State }
+  | { type: "FINISHLOADING"; authState: State };
 
 type AuthDispatch = Dispatch<Action>;
 
@@ -21,12 +23,14 @@ const AuthDispatchContext = createContext<AuthDispatch | null>(null);
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "LOGIN":
+      console.log("로그인!");
       return {
         ...state,
         isLogin: true,
         role: action.authState.role,
         email: action.authState.email,
         accessToken: action.authState.accessToken,
+        isLoading: action.authState.isLoading,
       };
     case "LOGOUT":
       return {
@@ -35,6 +39,13 @@ function reducer(state: State, action: Action): State {
         email: "",
         role: "guest",
         accessToken: "",
+        isLoading: false,
+      };
+
+    case "FINISHLOADING":
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       throw new Error("reducer: Unhandled Action");
@@ -48,6 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     email: "",
     role: "guest",
     accessToken: "",
+    isLoading: true,
   });
 
   return (
@@ -60,7 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 // state 와 dispatch 를 쉽게 사용하기 위한 커스텀 Hooks
-export function useAuthState() {
+export function useAuthState(): State {
   const state = useContext(AuthStateContext);
   if (!state) throw new Error("Cannot find AuthProvider"); // 유효하지 않을땐 에러를 발생
   return state;
