@@ -17,8 +17,6 @@ interface ProgramHideFormProps {
   setOpenHideForm: Dispatch<SetStateAction<boolean>>;
 }
 
-const myCountry = "asia";
-
 const ProgramHideForm = ({
   openHideForm,
   setOpenHideForm,
@@ -58,14 +56,14 @@ const ProgramHideForm = ({
   const showSubmitHandler = () => {
     const showProgram = async () => {
       const data = await axios.put("/api/admin/showProgram", {
-        country: authState.role,
+        nation: authState.role,
         programs: programCheckedList,
       });
     };
 
     const showSession = async () => {
       const data = await axios.put("/api/admin/showSession", {
-        country: authState.role,
+        nation: authState.role,
         sessions: sessionCheckedList,
       });
     };

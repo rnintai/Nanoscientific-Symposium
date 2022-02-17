@@ -135,25 +135,45 @@ const adminCtrl = {
   },
 
   showProgram: async (req, res) => {
-    const { programs } = req.body;
+    const { nation, programs } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
 
-    programs.map((program) => {
-      const sql = `UPDATE programs SET status=1 WHERE id=${program.id}`;
-      asiaConnection.query(sql, (error, rows) => {
-        if (error) throw error;
+    try {
+      programs.map(async (program) => {
+        const sql = `UPDATE programs SET status=1 WHERE id=${program.id}`;
+        await asiaConnection.query(sql, (error, rows) => {
+          if (error) throw error;
+        });
       });
-    });
+      res.status(200).json({
+        success: true,
+        message: "Success",
+      });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   showSession: async (req, res) => {
-    const { sessions } = req.body;
+    const { nation, sessions } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
 
-    sessions.map((session) => {
-      const sql = `UPDATE program_sessions SET status=1 WHERE id=${session.id}`;
-      asiaConnection.query(sql, (error, rows) => {
-        if (error) throw error;
+    try {
+      sessions.map(async (session) => {
+        const sql = `UPDATE program_sessions SET status=1 WHERE id=${session.id}`;
+        await connection.query(sql);
       });
-    });
+      res.status(200).json({
+        success: true,
+        message: "Success",
+      });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   addSpeaker: async (req, res) => {
