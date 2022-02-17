@@ -214,7 +214,9 @@ const App = () => {
         />
       </Routes>
 
-      {pathname !== "" && pathname !== "admin" && <Footer />}
+      {pathname !== "" && pathname !== "admin" && pathname !== "jp" && (
+        <Footer />
+      )}
     </>
   );
 };
