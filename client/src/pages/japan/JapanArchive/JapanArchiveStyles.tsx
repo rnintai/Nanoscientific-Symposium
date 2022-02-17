@@ -24,7 +24,14 @@ export const JapanArchiveContainer = styled.div`
       h1 {
         font-size: 2.4rem;
       }
-
+      h2 {
+        font-size: 1.6rem;
+        color: #003e7f;
+        margin-bottom: 0px;
+      }
+      span {
+        font-weight: bold;
+      }
       button {
         min-width: 300px;
       }
