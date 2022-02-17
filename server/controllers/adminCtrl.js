@@ -1,39 +1,53 @@
 const { asiaConnection } = require("../dbConfig");
 const path = require("path");
+const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const adminCtrl = {
   addSession: async (req, res) => {
-    const { country, title, date } = req.body;
-    const sql = `INSERT INTO program_sessions(session_title,date) VALUES('${title}','${date.substr(
-      0,
-      10
-    )}')`;
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
+    const { nation, title, date } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `INSERT INTO program_sessions(session_title,date) VALUES('${title}','${date.substr(
+        0,
+        10
+      )}')`;
+
+      const result = await connection.query(sql);
       res.status(200).json({
         success: true,
         message: "Success",
       });
-    });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
   modifySession: async (req, res) => {
-    const { country, title, date, id, status } = req.body;
-    const sql = `UPDATE program_sessions SET session_title='${title}',date='${date.substr(
-      0,
-      10
-    )}', status=${status} WHERE id=${id}`;
+    const { nation, title, date, id, status } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
 
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
+    try {
+      const sql = `UPDATE program_sessions SET session_title='${title}',date='${date.substr(
+        0,
+        10
+      )}', status=${status} WHERE id=${id}`;
+
+      const result = await connection.query(sql);
       res.status(200).json({
         success: true,
         message: "Success",
       });
-    });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
   addProgram: async (req, res) => {
     const {
-      country,
+      nation,
       session,
       title,
       speakers,
@@ -41,19 +55,26 @@ const adminCtrl = {
       startTime,
       endTime,
     } = req.body;
-    const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}')`;
 
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}')`;
+
+      await connection.query(sql);
       res.status(200).json({
         success: true,
         message: "Success",
       });
-    });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
   modifyProgram: async (req, res) => {
     const {
-      country,
+      nation,
       title,
       id,
       status,
@@ -63,31 +84,54 @@ const adminCtrl = {
       startTime,
       endTime,
     } = req.body;
-    const sql = `UPDATE programs SET session=${session}, title='${title}',speakers='${speakers}',description="${description}",start_time='${startTime}',end_time='${endTime}', status=${status} WHERE id=${id}`;
 
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `UPDATE programs SET session=${session}, title='${title}',speakers='${speakers}',description="${description}",start_time='${startTime}',end_time='${endTime}', status=${status} WHERE id=${id}`;
+
+      await connection.query(sql);
       res.status(200).json({
         success: true,
         message: "Success",
       });
-    });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   getHideProgram: async (req, res) => {
-    const sql = `SELECT * FROM programs WHERE status=0`;
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
-      res.send(rows);
-    });
+    const { nation } = req.query;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `SELECT * FROM programs WHERE status=0`;
+      const result = await connection.query(sql);
+      res.send(result[0]);
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   getHideSession: async (req, res) => {
-    const sql = `SELECT * FROM program_sessions WHERE status=0`;
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
-      res.send(rows);
-    });
+    const { nation } = req.query;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `SELECT * FROM program_sessions WHERE status=0`;
+      const result = await connection.query(sql);
+      res.send(result[0]);
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
   },
 
   showProgram: async (req, res) => {
