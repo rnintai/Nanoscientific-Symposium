@@ -5,6 +5,7 @@ export const JapanArchiveContainer = styled.div`
 
   .banner {
     object-fit: contain;
+    width: 100%;
   }
 
   .content {
