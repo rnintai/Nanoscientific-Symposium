@@ -11,6 +11,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
 import moment from "moment";
 import useInput from "hooks/useInput";
+import { useAuthState } from "../../../context/AuthContext";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
@@ -42,10 +43,11 @@ const ProgramForm = ({
   const programSubmitHandler = async () => {
     setLoading(true);
     let data;
+    const authState = useAuthState();
 
     if (edit) {
       data = await axios.put("/api/admin/program", {
-        country: "asia",
+        country: authState.role,
         id: seletedProgram.id,
         title: title.value,
         speakers: speakers.value,
@@ -57,7 +59,7 @@ const ProgramForm = ({
       });
     } else {
       data = await axios.post("/api/admin/program", {
-        country: "asia",
+        country: authState.role,
         session: selectedSession,
         title: title.value,
         speakers: speakers.value,

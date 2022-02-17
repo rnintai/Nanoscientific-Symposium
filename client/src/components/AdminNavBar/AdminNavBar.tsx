@@ -11,10 +11,12 @@ import PeopleAltTwoToneIcon from "@mui/icons-material/PeopleAltTwoTone";
 import ListItemText from "@mui/material/ListItemText";
 import Drawer from "@mui/material/Drawer";
 import { Link } from "react-router-dom";
+import usePageViews from "hooks/usePageViews";
 
 const drawerWidth = 240;
 
 const AdminNavBar = () => {
+  const pathname = usePageViews();
   return (
     <Drawer
       sx={{
@@ -31,7 +33,7 @@ const AdminNavBar = () => {
       <Toolbar />
       <Divider />
       <List>
-        <Link to="/admin/programs">
+        <Link to={`/${pathname}/admin/programs`}>
           <ListItem button>
             <ListItemIcon>
               <EventNoteTwoToneIcon />
@@ -39,7 +41,7 @@ const AdminNavBar = () => {
             <ListItemText primary="Programs" />
           </ListItem>
         </Link>
-        <Link to="/admin/speakers">
+        <Link to={`/${pathname}/admin/speakers`}>
           <ListItem button>
             <ListItemIcon>
               <CampaignTwoToneIcon />
@@ -47,7 +49,7 @@ const AdminNavBar = () => {
             <ListItemText primary="Speakers" />
           </ListItem>
         </Link>
-        <Link to="/admin/users">
+        <Link to={`/${pathname}/admin/users`}>
           <ListItem button>
             <ListItemIcon>
               <PeopleAltTwoToneIcon />

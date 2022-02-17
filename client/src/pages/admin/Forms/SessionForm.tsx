@@ -7,6 +7,7 @@ import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { useAuthState } from "../../../context/AuthContext";
 
 interface SessionFormProps {
   openSessionForm: boolean;
@@ -26,6 +27,7 @@ const SessionForm = ({
   // 편집모달일때는 edit 이 true 로 넘어온다
   edit = false,
 }: SessionFormProps) => {
+  const authState = useAuthState();
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(
@@ -40,7 +42,7 @@ const SessionForm = ({
     // 편집 모달이라면 put 호출
     if (edit) {
       data = await axios.put("/api/admin/session", {
-        country: "asia",
+        country: authState.role,
         id: seletedSession.id,
         title: title.value,
         status: status === "show" ? 1 : 0,
@@ -49,7 +51,7 @@ const SessionForm = ({
     } else {
       // 추가 모달이라면 post 호출
       data = await axios.post("/api/admin/session", {
-        country: "asia",
+        country: authState.role,
         title: title.value,
         date,
       });
