@@ -39,15 +39,15 @@ const ProgramForm = ({
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
+  const authState = useAuthState();
 
   const programSubmitHandler = async () => {
     setLoading(true);
     let data;
-    const authState = useAuthState();
 
     if (edit) {
       data = await axios.put("/api/admin/program", {
-        country: authState.role,
+        nation: authState.role,
         id: seletedProgram.id,
         title: title.value,
         speakers: speakers.value,
@@ -59,7 +59,7 @@ const ProgramForm = ({
       });
     } else {
       data = await axios.post("/api/admin/program", {
-        country: authState.role,
+        nation: authState.role,
         session: selectedSession,
         title: title.value,
         speakers: speakers.value,

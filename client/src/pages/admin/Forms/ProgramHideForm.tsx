@@ -37,7 +37,7 @@ const ProgramHideForm = ({
 
   const config = {
     params: {
-      country: authState.role,
+      nation: authState.role,
     },
   };
   useEffect(() => {

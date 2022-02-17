@@ -42,7 +42,7 @@ const SessionForm = ({
     // 편집 모달이라면 put 호출
     if (edit) {
       data = await axios.put("/api/admin/session", {
-        country: authState.role,
+        nation: authState.role,
         id: seletedSession.id,
         title: title.value,
         status: status === "show" ? 1 : 0,
@@ -51,7 +51,7 @@ const SessionForm = ({
     } else {
       // 추가 모달이라면 post 호출
       data = await axios.post("/api/admin/session", {
-        country: authState.role,
+        nation: authState.role,
         title: title.value,
         date,
       });
