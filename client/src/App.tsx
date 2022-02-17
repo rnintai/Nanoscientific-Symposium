@@ -13,6 +13,7 @@ import KoreaRoutes from "./Routes/KoreaRoutes";
 import UsRoutes from "./Routes/UsRoutes";
 import EuropeRoutes from "./Routes/EuropeRoutes";
 import JapanRoutes from "./Routes/JapanRoutes";
+import Loading from "./components/Loading/Loading";
 
 const theme = createTheme({
   typography: {
@@ -57,7 +58,7 @@ const App = () => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
       });
   }, []);
-  if (authState.isLoading) return <div>로딩중</div>;
+  if (authState.isLoading) return <Loading />;
 
   return (
     <ThemeProvider theme={theme}>
