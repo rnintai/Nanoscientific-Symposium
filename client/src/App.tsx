@@ -32,6 +32,7 @@ import AdminUsers from "pages/admin/AdminUsers/AdminUsers";
 import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
+import PrivateRoute from "./components/Route/PrivateRoute";
 
 const theme = createTheme({
   typography: {
@@ -101,7 +102,14 @@ const App = () => {
         <Route path="/" element={<EventLanding />} />
         {/* asia */}
         <Route path="/asia/" element={<Landing />} />
-        <Route path="/asia/lecture-hall" element={<AsiaLectureHall />} />
+        <Route
+          path="/asia/lecture-hall"
+          element={
+            <PrivateRoute>
+              <AsiaLectureHall />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/asia/exhibit/parksystems"
           element={<ExhibitParkSystems />}
@@ -119,7 +127,14 @@ const App = () => {
         <Route path="/kr/speakers" element={<Speakers />} />
         <Route path="/kr/attend" element={<KoreaAttend />} />
         <Route path="/kr/programs" element={<Programs />} />
-        <Route path="/kr/lecture-hall" element={<KoreaLectureHall />} />
+        <Route
+          path="/kr/lecture-hall"
+          element={
+            <PrivateRoute>
+              <KoreaLectureHall />
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/kr/exhibit/parksystems"
@@ -150,7 +165,14 @@ const App = () => {
         {/* us */}
 
         <Route path="/us/" element={<Landing />} />
-        <Route path="/us/lecture-hall" element={<UsLectureHall />} />
+        <Route
+          path="/us/lecture-hall"
+          element={
+            <PrivateRoute>
+              <UsLectureHall />
+            </PrivateRoute>
+          }
+        />
 
         <Route
           path="/us/exhibit/parksystems"
@@ -171,7 +193,14 @@ const App = () => {
         <Route path="/jp/programs" element={<Programs />} />
         <Route path="/jp/speakers" element={<JapanSpeakers />} />
         <Route path="/jp/attend" element={<JapanAttend />} />
-        <Route path="/jp/lecture-hall" element={<JapanLectureHall />} />
+        <Route
+          path="/jp/lecture-hall"
+          element={
+            <PrivateRoute>
+              <JapanLectureHall />
+            </PrivateRoute>
+          }
+        />
         <Route path="/jp/sponsors" element={<Sponsors />} />
         <Route path="/jp/archive" element={<JapanArchive />} />
 
