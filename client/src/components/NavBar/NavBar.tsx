@@ -6,6 +6,7 @@ import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import { countries } from "utils/Countries";
 import LoginModal from "../Modal/LoginModal";
 
 interface navProps {
@@ -254,9 +255,9 @@ const NavBar = ({ checkLoading }: navProps) => {
             <ul className="login-list">
               {authState.isLogin && !checkLoading && (
                 <>
-                  {authState.role === "asia" && (
+                  {countries.includes(authState.role) && (
                     <li className="login-item">
-                      <Link className="menu-link" to="/admin">
+                      <Link className="menu-link" to={`${pathname}/admin`}>
                         ADMIN
                       </Link>
                     </li>
