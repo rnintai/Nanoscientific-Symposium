@@ -13,7 +13,7 @@ export default [
     element: <EuropeRegistration />,
   },
   {
-    path: "/eu/user/resetpassword",
+    path: "/eu/user/setpassword",
     element: <SetPassword />,
   },
 ];
