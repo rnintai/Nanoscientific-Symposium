@@ -32,7 +32,6 @@ const europeCtrl = {
   register: async (req, res) => {
     const {
       email,
-      password,
       title,
       university,
       institute,
@@ -48,15 +47,18 @@ const europeCtrl = {
       automationInAfm,
       lastName,
       firstName,
+      psOptIn,
     } = req.body;
 
-    const sql = `INSERT INTO user(email,password,title,university,institute,street,zipCode,city,research_field,afm_tool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,last_name,first_name)
- VALUES('${email}','${password}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}',${nanoMechanical},${characterizationOfSoft},${advancedImaging},${highResolutionImaging},${automationInAfm},'${lastName}',${firstName})`;
-
+    // const connection = await europePool.getConnection(async (conn) => conn);
+    const sql = `INSERT INTO user(email,title,university,institute,street,zipCode,city,research_field,afm_tool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,last_name,first_name,ps_opt_in)
+ VALUES('${email}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}',${nanoMechanical},${characterizationOfSoft},${advancedImaging},${highResolutionImaging},${automationInAfm},'${lastName}','${firstName}',${psOptIn})`;
     europeConnection.query(sql, (error, rows) => {
       if (error) throw error;
+      console.log(rows);
       res.status(200).json({
         success: true,
+        id: rows.insertId,
         message: "Success",
       });
     });
