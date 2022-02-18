@@ -79,7 +79,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "europe",
+    "eu",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
       speakers: "SPEAKERS",
