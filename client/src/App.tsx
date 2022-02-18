@@ -23,13 +23,14 @@ import KoreaAttend from "./pages/korea/KoreaAttend/KoreaAttend";
 import KoreaLectureHall from "./pages/korea/KoreaLectureHall";
 import Landing from "./pages/common/Landing";
 import LatamLectureHall from "./pages/latam/LatamLectureHall";
-import EuropeRegistration from "./pages/europe/EuropeRegistration/EuropeRegistration";
 import Admin from "./pages/admin/Admin";
 import AdminPrograms from "./pages/admin/AdminPrograms/AdminPrograms";
 import AdminSpeakers from "./pages/admin/AdminSpeakers/AdminSpeakers";
 import AdminUsers from "./pages/admin/AdminUsers/AdminUsers";
 import JapanArchive from "./pages/japan/JapanArchive/JapanArchive";
 import JapanExhibitParkSystems from "./pages/japan/JapanExhibitParkSystems";
+import EuropeRegistration from "./pages/europe/EuropeRegistration/EuropeRegistration";
+import SetPassword from "./pages/europe/SetPassword/SetPassword";
 
 const App = () => {
   const [checkLoading, setCheckLoading] = useState<boolean>(false);
@@ -185,6 +186,7 @@ const App = () => {
 
         {/* europe */}
         <Route path="/eu/registration" element={<EuropeRegistration />} />
+        <Route path="/eu/user/setpassword" element={<SetPassword />} />
 
         {/* admin */}
         <Route path="/admin" element={<Admin />} />
