@@ -59,6 +59,7 @@ const LoginModal = ({ setSuccess, setFailed }: ModalProps) => {
     dispatch({
       type: "LOGIN",
       authState: {
+        ...state,
         isLogin: true,
         role: r,
         email: e,

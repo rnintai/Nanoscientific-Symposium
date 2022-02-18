@@ -4,11 +4,12 @@ import axios from "axios";
 import { Box, Grid } from "@mui/material";
 import Loading from "components/Loading/Loading";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
+import usePageViews from "hooks/usePageViews";
 import SpeakerForm from "../Forms/SpeakerForm";
 import { AdminSpeakerContainer } from "./AdminSpeakersStyles";
 
 const AdminSpeakers = () => {
-  const myCountry = "asia";
+  const pathname = usePageViews();
 
   const [openSpeakerForm, setOpenSpeakerForm] = useState<boolean>(false);
 
@@ -23,7 +24,7 @@ const AdminSpeakers = () => {
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker.speakerType>();
   const getSpeakers = async () => {
     setLoading(true);
-    const speakers = await axios.get(`/api/page/${myCountry}/speakers`);
+    const speakers = await axios.get(`/api/page/${pathname}/speakers`);
     setSpeakersState(speakers.data);
     setLoading(false);
   };

@@ -4,7 +4,8 @@ export const JapanArchiveContainer = styled.div`
   padding-top: 150px;
 
   .banner {
-    width: 100vw;
+    object-fit: contain;
+    width: 100%;
   }
 
   .content {
@@ -23,7 +24,14 @@ export const JapanArchiveContainer = styled.div`
       h1 {
         font-size: 2.4rem;
       }
-
+      h2 {
+        font-size: 1.6rem;
+        color: #003e7f;
+        margin-bottom: 0px;
+      }
+      span {
+        font-weight: bold;
+      }
       button {
         min-width: 300px;
       }
@@ -34,8 +42,19 @@ export const JapanArchiveContainer = styled.div`
     }
   }
 
+  .greeting {
+    border-bottom: 1px solid #c2c2c2;
+    margin-bottom: 30px;
+  }
+
   .speakers {
     border-bottom: 1px solid #c2c2c2;
+    .belong {
+      white-space: pre-line;
+    }
+    .description {
+      white-space: pre-line;
+    }
   }
 
   .exhibition {
@@ -43,7 +62,6 @@ export const JapanArchiveContainer = styled.div`
     display: flex;
     img {
       width: 50%;
-      height: 420px;
     }
 
     .string-section {
@@ -86,18 +104,18 @@ export const JapanArchiveContainer = styled.div`
   }
   @media (min-width: 1300px) {
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
-      min-height: 530px;
+      min-height: 500px;
     }
   }
   @media (min-width: 1650px) {
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
-      min-height: 550px;
+      min-height: 530px;
     }
   }
 
   @media (min-width: 1850px) {
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1 {
-      min-height: 630px;
+      min-height: 610px;
     }
   }
 
@@ -136,6 +154,19 @@ export const JapanArchiveContainer = styled.div`
         width: 90%;
         margin-top: 20px;
         border-radius: 10px;
+      }
+    }
+
+    .exhibition {
+      flex-direction: column;
+      align-items: center;
+      img {
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .string-section {
+        text-align: center;
       }
     }
   }

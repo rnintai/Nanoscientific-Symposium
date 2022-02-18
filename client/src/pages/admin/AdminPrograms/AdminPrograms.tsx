@@ -6,13 +6,14 @@ import ProgramTitle from "components/Programs/ProgramTitle/ProgramTitle";
 import ProgramContent from "components/Programs/ProgramContent/ProgramContent";
 import { ProgramsListContainer } from "components/Programs/ProgramsListContainer";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import SessionForm from "pages/admin/Forms/SessionForm";
+import ProgramForm from "pages/admin/Forms/ProgramForm";
+import ProgramHideForm from "pages/admin/Forms/ProgramHideForm";
+import { useAuthState } from "context/AuthContext";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
-import SessionForm from "../Forms/SessionForm";
-import ProgramForm from "../Forms/ProgramForm";
-import ProgramHideForm from "../Forms/ProgramHideForm";
 
 const AdminPrograms = () => {
-  const myCountry = "asia";
+  const authState = useAuthState();
 
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
@@ -33,14 +34,14 @@ const AdminPrograms = () => {
   const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
   const getPrograms = async () => {
     setProgramLoading(true);
-    const programs = await axios.get(`/api/page/${myCountry}/programs`);
+    const programs = await axios.get(`/api/page/${authState.role}/programs`);
     setPrograms(programs.data);
     setProgramLoading(false);
   };
 
   const getSessions = async () => {
     setSessionLoading(true);
-    const sessions = await axios.get(`/api/page/${myCountry}/sessions`);
+    const sessions = await axios.get(`/api/page/${authState.role}/sessions`);
     setSessions(sessions.data);
     setSessionLoading(false);
   };

@@ -8,6 +8,7 @@ import React, {
 import CommonModal from "components/CommonModal/CommonModal";
 import axios from "axios";
 import { Checkbox, DialogContentText, FormControlLabel } from "@mui/material";
+import { useAuthState } from "context/AuthContext";
 import { ProgramHideFormContentContainer } from "./ProgramHideFormStyles";
 
 interface ProgramHideFormProps {
@@ -16,13 +17,12 @@ interface ProgramHideFormProps {
   setOpenHideForm: Dispatch<SetStateAction<boolean>>;
 }
 
-const myCountry = "asia";
-
 const ProgramHideForm = ({
   openHideForm,
   setOpenHideForm,
   refreshFunction,
 }: ProgramHideFormProps) => {
+  const authState = useAuthState();
   const [programCheckedList, setProgramCheckedList] = useState<
     Program.programType[]
   >([]);
@@ -33,14 +33,19 @@ const ProgramHideForm = ({
   const [hidePrograms, setHidePrograms] = useState<Program.programType[]>();
   const [hideSessions, setHideSessions] = useState<Program.sessionType[]>();
 
+  const config = {
+    params: {
+      nation: authState.role,
+    },
+  };
   useEffect(() => {
     const getHidePrograms = async () => {
-      const programs = await axios.get(`/api/admin/hideProgram`);
+      const programs = await axios.get(`/api/admin/hideProgram`, config);
       setHidePrograms(programs.data);
     };
 
     const getHideSessions = async () => {
-      const sessions = await axios.get(`/api/admin/hideSession`);
+      const sessions = await axios.get(`/api/admin/hideSession`, config);
       setHideSessions(sessions.data);
     };
 
@@ -51,14 +56,14 @@ const ProgramHideForm = ({
   const showSubmitHandler = () => {
     const showProgram = async () => {
       const data = await axios.put("/api/admin/showProgram", {
-        country: "asia",
+        nation: authState.role,
         programs: programCheckedList,
       });
     };
 
     const showSession = async () => {
       const data = await axios.put("/api/admin/showSession", {
-        country: "asia",
+        nation: authState.role,
         sessions: sessionCheckedList,
       });
     };
