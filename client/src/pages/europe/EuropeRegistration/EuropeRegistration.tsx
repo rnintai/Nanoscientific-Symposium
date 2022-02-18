@@ -108,14 +108,14 @@ const EuropeRegistration = () => {
                   // @ts-ignore
                   window.MktoForms2.allForms()[0]
                     .submit()
-                    .onSubmit(() => {
-                      // loading
-                      console.log("onSubmit");
-                    })
+                    // .onSubmit(() => {
+                    //   // loading
+                    //   console.log("onSubmit");
+                    // })
                     .onSuccess(() => {
-                      console.log("onSuccess");
                       // user db submit
                       // go to success page
+                      navigate("/success");
                     });
                 });
                 return result;
