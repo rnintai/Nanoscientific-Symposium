@@ -3,10 +3,8 @@ import { Button } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 import { useNavigate } from "react-router";
-import {
-  RegistrationContainer,
-  PayPalContainer,
-} from "./EuropeRegistrationStyles";
+import axios from "axios";
+import { RegistrationContainer } from "./EuropeRegistrationStyles";
 
 const EuropeRegistration = () => {
   const [checkout, setCheckout] = useState<boolean>(false);
@@ -43,34 +41,68 @@ const EuropeRegistration = () => {
     <RegistrationContainer>
       <form id="mktoForm_1065" />
       {!checkout && (
-        <Button variant="contained" className="mktoButton2">
-          CHECKOUT
-        </Button>
+        <>
+          <Button variant="contained" className="mktoButton2">
+            CHECKOUT
+          </Button>
+          <Button
+            variant="contained"
+            className="mktoButton2"
+            onClick={async () => {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //    @ts-ignore
+              // // user db submit
+              const formData =
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                window.MktoForms2.allForms()[0].getValues();
+              try {
+                const regResponse = await axios.post("/api/page/eu/register", {
+                  email: formData.Email,
+                  title: formData.Title,
+                  university: formData.Company,
+                  institute: formData.Department,
+                  street: formData.City,
+                  zipCode: formData.PostalCode,
+                  city: formData.State,
+                  researchField: formData.psResearchTopic,
+                  afmTool: formData.psExistingAFMBrand,
+                  nanoMechanical: formData.psnsforumregistrationq01,
+                  characterizationOfSoft: formData.psnsforumregistrationq02,
+                  advancedImaging: formData.psnsforumregistrationq03,
+                  highResolutionImaging: formData.psnsforumregistrationq04,
+                  automationInAfm: formData.psnsforumregistrationq05,
+                  lastName: formData.LastName,
+                  firstName: formData.FirstName,
+                  psOptIn: formData.psOptIn === "yes" ? 1 : 0,
+                });
+
+                await axios.post("/api/page/eu/transaction", {
+                  id: "asdfqwertyass",
+                  userId: regResponse.data.id,
+                });
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                window.MktoForms2.allForms()[0]
+                  .submit()
+                  .onSuccess(() => {
+                    console.log("mkto success");
+                    return false;
+                  });
+
+                navigate("/eu/setpassword");
+              } catch (err) {
+                console.log(err);
+                alert("error: saving user data. Please try again.");
+              }
+            }}
+          >
+            Test
+          </Button>
+        </>
       )}
       {checkout && (
         <div className="paypal-container">
-          <Button
-            onClick={(e: any) => {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              window.MktoForms2.allForms()[0]
-                .submit()
-                .onSubmit(() => {
-                  // loading
-                  e.preventDefault();
-                  alert("onSubmit");
-                })
-                .onSuccess(() => {
-                  e.preventDefault();
-                  alert("onSuccess");
-                  navigate("/success");
-                  // user db submit
-                  // go to success page
-                });
-            }}
-          >
-            submit
-          </Button>
           <PayPalScriptProvider
             options={{
               "client-id":
@@ -91,18 +123,16 @@ const EuropeRegistration = () => {
                   ],
                 });
               }}
-              onError={(err) => {
-                alert(err);
+              onError={() => {
+                alert("Paypal Module Error. Please try again later.");
               }}
               onApprove={async (data, actions) => {
                 const result = actions?.order?.capture().then((details) => {
                   const transactionId = details.id;
                   // snackBar?
-                  alert(`Transaction completed. ${transactionId}`);
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  const formData = window.MktoForms2.allForms()[0].getValues();
-                  console.log(formData);
+
+                  // save transaction to db
+
                   // marketo submit
                   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                   // @ts-ignore
@@ -112,10 +142,56 @@ const EuropeRegistration = () => {
                     //   // loading
                     //   console.log("onSubmit");
                     // })
-                    .onSuccess(() => {
+                    .onSuccess(async () => {
                       // user db submit
-                      // go to success page
-                      navigate("/success");
+                      const formData =
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        window.MktoForms2.allForms()[0].getValues();
+                      try {
+                        const regResponse = await axios.post(
+                          "/api/page/eu/register",
+                          {
+                            email: formData.Email,
+                            title: formData.Title,
+                            university: formData.Company,
+                            institute: formData.Department,
+                            street: formData.City,
+                            zipCode: formData.PostalCode,
+                            city: formData.State,
+                            researchField: formData.psResearchTopic,
+                            afmTool: formData.psExistingAFMBrand,
+                            nanoMechanical: formData.psnsforumregistrationq01,
+                            characterizationOfSoft:
+                              formData.psnsforumregistrationq02,
+                            advancedImaging: formData.psnsforumregistrationq03,
+                            highResolutionImaging:
+                              formData.psnsforumregistrationq04,
+                            automationInAfm: formData.psnsforumregistrationq05,
+                            lastName: formData.LastName,
+                            firstName: formData.FirstName,
+                            psOptIn: formData.psOptIn === "yes" ? 1 : 0,
+                          },
+                        );
+
+                        await axios.post("/api/page/eu/transaction", {
+                          id: "asdfqwertyass",
+                          userId: regResponse.data.id,
+                        });
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        window.MktoForms2.allForms()[0]
+                          .submit()
+                          .onSuccess(() => {
+                            console.log("mkto success");
+                            return false;
+                          });
+
+                        navigate("/eu/setpassword");
+                      } catch (err) {
+                        console.log(err);
+                        alert("error: saving user data. Please try again.");
+                      }
                     });
                 });
                 return result;
