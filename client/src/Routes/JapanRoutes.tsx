@@ -5,11 +5,11 @@ import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
-import JapanSpeakers from "pages/japan/JapanSpeakers/JapanSpeakers";
 import JapanAttend from "pages/japan/JapanAttend/JapanAttend";
 import JapanGreeting from "pages/japan/JapanGreeting/JapanGreeting";
 import JapanLectureHall from "pages/japan/JapanLectureHall";
 import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
+import Speakers from "../pages/common/Speakers/Speakers";
 
 export default [
   {
@@ -18,7 +18,7 @@ export default [
   },
   {
     path: "/jp/speakers",
-    element: <JapanSpeakers />,
+    element: <Speakers />,
   },
   {
     path: "/jp/attend",
