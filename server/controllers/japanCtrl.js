@@ -32,14 +32,6 @@ const japanCtrl = {
       res.send(rows);
     });
   },
-
-  getSpeakers: async (req, res) => {
-    const sql = `SELECT * FROM speakers`;
-    japanConnection.query(sql, (error, rows) => {
-      if (error) throw error;
-      res.send(rows);
-    });
-  },
 };
 
 module.exports = japanCtrl;

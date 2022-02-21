@@ -12,9 +12,12 @@ interface CommonModalProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
   open: boolean;
   title: string;
-  desc: string;
-  onSubmit: () => void;
-  loading: boolean;
+  // eslint-disable-next-line react/require-default-props
+  desc?: string;
+  // eslint-disable-next-line react/require-default-props
+  onSubmit?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  loading?: boolean;
 }
 
 const CommonModal = ({
@@ -40,13 +43,15 @@ const CommonModal = ({
             <Button variant="outlined" onClick={handleClose}>
               Cancel
             </Button>
-            <LoadingButton
-              loading={loading}
-              variant="outlined"
-              onClick={onSubmit}
-            >
-              Save
-            </LoadingButton>
+            {onSubmit && (
+              <LoadingButton
+                loading={loading}
+                variant="outlined"
+                onClick={onSubmit}
+              >
+                Save
+              </LoadingButton>
+            )}
           </DialogActions>
         </DialogContent>
       </Dialog>

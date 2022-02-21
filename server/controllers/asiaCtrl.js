@@ -26,14 +26,6 @@ const asiaCtrl = {
       res.send(rows);
     });
   },
-
-  getSpeakers: async (req, res) => {
-    const sql = `SELECT * FROM speakers`;
-    asiaConnection.query(sql, (error, rows) => {
-      if (error) throw error;
-      res.send(rows);
-    });
-  },
 };
 
 module.exports = asiaCtrl;

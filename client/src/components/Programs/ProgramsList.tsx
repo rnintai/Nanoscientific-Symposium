@@ -12,12 +12,15 @@ const ProgramsList = () => {
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
-
   useEffect(() => {
-    // 프로그램 가져오기
+    const config = {
+      params: {
+        nation: pathname,
+      },
+    };
     const getPrograms = async () => {
       setProgramLoading(true);
-      const programs = await axios.get(`/api/page/${pathname}/programs`);
+      const programs = await axios.get(`/api/page/common/programs`, config);
       setPrograms(programs.data);
       setProgramLoading(false);
     };
@@ -29,7 +32,7 @@ const ProgramsList = () => {
     // 세션 가져오기
     const getSessions = async () => {
       setSessionLoading(true);
-      const sessions = await axios.get(`/api/page/${pathname}/sessions`);
+      const sessions = await axios.get(`/api/page/common/sessions`);
       setSessions(sessions.data);
       setSessionLoading(false);
     };

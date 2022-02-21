@@ -12,6 +12,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Drawer from "@mui/material/Drawer";
 import { Link } from "react-router-dom";
 import usePageViews from "hooks/usePageViews";
+import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 
 const drawerWidth = 240;
 
@@ -60,14 +61,14 @@ const AdminNavBar = () => {
       </List>
       <Divider />
       <List>
-        {["Go Site"].map((text, index) => (
-          <ListItem button key={text}>
+        <Link to={`/${pathname}`}>
+          <ListItem button>
             <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <EventNoteTwoToneIcon />}
+              <LogoutTwoToneIcon />
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary="GO Site" />
           </ListItem>
-        ))}
+        </Link>
       </List>
     </Drawer>
   );

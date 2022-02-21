@@ -3,6 +3,7 @@ import AdminRoute from "components/Route/AdminRoute";
 import Admin from "pages/admin/Admin";
 import AdminPrograms from "pages/admin/AdminPrograms/AdminPrograms";
 import AdminSpeakers from "pages/admin/AdminSpeakers/AdminSpeakers";
+import AdminUsers from "../pages/admin/AdminUsers/AdminUsers";
 
 // 어드민이어야 접근가능한 element 들을 모아둔 라우츠 입니다.
 // App.tsx 에서 이것을 호출합니다
@@ -126,6 +127,46 @@ export default [
     element: (
       <AdminRoute>
         <AdminSpeakers />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/asia/admin/users",
+    element: (
+      <AdminRoute>
+        <AdminUsers />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/kr/admin/users",
+    element: (
+      <AdminRoute>
+        <AdminUsers />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/jp/admin/users",
+    element: (
+      <AdminRoute>
+        <AdminUsers />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/us/admin/users",
+    element: (
+      <AdminRoute>
+        <AdminUsers />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/eu/admin/users",
+    element: (
+      <AdminRoute>
+        <AdminUsers />
       </AdminRoute>
     ),
   },
