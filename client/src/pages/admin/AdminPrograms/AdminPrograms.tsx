@@ -10,10 +10,12 @@ import SessionForm from "pages/admin/Forms/SessionForm";
 import ProgramForm from "pages/admin/Forms/ProgramForm";
 import ProgramHideForm from "pages/admin/Forms/ProgramHideForm";
 import { useAuthState } from "context/AuthContext";
+import usePageViews from "hooks/usePageViews";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
 
 const AdminPrograms = () => {
   const authState = useAuthState();
+  const pathname = usePageViews();
 
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
@@ -33,15 +35,25 @@ const AdminPrograms = () => {
   const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
   const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
   const getPrograms = async () => {
+    const config = {
+      params: {
+        nation: pathname,
+      },
+    };
     setProgramLoading(true);
-    const programs = await axios.get(`/api/page/${authState.role}/programs`);
+    const programs = await axios.get(`/api/page/common/programs`, config);
     setPrograms(programs.data);
     setProgramLoading(false);
   };
 
   const getSessions = async () => {
+    const config = {
+      params: {
+        nation: pathname,
+      },
+    };
     setSessionLoading(true);
-    const sessions = await axios.get(`/api/page/${authState.role}/sessions`);
+    const sessions = await axios.get(`/api/page/common/sessions`, config);
     setSessions(sessions.data);
     setSessionLoading(false);
   };
