@@ -6,10 +6,6 @@ router.route("/landing").get(koreaCtrl.getLanding);
 
 // data
 
-router.route("/programs").get(koreaCtrl.getPrograms);
-
-router.route("/sessions").get(koreaCtrl.getSessions);
-
 router.route("/sponsors").get(koreaCtrl.getSponsors);
 
 module.exports = router;
