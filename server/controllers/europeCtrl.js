@@ -1,5 +1,6 @@
 const { europeConnection } = require("../dbConfig");
 const path = require("path");
+const hasher = require("wordpress-hash-node");
 
 const europeCtrl = {
   getLanding: async (req, res) => {
@@ -51,8 +52,10 @@ const europeCtrl = {
     } = req.body;
 
     // const connection = await europePool.getConnection(async (conn) => conn);
-    const sql = `INSERT INTO user(email,title,university,institute,street,zipCode,city,research_field,afm_tool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,last_name,first_name,ps_opt_in)
- VALUES('${email}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}',${nanoMechanical},${characterizationOfSoft},${advancedImaging},${highResolutionImaging},${automationInAfm},'${lastName}','${firstName}',${psOptIn})`;
+    const sql = `INSERT INTO user(email,password,title,university,institute,street,zipCode,city,research_field,afm_tool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,last_name,first_name,ps_opt_in)
+ VALUES('${email}','${hasher.HashPassword(
+      null
+    )}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}',${nanoMechanical},${characterizationOfSoft},${advancedImaging},${highResolutionImaging},${automationInAfm},'${lastName}','${firstName}',${psOptIn})`;
     europeConnection.query(sql, (error, rows) => {
       if (error) throw error;
       console.log(rows);
