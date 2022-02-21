@@ -17,9 +17,27 @@ export const RegistrationContainer = styled.div`
     margin: 0 auto;
   }
 
+  .validation-msg {
+    position: relative;
+    left: 58%;
+    top: 32px;
+    font-size: 12px;
+
+    &.valid {
+      color: green;
+    }
+    &.invalid {
+      color: #d20000;
+    }
+  }
+
   .mktoButton2 {
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  &.loading form {
+    display: none;
   }
 `;
 
