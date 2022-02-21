@@ -6,6 +6,8 @@ import Button from "@mui/material/Button";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DialogActions from "@mui/material/DialogActions";
 import { DialogContent } from "@mui/material";
+import Slide from "@mui/material/Slide";
+import { TransitionProps } from "@mui/material/transitions";
 
 interface CommonModalProps {
   children: React.ReactNode;
@@ -18,6 +20,8 @@ interface CommonModalProps {
   onSubmit?: () => void;
   // eslint-disable-next-line react/require-default-props
   loading?: boolean;
+  // eslint-disable-next-line react/require-default-props
+  transitionDir?: "left" | "right" | "up" | "down";
 }
 
 const CommonModal = ({
@@ -28,13 +32,28 @@ const CommonModal = ({
   desc,
   onSubmit,
   loading,
+  transitionDir,
 }: CommonModalProps) => {
   const handleClose = () => {
     setOpen(false);
   };
+  const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & {
+      children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+  ) {
+    return <Slide direction={transitionDir} ref={ref} {...props} />;
+  });
   return (
     <div>
-      <Dialog fullWidth open={open} onClose={handleClose} maxWidth="md">
+      <Dialog
+        fullWidth
+        open={open}
+        onClose={handleClose}
+        maxWidth="md"
+        TransitionComponent={transitionDir ? Transition : undefined}
+      >
         <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{desc}</DialogContentText>
