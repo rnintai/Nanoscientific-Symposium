@@ -21,9 +21,9 @@ declare namespace Speaker {
     id: number;
     name: string;
     belong: string;
+    description: string;
     image_path: string;
-    show?: number;
-    description?: string;
+    status: number;
   }
 
   interface japanSpeakerType {
@@ -34,6 +34,31 @@ declare namespace Speaker {
     image_path: string;
     homework: string;
     show: number;
+  }
+}
+
+declare namespace User {
+  interface userType {
+    id: number;
+    email: string;
+    title: string;
+    role: string;
+    lastName: string;
+    firstName: string;
+    university: string;
+    institute: string;
+    street: string;
+    zipCode: string;
+    city: string;
+    researchField: string;
+    afmTool?: string;
+    nanomechanical?: number;
+    characterization_of_soft?: number;
+    advanced_imaging?: number;
+    high_resolution_imaging?: number;
+    automation_in_afm?: number;
+    createdAt: string;
+    ps_opt_in: number;
   }
 }
 
