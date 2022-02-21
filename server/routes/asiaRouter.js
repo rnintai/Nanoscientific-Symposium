@@ -11,6 +11,4 @@ router.route("/programs").get(asiaCtrl.getPrograms);
 
 router.route("/sessions").get(asiaCtrl.getSessions);
 
-router.route("/speakers").get(asiaCtrl.getSpeakers);
-
 module.exports = router;

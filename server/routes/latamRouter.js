@@ -11,5 +11,4 @@ router.route("/programs").get(latamCtrl.getPrograms);
 
 router.route("/sessions").get(latamCtrl.getSessions);
 
-router.route("/speakers").get(latamCtrl.getSpeakers);
 module.exports = router;
