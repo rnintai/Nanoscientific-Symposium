@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Box, Grid, Paper } from "@mui/material";
-import { experimentalStyled as styled } from "@mui/material/styles";
+import { Box, Grid } from "@mui/material";
 import Title from "components/Title/Title";
 import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
@@ -16,9 +15,14 @@ const Speakers = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePageViews();
   useEffect(() => {
+    const config = {
+      params: {
+        nation: pathname,
+      },
+    };
     const getSpeakers = async () => {
       setLoading(true);
-      const speakers = await axios.get(`/api/page/${pathname}/speakers`);
+      const speakers = await axios.get(`/api/page/common/speakers`, config);
       setSpeakersState(speakers.data);
       setLoading(false);
     };
@@ -46,6 +50,12 @@ const Speakers = () => {
       "kr",
       {
         title: "초청 연사",
+      },
+    ],
+    [
+      "jp",
+      {
+        title: "Speakers",
       },
     ],
   ]);
