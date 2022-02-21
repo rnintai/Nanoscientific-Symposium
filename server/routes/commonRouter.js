@@ -10,4 +10,5 @@ router.route("/exhibit/nanoscientific").get(commonCtrl.getNanoScientific);
 
 router.route("/maintenance").get(commonCtrl.getMaintenance);
 
+router.route("/speakers").get(commonCtrl.getSpeakers);
 module.exports = router;
