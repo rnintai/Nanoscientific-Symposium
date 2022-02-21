@@ -17,9 +17,9 @@ const JapanArchive = () => {
       id: 1,
       name: "江刺 正喜",
       belong: "国立大学法人東北大学\nマイクロシステム融合開発センター\n​博士",
-
       description: "「半導体微細加工を発展させたMEMSとその開発支援」",
       image_path: "upload/jpArchive/jp01.png",
+      status: 1,
     },
     {
       id: 2,
@@ -27,6 +27,7 @@ const JapanArchive = () => {
       belong: "金沢大学ナノ生命科学研究所\n​所長・教授",
       description: "「革新的液中原子間力顕微鏡技術による未踏ナノ領域の可視化」",
       image_path: "upload/jpArchive/jp02.png",
+      status: 1,
     },
     {
       id: 3,
@@ -34,6 +35,7 @@ const JapanArchive = () => {
       belong: "佐賀大学大学院理工学研究科​\n教授",
       description: "「ダイヤモンド半導体の最近の進展」",
       image_path: "upload/jpArchive/jp03.png",
+      status: 1,
     },
     {
       id: 4,
@@ -43,6 +45,7 @@ const JapanArchive = () => {
       description:
         "「走査型プローブ顕微鏡を用いた\n二次元層状化合物の基礎と\nデバイス応用」",
       image_path: "upload/jpArchive/jp04.png",
+      status: 1,
     },
     {
       id: 5,
@@ -51,6 +54,7 @@ const JapanArchive = () => {
         "株式会社LIXILTechnology Innovation 本部分析・環境技術開発部​\nリーダー",
       description: "「住宅用防汚・抗菌材料と表面分析」",
       image_path: "upload/jpArchive/jp05.png",
+      status: 1,
     },
     {
       id: 6,
@@ -60,6 +64,7 @@ const JapanArchive = () => {
       description:
         "「凍結割断レプリカ法を用いた\n​メタンハイドレートの微細構造観察」",
       image_path: "upload/jpArchive/jp06.png",
+      status: 1,
     },
     {
       id: 7,
@@ -68,6 +73,7 @@ const JapanArchive = () => {
         "日産化学株式会社\n物質科学研究所 物質解析研究部\n​解析研究グループ",
       description: "「積層薄膜の構造解析」",
       image_path: "upload/jpArchive/jp07.png",
+      status: 1,
     },
     {
       id: 8,
@@ -75,6 +81,7 @@ const JapanArchive = () => {
       belong: "関東学院大学材料・表面工学研究所\n​所長",
       description: "「ナノインデンテーションによる\n​薄膜の機械的特性評価」",
       image_path: "upload/jpArchive/jp08.png",
+      status: 1,
     },
   ];
 
