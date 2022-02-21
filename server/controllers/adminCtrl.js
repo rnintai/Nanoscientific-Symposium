@@ -1,4 +1,3 @@
-const { asiaConnection } = require("../dbConfig");
 const path = require("path");
 const { getCurrentPool } = require("../utils/getCurrentPool");
 
@@ -142,9 +141,7 @@ const adminCtrl = {
     try {
       programs.map(async (program) => {
         const sql = `UPDATE programs SET status=1 WHERE id=${program.id}`;
-        await asiaConnection.query(sql, (error, rows) => {
-          if (error) throw error;
-        });
+        await connection.query(sql);
       });
       res.status(200).json({
         success: true,
@@ -196,17 +193,73 @@ const adminCtrl = {
     }
   },
   modifySpeaker: async (req, res) => {
-    const { nation, name, belong, imagePath, id } = req.body;
+    const { nation, name, belong, imagePath, id, status } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}' WHERE id=${id}`;
+      const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}',status=${status} WHERE id=${id}`;
 
       await connection.query(sql);
       res.status(200).json({
         success: true,
         message: "Success",
       });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  showSpeaker: async (req, res) => {
+    const { nation, speakers } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      speakers.map(async (speaker) => {
+        const sql = `UPDATE speakers SET status=1 WHERE id=${speaker.id}`;
+        await connection.query(sql);
+      });
+      res.status(200).json({
+        success: true,
+        message: "Success",
+      });
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  getHideSpeaker: async (req, res) => {
+    const { nation } = req.query;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `SELECT * FROM speakers WHERE status=0`;
+      const result = await connection.query(sql);
+      res.send(result[0]);
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
+  getUsers: async (req, res) => {
+    const { nation } = req.query;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      let sql = "";
+      if (nation === "eu") {
+        // eu 일땐 점수메기는항목 5개 존재
+        sql = `SELECT id,email,title,role,last_name lastName,first_name firstName,university,institute,street,zipCode,city,research_field reserachField,afm_tool afmTool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,createdAt,ps_opt_in FROM user`;
+      } else {
+        sql = `SELECT id,email,title,role,last_name lastName,first_name firstName,university,institute,street,zipCode,city,research_field reserachField,createdAt,ps_opt_in FROM user`;
+      }
+      const result = await connection.query(sql);
+      res.send(result[0]);
       connection.release();
     } catch (err) {
       console.log(err);
