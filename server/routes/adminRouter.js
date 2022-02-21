@@ -23,4 +23,10 @@ router.route("/hideSession").get(adminCtrl.getHideSession);
 
 router.route("/showProgram").put(adminCtrl.showProgram);
 router.route("/showSession").put(adminCtrl.showSession);
+
+router.route("/hideSpeaker").get(adminCtrl.getHideSpeaker);
+router.route("/showSpeaker").put(adminCtrl.showSpeaker);
+
+router.route("/users").get(adminCtrl.getUsers);
+
 module.exports = router;
