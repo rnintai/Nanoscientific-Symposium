@@ -111,6 +111,104 @@ const usersCtrl = {
       throw error;
     }
   },
+  checkEmail: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const userEmail = req.body.email;
+
+    try {
+      const sql = `SELECT EXISTS( 
+        SELECT email FROM user WHERE email="${userEmail}"
+      ) as result;`;
+      const result = await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        result: result[0][0].result === 0 ? false : true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
+  checkPasswordSet: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const userEmail = req.body.email;
+
+    let result = "";
+    try {
+      const sql = `SELECT is_password_set FROM user WHERE email="${userEmail}"`;
+      result = await connection.query(sql);
+
+      if (result[0].length === 0) {
+        res.status(200).json({
+          success: false,
+          result: "email NOT EXIST",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          result: result[0][0].is_password_set === 0 ? false : true,
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
+  // 비밀번호 초기 설정
+  setPassword: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const userEmail = req.body.email;
+    const userPassword = hasher.HashPassword(req.body.password);
+    const userFirst = req.body.firstName.toUpperCase();
+    const userLast = req.body.lastName.toUpperCase();
+
+    try {
+      const sql1 = `SELECT email from user WHERE upper(first_name)='${userFirst}' AND upper(last_name)='${userLast}'`;
+      const result1 = await connection.query(sql1);
+      if (result1[0].length !== 0 && result1[0][0].email === userEmail) {
+        const sql2 = `UPDATE user SET password='${userPassword}' WHERE email='${userEmail}'`;
+        try {
+          await connection.beginTransaction();
+          await connection.query(sql2);
+          res.status(200).json({
+            success: true,
+            result: "success",
+          });
+        } catch (err) {
+          res.status(500).json({
+            success: false,
+            err,
+          });
+          return false;
+        }
+      } else {
+        res.status(200).json({
+          success: false,
+          result: "name not matched to db",
+        });
+      }
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
 };
 
 module.exports = usersCtrl;

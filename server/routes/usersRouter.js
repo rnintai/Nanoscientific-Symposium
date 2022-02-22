@@ -21,5 +21,8 @@ router.post(
     res.status(200).json(resObj);
   }
 );
+router.post("/checkemail", usersCtrl.checkEmail);
+router.post("/passwordset", usersCtrl.setPassword);
+router.post("/passwordset/check", usersCtrl.checkPasswordSet);
 
 module.exports = router;
