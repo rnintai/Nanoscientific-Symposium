@@ -67,7 +67,6 @@ const App = () => {
         window.location.pathname !== "/eu/registration" && (
           <NavBar checkLoading={authState.isLoading} />
         )}
-      (
       <Routes>
         {/* common */}
         <Route path="/" element={<EventLanding />} />
@@ -126,7 +125,6 @@ const App = () => {
           />
         ))}
       </Routes>
-      )
       {pathname !== "" && pathname !== "admin" && pathname !== "jp" && (
         <Footer />
       )}
