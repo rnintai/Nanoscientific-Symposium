@@ -4,7 +4,10 @@ import axios from "axios";
 import Loading from "components/Loading/Loading";
 import ProgramTitle from "components/Programs/ProgramTitle/ProgramTitle";
 import ProgramContent from "components/Programs/ProgramContent/ProgramContent";
-import { ProgramsListContainer } from "components/Programs/ProgramsListContainer";
+import {
+  ProgramsListContainer,
+  StyledTimezoneSelect,
+} from "components/Programs/ProgramsListContainer";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import SessionForm from "pages/admin/Forms/SessionForm";
 import ProgramForm from "pages/admin/Forms/ProgramForm";
@@ -16,6 +19,10 @@ import { AdminProgramsContainer } from "./AdminProgramsStyles";
 const AdminPrograms = () => {
   const authState = useAuthState();
   const pathname = usePageViews();
+
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
 
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
@@ -100,6 +107,12 @@ const AdminPrograms = () => {
         <ProgramsListContainer isAdmin>
           <article className="program-wrap">
             <section className="timeline-wrap timeline-0">
+              <StyledTimezoneSelect
+                value={selectedTimezone}
+                onChange={(e) => {
+                  setSelectedTimezone(e.value);
+                }}
+              />
               {/* 세션을 크게 돌면서 세션에 해당하는값과 일치하는 프로그램 뿌려주기 */}
               {sessions.map((session) => {
                 return (
@@ -120,6 +133,7 @@ const AdminPrograms = () => {
                         })
                         .map((program, index) => (
                           <ProgramContent
+                            selectedTimezone={selectedTimezone}
                             onClick={() => {
                               setSelectedProgram(program);
                               setProgramEdit(true);

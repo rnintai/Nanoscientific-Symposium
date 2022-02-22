@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import TimezoneSelect from "react-timezone-select";
 
 export const ProgramsListContainer = styled.div<{ isAdmin?: boolean }>`
   /* https://d25unujvh7ui3r.cloudfront.net/css/program.css */
@@ -75,7 +76,13 @@ export const ProgramsListContainer = styled.div<{ isAdmin?: boolean }>`
   @media screen and (max-width: 1280px) {
     .program-wrap {
       padding: 10px;
-      padding-top: : ${(props) => (props.isAdmin ? "0px" : "160px")};
+      padding-top: ${(props) => (props.isAdmin ? "0px" : "160px")};
     }
   }
+`;
+
+export const StyledTimezoneSelect = styled(TimezoneSelect)`
+  width: 300px;
+  height: 50px;
+  margin-left: auto;
 `;
