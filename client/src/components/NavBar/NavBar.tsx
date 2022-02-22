@@ -8,6 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { countries } from "utils/Countries";
 import LoginModal from "../Modal/LoginModal";
+import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
 interface navProps {
   checkLoading: boolean;
@@ -278,15 +279,22 @@ const NavBar = ({ checkLoading }: navProps) => {
               {!authState.isLogin && !checkLoading && (
                 <>
                   <li className="login-item">
-                    <LoginModal
-                      setSuccess={setLoginSuccess}
-                      setFailed={setLoginFailed}
-                    />
+                    {pathname === "eu" ? (
+                      <EuropeLoginModal
+                        setSuccess={setLoginSuccess}
+                        setFailed={setLoginFailed}
+                      />
+                    ) : (
+                      <LoginModal
+                        setSuccess={setLoginSuccess}
+                        setFailed={setLoginFailed}
+                      />
+                    )}
                   </li>
                   <li className="login-item">
                     <Link
                       className="menu-link boxed remember-prev"
-                      to="/registration"
+                      to={`${pathname}/registration`}
                     >
                       REGISTRATION
                     </Link>
