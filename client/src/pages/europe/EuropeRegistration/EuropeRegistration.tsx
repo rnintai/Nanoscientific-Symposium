@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button,  Box } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -39,7 +39,7 @@ const EuropeRegistration = () => {
               target.value.indexOf(".") === -1
             ) {
               setEmailValid(false);
-              setEmailValidationMsg("Invalid email format.");
+              setEmailValidationMsg("");
             } else {
               try {
                 const res = await axios.post("/api/users/checkemail", {
