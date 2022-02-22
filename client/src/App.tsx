@@ -22,6 +22,13 @@ const theme = createTheme({
     },
   },
 });
+const jpTheme = createTheme({
+  typography: {
+    allVariants: {
+      fontFamily: ["Noto Sans JP", "Open Sans", "sans-serif"].join(","),
+    },
+  },
+});
 
 const App = () => {
   const pathname = usePageViews();
@@ -61,7 +68,7 @@ const App = () => {
   if (authState.isLoading) return <Loading />;
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={pathname === "jp" ? jpTheme : theme}>
       {pathname !== "" &&
         pathname !== "admin" &&
         window.location.pathname !== "/eu/registration" && (
