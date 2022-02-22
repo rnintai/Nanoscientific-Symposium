@@ -10,6 +10,7 @@ export const RegistrationContainer = styled.div`
 
     .mktoField {
       background-color: white;
+      border: 1px solid #ddd;
     }
   }
   .paypal-container {
