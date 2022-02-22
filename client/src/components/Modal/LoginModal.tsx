@@ -26,7 +26,7 @@ const style = {
   width: 600,
   height: 280,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -168,8 +168,8 @@ const LoginModal = ({ setSuccess, setFailed }: ModalProps) => {
                 </LoadingButton>
               )}
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Link to="/#"> Forgot Your Password?</Link>
-                <Link to="/#"> Create an Account</Link>
+                {/* <Link to="/#"> Forgot Your Password?</Link> */}
+                <Link to={`${pathname}/registration`}> Create an Account</Link>
               </div>
             </form>
           </Box>
