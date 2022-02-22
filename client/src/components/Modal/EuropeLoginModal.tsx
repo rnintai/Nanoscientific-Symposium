@@ -9,8 +9,6 @@ import Box from "@mui/material/Box";
 import { Button, Snackbar, Alert } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -20,7 +18,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
-
+import CloseButton from "components/CloseButton/CloseButton";
 import axios from "axios";
 import usePageViews from "../../hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
@@ -54,7 +52,7 @@ const EuropeLoginModal = ({
   setFailed,
   setPasswordSetSuccessAlert,
 }: ModalProps) => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [passwordSetModalOpen, setPasswordSetModalOpen] =
     useState<boolean>(false);
@@ -141,11 +139,11 @@ const EuropeLoginModal = ({
           if (res.data.result) {
             // password 입력 모달
             setPasswordInputModalOpen(true);
-            setOpen(false);
+            setEmailModalOpen(false);
           } else {
             // password 설정 모달
             setPasswordSetModalOpen(true);
-            setOpen(false);
+            setEmailModalOpen(false);
           }
         } else {
           // 유저 없다.
@@ -210,7 +208,7 @@ const EuropeLoginModal = ({
         type="button"
         className="menu-link remember-prev"
         onClick={() => {
-          handleOpen(setOpen);
+          handleOpen(setEmailModalOpen);
         }}
       >
         SIGN IN
@@ -218,13 +216,14 @@ const EuropeLoginModal = ({
       {/* email modal */}
       <Dialog
         fullWidth
-        open={open}
+        open={emailModalOpen}
         onClose={() => {
-          handleClose(setOpen);
+          handleClose(setEmailModalOpen);
         }}
         TransitionComponent={TransitionRight}
         disableScrollLock
       >
+        <CloseButton setOpen={setEmailModalOpen} />
         <DialogTitle>Sign In</DialogTitle>
         <DialogContent sx={{ width: 600 }}>
           <TextField
@@ -247,7 +246,7 @@ const EuropeLoginModal = ({
           {loading && (
             <LoadingButton
               loading
-              style={{ margin: "10px", borderRadius: "30px" }}
+              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
               color="primary"
             >
               Loading
@@ -279,6 +278,7 @@ const EuropeLoginModal = ({
         TransitionComponent={TransitionLeft}
         disableScrollLock
       >
+        <CloseButton setOpen={setPasswordInputModalOpen} />
         <DialogTitle>Sign In</DialogTitle>
         <DialogContent sx={{ width: 600 }}>
           <TextField
@@ -297,11 +297,23 @@ const EuropeLoginModal = ({
             {...password}
           />
         </DialogContent>
-        <DialogActions style={{ flexDirection: "column" }}>
+        <DialogActions>
+          <Button
+            style={{ margin: "10px", borderRadius: "30px", width: "20%" }}
+            variant="outlined"
+            color="primary"
+            tabIndex={-1}
+            onClick={() => {
+              handleClose(setPasswordInputModalOpen);
+              handleOpen(setEmailModalOpen);
+            }}
+          >
+            Prev
+          </Button>
           {loading && (
             <LoadingButton
               loading
-              style={{ margin: "10px", borderRadius: "30px" }}
+              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
               color="primary"
             >
               Loading
@@ -341,6 +353,7 @@ const EuropeLoginModal = ({
         TransitionComponent={TransitionLeft}
         disableScrollLock
       >
+        <CloseButton setOpen={setPasswordSetModalOpen} />
         <DialogTitle>Set Your Password</DialogTitle>
         <DialogContent sx={{ width: 600 }}>
           <TextField
@@ -409,11 +422,23 @@ const EuropeLoginModal = ({
             />
           </Box>
         </DialogContent>
-        <DialogActions style={{ flexDirection: "column" }}>
+        <DialogActions>
+          <Button
+            style={{ margin: "10px", borderRadius: "30px", width: "20%" }}
+            variant="outlined"
+            color="primary"
+            tabIndex={-1}
+            onClick={() => {
+              handleClose(setPasswordSetModalOpen);
+              handleOpen(setEmailModalOpen);
+            }}
+          >
+            Prev
+          </Button>
           {loading && (
             <LoadingButton
               loading
-              style={{ margin: "10px", borderRadius: "30px" }}
+              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
               color="primary"
             >
               Loading
