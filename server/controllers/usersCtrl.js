@@ -179,9 +179,8 @@ const usersCtrl = {
       const sql1 = `SELECT email from user WHERE upper(first_name)='${userFirst}' AND upper(last_name)='${userLast}'`;
       const result1 = await connection.query(sql1);
       if (result1[0].length !== 0 && result1[0][0].email === userEmail) {
-        const sql2 = `UPDATE user SET password='${userPassword}' WHERE email='${userEmail}'`;
+        const sql2 = `UPDATE user SET password='${userPassword}', is_password_set=1 WHERE email='${userEmail}'`;
         try {
-          await connection.beginTransaction();
           await connection.query(sql2);
           res.status(200).json({
             success: true,

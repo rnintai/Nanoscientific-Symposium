@@ -100,6 +100,9 @@ const NavBar = ({ checkLoading }: navProps) => {
   const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
 
+  const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
+    useState<boolean>(false);
+
   const mobileToggleHandler = () => {
     setIsMobile(!isMobile);
   };
@@ -283,6 +286,7 @@ const NavBar = ({ checkLoading }: navProps) => {
                       <EuropeLoginModal
                         setSuccess={setLoginSuccess}
                         setFailed={setLoginFailed}
+                        setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
                       />
                     ) : (
                       <LoginModal
@@ -325,6 +329,14 @@ const NavBar = ({ checkLoading }: navProps) => {
         variant="filled"
         severity="info"
         content="Successfully signed out."
+      />
+      {/* 비밀번호 설정 성공 */}
+      <TopCenterSnackBar
+        value={passwordSetSuccessAlert}
+        setValue={setPasswordSetSuccessAlert}
+        variant="filled"
+        severity="success"
+        content="Password is successfully set."
       />
     </NavBarContainer>
   );

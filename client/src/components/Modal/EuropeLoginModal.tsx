@@ -29,6 +29,7 @@ import useInput from "../../hooks/useInput";
 interface ModalProps {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setFailed: React.Dispatch<React.SetStateAction<boolean>>;
+  setPasswordSetSuccessAlert: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TransitionRight = React.forwardRef(function Transition(
@@ -48,7 +49,11 @@ const TransitionLeft = React.forwardRef(function Transition(
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const EuropeLoginModal = ({ setSuccess, setFailed }: ModalProps) => {
+const EuropeLoginModal = ({
+  setSuccess,
+  setFailed,
+  setPasswordSetSuccessAlert,
+}: ModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [passwordSetModalOpen, setPasswordSetModalOpen] =
@@ -62,11 +67,12 @@ const EuropeLoginModal = ({ setSuccess, setFailed }: ModalProps) => {
   const [passwordNotMatchAlert, setPasswordNotMatchAlert] =
     useState<boolean>(false);
   const [emptyAlert, setEmptyAlert] = useState<boolean>(false);
+  const [nameNotMatchAlert, setNameNotMatchAlert] = useState<boolean>(false);
 
+  //
   const pathname = usePageViews();
   const email = useInput("");
-  // const [password1, setPassword1] = useState("");
-  // const [password2, setPassword2] = useState("");
+  const password = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
   const firstName = useInput("");
@@ -131,8 +137,6 @@ const EuropeLoginModal = ({ setSuccess, setFailed }: ModalProps) => {
         nation: pathname,
       })
       .then((res) => {
-        console.log(res);
-
         if (res.data.success) {
           if (res.data.result) {
             // password 입력 모달
@@ -182,9 +186,10 @@ const EuropeLoginModal = ({ setSuccess, setFailed }: ModalProps) => {
       })
       .then((res) => {
         if (res.data.success) {
-          console.log("success");
+          setPasswordSetSuccessAlert(true);
+          setPasswordSetModalOpen(false);
         } else {
-          console.log("name not matched");
+          setNameNotMatchAlert(true);
         }
       })
       .catch((err) => {
@@ -261,6 +266,69 @@ const EuropeLoginModal = ({ setSuccess, setFailed }: ModalProps) => {
           <Link to={`${pathname}/registration`}> Create an Account</Link>
           {/* <Link to="/#"> Forgot Your Password?</Link> */}
         </DialogActions>
+      </Dialog>
+
+      {/* 비밀번호 입력 모달 */}
+
+      <Dialog
+        fullWidth
+        open={passwordInputModalOpen}
+        onClose={() => {
+          handleClose(setPasswordInputModalOpen);
+        }}
+        TransitionComponent={TransitionLeft}
+        disableScrollLock
+      >
+        <DialogTitle>Sign In</DialogTitle>
+        <DialogContent sx={{ width: 600 }}>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="password"
+            label="Password"
+            type="password"
+            fullWidth
+            variant="standard"
+            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+              if (e.key === "Enter") {
+                loginHandler(email.value, password.value);
+              }
+            }}
+            {...password}
+          />
+        </DialogContent>
+        <DialogActions style={{ flexDirection: "column" }}>
+          {loading && (
+            <LoadingButton
+              loading
+              style={{ margin: "10px", borderRadius: "30px" }}
+              color="primary"
+            >
+              Loading
+            </LoadingButton>
+          )}
+          {!loading && (
+            <Button
+              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                loginHandler(email.value, password.value);
+              }}
+            >
+              SIGN IN
+            </Button>
+          )}
+        </DialogActions>
+
+        {/* 비밀번호 확인 alert */}
+        <TopCenterSnackBar
+          value={passwordNotMatchAlert}
+          setValue={setPasswordNotMatchAlert}
+          variant="filled"
+          severity="error"
+          content="Password not match."
+        />
       </Dialog>
 
       {/* 패스워드 설정 모달 */}
@@ -363,6 +431,7 @@ const EuropeLoginModal = ({ setSuccess, setFailed }: ModalProps) => {
           )}
         </DialogActions>
 
+        {/* 비밀번호 확인 alert */}
         <TopCenterSnackBar
           value={passwordNotMatchAlert}
           setValue={setPasswordNotMatchAlert}
@@ -370,12 +439,21 @@ const EuropeLoginModal = ({ setSuccess, setFailed }: ModalProps) => {
           severity="error"
           content="Password not match."
         />
+        {/* 빈 field alert */}
         <TopCenterSnackBar
           value={emptyAlert}
           setValue={setEmptyAlert}
           variant="filled"
           severity="error"
           content="Please fill all fields."
+        />
+        {/* 입력한 이름 정보 매칭 실패 */}
+        <TopCenterSnackBar
+          value={nameNotMatchAlert}
+          setValue={setNameNotMatchAlert}
+          variant="filled"
+          severity="warning"
+          content="Name is not matched to your account's data."
         />
       </Dialog>
     </div>
