@@ -7,6 +7,7 @@ export const RegistrationContainer = styled.div`
   margin: 0 auto;
   .mktoForm {
     margin: 0 auto;
+    font-family: "Open Sans" !important;
 
     .mktoField {
       background-color: white;
