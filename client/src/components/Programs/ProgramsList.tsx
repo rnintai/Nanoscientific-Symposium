@@ -4,7 +4,10 @@ import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import ProgramTitle from "./ProgramTitle/ProgramTitle";
 import ProgramContent from "./ProgramContent/ProgramContent";
-import { ProgramsListContainer } from "./ProgramsListContainer";
+import {
+  ProgramsListContainer,
+  StyledTimezoneSelect,
+} from "./ProgramsListContainer";
 
 const ProgramsList = () => {
   const pathname = usePageViews();
@@ -12,12 +15,16 @@ const ProgramsList = () => {
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
+
+  const config = {
+    params: {
+      nation: pathname,
+    },
+  };
   useEffect(() => {
-    const config = {
-      params: {
-        nation: pathname,
-      },
-    };
     const getPrograms = async () => {
       setProgramLoading(true);
       const programs = await axios.get(`/api/page/common/programs`, config);
@@ -32,7 +39,7 @@ const ProgramsList = () => {
     // 세션 가져오기
     const getSessions = async () => {
       setSessionLoading(true);
-      const sessions = await axios.get(`/api/page/common/sessions`);
+      const sessions = await axios.get(`/api/page/common/sessions`, config);
       setSessions(sessions.data);
       setSessionLoading(false);
     };
@@ -51,6 +58,12 @@ const ProgramsList = () => {
           className="timeline-wrap timeline-0"
           style={{ margin: "20px 20px 50px 20px" }}
         >
+          <StyledTimezoneSelect
+            value={selectedTimezone}
+            onChange={(e) => {
+              setSelectedTimezone(e.value);
+            }}
+          />
           {/* 세션을 크게 돌면서 세션에 해당하는값과 일치하는 프로그램 뿌려주기 */}
           {sessions.map((session) => {
             return (
@@ -63,6 +76,7 @@ const ProgramsList = () => {
                     })
                     .map((program, index) => (
                       <ProgramContent
+                        selectedTimezone={selectedTimezone}
                         isAdmin={false}
                         key={program.id}
                         {...program}

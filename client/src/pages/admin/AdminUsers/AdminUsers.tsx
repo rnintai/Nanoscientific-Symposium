@@ -202,9 +202,7 @@ const AdminUsers = () => {
                     setOpenUserDetailForm(true);
                   }}
                 >
-                  <StyledTableCell component="th" scope="row">
-                    {user.email}
-                  </StyledTableCell>
+                  <StyledTableCell scope="row">{user.email}</StyledTableCell>
                   <StyledTableCell align="right">
                     {user.lastName} / {user.firstName}
                   </StyledTableCell>

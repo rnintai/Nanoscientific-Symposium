@@ -39,7 +39,7 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM session WHERE status=1 ORDER BY date `;
+      const sql = `SELECT * FROM program_sessions WHERE status=1 ORDER BY date `;
       const result = await connection.query(sql);
       res.send(result[0]);
       connection.release();

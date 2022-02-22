@@ -6,12 +6,13 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { Select, SelectChangeEvent, TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import { LocalizationProvider, TimePicker } from "@mui/lab";
+import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
-import moment from "moment";
 import useInput from "hooks/useInput";
-import { useAuthState } from "../../../context/AuthContext";
+import { useAuthState } from "context/AuthContext";
+import "moment-timezone";
+import moment from "moment";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
@@ -31,11 +32,24 @@ const ProgramForm = ({
   getPrograms,
   edit = false,
 }: ProgramFormProps) => {
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
   const [startTime, setStartTime] = useState<Date | null>(
-    edit ? new Date(`2022-02-14 ${seletedProgram.start_time}`) : new Date(),
+    edit
+      ? moment
+          .utc(moment(seletedProgram.start_time).format("YYYY-MM-DD HH:mm:ss"))
+          .tz(selectedTimezone as string)
+          .toDate()
+      : new Date(),
   );
   const [endTime, setEndTime] = useState<Date | null>(
-    edit ? new Date(`2022-02-14 ${seletedProgram.end_time}`) : new Date(),
+    edit
+      ? moment
+          .utc(moment(seletedProgram.end_time).format("YYYY-MM-DD HH:mm:ss"))
+          .tz(selectedTimezone as string)
+          .toDate()
+      : new Date(),
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
@@ -52,8 +66,8 @@ const ProgramForm = ({
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: moment(startTime).format("hh:mm:ss"),
-        endTime: moment(endTime).format("hh:mm:ss"),
+        startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
         session: selectedSession,
         status: status === "show" ? 1 : 0,
       });
@@ -64,8 +78,8 @@ const ProgramForm = ({
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: moment(startTime).format("hh:mm:ss"),
-        endTime: moment(endTime).format("hh:mm:ss"),
+        startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
       });
     }
 
@@ -134,7 +148,6 @@ const ProgramForm = ({
         sx={{ marginBottom: "30px" }}
         {...title}
       />
-
       <TextField
         margin="dense"
         label="Speakers"
@@ -152,22 +165,28 @@ const ProgramForm = ({
         sx={{ marginBottom: "30px" }}
         {...description}
       />
-
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <TimePicker
+        <DateTimePicker
+          renderInput={(props) => <TextField {...props} />}
           label="Start Time"
           value={startTime}
-          onChange={setStartTime}
-          renderInput={(params) => <TextField {...params} />}
+          onChange={(newValue) => {
+            setStartTime(newValue);
+          }}
         />{" "}
-        <TimePicker
+        <DateTimePicker
+          renderInput={(props) => <TextField {...props} />}
           label="End Time"
           value={endTime}
-          onChange={setEndTime}
-          renderInput={(params) => <TextField {...params} />}
+          onChange={(newValue) => {
+            setEndTime(newValue);
+          }}
         />
       </LocalizationProvider>
-
+      <h3 style={{ marginTop: "5px" }}>
+        {" "}
+        Please enter the above time based on your location. ✔ {selectedTimezone}
+      </h3>
       {edit && (
         <ToggleButtonGroup
           size="large"
@@ -175,7 +194,6 @@ const ProgramForm = ({
           value={status}
           exclusive
           onChange={statusChangeHandler}
-          sx={{ ml: 5 }}
         >
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
