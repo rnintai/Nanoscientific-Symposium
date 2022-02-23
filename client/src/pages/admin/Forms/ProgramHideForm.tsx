@@ -55,6 +55,7 @@ const ProgramHideForm = ({
 
   const showSubmitHandler = () => {
     const showProgram = async () => {
+      console.log(authState.role, programCheckedList);
       const data = await axios.put("/api/admin/showProgram", {
         nation: authState.role,
         programs: programCheckedList,
