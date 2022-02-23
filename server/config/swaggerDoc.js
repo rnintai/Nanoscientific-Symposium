@@ -8,8 +8,12 @@ let swaggerDefinition = {
     title: "Nanoscientific 2022 REST API DOCS",
     version: "1.0.0",
     description: "Documented the REST API for Nanoscientific, a global site.",
+    contact: {
+      name: "eric , chanhyuk",
+      email: "eric.kim@parksystems.com , chanhyuk-tech@kakao.com",
+    },
   },
-  host: "https://event.nanoscientific.org", // base-url
+  host: "event.nanoscientific.org", // base-url
   basePath: "/", // base path
 };
 
