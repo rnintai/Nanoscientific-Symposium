@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cookies = require("cookie-parser");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,6 +30,12 @@ app.use("/api/page/jp", require("./routes/japanRouter"));
 app.use("/api/page/common", require("./routes/commonRouter"));
 app.use("/api/users", require("./routes/usersRouter"));
 app.use("/api/admin", require("./routes/adminRouter"));
+
+app.use(
+  "/api/docs",
+  swaggerUi.serve,
+  swaggerUi.setup(require("./config/swaggerDoc"))
+);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
