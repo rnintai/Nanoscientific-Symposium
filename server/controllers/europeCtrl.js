@@ -3,9 +3,7 @@ const path = require("path");
 const hasher = require("wordpress-hash-node");
 
 const europeCtrl = {
-  getLanding: async (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "public/europe/landing.html"));
-  },
+  
   saveTransaction: async (req, res) => {
     const { id, userId } = req.body;
 
