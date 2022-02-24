@@ -172,11 +172,11 @@ const EuropeRegistration = () => {
                         });
 
                       // automatically login
-                      await axios.post("/api/users/login", {
-                        email: formData.Email,
-                        password: null,
-                        nation,
-                      });
+                      // await axios.post("/api/users/login", {
+                      //   email: formData.Email,
+                      //   password: null,
+                      //   nation,
+                      // });
 
                       // home redirection
                       navigate("/");
