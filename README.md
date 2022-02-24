@@ -255,6 +255,7 @@ Don't forget to give the project a star! Thanks again!
 ## Contact
 
 Eric Kim  - [GitHub](https://github.com/rnintai) - eric.kim@parksystems.com
+
 Chanhyuk Park  - [GitHub](https://github.com/ChanhyukPark-Tech) - chanhyuk-tech@kakao.com
 
 Project Link: [NanoScientific Symposium !!!](https://github.com/Park-Systems-web/Nanoscientific-Symposium)
