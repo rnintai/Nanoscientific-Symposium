@@ -2,7 +2,7 @@ const path = require("path");
 const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const commonCtrl = {
-  getLanding: async (req, res) => {
+  getEventLanding: async (req, res) => {
     res.sendFile(path.join(__dirname, "..", "public/common/landing.html"));
   },
 
@@ -10,7 +10,7 @@ const commonCtrl = {
     res.sendFile(
       path.join(__dirname, "..", "public/common/exhibitParkSystems.html")
     );
-  },
+  }, 
 
   getNanoScientific: async (req, res) => {
     res.sendFile(

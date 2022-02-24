@@ -4,7 +4,7 @@ import useHTML from "hooks/useHTML";
 import Loading from "components/Loading/Loading";
 
 const EventLanding = () => {
-  const [HTML, loading] = useHTML("/api/page/common/landing");
+  const [HTML, loading] = useHTML("/api/page/common/eventLanding");
   if (loading) {
     return <Loading />;
   }
