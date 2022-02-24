@@ -13,4 +13,7 @@ router.route("/maintenance").get(commonCtrl.getMaintenance);
 router.route("/programs").get(commonCtrl.getPrograms);
 router.route("/sessions").get(commonCtrl.getSessions);
 router.route("/speakers").get(commonCtrl.getSpeakers);
+router.route("/landing").get(commonCtrl.getLanding);
+router.route("/sponsors").get(commonCtrl.getSponsors);
+
 module.exports = router;

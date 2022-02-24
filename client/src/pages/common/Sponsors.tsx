@@ -6,8 +6,12 @@ import Loading from "components/Loading/Loading";
 
 const Sponsors = () => {
   const pathname = usePageViews();
-
-  const [HTML, loading] = useHTML(`/api/page/${pathname}/sponsors`);
+  const config = {
+    params: {
+      nation: pathname,
+    },
+  };
+  const [HTML, loading] = useHTML(`/api/page/common/sponsors`);
   if (loading) {
     return <Loading />;
   }

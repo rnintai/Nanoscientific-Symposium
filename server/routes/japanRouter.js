@@ -1,11 +1,10 @@
 const japanCtrl = require("../controllers/japanCtrl");
 const router = require("express").Router();
 
-// page
-router.route("/landing").get(japanCtrl.getLanding);
+
+// 모달의 번역때문에 일본은 따로 쓴다
 router.route("/exhibit/parksystems").get(japanCtrl.getExhibitParkSystems);
 // data
 
-router.route("/sponsors").get(japanCtrl.getSponsors);
 
 module.exports = router;

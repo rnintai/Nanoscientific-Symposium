@@ -60,6 +60,19 @@ const commonCtrl = {
       console.log(err);
     }
   },
+  getSponsors: async (req, res) => {
+    const { nation } = req.query;
+    res.sendFile(
+      path.join(__dirname, "..", `public/${nation}/sponsors.html`)
+    );
+  },
+
+  getLanding: async (req, res) => {
+    const { nation } = req.query;
+    res.sendFile(
+      path.join(__dirname, "..", `public/${nation}/landing.html`)
+    );
+  },
 };
 
 module.exports = commonCtrl;

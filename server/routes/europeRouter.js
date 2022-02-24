@@ -1,8 +1,7 @@
 const europeCtrl = require("../controllers/europeCtrl");
 const router = require("express").Router();
 
-// page
-router.route("/landing").get(europeCtrl.getLanding);
+
 
 router.route("/register").post(europeCtrl.register);
 
