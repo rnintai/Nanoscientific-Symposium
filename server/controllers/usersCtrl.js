@@ -208,6 +208,51 @@ const usersCtrl = {
       connection.release();
     }
   },
+
+  // 유럽 제외 회원가입
+  register: async (req, res) => {
+    const {
+      email,
+      title,
+      university,
+      institute,
+      street,
+      zipCode,
+      city,
+      researchField,
+      afmTool,
+      lastName,
+      firstName,
+      psOptIn,
+      nation
+    } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `INSERT INTO user(email,password,title,university,institute,street,zipCode,city,research_field,afm_tool,last_name,first_name,ps_opt_in)
+      VALUES('${email}','${hasher.HashPassword(null)}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}','${lastName}','${firstName}',${psOptIn})`;
+
+      const result = await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        id: result[0].insertId,
+        message: "Success",
+      });
+
+      await connection.commit();
+      connection.release();
+    }
+    catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+        message: "Failed",
+      });
+    }
+  },
 };
 
 module.exports = usersCtrl;

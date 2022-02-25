@@ -161,7 +161,7 @@ router.post("/passwordset", usersCtrl.setPassword);
  *    post:
  *      tags:
  *      - User
- *      description: 유저가 password 설정되어있는지 안되어있는지 판단
+ *      description: 유저의 password가 설정되어있는지 안되어있는지 판단
  *      parameters:
  *        - name: request
  *          in: body
@@ -178,5 +178,40 @@ router.post("/passwordset", usersCtrl.setPassword);
  */
 
 router.post("/passwordset/check", usersCtrl.checkPasswordSet);
+
+/**
+ * @swagger
+ *  /api/users/register:
+ *    post:
+ *      tags:
+ *      - User
+ *      description: Europe을 제외한 나라에 유저를 등록.
+ *      parameters:
+ *        - name: request
+ *          in: body
+ *          required: true
+ *          schema:
+ *            type: string
+ *            example: {
+ *              "email": "eric.kim@parksystems.com",
+ *              "title": "Developer",
+ *              "university": "Park Systems",
+ *              "institute": "GM",
+ *              "street": "St",
+ *              "zipCode": "12345",
+ *              "city": "Gyeonggi",
+ *              "researchField": "Industry",
+ *              "afmTool": "FX40",
+ *              "lastName": "kim",
+ *              "firstName": "eric",
+ *              "psOptIn": "1",
+ *              "nation": "asia"
+ *            }
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.post("/register", usersCtrl.register);
+
 
 module.exports = router;
