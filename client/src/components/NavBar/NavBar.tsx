@@ -12,6 +12,8 @@ import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
 interface navProps {
   checkLoading: boolean;
+  // eslint-disable-next-line react/require-default-props
+  hideMenu?: boolean;
 }
 
 export const globalData = new Map<string, Common.globalDataType>([
@@ -93,7 +95,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   ],
 ]);
 
-const NavBar = ({ checkLoading }: navProps) => {
+const NavBar = ({ checkLoading, hideMenu }: navProps) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -161,7 +163,7 @@ const NavBar = ({ checkLoading }: navProps) => {
           </button>
         </section>
         <section className="col-menu">
-          <ul className="menu-list">
+          <ul className={hideMenu ? "menu-list hide" : "menu-list"}>
             {symposium && (
               <li className="menu-item has-submenu">
                 <Link to={`/${pathname}/`} className="menu-link">

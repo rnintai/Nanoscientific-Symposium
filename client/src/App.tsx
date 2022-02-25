@@ -73,9 +73,13 @@ const App = () => {
       <AppContainer>
         {pathname !== "" &&
           pathname !== "admin" &&
+          pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar checkLoading={authState.isLoading} />
-          )}
+            )}
+          {pathname === "jp" && 
+            <NavBar checkLoading={authState.isLoading} hideMenu/>
+          }
         <Routes>
           {/* common */}
           <Route path="/" element={<EventLanding />} />
