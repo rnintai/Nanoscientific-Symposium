@@ -112,7 +112,7 @@ const JapanArchive = () => {
           <h1>各講演アーカイブにて公開中！</h1>
           <h4>※動画視聴には、フォームの記入および提出が必要です。</h4>
           <h2>ナノ科学シンポジウム2022もお楽しみに！</h2>
-          <span>日時：2022年 11月18日 場所：ハイブリッド開催</span>
+          <h3>日時：2022年 11月18日 場所：ハイブリッド開催</h3>
 
           <Button
             size="large"
@@ -134,7 +134,7 @@ const JapanArchive = () => {
           </Button>
         </div>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-        <video className="video-content" autoPlay muted>
+        <video className="video-content" autoPlay muted loop>
           <source
             src="https://video.wixstatic.com/video/cb12c8_4b8a81f7685246f4b812936b63c96ccc/720p/mp4/file.mp4"
             type="video/mp4"

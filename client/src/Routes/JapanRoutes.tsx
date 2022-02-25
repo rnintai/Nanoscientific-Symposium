@@ -2,7 +2,7 @@ import React from "react";
 import Landing from "pages/common/Landing";
 import Programs from "pages/common/Programs/Programs";
 import PrivateRoute from "components/Route/PrivateRoute";
-import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
+import JapanExhibitParkSystems from "pages/japan/JapanExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
 import JapanAttend from "pages/japan/JapanAttend/JapanAttend";
@@ -42,7 +42,7 @@ export default [
   },
   {
     path: "/jp/exhibit/parksystems",
-    element: <ExhibitParkSystems />,
+    element: <JapanExhibitParkSystems />,
   },
   {
     path: "/jp/exhibit/nanoscientific",

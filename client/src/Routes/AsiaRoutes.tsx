@@ -9,7 +9,7 @@ import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
-import Registration from "pages/common/Registration/Registration";
+// import Registration from "pages/common/Registration/Registration";
 
 export default [
   {
@@ -44,8 +44,8 @@ export default [
     path: "/asia/speakers",
     element: <Speakers />,
   },
-  {
-    path: "/asia/registration",
-    element: <Registration formNo="1065" />,
-  },
+  // {
+  //   path: "/asia/registration",
+  //   element: <Registration formNo="1065" />,
+  // },
 ];

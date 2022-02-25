@@ -63,6 +63,9 @@ export const NavBarContainer = styled.div`
 
   .col-menu .menu-list {
     display: flex;
+    &.hide {
+      display: none;
+    }
   }
 
   .menu-item {
