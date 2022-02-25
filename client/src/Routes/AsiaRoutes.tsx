@@ -10,6 +10,7 @@ import Sponsors from "pages/common/Sponsors";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import Registration from "pages/common/Registration/Registration";
+import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 
 export default [
   {
@@ -47,5 +48,13 @@ export default [
   {
     path: "/asia/registration",
     element: <Registration formNo="1165" />,
+  },
+  {
+    path: "/asia/user/reset-password",
+    element: (
+      <PrivateRoute>
+        <ResetPassword />
+      </PrivateRoute>
+    ),
   },
 ];
