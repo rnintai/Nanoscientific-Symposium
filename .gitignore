@@ -3,3 +3,4 @@ package-lock.json
 .idea
 react-app-env.d
 .env*
+database.json 
