@@ -35,6 +35,15 @@ const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+
+  // 로그인 모달 state
+  const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
+  const [passwordSetModalOpen, setPasswordSetModalOpen] =
+    useState<boolean>(false);
+  const [passwordInputModalOpen, setPasswordInputModalOpen] =
+    useState<boolean>(false);
+
+  //
   useEffect(() => {
     axios
       .post("/api/users/check", {
@@ -75,11 +84,28 @@ const App = () => {
           pathname !== "admin" &&
           pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
-            <NavBar checkLoading={authState.isLoading} />
-            )}
-          {pathname === "jp" && 
-            <NavBar checkLoading={authState.isLoading} hideMenu/>
-          }
+            <NavBar
+              checkLoading={authState.isLoading}
+              passwordSetModalOpen={passwordSetModalOpen}
+              emailModalOpen={emailModalOpen}
+              setEmailModalOpen={setEmailModalOpen}
+              setPasswordSetModalOpen={setPasswordSetModalOpen}
+              passwordInputModalOpen={passwordInputModalOpen}
+              setPasswordInputModalOpen={setPasswordInputModalOpen}
+            />
+          )}
+        {pathname === "jp" && (
+          <NavBar
+            checkLoading={authState.isLoading}
+            hideMenu
+            emailModalOpen={emailModalOpen}
+            setEmailModalOpen={setEmailModalOpen}
+            passwordSetModalOpen={passwordSetModalOpen}
+            setPasswordSetModalOpen={setPasswordSetModalOpen}
+            passwordInputModalOpen={passwordInputModalOpen}
+            setPasswordInputModalOpen={setPasswordInputModalOpen}
+          />
+        )}
         <Routes>
           {/* common */}
           <Route path="/" element={<EventLanding />} />

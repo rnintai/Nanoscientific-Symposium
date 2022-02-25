@@ -28,6 +28,12 @@ interface ModalProps {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setFailed: React.Dispatch<React.SetStateAction<boolean>>;
   setPasswordSetSuccessAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  emailModalOpen: boolean;
+  setEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  passwordSetModalOpen: boolean;
+  setPasswordSetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  passwordInputModalOpen: boolean;
+  setPasswordInputModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TransitionRight = React.forwardRef(function Transition(
@@ -51,13 +57,19 @@ const EuropeLoginModal = ({
   setSuccess,
   setFailed,
   setPasswordSetSuccessAlert,
+  emailModalOpen,
+  setEmailModalOpen,
+  passwordSetModalOpen,
+  setPasswordSetModalOpen,
+  passwordInputModalOpen,
+  setPasswordInputModalOpen,
 }: ModalProps) => {
-  const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [passwordSetModalOpen, setPasswordSetModalOpen] =
-    useState<boolean>(false);
-  const [passwordInputModalOpen, setPasswordInputModalOpen] =
-    useState<boolean>(false);
+  // const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
+  // const [passwordSetModalOpen, setPasswordSetModalOpen] =
+  //   useState<boolean>(false);
+  // const [passwordInputModalOpen, setPasswordInputModalOpen] =
+  //   useState<boolean>(false);
 
   const [passwordNotMatch, setPasswordNotMatch] = useState<boolean>(false);
 

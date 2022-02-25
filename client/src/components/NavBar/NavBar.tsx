@@ -12,6 +12,13 @@ import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
 interface navProps {
   checkLoading: boolean;
+  passwordSetModalOpen: boolean;
+  emailModalOpen: boolean;
+  setEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setPasswordSetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  passwordInputModalOpen: boolean;
+  setPasswordInputModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
 }
@@ -95,7 +102,16 @@ export const globalData = new Map<string, Common.globalDataType>([
   ],
 ]);
 
-const NavBar = ({ checkLoading, hideMenu }: navProps) => {
+const NavBar = ({
+  checkLoading,
+  hideMenu,
+  emailModalOpen,
+  setEmailModalOpen,
+  passwordSetModalOpen,
+  setPasswordSetModalOpen,
+  passwordInputModalOpen,
+  setPasswordInputModalOpen,
+}: navProps) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -284,18 +300,22 @@ const NavBar = ({ checkLoading, hideMenu }: navProps) => {
               {!authState.isLogin && !checkLoading && (
                 <>
                   <li className="login-item">
-                    {pathname === "eu" ? (
-                      <EuropeLoginModal
-                        setSuccess={setLoginSuccess}
-                        setFailed={setLoginFailed}
-                        setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
-                      />
-                    ) : (
-                      <LoginModal
-                        setSuccess={setLoginSuccess}
-                        setFailed={setLoginFailed}
-                      />
-                    )}
+                    <EuropeLoginModal
+                      setSuccess={setLoginSuccess}
+                      setFailed={setLoginFailed}
+                      emailModalOpen={emailModalOpen}
+                      setEmailModalOpen={setEmailModalOpen}
+                      setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
+                      passwordSetModalOpen={passwordSetModalOpen}
+                      setPasswordSetModalOpen={setPasswordSetModalOpen}
+                      passwordInputModalOpen={passwordInputModalOpen}
+                      setPasswordInputModalOpen={setPasswordInputModalOpen}
+                    />
+                    {/* <LoginModal
+                         setSuccess={setLoginSuccess}
+                         setFailed={setLoginFailed}
+                       /> */}
+                    )
                   </li>
                   <li className="login-item">
                     <Link
