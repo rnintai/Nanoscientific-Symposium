@@ -18,7 +18,7 @@ interface ProgramFormProps {
   openProgramForm: boolean;
   setOpenProgramForm: Dispatch<SetStateAction<boolean>>;
   setProgramSuccess: Dispatch<SetStateAction<boolean>>;
-  seletedProgram: Program.programType;
+  selectedProgram: Program.programType;
   sessions: Program.sessionType[];
   getPrograms: () => void;
   edit: boolean;
@@ -26,7 +26,7 @@ interface ProgramFormProps {
 const ProgramForm = ({
   openProgramForm,
   setOpenProgramForm,
-  seletedProgram,
+  selectedProgram,
   setProgramSuccess,
   sessions,
   getPrograms,
@@ -38,7 +38,7 @@ const ProgramForm = ({
   const [startTime, setStartTime] = useState<Date | null>(
     edit
       ? moment
-          .utc(moment(seletedProgram.start_time).format("YYYY-MM-DD HH:mm:ss"))
+          .utc(moment(selectedProgram.start_time).format("YYYY-MM-DD HH:mm:ss"))
           .tz(selectedTimezone as string)
           .toDate()
       : new Date(),
@@ -46,7 +46,7 @@ const ProgramForm = ({
   const [endTime, setEndTime] = useState<Date | null>(
     edit
       ? moment
-          .utc(moment(seletedProgram.end_time).format("YYYY-MM-DD HH:mm:ss"))
+          .utc(moment(selectedProgram.end_time).format("YYYY-MM-DD HH:mm:ss"))
           .tz(selectedTimezone as string)
           .toDate()
       : new Date(),
@@ -62,12 +62,18 @@ const ProgramForm = ({
     if (edit) {
       data = await axios.put("/api/admin/program", {
         nation: authState.role,
-        id: seletedProgram.id,
+        id: selectedProgram.id,
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
-        endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        startTime: startTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
+        endTime: endTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
         session: selectedSession,
         status: status === "show" ? 1 : 0,
       });
@@ -78,8 +84,14 @@ const ProgramForm = ({
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
-        endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        startTime: startTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
+        endTime: endTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
       });
     }
 
@@ -100,12 +112,12 @@ const ProgramForm = ({
 
   // selectedProgram.session 은 id 이고 selectedSession 은 string 이 들어가야한다
   const [selectedSession, setSelectedSession] = useState<string>(
-    edit ? (seletedProgram.session as unknown as string) : "",
+    edit ? (selectedProgram.session as unknown as string) : "",
   );
 
-  const title = useInput(edit ? seletedProgram.title : "");
-  const speakers = useInput(edit ? seletedProgram.speakers : "");
-  const description = useInput(edit ? seletedProgram.description : "");
+  const title = useInput(edit ? selectedProgram.title : "");
+  const speakers = useInput(edit ? selectedProgram.speakers : "");
+  const description = useInput(edit ? selectedProgram.description : "");
 
   const changeSessionHandler = (event: SelectChangeEvent) => {
     setSelectedSession(event.target.value as string);
