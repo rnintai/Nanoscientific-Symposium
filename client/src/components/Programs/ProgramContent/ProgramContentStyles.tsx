@@ -33,6 +33,10 @@ export const ProgramContentContainer = styled.div<{ isAdmin: boolean }>`
       line-height: 1.2;
 
       position: relative;
+
+      p.description {
+        font-size: 0.9em;
+      }
     }
 
     &:nth-child(odd) {

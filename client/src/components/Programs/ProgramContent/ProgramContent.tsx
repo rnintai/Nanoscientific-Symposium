@@ -86,7 +86,7 @@ const ProgramContent = ({
         <div className="cbp_tmlabel">
           <h2>{title}</h2>
           <p>{speakers}</p>
-          <p>{description}</p>
+          <p className="description">{description}</p>
         </div>
       </li>
     </ProgramContentContainer>
