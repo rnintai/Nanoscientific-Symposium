@@ -78,7 +78,7 @@ module.exports = {
       next();
     } catch (err) {
       connection.release();
-      res.status(200).json({
+      res.status(500).json({
         success: false,
         code: "S0",
         err,
