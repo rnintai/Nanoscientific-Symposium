@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Button, Snackbar, Alert } from "@mui/material";
@@ -28,6 +23,12 @@ interface ModalProps {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setFailed: React.Dispatch<React.SetStateAction<boolean>>;
   setPasswordSetSuccessAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  emailModalOpen: boolean;
+  setEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  passwordSetModalOpen: boolean;
+  setPasswordSetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  passwordInputModalOpen: boolean;
+  setPasswordInputModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TransitionRight = React.forwardRef(function Transition(
@@ -51,13 +52,19 @@ const EuropeLoginModal = ({
   setSuccess,
   setFailed,
   setPasswordSetSuccessAlert,
+  emailModalOpen,
+  setEmailModalOpen,
+  passwordSetModalOpen,
+  setPasswordSetModalOpen,
+  passwordInputModalOpen,
+  setPasswordInputModalOpen,
 }: ModalProps) => {
-  const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [passwordSetModalOpen, setPasswordSetModalOpen] =
-    useState<boolean>(false);
-  const [passwordInputModalOpen, setPasswordInputModalOpen] =
-    useState<boolean>(false);
+  // const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
+  // const [passwordSetModalOpen, setPasswordSetModalOpen] =
+  //   useState<boolean>(false);
+  // const [passwordInputModalOpen, setPasswordInputModalOpen] =
+  //   useState<boolean>(false);
 
   const [passwordNotMatch, setPasswordNotMatch] = useState<boolean>(false);
 
@@ -118,6 +125,7 @@ const EuropeLoginModal = ({
         if (res.data.success === true) {
           dispatchLogin(email, res.data.role, res.data.accessToken);
           setSuccess(true);
+          setPasswordInputModalOpen(false);
         } else {
           setFailed(true);
         }
@@ -215,7 +223,6 @@ const EuropeLoginModal = ({
       </Button>
       {/* email modal */}
       <Dialog
-        fullWidth
         open={emailModalOpen}
         onClose={() => {
           handleClose(setEmailModalOpen);
@@ -270,7 +277,6 @@ const EuropeLoginModal = ({
       {/* 비밀번호 입력 모달 */}
 
       <Dialog
-        fullWidth
         open={passwordInputModalOpen}
         onClose={() => {
           handleClose(setPasswordInputModalOpen);
@@ -345,7 +351,6 @@ const EuropeLoginModal = ({
 
       {/* 패스워드 설정 모달 */}
       <Dialog
-        fullWidth
         open={passwordSetModalOpen}
         onClose={() => {
           handleClose(setPasswordSetModalOpen);

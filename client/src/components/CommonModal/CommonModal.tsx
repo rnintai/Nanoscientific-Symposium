@@ -51,7 +51,7 @@ const CommonModal = ({
         fullWidth
         open={open}
         onClose={handleClose}
-        maxWidth="md"
+        maxWidth="laptop"
         TransitionComponent={transitionDir ? Transition : undefined}
       >
         <DialogTitle>{title}</DialogTitle>

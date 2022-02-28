@@ -155,6 +155,7 @@ const usersCtrl = {
         res.status(200).json({
           success: true,
           result: result[0][0].is_password_set === 0 ? false : true,
+          msg: "패스워드 설정: true, 미설정: false"
         });
       }
     } catch (err) {
@@ -206,6 +207,94 @@ const usersCtrl = {
       });
     } finally {
       connection.release();
+    }
+  },
+
+  // 비밀번호 재설정
+  resetPassword: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const userEmail = res.locals.email;
+    const curPassword = req.body.curPassword;
+    const newPassword = hasher.HashPassword(req.body.newPassword);
+
+    try {
+      const sql1 = `SELECT password FROM user WHERE email='${userEmail}'`
+      const passwordRow = await connection.query(sql1);
+
+      if (hasher.CheckPassword(curPassword, passwordRow[0][0].password)) {
+        const sql2 = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
+        await connection.query(sql2);
+        res.status(200).json({
+          success: true,
+          result: "success",
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          code: "P40",
+          result: "Current password not matched.",
+        });
+
+      }
+
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+      return false;
+    }
+    finally {
+      connection.release();
+    }
+  },
+
+
+  // 유럽 제외 회원가입
+  register: async (req, res) => {
+    const {
+      email,
+      title,
+      university,
+      institute,
+      street,
+      zipCode,
+      city,
+      researchField,
+      afmTool,
+      lastName,
+      firstName,
+      psOptIn,
+      nation
+    } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `INSERT INTO user(email,password,title,university,institute,street,zipCode,city,research_field,afm_tool,last_name,first_name,ps_opt_in)
+      VALUES('${email}','${hasher.HashPassword(null)}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}','${lastName}','${firstName}',${psOptIn})`;
+
+      const result = await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        id: result[0].insertId,
+        message: "Success",
+      });
+
+      await connection.commit();
+      connection.release();
+    }
+    catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+        message: "Failed",
+      });
     }
   },
 };

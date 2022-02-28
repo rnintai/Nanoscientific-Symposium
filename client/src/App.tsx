@@ -16,10 +16,32 @@ import JapanRoutes from "./Routes/JapanRoutes";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
 
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xs: false; // removes the `xs` breakpoint
+    sm: false;
+    md: false; // 900px
+    lg: false;
+    xl: false;
+    mobile: true;
+    tablet: true;
+    laptop: true;
+    desktop: true;
+  }
+}
+
 const theme = createTheme({
   typography: {
     allVariants: {
       fontFamily: `"Open Sans", sans-serif`,
+    },
+  },
+  breakpoints: {
+    values: {
+      mobile: 0,
+      tablet: 768,
+      laptop: 1024,
+      desktop: 1280,
     },
   },
 });
@@ -29,12 +51,29 @@ const jpTheme = createTheme({
       fontFamily: `"Noto Sans JP", sans-serif`,
     },
   },
+  breakpoints: {
+    // values: {
+    //   mobile: 0,
+    //   tablet: 640,
+    //   laptop: 1024,
+    //   desktop: 1280,
+    // },
+  },
 });
 
 const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+
+  // 로그인 모달 state
+  const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
+  const [passwordSetModalOpen, setPasswordSetModalOpen] =
+    useState<boolean>(false);
+  const [passwordInputModalOpen, setPasswordInputModalOpen] =
+    useState<boolean>(false);
+
+  //
   useEffect(() => {
     axios
       .post("/api/users/check", {
@@ -65,7 +104,8 @@ const App = () => {
       .finally(() => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
       });
-  }, []);
+  }, [authState.isLoading]);
+
   if (authState.isLoading) return <Loading />;
 
   return (
@@ -75,11 +115,28 @@ const App = () => {
           pathname !== "admin" &&
           pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
-            <NavBar checkLoading={authState.isLoading} />
-            )}
-          {pathname === "jp" && 
-            <NavBar checkLoading={authState.isLoading} hideMenu/>
-          }
+            <NavBar
+              checkLoading={authState.isLoading}
+              passwordSetModalOpen={passwordSetModalOpen}
+              emailModalOpen={emailModalOpen}
+              setEmailModalOpen={setEmailModalOpen}
+              setPasswordSetModalOpen={setPasswordSetModalOpen}
+              passwordInputModalOpen={passwordInputModalOpen}
+              setPasswordInputModalOpen={setPasswordInputModalOpen}
+            />
+          )}
+        {pathname === "jp" && (
+          <NavBar
+            checkLoading={authState.isLoading}
+            hideMenu
+            emailModalOpen={emailModalOpen}
+            setEmailModalOpen={setEmailModalOpen}
+            passwordSetModalOpen={passwordSetModalOpen}
+            setPasswordSetModalOpen={setPasswordSetModalOpen}
+            passwordInputModalOpen={passwordInputModalOpen}
+            setPasswordInputModalOpen={setPasswordInputModalOpen}
+          />
+        )}
         <Routes>
           {/* common */}
           <Route path="/" element={<EventLanding />} />
