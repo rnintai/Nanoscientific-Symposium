@@ -1,12 +1,17 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
+import {
+  DesktopDatePicker,
+  LocalizationProvider,
+  LoadingButton,
+} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios, { AxiosResponse } from "axios";
 import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+
 import { useAuthState } from "../../../context/AuthContext";
 
 interface SessionFormProps {
@@ -79,12 +84,7 @@ const SessionForm = ({
     try {
       setDeleteLoading(true);
       const data = await axios.delete(
-        `/api/admin/session/${selectedSession.id}`,
-        {
-          data: {
-            nation: authState.role,
-          },
-        },
+        `/api/admin/session/${selectedSession.id}?nation=${authState.role}`,
       );
 
       console.log(data.data.success);
@@ -108,8 +108,6 @@ const SessionForm = ({
           ? "Please choose the title and date that you want to change."
           : "Please write down the session title and choose a date."
       }
-      onDelete={deleteHandler}
-      deleteLoading={deleteLoading}
       onSubmit={sessionSubmitHandler}
       loading={loading}
     >
@@ -124,7 +122,7 @@ const SessionForm = ({
       />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
-          label="Date desktop"
+          label="Session Date"
           inputFormat="MM/dd/yyyy"
           value={date}
           onChange={dateChangeHandler}
@@ -145,6 +143,21 @@ const SessionForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
+      )}
+      {edit && (
+        <LoadingButton
+          loading={deleteLoading}
+          variant="contained"
+          color="error"
+          onClick={deleteHandler}
+          style={{
+            position: "absolute",
+            right: "22px",
+            top: "12px",
+          }}
+        >
+          Delete
+        </LoadingButton>
       )}
     </CommonModal>
   );

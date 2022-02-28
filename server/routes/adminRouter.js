@@ -71,14 +71,12 @@ router
  *          schema:
  *            type: integer
  *          description: session ID
- *        - name: request
- *          in: body
+ *        - name: nation
+ *          in: query
  *          required: true
  *          schema:
  *            type: string
- *            example: {
- *              "nation": "asia",
- *            }
+ *          description: nation code
  *      responses:
  *        '200':
  *          description: successful operation
@@ -146,6 +144,39 @@ router
   .route("/program")
   .post(adminCtrl.addProgram)
   .put(adminCtrl.modifyProgram);
+
+router
+  .route("/session")
+  .post(adminCtrl.addSession)
+  .put(adminCtrl.modifySession);
+
+/**
+ * @swagger
+ *  /api/admin/program/{id}:
+ *    delete:
+ *      tags:
+ *      - Admin
+ *      description: 프로그램을 삭제합니다.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: program ID
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: nation code
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/program/:id")
+  .delete(adminCtrl.deleteProgram);
+
 
 /**
  * @swagger

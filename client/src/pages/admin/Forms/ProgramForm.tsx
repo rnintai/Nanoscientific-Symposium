@@ -6,7 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { Select, SelectChangeEvent, TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import { DateTimePicker, LocalizationProvider } from "@mui/lab";
+import { DateTimePicker, LocalizationProvider, LoadingButton } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
 import useInput from "hooks/useInput";
@@ -52,6 +52,7 @@ const ProgramForm = ({
       : new Date(),
   );
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const authState = useAuthState();
 
@@ -121,6 +122,22 @@ const ProgramForm = ({
 
   const changeSessionHandler = (event: SelectChangeEvent) => {
     setSelectedSession(event.target.value as string);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      setDeleteLoading(true);
+      await axios.delete(
+        `/api/admin/program/${selectedProgram.id}?nation=${authState.role}`,
+      );
+    } catch (err) {
+      alert(err);
+    } finally {
+      setDeleteLoading(false);
+      setProgramSuccess(true);
+      setOpenProgramForm(false);
+      getPrograms();
+    }
   };
 
   return (
@@ -210,6 +227,21 @@ const ProgramForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
+      )}
+      {edit && (
+        <LoadingButton
+          loading={deleteLoading}
+          variant="contained"
+          color="error"
+          onClick={deleteHandler}
+          style={{
+            position: "absolute",
+            right: "22px",
+            top: "12px",
+          }}
+        >
+          Delete
+        </LoadingButton>
       )}
     </CommonModal>
   );

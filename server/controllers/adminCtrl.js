@@ -46,7 +46,7 @@ const adminCtrl = {
   },
 
   deleteSession: async (req, res) => {
-    const { nation } = req.body;
+    const nation = req.query.nation;
     const id = req.params.id;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
@@ -128,6 +128,31 @@ const adminCtrl = {
       connection.release();
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  deleteProgram: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM programs WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `id:${id} 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
     }
   },
 

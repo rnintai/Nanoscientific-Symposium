@@ -17,10 +17,6 @@ interface CommonModalProps {
   // eslint-disable-next-line react/require-default-props
   desc?: string;
   // eslint-disable-next-line react/require-default-props
-  onDelete?: () => void;
-  // eslint-disable-next-line react/require-default-props
-  deleteLoading?: boolean;
-  // eslint-disable-next-line react/require-default-props
   onSubmit?: () => void;
   // eslint-disable-next-line react/require-default-props
   loading?: boolean;
@@ -34,8 +30,6 @@ const CommonModal = ({
   setOpen,
   title,
   desc,
-  onDelete,
-  deleteLoading,
   onSubmit,
   loading,
   transitionDir,
@@ -64,34 +58,20 @@ const CommonModal = ({
         <DialogContent>
           <DialogContentText>{desc}</DialogContentText>
           {children}
-          <DialogActions style={{ justifyContent: "space-between" }}>
-            <Box>
-              {onDelete && (
-                <LoadingButton
-                  loading={deleteLoading}
-                  variant="contained"
-                  color="error"
-                  onClick={onDelete}
-                >
-                  Delete
-                </LoadingButton>
-              )}
-            </Box>
-            <Box>
-              <Button variant="outlined" onClick={handleClose}>
-                Cancel
-              </Button>
-              {onSubmit && (
-                <LoadingButton
-                  style={{ marginLeft: "10px" }}
-                  loading={loading}
-                  variant="contained"
-                  onClick={onSubmit}
-                >
-                  Save
-                </LoadingButton>
-              )}
-            </Box>
+          <DialogActions>
+            <Button variant="outlined" onClick={handleClose}>
+              Cancel
+            </Button>
+            {onSubmit && (
+              <LoadingButton
+                style={{ marginLeft: "10px" }}
+                loading={loading}
+                variant="contained"
+                onClick={onSubmit}
+              >
+                Save
+              </LoadingButton>
+            )}
           </DialogActions>
         </DialogContent>
       </Dialog>
