@@ -5,7 +5,7 @@ export const ProgramsListContainer = styled.div<{ isAdmin?: boolean }>`
   /* https://d25unujvh7ui3r.cloudfront.net/css/program.css */
 
   .program-wrap {
-    padding: ${(props) => (props.isAdmin ? "0px" : "160px")};
+    padding: ${(props) => (props.isAdmin ? "0px" : "100px 160px")};
   }
 
   .cbp_tmtimeline {
