@@ -2,10 +2,10 @@ import React, { Dispatch, SetStateAction } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContentText from "@mui/material/DialogContentText";
-import Button from "@mui/material/Button";
+import { Button, Box, DialogContent } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DialogActions from "@mui/material/DialogActions";
-import { DialogContent } from "@mui/material";
+
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 
@@ -16,6 +16,10 @@ interface CommonModalProps {
   title: string;
   // eslint-disable-next-line react/require-default-props
   desc?: string;
+  // eslint-disable-next-line react/require-default-props
+  onDelete?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  deleteLoading?: boolean;
   // eslint-disable-next-line react/require-default-props
   onSubmit?: () => void;
   // eslint-disable-next-line react/require-default-props
@@ -30,6 +34,8 @@ const CommonModal = ({
   setOpen,
   title,
   desc,
+  onDelete,
+  deleteLoading,
   onSubmit,
   loading,
   transitionDir,
@@ -58,19 +64,34 @@ const CommonModal = ({
         <DialogContent>
           <DialogContentText>{desc}</DialogContentText>
           {children}
-          <DialogActions>
-            <Button variant="outlined" onClick={handleClose}>
-              Cancel
-            </Button>
-            {onSubmit && (
-              <LoadingButton
-                loading={loading}
-                variant="outlined"
-                onClick={onSubmit}
-              >
-                Save
-              </LoadingButton>
-            )}
+          <DialogActions style={{ justifyContent: "space-between" }}>
+            <Box>
+              {onDelete && (
+                <LoadingButton
+                  loading={deleteLoading}
+                  variant="contained"
+                  color="error"
+                  onClick={onDelete}
+                >
+                  Delete
+                </LoadingButton>
+              )}
+            </Box>
+            <Box>
+              <Button variant="outlined" onClick={handleClose}>
+                Cancel
+              </Button>
+              {onSubmit && (
+                <LoadingButton
+                  style={{ marginLeft: "10px" }}
+                  loading={loading}
+                  variant="contained"
+                  onClick={onSubmit}
+                >
+                  Save
+                </LoadingButton>
+              )}
+            </Box>
           </DialogActions>
         </DialogContent>
       </Dialog>

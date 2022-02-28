@@ -44,6 +44,37 @@ const adminCtrl = {
       console.log(err);
     }
   },
+
+  deleteSession: async (req, res) => {
+    const { nation } = req.body;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM program_sessions WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      sql = `DELETE FROM programs WHERE session=${id}`
+      let result = await connection.query(sql);
+
+      console.log(result);
+
+      res.status(200).json({
+        success: true,
+        message: `1개의 세션 삭제, ${result[0].affectedRows}개의 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
   addProgram: async (req, res) => {
     const {
       nation,

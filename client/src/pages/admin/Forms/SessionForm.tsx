@@ -13,7 +13,7 @@ interface SessionFormProps {
   openSessionForm: boolean;
   setOpenSessionForm: Dispatch<SetStateAction<boolean>>;
   setSessionSuccess: Dispatch<SetStateAction<boolean>>;
-  seletedSession: Program.sessionType;
+  selectedSession: Program.sessionType;
   getSessions: () => void;
   edit: boolean;
 }
@@ -22,18 +22,19 @@ const SessionForm = ({
   openSessionForm,
   setOpenSessionForm,
   setSessionSuccess,
-  seletedSession,
+  selectedSession,
   getSessions,
   // 편집모달일때는 edit 이 true 로 넘어온다
   edit = false,
 }: SessionFormProps) => {
   const authState = useAuthState();
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(
-    edit ? new Date(seletedSession.date) : new Date(),
+    edit ? new Date(selectedSession.date) : new Date(),
   );
-  const title = useInput(edit ? seletedSession.session_title : "");
+  const title = useInput(edit ? selectedSession.session_title : "");
 
   const sessionSubmitHandler = async () => {
     setLoading(true);
@@ -43,7 +44,7 @@ const SessionForm = ({
     if (edit) {
       data = await axios.put("/api/admin/session", {
         nation: authState.role,
-        id: seletedSession.id,
+        id: selectedSession.id,
         title: title.value,
         status: status === "show" ? 1 : 0,
         date,
@@ -74,6 +75,29 @@ const SessionForm = ({
     setStatus(newStatus);
   };
 
+  const deleteHandler = async () => {
+    try {
+      setDeleteLoading(true);
+      const data = await axios.delete(
+        `/api/admin/session/${selectedSession.id}`,
+        {
+          data: {
+            nation: authState.role,
+          },
+        },
+      );
+
+      console.log(data.data.success);
+    } catch (err) {
+      alert(err);
+    } finally {
+      setDeleteLoading(false);
+      setSessionSuccess(true);
+      setOpenSessionForm(false);
+      getSessions();
+    }
+  };
+
   return (
     <CommonModal
       open={openSessionForm}
@@ -84,6 +108,8 @@ const SessionForm = ({
           ? "Please choose the title and date that you want to change."
           : "Please write down the session title and choose a date."
       }
+      onDelete={deleteHandler}
+      deleteLoading={deleteLoading}
       onSubmit={sessionSubmitHandler}
       loading={loading}
     >

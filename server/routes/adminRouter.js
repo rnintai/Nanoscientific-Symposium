@@ -51,10 +51,40 @@ const router = require("express").Router();
  *          description: successful operation
  */
 
+
 router
   .route("/session")
   .post(adminCtrl.addSession)
   .put(adminCtrl.modifySession);
+
+/**
+ * @swagger
+ *  /api/admin/session/{id}:
+ *    delete:
+ *      tags:
+ *      - Admin
+ *      description: 세션을 삭제합니다.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: session ID
+ *        - name: request
+ *          in: body
+ *          required: true
+ *          schema:
+ *            type: string
+ *            example: {
+ *              "nation": "asia",
+ *            }
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/session/:id")
+  .delete(adminCtrl.deleteSession);
 
 /**
  * @swagger
