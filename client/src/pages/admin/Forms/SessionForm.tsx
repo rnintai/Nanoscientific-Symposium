@@ -11,6 +11,8 @@ import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import "moment-timezone";
+import moment from "moment";
 
 import { useAuthState } from "../../../context/AuthContext";
 
@@ -33,11 +35,19 @@ const SessionForm = ({
   edit = false,
 }: SessionFormProps) => {
   const authState = useAuthState();
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(
-    edit ? new Date(selectedSession.date) : new Date(),
+    edit
+      ? moment
+          .utc(moment(selectedSession.date).format("MM/DD/YYYY"))
+          .tz(selectedTimezone as string)
+          .toDate()
+      : new Date(),
   );
   const title = useInput(edit ? selectedSession.session_title : "");
 

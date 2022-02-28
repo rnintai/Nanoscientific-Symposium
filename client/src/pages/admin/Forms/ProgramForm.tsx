@@ -122,6 +122,26 @@ const ProgramForm = ({
 
   const changeSessionHandler = (event: SelectChangeEvent) => {
     setSelectedSession(event.target.value as string);
+    const selectedSessionArr = sessions.filter((session) => {
+      return session.id === +event.target.value;
+    });
+    const selectedDate = new Date(selectedSessionArr[0].date);
+    const newYear = selectedDate.getFullYear();
+    const newMonth = selectedDate.getMonth();
+    const newDate = selectedDate.getDate();
+
+    // 선택한 세션에 맞게 시간 변경.
+    const newStart = startTime;
+    newStart?.setFullYear(newYear);
+    newStart?.setMonth(newMonth);
+    newStart?.setDate(newDate);
+    const newEnd = endTime;
+    newEnd?.setFullYear(newYear);
+    newEnd?.setMonth(newMonth);
+    newEnd?.setDate(newDate);
+
+    setStartTime(newStart);
+    setEndTime(newEnd);
   };
 
   const deleteHandler = async () => {
@@ -160,7 +180,13 @@ const ProgramForm = ({
           id="demo-simple-select"
           value={selectedSession}
           label="Session"
-          onChange={changeSessionHandler}
+          onChange={(event: SelectChangeEvent) => {
+            // setLoading(true);
+            // setTimeout(() => {
+            changeSessionHandler(event);
+            // setLoading(false);
+            // }, 2000);
+          }}
         >
           {sessions.map((session) => (
             <MenuItem key={session.id} value={session.id}>
