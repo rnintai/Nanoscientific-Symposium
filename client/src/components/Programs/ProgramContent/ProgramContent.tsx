@@ -23,6 +23,27 @@ const ProgramContent = ({
   onClick,
   selectedTimezone,
 }: ProgramContentProps) => {
+  const isDateChanged =
+    moment
+      .utc(moment(start_time).format("YYYY-MM-DD HH:mm:ss"))
+      .tz(selectedTimezone as string)
+      .get("date") !==
+    moment
+      .utc(moment(end_time).format("YYYY-MM-DD HH:mm:ss"))
+      .tz(selectedTimezone as string)
+      .get("date");
+
+  const isStartTimeZero =
+    moment
+      .utc(moment(start_time).format("YYYY-MM-DD HH:mm:ss"))
+      .tz(selectedTimezone as string)
+      .get("hour") === 0;
+  const isEndTimeZero =
+    moment
+      .utc(moment(end_time).format("YYYY-MM-DD HH:mm:ss"))
+      .tz(selectedTimezone as string)
+      .get("hour") === 0;
+
   return (
     <ProgramContentContainer isAdmin={isAdmin} onClick={onClick}>
       <li>
@@ -37,6 +58,12 @@ const ProgramContent = ({
               {moment(start_time).format("MMM DD")}
             </span>
           )}
+          {index !== 0 &&
+            (isDateChanged || isStartTimeZero || isEndTimeZero) && (
+              <span className="session-date">
+                {moment(start_time).format("MMM DD")}
+              </span>
+            )}
           <span className="content-time">
             {moment
               .utc(moment(start_time).format("YYYY-MM-DD HH:mm:ss"))
@@ -50,6 +77,9 @@ const ProgramContent = ({
           </span>
           {index === 0 && (
             <h3 className="timezone">Timezone: {selectedTimezone}</h3>
+          )}
+          {(isDateChanged || isStartTimeZero || isEndTimeZero) && (
+            <h3 className="timezone">&nbsp;</h3>
           )}
         </time>
         <div className="cbp_tmicon" />
