@@ -315,7 +315,6 @@ const NavBar = ({
                          setSuccess={setLoginSuccess}
                          setFailed={setLoginFailed}
                        /> */}
-                    )
                   </li>
                   <li className="login-item">
                     <Link
