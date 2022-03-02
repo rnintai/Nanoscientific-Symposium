@@ -48,6 +48,10 @@ const AdminSpeakers = () => {
     getSpeakers();
   }, []);
 
+  const hideToggleHandler = () => {
+    console.log("boob");
+  };
+
   if (loading) {
     return <Loading />;
   }
@@ -58,8 +62,10 @@ const AdminSpeakers = () => {
         title="Speakers"
         menu3="Add speaker"
         menu3ClickHandler={openSpeakerFormHandler}
-        menu2="Hide"
+        menu2="Hidden Items"
         menu2ClickHandler={openHideFormHandler}
+        hideToggle
+        hideToggleHandler={hideToggleHandler}
       >
         <Box sx={{ flexGrow: 1 }}>
           <Grid
