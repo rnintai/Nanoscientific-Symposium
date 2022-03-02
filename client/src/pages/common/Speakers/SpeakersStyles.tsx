@@ -3,8 +3,9 @@ import styled from "styled-components";
 export const SpeakersContainer = styled.div`
   padding: 100px 30px 152px 30px;
   .speaker-grid {
+    width: 31%;
     &:not(:nth-child(3n)) {
-      margin-right: 50px;
+      margin-right: 3%;
     }
   }
   .speaker-card {
@@ -20,6 +21,29 @@ export const SpeakersContainer = styled.div`
 
     .belong {
       color: #7c7c7c;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .speaker-grid {
+      width: 47%;
+
+      &:not(:nth-child(3n)) {
+        margin-right: 0;
+      }
+      &:not(:nth-child(2n)) {
+        margin-right: 3%;
+      }
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .speaker-grid {
+      width: 100%;
+
+      &:not(:nth-child(3n)) {
+        margin-right: 0;
+      }
     }
   }
 

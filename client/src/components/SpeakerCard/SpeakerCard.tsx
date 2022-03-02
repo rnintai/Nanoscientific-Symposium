@@ -33,7 +33,6 @@ const SpeakerCard = ({
       key={speaker.id}
       style={{
         cursor: `${isAdmin ? "pointer" : "auto"}`,
-        width: "31%",
       }}
       className="speaker-grid"
       onClick={onClick}
