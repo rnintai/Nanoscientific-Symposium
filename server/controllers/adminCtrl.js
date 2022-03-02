@@ -56,7 +56,7 @@ const adminCtrl = {
 
       await connection.query(sql);
 
-      sql = `DELETE FROM programs WHERE session=${id}`
+      sql = `DELETE FROM programs WHERE session=${id}`;
       let result = await connection.query(sql);
 
       console.log(result);
@@ -262,6 +262,31 @@ const adminCtrl = {
       connection.release();
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  deleteSpeaker: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM speakers WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `연사 삭제 완료`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
     }
   },
 

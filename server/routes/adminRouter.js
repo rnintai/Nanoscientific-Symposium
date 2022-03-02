@@ -51,7 +51,6 @@ const router = require("express").Router();
  *          description: successful operation
  */
 
-
 router
   .route("/session")
   .post(adminCtrl.addSession)
@@ -81,8 +80,7 @@ router
  *        '200':
  *          description: successful operation
  */
-router.route("/session/:id")
-  .delete(adminCtrl.deleteSession);
+router.route("/session/:id").delete(adminCtrl.deleteSession);
 
 /**
  * @swagger
@@ -174,9 +172,7 @@ router
  *        '200':
  *          description: successful operation
  */
-router.route("/program/:id")
-  .delete(adminCtrl.deleteProgram);
-
+router.route("/program/:id").delete(adminCtrl.deleteProgram);
 
 /**
  * @swagger
@@ -232,6 +228,32 @@ router
   .route("/speaker")
   .post(adminCtrl.addSpeaker)
   .put(adminCtrl.modifySpeaker);
+
+/**
+ * @swagger
+ *  /api/admin/speaker/{id}:
+ *    delete:
+ *      tags:
+ *      - Admin
+ *      description: 연사를 삭제합니다.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: speaker ID
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: nation code
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/speaker/:id").delete(adminCtrl.deleteSpeaker);
 
 /**
  * @swagger

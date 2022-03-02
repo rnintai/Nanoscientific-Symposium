@@ -25,7 +25,7 @@ export default [
     element: <JapanAttend />,
   },
   {
-    path: "/jp/programs",
+    path: "/jp/program",
     element: <Programs />,
   },
   {

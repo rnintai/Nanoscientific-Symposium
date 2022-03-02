@@ -5,8 +5,9 @@ import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
 import UsLectureHall from "pages/us/UsLectureHall";
-import UsSpeakers from "pages/us/UsSpeakers/UsSpeakers";
-import UsPrograms from "pages/us/UsPrograms/UsPrograms";
+import Programs from "pages/common/Programs/Programs";
+import Speakers from "pages/common/Speakers/Speakers";
+import AdminRoute from "components/Route/AdminRoute";
 
 export default [
   {
@@ -15,11 +16,15 @@ export default [
   },
   {
     path: "/us/speakers",
-    element: <UsSpeakers />,
+    element: <Speakers />,
   },
   {
-    path: "/us/programs",
-    element: <UsPrograms />,
+    path: "/us/program",
+    element: (
+      <AdminRoute>
+        <Programs />
+      </AdminRoute>
+    ),
   },
   {
     path: "/us/lecture-hall",
