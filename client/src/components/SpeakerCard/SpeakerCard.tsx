@@ -31,11 +31,14 @@ const SpeakerCard = ({
       sm={4}
       md={4}
       key={speaker.id}
-      style={{ cursor: `${isAdmin ? "pointer" : "auto"}` }}
-      className="speaker-card"
+      style={{
+        cursor: `${isAdmin ? "pointer" : "auto"}`,
+        width: "31%",
+      }}
+      className="speaker-grid"
       onClick={onClick}
     >
-      <Item>
+      <Item className="speaker-card">
         {/* 같은 도메인의 백엔드 주소 가져오기 */}
         <img
           className="speaker-image"
