@@ -16,7 +16,11 @@ export default [
   },
   {
     path: "/us/speakers",
-    element: <Speakers />,
+    element: (
+      <AdminRoute>
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
     path: "/us/program",
