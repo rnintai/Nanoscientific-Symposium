@@ -147,15 +147,17 @@ const ProgramForm = ({
   const deleteHandler = async () => {
     try {
       setDeleteLoading(true);
-      await axios.delete(
+      const result = await axios.delete(
         `/api/admin/program/${selectedProgram.id}?nation=${authState.role}`,
       );
+      if (result.data.success) {
+        setProgramSuccess(true);
+        setOpenProgramForm(false);
+      }
     } catch (err) {
       alert(err);
     } finally {
       setDeleteLoading(false);
-      setProgramSuccess(true);
-      setOpenProgramForm(false);
       getPrograms();
     }
   };

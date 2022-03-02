@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CommonModal from "components/CommonModal/CommonModal";
 import S3Upload from "components/S3Upload/S3Upload";
 import { TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import { useAuthState } from "context/AuthContext";
@@ -11,6 +12,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 interface SpeakerFormProps {
   openSpeakerForm: boolean;
   setOpenSpeakerForm: Dispatch<SetStateAction<boolean>>;
+  setSpeakerSuccessAlert: Dispatch<SetStateAction<boolean>>;
   refreshFunction: () => void;
   selectedSpeaker: Speaker.speakerType;
   // eslint-disable-next-line react/require-default-props
@@ -20,11 +22,14 @@ interface SpeakerFormProps {
 const SpeakerForm = ({
   openSpeakerForm,
   setOpenSpeakerForm,
+  setSpeakerSuccessAlert,
   refreshFunction,
   selectedSpeaker,
   edit = false,
 }: SpeakerFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+
   const name = useInput(edit ? selectedSpeaker.name : "");
   const belong = useInput(edit ? selectedSpeaker.belong : "");
   const [imagePath, setImagePath] = useState<string>(
@@ -67,6 +72,7 @@ const SpeakerForm = ({
     if (data.data.success) {
       setLoading(false);
       setOpenSpeakerForm(false);
+      setSpeakerSuccessAlert(true);
       refreshFunction();
     }
   };
@@ -77,6 +83,24 @@ const SpeakerForm = ({
   ) => {
     setStatus(newStatus);
   };
+
+  const deleteHandler = async () => {
+    try {
+      setDeleteLoading(true);
+      await axios.delete(
+        `/api/admin/speaker/${selectedSpeaker.id}?nation=${authState.role}`,
+      );
+
+      setSpeakerSuccessAlert(true);
+      setOpenSpeakerForm(false);
+    } catch (err) {
+      alert(err);
+    } finally {
+      setDeleteLoading(false);
+      refreshFunction();
+    }
+  };
+
   return (
     <CommonModal
       open={openSpeakerForm}
@@ -125,6 +149,21 @@ const SpeakerForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
+      )}
+      {edit && (
+        <LoadingButton
+          loading={deleteLoading}
+          variant="contained"
+          color="error"
+          onClick={deleteHandler}
+          style={{
+            position: "absolute",
+            right: "22px",
+            top: "12px",
+          }}
+        >
+          Delete
+        </LoadingButton>
       )}
     </CommonModal>
   );

@@ -5,6 +5,7 @@ import { Box, Grid } from "@mui/material";
 import Loading from "components/Loading/Loading";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import usePageViews from "hooks/usePageViews";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import SpeakerForm from "../Forms/SpeakerForm";
 import { AdminSpeakerContainer } from "./AdminSpeakersStyles";
 import SpeakerHideForm from "../Forms/SpeakerHideForm";
@@ -14,6 +15,9 @@ const AdminSpeakers = () => {
 
   const [openSpeakerForm, setOpenSpeakerForm] = useState<boolean>(false);
   const [openHideForm, setOpenHideForm] = useState<boolean>(false);
+
+  const [speakerSuccessAlert, setSpeakerSuccessAlert] =
+    useState<boolean>(false);
 
   const openSpeakerFormHandler = () => {
     setSelectedSpeaker(undefined);
@@ -80,6 +84,7 @@ const AdminSpeakers = () => {
         {openSpeakerForm && (
           <SpeakerForm
             edit={edit}
+            setSpeakerSuccessAlert={setSpeakerSuccessAlert}
             selectedSpeaker={selectedSpeaker as Speaker.speakerType}
             refreshFunction={getSpeakers}
             openSpeakerForm={openSpeakerForm}
@@ -94,6 +99,12 @@ const AdminSpeakers = () => {
           />
         )}
       </AdminLayout>
+      <TopCenterSnackBar
+        value={speakerSuccessAlert}
+        setValue={setSpeakerSuccessAlert}
+        severity="success"
+        content="Success"
+      />
     </AdminSpeakerContainer>
   );
 };

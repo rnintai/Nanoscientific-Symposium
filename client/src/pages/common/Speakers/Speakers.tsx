@@ -41,7 +41,7 @@ const Speakers = () => {
       },
     ],
     [
-      "latam",
+      "us",
       {
         title: "Speakers",
       },
