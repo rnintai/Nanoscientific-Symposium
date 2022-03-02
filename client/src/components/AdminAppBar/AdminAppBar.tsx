@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
-import { Button } from "@mui/material";
+import { Button, Switch } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -19,7 +19,10 @@ interface AdminAppBarProps {
   // eslint-disable-next-line react/no-unused-prop-types,react/require-default-props
   menu3?: string;
   // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
-  menu3ClickHandler?: () => void;
+  menu3ClickHandler?: () => void; // eslint-disable-next-line react/require-default-props
+  hideToggle?: boolean;
+  // eslint-disable-next-line react/require-default-props
+  hideToggleHandler?: () => void;
 }
 
 const AdminAppBar = ({
@@ -30,7 +33,10 @@ const AdminAppBar = ({
   menu2ClickHandler,
   menu3,
   menu3ClickHandler,
+  hideToggle,
+  hideToggleHandler,
 }: AdminAppBarProps) => {
+  const [checked, setChecked] = useState<boolean>(false);
   return (
     <AppBar
       position="fixed"
@@ -43,6 +49,19 @@ const AdminAppBar = ({
         <Typography variant="h4" noWrap component="div" sx={{ flexGrow: 1 }}>
           {title}
         </Typography>
+        {hideToggle && hideToggleHandler && (
+          <>
+            <div>Publish?</div>
+            <Switch
+              checked={checked}
+              color="default"
+              onClick={() => {
+                setChecked(!checked);
+              }}
+              onChange={hideToggleHandler}
+            />
+          </>
+        )}
         <Button onClick={menu1ClickHandler} color="inherit">
           {menu1}
         </Button>
