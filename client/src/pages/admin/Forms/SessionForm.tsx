@@ -1,19 +1,26 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/lab";
+import {
+  DesktopDatePicker,
+  LocalizationProvider,
+  LoadingButton,
+} from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios, { AxiosResponse } from "axios";
 import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import "moment-timezone";
+import moment from "moment";
+
 import { useAuthState } from "../../../context/AuthContext";
 
 interface SessionFormProps {
   openSessionForm: boolean;
   setOpenSessionForm: Dispatch<SetStateAction<boolean>>;
   setSessionSuccess: Dispatch<SetStateAction<boolean>>;
-  seletedSession: Program.sessionType;
+  selectedSession: Program.sessionType;
   getSessions: () => void;
   edit: boolean;
 }
@@ -22,18 +29,27 @@ const SessionForm = ({
   openSessionForm,
   setOpenSessionForm,
   setSessionSuccess,
-  seletedSession,
+  selectedSession,
   getSessions,
   // 편집모달일때는 edit 이 true 로 넘어온다
   edit = false,
 }: SessionFormProps) => {
   const authState = useAuthState();
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(
-    edit ? new Date(seletedSession.date) : new Date(),
+    edit
+      ? moment
+          .utc(moment(selectedSession.date).format("MM/DD/YYYY"))
+          .tz(selectedTimezone as string)
+          .toDate()
+      : new Date(),
   );
-  const title = useInput(edit ? seletedSession.session_title : "");
+  const title = useInput(edit ? selectedSession.session_title : "");
 
   const sessionSubmitHandler = async () => {
     setLoading(true);
@@ -43,7 +59,7 @@ const SessionForm = ({
     if (edit) {
       data = await axios.put("/api/admin/session", {
         nation: authState.role,
-        id: seletedSession.id,
+        id: selectedSession.id,
         title: title.value,
         status: status === "show" ? 1 : 0,
         date,
@@ -74,6 +90,24 @@ const SessionForm = ({
     setStatus(newStatus);
   };
 
+  const deleteHandler = async () => {
+    try {
+      setDeleteLoading(true);
+      const data = await axios.delete(
+        `/api/admin/session/${selectedSession.id}?nation=${authState.role}`,
+      );
+
+      console.log(data.data.success);
+    } catch (err) {
+      alert(err);
+    } finally {
+      setDeleteLoading(false);
+      setSessionSuccess(true);
+      setOpenSessionForm(false);
+      getSessions();
+    }
+  };
+
   return (
     <CommonModal
       open={openSessionForm}
@@ -98,7 +132,7 @@ const SessionForm = ({
       />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
-          label="Date desktop"
+          label="Session Date"
           inputFormat="MM/dd/yyyy"
           value={date}
           onChange={dateChangeHandler}
@@ -119,6 +153,21 @@ const SessionForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
+      )}
+      {edit && (
+        <LoadingButton
+          loading={deleteLoading}
+          variant="contained"
+          color="error"
+          onClick={deleteHandler}
+          style={{
+            position: "absolute",
+            right: "22px",
+            top: "12px",
+          }}
+        >
+          Delete
+        </LoadingButton>
       )}
     </CommonModal>
   );

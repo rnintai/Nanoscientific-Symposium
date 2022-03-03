@@ -130,6 +130,7 @@ const EuropeLoginModal = ({
         if (res.data.success === true) {
           dispatchLogin(email, res.data.role, res.data.accessToken);
           setSuccess(true);
+          setPasswordInputModalOpen(false);
         } else {
           setFailed(true);
         }
@@ -255,7 +256,6 @@ const EuropeLoginModal = ({
       </Button>
       {/* email modal */}
       <Dialog
-        fullWidth
         open={emailModalOpen}
         onClose={() => {
           handleClose(setEmailModalOpen);
@@ -311,7 +311,6 @@ const EuropeLoginModal = ({
       {/* 비밀번호 입력 모달 */}
 
       <Dialog
-        fullWidth
         open={passwordInputModalOpen}
         onClose={() => {
           handleClose(setPasswordInputModalOpen);
@@ -387,7 +386,6 @@ const EuropeLoginModal = ({
 
       {/* 패스워드 설정 모달 */}
       <Dialog
-        fullWidth
         open={passwordSetModalOpen}
         onClose={() => {
           handleClose(setPasswordSetModalOpen);

@@ -2,10 +2,10 @@ import React, { Dispatch, SetStateAction } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContentText from "@mui/material/DialogContentText";
-import Button from "@mui/material/Button";
+import { Button, Box, DialogContent } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DialogActions from "@mui/material/DialogActions";
-import { DialogContent } from "@mui/material";
+
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 
@@ -51,7 +51,7 @@ const CommonModal = ({
         fullWidth
         open={open}
         onClose={handleClose}
-        maxWidth="md"
+        maxWidth="laptop"
         TransitionComponent={transitionDir ? Transition : undefined}
       >
         <DialogTitle>{title}</DialogTitle>
@@ -64,8 +64,9 @@ const CommonModal = ({
             </Button>
             {onSubmit && (
               <LoadingButton
+                style={{ marginLeft: "10px" }}
                 loading={loading}
-                variant="outlined"
+                variant="contained"
                 onClick={onSubmit}
               >
                 Save

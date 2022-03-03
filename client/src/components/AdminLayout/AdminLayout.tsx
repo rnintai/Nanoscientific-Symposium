@@ -22,6 +22,10 @@ interface AdminLayoutProps {
   menu3?: string;
   // eslint-disable-next-line react/require-default-props
   menu3ClickHandler?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  hideToggle?: boolean;
+  // eslint-disable-next-line react/require-default-props
+  hideToggleHandler?: () => void;
 }
 
 const AdminLayout = ({
@@ -33,6 +37,8 @@ const AdminLayout = ({
   menu2ClickHandler,
   menu3,
   menu3ClickHandler,
+  hideToggle,
+  hideToggleHandler,
 }: AdminLayoutProps) => {
   return (
     <AdminLayoutContainer>
@@ -46,6 +52,8 @@ const AdminLayout = ({
           menu2ClickHandler={menu2ClickHandler}
           menu3={menu3}
           menu3ClickHandler={menu3ClickHandler}
+          hideToggle={hideToggle}
+          hideToggleHandler={hideToggleHandler}
         />
         <AdminNavBar />
         <Box component="main" sx={{ flexGrow: 1, bgcolor: "#e7e8e9", p: 3 }}>

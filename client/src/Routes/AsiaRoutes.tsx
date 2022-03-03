@@ -38,7 +38,7 @@ export default [
     element: <Sponsors />,
   },
   {
-    path: "/asia/programs",
+    path: "/asia/program",
     element: <Programs />,
   },
   {

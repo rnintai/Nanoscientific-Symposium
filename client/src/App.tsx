@@ -16,10 +16,32 @@ import JapanRoutes from "./Routes/JapanRoutes";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
 
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xs: false; // removes the `xs` breakpoint
+    sm: false;
+    md: false; // 900px
+    lg: false;
+    xl: false;
+    mobile: true;
+    tablet: true;
+    laptop: true;
+    desktop: true;
+  }
+}
+
 const theme = createTheme({
   typography: {
     allVariants: {
       fontFamily: `"Open Sans", sans-serif`,
+    },
+  },
+  breakpoints: {
+    values: {
+      mobile: 0,
+      tablet: 768,
+      laptop: 1024,
+      desktop: 1280,
     },
   },
 });
@@ -28,6 +50,14 @@ const jpTheme = createTheme({
     allVariants: {
       fontFamily: `"Noto Sans JP", sans-serif`,
     },
+  },
+  breakpoints: {
+    // values: {
+    //   mobile: 0,
+    //   tablet: 640,
+    //   laptop: 1024,
+    //   desktop: 1280,
+    // },
   },
 });
 
@@ -74,7 +104,8 @@ const App = () => {
       .finally(() => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
       });
-  }, []);
+  }, [authState.isLoading]);
+
   if (authState.isLoading) return <Loading />;
 
   return (

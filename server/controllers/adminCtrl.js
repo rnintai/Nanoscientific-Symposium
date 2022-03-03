@@ -44,6 +44,37 @@ const adminCtrl = {
       console.log(err);
     }
   },
+
+  deleteSession: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM program_sessions WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      sql = `DELETE FROM programs WHERE session=${id}`;
+      let result = await connection.query(sql);
+
+      console.log(result);
+
+      res.status(200).json({
+        success: true,
+        message: `1개의 세션 삭제, ${result[0].affectedRows}개의 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
   addProgram: async (req, res) => {
     const {
       nation,
@@ -97,6 +128,31 @@ const adminCtrl = {
       connection.release();
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  deleteProgram: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM programs WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `id:${id} 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
     }
   },
 
@@ -206,6 +262,31 @@ const adminCtrl = {
       connection.release();
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  deleteSpeaker: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM speakers WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `연사 삭제 완료`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
     }
   },
 

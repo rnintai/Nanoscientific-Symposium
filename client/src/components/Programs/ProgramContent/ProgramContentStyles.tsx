@@ -15,7 +15,7 @@ export const ProgramContentContainer = styled.div<{ isAdmin: boolean }>`
 
     span:last-child {
       position: relative;
-      top: 2rem;
+      top: 1.2rem;
       font-size: 1.2em;
       font-weight: 600;
     }
@@ -33,6 +33,10 @@ export const ProgramContentContainer = styled.div<{ isAdmin: boolean }>`
       line-height: 1.2;
 
       position: relative;
+
+      p.description {
+        font-size: 0.9em;
+      }
     }
 
     &:nth-child(odd) {

@@ -220,7 +220,7 @@ const NavBar = ({
               </li>
             )}
             <li className="menu-item">
-              <Link className="menu-link" to={`/${pathname}/programs`}>
+              <Link className="menu-link" to={`/${pathname}/program`}>
                 {programs}
               </Link>
             </li>
@@ -315,7 +315,6 @@ const NavBar = ({
                          setSuccess={setLoginSuccess}
                          setFailed={setLoginFailed}
                        /> */}
-                    )
                   </li>
                   <li className="login-item">
                     <Link

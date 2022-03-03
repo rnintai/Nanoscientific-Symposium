@@ -41,7 +41,7 @@ const Speakers = () => {
       },
     ],
     [
-      "latam",
+      "us",
       {
         title: "Speakers",
       },
@@ -68,7 +68,7 @@ const Speakers = () => {
 
   return (
     <SpeakersContainer>
-      <Title fontSize={50} title={title} />
+      <Title fontSize={30} title={title} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container

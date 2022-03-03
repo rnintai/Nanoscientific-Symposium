@@ -23,7 +23,7 @@ export default [
     element: <KoreaAttend />,
   },
   {
-    path: "/kr/programs",
+    path: "/kr/program",
     element: <Programs />,
   },
   {

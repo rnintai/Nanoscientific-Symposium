@@ -51,7 +51,7 @@ export default [
     ),
   },
   {
-    path: "/asia/admin/programs",
+    path: "/asia/admin/program",
     element: (
       <AdminRoute>
         <AdminPrograms />
@@ -59,7 +59,7 @@ export default [
     ),
   },
   {
-    path: "/kr/admin/programs",
+    path: "/kr/admin/program",
     element: (
       <AdminRoute>
         <AdminPrograms />
@@ -67,7 +67,7 @@ export default [
     ),
   },
   {
-    path: "/us/admin/programs",
+    path: "/us/admin/program",
     element: (
       <AdminRoute>
         <AdminPrograms />
@@ -75,7 +75,7 @@ export default [
     ),
   },
   {
-    path: "/jp/admin/programs",
+    path: "/jp/admin/program",
     element: (
       <AdminRoute>
         <AdminPrograms />
@@ -83,7 +83,7 @@ export default [
     ),
   },
   {
-    path: "/eu/admin/programs",
+    path: "/eu/admin/program",
     element: (
       <AdminRoute>
         <AdminPrograms />

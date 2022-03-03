@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export const ResetPasswordContainer = styled.div`
-  padding: 152px 30px;
+  width: 70%;
+  margin: 0 auto;
+  padding: 100px 30px;
 
   .speaker-image {
     object-fit: cover;
@@ -12,8 +14,15 @@ export const ResetPasswordContainer = styled.div`
     color: #7c7c7c;
   }
 
-  //화면이 너무 커지면 사람들의 이미지가 너무 커진다
-  @media (min-width: 1600px) {
-    padding: 152px;
+  .half-width {
+    width: 49%;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 100px 20px;
+
+    .half-width {
+      width: 100%;
+    }
   }
 `;

@@ -39,8 +39,8 @@ const AdminPrograms = () => {
 
   const [openHideForm, setOpenHideForm] = useState<boolean>(false);
 
-  const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
-  const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
+  const [selectedSession, setSelectedSession] = useState<Program.sessionType>();
+  const [selectedProgram, setSelectedProgram] = useState<Program.programType>();
   const getPrograms = async () => {
     const config = {
       params: {
@@ -100,7 +100,7 @@ const AdminPrograms = () => {
       menu1ClickHandler={openSessionFormHandler}
       menu2="Add Programs"
       menu2ClickHandler={openProgramFormHandler}
-      menu3="Hide"
+      menu3="Hidden Items"
       menu3ClickHandler={openHideFormHandler}
     >
       <AdminProgramsContainer>
@@ -159,7 +159,7 @@ const AdminPrograms = () => {
           getSessions={() => {
             getSessions();
           }}
-          seletedSession={seletedSession as Program.sessionType}
+          selectedSession={selectedSession as Program.sessionType}
           openSessionForm={openSessionForm}
           setOpenSessionForm={setOpenSessionForm}
           setSessionSuccess={setSessionSuccess}
@@ -173,7 +173,7 @@ const AdminPrograms = () => {
             getPrograms();
           }}
           sessions={sessions}
-          seletedProgram={seletedProgram as Program.programType}
+          selectedProgram={selectedProgram as Program.programType}
           openProgramForm={openProgramForm}
           setOpenProgramForm={setOpenProgramForm}
           setProgramSuccess={setProgramSuccess}

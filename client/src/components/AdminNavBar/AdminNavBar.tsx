@@ -34,12 +34,12 @@ const AdminNavBar = () => {
       <Toolbar />
       <Divider />
       <List>
-        <Link to={`/${pathname}/admin/programs`}>
+        <Link to={`/${pathname}/admin/program`}>
           <ListItem button>
             <ListItemIcon>
               <EventNoteTwoToneIcon />
             </ListItemIcon>
-            <ListItemText primary="Programs" />
+            <ListItemText primary="Program" />
           </ListItem>
         </Link>
         <Link to={`/${pathname}/admin/speakers`}>
