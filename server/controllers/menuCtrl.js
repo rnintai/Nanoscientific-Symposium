@@ -34,12 +34,12 @@ const menuCtrl = {
     }
   },
   setIsAdmin: async (req, res) => {
-    const { path, nation, isAdmin } = req.body;
+    const { path, nation, isPublished } = req.body;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE menu SET is_published=${isAdmin} WHERE path='${path}'`;
+      const sql = `UPDATE menu SET is_published=${isPublished} WHERE path='${path}'`;
 
       await connection.query(sql);
 
