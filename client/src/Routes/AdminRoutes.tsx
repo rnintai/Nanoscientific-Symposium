@@ -101,7 +101,7 @@ export default [
   {
     path: "/kr/admin/speakers",
     element: (
-      <AdminRoute key="/asia/admin">
+      <AdminRoute key="/kr/admin/speakers">
         <AdminSpeakers />
       </AdminRoute>
     ),
