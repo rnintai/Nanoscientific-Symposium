@@ -25,7 +25,13 @@ interface AdminLayoutProps {
   // eslint-disable-next-line react/require-default-props
   hideToggle?: boolean;
   // eslint-disable-next-line react/require-default-props
+  setHideToggle?: React.Dispatch<React.SetStateAction<boolean>>;
+  // eslint-disable-next-line react/require-default-props
   hideToggleHandler?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  isHideLoading?: boolean;
+  // eslint-disable-next-line react/require-default-props
+  isPublished?: boolean;
 }
 
 const AdminLayout = ({
@@ -38,7 +44,10 @@ const AdminLayout = ({
   menu3,
   menu3ClickHandler,
   hideToggle,
+  setHideToggle,
   hideToggleHandler,
+  isHideLoading,
+  isPublished,
 }: AdminLayoutProps) => {
   return (
     <AdminLayoutContainer>
@@ -53,7 +62,10 @@ const AdminLayout = ({
           menu3={menu3}
           menu3ClickHandler={menu3ClickHandler}
           hideToggle={hideToggle}
+          setHideToggle={setHideToggle}
           hideToggleHandler={hideToggleHandler}
+          isHideLoading={isHideLoading}
+          isPublished={isPublished}
         />
         <AdminNavBar />
         <Box component="main" sx={{ flexGrow: 1, bgcolor: "#e7e8e9", p: 3 }}>

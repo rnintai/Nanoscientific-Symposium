@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { LoadingButton } from "@mui/lab";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
@@ -22,7 +23,13 @@ interface AdminAppBarProps {
   menu3ClickHandler?: () => void; // eslint-disable-next-line react/require-default-props
   hideToggle?: boolean;
   // eslint-disable-next-line react/require-default-props
+  setHideToggle?: React.Dispatch<React.SetStateAction<boolean>>;
+  // eslint-disable-next-line react/require-default-props
   hideToggleHandler?: () => void;
+  // eslint-disable-next-line react/require-default-props
+  isHideLoading?: boolean;
+  // eslint-disable-next-line react/require-default-props
+  isPublished?: boolean;
 }
 
 const AdminAppBar = ({
@@ -34,9 +41,17 @@ const AdminAppBar = ({
   menu3,
   menu3ClickHandler,
   hideToggle,
+  setHideToggle,
   hideToggleHandler,
+  isHideLoading,
+  isPublished,
 }: AdminAppBarProps) => {
-  const [checked, setChecked] = useState<boolean>(false);
+  // useEffect(() => {
+  //   if (hideToggleHandler) {
+  //     hideToggleHandler();
+  //   }
+  // }, [hideToggle]);
+
   return (
     <AppBar
       position="fixed"
@@ -49,17 +64,27 @@ const AdminAppBar = ({
         <Typography variant="h4" noWrap component="div" sx={{ flexGrow: 1 }}>
           {title}
         </Typography>
-        {hideToggle && hideToggleHandler && (
+        {setHideToggle && hideToggleHandler && (
           <>
             <div>Publish?</div>
             <Switch
-              checked={checked}
+              disabled={isHideLoading}
+              checked={hideToggle}
               color="default"
               onClick={() => {
-                setChecked(!checked);
+                setHideToggle(!hideToggle);
               }}
-              onChange={hideToggleHandler}
             />
+            <LoadingButton
+              disabled={isPublished === hideToggle}
+              loading={isHideLoading}
+              onClick={hideToggleHandler}
+              color="success"
+              variant="contained"
+              style={{ marginRight: "20px" }}
+            >
+              Apply
+            </LoadingButton>
           </>
         )}
         <Button onClick={menu1ClickHandler} color="inherit">
