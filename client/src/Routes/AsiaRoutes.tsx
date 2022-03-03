@@ -1,6 +1,5 @@
 import React from "react";
 import AdminRoute from "components/Route/AdminRoute";
-import Admin from "pages/admin/Admin";
 import Landing from "pages/common/Landing";
 import AsiaLectureHall from "pages/asia/AsiaLectureHall";
 import PrivateRoute from "components/Route/PrivateRoute";
@@ -39,11 +38,19 @@ export default [
   },
   {
     path: "/asia/program",
-    element: <Programs />,
+    element: (
+      <AdminRoute key="/asia/program">
+        <Programs />
+      </AdminRoute>
+    ),
   },
   {
     path: "/asia/speakers",
-    element: <Speakers />,
+    element: (
+      <AdminRoute key="/asia/program">
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
     path: "/asia/registration",

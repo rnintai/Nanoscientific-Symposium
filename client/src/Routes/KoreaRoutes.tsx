@@ -1,4 +1,5 @@
 import React from "react";
+import AdminRoute from "components/Route/AdminRoute";
 import Landing from "pages/common/Landing";
 import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
@@ -16,7 +17,11 @@ export default [
   },
   {
     path: "/kr/speakers",
-    element: <Speakers />,
+    element: (
+      <AdminRoute key="/kr/speakers">
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
     path: "/kr/attend",
@@ -24,7 +29,11 @@ export default [
   },
   {
     path: "/kr/program",
-    element: <Programs />,
+    element: (
+      <AdminRoute key="/kr/program">
+        <Programs />
+      </AdminRoute>
+    ),
   },
   {
     path: "/kr/lecture-hall",

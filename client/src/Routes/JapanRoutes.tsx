@@ -1,4 +1,5 @@
 import React from "react";
+import AdminRoute from "components/Route/AdminRoute";
 import Landing from "pages/common/Landing";
 import Programs from "pages/common/Programs/Programs";
 import PrivateRoute from "components/Route/PrivateRoute";
@@ -18,7 +19,11 @@ export default [
   },
   {
     path: "/jp/speakers",
-    element: <Speakers />,
+    element: (
+      <AdminRoute key="/jp/speakers">
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
     path: "/jp/attend",
@@ -26,7 +31,11 @@ export default [
   },
   {
     path: "/jp/program",
-    element: <Programs />,
+    element: (
+      <AdminRoute key="/jp/program">
+        <Programs />{" "}
+      </AdminRoute>
+    ),
   },
   {
     path: "/jp/greeting",
