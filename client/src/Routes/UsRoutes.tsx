@@ -17,7 +17,7 @@ export default [
   {
     path: "/us/speakers",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/us/speakers">
         <Speakers />
       </AdminRoute>
     ),
@@ -25,7 +25,7 @@ export default [
   {
     path: "/us/program",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/us/program">
         <Programs />
       </AdminRoute>
     ),
