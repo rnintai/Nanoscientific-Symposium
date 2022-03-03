@@ -25,6 +25,7 @@ const TopCenterSnackBar = ({
       onClose={() => {
         setValue(false);
       }}
+      sx={{ top: "30px", height: "0px" }}
     >
       <Alert
         variant={variant}
