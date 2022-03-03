@@ -8,7 +8,7 @@ export const AdminSpeakerContainer = styled.div`
       transform: translateY(-10px);
     }
     &:not(:nth-child(3n)) {
-      margin-right: 50px;
+      margin-right: 3%;
     }
 
     .speaker-card {
