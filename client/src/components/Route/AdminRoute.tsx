@@ -42,8 +42,6 @@ const AdminRoute = ({ children }: AdminRouteProps) => {
     }
   }, []);
 
-  const resultJSX = <div>&nbsp;</div>;
-
   useEffect(() => {
     if (!loading && isPublishedRoute !== -1) {
       if (isPublishedRoute === 0 || isAdminRoute) {
