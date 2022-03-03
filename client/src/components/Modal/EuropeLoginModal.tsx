@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  FormEventHandler,
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Button, Snackbar, Alert } from "@mui/material";
@@ -87,6 +82,11 @@ const EuropeLoginModal = ({
   const password2 = useInput("");
   const firstName = useInput("");
   const lastName = useInput("");
+
+  // refs
+  const emailFocus = useRef<HTMLInputElement>(null);
+  const passwordInputFocus = useRef<HTMLInputElement>(null);
+  const passwordSetFocus = useRef<HTMLInputElement>(null);
 
   const handleOpen = (setOpen: (val: boolean) => void) => {
     setOpen(true);
@@ -214,6 +214,34 @@ const EuropeLoginModal = ({
     handlePasswordConfirm();
   }, [password1, password2]);
 
+  // 모달 변경 시 focus.
+  useEffect(() => {
+    if (emailModalOpen) {
+      setTimeout(() => {
+        const input = emailFocus.current?.children[1]
+          .children[0] as HTMLInputElement;
+        input.focus();
+      }, 10);
+    }
+  }, [emailModalOpen]);
+  useEffect(() => {
+    if (passwordInputModalOpen) {
+      setTimeout(() => {
+        const input = passwordInputFocus.current?.children[1]
+          .children[0] as HTMLInputElement;
+        input.focus();
+      }, 10);
+    }
+  }, [passwordInputModalOpen]);
+  useEffect(() => {
+    if (passwordSetFocus) {
+      setTimeout(() => {
+        const input = passwordSetFocus.current?.children[1]
+          .children[0] as HTMLInputElement;
+        input.focus();
+      }, 10);
+    }
+  }, [passwordSetModalOpen]);
   return (
     <div>
       <Button
@@ -239,7 +267,8 @@ const EuropeLoginModal = ({
         <DialogTitle>Sign In</DialogTitle>
         <DialogContent sx={{ width: 600 }}>
           <TextField
-            autoFocus
+            disabled={!emailModalOpen}
+            ref={emailFocus}
             margin="dense"
             id="email"
             label="Email Address"
@@ -294,7 +323,8 @@ const EuropeLoginModal = ({
         <DialogTitle>Sign In</DialogTitle>
         <DialogContent sx={{ width: 600 }}>
           <TextField
-            autoFocus
+            disabled={!passwordInputModalOpen}
+            ref={passwordInputFocus}
             margin="dense"
             id="password"
             label="Password"
@@ -369,7 +399,8 @@ const EuropeLoginModal = ({
         <DialogTitle>Set Your Password</DialogTitle>
         <DialogContent sx={{ width: 600 }}>
           <TextField
-            autoFocus
+            disabled={!passwordSetModalOpen}
+            ref={passwordSetFocus}
             margin="dense"
             id="password1"
             label="New Password"
@@ -384,7 +415,7 @@ const EuropeLoginModal = ({
             {...password1}
           />
           <TextField
-            autoFocus
+            disabled={!passwordSetModalOpen}
             margin="dense"
             id="password2"
             label="Password Confirmation"
@@ -403,8 +434,8 @@ const EuropeLoginModal = ({
           </span>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <TextField
+              disabled={!passwordSetModalOpen}
               style={{ width: "49%" }}
-              autoFocus
               margin="dense"
               id="first-name"
               label="First Name"
@@ -418,8 +449,8 @@ const EuropeLoginModal = ({
               {...firstName}
             />
             <TextField
+              disabled={!passwordSetModalOpen}
               style={{ width: "49%" }}
-              autoFocus
               margin="dense"
               id="last-name"
               label="Last Name"
