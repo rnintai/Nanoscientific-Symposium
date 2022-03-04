@@ -29,8 +29,12 @@ const Timer = ({ second, setIsExpired }: TimerProps) => {
 
   return (
     <TimerContainer>
-      {minuteRemained}:
-      {secondRemained < 10 ? `0${secondRemained}` : secondRemained}
+      {timeRemained >= 0 && (
+        <span>
+          {minuteRemained}:
+          {secondRemained < 10 ? `0${secondRemained}` : secondRemained}
+        </span>
+      )}
     </TimerContainer>
   );
 };
