@@ -10,6 +10,7 @@ import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import Registration from "pages/common/Registration/Registration";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 
 export default [
   {
@@ -63,5 +64,9 @@ export default [
         <ResetPassword />
       </PrivateRoute>
     ),
+  },
+  {
+    path: "/asia/user/forgot-password",
+    element: <ForgotPassword />,
   },
 ];
