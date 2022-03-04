@@ -12,5 +12,6 @@ export const TitleContainer = styled.div<TitleContainerProps>`
     color: #0e3c7a;
     font-size: ${(props) => props.fontSize}px;
     font-weight: 700;
+    margin: 0;
   }
 `;
