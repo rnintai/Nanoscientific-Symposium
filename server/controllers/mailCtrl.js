@@ -70,12 +70,8 @@ const mailCtrl = {
     } finally {
       connection.release();
     }
-
-
   },
-  // checkVcode: async (req, res) => {
 
-  // },
   getIsAdmin: async (req, res) => {
     const { path, nation } = req.body;
     const currentPool = getCurrentPool(nation);
