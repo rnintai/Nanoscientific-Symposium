@@ -4,6 +4,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
 import { Button, Switch } from "@mui/material";
+import { useAuthState } from "context/AuthContext";
+import { adminRole } from "utils/Roles";
 
 const drawerWidth = 240;
 
@@ -51,6 +53,7 @@ const AdminAppBar = ({
   //     hideToggleHandler();
   //   }
   // }, [hideToggle]);
+  const authState = useAuthState();
 
   return (
     <AppBar
@@ -64,29 +67,31 @@ const AdminAppBar = ({
         <Typography variant="h4" noWrap component="div" sx={{ flexGrow: 1 }}>
           {title}
         </Typography>
-        {setHideToggle && hideToggleHandler && (
-          <>
-            <div>Publish?</div>
-            <Switch
-              disabled={isHideLoading}
-              checked={hideToggle}
-              color="default"
-              onClick={() => {
-                setHideToggle(!hideToggle);
-              }}
-            />
-            <LoadingButton
-              disabled={isPublished === hideToggle}
-              loading={isHideLoading}
-              onClick={hideToggleHandler}
-              color="success"
-              variant="contained"
-              style={{ marginRight: "20px" }}
-            >
-              Apply
-            </LoadingButton>
-          </>
-        )}
+        {setHideToggle &&
+          hideToggleHandler &&
+          adminRole.includes(authState.role) && (
+            <>
+              <div>Publish?</div>
+              <Switch
+                disabled={isHideLoading}
+                checked={hideToggle}
+                color="default"
+                onClick={() => {
+                  setHideToggle(!hideToggle);
+                }}
+              />
+              <LoadingButton
+                disabled={isPublished === hideToggle}
+                loading={isHideLoading}
+                onClick={hideToggleHandler}
+                color="success"
+                variant="contained"
+                style={{ marginRight: "20px" }}
+              >
+                Apply
+              </LoadingButton>
+            </>
+          )}
         <Button onClick={menu1ClickHandler} color="inherit">
           {menu1}
         </Button>
