@@ -20,7 +20,7 @@ export const NavBarContainer = styled.div`
   }
 
   a:hover {
-    color: #7a7a7a;
+    color: #fff;
   }
 
   /*  */
@@ -173,8 +173,17 @@ export const NavBarContainer = styled.div`
     white-space: nowrap;
   }
 
-  .drop-down-item.active .submenu-link {
+  .menu-item.active .menu-link {
     color: #21ade5;
+    pointer-events: none;
+  }
+
+  .drop-down-item.active {
+    background-color: #21ade5;
+  }
+  .drop-down-item.active .submenu-link {
+    color: #fff;
+    pointer-events: none;
   }
 
   .drop-down-item.highlighted .submenu-link {

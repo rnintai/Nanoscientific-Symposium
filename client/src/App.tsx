@@ -6,6 +6,7 @@ import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import useSubPath from "hooks/useSubPath";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
@@ -73,6 +74,9 @@ const App = () => {
   const [passwordInputModalOpen, setPasswordInputModalOpen] =
     useState<boolean>(false);
 
+  // subpath 가져오기
+  const subpath = useSubPath();
+
   //
   useEffect(() => {
     axios
@@ -116,6 +120,7 @@ const App = () => {
           pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar
+              key={subpath}
               checkLoading={authState.isLoading}
               passwordSetModalOpen={passwordSetModalOpen}
               emailModalOpen={emailModalOpen}
@@ -127,6 +132,7 @@ const App = () => {
           )}
         {pathname === "jp" && (
           <NavBar
+            key={subpath}
             checkLoading={authState.isLoading}
             hideMenu
             emailModalOpen={emailModalOpen}

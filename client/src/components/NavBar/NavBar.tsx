@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
@@ -7,6 +7,7 @@ import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { countries } from "utils/Countries";
+import useSubPath from "hooks/useSubPath";
 import LoginModal from "../Modal/LoginModal";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
@@ -118,6 +119,9 @@ const NavBar = ({
   const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
 
+  const pathname = usePageViews();
+  const subpath = useSubPath();
+
   const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
     useState<boolean>(false);
 
@@ -125,7 +129,6 @@ const NavBar = ({
     setIsMobile(!isMobile);
   };
 
-  const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
 
@@ -151,6 +154,19 @@ const NavBar = ({
         setLogoutLoading(false);
       });
   };
+
+  // active router 감지 effect hook
+  useEffect(() => {
+    if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
+      document
+        .querySelector(`.menu-link[href="/${pathname + subpath}"]`)
+        ?.parentElement?.classList.add("active");
+    } else {
+      document
+        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+        ?.parentElement?.classList.add("active");
+    }
+  }, []);
 
   const {
     logoURL,
@@ -238,8 +254,9 @@ const NavBar = ({
             )}
             <li className="menu-item has-submenu">
               <Link
-                to={`/${pathname}/exhibit/parksystems`}
+                to={`/${pathname}/exhibit`}
                 className="menu-link"
+                style={{ pointerEvents: "none" }}
               >
                 {exhibitHall}
                 {pathname !== "jp" && <i className="fas fa-caret-down" />}
