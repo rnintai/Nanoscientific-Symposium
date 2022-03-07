@@ -165,6 +165,11 @@ const NavBar = ({
       document
         .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
         ?.parentElement?.classList.add("active");
+      document
+        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+        ?.parentElement?.parentElement?.parentElement?.parentElement?.classList.add(
+          "active",
+        );
     }
   }, []);
 
