@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
 import useSubPath from "hooks/useSubPath";
-import { countries } from "utils/Countries";
+import { editorRole } from "utils/Roles";
 import axios from "axios";
 import Loading from "components/Loading/Loading";
 
@@ -20,7 +20,7 @@ const AdminRoute = ({ children }: AdminRouteProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const isAdminRoute = subPath.split("/").indexOf("admin") !== -1;
-  const isUserAdmin = countries.includes(authState.role);
+  const isUserAdmin = editorRole.includes(authState.role);
 
   useEffect(() => {
     setLoading(true);
@@ -66,7 +66,7 @@ const AdminRoute = ({ children }: AdminRouteProps) => {
     <>
       {(loading || isPublishedRoute === -1) && <Loading />}
       {(!loading && (isPublishedRoute === 1 || isAdminRoute)) ||
-      countries.includes(authState.role) ? (
+      editorRole.includes(authState.role) ? (
         <>{children} </>
       ) : (
         <Loading />

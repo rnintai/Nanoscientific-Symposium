@@ -6,7 +6,7 @@ import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
-import { countries } from "utils/Countries";
+import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
 import LoginModal from "../Modal/LoginModal";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
@@ -299,7 +299,7 @@ const NavBar = ({
             <ul className="login-list">
               {authState.isLogin && !checkLoading && (
                 <>
-                  {countries.includes(authState.role) && (
+                  {editorRole.includes(authState.role) && (
                     <li className="login-item">
                       <Link className="menu-link" to={`${pathname}/admin`}>
                         ADMIN
@@ -334,8 +334,8 @@ const NavBar = ({
                       setPasswordInputModalOpen={setPasswordInputModalOpen}
                     />
                     {/* <LoginModal
-                         setSuccess={setLoginSuccess}
-                         setFailed={setLoginFailed}
+                        setSuccess={setLoginSuccess}
+                        setFailed={setLoginFailed}
                        /> */}
                   </li>
                   <li className="login-item">
