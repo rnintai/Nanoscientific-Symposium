@@ -5,6 +5,7 @@ import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import { LoadingButton } from "@mui/lab";
+import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { RegistrationContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {
@@ -18,6 +19,21 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const [emailValidationMsg, setEmailValidationMsg] = useState<string>("");
   const navigate = useNavigate();
   const nation = usePageViews();
+
+  const authState = useAuthState();
+  const dispatch = useAuthDispatch();
+
+  const dispatchLogin = (e: string, r: string, t: string) =>
+    dispatch({
+      type: "LOGIN",
+      authState: {
+        ...authState,
+        isLogin: true,
+        role: r,
+        email: e,
+        accessToken: t,
+      },
+    });
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -97,13 +113,15 @@ const Registration = ({ formNo }: RegistrationProps) => {
           return false;
         });
       try {
-        await axios.post("/api/users/login", {
+        const res = await axios.post("/api/users/login", {
           nation,
           email: formData.Email,
           password: null,
         });
-
-        navigate("/user/reset-password");
+        if (res.data.success) {
+          dispatchLogin(formData.Email, res.data.role, res.data.accessToken);
+        }
+        navigate(`/${nation}/user/reset-password`);
       } catch (err) {
         console.log(err);
         alert("login failed");

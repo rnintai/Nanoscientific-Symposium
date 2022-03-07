@@ -60,7 +60,7 @@ export default [
   {
     path: "/asia/user/reset-password",
     element: (
-      <PrivateRoute>
+      <PrivateRoute key="/asia/user/reset-password">
         <ResetPassword />
       </PrivateRoute>
     ),

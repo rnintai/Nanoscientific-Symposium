@@ -4,6 +4,7 @@ import EuropeRegistration from "pages/europe/EuropeRegistration/EuropeRegistrati
 import SetPassword from "pages/europe/SetPassword/SetPassword";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 
 export default [
   {
@@ -25,5 +26,9 @@ export default [
   {
     path: "/eu/user/setpassword",
     element: <SetPassword />,
+  },
+  {
+    path: "/eu/user/forgot-password",
+    element: <ForgotPassword />,
   },
 ];
