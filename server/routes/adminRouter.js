@@ -431,7 +431,7 @@ router.route("/hideSpeaker").get(adminCtrl.getHideSpeaker);
  *                 {
  *                   "id": 3,
  *                  "name": "Dr. dfs",
- *                   "belong": "Park Systems, United Kingdom             sss    ",
+ *                   "belong": "Park Systems, United Kingdom",
  *                   "image_path": "upload/cha.png-1644912178651",
  *                   "status": 0,
  *                   "description": null
@@ -472,5 +472,30 @@ router.route("/showSpeaker").put(adminCtrl.showSpeaker);
  */
 
 router.route("/users").get(adminCtrl.getUsers);
+
+/**
+ * @swagger
+ *  /api/admin/users/role:
+ *    post:
+ *      tags:
+ *      - Admin
+ *      description: 유저의 role을 변경합니다.
+ *      parameters:
+ *      - name: request
+ *        in: body
+ *        required: true
+ *        schema:
+ *          type: string
+ *          example: {
+ *             "nation": "asia",
+ *             "id": 1,
+ *             "role": "subscriber"
+ *          }
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router.route("/users/role").post(adminCtrl.updateRole);
 
 module.exports = router;

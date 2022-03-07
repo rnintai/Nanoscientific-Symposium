@@ -22,6 +22,8 @@ interface CommonModalProps {
   loading?: boolean;
   // eslint-disable-next-line react/require-default-props
   transitionDir?: "left" | "right" | "up" | "down";
+  // eslint-disable-next-line react/require-default-props
+  hideSaveButton?: boolean;
 }
 
 const CommonModal = ({
@@ -33,6 +35,7 @@ const CommonModal = ({
   onSubmit,
   loading,
   transitionDir,
+  hideSaveButton,
 }: CommonModalProps) => {
   const handleClose = () => {
     setOpen(false);
@@ -62,7 +65,7 @@ const CommonModal = ({
             <Button variant="outlined" onClick={handleClose}>
               Cancel
             </Button>
-            {onSubmit && (
+            {onSubmit && !hideSaveButton && (
               <LoadingButton
                 style={{ marginLeft: "10px" }}
                 loading={loading}

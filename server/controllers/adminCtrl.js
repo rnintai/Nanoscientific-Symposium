@@ -345,6 +345,29 @@ const adminCtrl = {
       console.log(err);
     }
   },
+
+  updateRole: async (req, res) => {
+    const { nation, id, role } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE user SET role='${role}' WHERE id=${id}`
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+        msg: "변경 성공"
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err
+      });
+    } finally {
+      connection.release();
+    }
+  },
 };
 
 module.exports = adminCtrl;

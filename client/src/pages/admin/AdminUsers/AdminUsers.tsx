@@ -151,19 +151,18 @@ const AdminUsers = () => {
     setPage(0);
   };
 
+  const config = {
+    params: { nation: pathname },
+  };
+
+  const getUsers = async () => {
+    const users = await axios.get("/api/admin/users", config);
+    setUsers(users.data as User.userType[]);
+    setLoading(false);
+  };
+
   useEffect(() => {
     setLoading(true);
-
-    const config = {
-      params: {
-        nation: pathname,
-      },
-    };
-    const getUsers = async () => {
-      const users = await axios.get("/api/admin/users", config);
-      setUsers(users.data as User.userType[]);
-      setLoading(false);
-    };
 
     getUsers();
   }, []);
@@ -244,6 +243,7 @@ const AdminUsers = () => {
           openUserDetailForm={openUserDetailForm}
           setOpenUserDetailForm={setOpenUserDetailForm}
           selectedUser={selectedUser as User.userType}
+          getUsers={getUsers}
         />
       )}
     </AdminUsersContainer>
