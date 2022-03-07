@@ -252,6 +252,35 @@ const usersCtrl = {
     }
   },
 
+  // 비밀번호 분실
+  forgotPassword: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const userEmail = req.body.email;
+    const newPassword = hasher.HashPassword(req.body.password);
+
+    try {
+      const sql = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        result: true,
+        msg: "비밀번호 변경 성공"
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+      return false;
+    }
+    finally {
+      connection.release();
+    }
+  },
 
   // 유럽 제외 회원가입
   register: async (req, res) => {
