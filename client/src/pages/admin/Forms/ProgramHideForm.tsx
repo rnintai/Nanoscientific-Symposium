@@ -9,6 +9,7 @@ import CommonModal from "components/CommonModal/CommonModal";
 import axios from "axios";
 import { Checkbox, DialogContentText, FormControlLabel } from "@mui/material";
 import { useAuthState } from "context/AuthContext";
+import usePageViews from "hooks/usePageViews";
 import { ProgramHideFormContentContainer } from "./ProgramHideFormStyles";
 
 interface ProgramHideFormProps {
@@ -33,9 +34,10 @@ const ProgramHideForm = ({
   const [hidePrograms, setHidePrograms] = useState<Program.programType[]>();
   const [hideSessions, setHideSessions] = useState<Program.sessionType[]>();
 
+  const pathname = usePageViews();
   const config = {
     params: {
-      nation: authState.role,
+      nation: pathname,
     },
   };
   useEffect(() => {
@@ -57,14 +59,14 @@ const ProgramHideForm = ({
     const showProgram = async () => {
       console.log(authState.role, programCheckedList);
       const data = await axios.put("/api/admin/showProgram", {
-        nation: authState.role,
+        nation: pathname,
         programs: programCheckedList,
       });
     };
 
     const showSession = async () => {
       const data = await axios.put("/api/admin/showSession", {
-        nation: authState.role,
+        nation: pathname,
         sessions: sessionCheckedList,
       });
     };

@@ -8,6 +8,7 @@ import useInput from "hooks/useInput";
 import { useAuthState } from "context/AuthContext";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
+import usePageViews from "hooks/usePageViews";
 
 interface SpeakerFormProps {
   openSpeakerForm: boolean;
@@ -39,6 +40,7 @@ const SpeakerForm = ({
   const [status, setStatus] = useState<Common.showStatus>("show");
 
   const authState = useAuthState();
+  const pathname = usePageViews();
 
   useEffect(() => {
     setPreviewURL(selectedSpeaker?.image_path);
@@ -53,7 +55,7 @@ const SpeakerForm = ({
     if (edit) {
       data = await axios.put("/api/admin/speaker", {
         id: selectedSpeaker.id,
-        nation: authState.role,
+        nation: pathname,
         name: name.value,
         belong: belong.value,
         imagePath,
@@ -62,7 +64,7 @@ const SpeakerForm = ({
     } else {
       // 새롭게 생성하는 경우 즉, ADD SPEAKER 를 클릭한경우
       data = await axios.post("/api/admin/speaker", {
-        nation: authState.role,
+        nation: pathname,
         name: name.value,
         belong: belong.value,
         imagePath,
@@ -88,7 +90,7 @@ const SpeakerForm = ({
     try {
       setDeleteLoading(true);
       await axios.delete(
-        `/api/admin/speaker/${selectedSpeaker.id}?nation=${authState.role}`,
+        `/api/admin/speaker/${selectedSpeaker.id}?nation=${pathname}`,
       );
 
       setSpeakerSuccessAlert(true);

@@ -13,6 +13,7 @@ import useInput from "hooks/useInput";
 import { useAuthState } from "context/AuthContext";
 import "moment-timezone";
 import moment from "moment";
+import usePageViews from "hooks/usePageViews";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
@@ -54,7 +55,9 @@ const ProgramForm = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
+
   const authState = useAuthState();
+  const pathname = usePageViews();
 
   const programSubmitHandler = async () => {
     setLoading(true);
@@ -62,7 +65,7 @@ const ProgramForm = ({
 
     if (edit) {
       data = await axios.put("/api/admin/program", {
-        nation: authState.role,
+        nation: pathname,
         id: selectedProgram.id,
         title: title.value,
         speakers: speakers.value,
@@ -80,7 +83,7 @@ const ProgramForm = ({
       });
     } else {
       data = await axios.post("/api/admin/program", {
-        nation: authState.role,
+        nation: pathname,
         session: selectedSession,
         title: title.value,
         speakers: speakers.value,
@@ -148,7 +151,7 @@ const ProgramForm = ({
     try {
       setDeleteLoading(true);
       const result = await axios.delete(
-        `/api/admin/program/${selectedProgram.id}?nation=${authState.role}`,
+        `/api/admin/program/${selectedProgram.id}?nation=${pathname}`,
       );
       if (result.data.success) {
         setProgramSuccess(true);

@@ -14,6 +14,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import "moment-timezone";
 import moment from "moment";
 
+import usePageViews from "hooks/usePageViews";
 import { useAuthState } from "../../../context/AuthContext";
 
 interface SessionFormProps {
@@ -35,6 +36,8 @@ const SessionForm = ({
   edit = false,
 }: SessionFormProps) => {
   const authState = useAuthState();
+  const pathname = usePageViews();
+
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
@@ -58,7 +61,7 @@ const SessionForm = ({
     // 편집 모달이라면 put 호출
     if (edit) {
       data = await axios.put("/api/admin/session", {
-        nation: authState.role,
+        nation: pathname,
         id: selectedSession.id,
         title: title.value,
         status: status === "show" ? 1 : 0,
@@ -67,7 +70,7 @@ const SessionForm = ({
     } else {
       // 추가 모달이라면 post 호출
       data = await axios.post("/api/admin/session", {
-        nation: authState.role,
+        nation: pathname,
         title: title.value,
         date,
       });
@@ -94,7 +97,7 @@ const SessionForm = ({
     try {
       setDeleteLoading(true);
       const data = await axios.delete(
-        `/api/admin/session/${selectedSession.id}?nation=${authState.role}`,
+        `/api/admin/session/${selectedSession.id}?nation=${pathname}`,
       );
 
       console.log(data.data.success);
