@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
-import { Button, Snackbar, Alert } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import TextField from "@mui/material/TextField";
 
@@ -60,11 +60,6 @@ const EuropeLoginModal = ({
   setPasswordInputModalOpen,
 }: ModalProps) => {
   const [loading, setLoading] = useState<boolean>(false);
-  // const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
-  // const [passwordSetModalOpen, setPasswordSetModalOpen] =
-  //   useState<boolean>(false);
-  // const [passwordInputModalOpen, setPasswordInputModalOpen] =
-  //   useState<boolean>(false);
 
   const [passwordNotMatch, setPasswordNotMatch] = useState<boolean>(false);
 
@@ -93,6 +88,13 @@ const EuropeLoginModal = ({
   };
   const handleClose = (setOpen: (val: boolean) => void) => {
     setOpen(false);
+  };
+
+  // 모달 모두 닫아주는 메서드
+  const closeAllModal = () => {
+    setEmailModalOpen(false);
+    setPasswordSetModalOpen(false);
+    setPasswordInputModalOpen(false);
   };
 
   const handlePasswordConfirm = () => {
@@ -303,8 +305,21 @@ const EuropeLoginModal = ({
               Next
             </Button>
           )}
-          <Link to={`${pathname}/registration`}> Create an Account</Link>
-          {/* <Link to="/#"> Forgot Your Password?</Link> */}
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{ width: "95%" }}
+          >
+            <Link to={`${pathname}/registration`} onClick={closeAllModal}>
+              Create an Account
+            </Link>
+            <Link
+              to={`${pathname}/user/forgot-password`}
+              onClick={closeAllModal}
+            >
+              Forgot Your Password?
+            </Link>
+          </Stack>
         </DialogActions>
       </Dialog>
 
