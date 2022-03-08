@@ -116,7 +116,7 @@ const App = () => {
     <ThemeProvider theme={pathname === "jp" ? jpTheme : theme}>
       <AppContainer>
         {pathname !== "" &&
-          pathname !== "admin" &&
+          subpath.indexOf("admin") === -1 &&
           pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar

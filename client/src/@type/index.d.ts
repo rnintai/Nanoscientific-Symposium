@@ -41,15 +41,16 @@ declare namespace User {
   interface userType {
     id: number;
     email: string;
-    title: string;
+    title?: string;
     role: string;
-    lastName: string;
-    firstName: string;
+    last_name: string;
+    first_name: string;
     university: string;
-    institute: string;
-    street: string;
-    zipCode: string;
-    city: string;
+    institute?: string;
+    street?: string;
+    zipCode?: string;
+    city?: string;
+    address?: string;
     researchField: string;
     afmTool?: string;
     nanomechanical?: number;
