@@ -34,7 +34,7 @@ export default [
     path: "/jp/program",
     element: (
       <AdminRoute key="/jp/program">
-        <Programs />{" "}
+        <Programs />
       </AdminRoute>
     ),
   },

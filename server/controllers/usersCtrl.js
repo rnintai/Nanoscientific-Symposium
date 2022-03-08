@@ -155,7 +155,7 @@ const usersCtrl = {
         res.status(200).json({
           success: true,
           result: result[0][0].is_password_set === 0 ? false : true,
-          msg: "패스워드 설정: true, 미설정: false"
+          msg: "패스워드 설정: true, 미설정: false",
         });
       }
     } catch (err) {
@@ -220,7 +220,7 @@ const usersCtrl = {
     const newPassword = hasher.HashPassword(req.body.newPassword);
 
     try {
-      const sql1 = `SELECT password FROM user WHERE email='${userEmail}'`
+      const sql1 = `SELECT password FROM user WHERE email='${userEmail}'`;
       const passwordRow = await connection.query(sql1);
 
       if (hasher.CheckPassword(curPassword, passwordRow[0][0].password)) {
@@ -236,9 +236,7 @@ const usersCtrl = {
           code: "P40",
           result: "Current password not matched.",
         });
-
       }
-
     } catch (err) {
       console.log(err);
       res.status(500).json({
@@ -246,8 +244,7 @@ const usersCtrl = {
         err,
       });
       return false;
-    }
-    finally {
+    } finally {
       connection.release();
     }
   },
@@ -267,7 +264,7 @@ const usersCtrl = {
       res.status(200).json({
         success: true,
         result: true,
-        msg: "비밀번호 변경 성공"
+        msg: "비밀번호 변경 성공",
       });
     } catch (err) {
       console.log(err);
@@ -276,8 +273,7 @@ const usersCtrl = {
         err,
       });
       return false;
-    }
-    finally {
+    } finally {
       connection.release();
     }
   },
@@ -297,7 +293,7 @@ const usersCtrl = {
       lastName,
       firstName,
       psOptIn,
-      nation
+      nation,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
@@ -305,7 +301,9 @@ const usersCtrl = {
 
     try {
       const sql = `INSERT INTO user(email,password,title,university,institute,street,zipCode,city,research_field,afm_tool,last_name,first_name,ps_opt_in)
-      VALUES('${email}','${hasher.HashPassword(null)}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}','${lastName}','${firstName}',${psOptIn})`;
+      VALUES('${email}','${hasher.HashPassword(
+        null
+      )}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}','${lastName}','${firstName}',${psOptIn})`;
 
       const result = await connection.query(sql);
 
@@ -317,8 +315,7 @@ const usersCtrl = {
 
       await connection.commit();
       connection.release();
-    }
-    catch (err) {
+    } catch (err) {
       res.status(500).json({
         success: false,
         err,
