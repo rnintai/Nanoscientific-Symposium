@@ -79,3 +79,18 @@ declare namespace Common {
     archive?: string;
   }
 }
+
+declare namespace Webinar {
+  interface webinarType {
+    uuid: string;
+    id: number;
+    host_id: string;
+    created_at: string;
+    duration: number;
+    join_url: string;
+    start_time: string;
+    timezone: string;
+    topic: string;
+    type: number;
+  }
+}
