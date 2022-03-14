@@ -13,18 +13,48 @@ declare module "@mui/material/styles" {
     desktop: true;
   }
 
+  interface Palette {
+    warning: Palette["primary"];
+    whitescale: Palette["primary"];
+  }
+
+  // interface PaletteOptions {
+  //   warning: PaletteOptions["primary"];
+  // }
+
   interface PaletteColorOptions {
     main: string;
     contrastText: string;
-    contrastTextAlpha: string;
+    contrastTextAlpha?: string;
+    alpha50?: string;
   }
 
   interface PaletteColor {
     main: string;
     contrastText: string;
-    contrastTextAlpha: string;
+    contrastTextAlpha?: string;
+    alpha50?: string;
   }
 }
+
+const palette = {
+  primary: {
+    // light: will be calculated from palette.primary.main,
+    main: "#21ade5",
+    dark: "#0040ff",
+    contrastText: "#fff",
+    contrastTextAlpha: "#ffffffad",
+  },
+  warning: {
+    main: "#FF0000",
+    contrastText: "#fff",
+    contrastTextAlpha: "#ffffffad",
+  },
+  whitescale: {
+    main: "#fff",
+    alpha50: "#ffffff66",
+  },
+};
 
 export const theme = createTheme({
   typography: {
@@ -32,7 +62,6 @@ export const theme = createTheme({
       fontFamily: `"Open Sans", sans-serif`,
     },
   },
-
   breakpoints: {
     values: {
       mobile: 0,
@@ -41,16 +70,7 @@ export const theme = createTheme({
       desktop: 1280,
     },
   },
-
-  palette: {
-    primary: {
-      // light: will be calculated from palette.primary.main,
-      main: "#21ade5",
-      // dark: will be calculated from palette.primary.main,
-      contrastText: "#fff",
-      contrastTextAlpha: "#ffffffad",
-    },
-  },
+  palette,
 });
 
 export const jpTheme = createTheme({
@@ -67,14 +87,5 @@ export const jpTheme = createTheme({
       desktop: 1280,
     },
   },
-
-  palette: {
-    primary: {
-      // light: will be calculated from palette.primary.main,
-      main: "#21ade5",
-      // dark: will be calculated from palette.primary.main,
-      contrastText: "#fff",
-      contrastTextAlpha: "#ffffffad",
-    },
-  },
+  palette,
 });
