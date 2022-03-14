@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { VideoContainer } from "components/VideoContainer/VideoContainer";
-import { Button, Stack } from "@mui/material";
+import { Box, Button, Skeleton, Stack } from "@mui/material";
 import ZoomCard from "components/ZoomCard/ZoomCard";
+import { StyledTimezoneSelect } from "components/Programs/ProgramsListContainer";
+import Loading from "components/Loading/Loading";
 
 const UsLectureHall = () => {
   const [webinarList, setWebinarList] = useState<Webinar.webinarType[]>([]);
+  const [selectedTimezone, setSelectedTimezone] = useState(
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  );
+
+  // getWebinar 로딩
+  const [getWebinarLoading, setGetWebinarLoading] = useState<boolean>(false);
+
   const getWebinars = async () => {
+    setGetWebinarLoading(true);
     axios
       .get("/api/zoom/webinars")
       .then((res) => {
@@ -19,6 +29,9 @@ const UsLectureHall = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setGetWebinarLoading(false);
       });
   };
 
@@ -28,35 +41,101 @@ const UsLectureHall = () => {
 
   return (
     <VideoContainer>
+      {/* {getWebinarLoading && <Loading />} */}
       <video
         src="https://d25unujvh7ui3r.cloudfront.net/lecture_hall.mp4"
         muted
         autoPlay
         loop
         playsInline
+        style={{ position: "absolute" }}
       />
       <Stack
+        direction="column"
         sx={{
-          position: "absolute",
-          top: 0,
           py: "100px",
           mx: "auto",
-          width: "100%",
+          maxWidth: "1080px",
+          zIndex: 1,
         }}
-        direction="row"
-        justifyContent="center"
       >
-        {webinarList.map((webinar) => (
-          <ZoomCard webinar={webinar} />
-        ))}
+        <StyledTimezoneSelect
+          value={selectedTimezone}
+          onChange={(e) => {
+            setSelectedTimezone(e.value);
+          }}
+        />
+        <Stack
+          direction="row"
+          // justifyContent="center"
+          flexWrap="wrap"
+          sx={{
+            zIndex: 1,
+            mt: 2,
+            ml: 8,
+            maxHeight: "650px",
+            overflowY: "auto",
+          }}
+          spacing={getWebinarLoading ? 3 : 0}
+        >
+          {getWebinarLoading && (
+            <>
+              <Stack
+                sx={{ width: "300px", height: "220px" }}
+                direction="column"
+                justifyContent="space-between"
+              >
+                <Stack
+                  sx={{ height: "90px", p: 2 }}
+                  direction="column"
+                  justifyContent="center"
+                >
+                  <Skeleton width="60%" />
+                  <Skeleton />
+                </Stack>
+                <Skeleton variant="rectangular" height={130} />
+              </Stack>
+              <Stack
+                sx={{ width: "300px", height: "220px" }}
+                direction="column"
+                justifyContent="space-between"
+              >
+                <Stack
+                  sx={{ height: "90px", p: 2 }}
+                  direction="column"
+                  justifyContent="center"
+                >
+                  <Skeleton width="60%" />
+                  <Skeleton />
+                </Stack>
+                <Skeleton variant="rectangular" height={130} />
+              </Stack>
+              <Stack
+                sx={{ width: "300px", height: "220px" }}
+                direction="column"
+                justifyContent="space-between"
+              >
+                <Stack
+                  sx={{ height: "90px", p: 2 }}
+                  direction="column"
+                  justifyContent="center"
+                >
+                  <Skeleton width="60%" />
+                  <Skeleton />
+                </Stack>
+                <Skeleton variant="rectangular" height={130} />
+              </Stack>
+            </>
+          )}
+          {webinarList.map((webinar) => (
+            <ZoomCard
+              key={webinar.id}
+              webinar={webinar}
+              timezone={selectedTimezone}
+            />
+          ))}
+        </Stack>
       </Stack>
-      {/* <Button
-        sx={{ position: "absolute", left: "50px", top: "500px" }}
-        variant="contained"
-        color="primary"
-      >
-        Test
-      </Button> */}
     </VideoContainer>
   );
 };
