@@ -8,7 +8,7 @@ import Sponsors from "pages/common/Sponsors";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import KoreaAttend from "pages/korea/KoreaAttend/KoreaAttend";
-import KoreaLectureHall from "pages/korea/KoreaLectureHall";
+import LectureHall from "pages/common/LectureHall/LectureHall";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 
 export default [
@@ -40,7 +40,7 @@ export default [
     path: "/kr/lecture-hall",
     element: (
       <PrivateRoute>
-        <KoreaLectureHall />
+        <LectureHall />
       </PrivateRoute>
     ),
   },

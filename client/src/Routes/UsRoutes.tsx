@@ -4,7 +4,7 @@ import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
-import UsLectureHall from "pages/us/UsLectureHall";
+import LectureHall from "pages/common/LectureHall/LectureHall";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import AdminRoute from "components/Route/AdminRoute";
@@ -35,7 +35,7 @@ export default [
     path: "/us/lecture-hall",
     element: (
       <PrivateRoute>
-        <UsLectureHall />
+        <LectureHall />
       </PrivateRoute>
     ),
   },

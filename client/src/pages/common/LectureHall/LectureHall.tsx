@@ -4,10 +4,18 @@ import { VideoContainer } from "components/VideoContainer/VideoContainer";
 import { Box, Button, Skeleton, Stack } from "@mui/material";
 import ZoomCard from "components/ZoomCard/ZoomCard";
 import { StyledTimezoneSelect } from "components/Programs/ProgramsListContainer";
-import Loading from "components/Loading/Loading";
+import usePageViews from "hooks/usePageViews";
+import { calculateDurationToDate } from "utils/Date";
 
-const UsLectureHall = () => {
+const LectureHall = () => {
+  const pathname = usePageViews();
+
+  // 국가에 해당하는 모든 webinars
   const [webinarList, setWebinarList] = useState<Webinar.webinarType[]>([]);
+  // 국가에 해당하는 live중인 webinars
+  const [liveWebinarList, setLiveWebinarList] = useState<Webinar.webinarType[]>(
+    [],
+  );
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
@@ -20,12 +28,15 @@ const UsLectureHall = () => {
     axios
       .get("/api/zoom/webinars")
       .then((res) => {
-        const filtered = res.data.result.webinars.filter(
-          (webinar: Webinar.webinarType) =>
-            new Date(webinar.start_time) > new Date(),
+        // const upcomingWebinars = filterPreviousWebinars(
+        //   res.data.result.webinars,
+        // );
+        // setWebinarList(upcomingWebinars);
+        const upcomingWebinars = filterPreviousWebinars(
+          filterWebinarsByTag(res.data.result.webinars, pathname),
         );
-        // setWebinarList(filtered);
-        setWebinarList(res.data.result.webinars);
+        setWebinarList(upcomingWebinars);
+        // setWebinarList(res.data.result.webinars);
       })
       .catch((err) => {
         console.log(err);
@@ -35,9 +46,44 @@ const UsLectureHall = () => {
       });
   };
 
+  const filterPreviousWebinars = (webinars: Webinar.webinarType[]) => {
+    const filtered = webinars.filter(
+      (webinar: Webinar.webinarType) =>
+        calculateDurationToDate(webinar.start_time, webinar.duration) >
+        new Date(),
+    );
+    return filtered;
+  };
+
+  // 현재 진행중 Webinar을 state에 저장하는 메서드
+  const filterLiveWebinars = () => {
+    const filtered = webinarList.filter(
+      (webinar: Webinar.webinarType) =>
+        new Date(webinar.start_time) <= new Date() &&
+        new Date() <=
+          calculateDurationToDate(webinar.start_time, webinar.duration),
+    );
+
+    setLiveWebinarList(filtered);
+  };
+
+  const filterWebinarsByTag = (
+    webinars: Webinar.webinarType[],
+    tag: string,
+  ) => {
+    const filtered = webinars.filter(
+      (webinar: Webinar.webinarType) =>
+        webinar.topic.toLowerCase().indexOf(tag.toLowerCase()) !== -1,
+    );
+    return filtered;
+  };
+
   useEffect(() => {
     getWebinars();
   }, []);
+  useEffect(() => {
+    filterLiveWebinars();
+  }, [webinarList]);
 
   return (
     <VideoContainer>
@@ -132,6 +178,11 @@ const UsLectureHall = () => {
               key={webinar.id}
               webinar={webinar}
               timezone={selectedTimezone}
+              isOnAir={
+                liveWebinarList.filter(
+                  (liveWebinar) => webinar.id === liveWebinar.id,
+                ).length !== 0
+              }
             />
           ))}
         </Stack>
@@ -140,4 +191,4 @@ const UsLectureHall = () => {
   );
 };
 
-export default UsLectureHall;
+export default LectureHall;
