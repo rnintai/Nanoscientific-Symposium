@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from "react";
+
 import {
   Card,
   CardHeader,
@@ -7,22 +9,27 @@ import {
   CardActions,
   IconButton,
   useTheme,
-  Skeleton,
+  Icon,
 } from "@mui/material";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import PodcastsIcon from "@mui/icons-material/Podcasts";
 
-import * as React from "react";
-import { useState, useEffect } from "react";
-import { dateToLocaleString } from "utils/Date";
+import { dateToLocaleString, calculateDurationToString } from "utils/Date";
 import { ZoomCardContainer } from "./ZoomCardStyles";
 
 interface ZoomCardProps {
   webinar: Webinar.webinarType;
   timezone: string;
+  isOnAir: boolean;
 }
 
-const ZoomCard = ({ webinar, timezone }: ZoomCardProps) => {
+const ZoomCard = ({ webinar, timezone, isOnAir }: ZoomCardProps) => {
   const theme = useTheme();
+
+  // 국가 구분 태그를 떼어내는 메서드
+  const removeTagFromTopic = (topic: string) => {
+    return topic.split("]")[1];
+  };
 
   return (
     <ZoomCardContainer>
@@ -37,8 +44,25 @@ const ZoomCard = ({ webinar, timezone }: ZoomCardProps) => {
         raised
       >
         <CardHeader
-          title={webinar.topic}
-          subheader={dateToLocaleString(webinar.start_time, timezone)}
+          avatar={
+            <PodcastsIcon
+              sx={{
+                color: isOnAir
+                  ? theme.palette.primary.dark
+                  : theme.palette.whitescale.alpha50,
+              }}
+              fontSize="medium"
+            />
+          }
+          title={removeTagFromTopic(webinar.topic)}
+          subheader={`${dateToLocaleString(
+            webinar.start_time,
+            timezone,
+          )} - ${calculateDurationToString(
+            webinar.start_time,
+            webinar.duration,
+            timezone,
+          )}`}
           titleTypographyProps={{
             color: theme.palette.primary.contrastText,
             textOverflow: "ellipsis",
