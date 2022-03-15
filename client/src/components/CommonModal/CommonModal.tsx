@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContentText from "@mui/material/DialogContentText";
-import { Button, Box, DialogContent } from "@mui/material";
+import { Button, Box, DialogContent, useTheme } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import DialogActions from "@mui/material/DialogActions";
 
@@ -16,6 +16,8 @@ interface CommonModalProps {
   title: string;
   // eslint-disable-next-line react/require-default-props
   desc?: string;
+  // eslint-disable-next-line react/require-default-props
+  submitText?: string;
   // eslint-disable-next-line react/require-default-props
   onSubmit?: () => void;
   // eslint-disable-next-line react/require-default-props
@@ -32,11 +34,15 @@ const CommonModal = ({
   setOpen,
   title,
   desc,
+  submitText = "save",
   onSubmit,
   loading,
   transitionDir,
   hideSaveButton,
 }: CommonModalProps) => {
+  // theme
+  const theme = useTheme();
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -56,8 +62,11 @@ const CommonModal = ({
         onClose={handleClose}
         maxWidth="laptop"
         TransitionComponent={transitionDir ? Transition : undefined}
+        disableScrollLock
       >
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: "#21ade5", color: "#fff", mb: 2 }}>
+          {title}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>{desc}</DialogContentText>
           {children}
@@ -72,7 +81,7 @@ const CommonModal = ({
                 variant="contained"
                 onClick={onSubmit}
               >
-                Save
+                {submitText}
               </LoadingButton>
             )}
           </DialogActions>
