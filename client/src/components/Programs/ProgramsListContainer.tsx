@@ -85,6 +85,7 @@ export const StyledTimezoneSelect = styled(TimezoneSelect)`
   width: 300px;
   height: 50px;
   margin-left: auto;
+  margin-right: 10px;
 
   #react-select-3-listbox {
     z-index: 3;

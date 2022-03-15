@@ -8,4 +8,8 @@ export const ZoomCardContainer = styled.div`
   .MuiCardHeader-content.css-1qbkelo-MuiCardHeader-content {
     width: 100%;
   }
+
+  @media (max-width: 768px) {
+    margin-right: 0px;
+  }
 `;

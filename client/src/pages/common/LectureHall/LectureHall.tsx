@@ -112,18 +112,41 @@ const LectureHall = () => {
           }}
         />
         <Stack
-          direction="row"
+          // direction="row"
           // justifyContent="center"
-          flexWrap="wrap"
+          // flexWrap="wrap"
           sx={{
             zIndex: 1,
             mt: 2,
-            ml: 8,
+            ml: {
+              mobile: "auto",
+              tablet: 8,
+            },
+            mr: {
+              mobile: "auto",
+              tablet: 0,
+            },
+            flexDirection: {
+              mobile: "column",
+              tablet: "row",
+            },
             maxHeight: "650px",
             overflowY: "auto",
+            overflowX: "hidden",
+            width: {
+              mobile: "330px",
+              tablet: "auto",
+            },
+            flexWrap: {
+              mobile: "nowrap",
+              tablet: "wrap",
+            },
+            position: "relative",
+            left: "13px",
           }}
           spacing={getWebinarLoading ? 3 : 0}
         >
+          {/* skeleton */}
           {getWebinarLoading && (
             <>
               <Stack
