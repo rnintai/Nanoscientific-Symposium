@@ -78,6 +78,7 @@ declare namespace Common {
     symposium?: string;
     archive?: string;
     home?: string;
+    registration?: string;
   }
 }
 
