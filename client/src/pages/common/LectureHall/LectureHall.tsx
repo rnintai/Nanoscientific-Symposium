@@ -6,9 +6,14 @@ import ZoomCard from "components/ZoomCard/ZoomCard";
 import { StyledTimezoneSelect } from "components/Programs/ProgramsListContainer";
 import usePageViews from "hooks/usePageViews";
 import { calculateDurationToDate } from "utils/Date";
+import useSeoTitle from "hooks/useSeoTitle";
+import { globalData } from "components/NavBar/NavBar";
 
 const LectureHall = () => {
   const pathname = usePageViews();
+  // seo
+  const { lectureHall } = globalData.get(pathname) as Common.globalDataType;
+  useSeoTitle(lectureHall as string, pathname);
 
   // 국가에 해당하는 모든 webinars
   const [webinarList, setWebinarList] = useState<Webinar.webinarType[]>([]);
@@ -26,7 +31,7 @@ const LectureHall = () => {
   const getWebinars = async () => {
     setGetWebinarLoading(true);
     axios
-      .get("/api/zoom/webinars")
+      .get("/api/zoom/webinar/list")
       .then((res) => {
         // const upcomingWebinars = filterPreviousWebinars(
         //   res.data.result.webinars,
@@ -112,9 +117,6 @@ const LectureHall = () => {
           }}
         />
         <Stack
-          // direction="row"
-          // justifyContent="center"
-          // flexWrap="wrap"
           sx={{
             zIndex: 1,
             mt: 2,
@@ -144,13 +146,12 @@ const LectureHall = () => {
             position: "relative",
             left: "13px",
           }}
-          spacing={getWebinarLoading ? 3 : 0}
         >
           {/* skeleton */}
           {getWebinarLoading && (
             <>
               <Stack
-                sx={{ width: "300px", height: "220px" }}
+                sx={{ width: "300px", height: "220px", mr: 3 }}
                 direction="column"
                 justifyContent="space-between"
               >
@@ -165,7 +166,7 @@ const LectureHall = () => {
                 <Skeleton variant="rectangular" height={130} />
               </Stack>
               <Stack
-                sx={{ width: "300px", height: "220px" }}
+                sx={{ width: "300px", height: "220px", mr: 3 }}
                 direction="column"
                 justifyContent="space-between"
               >
