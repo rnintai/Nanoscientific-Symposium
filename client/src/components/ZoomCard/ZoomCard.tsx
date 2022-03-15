@@ -68,6 +68,7 @@ const ZoomCard = ({ webinar, timezone, isOnAir }: ZoomCardProps) => {
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
             overflow: "hidden",
+            fontSize: theme.typography.h6.fontSize,
           }}
           subheaderTypographyProps={{
             color: theme.palette.primary.contrastTextAlpha,
