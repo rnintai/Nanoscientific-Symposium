@@ -77,6 +77,7 @@ declare namespace Common {
     attend?: string;
     symposium?: string;
     archive?: string;
+    home?: string;
   }
 }
 

@@ -226,12 +226,12 @@ export const NavBarContainer = styled.div`
     padding: 10px 6px;
     /* padding: 0; */
     color: #fff;
-    background-color: #009fe8;
+    background-color: #21ade5;
     border-radius: 6px;
   }
 
   .login-list .menu-link.boxed:hover {
-    background-color: #0b80b5;
+    background-color: #189cd1;
   }
 
   @media (max-width: 1246px) {

@@ -34,6 +34,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
     },
   ],
   [
@@ -46,6 +47,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "온라인 강연장",
       exhibitHall: "전시부스 ",
       sponsors: "협찬사",
+      home: "홈",
     },
   ],
   [
@@ -57,6 +59,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
     },
   ],
   [
@@ -68,14 +71,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "Web講演会",
       exhibitHall: "展示会",
       sponsors: "スポンサー",
+      home: "ホーム",
       greeting: "ごあいさつ",
       attend: "参加手順",
-      // speakers: "",
-      // programs: "",
-      // lectureHall: "",
-      // sponsors: "",
-      // greeting: "",
-      // attend: "",
       archive: "アーカイブ",
     },
   ],
@@ -88,6 +86,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
     },
   ],
   [
@@ -99,6 +98,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
     },
   ],
 ]);
