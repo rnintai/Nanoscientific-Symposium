@@ -39,9 +39,9 @@ declare module "@mui/material/styles" {
 
 const palette = {
   primary: {
-    // light: will be calculated from palette.primary.main,
+    light: "#0040ff",
     main: "#21ade5",
-    dark: "#0040ff",
+    dark: "#189cd1",
     contrastText: "#fff",
     contrastTextAlpha: "#ffffffad",
   },
