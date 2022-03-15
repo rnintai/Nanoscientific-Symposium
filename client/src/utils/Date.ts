@@ -40,6 +40,7 @@ export const calculateDurationToString = (
   return timeString;
 };
 
+// duration 계산 후 Date 객체 반환해주는 메서드
 export const calculateDurationToDate = (
   startTime: string,
   duration: number,
