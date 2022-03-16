@@ -20,19 +20,22 @@ const mailCtrl = {
       const code = vCode.create();
       if (emailExist) {
         const transporter = nodemailer.createTransport({
-          service: "gmail",
+          debug: true,
           port: 587,
-          host: "smtp.gmail.com",
-          secure: true,
-          requireTLS: false,
+          host: "smtp-mail.outlook.com",
+          secure: false,
+          requireTLS: true,
+          tls: {
+            ciphers: "SSLv3",
+          },
           auth: {
             user: process.env.SMTP_EMAIL,
             pass: process.env.SMTP_PASS,
-          }
+          },
         });
 
         const info = await transporter.sendMail({
-          from: "2022 Nanoscientific Symposium <nanoscientific.symposium@gmail.com>",
+          from: "2022 Nanoscientific Symposium <eric.kim@parksystems.com>",
           to: email,
           subject: `[${code}] Verification Code`,
           html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
@@ -104,6 +107,5 @@ const mailCtrl = {
       connection.release();
     }
   },
-
 };
 module.exports = mailCtrl;
