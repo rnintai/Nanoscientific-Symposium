@@ -601,7 +601,7 @@ const EuropeLoginModal = ({
             variant="contained"
             color="primary"
             onClick={passwordSetHandler}
-            disabled={isEmailVerified}
+            disabled={!isEmailVerified}
           >
             SUBMIT
           </LoadingButton>
