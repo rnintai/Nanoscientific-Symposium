@@ -22,12 +22,12 @@ const mailCtrl = {
         const transporter = nodemailer.createTransport({
           debug: true,
           port: 587,
-          host: "smtp-mail.outlook.com",
+          host: "smtp.ionos.com",
           secure: false,
           requireTLS: true,
-          tls: {
-            ciphers: "SSLv3",
-          },
+          // tls: {
+          //   ciphers: "SSLv3",
+          // },
           auth: {
             user: process.env.SMTP_EMAIL,
             pass: process.env.SMTP_PASS,
