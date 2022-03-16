@@ -4,8 +4,11 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
+import useSeoTitle from "hooks/useSeoTitle";
+import { globalData } from "components/NavBar/NavBar";
 import { LoadingButton } from "@mui/lab";
-import { RegistrationContainer } from "./RegistrationStyles";
+import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import { RegistrationContainer, MktoFormContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {
   formNo: string;
@@ -17,7 +20,26 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const [emailValid, setEmailValid] = useState<boolean>(false);
   const [emailValidationMsg, setEmailValidationMsg] = useState<string>("");
   const navigate = useNavigate();
+
   const nation = usePageViews();
+  const authState = useAuthState();
+  const dispatch = useAuthDispatch();
+
+  // seo
+  const { registration } = globalData.get(nation) as Common.globalDataType;
+  useSeoTitle(registration as string, nation);
+
+  const dispatchLogin = (e: string, r: string, t: string) =>
+    dispatch({
+      type: "LOGIN",
+      authState: {
+        ...authState,
+        isLogin: true,
+        role: r,
+        email: e,
+        accessToken: t,
+      },
+    });
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -127,30 +149,32 @@ const Registration = ({ formNo }: RegistrationProps) => {
         >
           &nbsp;{emailValidationMsg}
         </Box>
-        <form id={`mktoForm_${formNo}`} />
-        {!mktoLoading && (
-          <LoadingButton
-            variant="contained"
-            className="mktoButton2"
-            loading={submitBlock}
-            onClick={() => {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              if (window.MktoForms2.allForms()[0]?.validate() && emailValid) {
-                submitHandler();
-              } else {
+        <MktoFormContainer>
+          <form id={`mktoForm_${formNo}`} />
+          {!mktoLoading && (
+            <LoadingButton
+              variant="contained"
+              className="mktoButton2"
+              loading={submitBlock}
+              onClick={() => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
-                // window.MktoForms2.allForms()[0].getFormElem()[0][0].scrollIntoView({
-                //   behavior: "smooth",
-                // });
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              }
-            }}
-          >
-            SUBMIT
-          </LoadingButton>
-        )}
+                if (window.MktoForms2.allForms()[0]?.validate() && emailValid) {
+                  submitHandler();
+                } else {
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-ignore
+                  // window.MktoForms2.allForms()[0].getFormElem()[0][0].scrollIntoView({
+                  //   behavior: "smooth",
+                  // });
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            >
+              SUBMIT
+            </LoadingButton>
+          )}
+        </MktoFormContainer>
       </RegistrationContainer>
     </>
   );

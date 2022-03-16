@@ -45,3 +45,5 @@ export const RegistrationContainer = styled.div`
 `;
 
 export const PayPalContainer = styled.div``;
+
+export const MktoFormContainer = styled.div``;
