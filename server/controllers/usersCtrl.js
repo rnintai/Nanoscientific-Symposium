@@ -177,28 +177,19 @@ const usersCtrl = {
     const userLast = req.body.lastName.toUpperCase();
 
     try {
-      const sql1 = `SELECT email from user WHERE upper(first_name)='${userFirst}' AND upper(last_name)='${userLast}'`;
-      const result1 = await connection.query(sql1);
-      if (result1[0].length !== 0 && result1[0][0].email === userEmail) {
-        const sql2 = `UPDATE user SET password='${userPassword}', is_password_set=1 WHERE email='${userEmail}'`;
-        try {
-          await connection.query(sql2);
-          res.status(200).json({
-            success: true,
-            result: "success",
-          });
-        } catch (err) {
-          res.status(500).json({
-            success: false,
-            err,
-          });
-          return false;
-        }
-      } else {
+      const sql2 = `UPDATE user SET password='${userPassword}', is_password_set=1 WHERE email='${userEmail}'`;
+      try {
+        await connection.query(sql2);
         res.status(200).json({
-          success: false,
-          result: "name not matched to db",
+          success: true,
+          result: "success",
         });
+      } catch (err) {
+        res.status(500).json({
+          success: false,
+          err,
+        });
+        return false;
       }
     } catch (err) {
       res.status(500).json({
