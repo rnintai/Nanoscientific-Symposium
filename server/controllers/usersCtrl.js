@@ -173,8 +173,6 @@ const usersCtrl = {
 
     const userEmail = req.body.email;
     const userPassword = hasher.HashPassword(req.body.password);
-    const userFirst = req.body.firstName.toUpperCase();
-    const userLast = req.body.lastName.toUpperCase();
 
     try {
       const sql2 = `UPDATE user SET password='${userPassword}', is_password_set=1 WHERE email='${userEmail}'`;
