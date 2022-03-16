@@ -6,19 +6,20 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { Select, SelectChangeEvent, TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import { DateTimePicker, LocalizationProvider } from "@mui/lab";
+import { DateTimePicker, LocalizationProvider, LoadingButton } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import { useAuthState } from "context/AuthContext";
 import "moment-timezone";
 import moment from "moment";
+import usePageViews from "hooks/usePageViews";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
   setOpenProgramForm: Dispatch<SetStateAction<boolean>>;
   setProgramSuccess: Dispatch<SetStateAction<boolean>>;
-  seletedProgram: Program.programType;
+  selectedProgram: Program.programType;
   sessions: Program.sessionType[];
   getPrograms: () => void;
   edit: boolean;
@@ -26,7 +27,7 @@ interface ProgramFormProps {
 const ProgramForm = ({
   openProgramForm,
   setOpenProgramForm,
-  seletedProgram,
+  selectedProgram,
   setProgramSuccess,
   sessions,
   getPrograms,
@@ -38,7 +39,7 @@ const ProgramForm = ({
   const [startTime, setStartTime] = useState<Date | null>(
     edit
       ? moment
-          .utc(moment(seletedProgram.start_time).format("YYYY-MM-DD HH:mm:ss"))
+          .utc(moment(selectedProgram.start_time).format("YYYY-MM-DD HH:mm:ss"))
           .tz(selectedTimezone as string)
           .toDate()
       : new Date(),
@@ -46,14 +47,17 @@ const ProgramForm = ({
   const [endTime, setEndTime] = useState<Date | null>(
     edit
       ? moment
-          .utc(moment(seletedProgram.end_time).format("YYYY-MM-DD HH:mm:ss"))
+          .utc(moment(selectedProgram.end_time).format("YYYY-MM-DD HH:mm:ss"))
           .tz(selectedTimezone as string)
           .toDate()
       : new Date(),
   );
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
+
   const authState = useAuthState();
+  const pathname = usePageViews();
 
   const programSubmitHandler = async () => {
     setLoading(true);
@@ -61,25 +65,37 @@ const ProgramForm = ({
 
     if (edit) {
       data = await axios.put("/api/admin/program", {
-        nation: authState.role,
-        id: seletedProgram.id,
+        nation: pathname,
+        id: selectedProgram.id,
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
-        endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        startTime: startTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
+        endTime: endTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
         session: selectedSession,
         status: status === "show" ? 1 : 0,
       });
     } else {
       data = await axios.post("/api/admin/program", {
-        nation: authState.role,
+        nation: pathname,
         session: selectedSession,
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
-        endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        // endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
+        startTime: startTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
+        endTime: endTime?.toLocaleString("sv-SE", {
+          timeZone: "utc",
+        }),
       });
     }
 
@@ -100,15 +116,53 @@ const ProgramForm = ({
 
   // selectedProgram.session 은 id 이고 selectedSession 은 string 이 들어가야한다
   const [selectedSession, setSelectedSession] = useState<string>(
-    edit ? (seletedProgram.session as unknown as string) : "",
+    edit ? (selectedProgram.session as unknown as string) : "",
   );
 
-  const title = useInput(edit ? seletedProgram.title : "");
-  const speakers = useInput(edit ? seletedProgram.speakers : "");
-  const description = useInput(edit ? seletedProgram.description : "");
+  const title = useInput(edit ? selectedProgram.title : "");
+  const speakers = useInput(edit ? selectedProgram.speakers : "");
+  const description = useInput(edit ? selectedProgram.description : "");
 
   const changeSessionHandler = (event: SelectChangeEvent) => {
     setSelectedSession(event.target.value as string);
+    const selectedSessionArr = sessions.filter((session) => {
+      return session.id === +event.target.value;
+    });
+    const selectedDate = new Date(selectedSessionArr[0].date);
+    const newYear = selectedDate.getFullYear();
+    const newMonth = selectedDate.getMonth();
+    const newDate = selectedDate.getDate();
+
+    // 선택한 세션에 맞게 시간 변경.
+    const newStart = startTime;
+    newStart?.setFullYear(newYear);
+    newStart?.setMonth(newMonth);
+    newStart?.setDate(newDate);
+    const newEnd = endTime;
+    newEnd?.setFullYear(newYear);
+    newEnd?.setMonth(newMonth);
+    newEnd?.setDate(newDate);
+
+    setStartTime(newStart);
+    setEndTime(newEnd);
+  };
+
+  const deleteHandler = async () => {
+    try {
+      setDeleteLoading(true);
+      const result = await axios.delete(
+        `/api/admin/program/${selectedProgram.id}?nation=${pathname}`,
+      );
+      if (result.data.success) {
+        setProgramSuccess(true);
+        setOpenProgramForm(false);
+      }
+    } catch (err) {
+      alert(err);
+    } finally {
+      setDeleteLoading(false);
+      getPrograms();
+    }
   };
 
   return (
@@ -131,7 +185,13 @@ const ProgramForm = ({
           id="demo-simple-select"
           value={selectedSession}
           label="Session"
-          onChange={changeSessionHandler}
+          onChange={(event: SelectChangeEvent) => {
+            // setLoading(true);
+            // setTimeout(() => {
+            changeSessionHandler(event);
+            // setLoading(false);
+            // }, 2000);
+          }}
         >
           {sessions.map((session) => (
             <MenuItem key={session.id} value={session.id}>
@@ -198,6 +258,21 @@ const ProgramForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
+      )}
+      {edit && (
+        <LoadingButton
+          loading={deleteLoading}
+          variant="contained"
+          color="error"
+          onClick={deleteHandler}
+          style={{
+            position: "absolute",
+            right: "22px",
+            top: "12px",
+          }}
+        >
+          Delete
+        </LoadingButton>
       )}
     </CommonModal>
   );

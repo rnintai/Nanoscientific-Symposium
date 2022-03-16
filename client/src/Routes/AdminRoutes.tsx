@@ -13,7 +13,7 @@ export default [
   {
     path: "/asia/admin",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/asia/admin">
         <Admin />
       </AdminRoute>
     ),
@@ -21,7 +21,7 @@ export default [
   {
     path: "/kr/admin",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/kr/admin">
         <Admin />
       </AdminRoute>
     ),
@@ -29,7 +29,7 @@ export default [
   {
     path: "/us/admin",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/us/admin">
         <Admin />
       </AdminRoute>
     ),
@@ -37,7 +37,7 @@ export default [
   {
     path: "/jp/admin",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/jp/admin">
         <Admin />
       </AdminRoute>
     ),
@@ -45,47 +45,47 @@ export default [
   {
     path: "/eu/admin",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/eu/admin">
         <Admin />
       </AdminRoute>
     ),
   },
   {
-    path: "/asia/admin/programs",
+    path: "/asia/admin/program",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/asia/admin/program">
         <AdminPrograms />
       </AdminRoute>
     ),
   },
   {
-    path: "/kr/admin/programs",
+    path: "/kr/admin/program",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/kr/admin/program">
         <AdminPrograms />
       </AdminRoute>
     ),
   },
   {
-    path: "/us/admin/programs",
+    path: "/us/admin/program",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/us/admin/program">
         <AdminPrograms />
       </AdminRoute>
     ),
   },
   {
-    path: "/jp/admin/programs",
+    path: "/jp/admin/program",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/jp/admin/program">
         <AdminPrograms />
       </AdminRoute>
     ),
   },
   {
-    path: "/eu/admin/programs",
+    path: "/eu/admin/program",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/eu/admin/program">
         <AdminPrograms />
       </AdminRoute>
     ),
@@ -93,7 +93,7 @@ export default [
   {
     path: "/asia/admin/speakers",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/asia/admin/speakers">
         <AdminSpeakers />
       </AdminRoute>
     ),
@@ -101,7 +101,7 @@ export default [
   {
     path: "/kr/admin/speakers",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/kr/admin/speakers">
         <AdminSpeakers />
       </AdminRoute>
     ),
@@ -109,7 +109,7 @@ export default [
   {
     path: "/us/admin/speakers",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/us/admin/speakers">
         <AdminSpeakers />
       </AdminRoute>
     ),
@@ -117,7 +117,7 @@ export default [
   {
     path: "/jp/admin/speakers",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/jp/admin/speakers">
         <AdminSpeakers />
       </AdminRoute>
     ),
@@ -125,7 +125,7 @@ export default [
   {
     path: "/eu/admin/speakers",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/eu/admin/speakers">
         <AdminSpeakers />
       </AdminRoute>
     ),
@@ -133,7 +133,7 @@ export default [
   {
     path: "/asia/admin/users",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/asia/admin/users">
         <AdminUsers />
       </AdminRoute>
     ),
@@ -141,7 +141,7 @@ export default [
   {
     path: "/kr/admin/users",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/kr/admin/users">
         <AdminUsers />
       </AdminRoute>
     ),
@@ -149,7 +149,7 @@ export default [
   {
     path: "/jp/admin/users",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/jp/admin/users">
         <AdminUsers />
       </AdminRoute>
     ),
@@ -157,7 +157,7 @@ export default [
   {
     path: "/us/admin/users",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/us/admin/users">
         <AdminUsers />
       </AdminRoute>
     ),
@@ -165,7 +165,7 @@ export default [
   {
     path: "/eu/admin/users",
     element: (
-      <AdminRoute>
+      <AdminRoute key="/eu/admin/users">
         <AdminUsers />
       </AdminRoute>
     ),

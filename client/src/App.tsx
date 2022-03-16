@@ -5,7 +5,9 @@ import EventLanding from "pages/common/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import useSubPath from "hooks/useSubPath";
+import { theme, jpTheme } from "theme/themes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
@@ -15,51 +17,6 @@ import EuropeRoutes from "./Routes/EuropeRoutes";
 import JapanRoutes from "./Routes/JapanRoutes";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
-
-declare module "@mui/material/styles" {
-  interface BreakpointOverrides {
-    xs: false; // removes the `xs` breakpoint
-    sm: false;
-    md: false; // 900px
-    lg: false;
-    xl: false;
-    mobile: true;
-    tablet: true;
-    laptop: true;
-    desktop: true;
-  }
-}
-
-const theme = createTheme({
-  typography: {
-    allVariants: {
-      fontFamily: `"Open Sans", sans-serif`,
-    },
-  },
-  breakpoints: {
-    values: {
-      mobile: 0,
-      tablet: 768,
-      laptop: 1024,
-      desktop: 1280,
-    },
-  },
-});
-const jpTheme = createTheme({
-  typography: {
-    allVariants: {
-      fontFamily: `"Noto Sans JP", sans-serif`,
-    },
-  },
-  breakpoints: {
-    // values: {
-    //   mobile: 0,
-    //   tablet: 640,
-    //   laptop: 1024,
-    //   desktop: 1280,
-    // },
-  },
-});
 
 const App = () => {
   const pathname = usePageViews();
@@ -72,6 +29,9 @@ const App = () => {
     useState<boolean>(false);
   const [passwordInputModalOpen, setPasswordInputModalOpen] =
     useState<boolean>(false);
+
+  // subpath 가져오기
+  const subpath = useSubPath();
 
   //
   useEffect(() => {
@@ -112,10 +72,11 @@ const App = () => {
     <ThemeProvider theme={pathname === "jp" ? jpTheme : theme}>
       <AppContainer>
         {pathname !== "" &&
-          pathname !== "admin" &&
+          subpath.indexOf("admin") === -1 &&
           pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar
+              key={subpath}
               checkLoading={authState.isLoading}
               passwordSetModalOpen={passwordSetModalOpen}
               emailModalOpen={emailModalOpen}
@@ -127,6 +88,7 @@ const App = () => {
           )}
         {pathname === "jp" && (
           <NavBar
+            key={subpath}
             checkLoading={authState.isLoading}
             hideMenu
             emailModalOpen={emailModalOpen}

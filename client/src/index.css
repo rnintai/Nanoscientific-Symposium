@@ -7,6 +7,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+div::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+div::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.17);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.17);
+}
+
+div::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.26);
+  /* outline: 1px solid #00000024; */
+}
+
 button {
   border-style: none;
   background-color: transparent;

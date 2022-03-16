@@ -1,13 +1,20 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import CommonModal from "components/CommonModal/CommonModal";
 import styled from "styled-components";
 import Divider from "@mui/material/Divider";
-import { Rating } from "@mui/material";
+import { Rating, Select, MenuItem } from "@mui/material";
+import useSelect from "hooks/useSelect";
+import axios from "axios";
+import usePageViews from "hooks/usePageViews";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import { useAuthState } from "context/AuthContext";
+import { adminRole, editorOnly } from "utils/Roles";
 
 interface UserDetailFormProps {
   openUserDetailForm: boolean;
   setOpenUserDetailForm: Dispatch<SetStateAction<boolean>>;
   selectedUser: User.userType;
+  getUsers: () => void;
 }
 
 const UserDetailFormContainer = styled.div`
@@ -32,12 +39,43 @@ const UserDetailForm = ({
   openUserDetailForm,
   setOpenUserDetailForm,
   selectedUser,
+  getUsers,
 }: UserDetailFormProps) => {
+  const role = useSelect(selectedUser.role);
+  const pathname = usePageViews();
+  const authState = useAuthState();
+  const isAdmin = adminRole.includes(authState.role);
+
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+  const [submitSuccessAlert, setSubmitSuccessAlert] = useState<boolean>(false);
+
+  const handleSubmit = async () => {
+    try {
+      setSubmitLoading(true);
+      await axios.post("/api/admin/users/role", {
+        nation: pathname,
+        id: selectedUser.id,
+        role: role.value,
+      });
+      getUsers();
+      setSubmitSuccessAlert(true);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
+
+  console.log(selectedUser);
+
   return (
     <CommonModal
       open={openUserDetailForm}
       setOpen={setOpenUserDetailForm}
       title="User Detail"
+      loading={submitLoading}
+      onSubmit={handleSubmit}
+      hideSaveButton={!isAdmin}
     >
       <UserDetailFormContainer>
         <ul>
@@ -57,49 +95,85 @@ const UserDetailForm = ({
 
           <li>
             <h3>role : </h3>
-            <span>{selectedUser.role}</span>
+            {editorOnly.includes(authState.role) && (
+              <span>{selectedUser.role}</span>
+            )}
+            {isAdmin && (
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Age"
+                defaultValue={selectedUser.role}
+                sx={{ ml: 1 }}
+                {...role}
+              >
+                <MenuItem value="subscriber">Subscriber</MenuItem>
+                <MenuItem value="editor">Editor</MenuItem>
+                <MenuItem value="admin">Admin</MenuItem>
+              </Select>
+            )}
           </li>
           <li>
             <h3>lastName : </h3>
-            <span>{selectedUser.lastName}</span>
+            <span>{selectedUser.last_name}</span>
           </li>
           <li>
             <h3>firstName : </h3>
-            <span>{selectedUser.firstName}</span>
+            <span>{selectedUser.first_name}</span>
           </li>
           <Divider />
 
-          <li>
-            <h3>university : </h3>
-            <span>{selectedUser.university}</span>
-          </li>
-          <li>
-            <h3>institute : </h3>
-            <span>{selectedUser.institute}</span>
-          </li>
+          {selectedUser.university && (
+            <li>
+              <h3>university : </h3>
+              <span>{selectedUser.university}</span>
+            </li>
+          )}
+          {selectedUser.institute && (
+            <li>
+              <h3>institute : </h3>
+              <span>{selectedUser.institute}</span>
+            </li>
+          )}
           <Divider />
 
-          <li>
-            <h3>street : </h3>
-            <span>{selectedUser.street}</span>
-          </li>
-          <li>
-            <h3>zipCode : </h3>
-            <span>{selectedUser.zipCode}</span>
-          </li>
-          <li>
-            <h3>city : </h3>
-            <span>{selectedUser.city}</span>
-          </li>
+          {selectedUser.street && (
+            <li>
+              <h3>street : </h3>
+              <span>{selectedUser.street}</span>
+            </li>
+          )}
+          {selectedUser.zipCode && (
+            <li>
+              <h3>zipCode : </h3>
+              <span>{selectedUser.zipCode}</span>
+            </li>
+          )}
+          {selectedUser.city && (
+            <li>
+              <h3>city : </h3>
+              <span>{selectedUser.city}</span>
+            </li>
+          )}
+          {selectedUser.address && (
+            <li>
+              <h3>address : </h3>
+              <span>{selectedUser.address}</span>
+            </li>
+          )}
           <Divider />
-          <li>
-            <h3>researchField : </h3>
-            <span>{selectedUser.researchField}</span>
-          </li>
-          <li>
-            <h3>afmTool : </h3>
-            <span>{selectedUser.afmTool}</span>
-          </li>
+          {selectedUser.researchField && (
+            <li>
+              <h3>researchField : </h3>
+              <span>{selectedUser.researchField}</span>
+            </li>
+          )}
+          {selectedUser.afmTool && (
+            <li>
+              <h3>afmTool : </h3>
+              <span>{selectedUser.afmTool}</span>
+            </li>
+          )}
           <Divider />
 
           {selectedUser.nanomechanical && (
@@ -173,6 +247,13 @@ const UserDetailForm = ({
           </li>
         </ul>
       </UserDetailFormContainer>
+      <TopCenterSnackBar
+        value={submitSuccessAlert}
+        setValue={setSubmitSuccessAlert}
+        variant="filled"
+        severity="success"
+        content="User's role changed"
+      />
     </CommonModal>
   );
 };

@@ -119,13 +119,15 @@ const Registration = ({ formNo }: RegistrationProps) => {
           return false;
         });
       try {
-        await axios.post("/api/users/login", {
+        const res = await axios.post("/api/users/login", {
           nation,
           email: formData.Email,
           password: null,
         });
-
-        navigate("/user/reset-password");
+        if (res.data.success) {
+          dispatchLogin(formData.Email, res.data.role, res.data.accessToken);
+        }
+        navigate(`/${nation}/user/reset-password`);
       } catch (err) {
         console.log(err);
         alert("login failed");

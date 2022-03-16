@@ -1,4 +1,5 @@
 import React from "react";
+import AdminRoute from "components/Route/AdminRoute";
 import Landing from "pages/common/Landing";
 import Programs from "pages/common/Programs/Programs";
 import PrivateRoute from "components/Route/PrivateRoute";
@@ -9,6 +10,7 @@ import JapanAttend from "pages/japan/JapanAttend/JapanAttend";
 import JapanGreeting from "pages/japan/JapanGreeting/JapanGreeting";
 import JapanLectureHall from "pages/japan/JapanLectureHall";
 import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 import Speakers from "../pages/common/Speakers/Speakers";
 
 export default [
@@ -18,15 +20,23 @@ export default [
   },
   {
     path: "/jp/speakers",
-    element: <Speakers />,
+    element: (
+      <AdminRoute key="/jp/speakers">
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
     path: "/jp/attend",
     element: <JapanAttend />,
   },
   {
-    path: "/jp/programs",
-    element: <Programs />,
+    path: "/jp/program",
+    element: (
+      <AdminRoute key="/jp/program">
+        <Programs />
+      </AdminRoute>
+    ),
   },
   {
     path: "/jp/greeting",
@@ -55,5 +65,9 @@ export default [
   {
     path: "/jp/archive",
     element: <JapanArchive />,
+  },
+  {
+    path: "/jp/user/forgot-password",
+    element: <ForgotPassword />,
   },
 ];

@@ -4,9 +4,11 @@ import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
-import UsLectureHall from "pages/us/UsLectureHall";
-import UsSpeakers from "pages/us/UsSpeakers/UsSpeakers";
-import UsPrograms from "pages/us/UsPrograms/UsPrograms";
+import LectureHall from "pages/common/LectureHall/LectureHall";
+import Programs from "pages/common/Programs/Programs";
+import Speakers from "pages/common/Speakers/Speakers";
+import AdminRoute from "components/Route/AdminRoute";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 
 export default [
   {
@@ -15,17 +17,25 @@ export default [
   },
   {
     path: "/us/speakers",
-    element: <UsSpeakers />,
+    element: (
+      <AdminRoute key="/us/speakers">
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
-    path: "/us/programs",
-    element: <UsPrograms />,
+    path: "/us/program",
+    element: (
+      <AdminRoute key="/us/program">
+        <Programs />
+      </AdminRoute>
+    ),
   },
   {
     path: "/us/lecture-hall",
     element: (
       <PrivateRoute>
-        <UsLectureHall />
+        <LectureHall />
       </PrivateRoute>
     ),
   },
@@ -40,5 +50,9 @@ export default [
   {
     path: "/us/sponsors",
     element: <Sponsors />,
+  },
+  {
+    path: "/us/user/forgot-password",
+    element: <ForgotPassword />,
   },
 ];

@@ -1,6 +1,5 @@
 import React from "react";
 import AdminRoute from "components/Route/AdminRoute";
-import Admin from "pages/admin/Admin";
 import Landing from "pages/common/Landing";
 import AsiaLectureHall from "pages/asia/AsiaLectureHall";
 import PrivateRoute from "components/Route/PrivateRoute";
@@ -11,6 +10,7 @@ import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import Registration from "pages/common/Registration/Registration";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 
 export default [
   {
@@ -38,12 +38,20 @@ export default [
     element: <Sponsors />,
   },
   {
-    path: "/asia/programs",
-    element: <Programs />,
+    path: "/asia/program",
+    element: (
+      <AdminRoute key="/asia/program">
+        <Programs />
+      </AdminRoute>
+    ),
   },
   {
     path: "/asia/speakers",
-    element: <Speakers />,
+    element: (
+      <AdminRoute key="/asia/program">
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
     path: "/asia/registration",
@@ -52,9 +60,13 @@ export default [
   {
     path: "/asia/user/reset-password",
     element: (
-      <PrivateRoute>
+      <PrivateRoute key="/asia/user/reset-password">
         <ResetPassword />
       </PrivateRoute>
     ),
+  },
+  {
+    path: "/asia/user/forgot-password",
+    element: <ForgotPassword />,
   },
 ];

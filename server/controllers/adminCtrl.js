@@ -44,6 +44,37 @@ const adminCtrl = {
       console.log(err);
     }
   },
+
+  deleteSession: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM program_sessions WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      sql = `DELETE FROM programs WHERE session=${id}`;
+      let result = await connection.query(sql);
+
+      console.log(result);
+
+      res.status(200).json({
+        success: true,
+        message: `1개의 세션 삭제, ${result[0].affectedRows}개의 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
   addProgram: async (req, res) => {
     const {
       nation,
@@ -97,6 +128,31 @@ const adminCtrl = {
       connection.release();
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  deleteProgram: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM programs WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `id:${id} 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
     }
   },
 
@@ -209,6 +265,31 @@ const adminCtrl = {
     }
   },
 
+  deleteSpeaker: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `DELETE FROM speakers WHERE id=${id}`;
+
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `연사 삭제 완료`,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
   showSpeaker: async (req, res) => {
     const { nation, speakers } = req.body;
     const currentPool = getCurrentPool(nation);
@@ -253,15 +334,38 @@ const adminCtrl = {
       let sql = "";
       if (nation === "eu") {
         // eu 일땐 점수메기는항목 5개 존재
-        sql = `SELECT id,email,title,role,last_name lastName,first_name firstName,university,institute,street,zipCode,city,research_field reserachField,afm_tool afmTool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,createdAt,ps_opt_in FROM user`;
+        sql = `SELECT id,email,title,role,last_name,first_name,university,institute,street,zipCode,city,research_field reserachField,afm_tool afmTool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,createdAt,ps_opt_in FROM user`;
       } else {
-        sql = `SELECT id,email,title,role,last_name lastName,first_name firstName,university,institute,street,zipCode,city,research_field reserachField,createdAt,ps_opt_in FROM user`;
+        sql = `SELECT * FROM user`;
       }
       const result = await connection.query(sql);
       res.send(result[0]);
       connection.release();
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  updateRole: async (req, res) => {
+    const { nation, id, role } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE user SET role='${role}' WHERE id=${id}`;
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+        msg: "변경 성공",
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
     }
   },
 };

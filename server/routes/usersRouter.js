@@ -186,6 +186,31 @@ router.post("/passwordreset", usersMid.checkToken, usersMid.readUser, usersCtrl.
 
 /**
  * @swagger
+ *  /api/users/passwordforgot:
+ *    post:
+ *      tags:
+ *      - User
+ *      description: 유저 비밀번호 분실 (재설정)
+ *      parameters:
+ *        - name: request
+ *          in: body
+ *          required: true
+ *          schema:
+ *            type: string
+ *            example: {
+ *              "nation": "asia",
+ *              "newPassword": "new password",
+ *            }
+ *      responses:
+ *        '200':
+ *          description: successful operation,
+ *        '200-P40':
+ *          description: 현재 비밀번호 input이 DB와 다름,
+ */
+router.post("/passwordforgot", usersCtrl.forgotPassword);
+
+/**
+ * @swagger
  *  /api/users/passwordset/check:
  *    post:
  *      tags:

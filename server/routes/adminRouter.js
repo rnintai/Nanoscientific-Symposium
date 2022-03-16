@@ -58,6 +58,32 @@ router
 
 /**
  * @swagger
+ *  /api/admin/session/{id}:
+ *    delete:
+ *      tags:
+ *      - Admin
+ *      description: 세션을 삭제합니다.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: session ID
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: nation code
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/session/:id").delete(adminCtrl.deleteSession);
+
+/**
+ * @swagger
  *  /api/admin/program:
  *    post:
  *      tags:
@@ -117,6 +143,37 @@ router
   .post(adminCtrl.addProgram)
   .put(adminCtrl.modifyProgram);
 
+router
+  .route("/session")
+  .post(adminCtrl.addSession)
+  .put(adminCtrl.modifySession);
+
+/**
+ * @swagger
+ *  /api/admin/program/{id}:
+ *    delete:
+ *      tags:
+ *      - Admin
+ *      description: 프로그램을 삭제합니다.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: program ID
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: nation code
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/program/:id").delete(adminCtrl.deleteProgram);
+
 /**
  * @swagger
  *  /api/admin/speaker:
@@ -171,6 +228,32 @@ router
   .route("/speaker")
   .post(adminCtrl.addSpeaker)
   .put(adminCtrl.modifySpeaker);
+
+/**
+ * @swagger
+ *  /api/admin/speaker/{id}:
+ *    delete:
+ *      tags:
+ *      - Admin
+ *      description: 연사를 삭제합니다.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: speaker ID
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: nation code
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/speaker/:id").delete(adminCtrl.deleteSpeaker);
 
 /**
  * @swagger
@@ -348,7 +431,7 @@ router.route("/hideSpeaker").get(adminCtrl.getHideSpeaker);
  *                 {
  *                   "id": 3,
  *                  "name": "Dr. dfs",
- *                   "belong": "Park Systems, United Kingdom             sss    ",
+ *                   "belong": "Park Systems, United Kingdom",
  *                   "image_path": "upload/cha.png-1644912178651",
  *                   "status": 0,
  *                   "description": null
@@ -389,5 +472,30 @@ router.route("/showSpeaker").put(adminCtrl.showSpeaker);
  */
 
 router.route("/users").get(adminCtrl.getUsers);
+
+/**
+ * @swagger
+ *  /api/admin/users/role:
+ *    post:
+ *      tags:
+ *      - Admin
+ *      description: 유저의 role을 변경합니다.
+ *      parameters:
+ *      - name: request
+ *        in: body
+ *        required: true
+ *        schema:
+ *          type: string
+ *          example: {
+ *             "nation": "asia",
+ *             "id": 1,
+ *             "role": "subscriber"
+ *          }
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router.route("/users/role").post(adminCtrl.updateRole);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 import React from "react";
+import AdminRoute from "components/Route/AdminRoute";
 import Landing from "pages/common/Landing";
 import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
@@ -7,7 +8,8 @@ import Sponsors from "pages/common/Sponsors";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import KoreaAttend from "pages/korea/KoreaAttend/KoreaAttend";
-import KoreaLectureHall from "pages/korea/KoreaLectureHall";
+import LectureHall from "pages/common/LectureHall/LectureHall";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 
 export default [
   {
@@ -16,21 +18,29 @@ export default [
   },
   {
     path: "/kr/speakers",
-    element: <Speakers />,
+    element: (
+      <AdminRoute key="/kr/speakers">
+        <Speakers />
+      </AdminRoute>
+    ),
   },
   {
     path: "/kr/attend",
     element: <KoreaAttend />,
   },
   {
-    path: "/kr/programs",
-    element: <Programs />,
+    path: "/kr/program",
+    element: (
+      <AdminRoute key="/kr/program">
+        <Programs />
+      </AdminRoute>
+    ),
   },
   {
     path: "/kr/lecture-hall",
     element: (
       <PrivateRoute>
-        <KoreaLectureHall />
+        <LectureHall />
       </PrivateRoute>
     ),
   },
@@ -45,5 +55,9 @@ export default [
   {
     path: "/kr/sponsors",
     element: <Sponsors />,
+  },
+  {
+    path: "/kr/user/forgot-password",
+    element: <ForgotPassword />,
   },
 ];

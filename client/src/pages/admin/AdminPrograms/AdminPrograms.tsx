@@ -23,6 +23,12 @@ const AdminPrograms = () => {
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
+  // 스위치 상태
+  const [hideToggle, setHideToggle] = useState<boolean>(false);
+  // publish loading
+  const [isAdminLoading, setIsAdminLoading] = useState<boolean>(false);
+  // 현재 publish 상태
+  const [isPublished, setIsPublished] = useState<boolean>(false);
 
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
@@ -39,8 +45,12 @@ const AdminPrograms = () => {
 
   const [openHideForm, setOpenHideForm] = useState<boolean>(false);
 
-  const [seletedSession, setSelectedSession] = useState<Program.sessionType>();
-  const [seletedProgram, setSelectedProgram] = useState<Program.programType>();
+  const [selectedSession, setSelectedSession] = useState<Program.sessionType>();
+  const [selectedProgram, setSelectedProgram] = useState<Program.programType>();
+
+  // alert
+  const [publishSuccessAlert, setPublishSuccessAlert] =
+    useState<boolean>(false);
   const getPrograms = async () => {
     const config = {
       params: {
@@ -65,9 +75,47 @@ const AdminPrograms = () => {
     setSessionLoading(false);
   };
 
+  const getIsAdmin = async () => {
+    setIsAdminLoading(true);
+    axios
+      .post("/api/menu/admin", {
+        nation: pathname,
+        path: `/program`,
+      })
+      .then((res) => {
+        setHideToggle(res.data.result);
+        setIsPublished(res.data.result);
+      })
+      .catch((err) => {
+        alert(`getIsAdmin ${err}`);
+      })
+      .finally(() => {
+        setIsAdminLoading(false);
+      });
+  };
+
+  const hideToggleHandler = () => {
+    setIsAdminLoading(true);
+    axios
+      .put("/api/menu/admin", {
+        path: "/program",
+        nation: pathname,
+        isPublished: hideToggle,
+      })
+      .then(() => {
+        setPublishSuccessAlert(true);
+        setIsPublished(hideToggle);
+      })
+      .finally(() => {
+        setIsAdminLoading(false);
+      });
+  };
+
   useEffect(() => {
     // 프로그램 가져오기
     getPrograms();
+    // publish state 가져오기
+    getIsAdmin();
   }, []);
 
   useEffect(() => {
@@ -100,8 +148,13 @@ const AdminPrograms = () => {
       menu1ClickHandler={openSessionFormHandler}
       menu2="Add Programs"
       menu2ClickHandler={openProgramFormHandler}
-      menu3="Hide"
+      menu3="Hidden Items"
       menu3ClickHandler={openHideFormHandler}
+      hideToggle={hideToggle}
+      setHideToggle={setHideToggle}
+      hideToggleHandler={hideToggleHandler}
+      isHideLoading={isAdminLoading}
+      isPublished={isPublished}
     >
       <AdminProgramsContainer>
         <ProgramsListContainer isAdmin>
@@ -159,7 +212,7 @@ const AdminPrograms = () => {
           getSessions={() => {
             getSessions();
           }}
-          seletedSession={seletedSession as Program.sessionType}
+          selectedSession={selectedSession as Program.sessionType}
           openSessionForm={openSessionForm}
           setOpenSessionForm={setOpenSessionForm}
           setSessionSuccess={setSessionSuccess}
@@ -173,7 +226,7 @@ const AdminPrograms = () => {
             getPrograms();
           }}
           sessions={sessions}
-          seletedProgram={seletedProgram as Program.programType}
+          selectedProgram={selectedProgram as Program.programType}
           openProgramForm={openProgramForm}
           setOpenProgramForm={setOpenProgramForm}
           setProgramSuccess={setProgramSuccess}
@@ -202,6 +255,12 @@ const AdminPrograms = () => {
         setValue={setProgramSuccess}
         severity="success"
         content="Success"
+      />
+      <TopCenterSnackBar
+        value={publishSuccessAlert}
+        setValue={setPublishSuccessAlert}
+        severity="success"
+        content="Publish state is successfully updated."
       />
     </AdminLayout>
   );

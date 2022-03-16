@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
@@ -6,7 +6,8 @@ import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
-import { countries } from "utils/Countries";
+import { editorRole } from "utils/Roles";
+import useSubPath from "hooks/useSubPath";
 import LoginModal from "../Modal/LoginModal";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
@@ -33,6 +34,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
     },
   ],
   [
@@ -45,6 +48,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "온라인 강연장",
       exhibitHall: "전시부스 ",
       sponsors: "협찬사",
+      home: "홈",
+      registration: "등록",
     },
   ],
   [
@@ -56,6 +61,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
     },
   ],
   [
@@ -67,15 +74,11 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "Web講演会",
       exhibitHall: "展示会",
       sponsors: "スポンサー",
+      home: "ホーム",
       greeting: "ごあいさつ",
       attend: "参加手順",
-      // speakers: "",
-      // programs: "",
-      // lectureHall: "",
-      // sponsors: "",
-      // greeting: "",
-      // attend: "",
       archive: "アーカイブ",
+      registration: "登録",
     },
   ],
   [
@@ -87,6 +90,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
     },
   ],
   [
@@ -98,6 +103,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
     },
   ],
 ]);
@@ -118,6 +125,9 @@ const NavBar = ({
   const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
 
+  const pathname = usePageViews();
+  const subpath = useSubPath();
+
   const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
     useState<boolean>(false);
 
@@ -125,7 +135,6 @@ const NavBar = ({
     setIsMobile(!isMobile);
   };
 
-  const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
 
@@ -151,6 +160,24 @@ const NavBar = ({
         setLogoutLoading(false);
       });
   };
+
+  // active router 감지 effect hook
+  useEffect(() => {
+    if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
+      document
+        .querySelector(`.menu-link[href="/${pathname + subpath}"]`)
+        ?.parentElement?.classList.add("active");
+    } else {
+      document
+        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+        ?.parentElement?.classList.add("active");
+      document
+        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+        ?.parentElement?.parentElement?.parentElement?.parentElement?.classList.add(
+          "active",
+        );
+    }
+  }, []);
 
   const {
     logoURL,
@@ -220,7 +247,7 @@ const NavBar = ({
               </li>
             )}
             <li className="menu-item">
-              <Link className="menu-link" to={`/${pathname}/programs`}>
+              <Link className="menu-link" to={`/${pathname}/program`}>
                 {programs}
               </Link>
             </li>
@@ -238,8 +265,9 @@ const NavBar = ({
             )}
             <li className="menu-item has-submenu">
               <Link
-                to={`/${pathname}/exhibit/parksystems`}
+                to={`/${pathname}/exhibit`}
                 className="menu-link"
+                style={{ pointerEvents: "none" }}
               >
                 {exhibitHall}
                 {pathname !== "jp" && <i className="fas fa-caret-down" />}
@@ -277,7 +305,7 @@ const NavBar = ({
             <ul className="login-list">
               {authState.isLogin && !checkLoading && (
                 <>
-                  {countries.includes(authState.role) && (
+                  {editorRole.includes(authState.role) && (
                     <li className="login-item">
                       <Link className="menu-link" to={`${pathname}/admin`}>
                         ADMIN
@@ -312,8 +340,8 @@ const NavBar = ({
                       setPasswordInputModalOpen={setPasswordInputModalOpen}
                     />
                     {/* <LoginModal
-                         setSuccess={setLoginSuccess}
-                         setFailed={setLoginFailed}
+                        setSuccess={setLoginSuccess}
+                        setFailed={setLoginFailed}
                        /> */}
                   </li>
                   <li className="login-item">

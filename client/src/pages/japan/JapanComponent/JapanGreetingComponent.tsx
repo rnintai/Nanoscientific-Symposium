@@ -12,6 +12,7 @@ const JapanGreetingContainer = styled.div`
       flex-direction: column;
       align-items: center;
       img {
+        object-fit: contain;
         width: 80%;
         max-width: 100%;
         height: 235px;

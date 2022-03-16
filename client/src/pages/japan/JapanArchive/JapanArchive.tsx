@@ -146,7 +146,7 @@ const JapanArchive = () => {
       </section>
       <section className="speakers">
         <Title title="SPEAKERS" fontSize={36} />
-        <Box sx={{ flexGrow: 1, p: imagePadding }}>
+        <Box sx={{ flexGrow: 1, p: 25, paddingTop: 0 }}>
           <Grid
             container
             spacing={{ xs: 4, md: 7 }}

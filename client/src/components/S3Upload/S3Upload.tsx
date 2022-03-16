@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import AWS from "aws-sdk";
 import { Button, Fab } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
+import { useLocation } from "react-router";
+import usePageViews from "hooks/usePageViews";
 
 interface S3UploadProps {
   setImagePath: Dispatch<SetStateAction<string>>;
@@ -21,6 +23,9 @@ const S3Upload = ({
   const SECRET_ACCESS_KEY = process.env.REACT_APP_S3_SECRET_ACCESS_KEY;
   const REGION = "us-west-1";
   const S3_BUCKET = "nss-integration";
+
+  const pathname = usePageViews();
+  const location = useLocation();
 
   AWS.config.update({
     accessKeyId: ACCESS_KEY,
@@ -55,7 +60,9 @@ const S3Upload = ({
       ACL: "public-read",
       Body: file,
       Bucket: S3_BUCKET,
-      Key: `upload/${file.name}-${Date.now()}`,
+      Key: `upload/${pathname}/${location.pathname.split("/").slice(-1)[0]}/${
+        file.name
+      }-${Date.now()}`,
     };
 
     myBucket
