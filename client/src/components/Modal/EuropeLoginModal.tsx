@@ -572,6 +572,7 @@ const EuropeLoginModal = ({
               size="small"
               onClick={sendHandler}
               loading={sendHandlerLoading}
+              {...code}
             >
               {isTimerStarted ? "RESEND" : "SEND"}
             </LoadingButton>
