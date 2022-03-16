@@ -7,6 +7,7 @@ const mailCtrl = {
   sendVcode: async (req, res) => {
     const { email, nation } = req.body;
     const currentPool = getCurrentPool(nation);
+    console.log(process.env.SMTP_PASS);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -35,7 +36,7 @@ const mailCtrl = {
         });
 
         const info = await transporter.sendMail({
-          from: "2022 Nanoscientific Symposium <eric.kim@parksystems.com>",
+          from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
           to: email,
           subject: `[${code}] Verification Code`,
           html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
