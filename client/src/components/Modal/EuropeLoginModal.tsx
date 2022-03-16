@@ -95,7 +95,6 @@ const EuropeLoginModal = ({
   const password = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
-  const code = useInput("");
   const verificationCode = useInput("");
 
   // refs
@@ -138,7 +137,7 @@ const EuropeLoginModal = ({
 
   // 인증번호 확인 버튼 handler
   const confirmCodeHandler = () => {
-    if (correctCode === code.value) {
+    if (correctCode === verificationCode.value) {
       setIsEmailVerified(true);
       setCodeCorrectAlert(true);
       setIsExpired(true);
@@ -572,7 +571,6 @@ const EuropeLoginModal = ({
               size="small"
               onClick={sendHandler}
               loading={sendHandlerLoading}
-              {...code}
             >
               {isTimerStarted ? "RESEND" : "SEND"}
             </LoadingButton>
