@@ -10,6 +10,7 @@ import Speakers from "pages/common/Speakers/Speakers";
 import KoreaAttend from "pages/korea/KoreaAttend/KoreaAttend";
 import LectureHall from "pages/common/LectureHall/LectureHall";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
+import Registration from "pages/common/Registration/Registration";
 
 export default [
   {
@@ -59,5 +60,9 @@ export default [
   {
     path: "/kr/user/forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/kr/registration",
+    element: <Registration formNo="1239" />,
   },
 ];

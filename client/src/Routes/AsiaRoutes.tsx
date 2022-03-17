@@ -55,7 +55,7 @@ export default [
   },
   {
     path: "/asia/registration",
-    element: <Registration formNo="1165" />,
+    element: <Registration formNo="1247" />,
   },
   {
     path: "/asia/user/reset-password",
