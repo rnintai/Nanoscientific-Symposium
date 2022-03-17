@@ -124,7 +124,7 @@ const JapanArchive = () => {
               )
             }
           >
-            NSS Japan 2022 アーカイブ
+            NSS Japan 2021 アーカイブ
           </Button>
           <Button
             size="large"
@@ -133,7 +133,7 @@ const JapanArchive = () => {
               window.open("https://bit.ly/NSSJ-2021-Abstract", "_blank")
             }
           >
-            NSS Japan 2022 要旨集
+            NSS Japan 2021 要旨集
           </Button>
         </div>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
