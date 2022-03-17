@@ -72,7 +72,7 @@
     <map name="image-map" id="image-map">
       <area target="" alt="play" title="play" class="play" href="#" coords="748,275,1189,498" shape="rect"
             onmouseover="areaHover(this)" onmouseout="areaLeave(this)" onclick="play_click()" />
-      <area target="" alt="program" title="Program" class="program" href="/programs" coords="240,541,514,715"
+      <area target="" alt="program" title="Program" class="program" href="/program" coords="240,541,514,715"
             shape="rect" onmouseover="areaHover(this);" onmouseout="areaLeave(this);" />
       <area target="" alt="lecture hall" title="Lecture Hall" class="lecture" href="/lecture-hall"
             coords="738,500,1197,720" shape="rect" onmouseover="areaHover(this);" onmouseout="areaLeave(this);" />
@@ -1168,7 +1168,7 @@
         $a.appendTo(`.${class_name}-map-wrap`);
         if (class_name === "program") {
           $arrowL.appendTo(`.${class_name}-map-wrap`);
-          // jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/programs'")
+          // jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/program'")
           jQuery(`.${class_name}-map-wrap`).attr("onclick", "alert('coming soon')")
         }
         else if (class_name === "lecture") {
