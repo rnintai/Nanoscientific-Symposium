@@ -118,7 +118,10 @@ const JapanArchive = () => {
             size="large"
             variant="contained"
             onClick={() =>
-              window.open("https://tayori.com/f/nssj2021-archive/", "_blank")
+              window.open(
+                "https://pages.parksystems.com/Contents_Test_Contents_LP_Test.html?UTM_Campaign=NSSJ%202021%20Archive%20Page%20Promotion%20Test&UTM_Medium=Marketo&UTM_Source=Email",
+                "_blank",
+              )
             }
           >
             NSS Japan 2022 アーカイブ
