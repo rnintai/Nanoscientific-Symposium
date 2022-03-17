@@ -149,11 +149,18 @@ const JapanArchive = () => {
       </section>
       <section className="speakers">
         <Title title="SPEAKERS" fontSize={36} />
-        <Box sx={{ flexGrow: 1, p: 25, paddingTop: 0 }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            px: { tablet: 25, mobile: 10 },
+            pb: { tablet: 25, mobile: 10 },
+            pt: 0,
+          }}
+        >
           <Grid
             container
-            spacing={{ xs: 4, md: 7 }}
-            columns={{ xs: 1, sm: 8, md: 16 }}
+            spacing={{ mobile: 4, laptop: 7 }}
+            columns={{ mobile: 1, tablet: 8, laptop: 16 }}
           >
             {speakersState.map((speaker) => (
               <SpeakerCard key={speaker.id} speaker={speaker} />
