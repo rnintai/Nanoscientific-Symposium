@@ -139,7 +139,7 @@ const JapanArchive = () => {
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video className="video-content" autoPlay muted loop>
           <source
-            src="https://video.wixstatic.com/video/cb12c8_4b8a81f7685246f4b812936b63c96ccc/720p/mp4/file.mp4"
+            src="https://nss-integration.s3.us-west-1.amazonaws.com/jp/jp-archive.mp4"
             type="video/mp4"
           />
         </video>
