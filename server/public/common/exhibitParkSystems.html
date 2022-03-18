@@ -332,11 +332,11 @@
             and QC engineers that need to scan large samples.
           </span>
         </div>
-        <div class="learn-more-wrap">
-          <button class="learn-more-btn"
-                  onclick="window.open('https://parksystems.com/products/large-sample-afm/park-nx20-300-mm');">LEARN
-            MORE&nbsp;&nbsp;+</button>
-        </div>
+      </div>
+      <div class="learn-more-wrap">
+        <button class="learn-more-btn"
+                onclick="window.open('https://parksystems.com/products/large-sample-afm/park-nx20-300-mm');">LEARN
+          MORE&nbsp;&nbsp;+</button>
       </div>
     </div>
     <div class="button-exit">
@@ -695,8 +695,8 @@
            usemap="#image-map">
 
       <map name="image-map">
-        <area class="area-hdm" target="" alt="area-hdm" title="area-hdm" href="#" coords="251,550,436,725" shape="rect">
-        <area class="area-nxwafer" target="" alt="area-nxwafer" title="area-nxwafer" href="#" coords="811,516,1108,728"
+        <area class="area-hdm" target="" alt="area-hdm" title="area-hdm" href="#" coords="251,670,436,845" shape="rect">
+        <area class="area-nxwafer" target="" alt="area-nxwafer" title="area-nxwafer" href="#" coords="811,636,1108,848"
               shape="rect">
       </map>
       <!-- B section(industrial) -->
@@ -704,7 +704,7 @@
            usemap="#image-map">
 
       <map name="image-map">
-        <area class="area-nxtsh" target="" alt="area-nxwafer" title="area-nxwafer" href="#" coords="819,491,1062,733"
+        <area class="area-nxtsh" target="" alt="area-nxwafer" title="area-nxwafer" href="#" coords="819,611,1062,853"
               shape="rect">
       </map>
 
@@ -714,10 +714,10 @@
 
       <map name="image-map">
         <area class="area-nx20_300mm" target="" alt="area-nx20_300mm" title="area-nx20_300mm" href="#"
-              coords="522,558,672,721" shape="rect">
-        <area class="area-nx10" target="" alt="area-nx10" title="area-nx10" href="#" coords="706,607,791,728"
+              coords="522,678,672,841" shape="rect">
+        <area class="area-nx10" target="" alt="area-nx10" title="area-nx10" href="#" coords="706,727,791,848"
               shape="rect">
-        <area class="area-fx40" target="" alt="area-fx40" title="area-fx40" href="#" coords="1183,569,1238,657"
+        <area class="area-fx40" target="" alt="area-fx40" title="area-fx40" href="#" coords="1183,689,1238,777"
               shape="rect">
       </map>
       <!-- D section(research) -->
@@ -725,9 +725,9 @@
            usemap="#image-map">
 
       <map name="image-map">
-        <area class="area-nxhivac" target="" alt="area-nxhivac" title="area-nxhivac" href="#" coords="664,580,764,723"
+        <area class="area-nxhivac" target="" alt="area-nxhivac" title="area-nxhivac" href="#" coords="664,700,764,843"
               shape="rect">
-        <area class="area-smartscan" target="" alt="SmartScan" title="SmartScan" href="" coords="1131,563,1216,643"
+        <area class="area-smartscan" target="" alt="SmartScan" title="SmartScan" href="" coords="1131,683,1216,763"
               shape="rect">
       </map>
     </section>
@@ -816,6 +816,11 @@
     margin: 0;
   }
 
+  .exhibit-wrap {
+    color: rgb(48, 48, 48);
+    background-color: #dcdcdc;
+  }
+
   /* img 3d view */
   .image-sec .elementor-column-gap-default>.elementor-column>.elementor-element-populated {
     padding: 0;
@@ -859,6 +864,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 75%;
     margin: 0 17%;
   }
 
@@ -912,6 +918,7 @@
 
   .exhibit-wrap {
     position: relative;
+    /* height: calc(100vh - 123px); */
     height: 100vh;
   }
 
@@ -934,8 +941,8 @@
     left: 0;
     /* margin-top: 3rem; */
     opacity: 0;
-    -o-object-fit: fill;
-    object-fit: fill;
+    -o-object-fit: cover;
+    object-fit: cover;
     /* min-width: 1106px;
 min-height: 752px; */
   }
@@ -1092,7 +1099,7 @@ align-items: center; */
   /* z-index : tooltip < hotspot < overlay < modal */
   body {
     margin: 0;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   p {
@@ -1202,8 +1209,8 @@ button
 
   .outer-circle {
     position: absolute;
-    width: 2.7em;
-    height: 2.7em;
+    width: 2.3em;
+    height: 2.3em;
     background-color: #fff;
     border-radius: 50%;
     left: 64%;
@@ -1232,12 +1239,10 @@ button
 
   .inner-circle {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 2.1em;
-    height: 2.1em;
-    border: 0.45em solid #6e9dc0;
+    transform: translate(11%, 11%);
+    width: 1.1em;
+    height: 1.1em;
+    border: 0.4em solid #6e9dc0;
     border-radius: 100%;
     background-color: #005ca1;
   }
@@ -1383,10 +1388,11 @@ button
     font-size: 1.5em;
     font-weight: 700;
   }
-
+  
   .tooltip-content .sub-heading {
     font-size: 1.1em;
     font-weight: 550;
+    color: rgb(48, 48, 48)
   }
 
   .tooltip-img {
@@ -1416,12 +1422,12 @@ button
   /* popup */
   .modal-wrap {
     display: flex;
-    position: absolute;
+    position: fixed;
     width: 80%;
-    height: 80%;
+    height: 70%;
     background-color: #fff;
     left: 50%;
-    top: 55%;
+    top: 56%;
     transform: translate(-50%, -50%);
     z-index: 8;
     /* display: none; */
@@ -1511,14 +1517,15 @@ button
     background-color: #e6e6e7;
     width: 62%;
     height: 100%;
-    padding: 6% 7% 5% 7%;
+    /* padding: 6% 7% 3.8% 7%; */
   }
 
   .modal-content-text {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 81%;
+    height: 70%;
+    padding: 40px;
   }
 
   .modal-name-wrap {
@@ -1558,8 +1565,9 @@ button
   }
 
   .learn-more-wrap {
-    position: absolute;
-    bottom: 10%;
+    /* position: absolute;
+    bottom: 10%; */
+    padding: 0 40px;
   }
 
   .learn-more-btn {
@@ -1684,17 +1692,18 @@ button
     visibility: hidden;
     position: relative;
     top: 265px;
-    height: 100vh;
+    height: 0;
     padding-top: 56px;
   }
 
   @media (max-width: 1024px) {
     .modal-wrap {
-      top: 50%;
+      top: 55%;
     }
 
     .tooltip-mobile {
       visibility: visible;
+      height: 67%;
     }
 
     .tooltip-pc {
@@ -1712,8 +1721,7 @@ button
     }
 
     .exhibit-image-wrap {
-      top: 52px;
-      height: 25%;
+      height: 27.5%;
       background-color: #dcdcdc;
     }
 
@@ -1755,7 +1763,7 @@ button
       justify-content: space-between;
       flex-direction: column;
       align-items: center;
-      top: 86%;
+      top: 93%;
       margin: 0 auto;
       left: 0;
       transform: none;
@@ -1785,7 +1793,7 @@ button
     }
 
     .helper-btwn {
-      width: 35px;
+      width: 32px;
     }
 
     /* tooltip */
@@ -1934,18 +1942,20 @@ button
 
     .modal-content {
       width: 100%;
-      height: 60%;
-      padding: 15px;
+      height:60%;
+      /* padding: 15px; */
     }
 
     .modal-content-text {
-      height: 85%;
+      /* height: 85%; */
+      padding:20px 30px;
     }
 
     .learn-more-wrap {
-      left: 50%;
+      /* left: 50%;
       bottom: 15px;
-      transform: translateX(-50%);
+      transform: translateX(-50%); */
+      padding: 0 30px;
     }
 
     .learn-more-btn:hover {
