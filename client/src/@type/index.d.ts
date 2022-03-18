@@ -70,6 +70,13 @@ declare namespace Common {
     archive?: string;
     home?: string;
     registration?: string;
+    // landing
+    landingSection1BackgroundURL?: string;
+    landingSection1LogoURL?: string;
+    landingSection1Desc?: string;
+    landingSection2Title?: string;
+    landingSection2Desc?: string;
+    landingSection2ImgURL?: string;
   }
 }
 
