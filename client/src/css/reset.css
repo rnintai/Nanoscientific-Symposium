@@ -5,3 +5,8 @@ button {
   font-family: inherit;
   font-size: inherit;
 }
+
+ul,
+li {
+  padding: 0;
+}
