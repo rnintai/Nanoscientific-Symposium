@@ -2,7 +2,7 @@ import React from "react";
 import ProgramsList from "components/Programs/ProgramsList";
 import usePageViews from "hooks/usePageViews";
 import useSeoTitle from "hooks/useSeoTitle";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 
 const Programs = () => {
   const pathname = usePageViews();

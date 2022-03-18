@@ -5,7 +5,7 @@ import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import useSeoTitle from "hooks/useSeoTitle";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 import { LoadingButton } from "@mui/lab";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";

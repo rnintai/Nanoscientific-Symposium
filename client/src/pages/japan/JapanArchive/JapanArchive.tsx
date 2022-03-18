@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import useSeoTitle from "hooks/useSeoTitle";
 import usePageViews from "hooks/usePageViews";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 import { JapanArchiveContainer } from "./JapanArchiveStyles";
 import useWindowSize from "../../../hooks/useWindowSize";
 import JapanGreetingComponent from "../JapanComponent/JapanGreetingComponent";

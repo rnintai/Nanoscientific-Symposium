@@ -6,7 +6,7 @@ import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import useSeoTitle from "hooks/useSeoTitle";
 
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 
 // 일본은 모달에 일본어가 나타나져야하기때문에 따로 불러옵니다. 다른국가는 Common 에서 불러옵니다.
 const JapanExhibitParkSystems = () => {

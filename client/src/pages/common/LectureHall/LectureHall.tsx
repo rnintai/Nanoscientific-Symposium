@@ -7,7 +7,7 @@ import { StyledTimezoneSelect } from "components/Programs/ProgramsListContainer"
 import usePageViews from "hooks/usePageViews";
 import { calculateDurationToDate } from "utils/Date";
 import useSeoTitle from "hooks/useSeoTitle";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 
 const LectureHall = () => {
   const pathname = usePageViews();

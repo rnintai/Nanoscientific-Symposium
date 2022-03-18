@@ -6,7 +6,7 @@ import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
 import useCheckLocal from "hooks/useCheckLocal";
 import useSeoTitle from "hooks/useSeoTitle";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import { SpeakersContainer } from "./SpeakersStyles";
 
