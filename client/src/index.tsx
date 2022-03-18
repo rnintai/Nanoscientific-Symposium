@@ -4,8 +4,9 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
-import "./css/main-style.css";
-import "./css/custom-frontend.css";
+import "./css/reset.css";
+// import "./css/main-style.css";
+// import "./css/custom-frontend.css";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -315,15 +315,16 @@ const EuropeLoginModal = ({
   }, [passwordSetModalOpen]);
   return (
     <div>
-      <Button
+      <button
         type="button"
-        className="menu-link remember-prev"
+        className="menu-link"
+        style={{ fontWeight: 500, padding: "15px 10px" }}
         onClick={() => {
           handleOpen(setEmailModalOpen);
         }}
       >
         SIGN IN
-      </Button>
+      </button>
       {/* email modal */}
       <Dialog
         open={emailModalOpen}

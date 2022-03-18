@@ -33,9 +33,9 @@ code {
     monospace;
 }
 
-#root {
+/* #root {
   background-color: #e7e8e9;
-}
+} */
 
 /*모달은 root 밑에가 아닌 portal 형태로 다르게 열려서 여기에 css를 지정해줘야함*/
 

@@ -7,15 +7,16 @@ import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "components/NavBar/NavBar";
 
 const Landing = () => {
-  const pathname = usePageViews();
-  const { home } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(home as string, pathname);
+  // const pathname = usePageViews();
+  // const { home } = globalData.get(pathname) as Common.globalDataType;
+  // useSeoTitle(home as string, pathname);
 
-  const [HTML, loading] = useHTML(`/api/page/common/landing`);
-  if (loading) {
-    return <Loading />;
-  }
-  return <InnerHTML html={HTML} />;
+  // const [HTML, loading] = useHTML(`/api/page/common/landing`);
+  // if (loading) {
+  //   return <Loading />;
+  // }
+  // return <InnerHTML html={HTML} />;
+  return <div>home</div>;
 };
 
 export default Landing;
