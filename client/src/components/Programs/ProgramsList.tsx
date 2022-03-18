@@ -30,6 +30,7 @@ const ProgramsList = () => {
       const programs = await axios.get(`/api/page/common/programs`, config);
       setPrograms(programs.data);
       setProgramLoading(false);
+      console.log(programs.data);
     };
 
     getPrograms();

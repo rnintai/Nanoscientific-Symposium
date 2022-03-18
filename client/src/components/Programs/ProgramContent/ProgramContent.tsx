@@ -2,6 +2,7 @@ import React from "react";
 import { ProgramContentContainer } from "components/Programs/ProgramContent/ProgramContentStyles";
 import "moment-timezone";
 import moment from "moment";
+import { dateToLocaleString, getUserTimezoneDate } from "utils/Date";
 
 interface ProgramContentProps extends Program.programType {
   index: number;
@@ -9,7 +10,7 @@ interface ProgramContentProps extends Program.programType {
   // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
   // eslint-disable-next-line react/require-default-props
-  selectedTimezone?: string;
+  selectedTimezone: string;
 }
 
 const ProgramContent = ({
@@ -24,25 +25,13 @@ const ProgramContent = ({
   selectedTimezone,
 }: ProgramContentProps) => {
   const isDateChanged =
-    moment
-      .utc(moment(start_time).format("YYYY-MM-DD HH:mm:ss"))
-      .tz(selectedTimezone as string)
-      .get("date") !==
-    moment
-      .utc(moment(end_time).format("YYYY-MM-DD HH:mm:ss"))
-      .tz(selectedTimezone as string)
-      .get("date");
+    getUserTimezoneDate(start_time, selectedTimezone).getDate() !==
+    getUserTimezoneDate(end_time, selectedTimezone).getDate();
 
   const isStartTimeZero =
-    moment
-      .utc(moment(start_time).format("YYYY-MM-DD HH:mm:ss"))
-      .tz(selectedTimezone as string)
-      .get("hour") === 0;
+    getUserTimezoneDate(start_time, selectedTimezone).getHours() === 0;
   const isEndTimeZero =
-    moment
-      .utc(moment(end_time).format("YYYY-MM-DD HH:mm:ss"))
-      .tz(selectedTimezone as string)
-      .get("hour") === 0;
+    getUserTimezoneDate(end_time, selectedTimezone).getHours() === 0;
 
   return (
     <ProgramContentContainer isAdmin={isAdmin} onClick={onClick}>
@@ -50,30 +39,24 @@ const ProgramContent = ({
         <time className="cbp_tmtime">
           {index === 0 && (
             <span className="session-date">
-              {moment(start_time).format("MMM DD")}
+              {dateToLocaleString(start_time, selectedTimezone, "MMM DD")}
+              {/* {moment(start_time).format("MMM DD")} */}
             </span>
           )}
           {moment(start_time).diff(end_time) > 0 && (
             <span className="session-date">
-              {moment(start_time).format("MMM DD")}
+              {dateToLocaleString(start_time, selectedTimezone, "MMM DD")}
             </span>
           )}
           {index !== 0 &&
             (isDateChanged || isStartTimeZero || isEndTimeZero) && (
               <span className="session-date">
-                {moment(start_time).format("MMM DD")}
+                {dateToLocaleString(start_time, selectedTimezone, "MMM DD")}
               </span>
             )}
           <span className="content-time">
-            {moment
-              .utc(moment(start_time).format("YYYY-MM-DD HH:mm:ss"))
-              .tz(selectedTimezone as string)
-              .format("HH:mm")}{" "}
-            -{" "}
-            {moment
-              .utc(moment(end_time).format("YYYY-MM-DD HH:mm:ss"))
-              .tz(selectedTimezone as string)
-              .format("HH:mm")}
+            {dateToLocaleString(start_time, selectedTimezone, "HH:mm")} -{" "}
+            {dateToLocaleString(end_time, selectedTimezone, "HH:mm")}
           </span>
           {index === 0 && (
             <h3 className="timezone">Timezone: {selectedTimezone}</h3>
