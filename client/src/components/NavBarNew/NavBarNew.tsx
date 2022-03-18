@@ -8,10 +8,9 @@ import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
-import { Stack, Typography } from "@mui/material";
-import GradientLink from "components/Link/GradientLink";
-import GradientButton from "components/Button/GradientButton";
-import LoginModal from "../Modal/LoginModal";
+import { Stack } from "@mui/material";
+import NSSButton from "components/Button/NSSButton";
+import MenuLink from "components/Link/MenuLink";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
 interface navProps {
@@ -212,26 +211,37 @@ const NavBar = ({
           justifyContent="space-between"
           className="menu-item-wrap"
         >
-          <Link className="menu-link" to={`/${pathname}/speakers`}>
-            {speakers}
-          </Link>
-          <Link className="menu-link" to={`/${pathname}/programs`}>
-            {programs}
-          </Link>
-          <Link className="menu-link" to={`/${pathname}/lecture-hall`}>
-            {lectureHall}
-          </Link>
-          <Link className="menu-link" to={`/${pathname}/exhibit/parksystems`}>
-            {exhibitHall}
-          </Link>
-          <Link className="menu-link" to={`/${pathname}/sponsors`}>
-            {sponsors}
-          </Link>
+          {speakers && (
+            <MenuLink to={`/${pathname}/speakers`}>{speakers}</MenuLink>
+          )}
+          {programs && (
+            <MenuLink className="menu-link" to={`/${pathname}/program`}>
+              {programs}
+            </MenuLink>
+          )}
+          {lectureHall && (
+            <MenuLink className="menu-link" to={`/${pathname}/lecture-hall`}>
+              {lectureHall}
+            </MenuLink>
+          )}
+          {exhibitHall && (
+            <MenuLink
+              className="menu-link"
+              to={`/${pathname}/exhibit/parksystems`}
+            >
+              {exhibitHall}
+            </MenuLink>
+          )}
+          {sponsors && (
+            <MenuLink className="menu-link" to={`/${pathname}/sponsors`}>
+              {sponsors}
+            </MenuLink>
+          )}
         </Stack>
         <Stack
           direction="row"
+          justifyContent="flex-end"
           alignSelf="flex-end"
-          justifyContent="space-around"
           className="login-wrap"
         >
           {authState.isLogin && !checkLoading && (
@@ -269,13 +279,15 @@ const NavBar = ({
                         setSuccess={setLoginSuccess}
                         setFailed={setLoginFailed}
                        /> */}
-              <GradientButton
+              <NSSButton
+                variant="gradient"
                 onClick={() => {
                   navigate(`${pathname}/registration`);
                 }}
+                style={{ alignSelf: "center" }}
               >
                 REGISTRATION
-              </GradientButton>
+              </NSSButton>
             </>
           )}
         </Stack>

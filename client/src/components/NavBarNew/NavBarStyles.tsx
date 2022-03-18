@@ -8,6 +8,13 @@ export const NavBarContainer = styled.div`
     const theme = useTheme();
     return `3px solid ${theme.palette.text.primary}`;
   }};
+  z-index: 10;
+  position: sticky;
+  top: 0;
+  background-color: ${() => {
+    const theme = useTheme();
+    return theme.palette.background.default;
+  }};
   .nav-wrap {
     max-width: 1200px;
     margin: 0 auto;
@@ -25,21 +32,6 @@ export const NavBarContainer = styled.div`
 
     .menu-item-wrap {
       width: 50%;
-      .menu-link {
-        padding: 15px 10px;
-        color: ${() => {
-          const theme = useTheme();
-          return theme.palette.text.secondary;
-        }};
-        transition: color 0.2s ease-in-out;
-
-        &:hover {
-          color: ${() => {
-            const theme = useTheme();
-            return theme.palette.text.primary;
-          }};
-        }
-      }
     }
 
     .login-wrap {
