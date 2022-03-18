@@ -79,172 +79,46 @@ const UserDetailForm = ({
     >
       <UserDetailFormContainer>
         <ul>
-          <li>
-            <h3>id : </h3>
-            <span>{selectedUser.id}</span>
-          </li>
-          <li>
-            <h3>email : </h3>
-            <span>{selectedUser.email}</span>
-          </li>
+          {Object.entries(selectedUser).map((field) => {
+            if (
+              field[0] !== "password" &&
+              field[0] !== "refresh_token" &&
+              field[0] !== "role"
+            ) {
+              return (
+                <li>
+                  <h3>{field[0]} : </h3>
+                  <span>{field[1]}</span>
+                </li>
+              );
+            }
+            if (field[0] === "role") {
+              return (
+                <li>
+                  <h3>role : </h3>
+                  {editorOnly.includes(authState.role) && (
+                    <span>{selectedUser.role}</span>
+                  )}
+                  {isAdmin && (
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Age"
+                      defaultValue={selectedUser.role}
+                      sx={{ ml: 1 }}
+                      {...role}
+                    >
+                      <MenuItem value="subscriber">Subscriber</MenuItem>
+                      <MenuItem value="editor">Editor</MenuItem>
+                      <MenuItem value="admin">Admin</MenuItem>
+                    </Select>
+                  )}
+                </li>
+              );
+            }
 
-          <li>
-            <h3>title : </h3>
-            <span>{selectedUser.title}</span>
-          </li>
-
-          <li>
-            <h3>role : </h3>
-            {editorOnly.includes(authState.role) && (
-              <span>{selectedUser.role}</span>
-            )}
-            {isAdmin && (
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Age"
-                defaultValue={selectedUser.role}
-                sx={{ ml: 1 }}
-                {...role}
-              >
-                <MenuItem value="subscriber">Subscriber</MenuItem>
-                <MenuItem value="editor">Editor</MenuItem>
-                <MenuItem value="admin">Admin</MenuItem>
-              </Select>
-            )}
-          </li>
-          <li>
-            <h3>lastName : </h3>
-            <span>{selectedUser.last_name}</span>
-          </li>
-          <li>
-            <h3>firstName : </h3>
-            <span>{selectedUser.first_name}</span>
-          </li>
-          <Divider />
-
-          {selectedUser.university && (
-            <li>
-              <h3>university : </h3>
-              <span>{selectedUser.university}</span>
-            </li>
-          )}
-          {selectedUser.institute && (
-            <li>
-              <h3>institute : </h3>
-              <span>{selectedUser.institute}</span>
-            </li>
-          )}
-          <Divider />
-
-          {selectedUser.street && (
-            <li>
-              <h3>street : </h3>
-              <span>{selectedUser.street}</span>
-            </li>
-          )}
-          {selectedUser.zipCode && (
-            <li>
-              <h3>zipCode : </h3>
-              <span>{selectedUser.zipCode}</span>
-            </li>
-          )}
-          {selectedUser.city && (
-            <li>
-              <h3>city : </h3>
-              <span>{selectedUser.city}</span>
-            </li>
-          )}
-          {selectedUser.address && (
-            <li>
-              <h3>address : </h3>
-              <span>{selectedUser.address}</span>
-            </li>
-          )}
-          <Divider />
-          {selectedUser.researchField && (
-            <li>
-              <h3>researchField : </h3>
-              <span>{selectedUser.researchField}</span>
-            </li>
-          )}
-          {selectedUser.afmTool && (
-            <li>
-              <h3>afmTool : </h3>
-              <span>{selectedUser.afmTool}</span>
-            </li>
-          )}
-          <Divider />
-
-          {selectedUser.nanomechanical && (
-            <li>
-              <h3>nanomechanical : </h3>
-              <span>
-                <Rating
-                  name="readOnly "
-                  value={selectedUser.nanomechanical}
-                  readOnly
-                />
-              </span>
-            </li>
-          )}
-          {selectedUser.characterization_of_soft && (
-            <li>
-              <h3>characterization_of_soft : </h3>
-              <span>
-                <Rating
-                  name="readOnly "
-                  value={selectedUser.characterization_of_soft}
-                  readOnly
-                />
-              </span>
-            </li>
-          )}
-          {selectedUser.advanced_imaging && (
-            <li>
-              <h3>advanced_imaging : </h3>
-              <span>
-                <Rating
-                  name="readOnly "
-                  value={selectedUser.advanced_imaging}
-                  readOnly
-                />
-              </span>
-            </li>
-          )}
-          {selectedUser.high_resolution_imaging && (
-            <li>
-              <h3>high_resolution_imaging : </h3>
-              <span>
-                <Rating
-                  name="readOnly "
-                  value={selectedUser.high_resolution_imaging}
-                  readOnly
-                />
-              </span>
-            </li>
-          )}
-          {selectedUser.automation_in_afm && (
-            <li>
-              <h3>automation_in_afm : </h3>
-              <span>
-                <Rating
-                  name="readOnly "
-                  value={selectedUser.automation_in_afm}
-                  readOnly
-                />
-              </span>
-            </li>
-          )}
-          <Divider />
-          <li>
-            <h3>registration : </h3>
-            <span>{selectedUser.createdAt.substring(0, 10)}</span>
-          </li>
-          <li>
-            <h3>ps_opt_in : </h3>
-            <span>{selectedUser.ps_opt_in}</span>
-          </li>
+            return false;
+          })}
         </ul>
       </UserDetailFormContainer>
       <TopCenterSnackBar

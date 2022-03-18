@@ -45,21 +45,12 @@ declare namespace User {
     role: string;
     last_name: string;
     first_name: string;
-    university: string;
-    institute?: string;
-    street?: string;
-    zipCode?: string;
-    city?: string;
-    address?: string;
-    researchField: string;
-    afmTool?: string;
-    nanomechanical?: number;
-    characterization_of_soft?: number;
-    advanced_imaging?: number;
-    high_resolution_imaging?: number;
-    automation_in_afm?: number;
+    institute: string;
+    phone: string;
+    department?: string;
+    state?: string;
     createdAt: string;
-    ps_opt_in: number;
+    country: string;
   }
 }
 

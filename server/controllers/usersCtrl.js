@@ -270,18 +270,15 @@ const usersCtrl = {
   // 유럽 제외 회원가입
   register: async (req, res) => {
     const {
-      email,
       title,
-      university,
-      institute,
-      street,
-      zipCode,
-      city,
-      researchField,
-      afmTool,
-      lastName,
       firstName,
-      psOptIn,
+      lastName,
+      email,
+      phone,
+      institute,
+      department,
+      country,
+      state,
       nation,
     } = req.body;
 
@@ -289,10 +286,30 @@ const usersCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO user(email,password,title,university,institute,street,zipCode,city,research_field,afm_tool,last_name,first_name,ps_opt_in)
-      VALUES('${email}','${hasher.HashPassword(
-        null
-      )}','${title}','${university}','${institute}','${street}','${zipCode}','${city}','${researchField}','${afmTool}','${lastName}','${firstName}',${psOptIn})`;
+      const sql = `INSERT INTO user(
+        title,
+        first_name,
+        last_name,
+        email,
+        password,
+        phone,
+        institute,
+        department,
+        country,
+        state)
+      VALUES(
+        '${title}',
+        '${firstName}',
+        '${lastName}',
+        '${email}',
+        '${hasher.HashPassword(null)}',
+        '${phone}',
+        '${institute}',
+        '${department}',
+        '${country}',
+        '${state}'
+      )
+      `;
 
       const result = await connection.query(sql);
 

@@ -9,6 +9,7 @@ import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import AdminRoute from "components/Route/AdminRoute";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
+import Registration from "pages/common/Registration/Registration";
 
 export default [
   {
@@ -46,6 +47,10 @@ export default [
   {
     path: "/us/exhibit/nanoscientific",
     element: <ExhibitNanoScientific />,
+  },
+  {
+    path: "/us/registration",
+    element: <Registration formNo="1184" />,
   },
   {
     path: "/us/sponsors",

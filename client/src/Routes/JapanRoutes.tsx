@@ -11,6 +11,7 @@ import JapanGreeting from "pages/japan/JapanGreeting/JapanGreeting";
 import JapanLectureHall from "pages/japan/JapanLectureHall";
 import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
+import Registration from "pages/common/Registration/Registration";
 import Speakers from "../pages/common/Speakers/Speakers";
 
 export default [
@@ -69,5 +70,9 @@ export default [
   {
     path: "/jp/user/forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/jp/registration",
+    element: <Registration formNo="1223" />,
   },
 ];

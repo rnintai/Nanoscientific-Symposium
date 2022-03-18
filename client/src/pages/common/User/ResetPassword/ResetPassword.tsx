@@ -68,7 +68,7 @@ const ResetPassword = () => {
         if (res.data.success) {
           setPasswordSetSuccessAlert(true);
           setTimeout(() => {
-            navigate(0);
+            navigate(`/${pathname}`);
           }, 1500);
         } else {
           switch (res.data.code) {

@@ -1,18 +1,25 @@
 import styled from "styled-components";
 
 export const RegistrationContainer = styled.div`
-  width: 1200px;
+  max-width: 1200px;
   min-height: calc(100vh - 120px);
   padding: 30px 0;
   margin: 60px auto 0 auto;
+
   .mktoForm {
     margin: 0 auto;
     font-family: "Open Sans" !important;
+    max-width: 591px !important;
+    width: initial !important;
 
     .mktoField {
       background-color: white;
       border: 1px solid #ddd;
     }
+  }
+  .flex-reverse {
+    display: flex;
+    flex-direction: row-reverse;
   }
   .paypal-container {
     width: 200px;
@@ -20,11 +27,8 @@ export const RegistrationContainer = styled.div`
   }
 
   .validation-msg {
-    position: relative;
-    top: 32px;
-    left: 100%;
-    transform: translateX(-38%);
     font-size: 12px;
+    font-weight: 500;
 
     &.valid {
       color: green;
@@ -34,6 +38,15 @@ export const RegistrationContainer = styled.div`
     }
   }
 
+  .mktoLogicalField.mktoCheckboxList.mktoHasWidth {
+    width: initial !important;
+  }
+  #LblpsmktOptin,
+  #LblpsOptin {
+    max-width: 590px !important;
+    width: initial !important;
+  }
+
   .mktoButton2 {
     left: 50%;
     transform: translateX(-50%);
@@ -41,6 +54,10 @@ export const RegistrationContainer = styled.div`
 
   &.loading form {
     display: none;
+  }
+
+  @media screen and (max-width: 1090px) {
+    margin: 52px auto 0 auto;
   }
 `;
 
