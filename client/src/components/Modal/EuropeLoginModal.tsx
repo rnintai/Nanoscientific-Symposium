@@ -16,6 +16,7 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import CloseButton from "components/CloseButton/CloseButton";
 import axios from "axios";
 import Timer from "components/Timer/Timer";
+import NSSButton from "components/Button/NSSButton";
 import usePageViews from "../../hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 import useInput from "../../hooks/useInput";
@@ -315,16 +316,16 @@ const EuropeLoginModal = ({
   }, [passwordSetModalOpen]);
   return (
     <div>
-      <button
+      <NSSButton
         type="button"
-        className="menu-link"
-        style={{ fontWeight: 500, padding: "15px 10px" }}
+        variant="primary"
+        style={{ fontWeight: 500 }}
         onClick={() => {
           handleOpen(setEmailModalOpen);
         }}
       >
         SIGN IN
-      </button>
+      </NSSButton>
       {/* email modal */}
       <Dialog
         open={emailModalOpen}
