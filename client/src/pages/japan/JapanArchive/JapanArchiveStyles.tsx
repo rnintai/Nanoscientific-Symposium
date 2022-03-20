@@ -30,7 +30,7 @@ export const JapanArchiveContainer = styled.div`
       .navy {
         color: ${() => {
           const theme = useTheme();
-          return theme.palette.primary.dark;
+          return theme.palette.primary.heading;
         }};
       }
       span {

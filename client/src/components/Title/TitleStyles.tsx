@@ -12,7 +12,7 @@ export const TitleContainer = styled.div<TitleContainerProps>`
   h1 {
     color: ${() => {
       const theme = useTheme();
-      return theme.palette.primary.dark;
+      return theme.palette.primary.heading;
     }};
     font-size: ${(props) => props.fontSize}px;
     font-weight: 700;

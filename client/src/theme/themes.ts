@@ -33,6 +33,7 @@ declare module "@mui/material/styles" {
     contrastText: string;
     contrastTextAlpha?: string;
     alpha50?: string;
+    heading?: string;
     gradation?: string;
   }
 }
@@ -63,7 +64,8 @@ const getDesignTokens = (mode: PaletteMode) => ({
         // dark
         primary: {
           contrastText: "rgba(0, 0, 0, 0.87)",
-          dark: "#42a5f5",
+          dark: "#1897c5",
+          heading: "#002348",
           light: "#e3f2fd",
           main: "#1CAFE4",
           gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
