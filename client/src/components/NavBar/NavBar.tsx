@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
@@ -8,8 +8,9 @@ import { LoadingButton } from "@mui/lab";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
-import { globalData } from "utils/GlobalData";
-import LoginModal from "../Modal/LoginModal";
+import { Stack } from "@mui/material";
+import NSSButton from "components/Button/NSSButton";
+import MenuLink from "components/Link/MenuLink";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
 interface navProps {
@@ -25,6 +26,91 @@ interface navProps {
   hideMenu?: boolean;
 }
 
+export const globalData = new Map<string, Common.globalDataType>([
+  [
+    "asia",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAM",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
+    },
+  ],
+  [
+    "kr",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
+      speakers: "초청연사",
+      symposium: "심포지엄 안내",
+      programs: "프로그램",
+      lectureHall: "온라인 강연장",
+      exhibitHall: "전시부스 ",
+      sponsors: "협찬사",
+      home: "홈",
+      registration: "등록",
+    },
+  ],
+  [
+    "latam",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAM",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
+    },
+  ],
+  [
+    "jp",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
+      speakers: "講演者",
+      programs: "プログラム",
+      lectureHall: "Web講演会",
+      exhibitHall: "展示会",
+      sponsors: "スポンサー",
+      home: "ホーム",
+      greeting: "ごあいさつ",
+      attend: "参加手順",
+      archive: "アーカイブ",
+      registration: "登録",
+    },
+  ],
+  [
+    "us",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAM",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
+    },
+  ],
+  [
+    "eu",
+    {
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
+      speakers: "SPEAKERS",
+      programs: "PROGRAM",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
+    },
+  ],
+]);
+
 const NavBar = ({
   checkLoading,
   hideMenu,
@@ -36,6 +122,7 @@ const NavBar = ({
   setPasswordInputModalOpen,
 }: navProps) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
   const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
@@ -43,6 +130,7 @@ const NavBar = ({
 
   const pathname = usePageViews();
   const subpath = useSubPath();
+  const navigate = useNavigate();
 
   const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
     useState<boolean>(false);
@@ -106,174 +194,106 @@ const NavBar = ({
     attend,
     symposium,
   } = globalData.get(pathname) as Common.globalDataType;
+
   return (
     <NavBarContainer>
-      <nav className={`nav-wrap${isMobile ? " mobile-menu-on" : ""}`}>
-        <section className="col-logo">
-          <Link to={`/${pathname}`} className="logo-link">
-            <img src={logoURL} alt="logo" />
-          </Link>
-          <button
-            type="button"
-            className="mobile-menu-btn"
-            onClick={mobileToggleHandler}
-          >
-            <i className="fas fa-bars" />
-          </button>
-        </section>
-        <section className="col-menu">
-          <ul className={hideMenu ? "menu-list hide" : "menu-list"}>
-            {symposium && (
-              <li className="menu-item has-submenu">
-                <Link to={`/${pathname}/`} className="menu-link">
-                  {symposium} <i className="fas fa-caret-down" />
-                </Link>
-                <div className="drop-down-wrap">
-                  <ul className="drop-down-list">
-                    <li className="drop-down-item">
-                      <Link
-                        className="submenu-link"
-                        to={`/${pathname}/speakers`}
-                      >
-                        초청 연사
-                      </Link>
-                    </li>
-                    <li className="drop-down-item">
-                      <Link className="submenu-link" to={`/${pathname}/attend`}>
-                        행사장 안내
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-            )}
-
-            {greeting && (
-              <li className="menu-item">
-                <Link className="menu-link" to={`/${pathname}/greeting`}>
-                  {greeting}
-                </Link>
-              </li>
-            )}
-            {speakers && !symposium && (
-              <li className="menu-item">
-                <Link className="menu-link" to={`/${pathname}/speakers`}>
-                  {speakers}
-                </Link>
-              </li>
-            )}
-            <li className="menu-item">
-              <Link className="menu-link" to={`/${pathname}/program`}>
-                {programs}
-              </Link>
-            </li>
-            <li className="menu-item">
-              <Link className="menu-link" to={`/${pathname}/lecture-hall`}>
-                {lectureHall}
-              </Link>
-            </li>
-            {attend && (
-              <li className="menu-item">
-                <Link className="menu-link" to={`/${pathname}/attend`}>
-                  {attend}
-                </Link>
-              </li>
-            )}
-            <li className="menu-item has-submenu">
-              <Link
-                to={`/${pathname}/exhibit`}
-                className="menu-link"
-                style={{ pointerEvents: "none" }}
-              >
-                {exhibitHall}
-                {pathname !== "jp" && <i className="fas fa-caret-down" />}
-              </Link>
-              <div className="drop-down-wrap">
-                <ul className="drop-down-list">
-                  <li className="drop-down-item">
-                    <Link
-                      className="submenu-link"
-                      to={`/${pathname}/exhibit/parksystems`}
-                    >
-                      PARK SYSTEMS
-                    </Link>
-                  </li>
-                  <li className="drop-down-item">
-                    <Link
-                      className="submenu-link"
-                      to={`/${pathname}/exhibit/nanoscientific`}
-                    >
-                      NANOSCIENTIFIC
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            <li className="menu-item">
-              <Link className="menu-link" to={`/${pathname}/sponsors`}>
-                {sponsors}
-              </Link>
-            </li>
-          </ul>
-        </section>
-        {pathname !== "jp" && (
-          <section className="col-login">
-            <ul className="login-list">
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        className="nav-wrap"
+      >
+        <Link to={`/${pathname}`} className="logo-link">
+          <img src={logoURL} alt="logo" />
+        </Link>
+        {!hideMenu && (
+          <>
+            <Stack
+              direction="row"
+              alignSelf="flex-end"
+              justifyContent="space-between"
+              className="menu-item-wrap"
+            >
+              {speakers && (
+                <MenuLink to={`/${pathname}/speakers`}>{speakers}</MenuLink>
+              )}
+              {programs && (
+                <MenuLink to={`/${pathname}/program`}>{programs}</MenuLink>
+              )}
+              {lectureHall && (
+                <MenuLink to={`/${pathname}/lecture-hall`}>
+                  {lectureHall}
+                </MenuLink>
+              )}
+              {exhibitHall && (
+                <MenuLink to={`/${pathname}/exhibit/parksystems`}>
+                  {exhibitHall}
+                </MenuLink>
+              )}
+              {sponsors && (
+                <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
+              )}
+            </Stack>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignSelf="flex-end"
+              className="login-wrap"
+            >
               {authState.isLogin && !checkLoading && (
                 <>
                   {editorRole.includes(authState.role) && (
-                    <li className="login-item">
-                      <Link className="menu-link" to={`${pathname}/admin`}>
-                        ADMIN
-                      </Link>
-                    </li>
-                  )}
-                  <li className="login-item">
-                    <LoadingButton
-                      className="menu-link"
-                      style={{ fontFamily: "inherit" }}
+                    <NSSButton
+                      type="button"
+                      variant="primary"
+                      style={{ fontWeight: 500 }}
                       onClick={() => {
-                        logoutHandler(authState.email);
+                        navigate(`${pathname}/admin`);
                       }}
                     >
-                      SIGN OUT
-                    </LoadingButton>
-                  </li>
+                      ADMIN
+                    </NSSButton>
+                  )}
+                  <NSSButton
+                    type="button"
+                    variant="primary"
+                    style={{ fontWeight: 500 }}
+                    onClick={() => {
+                      logoutHandler(authState.email);
+                    }}
+                  >
+                    SIGN OUT
+                  </NSSButton>
                 </>
               )}
               {!authState.isLogin && !checkLoading && (
                 <>
-                  <li className="login-item">
-                    <EuropeLoginModal
-                      setSuccess={setLoginSuccess}
-                      setFailed={setLoginFailed}
-                      emailModalOpen={emailModalOpen}
-                      setEmailModalOpen={setEmailModalOpen}
-                      setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
-                      passwordSetModalOpen={passwordSetModalOpen}
-                      setPasswordSetModalOpen={setPasswordSetModalOpen}
-                      passwordInputModalOpen={passwordInputModalOpen}
-                      setPasswordInputModalOpen={setPasswordInputModalOpen}
-                    />
-                    {/* <LoginModal
-                        setSuccess={setLoginSuccess}
-                        setFailed={setLoginFailed}
-                       /> */}
-                  </li>
-                  <li className="login-item">
-                    <Link
-                      className="menu-link boxed remember-prev"
-                      to={`${pathname}/registration`}
-                    >
-                      REGISTRATION
-                    </Link>
-                  </li>
+                  <EuropeLoginModal
+                    setSuccess={setLoginSuccess}
+                    setFailed={setLoginFailed}
+                    emailModalOpen={emailModalOpen}
+                    setEmailModalOpen={setEmailModalOpen}
+                    setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
+                    passwordSetModalOpen={passwordSetModalOpen}
+                    setPasswordSetModalOpen={setPasswordSetModalOpen}
+                    passwordInputModalOpen={passwordInputModalOpen}
+                    setPasswordInputModalOpen={setPasswordInputModalOpen}
+                  />
+                  <NSSButton
+                    variant="gradient"
+                    onClick={() => {
+                      navigate(`${pathname}/registration`);
+                    }}
+                    style={{ alignSelf: "center" }}
+                  >
+                    REGISTRATION
+                  </NSSButton>
                 </>
               )}
-            </ul>
-          </section>
+            </Stack>
+          </>
         )}
-      </nav>
+      </Stack>
       <TopCenterSnackBar
         value={loginSuccess}
         setValue={setLoginSuccess}
