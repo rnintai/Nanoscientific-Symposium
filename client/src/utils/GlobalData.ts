@@ -1,5 +1,54 @@
 export const globalData = new Map<string, Common.globalDataType>([
   [
+    "common",
+    {
+      nations: [
+        {
+          name: "Asia",
+          date: "TBD",
+          landingImage:
+            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+        },
+        {
+          name: "Korea",
+          date: "TBD",
+          landingImage:
+            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+        },
+        {
+          name: "US",
+          date: "TBD",
+          landingImage:
+            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+        },
+        {
+          name: "Japan",
+          date: "TBD",
+          landingImage:
+            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+        },
+        {
+          name: "China",
+          date: "TBD",
+          landingImage:
+            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+        },
+        {
+          name: "Europe",
+          date: "TBD",
+          landingImage:
+            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+        },
+      ],
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+      fullLogoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+      eventLandingMainBannerURL:
+        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
+      eventLandingDesc:
+        "Ut a venenatis neque, in blandit urna. Proin facilisis, nulla sit amet congue tincidunt, orci quam fermentum erat, id ultrices tellus velit in velit. Fusce feugiat, erat eu varius gravida, mauris neque posuere mauris, a cursus mi mauris a justo. Nam suscipit semper auctor. Etiam sed gravida leo. Mauris rutrum massa varius neque rhoncus, id condimentum ante fringilla. Nam eu egestas turpis. Pellentesque neque ipsum, lacinia nec faucibus faucibus, molestie a felis. Proin quam ligula, suscipit imperdiet lorem in, porttitor pharetra mi. Nulla facilisi.",
+    },
+  ],
+  [
     "asia",
     {
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",

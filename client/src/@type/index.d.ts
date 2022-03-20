@@ -57,19 +57,32 @@ declare namespace User {
 declare namespace Common {
   type showStatus = "show" | "hide";
 
+  interface nationType {
+    name: string;
+    date: string;
+    landingImage: string;
+  }
+
   interface globalDataType {
-    logoURL: string;
+    logoURL?: string;
+    fullLogoURL?: string;
     speakers?: string;
-    programs: string;
-    lectureHall: string;
+    programs?: string;
+    lectureHall?: string;
     exhibitHall?: string;
-    sponsors: string;
+    sponsors?: string;
     greeting?: string;
     attend?: string;
     symposium?: string;
     archive?: string;
     home?: string;
     registration?: string;
+    // common
+    nations?: nationType[];
+    eventLandingMainBannerURL?: string;
+    fullLogoURL?: string;
+    eventLandingDesc?: string;
+
     // landing
     landingSection1BackgroundURL?: string;
     landingSection1LogoURL?: string;
