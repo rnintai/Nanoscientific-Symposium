@@ -3,7 +3,6 @@ import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import EventLanding from "pages/common/EventLanding";
 import NavBar from "components/NavBar/NavBar";
-import NavBarNew from "components/NavBarNew/NavBarNew";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
 import { ThemeProvider } from "@mui/material/styles";
@@ -79,28 +78,16 @@ const App = () => {
           subpath.indexOf("admin") === -1 &&
           pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
-            <>
-              {/* <NavBar
-                key={subpath}
-                checkLoading={authState.isLoading}
-                passwordSetModalOpen={passwordSetModalOpen}
-                emailModalOpen={emailModalOpen}
-                setEmailModalOpen={setEmailModalOpen}
-                setPasswordSetModalOpen={setPasswordSetModalOpen}
-                passwordInputModalOpen={passwordInputModalOpen}
-                setPasswordInputModalOpen={setPasswordInputModalOpen}
-              /> */}
-              <NavBarNew
-                key={subpath}
-                checkLoading={authState.isLoading}
-                passwordSetModalOpen={passwordSetModalOpen}
-                emailModalOpen={emailModalOpen}
-                setEmailModalOpen={setEmailModalOpen}
-                setPasswordSetModalOpen={setPasswordSetModalOpen}
-                passwordInputModalOpen={passwordInputModalOpen}
-                setPasswordInputModalOpen={setPasswordInputModalOpen}
-              />
-            </>
+            <NavBar
+              key={subpath}
+              checkLoading={authState.isLoading}
+              passwordSetModalOpen={passwordSetModalOpen}
+              emailModalOpen={emailModalOpen}
+              setEmailModalOpen={setEmailModalOpen}
+              setPasswordSetModalOpen={setPasswordSetModalOpen}
+              passwordInputModalOpen={passwordInputModalOpen}
+              setPasswordInputModalOpen={setPasswordInputModalOpen}
+            />
           )}
         {pathname === "jp" && (
           <NavBar
