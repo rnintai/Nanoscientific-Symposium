@@ -11,6 +11,7 @@ import useSubPath from "hooks/useSubPath";
 import { Stack } from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
+import { globalData } from "utils/GlobalData";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
 interface navProps {
@@ -25,91 +26,6 @@ interface navProps {
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
 }
-
-export const globalData = new Map<string, Common.globalDataType>([
-  [
-    "asia",
-    {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-      speakers: "SPEAKERS",
-      programs: "PROGRAM",
-      lectureHall: "LECTURE HALL",
-      exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
-      home: "HOME",
-      registration: "REGISTRATION",
-    },
-  ],
-  [
-    "kr",
-    {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
-      speakers: "초청연사",
-      symposium: "심포지엄 안내",
-      programs: "프로그램",
-      lectureHall: "온라인 강연장",
-      exhibitHall: "전시부스 ",
-      sponsors: "협찬사",
-      home: "홈",
-      registration: "등록",
-    },
-  ],
-  [
-    "latam",
-    {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
-      speakers: "SPEAKERS",
-      programs: "PROGRAM",
-      lectureHall: "LECTURE HALL",
-      exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
-      home: "HOME",
-      registration: "REGISTRATION",
-    },
-  ],
-  [
-    "jp",
-    {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
-      speakers: "講演者",
-      programs: "プログラム",
-      lectureHall: "Web講演会",
-      exhibitHall: "展示会",
-      sponsors: "スポンサー",
-      home: "ホーム",
-      greeting: "ごあいさつ",
-      attend: "参加手順",
-      archive: "アーカイブ",
-      registration: "登録",
-    },
-  ],
-  [
-    "us",
-    {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/us/NS_logo.svg",
-      speakers: "SPEAKERS",
-      programs: "PROGRAM",
-      lectureHall: "LECTURE HALL",
-      exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
-      home: "HOME",
-      registration: "REGISTRATION",
-    },
-  ],
-  [
-    "eu",
-    {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
-      speakers: "SPEAKERS",
-      programs: "PROGRAM",
-      lectureHall: "LECTURE HALL",
-      exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
-      home: "HOME",
-      registration: "REGISTRATION",
-    },
-  ],
-]);
 
 const NavBar = ({
   checkLoading,
