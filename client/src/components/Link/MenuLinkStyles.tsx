@@ -6,6 +6,10 @@ export const MenuLinkContainer = styled.div`
 
   a {
     position: relative;
+    &.active {
+      color: #fff;
+      cursor: default;
+    }
     &::before {
       content: "";
       position: absolute;
@@ -15,6 +19,7 @@ export const MenuLinkContainer = styled.div`
       background-color: transparent;
       transition: background-color 0.2s ease-in-out;
     }
+    &.active::before,
     &:hover::before {
       background-color: ${() => {
         const theme = useTheme();
