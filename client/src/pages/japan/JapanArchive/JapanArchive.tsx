@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Title from "components/Title/Title";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import { Link } from "react-router-dom";
@@ -111,7 +111,7 @@ const JapanArchive = () => {
         <div className="string-content">
           <h1>各講演アーカイブにて公開中！</h1>
           <h4>※動画視聴には、フォームの記入および提出が必要です。</h4>
-          <h2>ナノ科学シンポジウム2022もお楽しみに！</h2>
+          <h2 className="navy">ナノ科学シンポジウム2022もお楽しみに！</h2>
           <h3>日時：2022年 11月18日 場所：ハイブリッド開催</h3>
 
           <Button

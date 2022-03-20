@@ -48,9 +48,13 @@ const SpeakerCard = ({
         <h3 style={{ fontSize: "1.5rem", marginTop: "5px" }} className="name">
           {speaker.name}
         </h3>
-        <h5 className="belong">{speaker.belong}</h5>
+        <h5 style={{ fontSize: "0.85rem" }} className="belong">
+          {speaker.belong}
+        </h5>
         {speaker.description && (
-          <h5 className="description">{speaker.description}</h5>
+          <h5 style={{ fontSize: "0.85rem" }} className="description">
+            {speaker.description}
+          </h5>
         )}
       </Item>
     </Grid>

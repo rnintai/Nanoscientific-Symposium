@@ -1,8 +1,7 @@
+import { useTheme } from "@mui/material";
 import styled from "styled-components";
 
 export const JapanArchiveContainer = styled.div`
-  padding-top: 150px;
-
   .banner {
     object-fit: contain;
     width: 100%;
@@ -11,7 +10,7 @@ export const JapanArchiveContainer = styled.div`
   .content {
     display: flex;
     margin-bottom: 40px;
-    border-bottom: 1px solid #c2c2c2;
+    border-bottom: 3px solid #fff;
 
     .string-content {
       width: 40%;
@@ -26,8 +25,13 @@ export const JapanArchiveContainer = styled.div`
       }
       h2 {
         font-size: 1.6rem;
-        color: #003e7f;
         margin-bottom: 0px;
+      }
+      .navy {
+        color: ${() => {
+          const theme = useTheme();
+          return theme.palette.primary.dark;
+        }};
       }
       span {
         font-weight: bold;
@@ -43,12 +47,12 @@ export const JapanArchiveContainer = styled.div`
   }
 
   .greeting {
-    border-bottom: 1px solid #c2c2c2;
+    border-bottom: 3px solid #fff;
     margin-bottom: 30px;
   }
 
   .speakers {
-    border-bottom: 1px solid #c2c2c2;
+    border-bottom: 3px solid #fff;
     .belong {
       white-space: pre-line;
     }
