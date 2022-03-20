@@ -24,6 +24,13 @@ export const NSSButtonContainer = styled.button`
     border: 2px solid #fff;
     border-radius: 25px;
     padding: 2px 12px;
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+      transform: scale(1.02);
+    }
+    &:active {
+      transform: scale(1.02);
+    }
   }
   display: flex;
   align-items: center;
