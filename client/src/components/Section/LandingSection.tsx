@@ -4,6 +4,7 @@ import { LandingSectionContainer } from "./LandingSectionStyles";
 
 interface LandingSectionProps extends React.ComponentPropsWithoutRef<"div"> {
   children: JSX.Element | JSX.Element[] | string | string[];
+  maxWidth?: string;
   height?: string;
   fullWidth?: boolean;
   background?: string;
@@ -11,6 +12,7 @@ interface LandingSectionProps extends React.ComponentPropsWithoutRef<"div"> {
 const LandingSection = (props: LandingSectionProps) => {
   const {
     children,
+    maxWidth,
     fullWidth = false,
     height = "100%",
     background = null,
@@ -24,9 +26,14 @@ const LandingSection = (props: LandingSectionProps) => {
         fullWidth ? " fullWidth" : ""
       }`}
       style={{
-        minHeight: height,
-        height: "100%",
-        backgroundImage: `${background ? `url(${background})` : "none"}`,
+        ...rest.style,
+        ...{
+          minHeight: height,
+          maxWidth,
+          height: "100%",
+          backgroundImage: `${background ? `url(${background})` : "none"}`,
+          margin: "0 auto",
+        },
       }}
     >
       {children}
