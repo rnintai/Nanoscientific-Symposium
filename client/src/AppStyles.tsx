@@ -30,4 +30,11 @@ export const AppContainer = styled.div`
       }};
     }
   }
+
+  .hover-zoom {
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
 `;
