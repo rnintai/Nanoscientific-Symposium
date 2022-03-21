@@ -1,14 +1,54 @@
 import React from "react";
-import Typography from "@mui/material/Typography";
+import { Typography, Button, Stack } from "@mui/material";
+import EventNoteTwoToneIcon from "@mui/icons-material/EventNoteTwoTone";
+import CampaignTwoToneIcon from "@mui/icons-material/CampaignTwoTone";
+import PeopleAltTwoToneIcon from "@mui/icons-material/PeopleAltTwoTone";
 
 import AdminLayout from "components/AdminLayout/AdminLayout";
+import { useNavigate } from "react-router";
+import usePageViews from "hooks/usePageViews";
 import { AdminContainer } from "./AdminStyles";
 
 const Admin = () => {
+  const navigate = useNavigate();
+  const pathname = usePageViews();
   return (
     <AdminContainer>
-      <AdminLayout title="Landing">
-        <Typography paragraph>
+      <AdminLayout title={`${pathname.toUpperCase()} admin`}>
+        <Stack direction="row" spacing={3}>
+          <Button
+            variant="contained"
+            startIcon={<EventNoteTwoToneIcon />}
+            sx={{ color: "#fff" }}
+            onClick={() => {
+              navigate(`program`);
+            }}
+          >
+            program
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<CampaignTwoToneIcon />}
+            sx={{ color: "#fff" }}
+            onClick={() => {
+              navigate("speakers");
+            }}
+          >
+            speakers
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<PeopleAltTwoToneIcon />}
+            sx={{ color: "#fff" }}
+            onClick={() => {
+              navigate("users");
+            }}
+          >
+            users
+          </Button>
+        </Stack>
+
+        {/* <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
           dolor purus non enim praesent elementum facilisis leo vel. Risus at
@@ -36,7 +76,7 @@ const Admin = () => {
           sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        </Typography> */}
       </AdminLayout>
     </AdminContainer>
   );

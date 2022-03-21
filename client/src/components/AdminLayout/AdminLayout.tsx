@@ -68,7 +68,7 @@ const AdminLayout = ({
           isPublished={isPublished}
         />
         <AdminNavBar />
-        <Box component="main" sx={{ flexGrow: 1, bgcolor: "#e7e8e9", p: 3 }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
           {children}
         </Box>

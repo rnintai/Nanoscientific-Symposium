@@ -6,8 +6,8 @@ import Loading from "components/Loading/Loading";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import usePageViews from "hooks/usePageViews";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import { SpeakersContainer } from "../../common/Speakers/SpeakersStyles";
 import SpeakerForm from "../Forms/SpeakerForm";
-import { AdminSpeakerContainer } from "./AdminSpeakersStyles";
 import SpeakerHideForm from "../Forms/SpeakerHideForm";
 
 const AdminSpeakers = () => {
@@ -101,7 +101,7 @@ const AdminSpeakers = () => {
   }
 
   return (
-    <AdminSpeakerContainer>
+    <SpeakersContainer>
       <AdminLayout
         title="Speakers"
         menu3="Add speaker"
@@ -164,7 +164,7 @@ const AdminSpeakers = () => {
         severity="success"
         content="Publish state is successfully updated."
       />
-    </AdminSpeakerContainer>
+    </SpeakersContainer>
   );
 };
 
