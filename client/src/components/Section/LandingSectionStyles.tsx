@@ -9,6 +9,13 @@ export const LandingSectionContainer = styled.div`
   background-size: cover;
   background-position: center;
 
+  .gradient-box {
+    background: ${() => {
+      const theme = useTheme();
+      return theme.palette.primary.verticalGradation;
+    }};
+  }
+
   &.fullWidth {
     width: 100%;
   }

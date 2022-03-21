@@ -28,6 +28,7 @@ const LandingSection = (props: LandingSectionProps) => {
       style={{
         ...rest.style,
         ...{
+          display: "inline-block",
           minHeight: height,
           maxWidth,
           height: "100%",
