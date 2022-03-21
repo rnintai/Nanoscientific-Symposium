@@ -99,6 +99,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
       ],
+      landingSection4Title: "Keynote Speakers",
     },
   ],
   [

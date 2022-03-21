@@ -99,6 +99,7 @@ declare namespace Common {
     landingSection3List2?: string[];
     landingSection3List3Title?: string;
     landingSection3List3?: string[];
+    landingSection4Title?: string;
   }
 }
 
