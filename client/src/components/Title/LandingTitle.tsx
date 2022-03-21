@@ -15,7 +15,7 @@ const LandingTitle = ({ title, textAlign = "left" }: LandingTitleProps) => {
         mobile: theme.typography.h5.fontSize,
         tablet: theme.typography.h4.fontSize,
       }}
-      fontWeight={theme.typography.fontWeightMedium}
+      fontWeight={theme.typography.fontWeightBold}
       sx={{ textAlign, mb: 3 }}
     >
       {title}
