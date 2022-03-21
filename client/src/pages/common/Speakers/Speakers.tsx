@@ -67,7 +67,7 @@ const Speakers = () => {
   }
 
   return (
-    <SpeakersContainer>
+    <SpeakersContainer className="layout">
       <Title fontSize={30} title={title} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
