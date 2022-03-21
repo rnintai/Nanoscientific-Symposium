@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Title from "components/Title/Title";
-import SpeakerCard from "components/SpeakerCard/SpeakerCard";
+import JPSpeakerCard from "components/SpeakerCard/JPSpeakerCard";
 import { Link } from "react-router-dom";
 import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import useSeoTitle from "hooks/useSeoTitle";
 import usePageViews from "hooks/usePageViews";
 import { globalData } from "utils/GlobalData";
+import { useThemeDispatch } from "context/ThemeContext";
 import { JapanArchiveContainer } from "./JapanArchiveStyles";
 import useWindowSize from "../../../hooks/useWindowSize";
 import JapanGreetingComponent from "../JapanComponent/JapanGreetingComponent";
@@ -91,6 +92,12 @@ const JapanArchive = () => {
   useSeoTitle(archive as string, pathname);
   const size = useWindowSize();
 
+  const dispatch = useThemeDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "LIGHTMODE" });
+  }, []);
+
   useEffect(() => {
     if (size.width && size.width < 1250) {
       setImagePadding(5);
@@ -163,7 +170,7 @@ const JapanArchive = () => {
             columns={{ mobile: 1, tablet: 8, laptop: 16 }}
           >
             {speakersState.map((speaker) => (
-              <SpeakerCard key={speaker.id} speaker={speaker} />
+              <JPSpeakerCard key={speaker.id} speaker={speaker} />
             ))}
           </Grid>
         </Box>

@@ -48,6 +48,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           light: "#0040ff",
           main: "#21ade5",
           dark: "#189cd1",
+          heading: "rgb(14, 60, 122)",
           contrastText: "#fff",
           contrastTextAlpha: "#ffffffad",
           gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
@@ -60,6 +61,9 @@ const getDesignTokens = (mode: PaletteMode) => ({
         whitescale: {
           main: "#fff",
           alpha50: "#ffffff66",
+        },
+        background: {
+          default: "rgb(230, 231, 236)",
         },
       }
     : {
@@ -88,7 +92,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
       }),
 });
 
-export const theme = (mode: PaletteMode) => {
+export const theme = (isDark: boolean) => {
   return createTheme({
     typography: {
       allVariants: {
@@ -103,11 +107,11 @@ export const theme = (mode: PaletteMode) => {
         desktop: 1280,
       },
     },
-    palette: getDesignTokens(mode),
+    palette: getDesignTokens(isDark ? "dark" : "light"),
   });
 };
 
-export const jpTheme = (mode: PaletteMode) => {
+export const jpTheme = (isDark: boolean) => {
   return createTheme({
     typography: {
       allVariants: {
@@ -122,6 +126,6 @@ export const jpTheme = (mode: PaletteMode) => {
         desktop: 1280,
       },
     },
-    palette: getDesignTokens(mode),
+    palette: getDesignTokens(isDark ? "dark" : "light"),
   });
 };

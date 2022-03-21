@@ -9,6 +9,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
 import { theme, jpTheme } from "theme/themes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
+import { useThemeState } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -22,9 +23,10 @@ const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+  const themeState = useThemeState();
 
-  const themeObj = theme("dark");
-  const jpThemeObj = jpTheme("dark");
+  const themeObj = theme(themeState.darkMode);
+  const jpThemeObj = jpTheme(themeState.darkMode);
 
   // 로그인 모달 state
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
