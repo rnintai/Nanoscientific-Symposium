@@ -7,6 +7,7 @@ import ProgramContent from "./ProgramContent/ProgramContent";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
+  SessionContainer,
 } from "./ProgramsListContainer";
 
 const ProgramsList = () => {
@@ -53,12 +54,9 @@ const ProgramsList = () => {
   }
 
   return (
-    <ProgramsListContainer>
+    <ProgramsListContainer className="layout">
       <article className="program-wrap">
-        <section
-          className="timeline-wrap timeline-0"
-          style={{ margin: "20px 20px 50px 20px" }}
-        >
+        <section className="timeline-wrap timeline-0">
           <StyledTimezoneSelect
             value={selectedTimezone}
             onChange={(e) => {
@@ -68,8 +66,11 @@ const ProgramsList = () => {
           {/* 세션을 크게 돌면서 세션에 해당하는값과 일치하는 프로그램 뿌려주기 */}
           {sessions.map((session) => {
             return (
-              <>
-                <ProgramTitle title={session.session_title} />
+              <SessionContainer key={session.id}>
+                <ProgramTitle
+                  title={session.session_title}
+                  date={session.date}
+                />
                 <ul className="cbp_tmtimeline">
                   {programs
                     .filter((program) => {
@@ -85,7 +86,7 @@ const ProgramsList = () => {
                       />
                     ))}
                 </ul>
-              </>
+              </SessionContainer>
             );
           })}
         </section>
