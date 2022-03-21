@@ -100,6 +100,8 @@ declare namespace Common {
     landingSection3List3Title?: string;
     landingSection3List3?: string[];
     landingSection4Title?: string;
+    landingSection5Title?: string;
+    landingSection5Videos?: string[];
   }
 }
 

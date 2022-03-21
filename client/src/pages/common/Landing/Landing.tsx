@@ -35,6 +35,8 @@ const Landing = () => {
     landingSection3List3Title,
     landingSection3List3,
     landingSection4Title,
+    landingSection5Title,
+    landingSection5Videos,
   } = globalData.get(pathname) as Common.globalDataType;
   useSeoTitle(home as string, pathname);
 
@@ -289,6 +291,25 @@ const Landing = () => {
             </Stack>
           </Stack>
         </SpeakersContainer>
+      </LandingSection>
+      <LandingSection fullWidth>
+        <Stack className="layout">
+          {landingSection5Title && (
+            <LandingTitle title={landingSection5Title} textAlign="right" />
+          )}
+          <Stack direction="row" justifyContent="space-between" flexWrap="wrap">
+            {landingSection5Videos?.map((video) => (
+              <Box
+                key={video}
+                sx={{ backgroundColor: "#fff", width: "46%", height: "250px" }}
+              >
+                <video src={video} controls width="100%">
+                  <track kind="captions" />
+                </video>
+              </Box>
+            ))}
+          </Stack>
+        </Stack>
       </LandingSection>
     </>
   );

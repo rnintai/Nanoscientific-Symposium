@@ -100,6 +100,11 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
       ],
       landingSection4Title: "Keynote Speakers",
+      landingSection5Title: "Past Events",
+      landingSection5Videos: [
+        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_asia.mp4",
+        "https://d25unujvh7ui3r.cloudfront.net/asia/home_2_asia.mp4",
+      ],
     },
   ],
   [
