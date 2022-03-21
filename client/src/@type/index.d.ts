@@ -61,6 +61,7 @@ declare namespace Common {
     name: string;
     date: string;
     landingImage: string;
+    path: string;
   }
 
   interface globalDataType {
@@ -82,6 +83,7 @@ declare namespace Common {
     eventLandingMainBannerURL?: string;
     fullLogoURL?: string;
     eventLandingDesc?: string;
+    eventLandingBodyBackground?: string;
 
     // landing
     landingSection1BackgroundURL?: string;
@@ -90,6 +92,13 @@ declare namespace Common {
     landingSection2Title?: string;
     landingSection2Desc?: string;
     landingSection2ImgURL?: string;
+    landingSection3Title?: string;
+    landingSection3List1Title?: string;
+    landingSection3List1?: string[];
+    landingSection3List2Title?: string;
+    landingSection3List2?: string[];
+    landingSection3List3Title?: string;
+    landingSection3List3?: string[];
   }
 }
 

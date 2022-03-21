@@ -6,46 +6,48 @@ export const globalData = new Map<string, Common.globalDataType>([
         {
           name: "Asia",
           date: "TBD",
-          landingImage:
-            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "asia",
         },
         {
           name: "Korea",
           date: "TBD",
-          landingImage:
-            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "kr",
         },
         {
           name: "US",
           date: "TBD",
-          landingImage:
-            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "us",
         },
         {
           name: "Japan",
           date: "TBD",
-          landingImage:
-            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "jp",
         },
         {
           name: "China",
           date: "TBD",
-          landingImage:
-            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "https://nanoscientific.com.cn",
         },
         {
           name: "Europe",
           date: "TBD",
-          landingImage:
-            "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "eu",
         },
       ],
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-      fullLogoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
+      fullLogoURL:
+        "https://d25unujvh7ui3r.cloudfront.net/event/NS_landingpage_logo.svg",
       eventLandingMainBannerURL:
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
       eventLandingDesc:
         "Ut a venenatis neque, in blandit urna. Proin facilisis, nulla sit amet congue tincidunt, orci quam fermentum erat, id ultrices tellus velit in velit. Fusce feugiat, erat eu varius gravida, mauris neque posuere mauris, a cursus mi mauris a justo. Nam suscipit semper auctor. Etiam sed gravida leo. Mauris rutrum massa varius neque rhoncus, id condimentum ante fringilla. Nam eu egestas turpis. Pellentesque neque ipsum, lacinia nec faucibus faucibus, molestie a felis. Proin quam ligula, suscipit imperdiet lorem in, porttitor pharetra mi. Nulla facilisi.",
+      eventLandingBodyBackground: "",
     },
   ],
   [
@@ -66,11 +68,37 @@ export const globalData = new Map<string, Common.globalDataType>([
         "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
       landingSection1Desc:
         "Join the 5th edition of the NanoScientific Symposium US 2022 - the platform for nanoscience and SPM research!",
-      landingSection2Title: "landingSection2Title",
+      landingSection2Title: "Overview",
       landingSection2Desc:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br /><br />It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       landingSection2ImgURL:
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
+      landingSection3Title: "Conference Details",
+      landingSection3List1Title: "Topic",
+      landingSection3List1: [
+        "Emerging Nanomaterials for Advanced Technologies",
+        "Functional Surfaces",
+        "Advances Techniques and Automation in SPM",
+        "Correlative Microscopy",
+      ],
+      landingSection3List2Title: "SPM Methods",
+      landingSection3List2: [
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+      ],
+      landingSection3List3Title: "Scientific Committee",
+      landingSection3List3: [
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+      ],
     },
   ],
   [
