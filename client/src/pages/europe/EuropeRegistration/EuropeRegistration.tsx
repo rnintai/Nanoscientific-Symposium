@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Button, Box } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 import useSeoTitle from "hooks/useSeoTitle";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
-import { RegistrationContainer } from "./EuropeRegistrationStyles";
+import { RegistrationContainer } from "pages/common/Registration/RegistrationStyles";
 
 type TFN = 1 | 0 | -1;
 
