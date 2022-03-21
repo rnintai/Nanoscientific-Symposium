@@ -1,6 +1,6 @@
 import React from "react";
 import AdminRoute from "components/Route/AdminRoute";
-import Landing from "pages/common/Landing";
+import Landing from "pages/common/Landing/Landing";
 import Programs from "pages/common/Programs/Programs";
 import PrivateRoute from "components/Route/PrivateRoute";
 import JapanExhibitParkSystems from "pages/japan/JapanExhibitParkSystems";

@@ -1,5 +1,5 @@
 import React from "react";
-import Landing from "pages/common/Landing";
+import Landing from "pages/common/Landing/Landing";
 import EuropeRegistration from "pages/europe/EuropeRegistration/EuropeRegistration";
 import PrivateRoute from "components/Route/PrivateRoute";
 import SetPassword from "pages/europe/SetPassword/SetPassword";

@@ -26,6 +26,7 @@ declare module "@mui/material/styles" {
     contrastTextAlpha?: string;
     alpha50?: string;
     gradation?: string;
+    verticalGradation?: string;
   }
 
   interface PaletteColor {
@@ -35,6 +36,7 @@ declare module "@mui/material/styles" {
     alpha50?: string;
     heading?: string;
     gradation?: string;
+    verticalGradation?: string;
   }
 }
 
@@ -69,6 +71,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           light: "#e3f2fd",
           main: "#1CAFE4",
           gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
+          verticalGradation: "linear-gradient(0deg, #243d7c, #26a4dd)",
         },
         // warning: {
         //   main: "#FF0000",

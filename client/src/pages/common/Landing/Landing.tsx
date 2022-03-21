@@ -5,6 +5,7 @@ import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
 import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "utils/GlobalData";
+import LandingTitle from "components/Title/LandingTitle";
 import LandingSection from "components/Section/LandingSection";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
@@ -23,16 +24,18 @@ const Landing = () => {
     landingSection2Title,
     landingSection2Desc,
     landingSection2ImgURL,
+    landingSection3Title,
+    landingSection3List1Title,
+    landingSection3List1,
+    landingSection3List2Title,
+    landingSection3List2,
+    landingSection3List3Title,
+    landingSection3List3,
   } = globalData.get(pathname) as Common.globalDataType;
   useSeoTitle(home as string, pathname);
 
   const navigate = useNavigate();
 
-  // const [HTML, loading] = useHTML(`/api/page/common/landing`);
-  // if (loading) {
-  //   return <Loading />;
-  // }
-  // return <InnerHTML html={HTML} />;
   return (
     <>
       <LandingSection fullWidth background={landingSection1BackgroundURL}>
@@ -128,16 +131,9 @@ const Landing = () => {
               mobile: "55%",
             }}
           >
-            <Box
-              fontSize={{
-                mobile: theme.typography.h5.fontSize,
-                tablet: theme.typography.h4.fontSize,
-              }}
-              fontWeight={500}
-              height="20%"
-            >
-              {landingSection2Title}
-            </Box>
+            {landingSection2Title && (
+              <LandingTitle title={landingSection2Title} />
+            )}
             {landingSection2Desc && (
               <Box
                 fontSize={{
@@ -154,6 +150,107 @@ const Landing = () => {
                 <InnerHTML html={landingSection2Desc} />
               </Box>
             )}
+          </Stack>
+        </Stack>
+      </LandingSection>
+      <LandingSection fullWidth>
+        <Stack className="layout" direction="column">
+          {landingSection3Title && (
+            <LandingTitle title={landingSection3Title} textAlign="right" />
+          )}
+          <Stack
+            direction={{ mobile: "column", laptop: "row" }}
+            justifyContent="space-between"
+          >
+            <Box
+              className="gradient-box"
+              sx={{
+                width: { laptop: "25%" },
+                p: 3,
+                mb: { mobile: 5, laptop: 0 },
+              }}
+            >
+              <Typography
+                fontSize={{
+                  mobile: theme.typography.body1.fontSize,
+                  laptop: theme.typography.h6.fontSize,
+                }}
+                fontWeight={theme.typography.fontWeightBold}
+              >
+                {landingSection3List1Title}
+              </Typography>
+              <ul style={{ marginInlineStart: "35px" }}>
+                {landingSection3List1?.map((item) => (
+                  <li style={{ marginBottom: "15px" }}>
+                    <Typography
+                      variant="body2"
+                      fontWeight={theme.typography.fontWeightMedium}
+                    >
+                      {item}
+                    </Typography>
+                  </li>
+                ))}
+              </ul>
+            </Box>
+            <Box
+              className="gradient-box"
+              sx={{
+                width: { laptop: "25%" },
+                p: 3,
+                mb: { mobile: 5, laptop: 0 },
+              }}
+            >
+              <Typography
+                fontSize={{
+                  mobile: theme.typography.body1.fontSize,
+                  laptop: theme.typography.h6.fontSize,
+                }}
+                fontWeight={theme.typography.fontWeightBold}
+              >
+                {landingSection3List2Title}
+              </Typography>
+              <ul style={{ marginInlineStart: "35px" }}>
+                {landingSection3List2?.map((item) => (
+                  <li style={{ marginBottom: "15px" }}>
+                    <Typography
+                      variant="body2"
+                      fontWeight={theme.typography.fontWeightMedium}
+                    >
+                      {item}
+                    </Typography>
+                  </li>
+                ))}
+              </ul>
+            </Box>
+            <Box
+              className="gradient-box"
+              sx={{
+                width: { laptop: "25%" },
+                p: 3,
+              }}
+            >
+              <Typography
+                fontSize={{
+                  mobile: theme.typography.body1.fontSize,
+                  laptop: theme.typography.h6.fontSize,
+                }}
+                fontWeight={theme.typography.fontWeightBold}
+              >
+                {landingSection3List3Title}
+              </Typography>
+              <ul style={{ marginInlineStart: "35px" }}>
+                {landingSection3List3?.map((item) => (
+                  <li style={{ marginBottom: "15px" }}>
+                    <Typography
+                      variant="body2"
+                      fontWeight={theme.typography.fontWeightMedium}
+                    >
+                      <InnerHTML html={item} />
+                    </Typography>
+                  </li>
+                ))}
+              </ul>
+            </Box>
           </Stack>
         </Stack>
       </LandingSection>
