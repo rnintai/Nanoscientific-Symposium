@@ -10,7 +10,7 @@ const commonCtrl = {
     res.sendFile(
       path.join(__dirname, "..", "public/common/exhibitParkSystems.html")
     );
-  }, 
+  },
 
   getNanoScientific: async (req, res) => {
     res.sendFile(
@@ -60,18 +60,27 @@ const commonCtrl = {
       console.log(err);
     }
   },
+  getKeynoteSpeakers: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `SELECT * FROM speakers WHERE keynote=1`;
+      const result = await connection.query(sql);
+      res.send(result[0]);
+      connection.release();
+    } catch (err) {
+      console.log(err);
+    }
+  },
   getSponsors: async (req, res) => {
     const { nation } = req.query;
-    res.sendFile(
-      path.join(__dirname, "..", `public/${nation}/sponsors.html`)
-    );
+    res.sendFile(path.join(__dirname, "..", `public/${nation}/sponsors.html`));
   },
 
   getLanding: async (req, res) => {
     const { nation } = req.query;
-    res.sendFile(
-      path.join(__dirname, "..", `public/${nation}/landing.html`)
-    );
+    res.sendFile(path.join(__dirname, "..", `public/${nation}/landing.html`));
   },
 };
 

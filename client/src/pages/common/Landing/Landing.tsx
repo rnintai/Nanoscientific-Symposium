@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import InnerHTML from "dangerously-set-html-content";
 import useHTML from "hooks/useHTML";
 import Loading from "components/Loading/Loading";
@@ -10,6 +10,9 @@ import LandingSection from "components/Section/LandingSection";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
 import { useNavigate } from "react-router";
+import axios from "axios";
+import SpeakerCard from "components/SpeakerCard/SpeakerCard";
+import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 
 const Landing = () => {
   const pathname = usePageViews();
@@ -31,10 +34,26 @@ const Landing = () => {
     landingSection3List2,
     landingSection3List3Title,
     landingSection3List3,
+    landingSection4Title,
   } = globalData.get(pathname) as Common.globalDataType;
   useSeoTitle(home as string, pathname);
 
   const navigate = useNavigate();
+
+  const [keynoteSpeakers, setKeynoteSpeakers] = useState<Speaker.speakerType[]>(
+    [],
+  );
+
+  useEffect(() => {
+    axios
+      .get(`/api/page/common/speakers/keynote?nation=${pathname}`)
+      .then((res) => {
+        setKeynoteSpeakers(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
@@ -136,10 +155,13 @@ const Landing = () => {
             )}
             {landingSection2Desc && (
               <Box
-                fontSize={{
-                  mobile: theme.typography.body2.fontSize,
-                  tablet: theme.typography.body1.fontSize,
-                }}
+                fontSize={
+                  theme.typography.body2.fontSize
+                  //   {
+                  //   mobile: theme.typography.body2.fontSize,
+                  //   tablet: theme.typography.body1.fontSize,
+                  // }
+                }
                 height="80%"
                 maxHeight="180px"
                 pr={2}
@@ -253,6 +275,20 @@ const Landing = () => {
             </Box>
           </Stack>
         </Stack>
+      </LandingSection>
+      <LandingSection fullWidth>
+        <SpeakersContainer className="layout">
+          <Stack direction="column">
+            {landingSection4Title && (
+              <LandingTitle title={landingSection4Title} />
+            )}
+            <Stack direction="row">
+              {keynoteSpeakers.map((speaker) => (
+                <SpeakerCard key={speaker.id} speaker={speaker} />
+              ))}
+            </Stack>
+          </Stack>
+        </SpeakersContainer>
       </LandingSection>
     </>
   );
