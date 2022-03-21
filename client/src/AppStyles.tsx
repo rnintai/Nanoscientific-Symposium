@@ -37,4 +37,18 @@ export const AppContainer = styled.div`
       transform: scale(1.02);
     }
   }
+
+  .layout {
+    max-width: 1024px;
+    min-height: calc(100% - 140px);
+    margin: 0 auto;
+    padding: 70px 50px;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 768px) {
+    .layout {
+      padding: 35px;
+    }
+  }
 `;
