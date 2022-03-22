@@ -104,8 +104,8 @@ const AgendaForm = ({
       title={edit ? "Modify Agenda" : "Add Agenda"}
       desc={
         edit
-          ? "Please choose the title and date that you want to change."
-          : "Please choose the proper item to add the Agenda."
+          ? "Please enter the content that you want to change."
+          : "Please choose the proper program to add the agenda."
       }
       onSubmit={submitHandler}
       loading={loading}

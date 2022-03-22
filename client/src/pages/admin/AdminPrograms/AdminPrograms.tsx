@@ -167,10 +167,10 @@ const AdminPrograms = () => {
       menu1ClickHandler={openSessionFormHandler}
       menu2="Add Programs"
       menu2ClickHandler={openProgramFormHandler}
-      menu3="Hidden Items"
-      menu3ClickHandler={openHideFormHandler}
-      menu4="Add SUB-PROGRAMS"
-      menu4ClickHandler={openAgendaFormHandler}
+      menu3="Add Agenda"
+      menu3ClickHandler={openAgendaFormHandler}
+      menu4="Hidden Items"
+      menu4ClickHandler={openHideFormHandler}
       hideToggle={hideToggle}
       setHideToggle={setHideToggle}
       hideToggleHandler={hideToggleHandler}
