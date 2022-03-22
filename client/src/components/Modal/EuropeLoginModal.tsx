@@ -17,9 +17,10 @@ import CloseButton from "components/CloseButton/CloseButton";
 import axios from "axios";
 import Timer from "components/Timer/Timer";
 import NSSButton from "components/Button/NSSButton";
+import { globalData } from "utils/GlobalData";
+import useInput from "hooks/useInput";
 import usePageViews from "../../hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
-import useInput from "../../hooks/useInput";
 
 interface ModalProps {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
@@ -103,6 +104,11 @@ const EuropeLoginModal = ({
   const passwordInputFocus = useRef<HTMLInputElement>(null);
   const passwordSetFocus = useRef<HTMLInputElement>(null);
   const vCodeFocus = useRef<HTMLInputElement>(null);
+
+  // global data
+  const { signInText, emailInputLabel } = globalData.get(
+    pathname,
+  ) as Common.globalDataType;
 
   const handleOpen = (setOpen: (val: boolean) => void) => {
     setOpen(true);
@@ -316,16 +322,18 @@ const EuropeLoginModal = ({
   }, [passwordSetModalOpen]);
   return (
     <div>
-      <NSSButton
-        type="button"
-        variant="primary"
-        style={{ fontWeight: 500 }}
-        onClick={() => {
-          handleOpen(setEmailModalOpen);
-        }}
-      >
-        SIGN IN
-      </NSSButton>
+      {signInText && (
+        <NSSButton
+          type="button"
+          variant="primary"
+          style={{ fontWeight: 500 }}
+          onClick={() => {
+            handleOpen(setEmailModalOpen);
+          }}
+        >
+          {signInText}
+        </NSSButton>
+      )}
       {/* email modal */}
       <Dialog
         open={emailModalOpen}
@@ -338,25 +346,27 @@ const EuropeLoginModal = ({
         maxWidth="tablet"
       >
         <CloseButton setOpen={setEmailModalOpen} />
-        <DialogTitle>Sign In</DialogTitle>
-        <DialogContent>
-          <TextField
-            disabled={!emailModalOpen}
-            ref={emailFocus}
-            margin="dense"
-            id="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="filled"
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === "Enter") {
-                nextHandler();
-              }
-            }}
-            {...email}
-          />
-        </DialogContent>
+        {signInText && <DialogTitle>{signInText}</DialogTitle>}
+        {emailInputLabel && (
+          <DialogContent>
+            <TextField
+              disabled={!emailModalOpen}
+              ref={emailFocus}
+              margin="dense"
+              id="email"
+              label={emailInputLabel}
+              type="email"
+              fullWidth
+              variant="filled"
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === "Enter") {
+                  nextHandler();
+                }
+              }}
+              {...email}
+            />
+          </DialogContent>
+        )}
         <DialogActions style={{ flexDirection: "column" }}>
           {loading && (
             <LoadingButton

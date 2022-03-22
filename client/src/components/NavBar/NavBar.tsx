@@ -109,6 +109,7 @@ const NavBar = ({
     greeting,
     attend,
     symposium,
+    registration,
   } = globalData.get(pathname) as Common.globalDataType;
 
   return (
@@ -195,15 +196,17 @@ const NavBar = ({
                     passwordInputModalOpen={passwordInputModalOpen}
                     setPasswordInputModalOpen={setPasswordInputModalOpen}
                   />
-                  <NSSButton
-                    variant="gradient"
-                    onClick={() => {
-                      navigate(`${pathname}/registration`);
-                    }}
-                    style={{ alignSelf: "center" }}
-                  >
-                    REGISTRATION
-                  </NSSButton>
+                  {registration && (
+                    <NSSButton
+                      variant="gradient"
+                      onClick={() => {
+                        navigate(`${pathname}/registration`);
+                      }}
+                      style={{ alignSelf: "center" }}
+                    >
+                      {registration}
+                    </NSSButton>
+                  )}
                 </>
               )}
             </Stack>

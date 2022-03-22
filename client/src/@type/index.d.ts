@@ -78,6 +78,15 @@ declare namespace Common {
     archive?: string;
     home?: string;
     registration?: string;
+    signInText?: string;
+    goNextText?: string;
+    goPrevText?: string;
+    // user 관련
+    emailInputLabel?: string;
+    passwordInputLabel?: string;
+    forgotPasswordText?: string;
+    createAccountText?: string;
+
     // common
     nations?: nationType[];
     eventLandingMainBannerURL?: string;

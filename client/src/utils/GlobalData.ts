@@ -61,6 +61,14 @@ export const globalData = new Map<string, Common.globalDataType>([
       sponsors: "SPONSORS",
       home: "HOME",
       registration: "REGISTRATION",
+      signInText: "SIGN IN",
+      goNextText: "NEXT",
+      goPrevText: "PREV",
+      // user관련
+      emailInputLabel: "Email Address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot your password?",
+      createAccountText: "Create an account",
       // landing
       landingSection1BackgroundURL:
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
@@ -118,7 +126,11 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "전시부스 ",
       sponsors: "협찬사",
       home: "홈",
+      signInText: "로그인",
       registration: "등록",
+
+      // user 관련
+      emailInputLabel: "이메일 주소",
     },
   ],
   [
@@ -131,6 +143,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
       home: "HOME",
+      signInText: "SIGN IN",
+
       registration: "REGISTRATION",
     },
   ],
@@ -147,6 +161,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       greeting: "ごあいさつ",
       attend: "参加手順",
       archive: "アーカイブ",
+      signInText: "SIGN IN",
       registration: "登録",
     },
   ],
@@ -160,6 +175,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
       home: "HOME",
+      signInText: "SIGN IN",
       registration: "REGISTRATION",
     },
   ],
@@ -173,6 +189,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
       home: "HOME",
+      signInText: "SIGN IN",
       registration: "REGISTRATION",
     },
   ],
