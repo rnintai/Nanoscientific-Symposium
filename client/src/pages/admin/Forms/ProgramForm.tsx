@@ -51,7 +51,7 @@ const ProgramForm = ({
       : new Date(),
   );
   const [emphasizeCheck, setEmphasizeCheck] = useState<boolean>(
-    selectedProgram.emphasize === 1,
+    edit ? selectedProgram.emphasize === 1 : false,
   );
 
   const [loading, setLoading] = useState<boolean>(false);
