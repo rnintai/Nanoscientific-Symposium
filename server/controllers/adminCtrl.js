@@ -84,22 +84,41 @@ const adminCtrl = {
       description,
       startTime,
       endTime,
+      emphasize,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}')`;
+      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description, emphasize) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}', ${emphasize})`;
 
       const sqlResult = await connection.query(sql);
-      console.log(sqlResult);
-      res.status(200).json({
-        success: true,
-        message: "Success",
-      });
+      console.log(sqlResult[0]);
+
+      try {
+        const adjustSql = `UPDATE programs SET next_id=${sqlResult[0].insertId} WHERE id!=${sqlResult[0].insertId} AND session=${session} AND next_id IS NULL`;
+        const adjustSqlResult = await connection.query(adjustSql);
+        console.log(adjustSqlResult);
+        res.status(200).json({
+          success: true,
+          message: "Success",
+        });
+      } catch (err) {
+        res.status(200).json({
+          success: false,
+          message: "Failed",
+          err,
+        });
+        console.log(err);
+      }
       connection.release();
     } catch (err) {
+      res.status(200).json({
+        success: false,
+        message: "Failed",
+        err,
+      });
       console.log(err);
     }
   },
@@ -114,12 +133,21 @@ const adminCtrl = {
       description,
       startTime,
       endTime,
+      emphasize,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE programs SET session=${session}, title='${title}',speakers='${speakers}',description="${description}",start_time='${startTime}',end_time='${endTime}', status=${status} WHERE id=${id}`;
+      const sql = `UPDATE programs SET 
+      session=${session}, 
+      title='${title}',
+      speakers='${speakers}',
+      description="${description}",
+      start_time='${startTime}',
+      end_time='${endTime}',
+      status=${status},
+      emphasize=${emphasize} WHERE id=${id}`;
 
       await connection.query(sql);
       res.status(200).json({
@@ -139,8 +167,15 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql = `DELETE FROM programs WHERE id=${id}`;
+      let sql = `SELECT * FROM programs WHERE id=${id}`;
 
+      const selectResult = await connection.query(sql);
+      const nextId = selectResult[0][0].next_id;
+
+      sql = `DELETE FROM programs WHERE id=${id}`;
+      await connection.query(sql);
+
+      sql = `UPDATE programs SET next_id=${nextId} WHERE next_id=${id}`;
       await connection.query(sql);
 
       res.status(200).json({
@@ -148,7 +183,107 @@ const adminCtrl = {
         message: `id:${id} 프로그램 삭제`,
       });
     } catch (err) {
-      res.status(500).json({
+      res.status(200).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
+  // agenda
+  addAgenda: async (req, res) => {
+    const { nation, program_id, title, speakers } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `INSERT INTO program_agenda(program_id,title,speakers) 
+      VALUES(${program_id},'${title}','${speakers}')`;
+
+      const sqlResult = await connection.query(sql);
+
+      try {
+        const adjustSql = `UPDATE program_agenda SET 
+        next_id=${sqlResult[0].insertId} 
+        WHERE 
+        id!=${sqlResult[0].insertId} 
+        AND program_id=${program_id} 
+        AND next_id IS NULL`;
+        const adjustSqlResult = await connection.query(adjustSql);
+        console.log(adjustSqlResult);
+        res.status(200).json({
+          success: true,
+          message: "Success",
+        });
+      } catch (err) {
+        res.status(200).json({
+          success: false,
+          message: "Failed",
+          err,
+        });
+        console.log(err);
+      }
+      connection.release();
+    } catch (err) {
+      res.status(200).json({
+        success: false,
+        message: "Failed",
+        err,
+      });
+      console.log(err);
+    }
+  },
+  modifyAgenda: async (req, res) => {
+    const { nation, title, id, program_id, speakers } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE program_agenda SET program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id}`;
+
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+        message: "Success",
+      });
+      connection.release();
+    } catch (err) {
+      res.status(200).json({
+        success: false,
+        message: "Failed",
+        err,
+      });
+      console.log(err);
+    }
+  },
+
+  deleteAgenda: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `SELECT * FROM program_agenda WHERE id=${id}`;
+
+      const selectResult = await connection.query(sql);
+      const nextId = selectResult[0][0].next_id;
+
+      sql = `DELETE FROM program_agenda WHERE id=${id}`;
+      await connection.query(sql);
+
+      sql = `UPDATE program_agenda SET next_id=${nextId} WHERE next_id=${id}`;
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `id:${id} 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(200).json({
         success: false,
         message: err,
       });

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const ProgramContentContainer = styled.div<{ isAdmin: boolean }>`
-  position: relative;
   cursor: ${(props) => props.isAdmin && "pointer"};
   .cbp_tmtime {
     display: block;

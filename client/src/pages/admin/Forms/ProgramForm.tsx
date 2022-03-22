@@ -1,19 +1,24 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ToggleButton from "@mui/material/ToggleButton";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  ToggleButtonGroup,
+  ToggleButton,
+  FormControl,
+  InputLabel,
+  Checkbox,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  FormControlLabel,
+} from "@mui/material";
 import CommonModal from "components/CommonModal/CommonModal";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import { Select, SelectChangeEvent, TextField } from "@mui/material";
+
 import MenuItem from "@mui/material/MenuItem";
 import { DateTimePicker, LocalizationProvider, LoadingButton } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
 import useInput from "hooks/useInput";
-import { useAuthState } from "context/AuthContext";
-import "moment-timezone";
-import moment from "moment";
 import usePageViews from "hooks/usePageViews";
+import { getUserTimezoneDate, dateToLocaleString } from "utils/Date";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
@@ -22,6 +27,7 @@ interface ProgramFormProps {
   selectedProgram: Program.programType;
   sessions: Program.sessionType[];
   getPrograms: () => void;
+  selectedTimezone: string;
   edit: boolean;
 }
 const ProgramForm = ({
@@ -31,32 +37,27 @@ const ProgramForm = ({
   setProgramSuccess,
   sessions,
   getPrograms,
+  selectedTimezone,
   edit = false,
 }: ProgramFormProps) => {
-  const [selectedTimezone, setSelectedTimezone] = useState(
-    Intl.DateTimeFormat().resolvedOptions().timeZone,
-  );
   const [startTime, setStartTime] = useState<Date | null>(
     edit
-      ? moment
-          .utc(moment(selectedProgram.start_time).format("YYYY-MM-DD HH:mm:ss"))
-          .tz(selectedTimezone as string)
-          .toDate()
+      ? getUserTimezoneDate(selectedProgram.start_time, selectedTimezone)
       : new Date(),
   );
   const [endTime, setEndTime] = useState<Date | null>(
     edit
-      ? moment
-          .utc(moment(selectedProgram.end_time).format("YYYY-MM-DD HH:mm:ss"))
-          .tz(selectedTimezone as string)
-          .toDate()
+      ? getUserTimezoneDate(selectedProgram.end_time, selectedTimezone)
       : new Date(),
   );
+  const [emphasizeCheck, setEmphasizeCheck] = useState<boolean>(
+    selectedProgram.emphasize === 1,
+  );
+
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
 
-  const authState = useAuthState();
   const pathname = usePageViews();
 
   const programSubmitHandler = async () => {
@@ -70,8 +71,6 @@ const ProgramForm = ({
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        // startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
-        // endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
         startTime: startTime?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
@@ -80,6 +79,7 @@ const ProgramForm = ({
         }),
         session: selectedSession,
         status: status === "show" ? 1 : 0,
+        emphasize: emphasizeCheck,
       });
     } else {
       data = await axios.post("/api/admin/program", {
@@ -88,14 +88,13 @@ const ProgramForm = ({
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        // startTime: moment(startTime).utc().format("YYYY-MM-DD hh:mm:ss"),
-        // endTime: moment(endTime).utc().format("YYYY-MM-DD hh:mm:ss"),
         startTime: startTime?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
         endTime: endTime?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
+        emphasize: emphasizeCheck ? 1 : 0,
       });
     }
 
@@ -207,6 +206,15 @@ const ProgramForm = ({
         variant="filled"
         sx={{ marginBottom: "30px" }}
         {...title}
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={emphasizeCheck}
+            onClick={() => setEmphasizeCheck(!emphasizeCheck)}
+          />
+        }
+        label="Emphasize?"
       />
       <TextField
         margin="dense"

@@ -2,17 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
-import ProgramTitle from "./ProgramTitle/ProgramTitle";
-import ProgramContent from "./ProgramContent/ProgramContent";
+
+import { Table, TableContainer, TableBody } from "@mui/material";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
   SessionContainer,
 } from "./ProgramsListContainer";
+import ProgramContent from "./ProgramContent/ProgramContent";
+import ProgramTitle from "./ProgramTitle/ProgramTitle";
 
 const ProgramsList = () => {
   const pathname = usePageViews();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
+  const [programAgenda, setProgramAgenda] = useState<
+    Program.programAgendaType[]
+  >([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
@@ -36,13 +41,13 @@ const ProgramsList = () => {
 
     const getProgramAgenda = async () => {
       setProgramLoading(true);
-      const programs = await axios.get(
+      const result = await axios.get(
         `/api/page/common/programs/agenda`,
         config,
       );
-      // setPrograms(programs.data);
+      setProgramAgenda(result.data.data);
       setProgramLoading(false);
-      console.log(programs.data.data);
+      console.log(result.data.data);
     };
 
     getPrograms();
@@ -67,7 +72,43 @@ const ProgramsList = () => {
 
   return (
     <ProgramsListContainer className="layout">
-      <article className="program-wrap">
+      <StyledTimezoneSelect
+        value={selectedTimezone}
+        onChange={(e) => {
+          setSelectedTimezone(e.value);
+        }}
+      />
+      {sessions.map((session) => {
+        return (
+          <TableContainer key={session.id} sx={{ overflowX: "hidden", mb: 8 }}>
+            <ProgramTitle
+              title={session.session_title}
+              timezone={selectedTimezone}
+              date={session.date}
+            />
+            <Table sx={{ width: "100%" }}>
+              <TableBody>
+                {programs
+                  .filter((program) => {
+                    return program.session === session.id;
+                  })
+                  .map((program, index) => (
+                    <ProgramContent
+                      selectedTimezone={selectedTimezone}
+                      isAdmin={false}
+                      key={program.id}
+                      {...program}
+                      index={index}
+                      programAgenda={programAgenda}
+                    />
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        );
+      })}
+
+      {/* <article className="program-wrap">
         <section className="timeline-wrap timeline-0">
           <StyledTimezoneSelect
             value={selectedTimezone}
@@ -75,7 +116,6 @@ const ProgramsList = () => {
               setSelectedTimezone(e.value);
             }}
           />
-          {/* 세션을 크게 돌면서 세션에 해당하는값과 일치하는 프로그램 뿌려주기 */}
           {sessions.map((session) => {
             return (
               <SessionContainer key={session.id}>
@@ -95,6 +135,7 @@ const ProgramsList = () => {
                         key={program.id}
                         {...program}
                         index={index}
+                        programAgenda={programAgenda}
                       />
                     ))}
                 </ul>
@@ -114,7 +155,7 @@ const ProgramsList = () => {
         }}
       >
         DOWNLOAD
-      </button>
+      </button> */}
     </ProgramsListContainer>
   );
 };

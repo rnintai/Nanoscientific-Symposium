@@ -23,6 +23,10 @@ interface AdminAppBarProps {
   menu3?: string;
   // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
   menu3ClickHandler?: () => void; // eslint-disable-next-line react/require-default-props
+  // eslint-disable-next-line react/no-unused-prop-types,react/require-default-props
+  menu4?: string;
+  // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
+  menu4ClickHandler?: () => void; // eslint-disable-next-line react/require-default-props
   hideToggle?: boolean;
   // eslint-disable-next-line react/require-default-props
   setHideToggle?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -42,6 +46,8 @@ const AdminAppBar = ({
   menu2ClickHandler,
   menu3,
   menu3ClickHandler,
+  menu4,
+  menu4ClickHandler,
   hideToggle,
   setHideToggle,
   hideToggleHandler,
@@ -100,6 +106,9 @@ const AdminAppBar = ({
         </Button>
         <Button onClick={menu3ClickHandler} color="inherit">
           {menu3}
+        </Button>
+        <Button onClick={menu4ClickHandler} color="inherit">
+          {menu4}
         </Button>
       </Toolbar>
     </AppBar>

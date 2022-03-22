@@ -11,9 +11,7 @@ import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import "moment-timezone";
-import moment from "moment";
-
+import { getUserTimezoneDate } from "utils/Date";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState } from "../../../context/AuthContext";
 
@@ -23,6 +21,7 @@ interface SessionFormProps {
   setSessionSuccess: Dispatch<SetStateAction<boolean>>;
   selectedSession: Program.sessionType;
   getSessions: () => void;
+  selectedTimezone: string;
   edit: boolean;
 }
 
@@ -32,26 +31,25 @@ const SessionForm = ({
   setSessionSuccess,
   selectedSession,
   getSessions,
+  selectedTimezone,
   // 편집모달일때는 edit 이 true 로 넘어온다
   edit = false,
 }: SessionFormProps) => {
   const authState = useAuthState();
   const pathname = usePageViews();
 
-  const [selectedTimezone, setSelectedTimezone] = useState(
-    Intl.DateTimeFormat().resolvedOptions().timeZone,
-  );
+  // const [selectedTimezone, setSelectedTimezone] = useState(
+  //   Intl.DateTimeFormat().resolvedOptions().timeZone,
+  // );
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(
     edit
-      ? moment
-          .utc(moment(selectedSession.date).format("MM/DD/YYYY"))
-          .tz(selectedTimezone as string)
-          .toDate()
+      ? getUserTimezoneDate(selectedSession.date, selectedTimezone)
       : new Date(),
   );
+
   const title = useInput(edit ? selectedSession.session_title : "");
 
   const sessionSubmitHandler = async () => {

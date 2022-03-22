@@ -23,6 +23,10 @@ interface AdminLayoutProps {
   // eslint-disable-next-line react/require-default-props
   menu3ClickHandler?: () => void;
   // eslint-disable-next-line react/require-default-props
+  menu4?: string;
+  // eslint-disable-next-line react/require-default-props
+  menu4ClickHandler?: () => void;
+  // eslint-disable-next-line react/require-default-props
   hideToggle?: boolean;
   // eslint-disable-next-line react/require-default-props
   setHideToggle?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,6 +47,8 @@ const AdminLayout = ({
   menu2ClickHandler,
   menu3,
   menu3ClickHandler,
+  menu4,
+  menu4ClickHandler,
   hideToggle,
   setHideToggle,
   hideToggleHandler,
@@ -61,6 +67,8 @@ const AdminLayout = ({
           menu2ClickHandler={menu2ClickHandler}
           menu3={menu3}
           menu3ClickHandler={menu3ClickHandler}
+          menu4={menu4}
+          menu4ClickHandler={menu4ClickHandler}
           hideToggle={hideToggle}
           setHideToggle={setHideToggle}
           hideToggleHandler={hideToggleHandler}

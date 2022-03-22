@@ -176,6 +176,85 @@ router.route("/program/:id").delete(adminCtrl.deleteProgram);
 
 /**
  * @swagger
+ *  /api/admin/program/agenda:
+ *    post:
+ *      tags:
+ *      - Admin
+ *      description: 서브 프로그램을 추가해줍니다.
+ *      parameters:
+ *        - name: request
+ *          in: body
+ *          required: true
+ *          schema:
+ *            type: string
+ *            example: {
+ *              "nation": "asia",
+ *              "program": 2,
+ *              "title":"session-title",
+ *              "speakers":"kim min tai",
+ *            }
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+/**
+ * @swagger
+ *  /api/admin/program/agenda:
+ *    put:
+ *      tags:
+ *      - Admin
+ *      description: sub program을 수정해줍니다.
+ *      parameters:
+ *        - name: request
+ *          in: body
+ *          required: true
+ *          schema:
+ *            type: string
+ *            example: {
+ *              "nation": "asia",
+ *              "title": "session title",
+ *              "id":25,
+ *              "speakers":"kim min tai",
+ *             }
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router
+  .route("/program/agenda")
+  .post(adminCtrl.addAgenda)
+  .put(adminCtrl.modifyAgenda);
+
+/**
+ * @swagger
+ *  /api/admin/program/agenda/{id}:
+ *    delete:
+ *      tags:
+ *      - Admin
+ *      description: 서브프로그램을 삭제합니다.
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          schema:
+ *            type: integer
+ *          description: program ID
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: nation code
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/program/agenda/:id").delete(adminCtrl.deleteAgenda);
+
+/**
+ * @swagger
  *  /api/admin/speaker:
  *    post:
  *      tags:

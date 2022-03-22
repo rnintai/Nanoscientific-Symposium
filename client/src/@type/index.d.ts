@@ -7,6 +7,16 @@ declare namespace Program {
     title: string;
     speakers: string;
     description: string;
+    next_id: string;
+    emphasize: number;
+  }
+
+  interface programAgendaType {
+    id: number;
+    program_id: number;
+    title: string;
+    speakers: string;
+    next_id: string;
   }
 
   interface sessionType {

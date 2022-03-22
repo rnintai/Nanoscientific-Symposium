@@ -24,6 +24,6 @@ export const ProgramTitleContainer = styled.div<{ isAdmin: boolean }>`
 
   transition: all 0.3s ease-in-out;
   &:hover {
-    transform: translateY(${(props) => props.isAdmin && "-10px"});
+    transform: translateY(${(props) => props.isAdmin && "-5px"});
   }
 `;
