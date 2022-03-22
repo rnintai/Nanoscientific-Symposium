@@ -15,9 +15,12 @@ import { TransitionProps } from "@mui/material/transitions";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import CloseButton from "components/CloseButton/CloseButton";
 import axios from "axios";
+import Timer from "components/Timer/Timer";
+import NSSButton from "components/Button/NSSButton";
+import { globalData } from "utils/GlobalData";
+import useInput from "hooks/useInput";
 import usePageViews from "../../hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
-import useInput from "../../hooks/useInput";
 
 interface ModalProps {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
@@ -69,25 +72,86 @@ const EuropeLoginModal = ({
   const [emptyAlert, setEmptyAlert] = useState<boolean>(false);
   const [nameNotMatchAlert, setNameNotMatchAlert] = useState<boolean>(false);
 
+  // 인증번호
+  const [correctCode, setCorrectCode] = useState<string>("");
+  // const [showCodeInput, setShowCodeInput] = useState<boolean>(false);
+  const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
+  const [sendHandlerLoading, setSendHandlerLoading] = useState<boolean>(false);
+
+  // 타이머 관련
+  const [isTimerStarted, setIsTimerStarted] = useState<boolean>(false);
+  const [isExpired, setIsExpired] = useState<boolean>(false);
+
+  // alert
+  const [emailSentAlert, setEmailSentAlert] = useState<boolean>(false);
+  const [emailNotExistAlert, setEmailNotExistAlert] = useState<boolean>(false);
+  const [timerExpiredAlert, setTimerExpiredAlert] = useState<boolean>(false);
+  const [codeCorrectAlert, setCodeCorrectAlert] = useState<boolean>(false);
+  const [codeWrongAlert, setCodeWrongAlert] = useState<boolean>(false);
+  const [passwordChangeSuccessAlert, setPasswordChangeSuccessAlert] =
+    useState<boolean>(false);
+
   //
   const pathname = usePageViews();
   const email = useInput("");
   const password = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
-  const firstName = useInput("");
-  const lastName = useInput("");
+  const verificationCode = useInput("");
 
   // refs
   const emailFocus = useRef<HTMLInputElement>(null);
   const passwordInputFocus = useRef<HTMLInputElement>(null);
   const passwordSetFocus = useRef<HTMLInputElement>(null);
+  const vCodeFocus = useRef<HTMLInputElement>(null);
+
+  // global data
+  const { signInText, emailInputLabel } = globalData.get(
+    pathname,
+  ) as Common.globalDataType;
 
   const handleOpen = (setOpen: (val: boolean) => void) => {
     setOpen(true);
   };
   const handleClose = (setOpen: (val: boolean) => void) => {
     setOpen(false);
+  };
+
+  // 인증 이메일 보내기 버튼 handler
+  const sendHandler = async () => {
+    setIsExpired(false);
+    setSendHandlerLoading(true);
+    try {
+      const res = await axios.post("/api/mail/vcode/send", {
+        email: email.value,
+        nation: pathname,
+      });
+      if (res.data.result) {
+        // 인증번호 세팅
+        setCorrectCode(res.data.code);
+        setEmailSentAlert(true);
+        setIsTimerStarted(true);
+      } else {
+        // alert: 이메일이 존재하지 않아요
+        setEmailNotExistAlert(true);
+      }
+    } catch (err) {
+      alert(err);
+    } finally {
+      setSendHandlerLoading(false);
+    }
+  };
+
+  // 인증번호 확인 버튼 handler
+  const confirmCodeHandler = () => {
+    if (correctCode === verificationCode.value) {
+      setIsEmailVerified(true);
+      setCodeCorrectAlert(true);
+      setIsExpired(true);
+    } else {
+      setIsEmailVerified(false);
+      setCodeWrongAlert(true);
+    }
   };
 
   // 모달 모두 닫아주는 메서드
@@ -104,6 +168,20 @@ const EuropeLoginModal = ({
       setPasswordNotMatch(false);
     }
   };
+
+  // timer 만료 handler
+  const timerExpiredHandler = () => {
+    setCorrectCode("");
+    setIsTimerStarted(false);
+    if (!isEmailVerified) setTimerExpiredAlert(true);
+  };
+
+  // 타이머 만료 시 hook
+  useEffect(() => {
+    if (isExpired) {
+      timerExpiredHandler();
+    }
+  }, [isExpired]);
 
   const state = useAuthState();
   const dispatch = useAuthDispatch();
@@ -179,8 +257,7 @@ const EuropeLoginModal = ({
       return;
     }
     if (
-      firstName.value === "" ||
-      lastName.value === "" ||
+      verificationCode.value === "" ||
       password1.value === "" ||
       password2.value === ""
     ) {
@@ -193,8 +270,6 @@ const EuropeLoginModal = ({
       .post("/api/users/passwordset", {
         email: email.value,
         password: password1.value,
-        firstName: firstName.value,
-        lastName: lastName.value,
         nation: pathname,
       })
       .then((res) => {
@@ -247,15 +322,18 @@ const EuropeLoginModal = ({
   }, [passwordSetModalOpen]);
   return (
     <div>
-      <Button
-        type="button"
-        className="menu-link remember-prev"
-        onClick={() => {
-          handleOpen(setEmailModalOpen);
-        }}
-      >
-        SIGN IN
-      </Button>
+      {signInText && (
+        <NSSButton
+          type="button"
+          variant="primary"
+          style={{ fontWeight: 500 }}
+          onClick={() => {
+            handleOpen(setEmailModalOpen);
+          }}
+        >
+          {signInText}
+        </NSSButton>
+      )}
       {/* email modal */}
       <Dialog
         open={emailModalOpen}
@@ -264,27 +342,31 @@ const EuropeLoginModal = ({
         }}
         TransitionComponent={TransitionRight}
         disableScrollLock
+        fullWidth
+        maxWidth="tablet"
       >
         <CloseButton setOpen={setEmailModalOpen} />
-        <DialogTitle>Sign In</DialogTitle>
-        <DialogContent sx={{ width: 600 }}>
-          <TextField
-            disabled={!emailModalOpen}
-            ref={emailFocus}
-            margin="dense"
-            id="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === "Enter") {
-                nextHandler();
-              }
-            }}
-            {...email}
-          />
-        </DialogContent>
+        {signInText && <DialogTitle>{signInText}</DialogTitle>}
+        {emailInputLabel && (
+          <DialogContent>
+            <TextField
+              disabled={!emailModalOpen}
+              ref={emailFocus}
+              margin="dense"
+              id="email"
+              label={emailInputLabel}
+              type="email"
+              fullWidth
+              variant="filled"
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === "Enter") {
+                  nextHandler();
+                }
+              }}
+              {...email}
+            />
+          </DialogContent>
+        )}
         <DialogActions style={{ flexDirection: "column" }}>
           {loading && (
             <LoadingButton
@@ -332,10 +414,12 @@ const EuropeLoginModal = ({
         }}
         TransitionComponent={TransitionLeft}
         disableScrollLock
+        fullWidth
+        maxWidth="tablet"
       >
         <CloseButton setOpen={setPasswordInputModalOpen} />
         <DialogTitle>Sign In</DialogTitle>
-        <DialogContent sx={{ width: 600 }}>
+        <DialogContent>
           <TextField
             disabled={!passwordInputModalOpen}
             ref={passwordInputFocus}
@@ -344,7 +428,7 @@ const EuropeLoginModal = ({
             label="Password"
             type="password"
             fullWidth
-            variant="standard"
+            variant="filled"
             onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
               if (e.key === "Enter") {
                 loginHandler(email.value, password.value);
@@ -407,10 +491,12 @@ const EuropeLoginModal = ({
         }}
         TransitionComponent={TransitionLeft}
         disableScrollLock
+        fullWidth
+        maxWidth="tablet"
       >
         <CloseButton setOpen={setPasswordSetModalOpen} />
         <DialogTitle>Set Your Password</DialogTitle>
-        <DialogContent sx={{ width: 600 }}>
+        <DialogContent>
           <TextField
             disabled={!passwordSetModalOpen}
             ref={passwordSetFocus}
@@ -419,7 +505,7 @@ const EuropeLoginModal = ({
             label="New Password"
             type="password"
             fullWidth
-            variant="standard"
+            variant="filled"
             onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
               if (e.key === "Enter") {
                 passwordSetHandler();
@@ -434,7 +520,7 @@ const EuropeLoginModal = ({
             label="Password Confirmation"
             type="password"
             fullWidth
-            variant="standard"
+            variant="filled"
             onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
               if (e.key === "Enter") {
                 passwordSetHandler();
@@ -445,37 +531,66 @@ const EuropeLoginModal = ({
           <span style={{ color: passwordNotMatch ? "red" : "green" }}>
             {passwordNotMatch ? "Password is not matched." : <div>&nbsp;</div>}
           </span>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <TextField
-              disabled={!passwordSetModalOpen}
-              style={{ width: "49%" }}
-              margin="dense"
-              id="first-name"
-              label="First Name"
-              type="text"
-              variant="standard"
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === "Enter") {
-                  passwordSetHandler();
-                }
-              }}
-              {...firstName}
-            />
-            <TextField
-              disabled={!passwordSetModalOpen}
-              style={{ width: "49%" }}
-              margin="dense"
-              id="last-name"
-              label="Last Name"
-              type="text"
-              variant="standard"
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === "Enter") {
-                  passwordSetHandler();
-                }
-              }}
-              {...lastName}
-            />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Stack
+              direction="column"
+              alignItems="center"
+              sx={{ width: "75%", mr: 1 }}
+            >
+              <TextField
+                disabled={!passwordSetModalOpen || !isTimerStarted}
+                ref={vCodeFocus}
+                style={{ width: "100%", marginTop: 0 }}
+                margin="dense"
+                id="v-code"
+                label="Verification Code"
+                type="text"
+                variant="filled"
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.key === "Enter") {
+                    passwordSetHandler();
+                  }
+                }}
+                {...verificationCode}
+              />
+              {isTimerStarted && (
+                <LoadingButton
+                  sx={{
+                    height: "38px",
+                  }}
+                  color="primary"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  onClick={confirmCodeHandler}
+                  loading={sendHandlerLoading}
+                >
+                  Confirm
+                </LoadingButton>
+              )}
+            </Stack>
+
+            <LoadingButton
+              sx={{ borderRadius: "30px", px: 1, py: 0, height: "38px" }}
+              color="primary"
+              variant="outlined"
+              size="small"
+              onClick={sendHandler}
+              loading={sendHandlerLoading}
+            >
+              {isTimerStarted ? "RESEND" : "SEND"}
+            </LoadingButton>
+            {isTimerStarted ? (
+              <Timer second={180} setIsExpired={setIsExpired} />
+            ) : (
+              <Box sx={{ width: "60px" }} />
+            )}
           </Box>
         </DialogContent>
         <DialogActions>
@@ -491,25 +606,17 @@ const EuropeLoginModal = ({
           >
             Prev
           </Button>
-          {loading && (
-            <LoadingButton
-              loading
-              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
-              color="primary"
-            >
-              Loading
-            </LoadingButton>
-          )}
-          {!loading && (
-            <Button
-              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
-              variant="contained"
-              color="primary"
-              onClick={passwordSetHandler}
-            >
-              SUBMIT
-            </Button>
-          )}
+
+          <LoadingButton
+            loading={loading}
+            style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
+            variant="contained"
+            color="primary"
+            onClick={passwordSetHandler}
+            disabled={!isEmailVerified}
+          >
+            SUBMIT
+          </LoadingButton>
         </DialogActions>
 
         {/* 비밀번호 확인 alert */}
@@ -535,6 +642,42 @@ const EuropeLoginModal = ({
           variant="filled"
           severity="warning"
           content="Name is not matched to your account's data."
+        />
+        {/* alert */}
+        <TopCenterSnackBar
+          value={emailSentAlert}
+          setValue={setEmailSentAlert}
+          variant="filled"
+          severity="success"
+          content="Verification code sent to your email."
+        />
+        <TopCenterSnackBar
+          value={timerExpiredAlert}
+          setValue={setTimerExpiredAlert}
+          variant="filled"
+          severity="warning"
+          content="Please resend verification email."
+        />
+        <TopCenterSnackBar
+          value={codeCorrectAlert}
+          setValue={setCodeCorrectAlert}
+          variant="filled"
+          severity="success"
+          content="Email verified."
+        />
+        <TopCenterSnackBar
+          value={codeWrongAlert}
+          setValue={setCodeWrongAlert}
+          variant="filled"
+          severity="error"
+          content="The code is wrong. Please check again."
+        />
+        <TopCenterSnackBar
+          value={passwordChangeSuccessAlert}
+          setValue={setPasswordChangeSuccessAlert}
+          variant="filled"
+          severity="success"
+          content="Password successfully changed. Please sign in again."
         />
       </Dialog>
     </div>

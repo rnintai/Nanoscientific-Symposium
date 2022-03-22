@@ -15,12 +15,19 @@ export const SpeakersContainer = styled.div`
 
     .speaker-image {
       object-fit: cover;
-      height: 300px;
+      width: 200px;
+      height: 200px;
       margin: 20px 0;
     }
 
-    .belong {
-      color: #7c7c7c;
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 200px;
+      margin: 20px 0;
+      background: linear-gradient(0deg, #2ba4dd52, transparent);
     }
   }
 

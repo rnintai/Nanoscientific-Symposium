@@ -203,7 +203,7 @@ const AdminUsers = () => {
                 >
                   <StyledTableCell scope="row">{user.email}</StyledTableCell>
                   <StyledTableCell align="right">
-                    {user.lastName} / {user.firstName}
+                    {user.last_name} / {user.first_name}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     {user.institute}

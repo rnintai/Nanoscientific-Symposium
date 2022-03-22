@@ -335,9 +335,9 @@ const adminCtrl = {
       let sql = "";
       if (nation === "eu") {
         // eu 일땐 점수메기는항목 5개 존재
-        sql = `SELECT id,email,title,role,last_name lastName,first_name firstName,university,institute,street,zipCode,city,research_field reserachField,afm_tool afmTool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,createdAt,ps_opt_in FROM user`;
+        sql = `SELECT id,email,title,role,last_name,first_name,university,institute,street,zipCode,city,research_field reserachField,afm_tool afmTool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,createdAt,ps_opt_in FROM user`;
       } else {
-        sql = `SELECT id,email,title,role,last_name lastName,first_name firstName,university,institute,street,zipCode,city,research_field reserachField,createdAt,ps_opt_in FROM user`;
+        sql = `SELECT * FROM user`;
       }
       const result = await connection.query(sql);
       res.send(result[0]);
@@ -353,17 +353,17 @@ const adminCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE user SET role='${role}' WHERE id=${id}`
+      const sql = `UPDATE user SET role='${role}' WHERE id=${id}`;
       await connection.query(sql);
       res.status(200).json({
         success: true,
-        msg: "변경 성공"
+        msg: "변경 성공",
       });
     } catch (err) {
       console.log(err);
       res.status(500).json({
         success: false,
-        err
+        err,
       });
     } finally {
       connection.release();

@@ -1,6 +1,6 @@
 import React from "react";
 import AdminRoute from "components/Route/AdminRoute";
-import Landing from "pages/common/Landing";
+import Landing from "pages/common/Landing/Landing";
 import AsiaLectureHall from "pages/asia/AsiaLectureHall";
 import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
@@ -55,12 +55,12 @@ export default [
   },
   {
     path: "/asia/registration",
-    element: <Registration formNo="1165" />,
+    element: <Registration formNo="1247" />,
   },
   {
     path: "/asia/user/reset-password",
     element: (
-      <PrivateRoute>
+      <PrivateRoute key="/asia/user/reset-password">
         <ResetPassword />
       </PrivateRoute>
     ),

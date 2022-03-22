@@ -1,0 +1,131 @@
+import { PaletteMode } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xs: false; // removes the `xs` breakpoint
+    sm: false;
+    md: false; // 900px
+    lg: false;
+    xl: false;
+    mobile: true;
+    tablet: true;
+    laptop: true;
+    desktop: true;
+  }
+
+  interface Palette {
+    warning: Palette["primary"];
+    whitescale: Palette["primary"];
+    mode: PaletteMode;
+  }
+
+  interface PaletteColorOptions {
+    main: string;
+    contrastText: string;
+    contrastTextAlpha?: string;
+    alpha50?: string;
+    gradation?: string;
+    verticalGradation?: string;
+  }
+
+  interface PaletteColor {
+    main: string;
+    contrastText: string;
+    contrastTextAlpha?: string;
+    alpha50?: string;
+    heading?: string;
+    gradation?: string;
+    verticalGradation?: string;
+  }
+}
+
+const getDesignTokens = (mode: PaletteMode) => ({
+  mode,
+  ...(mode === "light"
+    ? {
+        primary: {
+          light: "#0040ff",
+          main: "#21ade5",
+          dark: "#189cd1",
+          heading: "rgb(14, 60, 122)",
+          contrastText: "#fff",
+          contrastTextAlpha: "#ffffffad",
+          gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
+        },
+        warning: {
+          main: "#FF0000",
+          contrastText: "#fff",
+          contrastTextAlpha: "#ffffffad",
+        },
+        whitescale: {
+          main: "#fff",
+          alpha50: "#ffffff66",
+        },
+        background: {
+          default: "rgb(230, 231, 236)",
+        },
+      }
+    : {
+        // dark
+        primary: {
+          contrastText: "rgba(0, 0, 0, 0.87)",
+          dark: "#1897c5",
+          heading: "#002348",
+          light: "#e3f2fd",
+          main: "#1CAFE4",
+          gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
+          verticalGradation: "linear-gradient(0deg, #243d7c, #26a4dd)",
+        },
+        // warning: {
+        //   main: "#FF0000",
+        //   contrastText: "#fff",
+        //   contrastTextAlpha: "#ffffffad",
+        // },
+        // whitescale: {
+        //   main: "#fff",
+        //   alpha50: "#ffffff66",
+        // },
+        background: {
+          default: "#3C3D3B",
+        },
+      }),
+});
+
+export const theme = (isDark: boolean) => {
+  return createTheme({
+    typography: {
+      allVariants: {
+        fontFamily: `"Open Sans", sans-serif`,
+      },
+    },
+    breakpoints: {
+      values: {
+        mobile: 0,
+        tablet: 768,
+        laptop: 1024,
+        desktop: 1280,
+      },
+    },
+    palette: getDesignTokens(isDark ? "dark" : "light"),
+  });
+};
+
+export const jpTheme = (isDark: boolean) => {
+  return createTheme({
+    typography: {
+      allVariants: {
+        fontFamily: `"Noto Sans JP", sans-serif`,
+      },
+    },
+    breakpoints: {
+      values: {
+        mobile: 0,
+        tablet: 768,
+        laptop: 1024,
+        desktop: 1280,
+      },
+    },
+    palette: getDesignTokens(isDark ? "dark" : "light"),
+  });
+};

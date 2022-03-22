@@ -1,6 +1,6 @@
 import React from "react";
 import AdminRoute from "components/Route/AdminRoute";
-import Landing from "pages/common/Landing";
+import Landing from "pages/common/Landing/Landing";
 import Programs from "pages/common/Programs/Programs";
 import PrivateRoute from "components/Route/PrivateRoute";
 import JapanExhibitParkSystems from "pages/japan/JapanExhibitParkSystems";
@@ -10,6 +10,8 @@ import JapanAttend from "pages/japan/JapanAttend/JapanAttend";
 import JapanGreeting from "pages/japan/JapanGreeting/JapanGreeting";
 import JapanLectureHall from "pages/japan/JapanLectureHall";
 import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
+import Registration from "pages/common/Registration/Registration";
 import Speakers from "../pages/common/Speakers/Speakers";
 
 export default [
@@ -33,7 +35,7 @@ export default [
     path: "/jp/program",
     element: (
       <AdminRoute key="/jp/program">
-        <Programs />{" "}
+        <Programs />
       </AdminRoute>
     ),
   },
@@ -64,5 +66,13 @@ export default [
   {
     path: "/jp/archive",
     element: <JapanArchive />,
+  },
+  {
+    path: "/jp/user/forgot-password",
+    element: <ForgotPassword />,
+  },
+  {
+    path: "/jp/registration",
+    element: <Registration formNo="1223" />,
   },
 ];

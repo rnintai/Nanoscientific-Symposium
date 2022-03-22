@@ -60,7 +60,7 @@ const ResetPassword = () => {
     axios
       .post("/api/users/passwordreset", {
         token: authState.accessToken,
-        curPassword: curPassword.value,
+        curPassword: isUserPasswordSet ? curPassword.value : null,
         newPassword: password1.value,
         nation: pathname,
       })
@@ -68,7 +68,7 @@ const ResetPassword = () => {
         if (res.data.success) {
           setPasswordSetSuccessAlert(true);
           setTimeout(() => {
-            navigate(0);
+            navigate(`/${pathname}`);
           }, 1500);
         } else {
           switch (res.data.code) {

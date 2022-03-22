@@ -2,18 +2,45 @@ import React, { useState, useEffect } from "react";
 import { Button, Box } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router";
+import { globalData } from "utils/GlobalData";
+import useSeoTitle from "hooks/useSeoTitle";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
-import { RegistrationContainer } from "./EuropeRegistrationStyles";
+import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import { RegistrationContainer } from "pages/common/Registration/RegistrationStyles";
+
+type TFN = 1 | 0 | -1;
 
 const EuropeRegistration = () => {
   const [checkout, setCheckout] = useState<boolean>(false);
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
   const [registerFee, setRegisterFee] = useState<string>("20");
-  const [emailValid, setEmailValid] = useState<boolean>(false);
-  const [emailValidationMsg, setEmailValidationMsg] = useState<string>("");
+  const [emailValid, setEmailValid] = useState<TFN>(-1);
   const navigate = useNavigate();
   const nation = usePageViews();
+
+  const authState = useAuthState();
+  const dispatch = useAuthDispatch();
+
+  // alert
+  const [emailNotValidAlert, setEmailNotValidAlert] = useState<boolean>(false);
+
+  const dispatchLogin = (e: string, r: string, t: string) =>
+    dispatch({
+      type: "LOGIN",
+      authState: {
+        ...authState,
+        isLogin: true,
+        role: r,
+        email: e,
+        accessToken: t,
+      },
+    });
+
+  // seo
+  const { registration } = globalData.get(nation) as Common.globalDataType;
+  useSeoTitle(registration as string, nation);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -24,10 +51,24 @@ const EuropeRegistration = () => {
     window.MktoForms2.loadForm(
       "//pages.parksystems.com",
       "988-FTP-549",
-      1065,
+      1149,
       (form: any) => {
-        form.getFormElem()[0][19].remove();
+        document.querySelector(".mktoButton[type='submit']")?.remove();
         setMktoLoading(false);
+
+        // validation 끼워넣기
+        const validationDiv = document.createElement("div");
+        validationDiv.className = "validation-msg";
+        document
+          .querySelector("#LblEmail")
+          ?.parentElement?.appendChild(validationDiv);
+
+        // 체크박스 layout 변경
+        const check1 = document.querySelector("#LblpsmktOptin")?.parentElement;
+        const check2 = document.querySelector("#LblpsOptin")?.parentElement;
+        check1?.classList.add("flex-reverse");
+        check2?.classList.add("flex-reverse");
+        check2?.parentElement?.childNodes[0].remove();
 
         // validation & 중복체크
         document
@@ -38,18 +79,14 @@ const EuropeRegistration = () => {
               target.value.indexOf("@") === -1 &&
               target.value.indexOf(".") === -1
             ) {
-              setEmailValid(false);
-              setEmailValidationMsg("");
+              setEmailValid(0);
             } else {
               try {
                 const res = await axios.post("/api/users/checkemail", {
                   email: target.value,
                   nation,
                 });
-                setEmailValid(!res.data.result);
-                setEmailValidationMsg(
-                  res.data.result ? "Duplicate email." : "",
-                );
+                setEmailValid(!res.data.result ? 1 : 0);
               } catch (err) {
                 console.log(err);
               }
@@ -59,33 +96,42 @@ const EuropeRegistration = () => {
     );
   }, []);
 
+  useEffect(() => {
+    if (document.querySelector(".validation-msg") !== null) {
+      const validationDOM = document.querySelector(
+        ".validation-msg",
+      ) as HTMLParagraphElement;
+      if (emailValid === 1) {
+        validationDOM.classList.add("valid");
+        validationDOM.classList.remove("invalid");
+        validationDOM.innerText = "Valid Email!";
+      } else if (emailValid === 0) {
+        validationDOM.classList.add("invalid");
+        validationDOM.classList.remove("valid");
+        validationDOM.innerText = "Invalid or duplicate email.";
+      }
+    }
+  }, [emailValid]);
+
   return (
     <RegistrationContainer>
-      <Box
-        className={
-          emailValid ? "validation-msg valid" : "validation-msg invalid"
-        }
-      >
-        &nbsp;{emailValidationMsg}
-      </Box>
-      <form id="mktoForm_1065" />
+      <form id="mktoForm_1149" />
       {!mktoLoading && !checkout && (
         <Button
           variant="contained"
           className="mktoButton2"
           onClick={() => {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            if (window.MktoForms2.allForms()[0]?.validate() && emailValid) {
-              setCheckout(true);
-            } else {
+            if (
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
-              window.MktoForms2.allForms()[0]
-                .getFormElem()[0][0]
-                .scrollIntoView({
-                  behavior: "smooth",
-                });
+              !window.MktoForms2.allForms()[0]?.validate()
+            ) {
+              // 마케토 validator가 알려줌
+            } else if (emailValid !== 1) {
+              setEmailNotValidAlert(true);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+              setCheckout(true);
             }
           }}
         >
@@ -131,27 +177,18 @@ const EuropeRegistration = () => {
                     try {
                       // user db submit
                       const regResponse = await axios.post(
-                        "/api/page/eu/register",
+                        "/api/users/register",
                         {
-                          email: formData.Email,
-                          title: formData.Title,
-                          university: formData.Company,
-                          institute: formData.Department,
-                          street: formData.City,
-                          zipCode: formData.PostalCode,
-                          city: formData.State,
-                          researchField: formData.psResearchTopic,
-                          afmTool: formData.psExistingAFMBrand,
-                          nanoMechanical: formData.psnsforumregistrationq01,
-                          characterizationOfSoft:
-                            formData.psnsforumregistrationq02,
-                          advancedImaging: formData.psnsforumregistrationq03,
-                          highResolutionImaging:
-                            formData.psnsforumregistrationq04,
-                          automationInAfm: formData.psnsforumregistrationq05,
-                          lastName: formData.LastName,
+                          title: formData.Salutation,
                           firstName: formData.FirstName,
-                          psOptIn: formData.psOptIn === "yes" ? 1 : 0,
+                          lastName: formData.LastName,
+                          email: formData.Email,
+                          phone: formData.Phone,
+                          institute: formData.Company,
+                          department: formData.Department,
+                          country: formData.Country,
+                          state: formData.State,
+                          nation,
                         },
                       );
 
@@ -170,16 +207,24 @@ const EuropeRegistration = () => {
                           console.log("mkto success");
                           return false;
                         });
-
-                      // automatically login
-                      // await axios.post("/api/users/login", {
-                      //   email: formData.Email,
-                      //   password: null,
-                      //   nation,
-                      // });
-
-                      // home redirection
-                      navigate("/");
+                      try {
+                        const res = await axios.post("/api/users/login", {
+                          nation,
+                          email: formData.Email,
+                          password: null,
+                        });
+                        if (res.data.success) {
+                          dispatchLogin(
+                            formData.Email,
+                            res.data.role,
+                            res.data.accessToken,
+                          );
+                        }
+                        navigate(`/${nation}/user/reset-password`);
+                      } catch (err) {
+                        console.log(err);
+                        alert("login failed");
+                      }
                     } catch (err) {
                       console.log(err);
                       alert("error: saving user data. Please try again.");
@@ -192,6 +237,13 @@ const EuropeRegistration = () => {
           </PayPalScriptProvider>
         </div>
       )}
+      <TopCenterSnackBar
+        value={emailNotValidAlert}
+        setValue={setEmailNotValidAlert}
+        severity="warning"
+        content="Email already exists or not valid."
+        variant="filled"
+      />
     </RegistrationContainer>
   );
 };

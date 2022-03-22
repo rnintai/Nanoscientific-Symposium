@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import Title from "components/Title/Title";
-import SpeakerCard from "components/SpeakerCard/SpeakerCard";
+import JPSpeakerCard from "components/SpeakerCard/JPSpeakerCard";
 import { Link } from "react-router-dom";
 import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import useSeoTitle from "hooks/useSeoTitle";
 import usePageViews from "hooks/usePageViews";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
+import { useThemeDispatch } from "context/ThemeContext";
 import { JapanArchiveContainer } from "./JapanArchiveStyles";
 import useWindowSize from "../../../hooks/useWindowSize";
 import JapanGreetingComponent from "../JapanComponent/JapanGreetingComponent";
@@ -91,6 +92,12 @@ const JapanArchive = () => {
   useSeoTitle(archive as string, pathname);
   const size = useWindowSize();
 
+  const dispatch = useThemeDispatch();
+
+  useEffect(() => {
+    dispatch({ type: "LIGHTMODE" });
+  }, []);
+
   useEffect(() => {
     if (size.width && size.width < 1250) {
       setImagePadding(5);
@@ -111,17 +118,20 @@ const JapanArchive = () => {
         <div className="string-content">
           <h1>各講演アーカイブにて公開中！</h1>
           <h4>※動画視聴には、フォームの記入および提出が必要です。</h4>
-          <h2>ナノ科学シンポジウム2022もお楽しみに！</h2>
+          <h2 className="navy">ナノ科学シンポジウム2022もお楽しみに！</h2>
           <h3>日時：2022年 11月18日 場所：ハイブリッド開催</h3>
 
           <Button
             size="large"
             variant="contained"
             onClick={() =>
-              window.open("https://tayori.com/f/nssj2021-archive/", "_blank")
+              window.open(
+                "https://pages.parksystems.com/Contents_Test_Contents_LP_Test.html?UTM_Campaign=NSSJ%202021%20Archive%20Page%20Promotion%20Test&UTM_Medium=Marketo&UTM_Source=Email",
+                "_blank",
+              )
             }
           >
-            NSS Japan 2022 アーカイブ
+            NSS Japan 2021 アーカイブ
           </Button>
           <Button
             size="large"
@@ -130,13 +140,13 @@ const JapanArchive = () => {
               window.open("https://bit.ly/NSSJ-2021-Abstract", "_blank")
             }
           >
-            NSS Japan 2022 要旨集
+            NSS Japan 2021 要旨集
           </Button>
         </div>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video className="video-content" autoPlay muted loop>
           <source
-            src="https://video.wixstatic.com/video/cb12c8_4b8a81f7685246f4b812936b63c96ccc/720p/mp4/file.mp4"
+            src="https://nss-integration.s3.us-west-1.amazonaws.com/jp/jp-archive.mp4"
             type="video/mp4"
           />
         </video>
@@ -146,14 +156,21 @@ const JapanArchive = () => {
       </section>
       <section className="speakers">
         <Title title="SPEAKERS" fontSize={36} />
-        <Box sx={{ flexGrow: 1, p: 25, paddingTop: 0 }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            px: { tablet: 25, mobile: 10 },
+            pb: { tablet: 25, mobile: 10 },
+            pt: 0,
+          }}
+        >
           <Grid
             container
-            spacing={{ xs: 4, md: 7 }}
-            columns={{ xs: 1, sm: 8, md: 16 }}
+            spacing={{ mobile: 4, laptop: 7 }}
+            columns={{ mobile: 1, tablet: 8, laptop: 16 }}
           >
             {speakersState.map((speaker) => (
-              <SpeakerCard key={speaker.id} speaker={speaker} />
+              <JPSpeakerCard key={speaker.id} speaker={speaker} />
             ))}
           </Grid>
         </Box>

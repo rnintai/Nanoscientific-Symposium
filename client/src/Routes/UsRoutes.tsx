@@ -1,13 +1,15 @@
 import React from "react";
-import Landing from "pages/common/Landing";
+import Landing from "pages/common/Landing/Landing";
 import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
-import UsLectureHall from "pages/us/UsLectureHall";
+import LectureHall from "pages/common/LectureHall/LectureHall";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import AdminRoute from "components/Route/AdminRoute";
+import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
+import Registration from "pages/common/Registration/Registration";
 
 export default [
   {
@@ -34,7 +36,7 @@ export default [
     path: "/us/lecture-hall",
     element: (
       <PrivateRoute>
-        <UsLectureHall />
+        <LectureHall />
       </PrivateRoute>
     ),
   },
@@ -47,7 +49,15 @@ export default [
     element: <ExhibitNanoScientific />,
   },
   {
+    path: "/us/registration",
+    element: <Registration formNo="1184" />,
+  },
+  {
     path: "/us/sponsors",
     element: <Sponsors />,
+  },
+  {
+    path: "/us/user/forgot-password",
+    element: <ForgotPassword />,
   },
 ];

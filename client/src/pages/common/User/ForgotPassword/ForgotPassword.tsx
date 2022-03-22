@@ -8,6 +8,7 @@ import usePageViews from "hooks/usePageViews";
 import useInput from "hooks/useInput";
 import Timer from "components/Timer/Timer";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import CircularProgress from "@mui/material/CircularProgress";
 import { ForgotPasswordContainer } from "./ForgotPasswordStyles";
 
 const ForgotPassword = () => {
@@ -167,34 +168,39 @@ const ForgotPassword = () => {
               </LoadingButton>
             </Stack>
             {showCodeInput && (
-              <Stack direction="row" className="code-section">
-                <TextField
-                  id="code"
-                  label="Verification Code"
-                  variant="filled"
-                  size="small"
-                  disabled={isEmailVerified}
-                  fullWidth
-                  sx={{
-                    mr: 2,
-                  }}
-                  {...code}
-                />
-                <LoadingButton
-                  disabled={isExpired || isEmailVerified}
-                  variant="contained"
-                  color="info"
-                  onClick={confirmCodeHandler}
-                  size="small"
-                >
-                  Confirm
-                </LoadingButton>
+              <>
+                <Stack direction="row" className="code-section">
+                  <TextField
+                    id="code"
+                    label="Verification Code"
+                    variant="filled"
+                    size="small"
+                    disabled={isEmailVerified}
+                    fullWidth
+                    sx={{
+                      mr: 2,
+                    }}
+                    {...code}
+                  />
+                  <LoadingButton
+                    disabled={isExpired || isEmailVerified}
+                    variant="contained"
+                    color="info"
+                    onClick={confirmCodeHandler}
+                    size="small"
+                    loadingIndicator={
+                      <CircularProgress variant="determinate" value={50} />
+                    }
+                  >
+                    Confirm
+                  </LoadingButton>
+                </Stack>
                 {/* 타이머 */}
                 {isTimerStarted && (
                   <Timer second={180} setIsExpired={setIsExpired} />
                 )}
                 {/* {!isTimerStarted && <Box sx={{ width: "48px" }} />} */}
-              </Stack>
+              </>
             )}
           </Box>
         </Fade>

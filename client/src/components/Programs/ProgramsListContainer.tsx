@@ -4,10 +4,6 @@ import TimezoneSelect from "react-timezone-select";
 export const ProgramsListContainer = styled.div<{ isAdmin?: boolean }>`
   /* https://d25unujvh7ui3r.cloudfront.net/css/program.css */
 
-  .program-wrap {
-    padding: ${(props) => (props.isAdmin ? "0px" : "100px 160px")};
-  }
-
   .cbp_tmtimeline {
     margin: 30px 0 0 0;
     padding: 0;
@@ -85,4 +81,11 @@ export const StyledTimezoneSelect = styled(TimezoneSelect)`
   width: 300px;
   height: 50px;
   margin-left: auto;
+  margin-right: 10px;
+
+  #react-select-3-listbox {
+    z-index: 3;
+  }
 `;
+
+export const SessionContainer = styled.div``;

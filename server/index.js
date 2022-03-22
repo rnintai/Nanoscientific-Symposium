@@ -32,6 +32,7 @@ app.use("/api/users", require("./routes/usersRouter"));
 app.use("/api/admin", require("./routes/adminRouter"));
 app.use("/api/menu", require("./routes/menuRouter"));
 app.use("/api/mail", require("./routes/mailRouter"));
+app.use("/api/zoom", require("./routes/zoomRouter"));
 
 app.use(
   "/api/docs",

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
-import EventLanding from "pages/common/EventLanding";
+import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
+import { theme, jpTheme } from "theme/themes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
+import { useThemeState } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -17,55 +19,14 @@ import JapanRoutes from "./Routes/JapanRoutes";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
 
-declare module "@mui/material/styles" {
-  interface BreakpointOverrides {
-    xs: false; // removes the `xs` breakpoint
-    sm: false;
-    md: false; // 900px
-    lg: false;
-    xl: false;
-    mobile: true;
-    tablet: true;
-    laptop: true;
-    desktop: true;
-  }
-}
-
-const theme = createTheme({
-  typography: {
-    allVariants: {
-      fontFamily: `"Open Sans", sans-serif`,
-    },
-  },
-  breakpoints: {
-    values: {
-      mobile: 0,
-      tablet: 768,
-      laptop: 1024,
-      desktop: 1280,
-    },
-  },
-});
-const jpTheme = createTheme({
-  typography: {
-    allVariants: {
-      fontFamily: `"Noto Sans JP", sans-serif`,
-    },
-  },
-  breakpoints: {
-    // values: {
-    //   mobile: 0,
-    //   tablet: 640,
-    //   laptop: 1024,
-    //   desktop: 1280,
-    // },
-  },
-});
-
 const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+  const themeState = useThemeState();
+
+  const themeObj = theme(themeState.darkMode);
+  const jpThemeObj = jpTheme(themeState.darkMode);
 
   // 로그인 모달 state
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
@@ -113,10 +74,10 @@ const App = () => {
   if (authState.isLoading) return <Loading />;
 
   return (
-    <ThemeProvider theme={pathname === "jp" ? jpTheme : theme}>
+    <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
       <AppContainer>
         {pathname !== "" &&
-          pathname !== "admin" &&
+          subpath.indexOf("admin") === -1 &&
           pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar

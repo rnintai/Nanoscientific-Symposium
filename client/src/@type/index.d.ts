@@ -41,40 +41,90 @@ declare namespace User {
   interface userType {
     id: number;
     email: string;
-    title: string;
+    title?: string;
     role: string;
-    lastName: string;
-    firstName: string;
-    university: string;
+    last_name: string;
+    first_name: string;
     institute: string;
-    street: string;
-    zipCode: string;
-    city: string;
-    researchField: string;
-    afmTool?: string;
-    nanomechanical?: number;
-    characterization_of_soft?: number;
-    advanced_imaging?: number;
-    high_resolution_imaging?: number;
-    automation_in_afm?: number;
+    phone: string;
+    department?: string;
+    state?: string;
     createdAt: string;
-    ps_opt_in: number;
+    country: string;
   }
 }
 
 declare namespace Common {
   type showStatus = "show" | "hide";
 
+  interface nationType {
+    name: string;
+    date: string;
+    landingImage: string;
+    path: string;
+  }
+
   interface globalDataType {
-    logoURL: string;
+    logoURL?: string;
+    fullLogoURL?: string;
     speakers?: string;
-    programs: string;
-    lectureHall: string;
+    programs?: string;
+    lectureHall?: string;
     exhibitHall?: string;
-    sponsors: string;
+    sponsors?: string;
     greeting?: string;
     attend?: string;
     symposium?: string;
     archive?: string;
+    home?: string;
+    registration?: string;
+    signInText?: string;
+    goNextText?: string;
+    goPrevText?: string;
+    // user 관련
+    emailInputLabel?: string;
+    passwordInputLabel?: string;
+    forgotPasswordText?: string;
+    createAccountText?: string;
+
+    // common
+    nations?: nationType[];
+    eventLandingMainBannerURL?: string;
+    fullLogoURL?: string;
+    eventLandingDesc?: string;
+    eventLandingBodyBackground?: string;
+
+    // landing
+    landingSection1BackgroundURL?: string;
+    landingSection1LogoURL?: string;
+    landingSection1Desc?: string;
+    landingSection2Title?: string;
+    landingSection2Desc?: string;
+    landingSection2ImgURL?: string;
+    landingSection3Title?: string;
+    landingSection3List1Title?: string;
+    landingSection3List1?: string[];
+    landingSection3List2Title?: string;
+    landingSection3List2?: string[];
+    landingSection3List3Title?: string;
+    landingSection3List3?: string[];
+    landingSection4Title?: string;
+    landingSection5Title?: string;
+    landingSection5Videos?: string[];
+  }
+}
+
+declare namespace Webinar {
+  interface webinarType {
+    uuid: string;
+    id: number;
+    host_id: string;
+    created_at: string;
+    duration: number;
+    join_url: string;
+    start_time: string;
+    timezone: string;
+    topic: string;
+    type: number;
   }
 }

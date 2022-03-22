@@ -7,6 +7,7 @@ const mailCtrl = {
   sendVcode: async (req, res) => {
     const { email, nation } = req.body;
     const currentPool = getCurrentPool(nation);
+    console.log(process.env.SMTP_PASS);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -20,19 +21,22 @@ const mailCtrl = {
       const code = vCode.create();
       if (emailExist) {
         const transporter = nodemailer.createTransport({
-          service: "gmail",
+          debug: true,
           port: 587,
-          host: "smtp.gmail.com",
-          secure: true,
-          requireTLS: false,
+          host: "smtp.ionos.com",
+          secure: false,
+          requireTLS: true,
+          // tls: {
+          //   ciphers: "SSLv3",
+          // },
           auth: {
             user: process.env.SMTP_EMAIL,
             pass: process.env.SMTP_PASS,
-          }
+          },
         });
 
         const info = await transporter.sendMail({
-          from: "2022 Nanoscientific Symposium <nanoscientific.symposium@gmail.com>",
+          from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
           to: email,
           subject: `[${code}] Verification Code`,
           html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
@@ -104,6 +108,5 @@ const mailCtrl = {
       connection.release();
     }
   },
-
 };
 module.exports = mailCtrl;

@@ -73,7 +73,7 @@
         onmouseover="areaHover(this)" onmouseout="areaLeave(this)" onclick="play_click()" /> -->
       <area target="" alt="play" title="play" class="play" href="#" coords="748,275,1189,498" shape="rect"
             onmouseover="areaHover(this)" onmouseout="areaLeave(this)" />
-      <area target="" alt="program" title="Program" class="program" href="/programs" coords="240,541,514,715"
+      <area target="" alt="program" title="Program" class="program" href="/program" coords="240,541,514,715"
             shape="rect" onmouseover="areaHover(this);" onmouseout="areaLeave(this);" />
       <area target="" alt="lecture hall" title="Lecture Hall" class="lecture" href="/lecture-hall"
             coords="738,500,1197,720" shape="rect" onmouseover="areaHover(this);" onmouseout="areaLeave(this);" />
@@ -88,7 +88,7 @@
           <i class="play-icon fab fa-youtube" aria-hidden="true"></i>
         </button>
       </div>
-      <div class="program-btn-m" onclick="location.href='/programs'"></div>
+      <div class="program-btn-m" onclick="location.href='/program'"></div>
       <div class="lecture-btn-m" onclick="location.href='/lecture-hall'"></div>
       <div class="exhibit-btn-m" onclick="location.href='/exihibit-hall/park-systems'"></div>
     </section>
@@ -1177,7 +1177,7 @@
         $a.appendTo(`.${class_name}-map-wrap`);
         if (class_name === "program") {
           $arrowL.appendTo(`.${class_name}-map-wrap`);
-          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/jp/programs'")
+          jQuery(`.${class_name}-map-wrap`).attr("onclick", "location.href='/jp/program'")
         }
         else if (class_name === "lecture") {
           $arrowC.appendTo(`.${class_name}-map-wrap`);

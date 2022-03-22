@@ -177,6 +177,7 @@ const AdminPrograms = () => {
                         setOpenSessionForm(true);
                       }}
                       isAdmin
+                      date={session.date}
                       title={session.session_title}
                     />
                     <ul className="cbp_tmtimeline">

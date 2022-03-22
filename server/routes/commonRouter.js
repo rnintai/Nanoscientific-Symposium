@@ -2,8 +2,6 @@ const router = require("express").Router();
 const commonCtrl = require("../controllers/commonCtrl");
 const asiaCtrl = require("../controllers/asiaCtrl");
 
- 
-
 /**
  * @swagger
  *  /api/page/common/eventLanding:
@@ -23,7 +21,6 @@ const asiaCtrl = require("../controllers/asiaCtrl");
 
 router.route("/eventLanding").get(commonCtrl.getEventLanding);
 
-
 /**
  * @swagger
  *  /api/page/common/exhibit/parksystems:
@@ -42,7 +39,6 @@ router.route("/eventLanding").get(commonCtrl.getEventLanding);
  */
 
 router.route("/exhibit/parksystems").get(commonCtrl.getExhibitParkSystems);
-
 
 /**
  * @swagger
@@ -82,8 +78,6 @@ router.route("/exhibit/nanoscientific").get(commonCtrl.getNanoScientific);
 
 router.route("/maintenance").get(commonCtrl.getMaintenance);
 
-
-
 /**
  * @swagger
  *  /api/page/common/landing:
@@ -104,7 +98,6 @@ router.route("/maintenance").get(commonCtrl.getMaintenance);
 
 router.route("/landing").get(commonCtrl.getLanding);
 
-
 /**
  * @swagger
  *  /api/page/common/sponsors:
@@ -123,10 +116,7 @@ router.route("/landing").get(commonCtrl.getLanding);
  *          description: successful operation
  */
 
-
 router.route("/sponsors").get(commonCtrl.getSponsors);
-
-
 
 /**
  * @swagger
@@ -187,7 +177,6 @@ router.route("/programs/agenda").get(commonCtrl.getProgramAgenda);
  */
 router.route("/sessions").get(commonCtrl.getSessions);
 
-
 /**
  * @swagger
  *  /api/page/common/speakers:
@@ -208,6 +197,24 @@ router.route("/sessions").get(commonCtrl.getSessions);
 
 router.route("/speakers").get(commonCtrl.getSpeakers);
 
+/**
+ * @swagger
+ *  /api/page/common/speakers/keynote:
+ *    get:
+ *      tags:
+ *      - Common
+ *      description: 각 국가의 keynote 스피커 정보를 주는 API 입니다. 국가는 쿼리에 담습니다
+ *      parameters:
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router.route("/speakers/keynote").get(commonCtrl.getKeynoteSpeakers);
 
 module.exports = router;
- 
