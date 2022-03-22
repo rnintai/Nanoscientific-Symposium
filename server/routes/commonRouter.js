@@ -150,6 +150,26 @@ router.route("/programs").get(commonCtrl.getPrograms);
 
 /**
  * @swagger
+ *  /api/page/common/programs/agenda:
+ *    get:
+ *      tags:
+ *      - Common
+ *      description: 각 국가의 프로그램에 속한 agenda들의 정보를 주는 API 입니다. 국가는 쿼리에 담습니다
+ *      parameters:
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router.route("/programs/agenda").get(commonCtrl.getProgramAgenda);
+
+/**
+ * @swagger
  *  /api/page/common/sessions:
  *    get:
  *      tags:

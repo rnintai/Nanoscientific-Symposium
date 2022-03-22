@@ -32,7 +32,19 @@ const ProgramsList = () => {
       setProgramLoading(false);
     };
 
+    const getProgramAgenda = async () => {
+      setProgramLoading(true);
+      const programs = await axios.get(
+        `/api/page/common/programs/agenda`,
+        config,
+      );
+      // setPrograms(programs.data);
+      setProgramLoading(false);
+      console.log(programs.data.data);
+    };
+
     getPrograms();
+    getProgramAgenda();
   }, []);
 
   useEffect(() => {

@@ -92,7 +92,8 @@ const adminCtrl = {
     try {
       const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}')`;
 
-      await connection.query(sql);
+      const sqlResult = await connection.query(sql);
+      console.log(sqlResult);
       res.status(200).json({
         success: true,
         message: "Success",
