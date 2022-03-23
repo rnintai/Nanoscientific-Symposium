@@ -107,55 +107,6 @@ const ProgramsList = () => {
           </TableContainer>
         );
       })}
-
-      {/* <article className="program-wrap">
-        <section className="timeline-wrap timeline-0">
-          <StyledTimezoneSelect
-            value={selectedTimezone}
-            onChange={(e) => {
-              setSelectedTimezone(e.value);
-            }}
-          />
-          {sessions.map((session) => {
-            return (
-              <SessionContainer key={session.id}>
-                <ProgramTitle
-                  title={session.session_title}
-                  date={session.date}
-                />
-                <ul className="cbp_tmtimeline">
-                  {programs
-                    .filter((program) => {
-                      return program.session === session.id;
-                    })
-                    .map((program, index) => (
-                      <ProgramContent
-                        selectedTimezone={selectedTimezone}
-                        isAdmin={false}
-                        key={program.id}
-                        {...program}
-                        index={index}
-                        programAgenda={programAgenda}
-                      />
-                    ))}
-                </ul>
-              </SessionContainer>
-            );
-          })}
-        </section>
-      </article>
-
-      <button
-        className="download-btn"
-        type="button"
-        onClick={() => {
-          window.open(
-            "https://d25unujvh7ui3r.cloudfront.net/asia/program/NSSA_program.pdf",
-          );
-        }}
-      >
-        DOWNLOAD
-      </button> */}
     </ProgramsListContainer>
   );
 };
