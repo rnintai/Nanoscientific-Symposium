@@ -119,7 +119,7 @@ const JapanArchive = () => {
             variant="contained"
             onClick={() =>
               window.open(
-                "https://pages.parksystems.com/Contents_Test_Contents_LP_Test.html?UTM_Campaign=NSSJ%202021%20Archive%20Page%20Promotion%20Test&UTM_Medium=Marketo&UTM_Source=Email",
+                "https://pages.parksystems.com/NSS-Japan-2021-Archive_NSS-Japan-2021-Archive-Registration-LP.html",
                 "_blank",
               )
             }
