@@ -18,12 +18,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
-import { getUserTimezoneDate, dateToLocaleString } from "utils/Date";
+import { getUserTimezoneDate, isDateValid } from "utils/Date";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
+  programValidAlert: boolean;
   setOpenProgramForm: Dispatch<SetStateAction<boolean>>;
   setProgramSuccess: Dispatch<SetStateAction<boolean>>;
+  setProgramValidAlert: Dispatch<SetStateAction<boolean>>;
   selectedProgram: Program.programType;
   sessions: Program.sessionType[];
   getPrograms: () => void;
@@ -35,6 +37,8 @@ const ProgramForm = ({
   setOpenProgramForm,
   selectedProgram,
   setProgramSuccess,
+  programValidAlert,
+  setProgramValidAlert,
   sessions,
   getPrograms,
   selectedTimezone,
@@ -43,12 +47,12 @@ const ProgramForm = ({
   const [startTime, setStartTime] = useState<Date | null>(
     edit
       ? getUserTimezoneDate(selectedProgram.start_time, selectedTimezone)
-      : new Date(),
+      : getUserTimezoneDate(sessions[0].date, selectedTimezone),
   );
   const [endTime, setEndTime] = useState<Date | null>(
     edit
       ? getUserTimezoneDate(selectedProgram.end_time, selectedTimezone)
-      : new Date(),
+      : getUserTimezoneDate(sessions[0].date, selectedTimezone),
   );
   const [emphasizeCheck, setEmphasizeCheck] = useState<boolean>(
     edit ? selectedProgram.emphasize === 1 : false,
@@ -61,6 +65,14 @@ const ProgramForm = ({
   const pathname = usePageViews();
 
   const programSubmitHandler = async () => {
+    if (
+      title.value === "" ||
+      !isDateValid(startTime) ||
+      !isDateValid(endTime)
+    ) {
+      setProgramValidAlert(true);
+      return;
+    }
     setLoading(true);
     let data;
 
@@ -106,26 +118,27 @@ const ProgramForm = ({
     }
   };
 
-  const statusChangeHandler = (
-    event: React.MouseEvent<HTMLElement>,
-    newStatus: Common.showStatus,
-  ) => {
-    setStatus(newStatus);
-  };
+  // const statusChangeHandler = (
+  //   event: React.MouseEvent<HTMLElement>,
+  //   newStatus: Common.showStatus,
+  // ) => {
+  //   setStatus(newStatus);
+  // };
 
   // selectedProgram.session 은 id 이고 selectedSession 은 string 이 들어가야한다
-  const [selectedSession, setSelectedSession] = useState<string>(
-    edit ? (selectedProgram.session as unknown as string) : "",
+  const [selectedSession, setSelectedSession] = useState<number>(
+    edit ? selectedProgram.session : sessions[0].id,
   );
 
   const title = useInput(edit ? selectedProgram.title : "");
   const speakers = useInput(edit ? selectedProgram.speakers : "");
   const description = useInput(edit ? selectedProgram.description : "");
 
-  const changeSessionHandler = (event: SelectChangeEvent) => {
-    setSelectedSession(event.target.value as string);
+  const changeSessionHandler = (event: SelectChangeEvent<number>) => {
+    setSelectedSession(event.target.value as number);
+
     const selectedSessionArr = sessions.filter((session) => {
-      return session.id === +event.target.value;
+      return session.id === event.target.value;
     });
     const selectedDate = new Date(selectedSessionArr[0].date);
     const newYear = selectedDate.getFullYear();
@@ -176,6 +189,9 @@ const ProgramForm = ({
       }
       onSubmit={programSubmitHandler}
       loading={loading}
+      submitDisabled={
+        title.value === "" || !isDateValid(startTime) || !isDateValid(endTime)
+      }
     >
       <FormControl fullWidth sx={{ mt: 3, mb: 3 }}>
         <InputLabel id="demo-simple-select-label">Session</InputLabel>
@@ -184,13 +200,10 @@ const ProgramForm = ({
           id="demo-simple-select"
           value={selectedSession}
           label="Session"
-          onChange={(event: SelectChangeEvent) => {
-            // setLoading(true);
-            // setTimeout(() => {
+          onChange={(event: SelectChangeEvent<number>) => {
             changeSessionHandler(event);
-            // setLoading(false);
-            // }, 2000);
           }}
+          required
         >
           {sessions.map((session) => (
             <MenuItem key={session.id} value={session.id}>
@@ -205,6 +218,8 @@ const ProgramForm = ({
         fullWidth
         variant="filled"
         sx={{ marginBottom: "30px" }}
+        required
+        error={title.value === ""}
         {...title}
       />
       <FormControlLabel
@@ -224,7 +239,7 @@ const ProgramForm = ({
         sx={{ marginBottom: "30px" }}
         {...speakers}
       />
-      <TextField
+      {/* <TextField
         margin="dense"
         label="Description"
         fullWidth
@@ -232,7 +247,7 @@ const ProgramForm = ({
         multiline
         sx={{ marginBottom: "30px" }}
         {...description}
-      />
+      /> */}
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
@@ -241,7 +256,8 @@ const ProgramForm = ({
           onChange={(newValue) => {
             setStartTime(newValue);
           }}
-        />{" "}
+        />
+        {"  "}
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
           label="End Time"
@@ -255,7 +271,7 @@ const ProgramForm = ({
         {" "}
         Please enter the above time based on your location. ✔ {selectedTimezone}
       </h3>
-      {edit && (
+      {/* {edit && (
         <ToggleButtonGroup
           size="large"
           color="primary"
@@ -266,7 +282,7 @@ const ProgramForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
-      )}
+      )} */}
       {edit && (
         <LoadingButton
           loading={deleteLoading}

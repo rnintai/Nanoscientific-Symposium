@@ -1,34 +1,37 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ToggleButton from "@mui/material/ToggleButton";
 import CommonModal from "components/CommonModal/CommonModal";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import { Select, SelectChangeEvent, TextField } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import { DateTimePicker, LocalizationProvider, LoadingButton } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
-import { getUserTimezoneDate, dateToLocaleString } from "utils/Date";
 
 interface AgendaFormProps {
   openAgendaForm: boolean;
+  agendaValidAlert: boolean;
   setOpenAgendaForm: Dispatch<SetStateAction<boolean>>;
   setAgendaSuccess: Dispatch<SetStateAction<boolean>>;
+  setAgendaValidAlert: Dispatch<SetStateAction<boolean>>;
   selectedAgenda: Program.programAgendaType;
+  sessions: Program.sessionType[];
   programs: Program.programType[];
   getProgramAgenda: () => void;
   edit: boolean;
 }
+
 const AgendaForm = ({
   openAgendaForm,
   setOpenAgendaForm,
   setAgendaSuccess,
   selectedAgenda,
   getProgramAgenda,
+  sessions,
   programs,
+  agendaValidAlert,
+  setAgendaValidAlert,
   edit = false,
 }: AgendaFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,12 +39,25 @@ const AgendaForm = ({
 
   const pathname = usePageViews();
 
+  const [selectedProgram, setSelectedProgram] = useState<number>(
+    edit ? selectedAgenda.program_id : programs[0].id,
+  );
+  const [selectedSession, setSelectedSession] = useState<number>(
+    edit ? selectedAgenda.session_id : sessions[0].id,
+  );
+
   const submitHandler = async () => {
-    setLoading(true);
+    if (title.value === "" || selectedProgram === -1) {
+      setAgendaValidAlert(true);
+      return;
+    }
+
     let data;
+    setLoading(true);
 
     if (edit) {
       data = await axios.put("/api/admin/program/agenda", {
+        session_id: selectedSession,
         nation: pathname,
         id: selectedAgenda.id,
         program_id: selectedProgram,
@@ -50,6 +66,7 @@ const AgendaForm = ({
       });
     } else {
       data = await axios.post("/api/admin/program/agenda", {
+        session_id: selectedSession,
         nation: pathname,
         program_id: selectedProgram,
         title: title.value,
@@ -65,18 +82,20 @@ const AgendaForm = ({
     }
   };
 
-  const [selectedProgram, setSelectedProgram] = useState<number>(
-    edit ? selectedAgenda.program_id : programs[0].id,
-  );
-
   const title = useInput(edit ? selectedAgenda.title : "");
   const speakers = useInput(edit ? selectedAgenda.speakers : "");
 
+  const changeSessionHandler = (event: SelectChangeEvent<number>) => {
+    setSelectedSession(event.target.value as number);
+    const filteredPrograms = programs.filter(
+      (program) => program.session === event.target.value,
+    );
+    setSelectedProgram(
+      filteredPrograms.length !== 0 ? filteredPrograms[0].id : -1,
+    );
+  };
   const changeProgramHandler = (event: SelectChangeEvent<number>) => {
     setSelectedProgram(event.target.value as number);
-    // programs.filter((program) => {
-    //   return program.id === event.target.value;
-    // });
   };
 
   const deleteHandler = async () => {
@@ -105,12 +124,31 @@ const AgendaForm = ({
       desc={
         edit
           ? "Please enter the content that you want to change."
-          : "Please choose the proper program to add the agenda."
+          : "Please choose the proper session and program to add the agenda."
       }
       onSubmit={submitHandler}
       loading={loading}
+      submitDisabled={title.value === "" || selectedProgram === -1}
     >
       <FormControl fullWidth sx={{ mt: 3, mb: 3 }}>
+        <InputLabel id="demo-simple-select-label">Session</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={selectedSession}
+          label="Session"
+          onChange={(event: SelectChangeEvent<number>) => {
+            changeSessionHandler(event);
+          }}
+        >
+          {sessions.map((session) => (
+            <MenuItem key={session.id} value={session.id}>
+              {session.session_title}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl fullWidth sx={{ mb: 3 }}>
         <InputLabel id="demo-simple-select-label">Program</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -121,17 +159,32 @@ const AgendaForm = ({
             changeProgramHandler(event);
           }}
         >
-          {programs.map((program) => (
-            <MenuItem key={program.id} value={program.id}>
-              {program.title}
+          {console.log(
+            programs.filter((program) => program.session === selectedSession)
+              .length,
+          )}
+          {programs.filter((program) => program.session === selectedSession)
+            .length === 0 ? (
+            <MenuItem key="no-item" value={-1}>
+              * Please add a program first
             </MenuItem>
-          ))}
+          ) : (
+            programs
+              .filter((program) => program.session === selectedSession)
+              .map((program) => (
+                <MenuItem key={program.id} value={program.id}>
+                  {program.title}
+                </MenuItem>
+              ))
+          )}
         </Select>
       </FormControl>
       <TextField
         margin="dense"
         label="Agenda Title"
         fullWidth
+        required
+        error={!title.value}
         variant="filled"
         sx={{ marginBottom: "30px" }}
         {...title}
@@ -162,7 +215,5 @@ const AgendaForm = ({
     </CommonModal>
   );
 };
-// const AgendaForm = () => {
-//   return <>a</>;
-// };
+
 export default AgendaForm;

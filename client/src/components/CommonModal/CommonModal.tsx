@@ -26,6 +26,8 @@ interface CommonModalProps {
   transitionDir?: "left" | "right" | "up" | "down";
   // eslint-disable-next-line react/require-default-props
   hideSaveButton?: boolean;
+  // eslint-disable-next-line react/require-default-props
+  submitDisabled?: boolean;
 }
 
 const CommonModal = ({
@@ -39,6 +41,7 @@ const CommonModal = ({
   loading,
   transitionDir,
   hideSaveButton,
+  submitDisabled,
 }: CommonModalProps) => {
   // theme
   const theme = useTheme();
@@ -80,6 +83,7 @@ const CommonModal = ({
                 loading={loading}
                 variant="contained"
                 onClick={onSubmit}
+                disabled={submitDisabled}
               >
                 {submitText}
               </LoadingButton>

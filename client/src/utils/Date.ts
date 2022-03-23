@@ -78,14 +78,13 @@ export const calculateDurationToDate = (
 
 //
 export const getUserTimezoneDate = (startTime: string, timeZone: string) => {
-  console.log(timeZone);
-
   const newDateString = new Date(startTime).toLocaleString("sv-SE", {
     timeZone,
   });
 
-  // const timezone = date.getTimezoneOffset();
-  // date.setMinutes(date.getMinutes() - timezone);
-
   return new Date(newDateString);
+};
+
+export const isDateValid = (d: Date | null) => {
+  return d instanceof Date && !Number.isNaN(d.getTime());
 };

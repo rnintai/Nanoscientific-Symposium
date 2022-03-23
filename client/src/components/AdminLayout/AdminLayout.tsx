@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
@@ -10,32 +11,22 @@ import "css/admin.css";
 interface AdminLayoutProps {
   children: React.ReactNode;
   title: string;
-  // eslint-disable-next-line react/require-default-props
   menu1?: string;
-  // eslint-disable-next-line react/require-default-props
   menu1ClickHandler?: () => void;
-  // eslint-disable-next-line react/require-default-props
   menu2?: string;
-  // eslint-disable-next-line react/require-default-props
   menu2ClickHandler?: () => void;
-  // eslint-disable-next-line react/require-default-props
   menu3?: string;
-  // eslint-disable-next-line react/require-default-props
   menu3ClickHandler?: () => void;
-  // eslint-disable-next-line react/require-default-props
   menu4?: string;
-  // eslint-disable-next-line react/require-default-props
   menu4ClickHandler?: () => void;
-  // eslint-disable-next-line react/require-default-props
   hideToggle?: boolean;
-  // eslint-disable-next-line react/require-default-props
   setHideToggle?: React.Dispatch<React.SetStateAction<boolean>>;
-  // eslint-disable-next-line react/require-default-props
   hideToggleHandler?: () => void;
-  // eslint-disable-next-line react/require-default-props
   isHideLoading?: boolean;
-  // eslint-disable-next-line react/require-default-props
   isPublished?: boolean;
+  menu1Disabled?: boolean;
+  menu2Disabled?: boolean;
+  menu3Disabled?: boolean;
 }
 
 const AdminLayout = ({
@@ -52,6 +43,9 @@ const AdminLayout = ({
   hideToggle,
   setHideToggle,
   hideToggleHandler,
+  menu1Disabled,
+  menu2Disabled,
+  menu3Disabled,
   isHideLoading,
   isPublished,
 }: AdminLayoutProps) => {
@@ -74,6 +68,9 @@ const AdminLayout = ({
           hideToggleHandler={hideToggleHandler}
           isHideLoading={isHideLoading}
           isPublished={isPublished}
+          menu1Disabled={menu1Disabled}
+          menu2Disabled={menu2Disabled}
+          menu3Disabled={menu3Disabled}
         />
         <AdminNavBar />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
