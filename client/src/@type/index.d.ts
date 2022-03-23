@@ -13,6 +13,7 @@ declare namespace Program {
 
   interface programAgendaType {
     id: number;
+    session_id: number;
     program_id: number;
     title: string;
     speakers: string;
