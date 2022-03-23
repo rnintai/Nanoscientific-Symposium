@@ -52,20 +52,24 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql = `DELETE FROM program_sessions WHERE id=${id}`;
+      // delete agendas
+      let sql = `DELETE FROM program_agenda WHERE session_id=${id}`;
+      const agendaResult = await connection.query(sql);
 
-      await connection.query(sql);
-
+      // delete programs
       sql = `DELETE FROM programs WHERE session=${id}`;
-      let result = await connection.query(sql);
+      const programResult = await connection.query(sql);
 
-      console.log(result);
+      // delete session
+      sql = `DELETE FROM program_sessions WHERE id=${id}`;
+      await connection.query(sql);
 
       res.status(200).json({
         success: true,
-        message: `1개의 세션 삭제, ${result[0].affectedRows}개의 프로그램 삭제`,
+        message: `1개의 세션 삭제, ${programResult[0].affectedRows}개의 프로그램 삭제, ${agendaResult[0].affectedRows}개의 아젠다 삭제`,
       });
     } catch (err) {
+      console.log(err);
       res.status(500).json({
         success: false,
         message: err,
@@ -174,6 +178,9 @@ const adminCtrl = {
 
       sql = `DELETE FROM programs WHERE id=${id}`;
       await connection.query(sql);
+      // 딸려있는 agenda 삭제
+      sql = `DELETE FROM program_agenda WHERE program_id=${id}`;
+      await connection.query(sql);
 
       sql = `UPDATE programs SET next_id=${nextId} WHERE next_id=${id}`;
       await connection.query(sql);
@@ -194,14 +201,14 @@ const adminCtrl = {
 
   // agenda
   addAgenda: async (req, res) => {
-    const { nation, program_id, title, speakers } = req.body;
+    const { nation, program_id, title, speakers, session_id } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO program_agenda(program_id,title,speakers) 
-      VALUES(${program_id},'${title}','${speakers}')`;
+      const sql = `INSERT INTO program_agenda(session_id,program_id,title,speakers) 
+      VALUES(${session_id},${program_id},'${title}','${speakers}')`;
 
       const sqlResult = await connection.query(sql);
 
@@ -213,7 +220,6 @@ const adminCtrl = {
         AND program_id=${program_id} 
         AND next_id IS NULL`;
         const adjustSqlResult = await connection.query(adjustSql);
-        console.log(adjustSqlResult);
         res.status(200).json({
           success: true,
           message: "Success",
@@ -237,12 +243,12 @@ const adminCtrl = {
     }
   },
   modifyAgenda: async (req, res) => {
-    const { nation, title, id, program_id, speakers } = req.body;
+    const { nation, title, id, program_id, speakers, session_id } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE program_agenda SET program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id}`;
+      const sql = `UPDATE program_agenda SET session_id=${session_id},program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id}`;
 
       await connection.query(sql);
       res.status(200).json({

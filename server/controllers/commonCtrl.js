@@ -33,7 +33,7 @@ const commonCtrl = {
       console.log(err);
     }
   },
-  getProgramAgenda: async (req, res) => {
+  getAgenda: async (req, res) => {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);

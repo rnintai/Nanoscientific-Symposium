@@ -156,7 +156,7 @@ router.route("/programs").get(commonCtrl.getPrograms);
  *          description: successful operation
  */
 
-router.route("/programs/agenda").get(commonCtrl.getProgramAgenda);
+router.route("/programs/agenda").get(commonCtrl.getAgenda);
 
 /**
  * @swagger
