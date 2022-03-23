@@ -59,6 +59,11 @@ const AdminPrograms = () => {
   const [selectedAgenda, setSelectedAgenda] =
     useState<Program.programAgendaType>();
 
+  // alert
+  const [agendaValidAlert, setAgendaValidAlert] = useState<boolean>(false);
+  const [programValidAlert, setProgramValidAlert] = useState<boolean>(false);
+  const [sessionValidAlert, setSessionValidAlert] = useState<boolean>(false);
+
   const config = {
     params: {
       nation: pathname,
@@ -169,13 +174,15 @@ const AdminPrograms = () => {
       menu2ClickHandler={openProgramFormHandler}
       menu3="Add Agenda"
       menu3ClickHandler={openAgendaFormHandler}
-      menu4="Hidden Items"
-      menu4ClickHandler={openHideFormHandler}
+      // menu4="Hidden Items"
+      // menu4ClickHandler={openHideFormHandler}
       hideToggle={hideToggle}
       setHideToggle={setHideToggle}
       hideToggleHandler={hideToggleHandler}
       isHideLoading={isAdminLoading}
       isPublished={isPublished}
+      menu2Disabled={sessions.length === 0}
+      menu3Disabled={programs.length === 0}
     >
       <AdminProgramsContainer>
         <ProgramsListContainer className="layout">
@@ -246,6 +253,8 @@ const AdminPrograms = () => {
           setSessionSuccess={setSessionSuccess}
           edit={sessionEdit}
           selectedTimezone={selectedTimezone}
+          sessionValidAlert={sessionValidAlert}
+          setSessionValidAlert={setSessionValidAlert}
         />
       )}
 
@@ -261,6 +270,8 @@ const AdminPrograms = () => {
           setProgramSuccess={setProgramSuccess}
           edit={programEdit}
           selectedTimezone={selectedTimezone}
+          programValidAlert={programValidAlert}
+          setProgramValidAlert={setProgramValidAlert}
         />
       )}
 
@@ -270,11 +281,14 @@ const AdminPrograms = () => {
             getProgramAgenda();
           }}
           programs={programs}
+          sessions={sessions}
           selectedAgenda={selectedAgenda as Program.programAgendaType}
           openAgendaForm={openAgendaForm}
           setOpenAgendaForm={setOpenAgendaForm}
           setAgendaSuccess={setAgendaSuccess}
           edit={agendaEdit}
+          agendaValidAlert={agendaValidAlert}
+          setAgendaValidAlert={setAgendaValidAlert}
         />
       )}
 
@@ -299,6 +313,30 @@ const AdminPrograms = () => {
         setValue={setProgramSuccess}
         severity="success"
         content="Success"
+      />
+      <TopCenterSnackBar
+        value={agendaSuccess}
+        setValue={setAgendaSuccess}
+        severity="success"
+        content="Success"
+      />
+      <TopCenterSnackBar
+        value={agendaValidAlert}
+        setValue={setAgendaValidAlert}
+        severity="warning"
+        content="Please fill required fields"
+      />
+      <TopCenterSnackBar
+        value={programValidAlert}
+        setValue={setProgramValidAlert}
+        severity="warning"
+        content="Please fill required fields"
+      />
+      <TopCenterSnackBar
+        value={sessionValidAlert}
+        setValue={setSessionValidAlert}
+        severity="warning"
+        content="Please fill required fields"
       />
       <TopCenterSnackBar
         value={publishSuccessAlert}
