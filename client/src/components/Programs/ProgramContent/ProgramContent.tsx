@@ -1,16 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from "react";
-import { ProgramContentContainer } from "components/Programs/ProgramContent/ProgramContentStyles";
-import "moment-timezone";
-import moment from "moment";
-import { dateToLocaleString, getUserTimezoneDate } from "utils/Date";
-import {
-  styled,
-  TableRow,
-  TableCell,
-  tableCellClasses,
-  useTheme,
-} from "@mui/material";
+import { dateToLocaleString } from "utils/Date";
+import { styled, TableRow, TableCell, useTheme } from "@mui/material";
 
 interface ProgramContentProps extends Program.programType {
   id: number;
@@ -86,17 +77,7 @@ const ProgramContent = ({
     },
   }));
 
-  // const isDateChanged =
-  //   getUserTimezoneDate(start_time, selectedTimezone).getDate() !==
-  //   getUserTimezoneDate(end_time, selectedTimezone).getDate();
-
-  // const isStartTimeZero =
-  //   getUserTimezoneDate(start_time, selectedTimezone).getHours() === 0;
-  // const isEndTimeZero =
-  //   getUserTimezoneDate(end_time, selectedTimezone).getHours() === 0;
-
   return (
-    // <ProgramContentContainer isAdmin={isAdmin} onClick={onClick}>
     <>
       <StyledTableRow
         className={`program-row ${emphasize === 1 ? "gradient" : ""} ${
@@ -138,7 +119,6 @@ const ProgramContent = ({
           </StyledTableRow>
         ))}
     </>
-    // </ProgramContentContainer>
   );
 };
 
