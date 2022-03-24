@@ -122,6 +122,9 @@ declare namespace Common {
     landingSection4Title?: string;
     landingSection5Title?: string;
     landingSection5Videos?: string[];
+
+    // cookie consent text
+    cookieConsentText?: string;
   }
 }
 

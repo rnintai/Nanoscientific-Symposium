@@ -8,10 +8,6 @@ export const FooterContainer = styled.div`
   text-align: center;
   position: absolute;
 
-  .privacy-policy {
-    color: white;
-  }
-
   .nss {
     color: #d3d3d3;
     margin-bottom: 0px;

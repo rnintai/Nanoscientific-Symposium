@@ -12,6 +12,7 @@ import NSSButton from "components/Button/NSSButton";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 
 const Landing = () => {
@@ -37,6 +38,7 @@ const Landing = () => {
     landingSection4Title,
     landingSection5Title,
     landingSection5Videos,
+    cookieConsentText,
   } = globalData.get(pathname) as Common.globalDataType;
   useSeoTitle(home as string, pathname);
 
@@ -59,7 +61,11 @@ const Landing = () => {
 
   return (
     <>
-      <LandingSection fullWidth background={landingSection1BackgroundURL}>
+      <LandingSection
+        fullWidth
+        background={landingSection1BackgroundURL}
+        className="section1"
+      >
         <Stack
           className="layout"
           direction="column"
@@ -106,6 +112,7 @@ const Landing = () => {
             {landingSection1Desc}
           </Typography>
         </Stack>
+        <div className="overlay secondary" />
       </LandingSection>
       <LandingSection fullWidth>
         <Stack
@@ -129,6 +136,7 @@ const Landing = () => {
                 tablet: "100%",
                 mobile: "40%",
               },
+              position: "relative",
             }}
           >
             <img
@@ -140,6 +148,7 @@ const Landing = () => {
                 objectPosition: "center",
               }}
             />
+            <div className="overlay secondary" />
           </Stack>
           <Stack
             flexDirection="column"
@@ -301,7 +310,12 @@ const Landing = () => {
             {landingSection5Videos?.map((video) => (
               <Box
                 key={video}
-                sx={{ backgroundColor: "#fff", width: "46%", height: "250px" }}
+                sx={{
+                  backgroundColor: "#fff",
+                  width: "46%",
+                  height: "250px",
+                  position: "relative",
+                }}
               >
                 <video src={video} controls width="100%">
                   <track kind="captions" />
@@ -311,6 +325,19 @@ const Landing = () => {
           </Stack>
         </Stack>
       </LandingSection>
+      <CookieConsent
+        style={{ flexDirection: "column", alignItems: "center" }}
+        contentStyle={{ flex: "none", maxWidth: "800px" }}
+        buttonText="ACCEPT"
+        buttonStyle={{
+          color: "#5200ff",
+          fontWeight: "500",
+          backgroundColor: "white",
+          padding: "2px 15px",
+        }}
+      >
+        {cookieConsentText && <InnerHTML html={cookieConsentText} />}
+      </CookieConsent>
     </>
   );
 };

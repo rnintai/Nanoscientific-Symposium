@@ -27,6 +27,8 @@ declare module "@mui/material/styles" {
     alpha50?: string;
     gradation?: string;
     verticalGradation?: string;
+    primaryOverlay?: string;
+    secondaryOverlay?: string;
   }
 
   interface PaletteColor {
@@ -37,6 +39,13 @@ declare module "@mui/material/styles" {
     heading?: string;
     gradation?: string;
     verticalGradation?: string;
+    primaryOverlay?: string;
+    secondaryOverlay?: string;
+  }
+
+  interface TypeBackground {
+    primaryOverlay?: string;
+    secondaryOverlay?: string;
   }
 }
 
@@ -77,6 +86,12 @@ const getDesignTokens = (mode: PaletteMode) => ({
           gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
           verticalGradation: "linear-gradient(0deg, #243d7c, #26a4dd)",
         },
+        secondary: {
+          contrastText: "rgba(0, 0, 0, 0.87)",
+          dark: "#ab47bc",
+          light: "#f3e5f5",
+          main: "#ce93d8",
+        },
         // warning: {
         //   main: "#FF0000",
         //   contrastText: "#fff",
@@ -88,6 +103,9 @@ const getDesignTokens = (mode: PaletteMode) => ({
         // },
         background: {
           default: "#3C3D3B",
+          primaryOverlay: "linear-gradient(0deg, #2ba4dd52, transparent);",
+          secondaryOverlay:
+            "linear-gradient(180deg,#2ba4dd52,transparent,#0c00ff26)",
         },
       }),
 });

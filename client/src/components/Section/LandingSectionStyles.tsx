@@ -12,12 +12,34 @@ export const LandingSectionContainer = styled.div`
   .gradient-box {
     background: ${() => {
       const theme = useTheme();
-      return theme.palette.primary.verticalGradation;
+      return theme.palette.primary.gradation;
     }};
   }
 
   &.fullWidth {
     width: 100%;
+  }
+  // overlay
+  &.section1 {
+    position: relative;
+  }
+  .overlay {
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .overlay.primary {
+    background: ${() => {
+      const theme = useTheme();
+      return theme.palette.background.primaryOverlay;
+    }};
+  }
+  .overlay.secondary {
+    background: ${() => {
+      const theme = useTheme();
+      return theme.palette.background.secondaryOverlay;
+    }};
   }
 `;
 

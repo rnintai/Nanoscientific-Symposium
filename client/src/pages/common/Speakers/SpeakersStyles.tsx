@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useTheme } from "@mui/material";
 
 export const SpeakersContainer = styled.div`
   padding: 100px 30px 152px 30px;
@@ -27,7 +28,10 @@ export const SpeakersContainer = styled.div`
       width: 100%;
       height: 200px;
       margin: 20px 0;
-      background: linear-gradient(0deg, #2ba4dd52, transparent);
+      background: ${() => {
+        const theme = useTheme();
+        return theme.palette.background.primaryOverlay;
+      }};
     }
   }
 

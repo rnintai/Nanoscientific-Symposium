@@ -4,9 +4,11 @@ import { FooterContainer, FooterIconContainer } from "./FooterStyles";
 const Footer = () => {
   return (
     <FooterContainer>
-      <span className="privacy-policy">Privacy & Cookie Policy</span>
+      <a className="privacy-policy" href="/" target="_blank">
+        Privacy & Cookie Policy
+      </a>
 
-      <h5 className="nss">© 2021 NanoScientific Symposium </h5>
+      <h5 className="nss">© 2022 NanoScientific Symposium </h5>
 
       <FooterIconContainer>
         <li className="elementor-icon-list-item elementor-inline-item">

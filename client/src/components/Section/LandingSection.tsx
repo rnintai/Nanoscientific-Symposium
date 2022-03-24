@@ -22,7 +22,7 @@ const LandingSection = (props: LandingSectionProps) => {
   return (
     <LandingSectionContainer
       {...rest}
-      className={`${rest.className !== undefined ? ` ${rest.className}}` : ""}${
+      className={`${rest.className !== undefined ? ` ${rest.className}` : ""}${
         fullWidth ? " fullWidth" : ""
       }`}
       style={{
