@@ -66,6 +66,7 @@ const Landing = () => {
         background={landingSection1BackgroundURL}
         className="section1"
       >
+        <div className="overlay secondary z0" />
         <Stack
           className="layout"
           direction="column"
@@ -73,6 +74,7 @@ const Landing = () => {
           spacing={5}
         >
           <img
+            className="z1"
             src={landingSection1LogoURL}
             alt="logo"
             style={{
@@ -83,6 +85,7 @@ const Landing = () => {
             }}
           />
           <NSSButton
+            className="z1"
             variant="gradient"
             style={{ padding: "5px 20px" }}
             onClick={() => {
@@ -101,6 +104,7 @@ const Landing = () => {
             </Typography>
           </NSSButton>
           <Typography
+            className="z1"
             textAlign="center"
             sx={{
               fontSize: {
@@ -112,7 +116,6 @@ const Landing = () => {
             {landingSection1Desc}
           </Typography>
         </Stack>
-        <div className="overlay secondary" />
       </LandingSection>
       <LandingSection fullWidth>
         <Stack
@@ -325,9 +328,14 @@ const Landing = () => {
           </Stack>
         </Stack>
       </LandingSection>
-      <CookieConsent
+      {/* <CookieConsent
         style={{ flexDirection: "column", alignItems: "center" }}
-        contentStyle={{ flex: "none", maxWidth: "800px" }}
+        contentStyle={{
+          display: "flex",
+          flexDirection: "column",
+          maxWidth: "800px",
+          flex: "none",
+        }}
         buttonText="ACCEPT"
         buttonStyle={{
           color: "#5200ff",
@@ -337,7 +345,10 @@ const Landing = () => {
         }}
       >
         {cookieConsentText && <InnerHTML html={cookieConsentText} />}
-      </CookieConsent>
+        <a href="/" target="_blank" style={{ textAlign: "right", padding: 0 }}>
+          See privacy policy
+        </a>
+      </CookieConsent> */}
     </>
   );
 };

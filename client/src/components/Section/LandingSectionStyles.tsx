@@ -32,13 +32,13 @@ export const LandingSectionContainer = styled.div`
   .overlay.primary {
     background: ${() => {
       const theme = useTheme();
-      return theme.palette.background.primaryOverlay;
+      return theme.palette.primary.overlay;
     }};
   }
   .overlay.secondary {
     background: ${() => {
       const theme = useTheme();
-      return theme.palette.background.secondaryOverlay;
+      return theme.palette.secondary.overlay;
     }};
   }
 `;

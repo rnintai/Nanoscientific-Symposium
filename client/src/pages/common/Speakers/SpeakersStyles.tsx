@@ -30,7 +30,7 @@ export const SpeakersContainer = styled.div`
       margin: 20px 0;
       background: ${() => {
         const theme = useTheme();
-        return theme.palette.background.primaryOverlay;
+        return theme.palette.primary.overlay;
       }};
     }
   }
