@@ -116,7 +116,7 @@ export const globalData = new Map<string, Common.globalDataType>([
 
       // cookie
       cookieConsentText:
-        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics. <a href='/' target='_blank'>See privacy policy</a>",
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
     },
   ],
   [
