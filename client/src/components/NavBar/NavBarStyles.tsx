@@ -6,7 +6,7 @@ export const NavBarContainer = styled.div`
   height: 120px;
   border-bottom: ${() => {
     const theme = useTheme();
-    return `3px solid ${theme.palette.text.primary}`;
+    return `3px solid ${theme.palette.whitescale.alpha50}`;
   }};
   z-index: 10;
   position: sticky;

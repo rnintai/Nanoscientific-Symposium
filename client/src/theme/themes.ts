@@ -92,10 +92,10 @@ const getDesignTokens = (mode: PaletteMode) => ({
         //   contrastText: "#fff",
         //   contrastTextAlpha: "#ffffffad",
         // },
-        // whitescale: {
-        //   main: "#fff",
-        //   alpha50: "#ffffff66",
-        // },
+        whitescale: {
+          main: "#fff",
+          alpha50: "#ffffffc4",
+        },
         background: {
           default: "#3C3D3B",
         },
