@@ -141,7 +141,7 @@ export const JapanArchiveContainer = styled.div`
       .string-content {
         margin-top: 20px;
         width: 100%;
-        padding: 0;
+        padding: 10px;
         h1 {
           font-size: 1.5rem;
         }
@@ -168,6 +168,10 @@ export const JapanArchiveContainer = styled.div`
       .string-section {
         text-align: center;
       }
+    }
+
+    .last-year {
+      padding: 10px;
     }
   }
 `;
