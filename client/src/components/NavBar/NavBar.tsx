@@ -113,106 +113,108 @@ const NavBar = ({
   } = globalData.get(pathname) as Common.globalDataType;
 
   return (
-    <NavBarContainer>
-      <Stack
-        direction="row"
-        alignItems="center"
-        justifyContent="space-between"
-        className="nav-wrap"
-      >
-        <Link to={`/${pathname}`} className="logo-link">
-          <img src={logoURL} alt="logo" />
-        </Link>
-        {!hideMenu && (
-          <>
-            <Stack
-              direction="row"
-              alignSelf="flex-end"
-              justifyContent="space-between"
-              className="menu-item-wrap"
-            >
-              {speakers && (
-                <MenuLink to={`/${pathname}/speakers`}>{speakers}</MenuLink>
-              )}
-              {programs && (
-                <MenuLink to={`/${pathname}/program`}>{programs}</MenuLink>
-              )}
-              {lectureHall && (
-                <MenuLink to={`/${pathname}/lecture-hall`}>
-                  {lectureHall}
-                </MenuLink>
-              )}
-              {exhibitHall && (
-                <MenuLink to={`/${pathname}/exhibit/parksystems`}>
-                  {exhibitHall}
-                </MenuLink>
-              )}
-              {sponsors && (
-                <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
-              )}
-            </Stack>
-            <Stack
-              direction="row"
-              justifyContent="flex-end"
-              alignSelf="flex-end"
-              className="login-wrap"
-            >
-              {authState.isLogin && !checkLoading && (
-                <>
-                  {editorRole.includes(authState.role) && (
+    <>
+      <NavBarContainer>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          className="nav-wrap"
+        >
+          <Link to={`/${pathname}`} className="logo-link">
+            <img src={logoURL} alt="logo" />
+          </Link>
+          {!hideMenu && (
+            <>
+              <Stack
+                direction="row"
+                alignSelf="flex-end"
+                justifyContent="space-between"
+                className="menu-item-wrap"
+              >
+                {speakers && (
+                  <MenuLink to={`/${pathname}/speakers`}>{speakers}</MenuLink>
+                )}
+                {programs && (
+                  <MenuLink to={`/${pathname}/program`}>{programs}</MenuLink>
+                )}
+                {lectureHall && (
+                  <MenuLink to={`/${pathname}/lecture-hall`}>
+                    {lectureHall}
+                  </MenuLink>
+                )}
+                {exhibitHall && (
+                  <MenuLink to={`/${pathname}/exhibit/parksystems`}>
+                    {exhibitHall}
+                  </MenuLink>
+                )}
+                {sponsors && (
+                  <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
+                )}
+              </Stack>
+              <Stack
+                direction="row"
+                justifyContent="flex-end"
+                alignSelf="flex-end"
+                className="login-wrap"
+              >
+                {authState.isLogin && !checkLoading && (
+                  <>
+                    {editorRole.includes(authState.role) && (
+                      <NSSButton
+                        type="button"
+                        variant="primary"
+                        style={{ fontWeight: 500 }}
+                        onClick={() => {
+                          navigate(`${pathname}/admin`);
+                        }}
+                      >
+                        ADMIN
+                      </NSSButton>
+                    )}
                     <NSSButton
                       type="button"
                       variant="primary"
                       style={{ fontWeight: 500 }}
                       onClick={() => {
-                        navigate(`${pathname}/admin`);
+                        logoutHandler(authState.email);
                       }}
                     >
-                      ADMIN
+                      SIGN OUT
                     </NSSButton>
-                  )}
-                  <NSSButton
-                    type="button"
-                    variant="primary"
-                    style={{ fontWeight: 500 }}
-                    onClick={() => {
-                      logoutHandler(authState.email);
-                    }}
-                  >
-                    SIGN OUT
-                  </NSSButton>
-                </>
-              )}
-              {!authState.isLogin && !checkLoading && (
-                <>
-                  <EuropeLoginModal
-                    setSuccess={setLoginSuccess}
-                    setFailed={setLoginFailed}
-                    emailModalOpen={emailModalOpen}
-                    setEmailModalOpen={setEmailModalOpen}
-                    setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
-                    passwordSetModalOpen={passwordSetModalOpen}
-                    setPasswordSetModalOpen={setPasswordSetModalOpen}
-                    passwordInputModalOpen={passwordInputModalOpen}
-                    setPasswordInputModalOpen={setPasswordInputModalOpen}
-                  />
-                  {registration && (
-                    <NSSButton
-                      variant="gradient"
-                      onClick={() => {
-                        navigate(`${pathname}/registration`);
-                      }}
-                      style={{ alignSelf: "center" }}
-                    >
-                      {registration}
-                    </NSSButton>
-                  )}
-                </>
-              )}
-            </Stack>
-          </>
-        )}
-      </Stack>
+                  </>
+                )}
+                {!authState.isLogin && !checkLoading && (
+                  <>
+                    <EuropeLoginModal
+                      setSuccess={setLoginSuccess}
+                      setFailed={setLoginFailed}
+                      emailModalOpen={emailModalOpen}
+                      setEmailModalOpen={setEmailModalOpen}
+                      setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
+                      passwordSetModalOpen={passwordSetModalOpen}
+                      setPasswordSetModalOpen={setPasswordSetModalOpen}
+                      passwordInputModalOpen={passwordInputModalOpen}
+                      setPasswordInputModalOpen={setPasswordInputModalOpen}
+                    />
+                    {registration && (
+                      <NSSButton
+                        variant="gradient"
+                        onClick={() => {
+                          navigate(`${pathname}/registration`);
+                        }}
+                        style={{ alignSelf: "center" }}
+                      >
+                        {registration}
+                      </NSSButton>
+                    )}
+                  </>
+                )}
+              </Stack>
+            </>
+          )}
+        </Stack>
+      </NavBarContainer>
       <TopCenterSnackBar
         value={loginSuccess}
         setValue={setLoginSuccess}
@@ -242,7 +244,7 @@ const NavBar = ({
         severity="success"
         content="Password is successfully set."
       />
-    </NavBarContainer>
+    </>
   );
 };
 

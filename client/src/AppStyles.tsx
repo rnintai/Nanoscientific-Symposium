@@ -38,6 +38,13 @@ export const AppContainer = styled.div`
     }
   }
 
+  .z0 {
+    z-index: 0;
+  }
+  .z1 {
+    z-index: 1;
+  }
+
   .layout {
     max-width: 1024px;
     min-height: calc(100% - 140px);

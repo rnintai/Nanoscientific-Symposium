@@ -25,13 +25,9 @@ const TopCenterSnackBar = ({
       onClose={() => {
         setValue(false);
       }}
-      sx={{ top: "30px", height: "0px" }}
+      sx={{ top: "30px", height: "0px", zIndex: "1500" }}
     >
-      <Alert
-        variant={variant}
-        severity={severity}
-        // sx={{ width: "100%" }}
-      >
+      <Alert variant={variant} severity={severity}>
         {content}
       </Alert>
     </Snackbar>
