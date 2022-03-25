@@ -17,7 +17,7 @@ declare namespace Program {
     program_id: number;
     title: string;
     speakers: string;
-    next_id: string;
+    next_id: number;
   }
 
   interface sessionType {
