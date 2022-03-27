@@ -9,7 +9,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
 import { theme, jpTheme } from "theme/themes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
-import { useThemeState } from "./context/ThemeContext";
+import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -27,7 +27,12 @@ const App = () => {
 
   const themeObj = theme(themeState.darkMode);
   const jpThemeObj = jpTheme(themeState.darkMode);
+  const themeDispatch = useThemeDispatch();
 
+  // mode
+  useEffect(() => {
+    themeDispatch({ type: "LIGHTMODE" });
+  }, []);
   // 로그인 모달 state
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [passwordSetModalOpen, setPasswordSetModalOpen] =

@@ -54,6 +54,15 @@ const getDesignTokens = (mode: PaletteMode) => ({
           contrastText: "#fff",
           contrastTextAlpha: "#ffffffad",
           gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
+          verticalGradation: "linear-gradient(0deg, #243d7c, #26a4dd)",
+          overlay: "linear-gradient(0deg, #2ba4dd52, transparent)",
+        },
+        secondary: {
+          contrastText: "#fff",
+          dark: "#7b1fa2",
+          light: "#ba68c8",
+          main: "#9c27b0",
+          overlay: "linear-gradient(180deg,#2ba4dd52,transparent,#0c00ff26)",
         },
         warning: {
           main: "#FF0000",
@@ -65,7 +74,8 @@ const getDesignTokens = (mode: PaletteMode) => ({
           alpha50: "#ffffff66",
         },
         background: {
-          default: "rgb(230, 231, 236)",
+          // default: "rgb(230, 231, 236)",
+          default: "rgb(255,255,255)",
         },
       }
     : {

@@ -112,6 +112,8 @@ declare namespace Common {
     landingSection2Title?: string;
     landingSection2Desc?: string;
     landingSection2ImgURL?: string;
+    landingSection2_5Title?: string;
+    landingSection2_5Desc?: string;
     landingSection3Title?: string;
     landingSection3List1Title?: string;
     landingSection3List1?: string[];
@@ -121,6 +123,8 @@ declare namespace Common {
     landingSection3List3?: string[];
     landingSection4Title?: string;
     landingSection5Title?: string;
+    landingSection5Desc?: string;
+    landingSection5ButtonText?: string;
     landingSection5Videos?: string[];
 
     // cookie consent text

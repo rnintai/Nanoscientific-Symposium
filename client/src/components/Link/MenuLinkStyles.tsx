@@ -3,7 +3,10 @@ import { useTheme } from "@mui/material";
 
 export const MenuLinkContainer = styled.div`
   display: flex;
-
+  font-weight: ${() => {
+    const theme = useTheme();
+    return theme.typography.fontWeightBold;
+  }};
   a {
     position: relative;
     &.active {

@@ -99,6 +99,7 @@ const NavBar = ({
     }
   }, []);
 
+  const { fullLogoURL } = globalData.get("common") as Common.globalDataType;
   const {
     logoURL,
     speakers,
@@ -121,8 +122,12 @@ const NavBar = ({
           justifyContent="space-between"
           className="nav-wrap"
         >
-          <Link to={`/${pathname}`} className="logo-link">
-            <img src={logoURL} alt="logo" />
+          <Link
+            to={`/${pathname}`}
+            className="logo-link"
+            style={{ padding: "0px" }}
+          >
+            <img src={fullLogoURL} alt="logo" />
           </Link>
           {!hideMenu && (
             <>
@@ -164,7 +169,7 @@ const NavBar = ({
                       <NSSButton
                         type="button"
                         variant="primary"
-                        style={{ fontWeight: 500 }}
+                        style={{ fontWeight: 700 }}
                         onClick={() => {
                           navigate(`${pathname}/admin`);
                         }}
@@ -175,7 +180,7 @@ const NavBar = ({
                     <NSSButton
                       type="button"
                       variant="primary"
-                      style={{ fontWeight: 500 }}
+                      style={{ fontWeight: 700 }}
                       onClick={() => {
                         logoutHandler(authState.email);
                       }}
@@ -203,7 +208,7 @@ const NavBar = ({
                         onClick={() => {
                           navigate(`${pathname}/registration`);
                         }}
-                        style={{ alignSelf: "center" }}
+                        style={{ alignSelf: "center", fontWeight: 700 }}
                       >
                         {registration}
                       </NSSButton>

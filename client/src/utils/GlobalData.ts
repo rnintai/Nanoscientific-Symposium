@@ -1,3 +1,5 @@
+const S3_URL = "https://nss-integration.s3.us-west-1.amazonaws.com";
+
 export const globalData = new Map<string, Common.globalDataType>([
   [
     "common",
@@ -41,8 +43,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-      fullLogoURL:
-        "https://d25unujvh7ui3r.cloudfront.net/event/NS_landingpage_logo.svg",
+      fullLogoURL: `${S3_URL}/common/NS_logo_color.svg`,
       eventLandingMainBannerURL:
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
       eventLandingDesc:
@@ -61,6 +62,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       sponsors: "SPONSORS",
       home: "HOME",
       registration: "REGISTRATION",
+      // sign in 관련
       signInText: "SIGN IN",
       goNextText: "NEXT",
       goPrevText: "PREV",
@@ -76,7 +78,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
       landingSection1Desc:
         "Join the 5th edition of the NanoScientific Symposium US 2022 - the platform for nanoscience and SPM research!",
-      landingSection2Title: "Overview",
+      landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br /><br />It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       landingSection2ImgURL:
@@ -186,15 +188,75 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu",
     {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo.svg",
+      logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo_color.svg",
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
       home: "HOME",
-      signInText: "SIGN IN",
       registration: "REGISTRATION",
+      // sign in 관련
+      signInText: "SIGN IN",
+      goNextText: "NEXT",
+      goPrevText: "PREV",
+      // user관련
+      emailInputLabel: "Email Address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot your password?",
+      createAccountText: "Create an account",
+      // landing
+      landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      landingSection1Desc:
+        "Join the 5th edition of the NanoScientific Symposium Europe 2022 - the platform for nanoscience and SPM research!",
+      landingSection2Title: "NanoScientific Symposium",
+      landingSection2Desc:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br /><br />It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      landingSection2ImgURL:
+        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
+      landingSection2_5Title: "Why Attend NanoScientific Symposium?",
+      landingSection2_5Desc:
+        "Nanoscientific Symposium presents insights on the rapidly evolving R&D and ...",
+      landingSection3Title: "Conference Details",
+      landingSection3List1Title: "Topic",
+      landingSection3List1: [
+        "Emerging Nanomaterials for Advanced Technologies",
+        "Functional Surfaces",
+        "Advances Techniques and Automation in SPM",
+        "Correlative Microscopy",
+      ],
+      landingSection3List2Title: "SPM Methods",
+      landingSection3List2: [
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+        "Nanomechanical and Electrical Characterization",
+      ],
+      landingSection3List3Title: "Scientific Committee",
+      landingSection3List3: [
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+      ],
+      landingSection4Title: "Keynote Speakers",
+      landingSection5Title: "Submit All Year long",
+      landingSection5Desc:
+        "Learn and be inspired at any time with more then 200 sessions on demand",
+      landingSection5ButtonText: "Explore all on-demand sessions",
+      landingSection5Videos: [
+        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_asia.mp4",
+        "https://d25unujvh7ui3r.cloudfront.net/asia/home_2_asia.mp4",
+      ],
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
     },
   ],
 ]);
