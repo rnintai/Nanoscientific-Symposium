@@ -6,7 +6,9 @@ interface BackgroundVectorProps {
   children: React.ReactNode;
 }
 
-const BackgroundVectorWhite = ({ children }: BackgroundVectorProps) => {
+const BackgroundVectorColoredReversed = ({
+  children,
+}: BackgroundVectorProps) => {
   return (
     <BackgroundVectorColoredReversedContainer>
       {children}
@@ -14,4 +16,4 @@ const BackgroundVectorWhite = ({ children }: BackgroundVectorProps) => {
   );
 };
 
-export default BackgroundVectorWhite;
+export default BackgroundVectorColoredReversed;
