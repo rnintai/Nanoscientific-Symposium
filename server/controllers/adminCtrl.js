@@ -52,20 +52,24 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql = `DELETE FROM program_sessions WHERE id=${id}`;
+      // delete agendas
+      let sql = `DELETE FROM program_agenda WHERE session_id=${id}`;
+      const agendaResult = await connection.query(sql);
 
-      await connection.query(sql);
-
+      // delete programs
       sql = `DELETE FROM programs WHERE session=${id}`;
-      let result = await connection.query(sql);
+      const programResult = await connection.query(sql);
 
-      console.log(result);
+      // delete session
+      sql = `DELETE FROM program_sessions WHERE id=${id}`;
+      await connection.query(sql);
 
       res.status(200).json({
         success: true,
-        message: `1개의 세션 삭제, ${result[0].affectedRows}개의 프로그램 삭제`,
+        message: `1개의 세션 삭제, ${programResult[0].affectedRows}개의 프로그램 삭제, ${agendaResult[0].affectedRows}개의 아젠다 삭제`,
       });
     } catch (err) {
+      console.log(err);
       res.status(500).json({
         success: false,
         message: err,
@@ -84,21 +88,41 @@ const adminCtrl = {
       description,
       startTime,
       endTime,
+      emphasize,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}')`;
+      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description, emphasize) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}', ${emphasize})`;
 
-      await connection.query(sql);
-      res.status(200).json({
-        success: true,
-        message: "Success",
-      });
+      const sqlResult = await connection.query(sql);
+      console.log(sqlResult[0]);
+
+      try {
+        const adjustSql = `UPDATE programs SET next_id=${sqlResult[0].insertId} WHERE id!=${sqlResult[0].insertId} AND session=${session} AND next_id IS NULL`;
+        const adjustSqlResult = await connection.query(adjustSql);
+        console.log(adjustSqlResult);
+        res.status(200).json({
+          success: true,
+          message: "Success",
+        });
+      } catch (err) {
+        res.status(200).json({
+          success: false,
+          message: "Failed",
+          err,
+        });
+        console.log(err);
+      }
       connection.release();
     } catch (err) {
+      res.status(200).json({
+        success: false,
+        message: "Failed",
+        err,
+      });
       console.log(err);
     }
   },
@@ -113,12 +137,21 @@ const adminCtrl = {
       description,
       startTime,
       endTime,
+      emphasize,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE programs SET session=${session}, title='${title}',speakers='${speakers}',description="${description}",start_time='${startTime}',end_time='${endTime}', status=${status} WHERE id=${id}`;
+      const sql = `UPDATE programs SET 
+      session=${session}, 
+      title='${title}',
+      speakers='${speakers}',
+      description="${description}",
+      start_time='${startTime}',
+      end_time='${endTime}',
+      status=${status},
+      emphasize=${emphasize} WHERE id=${id}`;
 
       await connection.query(sql);
       res.status(200).json({
@@ -138,8 +171,18 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql = `DELETE FROM programs WHERE id=${id}`;
+      let sql = `SELECT * FROM programs WHERE id=${id}`;
 
+      const selectResult = await connection.query(sql);
+      const nextId = selectResult[0][0].next_id;
+
+      sql = `DELETE FROM programs WHERE id=${id}`;
+      await connection.query(sql);
+      // 딸려있는 agenda 삭제
+      sql = `DELETE FROM program_agenda WHERE program_id=${id}`;
+      await connection.query(sql);
+
+      sql = `UPDATE programs SET next_id=${nextId} WHERE next_id=${id}`;
       await connection.query(sql);
 
       res.status(200).json({
@@ -147,7 +190,106 @@ const adminCtrl = {
         message: `id:${id} 프로그램 삭제`,
       });
     } catch (err) {
-      res.status(500).json({
+      res.status(200).json({
+        success: false,
+        message: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
+  // agenda
+  addAgenda: async (req, res) => {
+    const { nation, program_id, title, speakers, session_id } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `INSERT INTO program_agenda(session_id,program_id,title,speakers) 
+      VALUES(${session_id},${program_id},'${title}','${speakers}')`;
+
+      const sqlResult = await connection.query(sql);
+
+      try {
+        const adjustSql = `UPDATE program_agenda SET 
+        next_id=${sqlResult[0].insertId} 
+        WHERE 
+        id!=${sqlResult[0].insertId} 
+        AND program_id=${program_id} 
+        AND next_id IS NULL`;
+        const adjustSqlResult = await connection.query(adjustSql);
+        res.status(200).json({
+          success: true,
+          message: "Success",
+        });
+      } catch (err) {
+        res.status(200).json({
+          success: false,
+          message: "Failed",
+          err,
+        });
+        console.log(err);
+      }
+      connection.release();
+    } catch (err) {
+      res.status(200).json({
+        success: false,
+        message: "Failed",
+        err,
+      });
+      console.log(err);
+    }
+  },
+  modifyAgenda: async (req, res) => {
+    const { nation, title, id, program_id, speakers, session_id } = req.body;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE program_agenda SET session_id=${session_id},program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id}`;
+
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+        message: "Success",
+      });
+      connection.release();
+    } catch (err) {
+      res.status(200).json({
+        success: false,
+        message: "Failed",
+        err,
+      });
+      console.log(err);
+    }
+  },
+
+  deleteAgenda: async (req, res) => {
+    const nation = req.query.nation;
+    const id = req.params.id;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = `SELECT * FROM program_agenda WHERE id=${id}`;
+
+      const selectResult = await connection.query(sql);
+      const nextId = selectResult[0][0].next_id;
+
+      sql = `DELETE FROM program_agenda WHERE id=${id}`;
+      await connection.query(sql);
+
+      sql = `UPDATE program_agenda SET next_id=${nextId} WHERE next_id=${id}`;
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+        message: `id:${id} 프로그램 삭제`,
+      });
+    } catch (err) {
+      res.status(200).json({
         success: false,
         message: err,
       });

@@ -11,9 +11,7 @@ import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import "moment-timezone";
-import moment from "moment";
-
+import { getUserTimezoneDate, isDateValid } from "utils/Date";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState } from "../../../context/AuthContext";
 
@@ -23,7 +21,10 @@ interface SessionFormProps {
   setSessionSuccess: Dispatch<SetStateAction<boolean>>;
   selectedSession: Program.sessionType;
   getSessions: () => void;
+  selectedTimezone: string;
   edit: boolean;
+  sessionValidAlert: boolean;
+  setSessionValidAlert: Dispatch<SetStateAction<boolean>>;
 }
 
 const SessionForm = ({
@@ -32,29 +33,31 @@ const SessionForm = ({
   setSessionSuccess,
   selectedSession,
   getSessions,
+  selectedTimezone,
+  sessionValidAlert,
+  setSessionValidAlert,
   // 편집모달일때는 edit 이 true 로 넘어온다
   edit = false,
 }: SessionFormProps) => {
   const authState = useAuthState();
   const pathname = usePageViews();
 
-  const [selectedTimezone, setSelectedTimezone] = useState(
-    Intl.DateTimeFormat().resolvedOptions().timeZone,
-  );
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Date | null>(
     edit
-      ? moment
-          .utc(moment(selectedSession.date).format("MM/DD/YYYY"))
-          .tz(selectedTimezone as string)
-          .toDate()
+      ? getUserTimezoneDate(selectedSession.date, selectedTimezone)
       : new Date(),
   );
+
   const title = useInput(edit ? selectedSession.session_title : "");
 
   const sessionSubmitHandler = async () => {
+    if (title.value === "" || !isDateValid(date)) {
+      setSessionValidAlert(true);
+      return;
+    }
     setLoading(true);
     let data;
 
@@ -123,6 +126,7 @@ const SessionForm = ({
       }
       onSubmit={sessionSubmitHandler}
       loading={loading}
+      submitDisabled={title.value === "" || !isDateValid(date)}
     >
       <TextField
         autoFocus
@@ -131,7 +135,9 @@ const SessionForm = ({
         fullWidth
         variant="filled"
         sx={{ marginBottom: "30px" }}
+        required
         {...title}
+        error={title.value === ""}
       />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DesktopDatePicker
@@ -144,7 +150,7 @@ const SessionForm = ({
       </LocalizationProvider>
 
       {/* 편집 모달일때만 show hide 보여주기 */}
-      {edit && (
+      {/* {edit && (
         <ToggleButtonGroup
           size="large"
           color="primary"
@@ -156,7 +162,7 @@ const SessionForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
-      )}
+      )} */}
       {edit && (
         <LoadingButton
           loading={deleteLoading}

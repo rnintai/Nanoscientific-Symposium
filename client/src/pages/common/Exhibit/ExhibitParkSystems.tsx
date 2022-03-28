@@ -5,8 +5,7 @@ import useHTML from "hooks/useHTML";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import useSeoTitle from "hooks/useSeoTitle";
-
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 
 const ExhibitParkSystems = () => {
   const pathname = usePageViews();

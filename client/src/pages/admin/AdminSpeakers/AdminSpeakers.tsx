@@ -6,8 +6,8 @@ import Loading from "components/Loading/Loading";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import usePageViews from "hooks/usePageViews";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import { SpeakersContainer } from "../../common/Speakers/SpeakersStyles";
 import SpeakerForm from "../Forms/SpeakerForm";
-import { AdminSpeakerContainer } from "./AdminSpeakersStyles";
 import SpeakerHideForm from "../Forms/SpeakerHideForm";
 
 const AdminSpeakers = () => {
@@ -101,13 +101,13 @@ const AdminSpeakers = () => {
   }
 
   return (
-    <AdminSpeakerContainer>
+    <SpeakersContainer>
       <AdminLayout
         title="Speakers"
-        menu3="Add speaker"
-        menu3ClickHandler={openSpeakerFormHandler}
-        menu2="Hidden Items"
-        menu2ClickHandler={openHideFormHandler}
+        menu4="Add speaker"
+        menu4ClickHandler={openSpeakerFormHandler}
+        // menu2="Hidden Items"
+        // menu2ClickHandler={openHideFormHandler}
         hideToggle={hideToggle}
         setHideToggle={setHideToggle}
         hideToggleHandler={hideToggleHandler}
@@ -164,7 +164,7 @@ const AdminSpeakers = () => {
         severity="success"
         content="Publish state is successfully updated."
       />
-    </AdminSpeakerContainer>
+    </SpeakersContainer>
   );
 };
 

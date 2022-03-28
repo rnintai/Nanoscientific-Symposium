@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
-import ProgramTitle from "./ProgramTitle/ProgramTitle";
-import ProgramContent from "./ProgramContent/ProgramContent";
+
+import { Table, TableContainer, TableBody } from "@mui/material";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
+  SessionContainer,
 } from "./ProgramsListContainer";
+import ProgramContent from "./ProgramContent/ProgramContent";
+import ProgramTitle from "./ProgramTitle/ProgramTitle";
 
 const ProgramsList = () => {
   const pathname = usePageViews();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
+  const [programAgenda, setProgramAgenda] = useState<
+    Program.programAgendaType[]
+  >([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
@@ -33,7 +39,19 @@ const ProgramsList = () => {
       console.log(programs.data);
     };
 
+    const getProgramAgenda = async () => {
+      setProgramLoading(true);
+      const result = await axios.get(
+        `/api/page/common/programs/agenda`,
+        config,
+      );
+      setProgramAgenda(result.data.data);
+      setProgramLoading(false);
+      console.log(result.data.data);
+    };
+
     getPrograms();
+    getProgramAgenda();
   }, []);
 
   useEffect(() => {
@@ -53,55 +71,42 @@ const ProgramsList = () => {
   }
 
   return (
-    <ProgramsListContainer>
-      <article className="program-wrap">
-        <section
-          className="timeline-wrap timeline-0"
-          style={{ margin: "20px 20px 50px 20px" }}
-        >
-          <StyledTimezoneSelect
-            value={selectedTimezone}
-            onChange={(e) => {
-              setSelectedTimezone(e.value);
-            }}
-          />
-          {/* 세션을 크게 돌면서 세션에 해당하는값과 일치하는 프로그램 뿌려주기 */}
-          {sessions.map((session) => {
-            return (
-              <>
-                <ProgramTitle title={session.session_title} />
-                <ul className="cbp_tmtimeline">
-                  {programs
-                    .filter((program) => {
-                      return program.session === session.id;
-                    })
-                    .map((program, index) => (
-                      <ProgramContent
-                        selectedTimezone={selectedTimezone}
-                        isAdmin={false}
-                        key={program.id}
-                        {...program}
-                        index={index}
-                      />
-                    ))}
-                </ul>
-              </>
-            );
-          })}
-        </section>
-      </article>
-
-      <button
-        className="download-btn"
-        type="button"
-        onClick={() => {
-          window.open(
-            "https://d25unujvh7ui3r.cloudfront.net/asia/program/NSSA_program.pdf",
-          );
+    <ProgramsListContainer className="layout">
+      <StyledTimezoneSelect
+        value={selectedTimezone}
+        onChange={(e) => {
+          setSelectedTimezone(e.value);
         }}
-      >
-        DOWNLOAD
-      </button>
+      />
+      {sessions.map((session) => {
+        return (
+          <TableContainer key={session.id} sx={{ overflowX: "hidden", mb: 8 }}>
+            <ProgramTitle
+              title={session.session_title}
+              timezone={selectedTimezone}
+              date={session.date}
+            />
+            <Table sx={{ width: "100%" }}>
+              <TableBody>
+                {programs
+                  .filter((program) => {
+                    return program.session === session.id;
+                  })
+                  .map((program, index) => (
+                    <ProgramContent
+                      selectedTimezone={selectedTimezone}
+                      isAdmin={false}
+                      key={program.id}
+                      {...program}
+                      index={index}
+                      programAgenda={programAgenda}
+                    />
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        );
+      })}
     </ProgramsListContainer>
   );
 };

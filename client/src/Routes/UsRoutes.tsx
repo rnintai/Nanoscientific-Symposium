@@ -1,5 +1,5 @@
 import React from "react";
-import Landing from "pages/common/Landing";
+import Landing from "pages/common/Landing/Landing";
 import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";

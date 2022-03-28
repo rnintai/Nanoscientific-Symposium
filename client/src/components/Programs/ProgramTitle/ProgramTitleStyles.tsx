@@ -4,7 +4,6 @@ export const ProgramTitleContainer = styled.div<{ isAdmin: boolean }>`
   .styled-table {
     font-size: 3rem;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);
-    background-color: #009fe8;
     color: #ffffff;
     margin: auto;
     text-align: center;
@@ -25,6 +24,6 @@ export const ProgramTitleContainer = styled.div<{ isAdmin: boolean }>`
 
   transition: all 0.3s ease-in-out;
   &:hover {
-    transform: translateY(${(props) => props.isAdmin && "-10px"});
+    transform: translateY(${(props) => props.isAdmin && "-5px"});
   }
 `;

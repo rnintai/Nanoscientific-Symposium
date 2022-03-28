@@ -7,6 +7,17 @@ declare namespace Program {
     title: string;
     speakers: string;
     description: string;
+    next_id: string;
+    emphasize: number;
+  }
+
+  interface programAgendaType {
+    id: number;
+    session_id: number;
+    program_id: number;
+    title: string;
+    speakers: string;
+    next_id: string;
   }
 
   interface sessionType {
@@ -57,19 +68,76 @@ declare namespace User {
 declare namespace Common {
   type showStatus = "show" | "hide";
 
+  interface nationType {
+    name: string;
+    date: string;
+    landingImage: string;
+    path: string;
+  }
+
+  interface sponsorType {
+    name: string;
+    img: string;
+    url: string;
+  }
+
   interface globalDataType {
-    logoURL: string;
+    logoURL?: string;
+    fullLogoURL?: string;
     speakers?: string;
-    programs: string;
-    lectureHall: string;
+    programs?: string;
+    lectureHall?: string;
     exhibitHall?: string;
-    sponsors: string;
+    sponsors?: string;
     greeting?: string;
     attend?: string;
     symposium?: string;
     archive?: string;
     home?: string;
     registration?: string;
+    signInText?: string;
+    goNextText?: string;
+    goPrevText?: string;
+    // user 관련
+    emailInputLabel?: string;
+    passwordInputLabel?: string;
+    forgotPasswordText?: string;
+    createAccountText?: string;
+
+    // common
+    nations?: nationType[];
+    eventLandingMainBannerURL?: string;
+    fullLogoURL?: string;
+    eventLandingDesc?: string;
+    eventLandingBodyBackground?: string;
+
+    // landing
+    landingSection1BackgroundURL?: string;
+    landingSection1LogoURL?: string;
+    landingSection1Desc?: string;
+    landingSection2Title?: string;
+    landingSection2Desc?: string;
+    landingSection2Video?: string;
+    landingSection3Title?: string;
+    landingSection3Desc?: string;
+    landingSection4Title?: string;
+    landingSection4List1Title?: string;
+    landingSection4List1?: string[];
+    landingSection4List2Title?: string;
+    landingSection4List2?: string[];
+    landingSection4List3Title?: string;
+    landingSection4List3?: string[];
+    landingSection5Title?: string;
+    landingSection6Title?: string;
+    landingSection6ButtonLink?: string;
+    landingSection6Desc?: string;
+    landingSection6ButtonText?: string;
+    landingSection6Videos?: string[];
+    landingSection7Title?: string;
+    landingSection7Sponsors?: sponsorType[];
+
+    // cookie consent text
+    cookieConsentText?: string;
   }
 }
 

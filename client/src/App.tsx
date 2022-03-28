@@ -10,6 +10,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
 import { theme, jpTheme } from "theme/themes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
+import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -23,7 +24,16 @@ const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+  const themeState = useThemeState();
 
+  const themeObj = theme(themeState.darkMode);
+  const jpThemeObj = jpTheme(themeState.darkMode);
+  const themeDispatch = useThemeDispatch();
+
+  // mode
+  useEffect(() => {
+    themeDispatch({ type: "LIGHTMODE" });
+  }, []);
   // 로그인 모달 state
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [passwordSetModalOpen, setPasswordSetModalOpen] =
@@ -70,7 +80,7 @@ const App = () => {
   if (authState.isLoading) return <Loading />;
 
   return (
-    <ThemeProvider theme={pathname === "jp" ? jpTheme : theme}>
+    <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
       <AppContainer>
         {pathname !== "" &&
           subpath.indexOf("admin") === -1 &&

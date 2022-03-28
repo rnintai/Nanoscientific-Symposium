@@ -1,78 +1,124 @@
+/* eslint-disable react/require-default-props */
 import React from "react";
-import { ProgramContentContainer } from "components/Programs/ProgramContent/ProgramContentStyles";
-import "moment-timezone";
-import moment from "moment";
-import { dateToLocaleString, getUserTimezoneDate } from "utils/Date";
+import { dateToLocaleString } from "utils/Date";
+import { styled, TableRow, TableCell, useTheme } from "@mui/material";
 
 interface ProgramContentProps extends Program.programType {
+  id: number;
   index: number;
   isAdmin: boolean;
-  // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
-  // eslint-disable-next-line react/require-default-props
   selectedTimezone: string;
+  programAgenda: Program.programAgendaType[];
+  selectedAgenda?: Program.programAgendaType;
+  setSelectedAgenda?: React.Dispatch<Program.programAgendaType>;
+  setOpenAgendaForm?: React.Dispatch<boolean>;
+  setAgendaEdit?: React.Dispatch<boolean>;
 }
 
 const ProgramContent = ({
+  id,
   start_time,
   end_time,
   title,
   speakers,
+  emphasize,
   description,
   index,
   isAdmin,
   onClick,
   selectedTimezone,
+  programAgenda,
+  selectedAgenda,
+  setSelectedAgenda,
+  setOpenAgendaForm,
+  setAgendaEdit,
 }: ProgramContentProps) => {
-  const isDateChanged =
-    getUserTimezoneDate(start_time, selectedTimezone).getDate() !==
-    getUserTimezoneDate(end_time, selectedTimezone).getDate();
+  const theme = useTheme();
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    color: theme.palette.common.black,
+    border: `3px solid ${theme.palette.grey[800]}`,
+  }));
 
-  const isStartTimeZero =
-    getUserTimezoneDate(start_time, selectedTimezone).getHours() === 0;
-  const isEndTimeZero =
-    getUserTimezoneDate(end_time, selectedTimezone).getHours() === 0;
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    cursor: isAdmin ? "pointer" : "default",
+    td: { lineHeight: "2.2", padding: "0 40px" },
+
+    "&.agenda-row:nth-of-type(odd)": {
+      backgroundColor: theme.palette.grey[300],
+    },
+    "&.agenda-row:nth-of-type(even)": {
+      backgroundColor: theme.palette.grey[100],
+    },
+    "&.program-row": {
+      backgroundColor: "#939598",
+      td: {
+        color: theme.palette.common.white,
+      },
+    },
+    "&.program-row.gradient": {
+      background: theme.palette.primary.gradation,
+      border: `2px solid ${theme.palette.grey[800]}`,
+      td: {
+        color: theme.palette.common.white,
+        border: 0,
+      },
+    },
+    "li::marker": {
+      color: "#1CAFE4",
+    },
+
+    // admin
+    "&.admin": {
+      transition: "all 0.2s ease-in-out",
+    },
+    "&.admin:hover": {
+      transform: "translateY(-5px)",
+    },
+  }));
 
   return (
-    <ProgramContentContainer isAdmin={isAdmin} onClick={onClick}>
-      <li>
-        <time className="cbp_tmtime">
-          {index === 0 && (
-            <span className="session-date">
-              {dateToLocaleString(start_time, selectedTimezone, "MMM DD")}
-              {/* {moment(start_time).format("MMM DD")} */}
-            </span>
-          )}
-          {moment(start_time).diff(end_time) > 0 && (
-            <span className="session-date">
-              {dateToLocaleString(start_time, selectedTimezone, "MMM DD")}
-            </span>
-          )}
-          {index !== 0 &&
-            (isDateChanged || isStartTimeZero || isEndTimeZero) && (
-              <span className="session-date">
-                {dateToLocaleString(start_time, selectedTimezone, "MMM DD")}
-              </span>
-            )}
-          <span className="content-time">
-            {dateToLocaleString(start_time, selectedTimezone, "HH:mm")} -{" "}
-            {dateToLocaleString(end_time, selectedTimezone, "HH:mm")}
-          </span>
-          {index === 0 && (
-            <h3 className="timezone">Timezone: {selectedTimezone}</h3>
-          )}
-          {(isDateChanged || isStartTimeZero || isEndTimeZero) && (
-            <h3 className="timezone">&nbsp;</h3>
-          )}
-        </time>
-        <div className="cbp_tmicon" />
-        <div className="cbp_tmlabel">
-          <h2>{title}</h2>
-          <p>{speakers}</p>
-          <p className="description">{description}</p>
-        </div>
-      </li>
-    </ProgramContentContainer>
+    <>
+      <StyledTableRow
+        className={`program-row ${emphasize === 1 ? "gradient" : ""} ${
+          isAdmin && "admin"
+        }`}
+        onClick={onClick}
+      >
+        <StyledTableCell align="center" width="15%">
+          {dateToLocaleString(start_time, selectedTimezone, "HH:mm")}
+        </StyledTableCell>
+        <StyledTableCell align="left" width="50%">
+          {title}
+        </StyledTableCell>
+        <StyledTableCell align="left" width="35%">
+          {speakers}
+        </StyledTableCell>
+      </StyledTableRow>
+      {programAgenda
+        .filter((agenda) => agenda.program_id === id)
+        .map((agenda) => (
+          <StyledTableRow
+            key={agenda.id}
+            className={`agenda-row ${isAdmin && "admin"}`}
+            onClick={() => {
+              if (setSelectedAgenda && setOpenAgendaForm && setAgendaEdit) {
+                setSelectedAgenda(agenda);
+                setOpenAgendaForm(true);
+                setAgendaEdit(true);
+              }
+            }}
+          >
+            <StyledTableCell align="center" width="15%" />
+            <StyledTableCell align="left" width="50%">
+              <li style={{ listStyle: "square" }}>{agenda.title}</li>
+            </StyledTableCell>
+            <StyledTableCell align="left" width="35%">
+              {agenda.speakers}
+            </StyledTableCell>
+          </StyledTableRow>
+        ))}
+    </>
   );
 };
 

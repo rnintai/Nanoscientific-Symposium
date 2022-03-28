@@ -3,17 +3,6 @@ export const dateToLocaleString = (
   timeZone?: string,
   format?: string,
 ) => {
-  // ex> Mon, Jan 17, 2022, 02:00 PM
-  // return new Date(date).toLocaleString("en-US", {
-  //   timeZone,
-  //   weekday: "short",
-  //   year: "numeric",
-  //   month: "short",
-  //   day: "2-digit",
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  // });
-
   // ex> 2022-01-11 17:30
   switch (format) {
     case "MMM DD":
@@ -26,6 +15,19 @@ export const dateToLocaleString = (
         .split(" ")
         .reverse()
         .join(" ");
+    // ex> Mon, Jan 17, 2022, 02:00 PM
+    case "MMM DD YYYY": {
+      const splitResult = new Date(date)
+        .toLocaleString("en-US", {
+          timeZone,
+          weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        })
+        .split(",");
+      return `${splitResult[1]} (${splitResult[0]}), ${splitResult[2]}`;
+    }
     case "HH:mm":
       return new Date(date).toLocaleString("en-GB", {
         timeZone,
@@ -76,8 +78,13 @@ export const calculateDurationToDate = (
 
 //
 export const getUserTimezoneDate = (startTime: string, timeZone: string) => {
-  const date = new Date(startTime);
-  // const timezone = date.getTimezoneOffset();
-  // date.setMinutes(date.getMinutes() - timezone);
-  return date;
+  const newDateString = new Date(startTime).toLocaleString("sv-SE", {
+    timeZone,
+  });
+
+  return new Date(newDateString);
+};
+
+export const isDateValid = (d: Date | null) => {
+  return d instanceof Date && !Number.isNaN(d.getTime());
 };

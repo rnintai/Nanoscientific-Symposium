@@ -10,6 +10,7 @@ interface S3UploadProps {
   edit: boolean;
   previewURL: string;
   setPreviewURL: Dispatch<SetStateAction<string>>;
+  setUploadLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const S3Upload = ({
@@ -17,6 +18,7 @@ const S3Upload = ({
   edit = false,
   previewURL = "",
   setPreviewURL,
+  setUploadLoading,
 }: S3UploadProps) => {
   const [progress, setProgress] = useState<number>(0);
   const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY;
@@ -45,13 +47,15 @@ const S3Upload = ({
       !(
         file.type === "image/jpeg" ||
         file.type === "image/png" ||
-        file.type === "image/jpg"
+        file.type === "image/jpg" ||
+        file.type === "image/webp"
       )
     ) {
       alert("only jpg allowed");
       return;
     }
     setProgress(0);
+    setUploadLoading(true);
     uploadFile(file);
   };
 
@@ -60,9 +64,11 @@ const S3Upload = ({
       ACL: "public-read",
       Body: file,
       Bucket: S3_BUCKET,
-      Key: `upload/${pathname}/${location.pathname.split("/").slice(-1)[0]}/${
-        file.name
-      }-${Date.now()}`,
+      Key: `upload/${pathname}/${
+        location.pathname.split("/").slice(-1)[0]
+      }/${`${file.name.split(".")[0]}_${Date.now()}.${
+        file.name.split(".")[1]
+      }`}`,
     };
 
     myBucket
@@ -71,6 +77,7 @@ const S3Upload = ({
         setProgress(Math.round((evt.loaded / evt.total) * 100));
         setTimeout(() => {
           console.log("완료");
+          setUploadLoading(false);
         }, 3000);
       })
       .send((err, data) => {

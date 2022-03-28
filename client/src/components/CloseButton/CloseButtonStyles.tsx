@@ -7,6 +7,7 @@ export const CloseButtonContainer = styled.button`
   right: 0;
   cursor: pointer;
   &:hover {
-    color: #000;
+    color: #fff;
   }
+  margin: 5px;
 `;

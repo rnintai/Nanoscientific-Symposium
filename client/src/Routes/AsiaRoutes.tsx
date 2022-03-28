@@ -1,6 +1,6 @@
 import React from "react";
 import AdminRoute from "components/Route/AdminRoute";
-import Landing from "pages/common/Landing";
+import Landing from "pages/common/Landing/Landing";
 import AsiaLectureHall from "pages/asia/AsiaLectureHall";
 import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";

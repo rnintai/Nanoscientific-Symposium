@@ -1,10 +1,11 @@
 import styled from "styled-components";
+import { useTheme } from "@mui/material";
 
 export const RegistrationContainer = styled.div`
   max-width: 1200px;
   min-height: calc(100vh - 120px);
   padding: 30px 0;
-  margin: 60px auto 0 auto;
+  margin: 0 auto;
 
   .mktoForm {
     margin: 0 auto;
@@ -35,6 +36,17 @@ export const RegistrationContainer = styled.div`
     }
     &.invalid {
       color: #d20000;
+    }
+  }
+
+  .mktoLabel {
+    color: ${() => {
+      const theme = useTheme();
+      return theme.palette.text.primary;
+    }} !important;
+
+    a {
+      padding: 0;
     }
   }
 

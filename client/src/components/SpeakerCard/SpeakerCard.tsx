@@ -1,8 +1,8 @@
 import React from "react";
-import { Grid, Paper } from "@mui/material";
+import { Grid, Box, Typography, useTheme } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
 
-const Item = styled(Paper)(({ theme }) => ({
+const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
   textAlign: "center",
@@ -24,33 +24,51 @@ const SpeakerCard = ({
   isAdmin = false,
   onClick,
 }: SpeakerCardProps) => {
+  const theme = useTheme();
+
   return (
     <Grid
       item
       xs={2}
-      sm={4}
-      md={4}
+      sm={3}
+      md={3}
       key={speaker.id}
       sx={{
         cursor: `${isAdmin ? "pointer" : "auto"}`,
-        width: { tablet: "380px", mobile: "100%" },
+        width: { tablet: "33.3%", mobile: "100%" },
       }}
-      className="speaker-grid"
       onClick={onClick}
     >
       <Item className="speaker-card">
         {/* 같은 도메인의 백엔드 주소 가져오기 */}
-        <img
-          className="speaker-image"
-          src={`https://nss-integration.s3.us-west-1.amazonaws.com/${speaker.image_path}`}
-          alt="speakerImage"
-        />
-        <h3 style={{ fontSize: "1.5rem", marginTop: "5px" }} className="name">
+        <Box sx={{ position: "relative" }}>
+          <img
+            className="speaker-image"
+            src={`https://nss-integration.s3.us-west-1.amazonaws.com/${speaker.image_path}`}
+            alt="speakerImage"
+          />
+          <div className="overlay" />
+        </Box>
+        <Typography
+          variant="h6"
+          color={theme.palette.text.primary}
+          fontWeight={theme.typography.fontWeightBold}
+          sx={{ marginTop: "5px", marginBottom: 0 }}
+        >
           {speaker.name}
-        </h3>
-        <h5 className="belong">{speaker.belong}</h5>
+        </Typography>
+        <Typography
+          variant="body2"
+          color={theme.palette.text.primary}
+          fontWeight={theme.typography.fontWeightMedium}
+          style={{ margin: 0 }}
+        >
+          {speaker.belong}
+        </Typography>
         {speaker.description && (
-          <h5 className="description">{speaker.description}</h5>
+          <h5 style={{ fontSize: "0.85rem" }} className="description">
+            {speaker.description}
+          </h5>
         )}
       </Item>
     </Grid>

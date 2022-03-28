@@ -14,7 +14,9 @@ import ProgramForm from "pages/admin/Forms/ProgramForm";
 import ProgramHideForm from "pages/admin/Forms/ProgramHideForm";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
+import { Table, TableContainer, TableBody } from "@mui/material";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
+import AgendaForm from "../Forms/AgendaForm";
 
 const AdminPrograms = () => {
   const authState = useAuthState();
@@ -31,14 +33,21 @@ const AdminPrograms = () => {
   const [isPublished, setIsPublished] = useState<boolean>(false);
 
   const [programs, setPrograms] = useState<Program.programType[]>([]);
+  const [programAgenda, setProgramAgenda] = useState<
+    Program.programAgendaType[]
+  >([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
+  const [agendaEdit, setAgendaEdit] = useState<boolean>(false);
   const [sessionEdit, setSessionEdit] = useState<boolean>(false);
   const [programEdit, setProgramEdit] = useState<boolean>(false);
 
   const [openSessionForm, setOpenSessionForm] = useState<boolean>(false);
   const [sessionSuccess, setSessionSuccess] = useState<boolean>(false);
+
+  const [openAgendaForm, setOpenAgendaForm] = useState<boolean>(false);
+  const [agendaSuccess, setAgendaSuccess] = useState<boolean>(false);
 
   const [openProgramForm, setOpenProgramForm] = useState<boolean>(false);
   const [programSuccess, setProgramSuccess] = useState<boolean>(false);
@@ -47,16 +56,23 @@ const AdminPrograms = () => {
 
   const [selectedSession, setSelectedSession] = useState<Program.sessionType>();
   const [selectedProgram, setSelectedProgram] = useState<Program.programType>();
+  const [selectedAgenda, setSelectedAgenda] =
+    useState<Program.programAgendaType>();
 
+  // alert
+  const [agendaValidAlert, setAgendaValidAlert] = useState<boolean>(false);
+  const [programValidAlert, setProgramValidAlert] = useState<boolean>(false);
+  const [sessionValidAlert, setSessionValidAlert] = useState<boolean>(false);
+
+  const config = {
+    params: {
+      nation: pathname,
+    },
+  };
   // alert
   const [publishSuccessAlert, setPublishSuccessAlert] =
     useState<boolean>(false);
   const getPrograms = async () => {
-    const config = {
-      params: {
-        nation: pathname,
-      },
-    };
     setProgramLoading(true);
     const programs = await axios.get(`/api/page/common/programs`, config);
     setPrograms(programs.data);
@@ -64,11 +80,6 @@ const AdminPrograms = () => {
   };
 
   const getSessions = async () => {
-    const config = {
-      params: {
-        nation: pathname,
-      },
-    };
     setSessionLoading(true);
     const sessions = await axios.get(`/api/page/common/sessions`, config);
     setSessions(sessions.data);
@@ -94,6 +105,14 @@ const AdminPrograms = () => {
       });
   };
 
+  const getProgramAgenda = async () => {
+    setProgramLoading(true);
+    const result = await axios.get(`/api/page/common/programs/agenda`, config);
+    setProgramAgenda(result.data.data);
+    setProgramLoading(false);
+    console.log(result.data.data);
+  };
+
   const hideToggleHandler = () => {
     setIsAdminLoading(true);
     axios
@@ -116,6 +135,7 @@ const AdminPrograms = () => {
     getPrograms();
     // publish state 가져오기
     getIsAdmin();
+    getProgramAgenda();
   }, []);
 
   useEffect(() => {
@@ -140,6 +160,10 @@ const AdminPrograms = () => {
   const openHideFormHandler = () => {
     setOpenHideForm(true);
   };
+  const openAgendaFormHandler = () => {
+    setAgendaEdit(false);
+    setOpenAgendaForm(true);
+  };
 
   return (
     <AdminLayout
@@ -148,62 +172,73 @@ const AdminPrograms = () => {
       menu1ClickHandler={openSessionFormHandler}
       menu2="Add Programs"
       menu2ClickHandler={openProgramFormHandler}
-      menu3="Hidden Items"
-      menu3ClickHandler={openHideFormHandler}
+      menu3="Add Agenda"
+      menu3ClickHandler={openAgendaFormHandler}
+      // menu4="Hidden Items"
+      // menu4ClickHandler={openHideFormHandler}
       hideToggle={hideToggle}
       setHideToggle={setHideToggle}
       hideToggleHandler={hideToggleHandler}
       isHideLoading={isAdminLoading}
       isPublished={isPublished}
+      menu2Disabled={sessions.length === 0}
+      menu3Disabled={programs.length === 0}
     >
       <AdminProgramsContainer>
-        <ProgramsListContainer isAdmin>
-          <article className="program-wrap">
-            <section className="timeline-wrap timeline-0">
-              <StyledTimezoneSelect
-                value={selectedTimezone}
-                onChange={(e) => {
-                  setSelectedTimezone(e.value);
-                }}
-              />
-              {/* 세션을 크게 돌면서 세션에 해당하는값과 일치하는 프로그램 뿌려주기 */}
-              {sessions.map((session) => {
-                return (
-                  <React.Fragment key={session.id}>
-                    <ProgramTitle
-                      onClick={() => {
-                        setSelectedSession(session);
-                        setSessionEdit(true);
-                        setOpenSessionForm(true);
-                      }}
-                      isAdmin
-                      title={session.session_title}
-                    />
-                    <ul className="cbp_tmtimeline">
-                      {programs
-                        .filter((program) => {
-                          return program.session === session.id;
-                        })
-                        .map((program, index) => (
-                          <ProgramContent
-                            selectedTimezone={selectedTimezone}
-                            onClick={() => {
-                              setSelectedProgram(program);
-                              setProgramEdit(true);
-                              setOpenProgramForm(true);
-                            }}
-                            isAdmin
-                            key={program.id}
-                            {...program}
-                            index={index}
-                          />
-                        ))}
-                    </ul>
-                  </React.Fragment>
-                );
-              })}
-            </section>
-          </article>
+        <ProgramsListContainer className="layout">
+          <StyledTimezoneSelect
+            value={selectedTimezone}
+            onChange={(e) => {
+              setSelectedTimezone(e.value);
+            }}
+          />
+          {sessions.map((session) => {
+            return (
+              <TableContainer
+                key={session.id}
+                sx={{ overflowX: "hidden", mb: 8 }}
+              >
+                <ProgramTitle
+                  title={session.session_title}
+                  timezone={selectedTimezone}
+                  date={session.date}
+                  isAdmin
+                  onClick={() => {
+                    setSelectedSession(session);
+                    setSessionEdit(true);
+                    setOpenSessionForm(true);
+                  }}
+                />
+                <Table sx={{ width: "100%" }}>
+                  <TableBody>
+                    {programs
+                      .filter((program) => {
+                        return program.session === session.id;
+                      })
+                      .map((program, index) => (
+                        <ProgramContent
+                          selectedTimezone={selectedTimezone}
+                          isAdmin
+                          key={program.id}
+                          {...program}
+                          index={index}
+                          programAgenda={programAgenda}
+                          onClick={() => {
+                            setSelectedProgram(program);
+                            setProgramEdit(true);
+                            setOpenProgramForm(true);
+                          }}
+                          selectedAgenda={selectedAgenda}
+                          setSelectedAgenda={setSelectedAgenda}
+                          setOpenAgendaForm={setOpenAgendaForm}
+                          setAgendaEdit={setAgendaEdit}
+                        />
+                      ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            );
+          })}
         </ProgramsListContainer>
       </AdminProgramsContainer>
 
@@ -217,6 +252,9 @@ const AdminPrograms = () => {
           setOpenSessionForm={setOpenSessionForm}
           setSessionSuccess={setSessionSuccess}
           edit={sessionEdit}
+          selectedTimezone={selectedTimezone}
+          sessionValidAlert={sessionValidAlert}
+          setSessionValidAlert={setSessionValidAlert}
         />
       )}
 
@@ -231,6 +269,26 @@ const AdminPrograms = () => {
           setOpenProgramForm={setOpenProgramForm}
           setProgramSuccess={setProgramSuccess}
           edit={programEdit}
+          selectedTimezone={selectedTimezone}
+          programValidAlert={programValidAlert}
+          setProgramValidAlert={setProgramValidAlert}
+        />
+      )}
+
+      {openAgendaForm && (
+        <AgendaForm
+          getProgramAgenda={() => {
+            getProgramAgenda();
+          }}
+          programs={programs}
+          sessions={sessions}
+          selectedAgenda={selectedAgenda as Program.programAgendaType}
+          openAgendaForm={openAgendaForm}
+          setOpenAgendaForm={setOpenAgendaForm}
+          setAgendaSuccess={setAgendaSuccess}
+          edit={agendaEdit}
+          agendaValidAlert={agendaValidAlert}
+          setAgendaValidAlert={setAgendaValidAlert}
         />
       )}
 
@@ -255,6 +313,30 @@ const AdminPrograms = () => {
         setValue={setProgramSuccess}
         severity="success"
         content="Success"
+      />
+      <TopCenterSnackBar
+        value={agendaSuccess}
+        setValue={setAgendaSuccess}
+        severity="success"
+        content="Success"
+      />
+      <TopCenterSnackBar
+        value={agendaValidAlert}
+        setValue={setAgendaValidAlert}
+        severity="warning"
+        content="Please fill required fields"
+      />
+      <TopCenterSnackBar
+        value={programValidAlert}
+        setValue={setProgramValidAlert}
+        severity="warning"
+        content="Please fill required fields"
+      />
+      <TopCenterSnackBar
+        value={sessionValidAlert}
+        setValue={setSessionValidAlert}
+        severity="warning"
+        content="Please fill required fields"
       />
       <TopCenterSnackBar
         value={publishSuccessAlert}

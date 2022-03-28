@@ -6,7 +6,7 @@ import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
 import useCheckLocal from "hooks/useCheckLocal";
 import useSeoTitle from "hooks/useSeoTitle";
-import { globalData } from "components/NavBar/NavBar";
+import { globalData } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import { SpeakersContainer } from "./SpeakersStyles";
 
@@ -58,6 +58,12 @@ const Speakers = () => {
         title: "Speakers",
       },
     ],
+    [
+      "eu",
+      {
+        title: "Speakers",
+      },
+    ],
   ]);
 
   const { title } = globalDataTitle.get(pathname) as { title: string };
@@ -67,7 +73,7 @@ const Speakers = () => {
   }
 
   return (
-    <SpeakersContainer>
+    <SpeakersContainer className="layout">
       <Title fontSize={30} title={title} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid

@@ -1,3 +1,5 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/no-unused-prop-types */
 import React, { useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import Toolbar from "@mui/material/Toolbar";
@@ -23,6 +25,10 @@ interface AdminAppBarProps {
   menu3?: string;
   // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
   menu3ClickHandler?: () => void; // eslint-disable-next-line react/require-default-props
+  // eslint-disable-next-line react/no-unused-prop-types,react/require-default-props
+  menu4?: string;
+  // eslint-disable-next-line react/require-default-props,react/no-unused-prop-types
+  menu4ClickHandler?: () => void; // eslint-disable-next-line react/require-default-props
   hideToggle?: boolean;
   // eslint-disable-next-line react/require-default-props
   setHideToggle?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,6 +38,9 @@ interface AdminAppBarProps {
   isHideLoading?: boolean;
   // eslint-disable-next-line react/require-default-props
   isPublished?: boolean;
+  menu1Disabled?: boolean;
+  menu2Disabled?: boolean;
+  menu3Disabled?: boolean;
 }
 
 const AdminAppBar = ({
@@ -42,11 +51,16 @@ const AdminAppBar = ({
   menu2ClickHandler,
   menu3,
   menu3ClickHandler,
+  menu4,
+  menu4ClickHandler,
   hideToggle,
   setHideToggle,
   hideToggleHandler,
   isHideLoading,
   isPublished,
+  menu1Disabled,
+  menu2Disabled,
+  menu3Disabled,
 }: AdminAppBarProps) => {
   // useEffect(() => {
   //   if (hideToggleHandler) {
@@ -92,15 +106,38 @@ const AdminAppBar = ({
               </LoadingButton>
             </>
           )}
-        <Button onClick={menu1ClickHandler} color="inherit">
-          {menu1}
-        </Button>
-        <Button onClick={menu2ClickHandler} color="inherit">
-          {menu2}
-        </Button>
-        <Button onClick={menu3ClickHandler} color="inherit">
-          {menu3}
-        </Button>
+        {menu1 && (
+          <Button
+            onClick={menu1ClickHandler}
+            color="inherit"
+            disabled={menu1Disabled}
+          >
+            {menu1}
+          </Button>
+        )}
+        {menu2 && (
+          <Button
+            onClick={menu2ClickHandler}
+            color="inherit"
+            disabled={menu2Disabled}
+          >
+            {menu2}
+          </Button>
+        )}
+        {menu3 && (
+          <Button
+            onClick={menu3ClickHandler}
+            color="inherit"
+            disabled={menu3Disabled}
+          >
+            {menu3}
+          </Button>
+        )}
+        {menu4 && (
+          <Button onClick={menu4ClickHandler} color="inherit">
+            {menu4}
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );

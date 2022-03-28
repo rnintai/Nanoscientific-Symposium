@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useTheme } from "@mui/material";
 
 export const SpeakersContainer = styled.div`
   padding: 100px 30px 152px 30px;
@@ -15,12 +16,22 @@ export const SpeakersContainer = styled.div`
 
     .speaker-image {
       object-fit: cover;
-      height: 300px;
+      width: 200px;
+      height: 200px;
       margin: 20px 0;
     }
 
-    .belong {
-      color: #7c7c7c;
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 200px;
+      margin: 20px 0;
+      background: ${() => {
+        const theme = useTheme();
+        return theme.palette.primary.overlay;
+      }};
     }
   }
 

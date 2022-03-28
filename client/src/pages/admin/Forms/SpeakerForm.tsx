@@ -29,6 +29,7 @@ const SpeakerForm = ({
   edit = false,
 }: SpeakerFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const name = useInput(edit ? selectedSpeaker.name : "");
@@ -114,7 +115,7 @@ const SpeakerForm = ({
           : "Please write down the name and belong of the speaker."
       }
       onSubmit={speakerSubmitHandler}
-      loading={loading}
+      loading={loading || uploadLoading}
     >
       <TextField
         margin="dense"
@@ -138,6 +139,7 @@ const SpeakerForm = ({
         edit={edit}
         previewURL={previewURL}
         setPreviewURL={setPreviewURL}
+        setUploadLoading={setUploadLoading}
       />
       {edit && (
         <ToggleButtonGroup
