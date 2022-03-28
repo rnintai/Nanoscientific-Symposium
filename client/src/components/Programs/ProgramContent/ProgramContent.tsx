@@ -14,6 +14,8 @@ import {
   ArrowCircleDown,
   NoEncryption,
 } from "@mui/icons-material";
+import axios from "axios";
+import usePageViews from "hooks/usePageViews";
 
 interface ProgramContentProps extends Program.programType {
   id: number;
@@ -51,12 +53,16 @@ const ProgramContent = ({
   setAgendaEdit,
 }: ProgramContentProps) => {
   const theme = useTheme();
+  const nation = usePageViews();
 
   // 아젠다 edit 여부 포함된 리스트
 
   const [agendaEditList, setAgendaEditList] = useState<programAgendaEditType[]>(
     [],
   );
+
+  // reordering loading
+  const [reorderLoading, setReorderLoading] = useState<boolean>(false);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.black,
@@ -115,6 +121,19 @@ const ProgramContent = ({
     },
   }));
 
+  const reorderAgendaHandler = (agendaList: programAgendaEditType[]) => {
+    setReorderLoading(true);
+    axios
+      .post("/api/admin/program/agenda/reorder", {
+        agendaList,
+        nation,
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setReorderLoading(false);
+      });
+  };
+
   const agendaEditHandler = (agenda: Program.programAgendaType) => {
     if (setSelectedAgenda && setOpenAgendaForm && setAgendaEdit) {
       setSelectedAgenda(agenda);
@@ -123,7 +142,10 @@ const ProgramContent = ({
     }
   };
 
-  const clickUpHandler = (agenda: Program.programAgendaType) => {
+  const clickUpHandler = (
+    agenda: Program.programAgendaType,
+    indexInParent: number,
+  ) => {
     const index = agendaEditList.findIndex((o) => o.id === agenda.id);
     const listCpy = [...agendaEditList];
 
@@ -134,7 +156,8 @@ const ProgramContent = ({
     const idm1 = listCpy[index - 1].id;
     const nextm1 = listCpy[index - 1].next_id;
     // -2
-    if (index - 2 !== 0 || listCpy[index - 2].next_id !== null) {
+
+    if (indexInParent - 2 >= 0 && listCpy[index - 2].next_id !== 99999) {
       const idm2 = listCpy[index - 2].id;
       const nextm2 = listCpy[index - 2].next_id;
     }
@@ -145,16 +168,24 @@ const ProgramContent = ({
     listCpy[index] = tmp;
 
     // next id 재배정
-    if (index - 2 !== 0 || listCpy[index - 2].next_id !== null) {
+    if (indexInParent - 2 >= 0 && listCpy[index - 2].next_id !== 99999) {
       listCpy[index - 2].next_id = id0;
     }
     listCpy[index - 1].next_id = idm1;
     listCpy[index].next_id = next0;
 
     setAgendaEditList(listCpy);
+    const updatedList = [listCpy[index - 1], listCpy[index]];
+    if (indexInParent - 2 >= 0 && listCpy[index - 2].next_id !== 99999) {
+      updatedList.unshift(listCpy[index - 2]);
+    }
+    reorderAgendaHandler(updatedList);
   };
 
-  const clickDownHandler = (agenda: Program.programAgendaType) => {
+  const clickDownHandler = (
+    agenda: Program.programAgendaType,
+    indexInParent: number,
+  ) => {
     const index = agendaEditList.findIndex((o) => o.id === agenda.id);
     const listCpy = [...agendaEditList];
 
@@ -165,8 +196,12 @@ const ProgramContent = ({
     const idp1 = listCpy[index + 1].id;
     const nextp1 = listCpy[index + 1].next_id;
     // m1
-    const idm1 = listCpy[index - 1].id;
-    const nextm1 = listCpy[index - 1].next_id;
+    console.log(index, indexInParent);
+
+    if (indexInParent > 0) {
+      const idm1 = listCpy[index - 1].id;
+      const nextm1 = listCpy[index - 1].next_id;
+    }
 
     // swap
     const tmp = listCpy[index + 1];
@@ -175,11 +210,14 @@ const ProgramContent = ({
 
     // next id 재배정
 
-    listCpy[index - 1].next_id = idp1;
+    if (indexInParent > 0) {
+      listCpy[index - 1].next_id = idp1;
+    }
     listCpy[index].next_id = id0;
     listCpy[index + 1].next_id = nextp1;
 
     setAgendaEditList(listCpy);
+    console.log(listCpy);
   };
 
   useEffect(() => {
@@ -231,16 +269,16 @@ const ProgramContent = ({
                     sx={{ p: "3px" }}
                     disabled={index === 0}
                     onClick={() => {
-                      clickUpHandler(agenda);
+                      clickUpHandler(agenda, index);
                     }}
                   >
                     <ArrowCircleUp />
                   </IconButton>
                   <IconButton
                     sx={{ p: "3px" }}
-                    disabled={!agenda.next_id}
+                    disabled={agenda.next_id === 99999}
                     onClick={() => {
-                      clickDownHandler(agenda);
+                      clickDownHandler(agenda, index);
                     }}
                   >
                     <ArrowCircleDown />
