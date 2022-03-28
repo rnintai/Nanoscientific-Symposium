@@ -26,6 +26,10 @@ const AdminNavBar = () => {
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
+          a: {
+            p: 0,
+            display: "block",
+          },
         },
       }}
       variant="permanent"
