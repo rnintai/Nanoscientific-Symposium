@@ -10,7 +10,10 @@ export const MenuLinkContainer = styled.div`
   a {
     position: relative;
     &.active {
-      color: #fff;
+      color: ${() => {
+        const theme = useTheme();
+        return theme.palette.text.primary;
+      }};
       cursor: default;
     }
     &::before {

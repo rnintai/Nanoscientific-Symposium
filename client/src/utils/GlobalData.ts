@@ -81,18 +81,17 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc:
         "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br /><br />It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      landingSection2ImgURL:
-        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
-      landingSection3Title: "Conference Details",
-      landingSection3List1Title: "Topic",
-      landingSection3List1: [
+      landingSection2Video: "5aqzJQgN9X0",
+      landingSection4Title: "Conference Details",
+      landingSection4List1Title: "Topic",
+      landingSection4List1: [
         "Emerging Nanomaterials for Advanced Technologies",
         "Functional Surfaces",
         "Advances Techniques and Automation in SPM",
         "Correlative Microscopy",
       ],
-      landingSection3List2Title: "SPM Methods",
-      landingSection3List2: [
+      landingSection4List2Title: "SPM Methods",
+      landingSection4List2: [
         "Nanomechanical and Electrical Characterization",
         "Nanomechanical and Electrical Characterization",
         "Nanomechanical and Electrical Characterization",
@@ -100,8 +99,8 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Nanomechanical and Electrical Characterization",
         "Nanomechanical and Electrical Characterization",
       ],
-      landingSection3List3Title: "Scientific Committee",
-      landingSection3List3: [
+      landingSection4List3Title: "Scientific Committee",
+      landingSection4List3: [
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
@@ -109,9 +108,9 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
         "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
       ],
-      landingSection4Title: "Keynote Speakers",
-      landingSection5Title: "Past Events",
-      landingSection5Videos: [
+      landingSection5Title: "Keynote Speakers",
+      landingSection6Title: "Past Events",
+      landingSection6Videos: [
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_asia.mp4",
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_2_asia.mp4",
       ],
@@ -211,47 +210,54 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1Desc:
         "Join the 5th edition of the NanoScientific Symposium Europe 2022 - the platform for nanoscience and SPM research!",
       landingSection2Title: "NanoScientific Symposium",
-      landingSection2Desc:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. <br /><br />It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      landingSection2ImgURL:
-        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
-      landingSection2_5Title: "Why Attend NanoScientific Symposium?",
-      landingSection2_5Desc:
-        "Nanoscientific Symposium presents insights on the rapidly evolving R&D and ...",
-      landingSection3Title: "Conference Details",
-      landingSection3List1Title: "Topic",
-      landingSection3List1: [
+      landingSection2Desc: `NSFE series is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Miscroscopy (AFM).
+      <br /><br />The research focus of the 5th NSFE 2022 will be laid on wide range of SPM applications and techniques that empower to transform life standards. We will talk about emerging nanomaterials for advanced technologies, functional surfaces and hybrid materials as well as innovative methods in nanotechnology and correlative microscopy. The edition is open to global audience and will be held online.`,
+      landingSection2Video: "5aqzJQgN9X0",
+      landingSection3Title: "Why Attend NanoScientific Symposium?",
+      landingSection3Desc: `Nanoscientific Symposium presents insights on the rapidly evoling R&D and innovations in nanotechnology.
+        Our 2022 symposium provides how the most recent research has been done in the various fields.
+        The best pool to learn about nanoscientific studies and build your connection with experts.`,
+      landingSection4Title: "Conference Details",
+      landingSection4List1Title: "Topic",
+      landingSection4List1: [
         "Emerging Nanomaterials for Advanced Technologies",
         "Functional Surfaces",
         "Advances Techniques and Automation in SPM",
         "Correlative Microscopy",
       ],
-      landingSection3List2Title: "SPM Methods",
-      landingSection3List2: [
+      landingSection4List2Title: "SPM Methods",
+      landingSection4List2: [
         "Nanomechanical and Electrical Characterization",
-        "Nanomechanical and Electrical Characterization",
-        "Nanomechanical and Electrical Characterization",
-        "Nanomechanical and Electrical Characterization",
-        "Nanomechanical and Electrical Characterization",
-        "Nanomechanical and Electrical Characterization",
+        "Characterization of soft materials in liquid environment",
+        "Advanced Imaging",
+        "High resolution imaging",
+        "Automation in AFM",
+        "Correlative Microscopy",
       ],
-      landingSection3List3Title: "Scientific Committee",
-      landingSection3List3: [
-        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
-        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
-        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
-        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
-        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
-        "Prof. Dr. Lukas Eng,<br />Technical University Dresden",
+      landingSection4List3Title: "Scientific Committee",
+      landingSection4List3: [
+        "Prof. Dr. Lucas Eng.<br/> Technical University Dresden",
+        "Dr. Baan Baizer<br/> University Freiburg",
+        "Dr. Tobias Cramer<br/> University of Bologna",
+        "Dr. Ilka Hermes<br/> Leibniz Institute of Polymer Research Dresden",
+        "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
+        "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection4Title: "Keynote Speakers",
-      landingSection5Title: "Submit All Year long",
-      landingSection5Desc:
+      landingSection5Title: "Keynote Speakers",
+      landingSection6Title: "Submit All Year long",
+      landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
-      landingSection5ButtonText: "Explore all on-demand sessions",
-      landingSection5Videos: [
-        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_asia.mp4",
-        "https://d25unujvh7ui3r.cloudfront.net/asia/home_2_asia.mp4",
+      landingSection6ButtonText: "Explore all on-demand sessions",
+      landingSection6ButtonLink:
+        "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
+      landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
+      landingSection7Title: "Sponsored By",
+      landingSection7Sponsors: [
+        {
+          name: "Park Systems",
+          img: "https://d25unujvh7ui3r.cloudfront.net/event/park_logo.png",
+          url: "https://parksystems.com",
+        },
       ],
 
       // cookie

@@ -34,12 +34,12 @@ export const NSSButtonContainer = styled.button`
     border: 2px solid #fff;
     border-radius: 25px;
     padding: 3px 15px;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.15s ease-in-out;
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.05);
     }
     &:active {
-      transform: scale(1.02);
+      transform: scale(1.05);
     }
   }
   display: flex;

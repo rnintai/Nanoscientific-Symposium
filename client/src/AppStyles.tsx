@@ -22,6 +22,7 @@ export const AppContainer = styled.div`
       return theme.palette.text.secondary;
     }};
     transition: color 0.2s ease-in-out;
+    display: inline-block;
 
     &:hover {
       color: ${() => {
@@ -32,9 +33,9 @@ export const AppContainer = styled.div`
   }
 
   .hover-zoom {
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.15s ease-in-out;
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.05);
     }
   }
 

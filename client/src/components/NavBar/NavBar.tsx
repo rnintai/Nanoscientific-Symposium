@@ -82,22 +82,22 @@ const NavBar = ({
   };
 
   // active router 감지 effect hook
-  useEffect(() => {
-    if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
-      document
-        .querySelector(`.menu-link[href="/${pathname + subpath}"]`)
-        ?.parentElement?.classList.add("active");
-    } else {
-      document
-        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
-        ?.parentElement?.classList.add("active");
-      document
-        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
-        ?.parentElement?.parentElement?.parentElement?.parentElement?.classList.add(
-          "active",
-        );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
+  //     document
+  //       .querySelector(`.menu-link[href="/${pathname + subpath}"]`)
+  //       ?.parentElement?.classList.add("active");
+  //   } else {
+  //     document
+  //       .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+  //       ?.parentElement?.classList.add("active");
+  //     document
+  //       .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+  //       ?.parentElement?.parentElement?.parentElement?.parentElement?.classList.add(
+  //         "active",
+  //       );
+  //   }
+  // }, []);
 
   const { fullLogoURL } = globalData.get("common") as Common.globalDataType;
   const {

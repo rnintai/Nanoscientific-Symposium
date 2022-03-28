@@ -23,8 +23,8 @@ export const NavBarContainer = styled.div`
     padding: 10px 0;
     box-sizing: border-box;
     .logo-link {
-      max-width: 250px;
-      width: 30%;
+      min-width: 280px;
+      width: 25%;
       height: 100%;
       img {
         width: 100%;
@@ -40,7 +40,7 @@ export const NavBarContainer = styled.div`
       width: 20%;
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1140px) {
       .menu-item-wrap {
         display: none;
       }

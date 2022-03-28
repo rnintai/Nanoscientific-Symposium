@@ -75,6 +75,12 @@ declare namespace Common {
     path: string;
   }
 
+  interface sponsorType {
+    name: string;
+    img: string;
+    url: string;
+  }
+
   interface globalDataType {
     logoURL?: string;
     fullLogoURL?: string;
@@ -111,21 +117,24 @@ declare namespace Common {
     landingSection1Desc?: string;
     landingSection2Title?: string;
     landingSection2Desc?: string;
-    landingSection2ImgURL?: string;
-    landingSection2_5Title?: string;
-    landingSection2_5Desc?: string;
+    landingSection2Video?: string;
     landingSection3Title?: string;
-    landingSection3List1Title?: string;
-    landingSection3List1?: string[];
-    landingSection3List2Title?: string;
-    landingSection3List2?: string[];
-    landingSection3List3Title?: string;
-    landingSection3List3?: string[];
+    landingSection3Desc?: string;
     landingSection4Title?: string;
+    landingSection4List1Title?: string;
+    landingSection4List1?: string[];
+    landingSection4List2Title?: string;
+    landingSection4List2?: string[];
+    landingSection4List3Title?: string;
+    landingSection4List3?: string[];
     landingSection5Title?: string;
-    landingSection5Desc?: string;
-    landingSection5ButtonText?: string;
-    landingSection5Videos?: string[];
+    landingSection6Title?: string;
+    landingSection6ButtonLink?: string;
+    landingSection6Desc?: string;
+    landingSection6ButtonText?: string;
+    landingSection6Videos?: string[];
+    landingSection7Title?: string;
+    landingSection7Sponsors?: sponsorType[];
 
     // cookie consent text
     cookieConsentText?: string;
