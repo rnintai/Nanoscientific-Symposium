@@ -8,7 +8,6 @@ export const NSSButtonContainer = styled.button`
     const theme = useTheme();
     return theme.typography.fontWeightBold;
   }};
-  margin: 0 auto;
   &.primary {
     color: ${() => {
       const theme = useTheme();
