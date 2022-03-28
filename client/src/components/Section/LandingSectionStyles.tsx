@@ -2,17 +2,13 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material";
 
 export const LandingSectionContainer = styled.div`
-  border-bottom: ${() => {
-    const theme = useTheme();
-    return `3px solid ${theme.palette.whitescale.alpha50}`;
-  }};
   background-size: cover;
   background-position: center;
 
   .gradient-box {
     background: ${() => {
       const theme = useTheme();
-      return theme.palette.primary.gradation;
+      return theme.palette.primary.verticalGradation;
     }};
   }
 

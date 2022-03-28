@@ -326,7 +326,7 @@ const EuropeLoginModal = ({
         <NSSButton
           type="button"
           variant="primary"
-          style={{ fontWeight: 500 }}
+          style={{ fontWeight: 700 }}
           onClick={() => {
             handleOpen(setEmailModalOpen);
           }}

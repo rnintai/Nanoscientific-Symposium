@@ -195,7 +195,7 @@ const JapanArchive = () => {
         </div>
       </section>
       <section className="last-year">
-        <YoutubeEmbed embedId="pEqU5l3n9dI" />
+        <YoutubeEmbed embedId="pEqU5l3n9dI" width="853" height="480" />
         <Button
           size="large"
           variant="contained"

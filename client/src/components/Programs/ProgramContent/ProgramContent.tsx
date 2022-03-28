@@ -60,7 +60,7 @@ const ProgramContent = ({
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.black,
-    border: `3px solid ${theme.palette.background.default}`,
+    border: `3px solid ${theme.palette.grey[800]}`,
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -68,10 +68,10 @@ const ProgramContent = ({
     td: { lineHeight: "2.2", padding: "0 40px" },
 
     "&.agenda-row:nth-of-type(odd)": {
-      backgroundColor: "rgb(255 255 255 / 80%)",
+      backgroundColor: theme.palette.grey[300],
     },
     "&.agenda-row:nth-of-type(even)": {
-      backgroundColor: theme.palette.action.active,
+      backgroundColor: theme.palette.grey[100],
     },
     "&.program-row": {
       backgroundColor: "#939598",
@@ -81,7 +81,7 @@ const ProgramContent = ({
     },
     "&.program-row.gradient": {
       background: theme.palette.primary.gradation,
-      borderLeft: `2px solid ${theme.palette.background.default}`,
+      border: `2px solid ${theme.palette.grey[800]}`,
       td: {
         color: theme.palette.common.white,
         border: 0,

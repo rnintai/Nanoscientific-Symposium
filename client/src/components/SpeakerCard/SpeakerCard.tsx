@@ -60,7 +60,7 @@ const SpeakerCard = ({
         <Typography
           variant="body2"
           color={theme.palette.text.primary}
-          fontWeight={theme.typography.fontWeightLight}
+          fontWeight={theme.typography.fontWeightMedium}
           style={{ margin: 0 }}
         >
           {speaker.belong}

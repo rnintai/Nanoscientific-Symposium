@@ -82,23 +82,24 @@ const NavBar = ({
   };
 
   // active router 감지 effect hook
-  useEffect(() => {
-    if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
-      document
-        .querySelector(`.menu-link[href="/${pathname + subpath}"]`)
-        ?.parentElement?.classList.add("active");
-    } else {
-      document
-        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
-        ?.parentElement?.classList.add("active");
-      document
-        .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
-        ?.parentElement?.parentElement?.parentElement?.parentElement?.classList.add(
-          "active",
-        );
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
+  //     document
+  //       .querySelector(`.menu-link[href="/${pathname + subpath}"]`)
+  //       ?.parentElement?.classList.add("active");
+  //   } else {
+  //     document
+  //       .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+  //       ?.parentElement?.classList.add("active");
+  //     document
+  //       .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
+  //       ?.parentElement?.parentElement?.parentElement?.parentElement?.classList.add(
+  //         "active",
+  //       );
+  //   }
+  // }, []);
 
+  const { fullLogoURL } = globalData.get("common") as Common.globalDataType;
   const {
     logoURL,
     speakers,
@@ -121,8 +122,12 @@ const NavBar = ({
           justifyContent="space-between"
           className="nav-wrap"
         >
-          <Link to={`/${pathname}`} className="logo-link">
-            <img src={logoURL} alt="logo" />
+          <Link
+            to={`/${pathname}`}
+            className="logo-link"
+            style={{ padding: "0px" }}
+          >
+            <img src={fullLogoURL} alt="logo" />
           </Link>
           {!hideMenu && (
             <>
@@ -164,7 +169,7 @@ const NavBar = ({
                       <NSSButton
                         type="button"
                         variant="primary"
-                        style={{ fontWeight: 500 }}
+                        style={{ fontWeight: 700 }}
                         onClick={() => {
                           navigate(`${pathname}/admin`);
                         }}
@@ -175,7 +180,7 @@ const NavBar = ({
                     <NSSButton
                       type="button"
                       variant="primary"
-                      style={{ fontWeight: 500 }}
+                      style={{ fontWeight: 700 }}
                       onClick={() => {
                         logoutHandler(authState.email);
                       }}
@@ -203,7 +208,7 @@ const NavBar = ({
                         onClick={() => {
                           navigate(`${pathname}/registration`);
                         }}
-                        style={{ alignSelf: "center" }}
+                        style={{ alignSelf: "center", fontWeight: 700 }}
                       >
                         {registration}
                       </NSSButton>

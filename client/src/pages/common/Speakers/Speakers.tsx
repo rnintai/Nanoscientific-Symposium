@@ -58,6 +58,12 @@ const Speakers = () => {
         title: "Speakers",
       },
     ],
+    [
+      "eu",
+      {
+        title: "Speakers",
+      },
+    ],
   ]);
 
   const { title } = globalDataTitle.get(pathname) as { title: string };

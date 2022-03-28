@@ -3,11 +3,17 @@ import { useTheme } from "@mui/material";
 
 export const MenuLinkContainer = styled.div`
   display: flex;
-
+  font-weight: ${() => {
+    const theme = useTheme();
+    return theme.typography.fontWeightBold;
+  }};
   a {
     position: relative;
     &.active {
-      color: #fff;
+      color: ${() => {
+        const theme = useTheme();
+        return theme.palette.text.primary;
+      }};
       cursor: default;
     }
     &::before {

@@ -47,7 +47,8 @@ const S3Upload = ({
       !(
         file.type === "image/jpeg" ||
         file.type === "image/png" ||
-        file.type === "image/jpg"
+        file.type === "image/jpg" ||
+        file.type === "image/webp"
       )
     ) {
       alert("only jpg allowed");

@@ -6,7 +6,7 @@ export const NavBarContainer = styled.div`
   height: 120px;
   border-bottom: ${() => {
     const theme = useTheme();
-    return `3px solid ${theme.palette.whitescale.alpha50}`;
+    return `3px solid ${theme.palette.background.default}`;
   }};
   z-index: 10;
   position: sticky;
@@ -15,14 +15,16 @@ export const NavBarContainer = styled.div`
     const theme = useTheme();
     return theme.palette.background.default;
   }};
+  box-shadow: 0 3px 6px #0000001c;
   .nav-wrap {
     max-width: 1200px;
     margin: 0 auto;
-    height: calc(100% - 40px);
-    padding: 20px 0;
+    height: 100%;
+    padding: 10px 0;
+    box-sizing: border-box;
     .logo-link {
-      max-width: 250px;
-      width: 30%;
+      min-width: 280px;
+      width: 25%;
       height: 100%;
       img {
         width: 100%;
@@ -38,7 +40,7 @@ export const NavBarContainer = styled.div`
       width: 20%;
     }
 
-    @media screen and (max-width: 1024px) {
+    @media screen and (max-width: 1140px) {
       .menu-item-wrap {
         display: none;
       }
