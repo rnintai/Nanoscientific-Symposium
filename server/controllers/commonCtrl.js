@@ -38,7 +38,7 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM program_agenda`;
+      const sql = `SELECT * FROM program_agenda ORDER BY program_id,next_id`;
       const result = await connection.query(sql);
       res.status(200).json({ success: 1, data: result[0] });
       connection.release();
