@@ -441,6 +441,7 @@ const Landing = () => {
           color: theme.palette.common.black,
         }}
         buttonText="ACCEPT"
+        buttonClasses="hover-zoom"
         buttonStyle={{
           color: theme.palette.common.white,
           fontWeight: "500",
