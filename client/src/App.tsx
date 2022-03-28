@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Routes, Route } from "react-router-dom";
-import EventLanding from "pages/common/EventLanding";
+// import EventLanding from "pages/common/EventLanding/EventLanding";
+import EventLanding from "pages/common/EventLanding/EventLandingOld";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
