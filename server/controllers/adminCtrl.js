@@ -218,7 +218,7 @@ const adminCtrl = {
         WHERE 
         id!=${sqlResult[0].insertId} 
         AND program_id=${program_id} 
-        AND next_id IS NULL`;
+        AND next_id=99999`;
         const adjustSqlResult = await connection.query(adjustSql);
         res.status(200).json({
           success: true,
@@ -292,6 +292,31 @@ const adminCtrl = {
       res.status(200).json({
         success: false,
         message: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
+  reorderAgenda: async (req, res) => {
+    const { agendaList, nation } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      for (const agenda of agendaList) {
+        const sql = `UPDATE program_agenda SET next_id=${agenda.next_id} WHERE id=${agenda.id}`;
+        await connection.query(sql);
+        console.log(agenda.id);
+      }
+      res.status(200).json({
+        success: true,
+        agendaList,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
       });
     } finally {
       connection.release();

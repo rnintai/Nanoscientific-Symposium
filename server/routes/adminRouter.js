@@ -255,6 +255,33 @@ router.route("/program/agenda/:id").delete(adminCtrl.deleteAgenda);
 
 /**
  * @swagger
+ *  /api/admin/program/agenda/reorder:
+ *    post:
+ *      tags:
+ *      - Admin
+ *      description: 서브 프로그램의 next id를 수정.
+ *      parameters:
+ *        - name: request
+ *          in: body
+ *          required: true
+ *          schema:
+ *            type: array
+ *            example: [{
+ *              "id": 1,
+ *              "next_id": 2,
+ *              },{
+ *              "id":2,
+ *              "next_id": 3,
+ *            }]
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router.route("/program/agenda/reorder").post(adminCtrl.reorderAgenda);
+
+/**
+ * @swagger
  *  /api/admin/speaker:
  *    post:
  *      tags:
