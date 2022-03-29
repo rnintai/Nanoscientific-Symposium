@@ -9,9 +9,11 @@ import Loading from "components/Loading/Loading";
 
 interface AdminRouteProps {
   children: React.ReactNode;
+  // eslint-disable-next-line react/require-default-props
+  redirect?: string;
 }
 
-const AdminRoute = ({ children }: AdminRouteProps) => {
+const AdminRoute = ({ children, redirect }: AdminRouteProps) => {
   const authState = useAuthState();
   const pathname = usePageViews();
   const subPath = useSubPath();
@@ -52,6 +54,11 @@ const AdminRoute = ({ children }: AdminRouteProps) => {
           alert("Coming Soon");
           // navigate(`/${pathname}`);
           navigate(-1);
+          // if (redirect) {
+          //   navigate(`/${pathname}${redirect}`);
+          // } else {
+          //   navigate(`/${pathname}`);
+          // }
         }
       } else {
         // case 3: publish된 페이지 or admin이 아닌 페이지 -> 공개
