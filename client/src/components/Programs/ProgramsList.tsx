@@ -36,7 +36,6 @@ const ProgramsList = () => {
       const programs = await axios.get(`/api/page/common/programs`, config);
       setPrograms(programs.data);
       setProgramLoading(false);
-      console.log(programs.data);
     };
 
     const getProgramAgenda = async () => {
@@ -45,9 +44,23 @@ const ProgramsList = () => {
         `/api/page/common/programs/agenda`,
         config,
       );
-      setProgramAgenda(result.data.data);
+      const agendaList = result.data.data;
+      const sorted = agendaList
+        .sort(
+          (aa: Program.programAgendaType, bb: Program.programAgendaType) => {
+            if (aa.next_id === bb.id) return -1;
+            if (aa.next_id !== bb.id || aa.next_id === 9999) return 1;
+            return 0;
+          },
+        )
+        .sort(
+          (aa: Program.programAgendaType, bb: Program.programAgendaType) => {
+            if (aa.program_id >= bb.program_id) return 1;
+            return 0;
+          },
+        );
+      setProgramAgenda(sorted);
       setProgramLoading(false);
-      console.log(result.data.data);
     };
 
     getPrograms();

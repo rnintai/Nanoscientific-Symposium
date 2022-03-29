@@ -72,7 +72,8 @@ const ProgramContent = ({
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     cursor: isAdmin ? "pointer" : "default",
     td: { lineHeight: "2.2", padding: "0 40px" },
-
+    transition: "all 0.2s ease-in-out",
+    opacity: "1.0",
     "&.agenda-row:nth-of-type(odd)": {
       backgroundColor: theme.palette.grey[300],
     },
@@ -118,6 +119,11 @@ const ProgramContent = ({
       ".agenda-move-section": {
         display: "flex",
       },
+    },
+
+    "&.disabled": {
+      pointerEvents: "none",
+      opacity: "0.3",
     },
   }));
 
@@ -196,7 +202,6 @@ const ProgramContent = ({
     const idp1 = listCpy[index + 1].id;
     const nextp1 = listCpy[index + 1].next_id;
     // m1
-    console.log(index, indexInParent);
 
     if (indexInParent > 0) {
       const idm1 = listCpy[index - 1].id;
@@ -217,7 +222,11 @@ const ProgramContent = ({
     listCpy[index + 1].next_id = nextp1;
 
     setAgendaEditList(listCpy);
-    console.log(listCpy);
+    const updatedList = [listCpy[index], listCpy[index + 1]];
+    if (indexInParent > 0) {
+      updatedList.unshift(listCpy[index - 1]);
+    }
+    reorderAgendaHandler(updatedList);
   };
 
   useEffect(() => {
@@ -231,9 +240,9 @@ const ProgramContent = ({
   return (
     <>
       <StyledTableRow
-        className={`program-row ${emphasize === 1 ? "gradient" : ""} ${
-          isAdmin && "admin"
-        }`}
+        className={`program-row${emphasize === 1 ? " gradient" : ""}${
+          isAdmin ? " admin" : ""
+        }${reorderLoading ? " disabled" : ""}`}
         onClick={onClick}
       >
         <StyledTableCell
@@ -255,35 +264,41 @@ const ProgramContent = ({
         .filter((agenda) => agenda.program_id === id)
         .map((agenda, index) => (
           <React.Fragment key={agenda.id}>
-            <StyledTableRow className={`agenda-row ${isAdmin && "admin"}`}>
+            <StyledTableRow
+              className={`agenda-row${isAdmin ? " admin" : ""}${
+                reorderLoading ? " disabled" : ""
+              }`}
+            >
               <StyledTableCell
                 width="0%"
                 style={{ padding: 0, border: "none" }}
               >
-                <Box
-                  className={`agenda-move-section ${
-                    agendaEditList[index].edit ? " active" : "active"
-                  }`}
-                >
-                  <IconButton
-                    sx={{ p: "3px" }}
-                    disabled={index === 0}
-                    onClick={() => {
-                      clickUpHandler(agenda, index);
-                    }}
+                {isAdmin && (
+                  <Box
+                    className={`agenda-move-section ${
+                      agendaEditList[index].edit ? " active" : "active"
+                    }`}
                   >
-                    <ArrowCircleUp />
-                  </IconButton>
-                  <IconButton
-                    sx={{ p: "3px" }}
-                    disabled={agenda.next_id === 99999}
-                    onClick={() => {
-                      clickDownHandler(agenda, index);
-                    }}
-                  >
-                    <ArrowCircleDown />
-                  </IconButton>
-                </Box>
+                    <IconButton
+                      sx={{ p: "3px" }}
+                      disabled={index === 0}
+                      onClick={() => {
+                        clickUpHandler(agenda, index);
+                      }}
+                    >
+                      <ArrowCircleUp />
+                    </IconButton>
+                    <IconButton
+                      sx={{ p: "3px" }}
+                      disabled={agenda.next_id === 99999}
+                      onClick={() => {
+                        clickDownHandler(agenda, index);
+                      }}
+                    >
+                      <ArrowCircleDown />
+                    </IconButton>
+                  </Box>
+                )}
               </StyledTableCell>
 
               <StyledTableCell

@@ -307,7 +307,6 @@ const adminCtrl = {
       for (const agenda of agendaList) {
         const sql = `UPDATE program_agenda SET next_id=${agenda.next_id} WHERE id=${agenda.id}`;
         await connection.query(sql);
-        console.log(agenda.id);
       }
       res.status(200).json({
         success: true,
