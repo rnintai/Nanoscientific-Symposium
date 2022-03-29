@@ -108,18 +108,10 @@ const ProgramContent = ({
       position: "absolute",
       transform: "translate(-80%,-50%)",
       color: "white",
-      "&.active": {
-        display: "flex",
-      },
     },
-    "&.admin.program-row:hover": {
-      transform: "translateY(-5px)",
-    },
-    "&.admin:hover": {
-      ".agenda-move-section": {
-        display: "flex",
-      },
-    },
+    // "&.admin.program-wrap:hover": {
+    //   transform: "translateY(-5px)",
+    // },
 
     "&.disabled": {
       pointerEvents: "none",
