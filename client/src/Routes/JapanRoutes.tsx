@@ -45,11 +45,8 @@ export default [
   },
   {
     path: "/jp/lecture-hall",
-    element: (
-      <PrivateRoute>
-        <JapanLectureHall />
-      </PrivateRoute>
-    ),
+    element: <JapanLectureHall />,
+    isPrivate: true,
   },
   {
     path: "/jp/exhibit/parksystems",

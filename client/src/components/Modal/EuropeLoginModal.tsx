@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { Button, Stack } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -116,6 +116,9 @@ const EuropeLoginModal = ({
   const handleClose = (setOpen: (val: boolean) => void) => {
     setOpen(false);
   };
+
+  // navigate hook
+  const navigate = useNavigate();
 
   // 인증 이메일 보내기 버튼 handler
   const sendHandler = async () => {
@@ -322,7 +325,7 @@ const EuropeLoginModal = ({
   }, [passwordSetModalOpen]);
   return (
     <div>
-      {signInText && (
+      {/* {signInText && (
         <NSSButton
           type="button"
           variant="primary"
@@ -333,7 +336,7 @@ const EuropeLoginModal = ({
         >
           {signInText}
         </NSSButton>
-      )}
+      )} */}
       {/* email modal */}
       <Dialog
         open={emailModalOpen}

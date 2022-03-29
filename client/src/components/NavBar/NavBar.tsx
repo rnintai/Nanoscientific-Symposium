@@ -5,7 +5,6 @@ import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
-import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
 import { Stack } from "@mui/material";
@@ -22,6 +21,8 @@ interface navProps {
   setPasswordSetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   passwordInputModalOpen: boolean;
   setPasswordInputModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setLogoutLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setLogoutSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
@@ -36,20 +37,21 @@ const NavBar = ({
   setPasswordSetModalOpen,
   passwordInputModalOpen,
   setPasswordInputModalOpen,
+  setLogoutSuccess,
+  setLogoutLoading,
 }: navProps) => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
-  const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
-  const [loginFailed, setLoginFailed] = useState<boolean>(false);
-  const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
-  const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
+  // const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
+  // const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
+  // const [loginFailed, setLoginFailed] = useState<boolean>(false);
+  // const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
+  // const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
+  // const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
+  //   useState<boolean>(false);
 
   const pathname = usePageViews();
   const subpath = useSubPath();
   const navigate = useNavigate();
-
-  const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
-    useState<boolean>(false);
 
   const mobileToggleHandler = () => {
     setIsMobile(!isMobile);
@@ -78,6 +80,7 @@ const NavBar = ({
       })
       .finally(() => {
         setLogoutLoading(false);
+        navigate(0);
       });
   };
 
@@ -111,87 +114,87 @@ const NavBar = ({
     attend,
     symposium,
     registration,
+    signInText
   } = globalData.get(pathname) as Common.globalDataType;
 
   return (
-    <>
-      <NavBarContainer>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          className="nav-wrap"
+    <NavBarContainer>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        className="nav-wrap"
+      >
+        <Link
+          to={`/${pathname}`}
+          className="logo-link"
+          style={{ padding: "0px" }}
         >
-          <Link
-            to={`/${pathname}`}
-            className="logo-link"
-            style={{ padding: "0px" }}
-          >
-            <img src={fullLogoURL} alt="logo" />
-          </Link>
-          {!hideMenu && (
-            <>
-              <Stack
-                direction="row"
-                alignSelf="flex-end"
-                justifyContent="space-between"
-                className="menu-item-wrap"
-              >
-                {speakers && (
-                  <MenuLink to={`/${pathname}/speakers`}>{speakers}</MenuLink>
-                )}
-                {programs && (
-                  <MenuLink to={`/${pathname}/program`}>{programs}</MenuLink>
-                )}
-                {lectureHall && (
-                  <MenuLink to={`/${pathname}/lecture-hall`}>
-                    {lectureHall}
-                  </MenuLink>
-                )}
-                {exhibitHall && (
-                  <MenuLink to={`/${pathname}/exhibit/parksystems`}>
-                    {exhibitHall}
-                  </MenuLink>
-                )}
-                {sponsors && (
-                  <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
-                )}
-              </Stack>
-              <Stack
-                direction="row"
-                justifyContent="flex-end"
-                alignSelf="flex-end"
-                className="login-wrap"
-              >
-                {authState.isLogin && !checkLoading && (
-                  <>
-                    {editorRole.includes(authState.role) && (
-                      <NSSButton
-                        type="button"
-                        variant="primary"
-                        style={{ fontWeight: 700 }}
-                        onClick={() => {
-                          navigate(`${pathname}/admin`);
-                        }}
-                      >
-                        ADMIN
-                      </NSSButton>
-                    )}
+          <img src={fullLogoURL} alt="logo" />
+        </Link>
+        {!hideMenu && (
+          <>
+            <Stack
+              direction="row"
+              alignSelf="flex-end"
+              justifyContent="space-between"
+              className="menu-item-wrap"
+            >
+              {speakers && (
+                <MenuLink to={`/${pathname}/speakers`}>{speakers}</MenuLink>
+              )}
+              {programs && (
+                <MenuLink to={`/${pathname}/program`}>{programs}</MenuLink>
+              )}
+              {lectureHall && (
+                <MenuLink to={`/${pathname}/lecture-hall`}>
+                  {lectureHall}
+                </MenuLink>
+              )}
+              {exhibitHall && (
+                <MenuLink to={`/${pathname}/exhibit/parksystems`}>
+                  {exhibitHall}
+                </MenuLink>
+              )}
+              {sponsors && (
+                <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
+              )}
+            </Stack>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignSelf="flex-end"
+              className="login-wrap"
+            >
+              {authState.isLogin && !checkLoading && (
+                <>
+                  {editorRole.includes(authState.role) && (
                     <NSSButton
                       type="button"
                       variant="primary"
                       style={{ fontWeight: 700 }}
                       onClick={() => {
-                        logoutHandler(authState.email);
+                        navigate(`${pathname}/admin`);
                       }}
                     >
-                      SIGN OUT
+                      ADMIN
                     </NSSButton>
-                  </>
-                )}
-                {!authState.isLogin && !checkLoading && (
-                  <>
-                    <EuropeLoginModal
+                  )}
+                  <NSSButton
+                    type="button"
+                    variant="primary"
+                    style={{ fontWeight: 700 }}
+                    onClick={() => {
+                      logoutHandler(authState.email);
+                    }}
+                  >
+                    SIGN OUT
+                  </NSSButton>
+                </>
+              )}
+              {!authState.isLogin && !checkLoading && (
+                <>
+                  {/* <EuropeLoginModal
                       setSuccess={setLoginSuccess}
                       setFailed={setLoginFailed}
                       emailModalOpen={emailModalOpen}
@@ -201,55 +204,38 @@ const NavBar = ({
                       setPasswordSetModalOpen={setPasswordSetModalOpen}
                       passwordInputModalOpen={passwordInputModalOpen}
                       setPasswordInputModalOpen={setPasswordInputModalOpen}
-                    />
-                    {registration && (
-                      <NSSButton
-                        variant="gradient"
-                        onClick={() => {
-                          navigate(`${pathname}/registration`);
-                        }}
-                        style={{ alignSelf: "center", fontWeight: 700 }}
-                      >
-                        {registration}
-                      </NSSButton>
-                    )}
-                  </>
-                )}
-              </Stack>
-            </>
-          )}
-        </Stack>
-      </NavBarContainer>
-      <TopCenterSnackBar
-        value={loginSuccess}
-        setValue={setLoginSuccess}
-        variant="filled"
-        severity="success"
-        content="Successfully signed in."
-      />
-      <TopCenterSnackBar
-        value={loginFailed}
-        setValue={setLoginFailed}
-        variant="filled"
-        severity="error"
-        content="User info not matched."
-      />
-      <TopCenterSnackBar
-        value={logoutSuccess}
-        setValue={setLogoutSuccess}
-        variant="filled"
-        severity="info"
-        content="Successfully signed out."
-      />
-      {/* 비밀번호 설정 성공 */}
-      <TopCenterSnackBar
-        value={passwordSetSuccessAlert}
-        setValue={setPasswordSetSuccessAlert}
-        variant="filled"
-        severity="success"
-        content="Password is successfully set."
-      />
-    </>
+                    /> */}
+                  {signInText && (
+                    <NSSButton
+                      type="button"
+                      variant="primary"
+                      style={{ fontWeight: 700 }}
+                      onClick={() => {
+                        setEmailModalOpen(true);
+                      }}
+                    >
+                      {signInText}
+                    </NSSButton>
+                  )}
+
+                  {registration && (
+                    <NSSButton
+                      variant="gradient"
+                      onClick={() => {
+                        navigate(`${pathname}/registration`);
+                      }}
+                      style={{ alignSelf: "center", fontWeight: 700 }}
+                    >
+                      {registration}
+                    </NSSButton>
+                  )}
+                </>
+              )}
+            </Stack>
+          </>
+        )}
+      </Stack>
+    </NavBarContainer>
   );
 };
 

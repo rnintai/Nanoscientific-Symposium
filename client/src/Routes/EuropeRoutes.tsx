@@ -37,7 +37,8 @@ export default [
   },
   {
     path: "/eu/lecture-hall",
-    element: <PrivateRoute>{/*  */}</PrivateRoute>,
+    element: <>a</>,
+    isPrivate: true,
   },
   {
     path: "/eu/exhibit/parksystems",
@@ -49,11 +50,7 @@ export default [
   },
   {
     path: "/eu/user/reset-password",
-    element: (
-      <PrivateRoute key="/asia/user/reset-password">
-        <ResetPassword />
-      </PrivateRoute>
-    ),
+    element: <ResetPassword />,
   },
   {
     path: "/eu/user/forgot-password",

@@ -34,11 +34,8 @@ export default [
   },
   {
     path: "/us/lecture-hall",
-    element: (
-      <PrivateRoute>
-        <LectureHall />
-      </PrivateRoute>
-    ),
+    element: <LectureHall />,
+    isPrivate: true,
   },
   {
     path: "/us/exhibit/parksystems",

@@ -19,11 +19,8 @@ export default [
   },
   {
     path: "/asia/lecture-hall",
-    element: (
-      <PrivateRoute>
-        <AsiaLectureHall />
-      </PrivateRoute>
-    ),
+    element: <AsiaLectureHall />,
+    isPrivate: true,
   },
   {
     path: "/asia/exhibit/parksystems",
@@ -59,11 +56,8 @@ export default [
   },
   {
     path: "/asia/user/reset-password",
-    element: (
-      <PrivateRoute key="/asia/user/reset-password">
-        <ResetPassword />
-      </PrivateRoute>
-    ),
+    element: <ResetPassword />,
+    isPrivate: true,
   },
   {
     path: "/asia/user/forgot-password",

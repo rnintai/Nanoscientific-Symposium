@@ -8,6 +8,9 @@ import Footer from "components/Footer/Footer";
 import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
 import { theme, jpTheme } from "theme/themes";
+import PrivateRoute from "components/Route/PrivateRoute";
+import EuropeLoginModal from "components/Modal/EuropeLoginModal";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -19,11 +22,25 @@ import JapanRoutes from "./Routes/JapanRoutes";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
 
+interface routeType {
+  path: string;
+  element: JSX.Element;
+  isPrivate?: boolean;
+}
+
 const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
+
+  // 로그인 관련
+  const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
+  const [loginFailed, setLoginFailed] = useState<boolean>(false);
+  const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
+    useState<boolean>(false);
+  const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
+  const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
 
   const themeObj = theme(themeState.darkMode);
   const jpThemeObj = jpTheme(themeState.darkMode);
@@ -76,6 +93,20 @@ const App = () => {
       });
   }, [authState.isLoading]);
 
+  // 로그아웃
+
+  const routeLoopHelper = (route: routeType, isPrivate?: boolean) => {
+    let resultElement = route.element;
+    if (route.isPrivate || isPrivate) {
+      resultElement = (
+        <PrivateRoute setEmailModalOpen={setEmailModalOpen}>
+          {route.element}
+        </PrivateRoute>
+      );
+    }
+    return <Route key={route.path} path={route.path} element={resultElement} />;
+  };
+
   if (authState.isLoading) return <Loading />;
 
   return (
@@ -94,6 +125,8 @@ const App = () => {
               setPasswordSetModalOpen={setPasswordSetModalOpen}
               passwordInputModalOpen={passwordInputModalOpen}
               setPasswordInputModalOpen={setPasswordInputModalOpen}
+              setLogoutSuccess={setLogoutSuccess}
+              setLogoutLoading={setLogoutLoading}
             />
           )}
         {pathname === "jp" && (
@@ -107,69 +140,84 @@ const App = () => {
             setPasswordSetModalOpen={setPasswordSetModalOpen}
             passwordInputModalOpen={passwordInputModalOpen}
             setPasswordInputModalOpen={setPasswordInputModalOpen}
+            setLogoutSuccess={setLogoutSuccess}
+            setLogoutLoading={setLogoutLoading}
           />
         )}
         <Routes>
           {/* common */}
           <Route path="/" element={<EventLanding />} />
-
           {/* asia */}
-          {AsiaRoutes.map((asiaRoute) => (
-            <Route
-              key={asiaRoute.path}
-              path={asiaRoute.path}
-              element={asiaRoute.element}
-            />
-          ))}
-
+          {AsiaRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* korea */}
-          {KoreaRoutes.map((koreaRoute) => (
-            <Route
-              key={koreaRoute.path}
-              path={koreaRoute.path}
-              element={koreaRoute.element}
-            />
-          ))}
-
+          {KoreaRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* us */}
-          {UsRoutes.map((usRoute) => (
-            <Route
-              key={usRoute.path}
-              path={usRoute.path}
-              element={usRoute.element}
-            />
-          ))}
-
+          {UsRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* japan */}
-          {JapanRoutes.map((japanRoute) => (
-            <Route
-              key={japanRoute.path}
-              path={japanRoute.path}
-              element={japanRoute.element}
-            />
-          ))}
-
+          {JapanRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* europe */}
-          {EuropeRoutes.map((europeRoute) => (
-            <Route
-              key={europeRoute.path}
-              path={europeRoute.path}
-              element={europeRoute.element}
-            />
-          ))}
-
+          {EuropeRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* admin */}
-          {AdminRoutes.map((adminRoute) => (
-            <Route
-              key={adminRoute.path}
-              path={adminRoute.path}
-              element={adminRoute.element}
-            />
-          ))}
+          {AdminRoutes.map((route) => {
+            return routeLoopHelper(route, true);
+          })}
         </Routes>
         {pathname !== "" && pathname !== "admin" && pathname !== "jp" && (
           <Footer />
         )}
+
+        <EuropeLoginModal
+          setSuccess={setLoginSuccess}
+          setFailed={setLoginFailed}
+          emailModalOpen={emailModalOpen}
+          setEmailModalOpen={setEmailModalOpen}
+          setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
+          passwordSetModalOpen={passwordSetModalOpen}
+          setPasswordSetModalOpen={setPasswordSetModalOpen}
+          passwordInputModalOpen={passwordInputModalOpen}
+          setPasswordInputModalOpen={setPasswordInputModalOpen}
+        />
+
+        {/* alert */}
+        <TopCenterSnackBar
+          value={loginSuccess}
+          setValue={setLoginSuccess}
+          variant="filled"
+          severity="success"
+          content="Successfully signed in."
+        />
+        <TopCenterSnackBar
+          value={loginFailed}
+          setValue={setLoginFailed}
+          variant="filled"
+          severity="error"
+          content="User info not matched."
+        />
+        <TopCenterSnackBar
+          value={logoutSuccess}
+          setValue={setLogoutSuccess}
+          variant="filled"
+          severity="info"
+          content="Successfully signed out."
+        />
+
+        <TopCenterSnackBar
+          value={passwordSetSuccessAlert}
+          setValue={setPasswordSetSuccessAlert}
+          variant="filled"
+          severity="success"
+          content="Password is successfully set."
+        />
       </AppContainer>
     </ThemeProvider>
   );

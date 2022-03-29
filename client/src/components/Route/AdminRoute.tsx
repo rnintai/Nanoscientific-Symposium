@@ -50,7 +50,8 @@ const AdminRoute = ({ children }: AdminRouteProps) => {
         } else {
           // case 2: unpublished 페이지나 어드민 페이지는 방문자에게 비허용.
           alert("Coming Soon");
-          navigate(`/${pathname}`);
+          // navigate(`/${pathname}`);
+          navigate(-1);
         }
       } else {
         // case 3: publish된 페이지 or admin이 아닌 페이지 -> 공개
