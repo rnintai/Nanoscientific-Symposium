@@ -127,7 +127,7 @@ const NavBar = ({
             className="logo-link"
             style={{ padding: "0px" }}
           >
-            <img src={fullLogoURL} alt="logo" />
+            <img src={logoURL} alt="logo" />
           </Link>
           {!hideMenu && (
             <>
