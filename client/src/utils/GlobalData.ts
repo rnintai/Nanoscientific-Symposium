@@ -43,7 +43,6 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-      fullLogoURL: `${S3_URL}/common/NS_logo_color.svg`,
       eventLandingMainBannerURL:
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
       eventLandingDesc:
@@ -187,7 +186,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu",
     {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo_color.svg",
+      logoURL: `${S3_URL}/common/NS_logo_color.svg`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
