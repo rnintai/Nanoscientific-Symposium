@@ -2,6 +2,12 @@ const S3_URL = "https://nss-integration.s3.us-west-1.amazonaws.com";
 
 export const globalData = new Map<string, Common.globalDataType>([
   [
+    "",
+    {
+      signInText: "SIGN IN",
+    },
+  ],
+  [
     "common",
     {
       nations: [

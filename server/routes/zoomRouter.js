@@ -37,4 +37,31 @@ router.get(
   zoomCtrl.getRegistrationQuestions
 );
 
+/**
+ * @swagger
+ *  /api/zoom/webinar/registrants/{webinarId}:
+ *    post:
+ *      tags:
+ *      - Zoom
+ *      description: webinarId에 registrant 추가
+ *      parameters:
+ *        - name: request
+ *          in: body
+ *          required: true
+ *          schema:
+ *            type: array
+ *            example: [{
+ *              "id": 1,
+ *              "next_id": 2,
+ *              },{
+ *              "id":2,
+ *              "next_id": 3,
+ *            }]
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router.route("/webinar/registrants/:webinarId").post(zoomCtrl.addRegistrant);
+
 module.exports = router;

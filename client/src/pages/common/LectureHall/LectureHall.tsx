@@ -8,6 +8,7 @@ import usePageViews from "hooks/usePageViews";
 import { calculateDurationToDate } from "utils/Date";
 import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "utils/GlobalData";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 
 const LectureHall = () => {
   const pathname = usePageViews();
@@ -24,6 +25,12 @@ const LectureHall = () => {
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
+
+  // alert
+  const [addRegistrantSuccess, setAddRegistrantSuccess] =
+    useState<boolean>(false);
+  const [addRegistrantFailed, setAddRegistrantFailed] =
+    useState<boolean>(false);
 
   // getWebinar 로딩
   const [getWebinarLoading, setGetWebinarLoading] = useState<boolean>(false);
@@ -207,10 +214,26 @@ const LectureHall = () => {
                   (liveWebinar) => webinar.id === liveWebinar.id,
                 ).length !== 0
               }
+              setSuccessAlert={setAddRegistrantSuccess}
+              setFailedAlert={setAddRegistrantFailed}
             />
           ))}
         </Stack>
       </Stack>
+      <TopCenterSnackBar
+        value={addRegistrantSuccess}
+        setValue={setAddRegistrantSuccess}
+        variant="filled"
+        severity="success"
+        content={`You've been successfully registered.`}
+      />
+      <TopCenterSnackBar
+        value={addRegistrantFailed}
+        setValue={setAddRegistrantFailed}
+        variant="filled"
+        severity="error"
+        content="Registration Failed. Please check your input."
+      />
     </VideoContainer>
   );
 };

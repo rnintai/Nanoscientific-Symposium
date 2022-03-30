@@ -25,6 +25,7 @@ import { dateToLocaleString, calculateDurationToString } from "utils/Date";
 import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import { snakeToPrettyString } from "utils/String";
+import CountrySelect from "components/Input/CountrySelect";
 import { ZoomCardContainer } from "./ZoomCardStyles";
 import { useAuthState } from "../../context/AuthContext";
 
@@ -32,14 +33,22 @@ interface ZoomCardProps {
   webinar: Webinar.webinarType;
   timezone: string;
   isOnAir: boolean;
+  setSuccessAlert: React.Dispatch<boolean>;
+  setFailedAlert: React.Dispatch<boolean>;
 }
 
 interface QuestionType {
-  field_name: string;
+  value: string;
   required: boolean;
 }
 
-const ZoomCard = ({ webinar, timezone, isOnAir }: ZoomCardProps) => {
+const ZoomCard = ({
+  webinar,
+  timezone,
+  isOnAir,
+  setSuccessAlert,
+  setFailedAlert,
+}: ZoomCardProps) => {
   const authState = useAuthState();
   const theme = useTheme();
 
@@ -56,6 +65,14 @@ const ZoomCard = ({ webinar, timezone, isOnAir }: ZoomCardProps) => {
   // loading
   const [getQuestionsLoading, setGetQuestionsLoading] =
     useState<boolean>(false);
+  const [addRegistrantLoading, setAddRegistrantLoading] =
+    useState<boolean>(false);
+
+  // form validation
+  const isEmail1Empty = email1.value === "";
+  const isEmail2Empty = email2.value === "";
+  const isFirstNameEmpty = firstName.value === "";
+  const isEmailConfirmed = email1.value === email2.value;
 
   // 국가 구분 태그를 떼어내는 메서드
   const removeTagFromTopic = (topic: string) => {
@@ -90,7 +107,46 @@ const ZoomCard = ({ webinar, timezone, isOnAir }: ZoomCardProps) => {
 
   // 웨비나 등록 handler
   const webinarRegisterHandler = () => {
-    console.log("asd");
+    const questionsCpy = { ...questions };
+    questionsCpy.email = { value: email1.value, required: true };
+    questionsCpy.first_name = { value: firstName.value, required: true };
+    setAddRegistrantLoading(true);
+    axios
+      .post(`/api/zoom/webinar/registrants/${webinar.id}`, {
+        questions: questionsCpy,
+      })
+      .then(() => {
+        setSuccessAlert(true);
+        setOpenRegisterModal(false);
+      })
+      .catch(() => {
+        setFailedAlert(true);
+      })
+      .finally(() => {
+        setAddRegistrantLoading(false);
+      });
+  };
+
+  // 제출 가능 여부 check
+  const checkSubmittable = () => {
+    let result =
+      !isEmail1Empty && !isEmail2Empty && isEmailConfirmed && !isFirstNameEmpty;
+
+    const requiredArray = [] as QuestionType[];
+    if (questions) {
+      const questionKeys = Object.keys(questions);
+      questionKeys.forEach((key) => {
+        if (questions[key].required) {
+          requiredArray.push(questions[key]);
+        }
+      });
+    }
+
+    requiredArray.forEach((q) => {
+      result = result && q.value !== "";
+    });
+
+    return result;
   };
 
   return (
@@ -152,9 +208,7 @@ const ZoomCard = ({ webinar, timezone, isOnAir }: ZoomCardProps) => {
           disableSpacing
         >
           <LoadingButton
-            onClick={() => {
-              getQuestionsHandler();
-            }}
+            onClick={getQuestionsHandler}
             variant="outlined"
             startIcon={<ContactPageRoundedIcon />}
             loading={getQuestionsLoading}
@@ -178,54 +232,100 @@ const ZoomCard = ({ webinar, timezone, isOnAir }: ZoomCardProps) => {
         title="Webinar Registration"
         submitText="Register"
         onSubmit={webinarRegisterHandler}
+        submitDisabled={!checkSubmittable()}
+        loading={addRegistrantLoading}
       >
-        <TextField
-          label="Email"
-          required
-          variant="filled"
-          size="small"
-          {...email1}
-        />
-        <TextField
-          label="Email Confirmation"
-          required
-          variant="filled"
-          size="small"
-          {...email2}
-        />
-        <TextField
-          label="First Name"
-          required
-          variant="filled"
-          size="small"
-          {...firstName}
-        />
-        {openRegisterModal &&
-          Object.entries(questions).map((question: [string, any]) => {
-            const questionTitle = question[0];
-            const questionValue = question[1];
-            return (
-              <TextField
-                key={questionTitle}
-                label={snakeToPrettyString(questionTitle)}
-                required={questionValue.required}
-                variant="filled"
-                size="small"
-                value={questions[questionTitle].value}
-                sx={{ width: "50%" }}
-                onChange={(
-                  event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-                ) => {
-                  const {
-                    currentTarget: { value },
-                  } = event;
-                  const questionsInputCpy = { ...questions };
-                  questionsInputCpy[questionTitle].value = value;
-                  setQuestions(questionsInputCpy);
-                }}
-              />
-            );
-          })}
+        <Stack
+          flexWrap="wrap"
+          sx={{
+            flexDirection: {
+              mobile: "column",
+              laptop: "row",
+            },
+            ".field-wrap": {
+              width: {
+                mobile: "100%",
+                laptop: "48%",
+              },
+              mr: {
+                mobile: 0,
+                laptop: 2,
+              },
+              mb: 1,
+            },
+          }}
+        >
+          <TextField
+            className="field-wrap"
+            label="Email"
+            required
+            variant="filled"
+            error={isEmail1Empty}
+            size="small"
+            {...email1}
+          />
+          <TextField
+            className="field-wrap"
+            label="Email Confirmation"
+            required
+            error={isEmail2Empty || !isEmailConfirmed}
+            variant="filled"
+            size="small"
+            {...email2}
+          />
+          <TextField
+            className="field-wrap"
+            label="First Name"
+            required
+            error={isFirstNameEmpty}
+            variant="filled"
+            size="small"
+            {...firstName}
+          />
+          {openRegisterModal &&
+            Object.entries(questions).map((question: [string, any]) => {
+              const questionTitle = question[0];
+              const questionValue = question[1];
+              if (questionTitle === "country") {
+                return (
+                  <div className="field-wrap">
+                    <CountrySelect
+                      required={questionValue.required}
+                      question={question}
+                      questions={questions}
+                      setQuestions={setQuestions}
+                    />
+                  </div>
+                );
+              }
+              return (
+                <TextField
+                  className="field-wrap"
+                  key={questionTitle}
+                  label={snakeToPrettyString(questionTitle)}
+                  required={questionValue.required}
+                  error={
+                    questionValue.required &&
+                    questions[questionTitle].value === ""
+                  }
+                  variant="filled"
+                  size="small"
+                  value={questions[questionTitle].value}
+                  sx={{ width: "50%" }}
+                  onChange={(
+                    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+                  ) => {
+                    const {
+                      currentTarget: { value },
+                    } = event;
+                    const questionsInputCpy = { ...questions };
+                    questionsInputCpy[questionTitle].value = value;
+                    setQuestions(questionsInputCpy);
+                  }}
+                />
+              );
+            })}
+        </Stack>
       </CommonModal>
     </ZoomCardContainer>
   );
