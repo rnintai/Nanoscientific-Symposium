@@ -167,7 +167,6 @@ const EuropeRegistration = () => {
                 const result = actions?.order
                   ?.capture()
                   .then(async (details) => {
-                    const transactionId = details.id;
                     // snackBar?
 
                     const formData =
@@ -194,7 +193,7 @@ const EuropeRegistration = () => {
 
                       // save transaction to db
                       await axios.post("/api/page/eu/transaction", {
-                        id: transactionId,
+                        details,
                         userId: regResponse.data.id,
                       });
 

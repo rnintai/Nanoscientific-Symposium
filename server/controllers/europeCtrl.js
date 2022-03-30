@@ -3,10 +3,10 @@ const path = require("path");
 const hasher = require("wordpress-hash-node");
 
 const europeCtrl = {
-  
   saveTransaction: async (req, res) => {
-    const { id, userId } = req.body;
+    const { details, userId } = req.body;
 
+    const id = details.purchase_units[0].payments.captures[0].id;
     const sql = `INSERT INTO transaction(id,user_id) VALUES('${id}',${userId})`;
 
     europeConnection.query(sql, (error, rows) => {

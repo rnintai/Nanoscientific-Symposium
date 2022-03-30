@@ -1,7 +1,6 @@
 const europeCtrl = require("../controllers/europeCtrl");
 const router = require("express").Router();
 
-
 /**
  * @swagger
  *  /api/page/eu/register:
@@ -39,9 +38,7 @@ const router = require("express").Router();
  *          description: successful operation
  */
 
-
 router.route("/register").post(europeCtrl.register);
-
 
 /**
  * @swagger
@@ -57,7 +54,7 @@ router.route("/register").post(europeCtrl.register);
  *          schema:
  *            type: string
  *            example: {
- *              "id": "EWAHEJKIWAHEAEH213712893713ESDAD",
+ *              "details": {transaction details object},
  *              "userId": 29,
  *            }
  *      responses:
