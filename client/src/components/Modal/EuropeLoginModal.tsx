@@ -106,9 +106,15 @@ const EuropeLoginModal = ({
   const vCodeFocus = useRef<HTMLInputElement>(null);
 
   // global data
-  const { signInText, emailInputLabel } = globalData.get(
-    pathname,
-  ) as Common.globalDataType;
+  const {
+    signInText,
+    emailInputLabel,
+    passwordInputLabel,
+    forgotPasswordText,
+    createAccountText,
+    goNextText,
+    goPrevText,
+  } = globalData.get(pathname) as Common.globalDataType;
 
   const handleOpen = (setOpen: (val: boolean) => void) => {
     setOpen(true);
@@ -384,7 +390,7 @@ const EuropeLoginModal = ({
               color="primary"
               onClick={nextHandler}
             >
-              Next
+              {goNextText}
             </Button>
           )}
           <Stack
@@ -393,13 +399,13 @@ const EuropeLoginModal = ({
             sx={{ width: "95%" }}
           >
             <Link to={`${pathname}/registration`} onClick={closeAllModal}>
-              Create an Account
+              {createAccountText}
             </Link>
             <Link
               to={`${pathname}/user/forgot-password`}
               onClick={closeAllModal}
             >
-              Forgot Your Password?
+              {forgotPasswordText}
             </Link>
           </Stack>
         </DialogActions>
@@ -418,14 +424,14 @@ const EuropeLoginModal = ({
         maxWidth="tablet"
       >
         <CloseButton setOpen={setPasswordInputModalOpen} />
-        <DialogTitle>Sign In</DialogTitle>
+        <DialogTitle>{signInText}</DialogTitle>
         <DialogContent>
           <TextField
             disabled={!passwordInputModalOpen}
             ref={passwordInputFocus}
             margin="dense"
             id="password"
-            label="Password"
+            label={passwordInputLabel}
             type="password"
             fullWidth
             variant="filled"
@@ -448,7 +454,7 @@ const EuropeLoginModal = ({
               handleOpen(setEmailModalOpen);
             }}
           >
-            Prev
+            {goPrevText}
           </Button>
           {loading && (
             <LoadingButton
@@ -468,7 +474,7 @@ const EuropeLoginModal = ({
                 loginHandler(email.value, password.value);
               }}
             >
-              SIGN IN
+              {signInText}
             </Button>
           )}
         </DialogActions>
@@ -604,7 +610,7 @@ const EuropeLoginModal = ({
               handleOpen(setEmailModalOpen);
             }}
           >
-            Prev
+            {goPrevText}
           </Button>
 
           <LoadingButton

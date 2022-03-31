@@ -99,7 +99,6 @@ const NavBar = ({
   //   }
   // }, []);
 
-  const { fullLogoURL } = globalData.get("common") as Common.globalDataType;
   const {
     logoURL,
     speakers,
@@ -127,7 +126,7 @@ const NavBar = ({
             className="logo-link"
             style={{ padding: "0px" }}
           >
-            <img src={fullLogoURL} alt="logo" />
+            <img src={logoURL} alt="logo" />
           </Link>
           {!hideMenu && (
             <>

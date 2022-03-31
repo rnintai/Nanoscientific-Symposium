@@ -3,7 +3,7 @@ import React from "react";
 import { LandingSectionContainer } from "./LandingSectionStyles";
 
 interface LandingSectionProps extends React.ComponentPropsWithoutRef<"div"> {
-  children: JSX.Element | JSX.Element[] | string | string[];
+  children?: JSX.Element | JSX.Element[] | string | string[];
   maxWidth?: string;
   height?: string;
   fullWidth?: boolean;

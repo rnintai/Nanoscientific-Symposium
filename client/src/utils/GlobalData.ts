@@ -6,49 +6,60 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       nations: [
         {
-          name: "Asia",
-          date: "TBD",
+          name: "NSS SE Asia",
+          date: "Sep 22",
           landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "asia",
         },
         {
-          name: "Korea",
-          date: "TBD",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
-          path: "kr",
-        },
-        {
-          name: "US",
-          date: "TBD",
+          name: "NSS US",
+          date: "Sep 29",
           landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "us",
         },
         {
-          name: "Japan",
-          date: "TBD",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
-          path: "jp",
-        },
-        {
-          name: "China",
-          date: "TBD",
+          name: "NSS China",
+          date: "Oct 27-28",
           landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "https://nanoscientific.com.cn",
         },
         {
-          name: "Europe",
-          date: "TBD",
+          name: "NSF Europe",
+          date: "Oct 06-07",
           landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "eu",
         },
+        {
+          name: "NSS Japan",
+          date: "Nov 18",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "jp",
+        },
+        {
+          name: "NSS Korea",
+          date: "Nov 24",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "kr",
+        },
       ],
       logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-      fullLogoURL: `${S3_URL}/common/NS_logo_color.svg`,
+      fullLogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      teaserVideoEmbed: "a",
       eventLandingMainBannerURL:
         "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
-      eventLandingDesc:
-        "Ut a venenatis neque, in blandit urna. Proin facilisis, nulla sit amet congue tincidunt, orci quam fermentum erat, id ultrices tellus velit in velit. Fusce feugiat, erat eu varius gravida, mauris neque posuere mauris, a cursus mi mauris a justo. Nam suscipit semper auctor. Etiam sed gravida leo. Mauris rutrum massa varius neque rhoncus, id condimentum ante fringilla. Nam eu egestas turpis. Pellentesque neque ipsum, lacinia nec faucibus faucibus, molestie a felis. Proin quam ligula, suscipit imperdiet lorem in, porttitor pharetra mi. Nulla facilisi.",
-      eventLandingBodyBackground: "",
+      eventLandingDesc: `Park Systems launched this online event for
+        researchers and scientists in nanoscience and
+        nanotechnology to share data on how new
+        nano applications under research will lead to
+        discoveries that have a tremendous positive
+        impact on the world. Learn how exciting
+        research into bio materials, bio sensors,
+        flexible nano electronics, bio chemical, nano
+        structures and patterning, and more are soon
+        poised to transform industries ranging from
+        healthcare to energy to electronics, textiles
+        and agriculture to develop a sustainable
+        economy and a cleaner planet.`,
     },
   ],
   [
@@ -123,7 +134,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr",
     {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg",
+      logoURL: `${S3_URL}/common/NS_logo_color.svg`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
       programs: "프로그램",
@@ -131,11 +142,76 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "전시부스 ",
       sponsors: "협찬사",
       home: "홈",
+
+      // sign in 관련
       signInText: "로그인",
       registration: "등록",
-
-      // user 관련
+      goNextText: "다음",
+      goPrevText: "이전",
+      // user관련
       emailInputLabel: "이메일 주소",
+      passwordInputLabel: "비밀번호",
+      forgotPasswordText: "비밀번호 찾기",
+      createAccountText: "계정 등록",
+      // landing
+      landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      landingSection1Desc:
+        "Join the 5th edition of the NanoScientific Symposium Europe 2022 - the platform for nanoscience and SPM research!",
+      landingSection2Title: "NanoScientific Symposium",
+      landingSection2Desc: `NSFE series is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Miscroscopy (AFM).
+      <br /><br />The research focus of the 5th NSFE 2022 will be laid on wide range of SPM applications and techniques that empower to transform life standards. We will talk about emerging nanomaterials for advanced technologies, functional surfaces and hybrid materials as well as innovative methods in nanotechnology and correlative microscopy. The edition is open to global audience and will be held online.`,
+      landingSection2Video: "5aqzJQgN9X0",
+      landingSection3Title: "Why Attend NanoScientific Symposium?",
+      landingSection3Desc: `Nanoscientific Symposium presents insights on the rapidly evoling R&D and innovations in nanotechnology.
+        Our 2022 symposium provides how the most recent research has been done in the various fields.
+        The best pool to learn about nanoscientific studies and build your connection with experts.`,
+      landingSection4Title: "Conference Details",
+      landingSection4List1Title: "Topic",
+      landingSection4List1: [
+        "Emerging Nanomaterials for Advanced Technologies",
+        "Functional Surfaces",
+        "Advances Techniques and Automation in SPM",
+        "Correlative Microscopy",
+      ],
+      landingSection4List2Title: "SPM Methods",
+      landingSection4List2: [
+        "Nanomechanical and Electrical Characterization",
+        "Characterization of soft materials in liquid environment",
+        "Advanced Imaging",
+        "High resolution imaging",
+        "Automation in AFM",
+        "Correlative Microscopy",
+      ],
+      landingSection4List3Title: "Scientific Committee",
+      landingSection4List3: [
+        "Prof. Dr. Lucas Eng.<br/> Technical University Dresden",
+        "Dr. Baan Baizer<br/> University Freiburg",
+        "Dr. Tobias Cramer<br/> University of Bologna",
+        "Dr. Ilka Hermes<br/> Leibniz Institute of Polymer Research Dresden",
+        "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
+        "Prof. Brian Rodriguez<br/>Universty College Dublin",
+      ],
+      landingSection5Title: "Keynote Speakers",
+      landingSection6Title: "Submit All Year long",
+      landingSection6Desc:
+        "Learn and be inspired at any time with more then 200 sessions on demand",
+      landingSection6ButtonText: "Explore all on-demand sessions",
+      landingSection6ButtonLink:
+        "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
+      landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
+      landingSection7Title: "Sponsored By",
+      landingSection7Sponsors: [
+        {
+          name: "Park Systems",
+          img: "https://d25unujvh7ui3r.cloudfront.net/event/park_logo.png",
+          url: "https://parksystems.com",
+        },
+      ],
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
     },
   ],
   [
@@ -187,7 +263,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu",
     {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/eu/NS_logo_color.svg",
+      logoURL: `${S3_URL}/eu/NS_logo_color.svg`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",

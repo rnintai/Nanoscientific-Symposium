@@ -1,9 +1,11 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import LandingNationCard from "components/Card/LandingNationCard";
 import LandingSection from "components/Section/LandingSection";
 import React from "react";
 import { Link } from "react-router-dom";
 import { globalData } from "utils/GlobalData";
+import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
+import BackgroundVectorColored from "components/BackgroundVector/BackgroundVectorColored";
 import { EventLandingContainer } from "./EventLandingStyles";
 
 const EventLanding = () => {
@@ -13,83 +15,112 @@ const EventLanding = () => {
     fullLogoURL,
     eventLandingDesc,
     eventLandingBodyBackground,
+    teaserVideoEmbed,
     nations,
   } = globalData.get("common") as Common.globalDataType;
 
+  const theme = useTheme();
   return (
     <EventLandingContainer>
-      <LandingSection background={eventLandingMainBannerURL} fullWidth>
-        <Box
-          sx={{
-            position: "relative",
-            padding: { mobile: "30px", laptop: "50px" },
-            margin: { mobile: "20px", laptop: "150px 0" },
-            maxWidth: "800px",
-            left: { mobile: 0, laptop: "10%" },
-            boxSizing: "border-box",
-            height: "100%",
-            backgroundColor: "#ffffff30",
-          }}
-        >
-          <img src={fullLogoURL} alt="logo" style={{ maxWidth: "700px" }} />
-        </Box>
-      </LandingSection>
-      <LandingSection fullWidth background={eventLandingBodyBackground}>
-        <Stack
-          className="layout"
-          direction="column"
-          alignItems="center"
-          style={{ maxWidth: "1200px" }}
-        >
+      <LandingSection
+        background={eventLandingMainBannerURL}
+        height="500px"
+        fullWidth
+      />
+      <BackgroundVectorColored>
+        {/* 영상, desc */}
+        {teaserVideoEmbed && (
+          <LandingSection fullWidth>
+            <Stack
+              className="layout"
+              direction={{ mobile: "column", laptop: "row" }}
+            >
+              <YoutubeEmbed
+                embedId={teaserVideoEmbed}
+                width="400"
+                height="250"
+              />
+              <Stack sx={{ margin: "30px 0 30px 40px" }}>
+                <img src={logoURL} alt="logo" style={{ maxWidth: "300px" }} />
+                <Typography
+                  variant="body2"
+                  textAlign="left"
+                  mt={2}
+                  color={theme.palette.grey[600]}
+                >
+                  {eventLandingDesc}
+                </Typography>
+              </Stack>
+            </Stack>
+          </LandingSection>
+        )}
+
+        {/* 큰 로고 */}
+        <LandingSection fullWidth>
           <Stack
-            direction="row"
-            width={{ mobile: "300px", laptop: "600px" }}
-            flexWrap="wrap"
-            justifyContent="center"
+            style={{ padding: "0 50px" }}
+            className="layout"
+            alignItems="center"
           >
-            {nations &&
-              nations.map((nation) => {
-                if (nation.name === "China") {
+            <Box sx={{ height: { mobile: "220px", laptop: "500px" } }}>
+              <img src={fullLogoURL} alt="logo" style={{ height: "100%" }} />
+            </Box>
+          </Stack>
+        </LandingSection>
+        {/* 나라 카드 */}
+        <LandingSection fullWidth>
+          <Stack
+            className="layout"
+            direction="column"
+            alignItems="center"
+            style={{ maxWidth: "1200px" }}
+          >
+            <Stack
+              direction="row"
+              width={{ mobile: "300px", laptop: "600px" }}
+              flexWrap="wrap"
+              justifyContent="center"
+            >
+              {nations &&
+                nations.map((nation) => {
+                  if (nation.name === "China") {
+                    return (
+                      <LandingNationCard
+                        key={nation.name}
+                        name={nation.name}
+                        date={nation.date}
+                        image={nation.landingImage}
+                        path={nation.path}
+                        disabled
+                      />
+                    );
+                  }
                   return (
                     <LandingNationCard
                       key={nation.name}
                       name={nation.name}
                       date={nation.date}
                       image={nation.landingImage}
-                      path={nation.path}
-                      disabled
+                      path={`/${nation.path}`}
                     />
                   );
-                }
-                return (
-                  <LandingNationCard
-                    key={nation.name}
-                    name={nation.name}
-                    date={nation.date}
-                    image={nation.landingImage}
-                    path={`/${nation.path}`}
-                  />
-                );
-              })}
+                })}
+            </Stack>
           </Stack>
-          <img
-            src={logoURL}
-            alt="logo"
-            style={{ maxWidth: "300px", marginTop: "30px" }}
-          />
-          <Typography variant="body2" textAlign="center" mt={2}>
-            {eventLandingDesc}
-          </Typography>
-        </Stack>
-      </LandingSection>
-      <LandingSection style={{ backgroundColor: "#F1F2F2" }} fullWidth>
+        </LandingSection>
+      </BackgroundVectorColored>
+      {/* Sponsor */}
+      <LandingSection style={{ backgroundColor: "#EDF4FC" }} fullWidth>
         <Stack
           className="layout"
           direction="column"
           justifyContent="center"
-          style={{ maxWidth: "350px ", padding: "50px" }}
+          style={{ maxWidth: "350px ", padding: "20px 50px" }}
         >
-          <Typography variant="body1" fontWeight={500}>
+          <Typography
+            variant="body1"
+            fontWeight={theme.typography.fontWeightBold}
+          >
             Sponsored by
           </Typography>
           <Stack direction="row" justifyContent="center">

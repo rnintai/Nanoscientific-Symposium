@@ -110,6 +110,7 @@ declare namespace Common {
     fullLogoURL?: string;
     eventLandingDesc?: string;
     eventLandingBodyBackground?: string;
+    teaserVideoEmbed?: string;
 
     // landing
     landingSection1BackgroundURL?: string;
