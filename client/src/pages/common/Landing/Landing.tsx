@@ -17,6 +17,7 @@ import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import BackgroundVectorWhite from "components/BackgroundVector/BackgroundVectorWhite";
 import BackgroundVectorColored from "components/BackgroundVector/BackgroundVectorColored";
 import BackgroundVectorColoredReversed from "components/BackgroundVector/BackgroundVectorColoredReversed";
+// import { LiveChatWidget } from "@livechat/widget-react";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 
 const Landing = () => {
@@ -100,25 +101,27 @@ const Landing = () => {
                 minWidth: "200px",
               }}
             />
-            <NSSButton
-              className="z1"
-              variant="gradient"
-              style={{ padding: "5px 20px" }}
-              onClick={() => {
-                navigate(`/${pathname}/registration`);
-              }}
-            >
-              <Typography
-                sx={{
-                  fontSize: {
-                    mobile: theme.typography.body1.fontSize,
-                    tablet: theme.typography.h6.fontSize,
-                  },
+            {registration && (
+              <NSSButton
+                className="z1"
+                variant="gradient"
+                style={{ padding: "5px 20px" }}
+                onClick={() => {
+                  navigate(`/${pathname}/registration`);
                 }}
               >
-                {registration}
-              </Typography>
-            </NSSButton>
+                <Typography
+                  sx={{
+                    fontSize: {
+                      mobile: theme.typography.body1.fontSize,
+                      tablet: theme.typography.h6.fontSize,
+                    },
+                  }}
+                >
+                  {registration}
+                </Typography>
+              </NSSButton>
+            )}
             <Typography
               className="z1"
               textAlign="center"
@@ -456,6 +459,7 @@ const Landing = () => {
           See privacy policy
         </a>
       </CookieConsent>
+      {/* <LiveChatWidget license="13874505" group="0" /> */}
     </>
   );
 };

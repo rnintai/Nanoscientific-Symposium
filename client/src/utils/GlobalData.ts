@@ -264,7 +264,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
       home: "HOME",
-      registration: "REGISTRATION",
+      // registration: "REGISTRATION",
       // sign in 관련
       signInText: "SIGN IN",
       goNextText: "NEXT",
