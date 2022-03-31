@@ -52,19 +52,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       teaserVideoEmbed: "a",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
       eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner-no-gradient.jpg`,
-      eventLandingDesc: `Park Systems launched this online event for
-        researchers and scientists in nanoscience and
-        nanotechnology to share data on how new
-        nano applications under research will lead to
-        discoveries that have a tremendous positive
-        impact on the world. Learn how exciting
-        research into bio materials, bio sensors,
-        flexible nano electronics, bio chemical, nano
-        structures and patterning, and more are soon
-        poised to transform industries ranging from
-        healthcare to energy to electronics, textiles
-        and agriculture to develop a sustainable
-        economy and a cleaner planet.`,
+      eventLandingDesc: `NanoScientific plans are underway to continue the excitement that comes from scientific innovation and discovery with a new line up for 2022! Stay tuned for the 2022 NanoScientific Event Calendar for your chance to network with leading experts who are pioneering the evolution of scientific discovery at NanoScientific Conferences Worldwide.
+`,
     },
   ],
   [
