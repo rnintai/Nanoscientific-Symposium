@@ -17,98 +17,85 @@ const EventLanding = () => {
     eventLandingBodyBackground,
     teaserVideoEmbed,
     nations,
+    bannerLogoURL,
   } = globalData.get("common") as Common.globalDataType;
 
   const theme = useTheme();
   return (
     <EventLandingContainer>
-      <LandingSection
-        background={eventLandingMainBannerURL}
-        height="500px"
-        fullWidth
-      />
-      <BackgroundVectorColored>
-        {/* 영상, desc */}
-        {teaserVideoEmbed && (
-          <LandingSection fullWidth>
-            <Stack
-              className="layout"
-              direction={{ mobile: "column", laptop: "row" }}
-            >
-              <YoutubeEmbed
-                embedId={teaserVideoEmbed}
-                width="400"
-                height="250"
-              />
-              <Stack sx={{ margin: "30px 0 30px 40px" }}>
-                <img src={logoURL} alt="logo" style={{ maxWidth: "300px" }} />
-                <Typography
-                  variant="body2"
-                  textAlign="left"
-                  mt={2}
-                  color={theme.palette.grey[600]}
-                >
-                  {eventLandingDesc}
-                </Typography>
-              </Stack>
-            </Stack>
-          </LandingSection>
-        )}
-
-        {/* 큰 로고 */}
+      <LandingSection background={eventLandingMainBannerURL} fullWidth>
+        <Stack className="layout" alignItems="center">
+          <img src={bannerLogoURL} width="300" alt="logo" />
+        </Stack>
+      </LandingSection>
+      {/* 영상, desc */}
+      {teaserVideoEmbed && (
         <LandingSection fullWidth>
           <Stack
-            style={{ padding: "0 50px" }}
             className="layout"
-            alignItems="center"
+            direction={{ mobile: "column", laptop: "row" }}
+            style={{ padding: "70px 50px 30px 50px" }}
           >
-            <Box sx={{ height: { mobile: "220px", laptop: "500px" } }}>
-              <img src={fullLogoURL} alt="logo" style={{ height: "100%" }} />
-            </Box>
+            <YoutubeEmbed embedId={teaserVideoEmbed} width="400" height="280" />
+            <Stack
+              sx={{ margin: { laptop: "30px 0 30px 40px", mobile: "30px 0" } }}
+            >
+              <img src={logoURL} alt="logo" style={{ maxWidth: "300px" }} />
+              <Typography
+                variant="body2"
+                textAlign="left"
+                mt={2}
+                color={theme.palette.grey[600]}
+              >
+                {eventLandingDesc}
+              </Typography>
+            </Stack>
           </Stack>
         </LandingSection>
-        {/* 나라 카드 */}
-        <LandingSection fullWidth>
+      )}
+
+      {/* 나라 카드 */}
+      <LandingSection fullWidth>
+        <Stack
+          className="layout"
+          direction="column"
+          alignItems="center"
+          style={{ padding: "0px 50px 50px 50px" }}
+        >
           <Stack
-            className="layout"
-            direction="column"
-            alignItems="center"
-            style={{ maxWidth: "1200px" }}
+            direction="row"
+            width={{ mobile: "300px", laptop: "100%" }}
+            flexWrap="wrap"
+            justifyContent="center"
           >
-            <Stack
-              direction="row"
-              width={{ mobile: "300px", laptop: "600px" }}
-              flexWrap="wrap"
-              justifyContent="center"
-            >
-              {nations &&
-                nations.map((nation) => {
-                  if (nation.name === "NSS China") {
-                    return (
-                      <LandingNationCard
-                        key={nation.name}
-                        name={nation.name}
-                        date={nation.date}
-                        image={nation.landingImage}
-                        path={nation.path}
-                        disabled
-                      />
-                    );
-                  }
+            {nations &&
+              nations.map((nation) => {
+                if (nation.name === "NSS China") {
                   return (
                     <LandingNationCard
                       key={nation.name}
                       name={nation.name}
                       date={nation.date}
                       image={nation.landingImage}
-                      path={`/${nation.path}`}
+                      path={nation.path}
+                      disabled
                     />
                   );
-                })}
-            </Stack>
+                }
+                return (
+                  <LandingNationCard
+                    key={nation.name}
+                    name={nation.name}
+                    date={nation.date}
+                    image={nation.landingImage}
+                    path={`/${nation.path}`}
+                    disabled
+                  />
+                );
+              })}
           </Stack>
-        </LandingSection>
-      </BackgroundVectorColored>
+        </Stack>
+      </LandingSection>
       {/* Sponsor */}
       <LandingSection style={{ backgroundColor: "#EDF4FC" }} fullWidth>
         <Stack

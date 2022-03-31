@@ -24,16 +24,16 @@ export const globalData = new Map<string, Common.globalDataType>([
           path: "us",
         },
         {
-          name: "NSS China",
-          date: "Oct 27-28",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
-          path: "https://nanoscientific.com.cn",
-        },
-        {
           name: "NSF Europe",
-          date: "Oct 06-07",
+          date: "Oct 6 - 7",
           landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "eu",
+        },
+        {
+          name: "NSS China",
+          date: "Oct 27 - 28",
+          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          path: "https://nanoscientific.com.cn",
         },
         {
           name: "NSS Japan",
@@ -48,11 +48,10 @@ export const globalData = new Map<string, Common.globalDataType>([
           path: "kr",
         },
       ],
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/asia/NS_logo.svg",
-      fullLogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
       teaserVideoEmbed: "a",
-      eventLandingMainBannerURL:
-        "https://d25unujvh7ui3r.cloudfront.net/asia/home_1_thumb.jpg",
+      bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
+      eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner-no-gradient.jpg`,
       eventLandingDesc: `Park Systems launched this online event for
         researchers and scientists in nanoscience and
         nanotechnology to share data on how new

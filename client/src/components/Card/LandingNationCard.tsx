@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import React from "react";
-import { Stack, Typography, useTheme } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router";
 import { LandingNationCardContainer } from "./LandingNationCardStyles";
 
@@ -24,28 +24,42 @@ const LandingNationCard = ({
 
   return (
     <LandingNationCardContainer
-      className={`${disabled ? "disabled" : ""} hover-zoom`}
+      className="hover-zoom"
       onClick={() => {
         if (!disabled) {
           navigate(path);
+        } else {
+          alert("Coming Soon!");
         }
       }}
     >
       <Stack className="card-wrap">
-        <Typography
-          variant="body2"
-          fontWeight={theme.typography.fontWeightBold}
+        <Box
           sx={{
             background: theme.palette.primary.gradation,
             color: "#fff",
             mx: "10px",
             mt: 2,
-            borderRadius: "7px",
+            borderRadius: "15px",
           }}
         >
-          {name}
-        </Typography>
-        <Typography
+          <Typography
+            variant="body2"
+            component="span"
+            fontWeight={theme.typography.fontWeightBold}
+          >
+            {name} |{" "}
+          </Typography>
+          <Typography
+            component="span"
+            variant="body2"
+            fontWeight={theme.typography.fontWeightLight}
+          >
+            {date}
+          </Typography>
+        </Box>
+
+        {/* <Typography
           variant="body2"
           fontWeight={theme.typography.fontWeightBold}
           sx={{
@@ -55,8 +69,7 @@ const LandingNationCard = ({
             borderRadius: "0 0 7px 7px",
           }}
         >
-          {date}
-        </Typography>
+        </Typography> */}
       </Stack>
     </LandingNationCardContainer>
   );

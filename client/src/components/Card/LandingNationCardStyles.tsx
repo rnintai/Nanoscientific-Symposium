@@ -7,23 +7,23 @@ export const LandingNationCardContainer = styled.button`
   }
   text-align: center;
 
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   @media screen and (max-width: 1920px) {
-    width: 22%;
+    width: 31%;
     &:not(:nth-child(2n)) {
       margin-right: 0;
     }
     &:not(:nth-child(3n)) {
-      margin-right: 90px;
+      margin-right: 20px;
     }
   }
   @media screen and (max-width: 1024px) {
-    width: 40%;
+    width: 100%;
     &:not(:nth-child(3n)) {
       margin-right: 0;
     }
     &:not(:nth-child(2n)) {
-      margin-right: 40px;
+      margin-right: 0;
     }
   }
 `;

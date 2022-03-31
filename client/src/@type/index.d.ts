@@ -111,6 +111,7 @@ declare namespace Common {
     eventLandingDesc?: string;
     eventLandingBodyBackground?: string;
     teaserVideoEmbed?: string;
+    bannerLogoURL?: string;
 
     // landing
     landingSection1BackgroundURL?: string;
