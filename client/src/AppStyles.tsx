@@ -35,7 +35,7 @@ export const AppContainer = styled.div`
   .hover-zoom {
     transition: transform 0.15s ease-in-out;
     &:hover {
-      transform: scale(1.05);
+      transform: scale(105%);
     }
   }
 

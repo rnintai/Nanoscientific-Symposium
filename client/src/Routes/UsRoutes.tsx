@@ -14,7 +14,11 @@ import Registration from "pages/common/Registration/Registration";
 export default [
   {
     path: "/us",
-    element: <Landing />,
+    element: (
+      <AdminRoute redirect="/">
+        <Landing />
+      </AdminRoute>
+    ),
   },
   {
     path: "/us/speakers",

@@ -18,7 +18,7 @@ export default [
   {
     path: "/jp",
     element: (
-      <AdminRoute key="/" redirect="/archive">
+      <AdminRoute key="/" redirect="/jp/archive">
         <Landing />
       </AdminRoute>
     ),

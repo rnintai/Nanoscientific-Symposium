@@ -131,7 +131,7 @@ const Landing = () => {
                 },
               }}
             >
-              {landingSection1Desc}
+              {landingSection1Desc && <InnerHTML html={landingSection1Desc} />}
             </Typography>
           </Stack>
         </BackgroundVectorWhite>

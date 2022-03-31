@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from "react";
 import { Stack, Typography, useTheme } from "@mui/material";
+import { useNavigate } from "react-router";
 import { LandingNationCardContainer } from "./LandingNationCardStyles";
 
 interface LandingNationCardProps {
@@ -19,13 +20,14 @@ const LandingNationCard = ({
   disabled,
 }: LandingNationCardProps) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   return (
     <LandingNationCardContainer
       className={`${disabled ? "disabled" : ""} hover-zoom`}
       onClick={() => {
         if (!disabled) {
-          window.open(path, "_blank");
+          navigate(path);
         }
       }}
     >

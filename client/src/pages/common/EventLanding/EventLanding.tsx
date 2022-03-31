@@ -83,7 +83,7 @@ const EventLanding = () => {
             >
               {nations &&
                 nations.map((nation) => {
-                  if (nation.name === "China") {
+                  if (nation.name === "NSS China") {
                     return (
                       <LandingNationCard
                         key={nation.name}

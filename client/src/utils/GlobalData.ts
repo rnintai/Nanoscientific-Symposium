@@ -140,7 +140,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr",
     {
-      logoURL: `${S3_URL}/common/NS_logo_color.svg`,
+      logoURL: `https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
       programs: "프로그램",
