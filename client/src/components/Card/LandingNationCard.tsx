@@ -30,25 +30,27 @@ const LandingNationCard = ({
       }}
     >
       <Stack className="card-wrap">
-        <img src={image} alt={`${name}-img`} />
         <Typography
           variant="body2"
+          fontWeight={theme.typography.fontWeightBold}
           sx={{
             background: theme.palette.primary.gradation,
             color: "#fff",
             mx: "10px",
             mt: 2,
-            borderRadius: "10px",
+            borderRadius: "7px",
           }}
         >
-          NS {name}
+          {name}
         </Typography>
         <Typography
           variant="body2"
+          fontWeight={theme.typography.fontWeightBold}
           sx={{
+            backgroundColor: theme.palette.common.white,
             mx: "10px",
             mb: 2,
-            borderRadius: "10px 10px 0 0",
+            borderRadius: "0 0 7px 7px",
           }}
         >
           {date}

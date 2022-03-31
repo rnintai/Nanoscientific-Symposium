@@ -102,7 +102,6 @@ const NavBar = ({
   //   }
   // }, []);
 
-  const { fullLogoURL } = globalData.get("common") as Common.globalDataType;
   const {
     logoURL,
     speakers,
@@ -180,6 +179,7 @@ const NavBar = ({
                       ADMIN
                     </NSSButton>
                   )}
+
                   <NSSButton
                     type="button"
                     variant="primary"
