@@ -11,7 +11,11 @@ const YoutubeEmbed = ({ embedId, width, height }: YoutubeEmbedProps) => {
   return (
     <div
       className="video-responsive"
-      style={{ display: "flex", justifyContent: "center" }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
       <iframe
         width={width || "100%"}
