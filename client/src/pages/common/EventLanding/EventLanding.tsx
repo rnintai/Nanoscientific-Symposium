@@ -34,19 +34,27 @@ const EventLanding = () => {
           <Stack
             className="layout"
             direction={{ mobile: "column", laptop: "row" }}
-            style={{ padding: "70px 50px 30px 50px" }}
+            style={{
+              // padding: "70px 50px 30px 50px"
+              padding: "20px 50px 30px 50px",
+            }}
           >
-            <YoutubeEmbed embedId={teaserVideoEmbed} width="400" height="250" />
+            {/* <YoutubeEmbed embedId={teaserVideoEmbed} width="400" height="250" /> */}
             <Stack
               sx={{ margin: { laptop: "30px 0 30px 40px", mobile: "30px 0" } }}
-              alignItems={{ mobile: "center", laptop: "flex-start" }}
+              alignItems={{
+                mobile: "center",
+                // laptop: "flex-start"
+                laptop: "center",
+              }}
             >
               <img
                 className="section-logo"
                 src={logoURL}
                 alt="logo"
                 style={{
-                  maxWidth: "300px",
+                  // maxWidth: "300px",
+                  maxWidth: "500px",
                 }}
               />
               <Typography

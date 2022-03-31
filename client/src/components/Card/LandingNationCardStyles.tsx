@@ -8,22 +8,22 @@ export const LandingNationCardContainer = styled.button`
   text-align: center;
 
   margin-bottom: 15px;
-  @media screen and (max-width: 1920px) {
-    width: 31%;
-    &:not(:nth-child(2n)) {
-      margin-right: 0;
-    }
-    &:not(:nth-child(3n)) {
-      margin-right: 20px;
-    }
-  }
-  @media screen and (max-width: 1024px) {
+  @media screen and (min-width: 0px) {
     width: 100%;
     &:not(:nth-child(3n)) {
       margin-right: 0;
     }
     &:not(:nth-child(2n)) {
       margin-right: 0;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    width: 31%;
+    &:not(:nth-child(2n)) {
+      margin-right: 0;
+    }
+    &:not(:nth-child(3n)) {
+      margin-right: 20px;
     }
   }
 `;
