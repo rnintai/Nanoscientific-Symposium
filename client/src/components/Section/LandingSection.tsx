@@ -28,7 +28,7 @@ const LandingSection = (props: LandingSectionProps) => {
       style={{
         ...rest.style,
         ...{
-          display: "inline-block",
+          display: "block",
           minHeight: height,
           maxWidth,
           backgroundImage: `${background ? `url(${background})` : "none"}`,

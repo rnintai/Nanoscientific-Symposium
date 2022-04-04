@@ -79,16 +79,18 @@ const Landing = () => {
     <>
       <LandingSection
         fullWidth
+        maxWidth="1920px"
         background={landingSection1BackgroundURL}
         className="section1"
       >
-        <BackgroundVectorWhite>
+        <BackgroundVectorWhite maxWidth="1920px">
           <div className="overlay secondary z0" />
           <Stack
             className="layout"
             direction="column"
             alignItems="center"
             spacing={5}
+            style={{ padding: "135px 50px" }}
           >
             <img
               className="z1"
@@ -139,7 +141,7 @@ const Landing = () => {
           </Stack>
         </BackgroundVectorWhite>
       </LandingSection>
-      <BackgroundVectorColored>
+      <BackgroundVectorColored maxWidth="1920px">
         {landingSection2Title && landingSection2Video && landingSection2Desc && (
           <LandingSection fullWidth>
             <Stack
@@ -148,6 +150,7 @@ const Landing = () => {
                 mobile: "column-reverse",
                 tablet: "row",
               }}
+              maxWidth="1920px"
               alignItems="center"
               justifyContent="space-between"
               spacing={{ mobile: 5, tablet: 0 }}
@@ -213,7 +216,7 @@ const Landing = () => {
           </LandingSection>
         )}
 
-        <LandingSection fullWidth>
+        <LandingSection fullWidth maxWidth="1920px">
           <Box className="layout">
             {landingSection3Title && (
               <LandingTitle title={landingSection3Title} />
@@ -223,7 +226,7 @@ const Landing = () => {
             )}
           </Box>
         </LandingSection>
-        <LandingSection fullWidth>
+        <LandingSection fullWidth maxWidth="1920px">
           <Stack className="layout" direction="column">
             {landingSection4Title && (
               <LandingTitle title={landingSection4Title} textAlign="left" />
@@ -330,8 +333,8 @@ const Landing = () => {
         </LandingSection>
       </BackgroundVectorColored>
 
-      <BackgroundVectorColoredReversed>
-        <LandingSection fullWidth>
+      <BackgroundVectorColoredReversed maxWidth="1920px">
+        <LandingSection fullWidth maxWidth="1920px">
           <SpeakersContainer className="layout">
             <Stack direction="column">
               {landingSection5Title && (
@@ -347,7 +350,7 @@ const Landing = () => {
         </LandingSection>
 
         {/* section5 */}
-        <LandingSection fullWidth>
+        <LandingSection fullWidth maxWidth="1920px">
           <Stack className="layout">
             {landingSection6Title && (
               <LandingTitle title={landingSection6Title} />
@@ -406,7 +409,7 @@ const Landing = () => {
         </LandingSection>
       </BackgroundVectorColoredReversed>
       {landingSection7Title && landingSection7Sponsors && (
-        <LandingSection fullWidth>
+        <LandingSection fullWidth maxWidth="1920px">
           <Stack className="layout">
             <LandingTitle title="Sponsored By" />
             <Box display="inline-block">
@@ -459,6 +462,7 @@ const Landing = () => {
           See privacy policy
         </a>
       </CookieConsent>
+
       {/* <LiveChatWidget license="13874505" group="0" /> */}
     </>
   );
