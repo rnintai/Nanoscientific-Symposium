@@ -7,10 +7,11 @@ import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
-import { Stack } from "@mui/material";
+import { IconButton, Menu, MenuList, MenuItem, Stack } from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
+import PersonIcon from "@mui/icons-material/Person";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 
 interface navProps {
@@ -40,7 +41,14 @@ const NavBar = ({
   setLogoutSuccess,
   setLogoutLoading,
 }: navProps) => {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const openUserMenu = Boolean(anchorEl);
+  const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleUserMenuClose = () => {
+    setAnchorEl(null);
+  };
   // const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   // const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   // const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -52,10 +60,6 @@ const NavBar = ({
   const pathname = usePageViews();
   const subpath = useSubPath();
   const navigate = useNavigate();
-
-  const mobileToggleHandler = () => {
-    setIsMobile(!isMobile);
-  };
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
@@ -167,6 +171,40 @@ const NavBar = ({
             >
               {authState.isLogin && !checkLoading && (
                 <>
+                  <div>
+                    <NSSButton
+                      id="basic-button"
+                      type="button"
+                      variant="primary"
+                      onClick={handleUserMenuClick}
+                      aria-controls={openUserMenu ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={openUserMenu ? "true" : undefined}
+                    >
+                      <PersonIcon />
+                    </NSSButton>
+                    <Menu
+                      id="basic-menu"
+                      open={openUserMenu}
+                      onClose={handleUserMenuClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                      anchorEl={anchorEl}
+                      disableScrollLock
+                    >
+                      <MenuList dense>
+                        <MenuItem
+                          onClick={() => {
+                            handleUserMenuClose();
+                            navigate(`${pathname}/user/reset-password`);
+                          }}
+                        >
+                          Change Password
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </div>
                   {editorRole.includes(authState.role) && (
                     <NSSButton
                       type="button"
