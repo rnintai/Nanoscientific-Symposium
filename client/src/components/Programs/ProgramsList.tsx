@@ -84,7 +84,7 @@ const ProgramsList = () => {
   }
 
   return (
-    <ProgramsListContainer className="layout">
+    <ProgramsListContainer className="layout body-fit">
       <StyledTimezoneSelect
         value={selectedTimezone}
         onChange={(e) => {

@@ -50,7 +50,10 @@ export const AppContainer = styled.div`
     min-height: calc(100% - 140px);
     margin: 0 auto;
     padding: 70px 50px;
-    height: 100%;
+  }
+
+  .body-fit {
+    min-height: calc(100vh - 254px);
   }
 
   @media screen and (min-width: 0px) {
