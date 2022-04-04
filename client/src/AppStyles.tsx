@@ -47,16 +47,27 @@ export const AppContainer = styled.div`
   }
 
   .layout {
-    max-width: 1024px;
     min-height: calc(100% - 140px);
     margin: 0 auto;
     padding: 70px 50px;
     height: 100%;
   }
 
-  @media screen and (max-width: 768px) {
+  @media screen and (min-width: 0px) {
     .layout {
       padding: 35px;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .layout {
+      padding: 70px 50px;
+      max-width: 1024px;
+    }
+  }
+  @media screen and (min-width: 1921px) {
+    .layout {
+      padding: 70px 50px;
+      max-width: 1680px;
     }
   }
 `;

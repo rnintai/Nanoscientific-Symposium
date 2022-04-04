@@ -2,6 +2,7 @@
 import React from "react";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router";
+import { mainFontSize } from "utils/FontSize";
 import { LandingNationCardContainer } from "./LandingNationCardStyles";
 
 interface LandingNationCardProps {
@@ -47,6 +48,9 @@ const LandingNationCard = ({
             variant="body2"
             component="span"
             fontWeight={theme.typography.fontWeightBold}
+            sx={{
+              fontSize: mainFontSize,
+            }}
           >
             {name} |{" "}
           </Typography>
@@ -54,6 +58,9 @@ const LandingNationCard = ({
             component="span"
             variant="body2"
             fontWeight={theme.typography.fontWeightLight}
+            sx={{
+              fontSize: mainFontSize,
+            }}
           >
             {date}
           </Typography>

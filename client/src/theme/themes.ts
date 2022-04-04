@@ -12,6 +12,7 @@ declare module "@mui/material/styles" {
     tablet: true;
     laptop: true;
     desktop: true;
+    wide: true;
   }
 
   interface Palette {
@@ -128,6 +129,7 @@ export const theme = (isDark: boolean) => {
         tablet: 768,
         laptop: 1024,
         desktop: 1280,
+        wide: 1921,
       },
     },
     palette: getDesignTokens(isDark ? "dark" : "light"),
@@ -147,6 +149,7 @@ export const jpTheme = (isDark: boolean) => {
         tablet: 768,
         laptop: 1024,
         desktop: 1280,
+        wide: 1921,
       },
     },
     palette: getDesignTokens(isDark ? "dark" : "light"),

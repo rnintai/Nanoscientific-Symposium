@@ -51,7 +51,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
       teaserVideoEmbed: "a",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
-      eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner-no-gradient.jpg`,
+      eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.png`,
       eventLandingDesc: `Park Systems launched this online event for
         researchers and scientists in nanoscience and
         nanotechnology to share data on how new
@@ -65,6 +65,8 @@ export const globalData = new Map<string, Common.globalDataType>([
         healthcare to energy to electronics, textiles
         and agriculture to develop a sustainable
         economy and a cleaner planet.`,
+      sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
+      sponsor2LogoURL: `${S3_URL}/common/Park_logo.svg`,
     },
   ],
   [
