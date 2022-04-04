@@ -395,13 +395,13 @@ const adminCtrl = {
   },
 
   addSpeaker: async (req, res) => {
-    const { nation, name, belong, imagePath } = req.body;
+    const { nation, name, belong, imagePath, keynote } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO speakers(name,belong,image_path,status) VALUES('${name}','${belong}','${imagePath}',1)`;
+      const sql = `INSERT INTO speakers(name,belong,image_path,status,keynote) VALUES('${name}','${belong}','${imagePath}',1, ${keynote})`;
 
       await connection.query(sql);
       res.status(200).json({
@@ -414,11 +414,11 @@ const adminCtrl = {
     }
   },
   modifySpeaker: async (req, res) => {
-    const { nation, name, belong, imagePath, id, status } = req.body;
+    const { nation, name, belong, imagePath, id, status, keynote } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}',status=${status} WHERE id=${id}`;
+      const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}',status=${status}, keynote=${keynote} WHERE id=${id}`;
 
       await connection.query(sql);
       res.status(200).json({
