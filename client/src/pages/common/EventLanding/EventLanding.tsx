@@ -70,9 +70,12 @@ const EventLanding = () => {
               {/* 나라 카드 */}
               <Stack
                 direction="row"
-                width={{ mobile: "300px", laptop: "100%" }}
+                width={{ laptop: "100%" }}
                 flexWrap="wrap"
                 justifyContent="center"
+                sx={{
+                  minWidth: "200px",
+                }}
               >
                 {nations &&
                   nations.map((nation) => {
@@ -144,7 +147,17 @@ const EventLanding = () => {
         )}
       </Box>
       <LandingSection fullWidth>
-        <Stack direction="row" justifyContent="center">
+        <Stack
+          justifyContent="center"
+          sx={{
+            flexDirection: {
+              laptop: "row",
+            },
+            alignItems: {
+              mobile: "center",
+            },
+          }}
+        >
           <a
             href="https://nanoscientific.org"
             target="_blank"
