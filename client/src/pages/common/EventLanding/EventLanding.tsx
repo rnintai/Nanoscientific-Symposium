@@ -26,43 +26,41 @@ const EventLanding = () => {
   const theme = useTheme();
   return (
     <EventLandingContainer>
-      <LandingSection background={eventLandingMainBannerURL} fullWidth>
-        <Stack className="layout" alignItems="center">
-          <img src={bannerLogoURL} className="banner-logo" alt="logo" />
-        </Stack>
-      </LandingSection>
+      <LandingSection
+        className="banner-section"
+        background={eventLandingMainBannerURL}
+        fullWidth
+      />
       <Box className="body-container">
         {/* 영상, desc */}
         {teaserVideoEmbed && (
           <LandingSection fullWidth>
             <Stack
               className="layout"
-              direction={{ mobile: "column", laptop: "row" }}
               style={{
-                // padding: "70px 50px 30px 50px"
                 padding: "20px 50px 30px 50px",
               }}
             >
-              {/* <YoutubeEmbed embedId={teaserVideoEmbed} width="400" height="250" /> */}
               <Stack
-                sx={{
-                  margin: { laptop: "30px 0 30px 40px", mobile: "30px 0" },
-                }}
                 alignItems={{
                   mobile: "center",
-                  // laptop: "flex-start"
                   laptop: "center",
                 }}
+                spacing={2}
               >
                 <img
                   className="section-logo"
                   src={logoURL}
                   alt="logo"
                   style={{
-                    // maxWidth: "300px",
                     maxWidth: "500px",
                   }}
                 />
+                {/* <YoutubeEmbed
+                  embedId={teaserVideoEmbed}
+                  width="400"
+                  height="250"
+                /> */}
                 <Typography
                   textAlign="left"
                   mt={1}
@@ -84,7 +82,7 @@ const EventLanding = () => {
             className="layout"
             direction="column"
             alignItems="center"
-            style={{ padding: "0px 50px 50px 50px" }}
+            style={{ width: "80%", padding: "0px 50px" }}
           >
             <Stack
               direction="row"
@@ -100,7 +98,6 @@ const EventLanding = () => {
                         key={nation.name}
                         name={nation.name}
                         date={nation.date}
-                        image={nation.landingImage}
                         path={nation.path}
                         disabled
                       />
@@ -111,7 +108,6 @@ const EventLanding = () => {
                       key={nation.name}
                       name={nation.name}
                       date={nation.date}
-                      image={nation.landingImage}
                       path={`/${nation.path}`}
                       disabled
                     />
@@ -122,7 +118,7 @@ const EventLanding = () => {
         </LandingSection>
       </Box>
       {/* Sponsor */}
-      <LandingSection style={{ backgroundColor: "#EDF4FC" }} fullWidth>
+      <LandingSection fullWidth>
         <Stack direction="row" justifyContent="center">
           <a
             href="https://nanoscientific.org"

@@ -18,12 +18,12 @@ export const LandingNationCardContainer = styled.button`
     }
   }
   @media screen and (min-width: 1024px) {
-    width: 31%;
+    width: 23%;
     &:not(:nth-child(2n)) {
       margin-right: 0;
     }
     &:not(:nth-child(3n)) {
-      margin-right: 20px;
+      margin-right: 50px;
     }
   }
 `;

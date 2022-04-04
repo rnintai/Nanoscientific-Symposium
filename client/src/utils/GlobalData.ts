@@ -14,37 +14,31 @@ export const globalData = new Map<string, Common.globalDataType>([
         {
           name: "NSS SE Asia",
           date: "Sep 22",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "asia",
         },
         {
           name: "NSS US",
           date: "Sep 29",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "us",
         },
         {
           name: "NSF Europe",
-          date: "Oct 6 - 7",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
+          date: "Oct 06 - 07",
           path: "eu",
         },
         {
           name: "NSS China",
           date: "Oct 27 - 28",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "https://nanoscientific.com.cn",
         },
         {
           name: "NSS Japan",
           date: "Nov 18",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "jp",
         },
         {
           name: "NSS Korea",
           date: "Nov 24",
-          landingImage: "https://vemaps.com/uploads/img/large/kr-04.jpg",
           path: "kr",
         },
       ],

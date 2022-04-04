@@ -71,7 +71,6 @@ declare namespace Common {
   interface nationType {
     name: string;
     date: string;
-    landingImage: string;
     path: string;
   }
 
