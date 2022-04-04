@@ -51,6 +51,7 @@ export default [
   {
     path: "/eu/user/reset-password",
     element: <ResetPassword />,
+    isPrivate: true,
   },
   {
     path: "/eu/user/forgot-password",

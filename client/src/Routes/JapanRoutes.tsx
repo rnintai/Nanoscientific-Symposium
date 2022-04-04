@@ -12,6 +12,7 @@ import JapanLectureHall from "pages/japan/JapanLectureHall";
 import JapanArchive from "pages/japan/JapanArchive/JapanArchive";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 import Registration from "pages/common/Registration/Registration";
+import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import Speakers from "../pages/common/Speakers/Speakers";
 
 export default [
@@ -67,6 +68,11 @@ export default [
   {
     path: "/jp/archive",
     element: <JapanArchive />,
+  },
+  {
+    path: "/jp/user/reset-password",
+    element: <ResetPassword />,
+    isPrivate: true,
   },
   {
     path: "/jp/user/forgot-password",

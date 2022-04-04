@@ -9,6 +9,7 @@ import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import AdminRoute from "components/Route/AdminRoute";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
+import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import Registration from "pages/common/Registration/Registration";
 
 export default [
@@ -56,6 +57,11 @@ export default [
   {
     path: "/us/sponsors",
     element: <Sponsors />,
+  },
+  {
+    path: "/us/user/reset-password",
+    element: <ResetPassword />,
+    isPrivate: true,
   },
   {
     path: "/us/user/forgot-password",
