@@ -90,7 +90,7 @@ const Landing = () => {
             direction="column"
             alignItems="center"
             spacing={5}
-            style={{ padding: "135px 50px" }}
+            sx={{ padding: { laptop: "135px 50px !important" } }}
           >
             <img
               className="z1"

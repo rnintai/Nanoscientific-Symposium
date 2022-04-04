@@ -9,7 +9,7 @@ export const LandingNationCardContainer = styled.button`
 
   margin-bottom: 15px;
   @media screen and (min-width: 0px) {
-    width: 100%;
+    width: 80%;
     &:not(:nth-child(3n)) {
       margin-right: 0;
     }

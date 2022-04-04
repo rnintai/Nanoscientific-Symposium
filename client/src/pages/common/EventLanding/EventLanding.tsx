@@ -32,15 +32,10 @@ const EventLanding = () => {
         fullWidth
       />
       <Box className="body-container">
-        {/* 영상, desc */}
         {teaserVideoEmbed && (
           <LandingSection fullWidth>
-            <Stack
-              className="layout"
-              style={{
-                padding: "20px 50px 30px 50px",
-              }}
-            >
+            <Stack className="layout" spacing={4} alignItems="center">
+              {/* 영상, desc */}
               <Stack
                 alignItems={{
                   mobile: "center",
@@ -72,52 +67,82 @@ const EventLanding = () => {
                   {eventLandingDesc}
                 </Typography>
               </Stack>
-            </Stack>
-          </LandingSection>
-        )}
-
-        {/* 나라 카드 */}
-        <LandingSection fullWidth>
-          <Stack
-            className="layout"
-            direction="column"
-            alignItems="center"
-            style={{ width: "80%", padding: "0px 50px" }}
-          >
-            <Stack
-              direction="row"
-              width={{ mobile: "300px", laptop: "100%" }}
-              flexWrap="wrap"
-              justifyContent="center"
-            >
-              {nations &&
-                nations.map((nation) => {
-                  if (nation.name === "NSS China") {
+              {/* 나라 카드 */}
+              <Stack
+                direction="row"
+                width={{ mobile: "300px", laptop: "100%" }}
+                flexWrap="wrap"
+                justifyContent="center"
+              >
+                {nations &&
+                  nations.map((nation) => {
+                    if (nation.name === "NSS China") {
+                      return (
+                        <LandingNationCard
+                          key={nation.name}
+                          name={nation.name}
+                          date={nation.date}
+                          path={nation.path}
+                          disabled
+                        />
+                      );
+                    }
                     return (
                       <LandingNationCard
                         key={nation.name}
                         name={nation.name}
                         date={nation.date}
-                        path={nation.path}
+                        path={`/${nation.path}`}
                         disabled
                       />
                     );
-                  }
-                  return (
-                    <LandingNationCard
-                      key={nation.name}
-                      name={nation.name}
-                      date={nation.date}
-                      path={`/${nation.path}`}
-                      disabled
-                    />
-                  );
-                })}
+                  })}
+              </Stack>
+              {/* 스폰서 */}
             </Stack>
-          </Stack>
-        </LandingSection>
+
+            {/* 나라 카드 */}
+            {/* <Stack
+              className="layout"
+              direction="column"
+              alignItems="center"
+              style={{ width: "80%", padding: "0px 50px" }}
+            >
+              <Stack
+                direction="row"
+                width={{ mobile: "300px", laptop: "100%" }}
+                flexWrap="wrap"
+                justifyContent="center"
+              >
+                {nations &&
+                  nations.map((nation) => {
+                    if (nation.name === "NSS China") {
+                      return (
+                        <LandingNationCard
+                          key={nation.name}
+                          name={nation.name}
+                          date={nation.date}
+                          path={nation.path}
+                          disabled
+                        />
+                      );
+                    }
+                    return (
+                      <LandingNationCard
+                        key={nation.name}
+                        name={nation.name}
+                        date={nation.date}
+                        path={`/${nation.path}`}
+                        disabled
+                      />
+                    );
+                  })}
+              </Stack>
+            </Stack> */}
+            {/* Sponsor */}
+          </LandingSection>
+        )}
       </Box>
-      {/* Sponsor */}
       <LandingSection fullWidth>
         <Stack direction="row" justifyContent="center">
           <a
