@@ -1,14 +1,21 @@
+/* eslint-disable react/require-default-props */
 import { Box } from "@mui/material";
 import React from "react";
 import { BackgroundVectorWhiteContainer } from "./BackgroundVectorStyles";
 
 interface BackgroundVectorProps {
+  maxWidth?: string;
   children: React.ReactNode;
 }
 
-const BackgroundVectorWhite = ({ children }: BackgroundVectorProps) => {
+const BackgroundVectorWhite = ({
+  children,
+  maxWidth,
+}: BackgroundVectorProps) => {
   return (
-    <BackgroundVectorWhiteContainer>{children}</BackgroundVectorWhiteContainer>
+    <BackgroundVectorWhiteContainer style={{ maxWidth }}>
+      {children}
+    </BackgroundVectorWhiteContainer>
   );
 };
 
