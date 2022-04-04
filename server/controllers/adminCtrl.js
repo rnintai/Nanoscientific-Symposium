@@ -500,7 +500,7 @@ const adminCtrl = {
       let sql = "";
       if (nation === "eu") {
         // eu 일땐 점수메기는항목 5개 존재
-        sql = `SELECT id,email,title,role,last_name,first_name,university,institute,street,zipCode,city,research_field reserachField,afm_tool afmTool,nanomechanical,characterization_of_soft,advanced_imaging,high_resolution_imaging,automation_in_afm,createdAt,ps_opt_in FROM user`;
+        sql = `SELECT id,email,title,role,last_name,first_name,institute,department,createdAt FROM user`;
       } else {
         sql = `SELECT * FROM user`;
       }
