@@ -2,7 +2,7 @@ import React, { useState, Dispatch, SetStateAction, useEffect } from "react";
 import CommonModal from "components/CommonModal/CommonModal";
 import styled from "styled-components";
 import Divider from "@mui/material/Divider";
-import { Rating, Select, MenuItem } from "@mui/material";
+import { Rating, Select, MenuItem, Typography } from "@mui/material";
 import useSelect from "hooks/useSelect";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
@@ -87,7 +87,7 @@ const UserDetailForm = ({
             ) {
               return (
                 <li>
-                  <h3>{field[0]} : </h3>
+                  <Typography fontWeight={700}>{field[0]}: </Typography>
                   <span>{field[1]}</span>
                 </li>
               );
@@ -95,7 +95,7 @@ const UserDetailForm = ({
             if (field[0] === "role") {
               return (
                 <li>
-                  <h3>role : </h3>
+                  <Typography fontWeight={700}>{field[0]}: </Typography>
                   {editorOnly.includes(authState.role) && (
                     <span>{selectedUser.role}</span>
                   )}

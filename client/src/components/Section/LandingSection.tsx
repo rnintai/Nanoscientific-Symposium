@@ -31,7 +31,6 @@ const LandingSection = (props: LandingSectionProps) => {
           display: "inline-block",
           minHeight: height,
           maxWidth,
-          height: "100%",
           backgroundImage: `${background ? `url(${background})` : "none"}`,
           margin: "0 auto",
         },

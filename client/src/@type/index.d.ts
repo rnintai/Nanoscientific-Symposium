@@ -71,7 +71,6 @@ declare namespace Common {
   interface nationType {
     name: string;
     date: string;
-    landingImage: string;
     path: string;
   }
 
@@ -112,6 +111,8 @@ declare namespace Common {
     eventLandingBodyBackground?: string;
     teaserVideoEmbed?: string;
     bannerLogoURL?: string;
+    sponsor1LogoURL?: string;
+    sponsor2LogoURL?: string;
 
     // landing
     landingSection1BackgroundURL?: string;
