@@ -388,7 +388,12 @@ const Landing = () => {
                 </Stack>
               )}
             <Stack
-              direction="row"
+              sx={{
+                flexDirection: {
+                  mobile: "column",
+                  laptop: "row",
+                },
+              }}
               justifyContent="space-between"
               flexWrap="wrap"
             >
@@ -397,7 +402,14 @@ const Landing = () => {
                   key={video}
                   sx={{
                     backgroundColor: "#fff",
-                    width: "46%",
+                    width: {
+                      mobile: "100%",
+                      laptop: "46%",
+                    },
+                    mb: {
+                      mobile: 2,
+                      laptop: 0,
+                    },
                     position: "relative",
                   }}
                 >
