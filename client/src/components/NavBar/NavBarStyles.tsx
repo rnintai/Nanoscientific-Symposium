@@ -60,6 +60,7 @@ export const NavBarContainer = styled.div`
 
     .mobile-menu-btn {
       display: none;
+      height: 40px;
     }
   }
 
