@@ -95,14 +95,19 @@ declare namespace Common {
     archive?: string;
     home?: string;
     registration?: string;
+    // button text
     signInText?: string;
     goNextText?: string;
     goPrevText?: string;
+    submitBtnText?: string;
     // user 관련
     emailInputLabel?: string;
     passwordInputLabel?: string;
     forgotPasswordText?: string;
     createAccountText?: string;
+    adminBtnText?: string;
+    signOutBtnText?: string;
+    changePasswordBtnText?: string;
 
     // common
     nations?: nationType[];
@@ -140,8 +145,15 @@ declare namespace Common {
     landingSection7Title?: string;
     landingSection7Sponsors?: sponsorType[];
 
+    // resetPassword
+    resetPasswordHeading?: string;
+    resetPasswordCurrentLabel?: string;
+    resetPasswordNewLabel?: string;
+    resetPasswordNewConfirmLabel?: string;
+
     // cookie consent text
     cookieConsentText?: string;
+    seePrivacyPolicyText?: string;
   }
 }
 

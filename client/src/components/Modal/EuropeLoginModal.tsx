@@ -459,27 +459,17 @@ const EuropeLoginModal = ({
           >
             {goPrevText}
           </Button>
-          {loading && (
-            <LoadingButton
-              loading
-              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
-              color="primary"
-            >
-              Loading
-            </LoadingButton>
-          )}
-          {!loading && (
-            <Button
-              style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                loginHandler(email.value, password.value);
-              }}
-            >
-              {signInText}
-            </Button>
-          )}
+          <LoadingButton
+            loading={loading}
+            style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              loginHandler(email.value, password.value);
+            }}
+          >
+            {signInText}
+          </LoadingButton>
         </DialogActions>
 
         {/* 비밀번호 확인 alert */}

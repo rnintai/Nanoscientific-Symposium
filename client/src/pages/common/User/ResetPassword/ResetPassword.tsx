@@ -8,12 +8,12 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
 import { useNavigate } from "react-router";
+import { globalData } from "utils/GlobalData";
 import { ResetPasswordContainer } from "./ResetPasswordStyles";
 
 const inputBoxStyle = {
   backgroundColor: "#fff",
-  boxShadow: "2px 2px 2px #0000001c",
-
+  boxShadow: "0px 0px 16px #0000001f",
   padding: "10px 30px",
 };
 
@@ -21,6 +21,14 @@ const ResetPassword = () => {
   const authState = useAuthState();
   const pathname = usePageViews();
   const navigate = useNavigate();
+
+  const {
+    resetPasswordHeading,
+    resetPasswordCurrentLabel,
+    resetPasswordNewLabel,
+    resetPasswordNewConfirmLabel,
+    submitBtnText,
+  } = globalData.get(pathname) as Common.globalDataType;
 
   const curPassword = useInput("");
   const password1 = useInput("");
@@ -122,15 +130,15 @@ const ResetPassword = () => {
 
   return (
     <>
-      <ResetPasswordContainer>
-        <Title fontSize={25} title="Reset Your Password" />
+      <ResetPasswordContainer className="layout body-fit">
+        <Title fontSize={25} title={resetPasswordHeading || "Password Reset"} />
         <Box sx={inputBoxStyle}>
           {isUserPasswordSet && (
             <TextField
               autoFocus
               margin="dense"
               id="curPassword"
-              label="Current Password"
+              label={resetPasswordCurrentLabel || "Current Password"}
               type="password"
               fullWidth
               variant="standard"
@@ -145,7 +153,7 @@ const ResetPassword = () => {
           <TextField
             margin="dense"
             id="password1"
-            label="New Password"
+            label={resetPasswordNewLabel || "New Password"}
             type="password"
             fullWidth
             variant="standard"
@@ -159,7 +167,7 @@ const ResetPassword = () => {
           <TextField
             margin="dense"
             id="password2"
-            label="New Password Confirmation"
+            label={resetPasswordNewConfirmLabel || "New Password Confirmation"}
             type="password"
             fullWidth
             variant="standard"
@@ -179,51 +187,20 @@ const ResetPassword = () => {
               flexDirection: { mobile: "column", tablet: "row" },
               justifyContent: { mobile: "flex-start", tablet: "space-between" },
             }}
-          >
-            {/* <TextField
-              className="half-width"
-              autoFocus
-              margin="dense"
-              id="first-name"
-              label="First Name"
-              type="text"
-              variant="standard"
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === "Enter") {
-                  passwordSetHandler();
-                }
-              }}
-              {...firstName}
-            />
-            <TextField
-              className="half-width"
-              autoFocus
-              margin="dense"
-              id="last-name"
-              label="Last Name"
-              type="text"
-              variant="standard"
-              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-                if (e.key === "Enter") {
-                  passwordSetHandler();
-                }
-              }}
-              {...lastName}
-            /> */}
-          </Box>
+          />
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <LoadingButton
               loading={loading}
               style={{
                 margin: "40px 20px",
                 borderRadius: "30px",
-                width: "100%",
+                // width: "100%",
               }}
               variant="contained"
               color="primary"
               onClick={passwordSetHandler}
             >
-              SUBMIT
+              {submitBtnText || "SUBMIT"}
             </LoadingButton>
           </Box>
         </Box>

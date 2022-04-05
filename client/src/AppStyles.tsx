@@ -47,13 +47,13 @@ export const AppContainer = styled.div`
   }
 
   .layout {
-    min-height: calc(100% - 140px);
     margin: 0 auto;
     padding: 70px 50px;
+    box-sizing: border-box;
   }
 
   .body-fit {
-    min-height: calc(100vh - 254px);
+    min-height: calc(100vh - 140px);
   }
 
   @media screen and (min-width: 0px) {

@@ -51,6 +51,7 @@ const Landing = () => {
     landingSection7Title,
     landingSection7Sponsors,
     cookieConsentText,
+    seePrivacyPolicyText,
   } = globalData.get(pathname) as Common.globalDataType;
   useSeoTitle(home as string, pathname);
 
@@ -471,7 +472,7 @@ const Landing = () => {
       >
         {cookieConsentText && <InnerHTML html={cookieConsentText} />}
         <a href="/" target="_blank" style={{ padding: 0, width: "20%" }}>
-          See privacy policy
+          {seePrivacyPolicyText || ""}
         </a>
       </CookieConsent>
 

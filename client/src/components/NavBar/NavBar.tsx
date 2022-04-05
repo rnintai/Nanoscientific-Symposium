@@ -132,6 +132,9 @@ const NavBar = ({
     symposium,
     registration,
     signInText,
+    adminBtnText,
+    signOutBtnText,
+    changePasswordBtnText,
   } = globalData.get(pathname) as Common.globalDataType;
 
   return (
@@ -209,7 +212,7 @@ const NavBar = ({
                           navigate(`${pathname}/user/reset-password`);
                         }}
                       >
-                        Change Password
+                        {changePasswordBtnText || "Change Password"}
                       </MenuItem>
                     </MenuList>
                   </Menu>
@@ -222,7 +225,7 @@ const NavBar = ({
                         navigate(`${pathname}/admin`);
                       }}
                     >
-                      ADMIN
+                      {adminBtnText || "ADMIN"}
                     </NSSButton>
                   )}
 
@@ -234,7 +237,7 @@ const NavBar = ({
                       logoutHandler(authState.email);
                     }}
                   >
-                    SIGN OUT
+                    {signOutBtnText || "SIGN OUT"}
                   </NSSButton>
                 </div>
               )}
@@ -267,101 +270,6 @@ const NavBar = ({
                 </div>
               )}
             </Stack>
-            {/* <Stack
-              direction="row"
-              justifyContent="flex-end"
-              alignSelf="flex-end"
-              className="login-wrap"
-            >
-              {authState.isLogin && !checkLoading && (
-                <>
-                  <NSSButton
-                    id="basic-button"
-                    className="user-menu"
-                    type="button"
-                    variant="primary"
-                    onClick={handleUserMenuClick}
-                    aria-controls={openUserMenu ? "basic-menu" : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={openUserMenu ? "true" : undefined}
-                  >
-                    <PersonIcon />
-                  </NSSButton>
-                  <Menu
-                    id="basic-menu"
-                    open={openUserMenu}
-                    onClose={handleUserMenuClose}
-                    MenuListProps={{
-                      "aria-labelledby": "basic-button",
-                    }}
-                    anchorEl={anchorEl}
-                    disableScrollLock
-                  >
-                    <MenuList dense>
-                      <MenuItem
-                        onClick={() => {
-                          handleUserMenuClose();
-                          navigate(`${pathname}/user/reset-password`);
-                        }}
-                      >
-                        Change Password
-                      </MenuItem>
-                    </MenuList>
-                  </Menu>
-                  {editorRole.includes(authState.role) && (
-                    <NSSButton
-                      type="button"
-                      variant="primary"
-                      style={{ fontWeight: 700 }}
-                      onClick={() => {
-                        navigate(`${pathname}/admin`);
-                      }}
-                    >
-                      ADMIN
-                    </NSSButton>
-                  )}
-
-                  <NSSButton
-                    type="button"
-                    variant="primary"
-                    style={{ fontWeight: 700 }}
-                    onClick={() => {
-                      logoutHandler(authState.email);
-                    }}
-                  >
-                    SIGN OUT
-                  </NSSButton>
-                </>
-              )}
-              {!authState.isLogin && !checkLoading && (
-                <>
-                  {signInText && (
-                    <NSSButton
-                      type="button"
-                      variant="primary"
-                      style={{ fontWeight: 700 }}
-                      onClick={() => {
-                        setEmailModalOpen(true);
-                      }}
-                    >
-                      {signInText}
-                    </NSSButton>
-                  )}
-
-                  {registration && (
-                    <NSSButton
-                      variant="gradient"
-                      onClick={() => {
-                        navigate(`${pathname}/registration`);
-                      }}
-                      style={{ alignSelf: "center", fontWeight: 700 }}
-                    >
-                      {registration}
-                    </NSSButton>
-                  )}
-                </>
-              )}
-            </Stack> */}
           </div>
         )}
       </Stack>

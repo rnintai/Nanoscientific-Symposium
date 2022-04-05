@@ -261,15 +261,19 @@ export const globalData = new Map<string, Common.globalDataType>([
       sponsors: "SPONSORS",
       home: "HOME",
       // registration: "REGISTRATION",
-      // sign in 관련
+      // buttonText
       signInText: "SIGN IN",
       goNextText: "NEXT",
       goPrevText: "PREV",
+      submitBtnText: "SUBMIT",
       // user관련
       emailInputLabel: "Email Address",
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot your password?",
       createAccountText: "Create an account",
+      adminBtnText: "ADMIN",
+      signOutBtnText: "SIGN OUT",
+      changePasswordBtnText: "Change Password",
       // landing
       landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
@@ -325,10 +329,16 @@ export const globalData = new Map<string, Common.globalDataType>([
           url: "https://parksystems.com",
         },
       ],
+      // resetPassword
+      resetPasswordHeading: "Password Reset",
+      resetPasswordCurrentLabel: "Current Password",
+      resetPasswordNewLabel: "New Password",
+      resetPasswordNewConfirmLabel: "New Password Confirm",
 
       // cookie
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
     },
   ],
 ]);
