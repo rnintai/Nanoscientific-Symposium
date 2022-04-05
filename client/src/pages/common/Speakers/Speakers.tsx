@@ -8,6 +8,7 @@ import useCheckLocal from "hooks/useCheckLocal";
 import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
+import { subHeadingFontSize } from "utils/FontSize";
 import { SpeakersContainer } from "./SpeakersStyles";
 
 const Speakers = () => {

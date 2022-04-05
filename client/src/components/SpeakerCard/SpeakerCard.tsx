@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Box, Typography, useTheme } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
+import { mainFontSize, smallFontSize } from "utils/FontSize";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -37,6 +38,7 @@ const SpeakerCard = ({
         cursor: `${isAdmin ? "pointer" : "auto"}`,
         width: { tablet: "33.3%", mobile: "100%" },
       }}
+      className={`${isAdmin ? "hover-zoom" : ""}`}
       onClick={onClick}
     >
       <Item className="speaker-card">
@@ -53,13 +55,18 @@ const SpeakerCard = ({
           variant="h6"
           color={theme.palette.text.primary}
           fontWeight={theme.typography.fontWeightBold}
-          sx={{ marginTop: "5px", marginBottom: 0 }}
+          sx={{
+            marginTop: "5px",
+            marginBottom: 0,
+            fontSize: mainFontSize,
+          }}
         >
           {speaker.name}
         </Typography>
         <Typography
           variant="body2"
           color={theme.palette.text.primary}
+          sx={{ fontSize: smallFontSize }}
           fontWeight={theme.typography.fontWeightMedium}
           style={{ margin: 0 }}
         >

@@ -18,6 +18,11 @@ import BackgroundVectorWhite from "components/BackgroundVector/BackgroundVectorW
 import BackgroundVectorColored from "components/BackgroundVector/BackgroundVectorColored";
 import BackgroundVectorColoredReversed from "components/BackgroundVector/BackgroundVectorColoredReversed";
 // import { LiveChatWidget } from "@livechat/widget-react";
+import {
+  subHeadingFontSize,
+  mainFontSize,
+  smallFontSize,
+} from "utils/FontSize";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 
 const Landing = () => {
@@ -115,10 +120,7 @@ const Landing = () => {
               >
                 <Typography
                   sx={{
-                    fontSize: {
-                      mobile: theme.typography.body1.fontSize,
-                      tablet: theme.typography.h6.fontSize,
-                    },
+                    fontSize: subHeadingFontSize,
                   }}
                 >
                   {registration}
@@ -130,12 +132,7 @@ const Landing = () => {
               textAlign="center"
               color={theme.palette.common.white}
               fontWeight={theme.typography.fontWeightMedium}
-              sx={{
-                fontSize: {
-                  mobile: theme.typography.h6.fontSize,
-                  tablet: theme.typography.h5.fontSize,
-                },
-              }}
+              fontSize={subHeadingFontSize}
             >
               {landingSection1Desc && <InnerHTML html={landingSection1Desc} />}
             </Typography>
@@ -169,10 +166,7 @@ const Landing = () => {
               >
                 <LandingTitle title={landingSection2Title} />
                 <Box
-                  fontSize={{
-                    mobile: theme.typography.body2.fontSize,
-                    tablet: theme.typography.body1.fontSize,
-                  }}
+                  fontSize={mainFontSize}
                   height="80%"
                   maxHeight="220px"
                   pr={2}
@@ -223,7 +217,9 @@ const Landing = () => {
               <LandingTitle title={landingSection3Title} />
             )}
             {landingSection3Desc && (
-              <Typography>{landingSection3Desc}</Typography>
+              <Typography fontSize={mainFontSize}>
+                {landingSection3Desc}
+              </Typography>
             )}
           </Box>
         </LandingSection>
@@ -249,10 +245,7 @@ const Landing = () => {
                 }}
               >
                 <Typography
-                  fontSize={{
-                    mobile: theme.typography.body1.fontSize,
-                    laptop: theme.typography.h6.fontSize,
-                  }}
+                  fontSize={subHeadingFontSize}
                   fontWeight={theme.typography.fontWeightBold}
                 >
                   {landingSection4List1Title}
@@ -261,8 +254,8 @@ const Landing = () => {
                   {landingSection4List1?.map((item) => (
                     <li style={{ marginBottom: "15px" }}>
                       <Typography
-                        variant="body2"
                         fontWeight={theme.typography.fontWeightMedium}
+                        fontSize={smallFontSize}
                       >
                         {item}
                       </Typography>
@@ -279,10 +272,7 @@ const Landing = () => {
                 }}
               >
                 <Typography
-                  fontSize={{
-                    mobile: theme.typography.body1.fontSize,
-                    laptop: theme.typography.h6.fontSize,
-                  }}
+                  fontSize={subHeadingFontSize}
                   fontWeight={theme.typography.fontWeightBold}
                 >
                   {landingSection4List2Title}
@@ -291,8 +281,8 @@ const Landing = () => {
                   {landingSection4List2?.map((item) => (
                     <li style={{ marginBottom: "15px" }}>
                       <Typography
-                        variant="body2"
                         fontWeight={theme.typography.fontWeightMedium}
+                        fontSize={smallFontSize}
                       >
                         {item}
                       </Typography>
@@ -308,10 +298,7 @@ const Landing = () => {
                 }}
               >
                 <Typography
-                  fontSize={{
-                    mobile: theme.typography.body1.fontSize,
-                    laptop: theme.typography.h6.fontSize,
-                  }}
+                  fontSize={subHeadingFontSize}
                   fontWeight={theme.typography.fontWeightBold}
                 >
                   {landingSection4List3Title}
@@ -320,7 +307,7 @@ const Landing = () => {
                   {landingSection4List3?.map((item) => (
                     <li style={{ marginBottom: "15px" }}>
                       <Typography
-                        variant="body2"
+                        fontSize={smallFontSize}
                         fontWeight={theme.typography.fontWeightMedium}
                       >
                         <InnerHTML html={item} />
@@ -368,7 +355,7 @@ const Landing = () => {
                 >
                   <Box sx={{ width: "50%" }}>
                     <Typography
-                      variant="h6"
+                      fontSize={mainFontSize}
                       fontWeight={theme.typography.fontWeightMedium}
                       lineHeight={1.1}
                     >
@@ -383,7 +370,12 @@ const Landing = () => {
                         openLink(landingSection6ButtonLink);
                       }}
                     >
-                      {landingSection6ButtonText}
+                      <Typography
+                        fontSize={smallFontSize}
+                        fontWeight={theme.typography.fontWeightBold}
+                      >
+                        {landingSection6ButtonText}
+                      </Typography>
                     </NSSButton>
                   </Box>
                 </Stack>

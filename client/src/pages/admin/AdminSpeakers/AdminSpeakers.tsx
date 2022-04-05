@@ -114,7 +114,7 @@ const AdminSpeakers = () => {
         isHideLoading={isAdminLoading}
         isPublished={isPublished}
       >
-        <Box sx={{ flexGrow: 1 }}>
+        <Box className="layout body-fit" sx={{ flexGrow: 1 }}>
           <Grid
             container
             spacing={{ xs: 4, md: 7 }}
