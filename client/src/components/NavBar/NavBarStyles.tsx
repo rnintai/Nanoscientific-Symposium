@@ -92,6 +92,9 @@ export const NavBarContainer = styled.div`
         position: absolute;
         left: 0;
       }
+      .logo-link {
+        min-width: 240px;
+      }
       .user-menu-wrap {
         margin-left: 0;
         width: 100%;
