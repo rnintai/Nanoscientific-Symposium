@@ -139,8 +139,8 @@ const NavBar = ({
       <Stack
         direction="row"
         alignItems="center"
-        // justifyContent="space-between"
         className="nav-wrap"
+        justifyContent="center"
       >
         <IconButton className="mobile-menu-btn" onClick={toggleMobileNav}>
           <MenuIcon />

@@ -89,6 +89,8 @@ export const NavBarContainer = styled.div`
       }
       .mobile-menu-btn {
         display: inline-block;
+        position: absolute;
+        left: 0;
       }
       .user-menu-wrap {
         margin-left: 0;
