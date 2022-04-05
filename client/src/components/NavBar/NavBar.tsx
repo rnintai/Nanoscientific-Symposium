@@ -7,12 +7,21 @@ import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
-import { IconButton, Menu, MenuList, MenuItem, Stack } from "@mui/material";
+import {
+  IconButton,
+  Menu,
+  MenuList,
+  MenuItem,
+  Stack,
+  Box,
+} from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
 import PersonIcon from "@mui/icons-material/Person";
+import MenuIcon from "@mui/icons-material/Menu";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
+import MobileNavBar from "./MobileNavBar";
 
 interface navProps {
   checkLoading: boolean;
@@ -49,6 +58,7 @@ const NavBar = ({
   const handleUserMenuClose = () => {
     setAnchorEl(null);
   };
+  const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
   // const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
   // const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   // const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -88,6 +98,10 @@ const NavBar = ({
       });
   };
 
+  const toggleMobileNav = () => {
+    setOpenMobileNav(!openMobileNav);
+  };
+
   // active router 감지 effect hook
   // useEffect(() => {
   //   if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
@@ -121,13 +135,16 @@ const NavBar = ({
   } = globalData.get(pathname) as Common.globalDataType;
 
   return (
-    <NavBarContainer>
+    <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
       <Stack
         direction="row"
         alignItems="center"
-        justifyContent="space-between"
+        // justifyContent="space-between"
         className="nav-wrap"
       >
+        <IconButton className="mobile-menu-btn" onClick={toggleMobileNav}>
+          <MenuIcon />
+        </IconButton>
         <Link
           to={`/${pathname}`}
           className="logo-link"
@@ -136,11 +153,10 @@ const NavBar = ({
           <img src={logoURL} alt="logo" />
         </Link>
         {!hideMenu && (
-          <>
+          <div className="menu-container">
             <Stack
               direction="row"
               alignSelf="flex-end"
-              justifyContent="space-between"
               className="menu-item-wrap"
             >
               {speakers && (
@@ -162,8 +178,96 @@ const NavBar = ({
               {sponsors && (
                 <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
               )}
+              {authState.isLogin && !checkLoading && (
+                <div className="user-menu-wrap">
+                  <NSSButton
+                    id="basic-button"
+                    className="user-menu"
+                    type="button"
+                    variant="primary"
+                    onClick={handleUserMenuClick}
+                    aria-controls={openUserMenu ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openUserMenu ? "true" : undefined}
+                  >
+                    <PersonIcon />
+                  </NSSButton>
+                  <Menu
+                    id="basic-menu"
+                    open={openUserMenu}
+                    onClose={handleUserMenuClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                    anchorEl={anchorEl}
+                    disableScrollLock
+                  >
+                    <MenuList dense>
+                      <MenuItem
+                        onClick={() => {
+                          handleUserMenuClose();
+                          navigate(`${pathname}/user/reset-password`);
+                        }}
+                      >
+                        Change Password
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
+                  {editorRole.includes(authState.role) && (
+                    <NSSButton
+                      type="button"
+                      variant="primary"
+                      style={{ fontWeight: 700 }}
+                      onClick={() => {
+                        navigate(`${pathname}/admin`);
+                      }}
+                    >
+                      ADMIN
+                    </NSSButton>
+                  )}
+
+                  <NSSButton
+                    type="button"
+                    variant="primary"
+                    style={{ fontWeight: 700 }}
+                    onClick={() => {
+                      logoutHandler(authState.email);
+                    }}
+                  >
+                    SIGN OUT
+                  </NSSButton>
+                </div>
+              )}
+              {!authState.isLogin && !checkLoading && (
+                <div className="user-menu-wrap">
+                  {signInText && (
+                    <NSSButton
+                      type="button"
+                      variant="primary"
+                      style={{ fontWeight: 700 }}
+                      onClick={() => {
+                        setEmailModalOpen(true);
+                      }}
+                    >
+                      {signInText}
+                    </NSSButton>
+                  )}
+
+                  {registration && (
+                    <NSSButton
+                      variant="gradient"
+                      onClick={() => {
+                        navigate(`${pathname}/registration`);
+                      }}
+                      style={{ alignSelf: "center", fontWeight: 700 }}
+                    >
+                      {registration}
+                    </NSSButton>
+                  )}
+                </div>
+              )}
             </Stack>
-            <Stack
+            {/* <Stack
               direction="row"
               justifyContent="flex-end"
               alignSelf="flex-end"
@@ -171,40 +275,39 @@ const NavBar = ({
             >
               {authState.isLogin && !checkLoading && (
                 <>
-                  <div>
-                    <NSSButton
-                      id="basic-button"
-                      type="button"
-                      variant="primary"
-                      onClick={handleUserMenuClick}
-                      aria-controls={openUserMenu ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={openUserMenu ? "true" : undefined}
-                    >
-                      <PersonIcon />
-                    </NSSButton>
-                    <Menu
-                      id="basic-menu"
-                      open={openUserMenu}
-                      onClose={handleUserMenuClose}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                      }}
-                      anchorEl={anchorEl}
-                      disableScrollLock
-                    >
-                      <MenuList dense>
-                        <MenuItem
-                          onClick={() => {
-                            handleUserMenuClose();
-                            navigate(`${pathname}/user/reset-password`);
-                          }}
-                        >
-                          Change Password
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </div>
+                  <NSSButton
+                    id="basic-button"
+                    className="user-menu"
+                    type="button"
+                    variant="primary"
+                    onClick={handleUserMenuClick}
+                    aria-controls={openUserMenu ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={openUserMenu ? "true" : undefined}
+                  >
+                    <PersonIcon />
+                  </NSSButton>
+                  <Menu
+                    id="basic-menu"
+                    open={openUserMenu}
+                    onClose={handleUserMenuClose}
+                    MenuListProps={{
+                      "aria-labelledby": "basic-button",
+                    }}
+                    anchorEl={anchorEl}
+                    disableScrollLock
+                  >
+                    <MenuList dense>
+                      <MenuItem
+                        onClick={() => {
+                          handleUserMenuClose();
+                          navigate(`${pathname}/user/reset-password`);
+                        }}
+                      >
+                        Change Password
+                      </MenuItem>
+                    </MenuList>
+                  </Menu>
                   {editorRole.includes(authState.role) && (
                     <NSSButton
                       type="button"
@@ -232,17 +335,6 @@ const NavBar = ({
               )}
               {!authState.isLogin && !checkLoading && (
                 <>
-                  {/* <EuropeLoginModal
-                      setSuccess={setLoginSuccess}
-                      setFailed={setLoginFailed}
-                      emailModalOpen={emailModalOpen}
-                      setEmailModalOpen={setEmailModalOpen}
-                      setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
-                      passwordSetModalOpen={passwordSetModalOpen}
-                      setPasswordSetModalOpen={setPasswordSetModalOpen}
-                      passwordInputModalOpen={passwordInputModalOpen}
-                      setPasswordInputModalOpen={setPasswordInputModalOpen}
-                    /> */}
                   {signInText && (
                     <NSSButton
                       type="button"
@@ -269,10 +361,20 @@ const NavBar = ({
                   )}
                 </>
               )}
-            </Stack>
-          </>
+            </Stack> */}
+          </div>
         )}
       </Stack>
+      <Box
+        className="overlay"
+        sx={{
+          backgroundColor: "#000",
+          position: "absolute",
+        }}
+        onClick={() => {
+          setOpenMobileNav(false);
+        }}
+      />
     </NavBarContainer>
   );
 };
