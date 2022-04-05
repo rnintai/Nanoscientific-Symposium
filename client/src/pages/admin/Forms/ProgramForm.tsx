@@ -253,6 +253,7 @@ const ProgramForm = ({
           renderInput={(props) => <TextField {...props} />}
           label="Start Time"
           value={startTime}
+          inputFormat="yyyy/MM/dd hh:mm a"
           onChange={(newValue) => {
             setStartTime(newValue);
           }}
@@ -261,6 +262,7 @@ const ProgramForm = ({
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
           label="End Time"
+          inputFormat="yyyy/MM/dd hh:mm a"
           value={endTime}
           onChange={(newValue) => {
             setEndTime(newValue);

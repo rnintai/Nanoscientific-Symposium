@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CommonModal from "components/CommonModal/CommonModal";
 import S3Upload from "components/S3Upload/S3Upload";
-import { TextField } from "@mui/material";
+import { TextField, Checkbox, FormControlLabel } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import useInput from "hooks/useInput";
@@ -32,6 +32,10 @@ const SpeakerForm = ({
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
+  const [keynoteCheck, setKeynoteCheck] = useState<boolean>(
+    edit ? selectedSpeaker.keynote === 1 : false,
+  );
+
   const name = useInput(edit ? selectedSpeaker.name : "");
   const belong = useInput(edit ? selectedSpeaker.belong : "");
   const [imagePath, setImagePath] = useState<string>(
@@ -60,6 +64,7 @@ const SpeakerForm = ({
         name: name.value,
         belong: belong.value,
         imagePath,
+        keynote: keynoteCheck,
         status: status === "show" ? 1 : 0,
       });
     } else {
@@ -69,6 +74,7 @@ const SpeakerForm = ({
         name: name.value,
         belong: belong.value,
         imagePath,
+        keynote: keynoteCheck,
       });
     }
 
@@ -112,9 +118,10 @@ const SpeakerForm = ({
       desc={
         edit
           ? "Please write down the name and affiliation of the speaker you want to change."
-          : "Please write down the name and belong of the speaker."
+          : "Please write down the name and affiliation of the speaker."
       }
       onSubmit={speakerSubmitHandler}
+      submitDisabled={name.value === "" || imagePath === ""}
       loading={loading || uploadLoading}
     >
       <TextField
@@ -122,6 +129,8 @@ const SpeakerForm = ({
         label="Name"
         fullWidth
         variant="filled"
+        required
+        error={name.value === ""}
         sx={{ marginBottom: "30px" }}
         {...name}
       />
@@ -134,6 +143,15 @@ const SpeakerForm = ({
         sx={{ marginBottom: "30px" }}
         {...belong}
       />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={keynoteCheck}
+            onClick={() => setKeynoteCheck(!keynoteCheck)}
+          />
+        }
+        label="Keynote Speaker? (Would be revealed on main page)"
+      />
       <S3Upload
         setImagePath={setImagePath}
         edit={edit}
@@ -141,7 +159,7 @@ const SpeakerForm = ({
         setPreviewURL={setPreviewURL}
         setUploadLoading={setUploadLoading}
       />
-      {edit && (
+      {/* {edit && (
         <ToggleButtonGroup
           size="large"
           color="primary"
@@ -153,7 +171,7 @@ const SpeakerForm = ({
           <ToggleButton value="show">show</ToggleButton>
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
-      )}
+      )} */}
       {edit && (
         <LoadingButton
           loading={deleteLoading}
