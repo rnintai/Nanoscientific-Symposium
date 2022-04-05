@@ -118,9 +118,10 @@ const SpeakerForm = ({
       desc={
         edit
           ? "Please write down the name and affiliation of the speaker you want to change."
-          : "Please write down the name and belong of the speaker."
+          : "Please write down the name and affiliation of the speaker."
       }
       onSubmit={speakerSubmitHandler}
+      submitDisabled={name.value === "" || imagePath === ""}
       loading={loading || uploadLoading}
     >
       <TextField
@@ -128,6 +129,8 @@ const SpeakerForm = ({
         label="Name"
         fullWidth
         variant="filled"
+        required
+        error={name.value === ""}
         sx={{ marginBottom: "30px" }}
         {...name}
       />
@@ -147,7 +150,7 @@ const SpeakerForm = ({
             onClick={() => setKeynoteCheck(!keynoteCheck)}
           />
         }
-        label="Keynote?"
+        label="Keynote Speaker? (Would be revealed on main page)"
       />
       <S3Upload
         setImagePath={setImagePath}
