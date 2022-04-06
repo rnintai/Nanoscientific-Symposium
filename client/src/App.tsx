@@ -51,6 +51,7 @@ const App = () => {
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
   }, []);
+
   // 로그인 모달 state
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
   const [passwordSetModalOpen, setPasswordSetModalOpen] =
@@ -115,10 +116,10 @@ const App = () => {
       <AppContainer>
         {pathname !== "" &&
           subpath.indexOf("admin") === -1 &&
-          pathname !== "jp" &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar
               key={subpath}
+              hideMenu={pathname === "jp"}
               checkLoading={authState.isLoading}
               passwordSetModalOpen={passwordSetModalOpen}
               emailModalOpen={emailModalOpen}
@@ -130,21 +131,7 @@ const App = () => {
               setLogoutLoading={setLogoutLoading}
             />
           )}
-        {pathname === "jp" && (
-          <NavBar
-            key={subpath}
-            checkLoading={authState.isLoading}
-            hideMenu
-            emailModalOpen={emailModalOpen}
-            setEmailModalOpen={setEmailModalOpen}
-            passwordSetModalOpen={passwordSetModalOpen}
-            setPasswordSetModalOpen={setPasswordSetModalOpen}
-            passwordInputModalOpen={passwordInputModalOpen}
-            setPasswordInputModalOpen={setPasswordInputModalOpen}
-            setLogoutSuccess={setLogoutSuccess}
-            setLogoutLoading={setLogoutLoading}
-          />
-        )}
+
         <Routes>
           {/* common */}
           <Route path="/" element={<EventLanding />} />
