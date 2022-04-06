@@ -16,11 +16,7 @@ import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 export default [
   {
     path: "/kr",
-    element: (
-      <AdminRoute redirect="/">
-        <Landing />
-      </AdminRoute>
-    ),
+    element: <Landing />,
   },
   {
     path: "/kr/speakers",

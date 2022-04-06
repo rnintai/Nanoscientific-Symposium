@@ -155,14 +155,17 @@ const Landing = () => {
             >
               <Stack
                 flexDirection="column"
-                width={{
-                  tablet: "55%",
-                  mobile: "100%",
-                }}
-                height={{
-                  tablet: "100%",
-                  mobile: "55%",
-                }}
+                width="100%"
+                height="100%"
+
+                // width={{
+                //   tablet: "55%",
+                //   mobile: "100%",
+                // }}
+                // height={{
+                //   tablet: "100%",
+                //   mobile: "55%",
+                // }}
               >
                 <LandingTitle title={landingSection2Title} />
                 <Box
@@ -177,7 +180,7 @@ const Landing = () => {
                   <InnerHTML html={landingSection2Desc} />
                 </Box>
               </Stack>
-              <Stack
+              {/* <Stack
                 sx={{
                   display: "flex",
                   width: {
@@ -205,8 +208,7 @@ const Landing = () => {
                     height="250"
                   />
                 </Box>
-                {/* <div className="overlay secondary z0" /> */}
-              </Stack>
+              </Stack> */}
             </Stack>
           </LandingSection>
         )}
@@ -218,7 +220,7 @@ const Landing = () => {
             )}
             {landingSection3Desc && (
               <Typography fontSize={mainFontSize}>
-                {landingSection3Desc}
+                <InnerHTML html={landingSection3Desc} />
               </Typography>
             )}
           </Box>
@@ -390,7 +392,7 @@ const Landing = () => {
               justifyContent="space-between"
               flexWrap="wrap"
             >
-              {landingSection6Videos?.map((video) => (
+              {/* {landingSection6Videos?.map((video) => (
                 <Box
                   key={video}
                   sx={{
@@ -408,7 +410,7 @@ const Landing = () => {
                 >
                   <YoutubeEmbed embedId={video} height="250" />
                 </Box>
-              ))}
+              ))} */}
             </Stack>
           </Stack>
         </LandingSection>
