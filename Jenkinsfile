@@ -17,7 +17,6 @@ pipeline {
                         sh '''
                         ls -al
                         npm install
-                        echo 'REACT_APP_S3_ACCESS_KEY="${REACT_APP_S3_ACCESS_KEY}"\nREACT_APP_S3_SECRET_ACCESS_KEY="${REACT_APP_S3_SECRET_ACCESS_KEY}"' >> .env
                         CI=false npm run build
                         '''
                 }
