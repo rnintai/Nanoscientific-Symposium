@@ -16,9 +16,9 @@ pipeline {
                     dir('client'){
                         sh '''
                         ls -al
-                        sudo npm install
+                        npm install
                         echo 'VITE_S3_ACCESS_KEY="${VITE_S3_ACCESS_KEY}"\nVITE_S3_SECRET_ACCESS_KEY="${VITE_S3_SECRET_ACCESS_KEY}"' >> .env
-                        CI=false sudo npm run build
+                        CI=false npm run build
                         '''
                 }
             }
