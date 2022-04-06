@@ -18,11 +18,7 @@ import Speakers from "../pages/common/Speakers/Speakers";
 export default [
   {
     path: "/jp",
-    element: (
-      <AdminRoute key="/" redirect="/jp/archive">
-        <Landing />
-      </AdminRoute>
-    ),
+    element: <Landing />,
   },
   {
     path: "/jp/speakers",
