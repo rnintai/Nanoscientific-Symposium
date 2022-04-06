@@ -45,7 +45,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
       teaserVideoEmbed: "a",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
-      eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.png`,
+      eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
       eventLandingDesc: `NanoScientific plans are underway to continue the excitement that comes from scientific innovation and discovery with a new line up for 2022! Stay tuned for the 2022 NanoScientific Event Calendar for your chance to network with leading experts who are pioneering the evolution of scientific discovery at NanoScientific Conferences Worldwide.
 `,
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
