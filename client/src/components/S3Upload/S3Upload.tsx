@@ -21,8 +21,8 @@ const S3Upload = ({
   setUploadLoading,
 }: S3UploadProps) => {
   const [progress, setProgress] = useState<number>(0);
-  const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY;
-  const SECRET_ACCESS_KEY = process.env.REACT_APP_S3_SECRET_ACCESS_KEY;
+  const ACCESS_KEY = import.meta.env.VITE_S3_ACCESS_KEY as string;
+  const SECRET_ACCESS_KEY = import.meta.env.VITE_S3_SECRET_ACCESS_KEY as string;
   const REGION = "us-west-1";
   const S3_BUCKET = "nss-integration";
 
