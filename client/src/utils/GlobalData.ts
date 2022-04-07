@@ -84,8 +84,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection5: true,
       showLandingSection6: true,
       showLandingSection7: true,
-      landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      landingSection1BackgroundURL: `${S3_URL}/asia/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/asia/logo-type-1b.svg`,
       landingSection1Desc:
         "Join the 4th edition of the NanoScientific Symposium Asia 2022 - the platform for nanoscience and SPM research",
       landingSection2Title: "NanoScientific Symposium",
@@ -154,7 +154,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr",
     {
-      logoURL: `https://d25unujvh7ui3r.cloudfront.net/kr/NS_logo.svg`,
+      logoURL: `${S3_URL}/kr/menu-bar-logo.svg`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
       programs: "프로그램",
@@ -181,8 +181,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection5: true,
       showLandingSection6: true,
       showLandingSection7: true,
-      landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
       landingSection1Desc:
         "제 4회 NanoScientific Symposium Korea 2022 - 나노과학과 SPM 연구를 위한 플랫폼",
       landingSection2Title: "NanoScientific Symposium",
@@ -280,8 +280,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection5: true,
       showLandingSection6: false,
       showLandingSection7: true,
-      landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      landingSection1BackgroundURL: `${S3_URL}/jp/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/jp/logo-type-1b.svg`,
       landingSection1Desc:
         "第4回NanoScientificSymposiumJapan2022-ナノ科学とSPM研究のためのプラットフォーム",
       landingSection2Title: "NanoScientific Symposium",
@@ -348,7 +348,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "us",
     {
-      logoURL: `${S3_URL}/eu/NS_logo_color.svg`,
+      logoURL: `${S3_URL}/us/menu-bar-logo.svg`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -377,8 +377,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection5: true,
       showLandingSection6: true,
       showLandingSection7: true,
-      landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/us/logo-type-1b.svg`,
       landingSection1Desc:
         "Join the 4th edition of the NanoScientific Symposium US 2022 - the platform for nanoscience and SPM research.",
       landingSection2Title: "NanoScientific Symposium",
@@ -446,7 +446,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu",
     {
-      logoURL: `${S3_URL}/eu/NS_logo_color.svg`,
+      logoURL: `${S3_URL}/eu/menu-bar-logo.svg`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -475,8 +475,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection5: true,
       showLandingSection6: true,
       showLandingSection7: true,
-      landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
+      landingSection1BackgroundURL: `${S3_URL}/eu/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/eu/logo-type-1b.svg`,
       landingSection1Desc: `Registration is running through another NSFE website. For the virtual platform please use only "Sign in" tab/button for people who already registered.`,
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc: `NSFE series is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Miscroscopy (AFM).
