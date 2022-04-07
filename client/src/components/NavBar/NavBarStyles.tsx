@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material";
 
 export const NavBarContainer = styled.div`
   width: 100%;
-  height: 120px;
+  height: 130px;
   border-bottom: ${() => {
     const theme = useTheme();
     return `3px solid ${theme.palette.background.default}`;
@@ -37,12 +37,15 @@ export const NavBarContainer = styled.div`
       align-self: flex-end;
     }
     .logo-link {
-      min-width: 280px;
-      width: 25%;
-      height: 100%;
+      display: flex;
+      justify-content: center;
+      height: 131px;
+      // width: 25%;
+      // height: 100%;
       img {
-        width: 100%;
-        height: 100%;
+        // width: 100%;
+        // height: 100%;
+        height: 131px;
       }
     }
     .user-menu-wrap {
@@ -94,7 +97,11 @@ export const NavBarContainer = styled.div`
         left: 0;
       }
       .logo-link {
-        min-width: 240px;
+        // min-width: 240px;
+        height: 116px;
+        img {
+          height: 116px;
+        }
       }
       .user-menu-wrap {
         margin-left: 0;
