@@ -119,7 +119,7 @@ const App = () => {
           window.location.pathname !== "/eu/registration" && (
             <NavBar
               key={subpath}
-              hideMenu={pathname === "jp"}
+              hideMenu={window.location.pathname === "/jp/archive"}
               checkLoading={authState.isLoading}
               passwordSetModalOpen={passwordSetModalOpen}
               emailModalOpen={emailModalOpen}

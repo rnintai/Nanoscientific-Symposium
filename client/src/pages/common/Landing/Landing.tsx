@@ -466,7 +466,7 @@ const Landing = () => {
         )}
       </BackgroundVectorColored>
 
-      <CookieConsent
+      {/* <CookieConsent
         style={{
           flexDirection: "column",
           alignItems: "center",
@@ -494,7 +494,7 @@ const Landing = () => {
         <a href="/" target="_blank" style={{ padding: 0, width: "20%" }}>
           {seePrivacyPolicyText || ""}
         </a>
-      </CookieConsent>
+      </CookieConsent> */}
 
       {/* <LiveChatWidget license="13874505" group="0" /> */}
     </>
