@@ -82,8 +82,8 @@ const Registration = ({ formNo }: RegistrationProps) => {
           ?.addEventListener("focusout", async (e: Event) => {
             const target = e.target as HTMLInputElement;
             if (
-              target.value.indexOf("@") === -1 &&
-              target.value.indexOf(".") === -1
+              target.value.indexOf("@") === -1 ||
+              target.value.lastIndexOf(".") <= target.value.indexOf("@")
             ) {
               setEmailValid(0);
             } else {
@@ -180,6 +180,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
           {!mktoLoading && (
             <LoadingButton
               variant="contained"
+              disabled={emailValid !== 1}
               className="mktoButton2"
               loading={submitBlock}
               onClick={() => {
