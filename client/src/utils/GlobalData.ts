@@ -12,12 +12,12 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       nations: [
         {
-          name: "NSS SE Asia",
+          name: "NSS Asia",
           date: "Sep 22",
           path: "asia",
         },
         {
-          name: "NSS US",
+          name: "NSS Americas",
           date: "Sep 29",
           path: "us",
         },
@@ -46,8 +46,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       teaserVideoEmbed: "a",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
       eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
-      eventLandingDesc: `NanoScientific plans are underway to continue the excitement that comes from scientific innovation and discovery with a new line up for 2022! Stay tuned for the 2022 NanoScientific Event Calendar for your chance to network with leading experts who are pioneering the evolution of scientific discovery at NanoScientific Conferences Worldwide.
-`,
+      eventLandingDesc: `The growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing. And those who strive to acquire the technology.
+      <br/>NanoScientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.
+      <br/>An opportunity to discuss and experience firsthand what innovative research results have been derived using the latest SPM (Scanning Probe Microscope) and AFM (Atomic Force Microscope) equipment. We invite you to the NanoScientific Symposium 2022. Expand your insight through the Nanoscientific Symposium.
+      `,
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
       sponsor2LogoURL: `${S3_URL}/common/Park_logo.svg`,
     },
@@ -60,7 +62,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
+      // sponsors: "SPONSORS",
       home: "HOME",
       registration: "REGISTRATION",
       // buttonText
@@ -160,7 +162,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       programs: "프로그램",
       lectureHall: "온라인 강연장",
       exhibitHall: "전시부스 ",
-      sponsors: "협찬사",
+      // sponsors: "협찬사",
       home: "홈",
 
       // sign in 관련
@@ -257,7 +259,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       programs: "プログラム",
       lectureHall: "Web講演会",
       exhibitHall: "展示会",
-      sponsors: "スポンサー",
+      // sponsors: "スポンサー",
       home: "ホーム",
       greeting: "ごあいさつ",
       attend: "参加手順",
@@ -353,7 +355,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
+      // sponsors: "SPONSORS",
       home: "HOME",
       registration: "REGISTRATION",
       // buttonText
@@ -451,7 +453,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
+      // sponsors: "SPONSORS",
       home: "HOME",
       // registration: "REGISTRATION",
       // buttonText
