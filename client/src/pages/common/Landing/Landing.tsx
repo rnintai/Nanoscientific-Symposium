@@ -288,6 +288,7 @@ const Landing = () => {
                     mb: { mobile: 5, laptop: 0 },
                   }}
                 >
+                  {/*  */}
                   <Typography
                     fontSize={subHeadingFontSize}
                     fontWeight={theme.typography.fontWeightBold}
