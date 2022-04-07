@@ -257,6 +257,9 @@ const AdminPrograms = () => {
           getSessions={() => {
             getSessions();
           }}
+          getPrograms={() => {
+            getPrograms();
+          }}
           selectedSession={selectedSession as Program.sessionType}
           openSessionForm={openSessionForm}
           setOpenSessionForm={setOpenSessionForm}

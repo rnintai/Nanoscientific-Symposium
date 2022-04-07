@@ -21,6 +21,7 @@ interface SessionFormProps {
   setSessionSuccess: Dispatch<SetStateAction<boolean>>;
   selectedSession: Program.sessionType;
   getSessions: () => void;
+  getPrograms: () => void;
   selectedTimezone: string;
   edit: boolean;
   sessionValidAlert: boolean;
@@ -33,6 +34,7 @@ const SessionForm = ({
   setSessionSuccess,
   selectedSession,
   getSessions,
+  getPrograms,
   selectedTimezone,
   sessionValidAlert,
   setSessionValidAlert,
@@ -111,6 +113,7 @@ const SessionForm = ({
       setSessionSuccess(true);
       setOpenSessionForm(false);
       getSessions();
+      getPrograms();
     }
   };
 
