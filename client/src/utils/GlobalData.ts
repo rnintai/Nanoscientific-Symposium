@@ -55,14 +55,14 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "asia",
     {
-      logoURL: `${S3_URL}/eu/NS_logo_color.svg`,
+      logoURL: `${S3_URL}/asia/menu-bar-logo.svg`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
       sponsors: "SPONSORS",
       home: "HOME",
-      // registration: "REGISTRATION",
+      registration: "REGISTRATION",
       // buttonText
       signInText: "SIGN IN",
       goNextText: "NEXT",
@@ -250,24 +250,9 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "latam",
-    {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/latam/NS_logo.svg",
-      speakers: "SPEAKERS",
-      programs: "PROGRAM",
-      lectureHall: "LECTURE HALL",
-      exhibitHall: "EXHIBIT HALL",
-      sponsors: "SPONSORS",
-      home: "HOME",
-      signInText: "SIGN IN",
-
-      registration: "REGISTRATION",
-    },
-  ],
-  [
     "jp",
     {
-      logoURL: "https://d25unujvh7ui3r.cloudfront.net/jp/NS_logo.svg",
+      logoURL: `${S3_URL}/jp/menu-bar-logo.svg`,
       speakers: "講演者",
       programs: "プログラム",
       lectureHall: "Web講演会",
