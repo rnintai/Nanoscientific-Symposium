@@ -121,6 +121,13 @@ declare namespace Common {
     sponsor2LogoURL?: string;
 
     // landing
+    showLandingSection1?: boolean;
+    showLandingSection2?: boolean;
+    showLandingSection3?: boolean;
+    showLandingSection4?: boolean;
+    showLandingSection5?: boolean;
+    showLandingSection6?: boolean;
+    showLandingSection7?: boolean;
     landingSection1BackgroundURL?: string;
     landingSection1LogoURL?: string;
     landingSection1Desc?: string;

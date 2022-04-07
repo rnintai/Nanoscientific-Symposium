@@ -77,6 +77,13 @@ export const globalData = new Map<string, Common.globalDataType>([
       signOutBtnText: "SIGN OUT",
       changePasswordBtnText: "Change Password",
       // landing
+      showLandingSection1: true,
+      showLandingSection2: true,
+      showLandingSection3: true,
+      showLandingSection4: false,
+      showLandingSection5: true,
+      showLandingSection6: true,
+      showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
       landingSection1Desc:
@@ -122,7 +129,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
-        "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
+        "https://www.youtube.com/watch?v=dxZkJmRGL8M&list=PLH4cAUjlEqR0I1ahoDjwod-DTlhkmZ-zA",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Sponsored By",
       landingSection7Sponsors: [
@@ -167,6 +174,13 @@ export const globalData = new Map<string, Common.globalDataType>([
       forgotPasswordText: "비밀번호 찾기",
       createAccountText: "계정 등록",
       // landing
+      showLandingSection1: true,
+      showLandingSection2: true,
+      showLandingSection3: false,
+      showLandingSection4: false,
+      showLandingSection5: true,
+      showLandingSection6: true,
+      showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
       landingSection1Desc:
@@ -213,7 +227,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
-        "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
+        "https://www.youtube.com/watch?v=jyL4uMCIVZo&list=PLH4cAUjlEqR3cx9W7SmvkxoR0lAAHMqrb",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Sponsored By",
       landingSection7Sponsors: [
@@ -274,6 +288,13 @@ export const globalData = new Map<string, Common.globalDataType>([
       forgotPasswordText: "비밀번호 찾기",
       createAccountText: "계정 등록",
       // landing
+      showLandingSection1: true,
+      showLandingSection2: true,
+      showLandingSection3: false,
+      showLandingSection4: false,
+      showLandingSection5: true,
+      showLandingSection6: false,
+      showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
       landingSection1Desc:
@@ -364,6 +385,13 @@ export const globalData = new Map<string, Common.globalDataType>([
       signOutBtnText: "SIGN OUT",
       changePasswordBtnText: "Change Password",
       // landing
+      showLandingSection1: true,
+      showLandingSection2: true,
+      showLandingSection3: true,
+      showLandingSection4: false,
+      showLandingSection5: true,
+      showLandingSection6: true,
+      showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
       landingSection1Desc:
@@ -408,7 +436,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
-        "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
+        "https://www.youtube.com/watch?v=U0GmKXppD-8&list=PLH4cAUjlEqR2X0-2f27v1FkaxZx7XCNZe",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Sponsored By",
       landingSection7Sponsors: [
@@ -455,6 +483,13 @@ export const globalData = new Map<string, Common.globalDataType>([
       signOutBtnText: "SIGN OUT",
       changePasswordBtnText: "Change Password",
       // landing
+      showLandingSection1: true,
+      showLandingSection2: true,
+      showLandingSection3: false,
+      showLandingSection4: false,
+      showLandingSection5: true,
+      showLandingSection6: true,
+      showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/eu/europe-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/NS_logo_white.svg`,
       landingSection1Desc: `Registration is running through another NSFE website. For the virtual platform please use only "Sign in" tab/button for people who already registered.`,
