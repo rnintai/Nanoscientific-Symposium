@@ -179,15 +179,7 @@ const Landing = () => {
                 // }}
               >
                 <LandingTitle title={landingSection2Title || ""} />
-                <Box
-                  fontSize={mainFontSize}
-                  height="80%"
-                  maxHeight="220px"
-                  pr={2}
-                  sx={{
-                    overflowY: "scroll",
-                  }}
-                >
+                <Box fontSize={mainFontSize}>
                   <InnerHTML html={landingSection2Desc || ""} />
                 </Box>
               </Stack>
