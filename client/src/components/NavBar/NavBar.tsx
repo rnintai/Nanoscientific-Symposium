@@ -14,12 +14,14 @@ import {
   MenuItem,
   Stack,
   Box,
+  useTheme,
 } from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
 import PersonIcon from "@mui/icons-material/Person";
 import MenuIcon from "@mui/icons-material/Menu";
+import { mainFontSize } from "utils/FontSize";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 import MobileNavBar from "./MobileNavBar";
 
@@ -70,6 +72,7 @@ const NavBar = ({
   const pathname = usePageViews();
   const subpath = useSubPath();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
@@ -266,7 +269,10 @@ const NavBar = ({
                       onClick={() => {
                         navigate(`${pathname}/registration`);
                       }}
-                      style={{ alignSelf: "center", fontWeight: 700 }}
+                      fontWeight={
+                        (theme.typography.fontWeightBold as number) || 500
+                      }
+                      style={{ alignSelf: "center" }}
                     >
                       {registration}
                     </NSSButton>

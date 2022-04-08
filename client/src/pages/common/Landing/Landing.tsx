@@ -126,8 +126,9 @@ const Landing = () => {
               >
                 <Typography
                   sx={{
-                    fontSize: subHeadingFontSize,
+                    fontSize: mainFontSize,
                   }}
+                  fontWeight={theme.typography.fontWeightBold}
                 >
                   {registration}
                 </Typography>
