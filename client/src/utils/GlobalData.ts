@@ -52,6 +52,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       `,
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
       sponsor2LogoURL: `${S3_URL}/common/Park_logo.svg`,
+
+      registrationBannerURL: `${S3_URL}/common/registration-banner.jpg`,
     },
   ],
   [

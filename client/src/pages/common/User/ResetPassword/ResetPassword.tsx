@@ -24,6 +24,7 @@ const ResetPassword = () => {
 
   const {
     resetPasswordHeading,
+    setPasswordHeading,
     resetPasswordCurrentLabel,
     resetPasswordNewLabel,
     resetPasswordNewConfirmLabel,
@@ -131,7 +132,14 @@ const ResetPassword = () => {
   return (
     <>
       <ResetPasswordContainer className="layout body-fit">
-        <Title fontSize={25} title={resetPasswordHeading || "Password Reset"} />
+        <Title
+          fontSize={25}
+          title={
+            isUserPasswordSet
+              ? resetPasswordHeading || "Password Reset"
+              : setPasswordHeading || "Set a Password"
+          }
+        />
         <Box sx={inputBoxStyle}>
           {isUserPasswordSet && (
             <TextField

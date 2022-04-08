@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
@@ -9,6 +9,8 @@ import { globalData } from "utils/GlobalData";
 import { LoadingButton } from "@mui/lab";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import NSSButton from "components/Button/NSSButton";
+import LandingSection from "components/Section/LandingSection";
 import { RegistrationContainer, MktoFormContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {
@@ -119,6 +121,14 @@ const Registration = ({ formNo }: RegistrationProps) => {
     }
   }, [emailValid]);
 
+  const pathname = usePageViews();
+  const { submitBtnText, logoURL } = globalData.get(
+    pathname,
+  ) as Common.globalDataType;
+  const { registrationBannerURL } = globalData.get(
+    "common",
+  ) as Common.globalDataType;
+
   const submitHandler = async () => {
     const formData =
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -175,33 +185,46 @@ const Registration = ({ formNo }: RegistrationProps) => {
     <>
       {mktoLoading && <Loading />}
       <RegistrationContainer>
-        <MktoFormContainer>
-          <form id={`mktoForm_${formNo}`} />
-          {!mktoLoading && (
-            <LoadingButton
-              variant="contained"
-              disabled={emailValid !== 1}
-              className="mktoButton2"
-              loading={submitBlock}
-              onClick={() => {
-                if (
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                  // @ts-ignore
-                  !window.MktoForms2.allForms()[0]?.validate()
-                ) {
-                  // 마케토 validator가 알려줌
-                } else if (emailValid !== 1) {
-                  setEmailNotValidAlert(true);
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                } else {
-                  submitHandler();
-                }
-              }}
-            >
-              SUBMIT
-            </LoadingButton>
-          )}
-        </MktoFormContainer>
+        <LandingSection
+          className="banner"
+          background={registrationBannerURL}
+          maxWidth="1920px"
+          fullWidth
+        >
+          <Stack justifyContent="center" alignItems="center" height="100%">
+            <img className="banner-img" src={logoURL} alt="NSS Logo" />
+          </Stack>
+        </LandingSection>
+        <LandingSection className="layout">
+          <MktoFormContainer>
+            <form id={`mktoForm_${formNo}`} />
+            {!mktoLoading && (
+              <NSSButton
+                variant="gradient"
+                disabled={emailValid !== 1}
+                className="mktoButton2"
+                loading={submitBlock}
+                onClick={() => {
+                  if (
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    !window.MktoForms2.allForms()[0]?.validate()
+                  ) {
+                    // 마케토 validator가 알려줌
+                  } else if (emailValid !== 1) {
+                    setEmailNotValidAlert(true);
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  } else {
+                    submitHandler();
+                  }
+                }}
+              >
+                {submitBtnText || "Submit"}
+              </NSSButton>
+            )}
+          </MktoFormContainer>
+        </LandingSection>
+
         <TopCenterSnackBar
           value={emailNotValidAlert}
           setValue={setEmailNotValidAlert}
