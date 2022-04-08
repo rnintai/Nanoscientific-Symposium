@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import TextField from "@mui/material/TextField";
 
@@ -19,6 +19,7 @@ import Timer from "components/Timer/Timer";
 import NSSButton from "components/Button/NSSButton";
 import { globalData } from "utils/GlobalData";
 import useInput from "hooks/useInput";
+import { smallFontSize } from "utils/FontSize";
 import usePageViews from "../../hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
@@ -402,13 +403,17 @@ const EuropeLoginModal = ({
             sx={{ width: "95%" }}
           >
             <Link to={`${pathname}/registration`} onClick={closeAllModal}>
-              {createAccountText}
+              <Typography fontSize={smallFontSize}>
+                {createAccountText}
+              </Typography>
             </Link>
             <Link
               to={`${pathname}/user/forgot-password`}
               onClick={closeAllModal}
             >
-              {forgotPasswordText}
+              <Typography fontSize={smallFontSize}>
+                {forgotPasswordText}
+              </Typography>
             </Link>
           </Stack>
         </DialogActions>
