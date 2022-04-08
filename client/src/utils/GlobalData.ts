@@ -59,7 +59,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "asia",
     {
-      logoURL: `${S3_URL}/asia/menu-bar-logo.svg`,
+      logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.01`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -158,7 +158,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr",
     {
-      logoURL: `${S3_URL}/kr/menu-bar-logo.svg`,
+      logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.01`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
       programs: "프로그램",
@@ -259,7 +259,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "jp",
     {
-      logoURL: `${S3_URL}/jp/menu-bar-logo.svg`,
+      logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.01`,
       speakers: "講演者",
       programs: "プログラム",
       lectureHall: "Web講演会",
@@ -358,7 +358,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "us",
     {
-      logoURL: `${S3_URL}/us/menu-bar-logo.svg`,
+      logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.01`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -456,7 +456,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu",
     {
-      logoURL: `${S3_URL}/eu/menu-bar-logo.svg`,
+      logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.01`,
       speakers: "SPEAKERS",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
