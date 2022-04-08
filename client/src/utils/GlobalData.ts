@@ -89,7 +89,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/asia/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/asia/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join the 4th edition of the NanoScientific Symposium Asia 2022 - the platform for nanoscience and SPM research",
+        "Join us for the 4th edition of the NanoScientific Symposium Asia 2022 to be held on September 22, 2022.",
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc: `NanoScientific Symposium Asia, or NSSA, is a platform where industry professionals, nanoscience researchers, and scientists gather to learn and get insights on the future direction and latest studies being formed using Scanning Probe Microscopy.
       <br/><br/>
@@ -185,8 +185,11 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
-      landingSection1Desc:
-        "제 4회 NanoScientific Symposium Korea 2022 - 나노과학과 SPM 연구를 위한 플랫폼",
+      landingSection1Desc: `
+        NanoScientific Symposium Korea 등록하기
+        <br/><br/>
+        국내 원자현미경 전문 심포지엄 NanoScientific Symposium Korea 등록을 위해 '등록(registration)' 을 클릭해주세요.
+        `,
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc: `국내 원자현미경 전문 심포지엄 나노사이언티픽 코리아 2022에 여러분을 초대합니다!
       <br/> <br/>
@@ -284,8 +287,11 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/jp/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/jp/logo-type-1b.svg`,
-      landingSection1Desc:
-        "第4回NanoScientificSymposiumJapan2022-ナノ科学とSPM研究のためのプラットフォーム",
+      landingSection1Desc: `
+        参加登録はこちらから
+        <br/>
+        ナノテクノロジーとSPMに特化したナノ科学シンポジウム 2022 参加登録受付中！
+        `,
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc: `科学技術の革新によりナノ科学では材料、表面を計測・解析する方法も各種発展しています。特に、走査型プローブ顕微鏡（SPM）の登場により、 ナノレベルでの表面計測・解析の基礎技術としての重要性が日々増しています。
       ナノ科学シンポジウムは、走査型プローブ顕微鏡を用いた 材料科学、半導体およびライフサイエンス分野の最先端の研究情報を共有・交換するSPMユーザーシンポジウムです。
@@ -382,7 +388,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/us/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join the 4th edition of the NanoScientific Symposium US 2022 - the platform for nanoscience and SPM research.",
+        "Join the 2022 NanoScientific Symposium Americas - Connecting the Nanomaterials Community.",
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc: `The NanoScientific Symposium US 2022 - Connecting the Nanomaterials Community, will be a 1-day virtual event that features experts in the nanomaterials community.
       NanoScientific Symposium focuses on sharing, exchanging, and exploring new advances in nanomaterials applications. This event also emphasizes the growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing.
