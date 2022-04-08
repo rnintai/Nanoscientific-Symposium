@@ -73,9 +73,9 @@ const SpeakerCard = ({
           {speaker.belong}
         </Typography>
         {speaker.description && (
-          <h5 style={{ fontSize: "0.85rem" }} className="description">
+          <Typography color={theme.palette.grey[600]} fontSize={smallFontSize}>
             {speaker.description}
-          </h5>
+          </Typography>
         )}
       </Item>
     </Grid>

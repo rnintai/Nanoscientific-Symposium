@@ -38,6 +38,7 @@ const SpeakerForm = ({
 
   const name = useInput(edit ? selectedSpeaker.name : "");
   const belong = useInput(edit ? selectedSpeaker.belong : "");
+  const description = useInput(edit ? selectedSpeaker.description : "");
   const [imagePath, setImagePath] = useState<string>(
     edit ? selectedSpeaker.image_path : "",
   );
@@ -63,6 +64,7 @@ const SpeakerForm = ({
         nation: pathname,
         name: name.value,
         belong: belong.value,
+        description: description.value,
         imagePath,
         keynote: keynoteCheck,
         status: status === "show" ? 1 : 0,
@@ -73,6 +75,7 @@ const SpeakerForm = ({
         nation: pathname,
         name: name.value,
         belong: belong.value,
+        description: description.value,
         imagePath,
         keynote: keynoteCheck,
       });
@@ -142,6 +145,15 @@ const SpeakerForm = ({
         multiline
         sx={{ marginBottom: "30px" }}
         {...belong}
+      />
+      <TextField
+        margin="dense"
+        label="Description"
+        fullWidth
+        variant="filled"
+        multiline
+        sx={{ marginBottom: "30px" }}
+        {...description}
       />
       <FormControlLabel
         control={

@@ -7,6 +7,7 @@ import { globalData } from "utils/GlobalData";
 import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import BackgroundVectorColored from "components/BackgroundVector/BackgroundVectorColored";
 import { mainFontSize } from "utils/FontSize";
+import InnerHTML from "dangerously-set-html-content";
 import { EventLandingContainer } from "./EventLandingStyles";
 
 const EventLanding = () => {
@@ -64,7 +65,7 @@ const EventLanding = () => {
                     fontSize: mainFontSize,
                   }}
                 >
-                  {eventLandingDesc}
+                  <InnerHTML html={eventLandingDesc || ""} />
                 </Typography>
               </Stack>
               {/* 나라 카드 */}

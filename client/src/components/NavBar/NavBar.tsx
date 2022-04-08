@@ -130,6 +130,7 @@ const NavBar = ({
     greeting,
     attend,
     symposium,
+    archive,
     registration,
     signInText,
     adminBtnText,
@@ -180,6 +181,9 @@ const NavBar = ({
               )}
               {sponsors && (
                 <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
+              )}
+              {archive && (
+                <MenuLink to={`/${pathname}/archive`}>{archive}</MenuLink>
               )}
               {authState.isLogin && !checkLoading && (
                 <div className="user-menu-wrap">

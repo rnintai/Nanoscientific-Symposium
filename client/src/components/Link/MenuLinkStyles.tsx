@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material";
 
 export const MenuLinkContainer = styled.div`
   display: flex;
+  align-items: center;
   font-weight: ${() => {
     const theme = useTheme();
     return theme.typography.fontWeightBold;
@@ -31,6 +32,13 @@ export const MenuLinkContainer = styled.div`
         const theme = useTheme();
         return theme.palette.primary.main;
       }};
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    a {
+      &::before {
+        width: calc(100% - 10px);
+      }
     }
   }
 `;

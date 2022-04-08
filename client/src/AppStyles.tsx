@@ -16,7 +16,6 @@ export const AppContainer = styled.div`
   }};
 
   a {
-    padding: 15px 10px;
     color: ${() => {
       const theme = useTheme();
       return theme.palette.text.secondary;
@@ -60,17 +59,27 @@ export const AppContainer = styled.div`
     .layout {
       padding: 35px;
     }
+
+    a {
+      padding: 10px 5px;
+    }
   }
   @media screen and (min-width: 1024px) {
     .layout {
       padding: 70px 50px;
       max-width: 1024px;
     }
+    a {
+      padding: 15px 10px;
+    }
   }
   @media screen and (min-width: 1921px) {
     .layout {
       padding: 70px 50px;
       max-width: 1680px;
+    }
+    a {
+      padding: 15px 10px;
     }
   }
 `;

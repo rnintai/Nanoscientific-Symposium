@@ -200,7 +200,10 @@ const JapanArchive = () => {
           size="large"
           variant="contained"
           onClick={() =>
-            window.open("https://pages.parksystems.com/NSS-Japan-2020-Archive_NSS-Japan-2020-Archive-Registration-LP.html", "_blank")
+            window.open(
+              "https://pages.parksystems.com/NSS-Japan-2020-Archive_NSS-Japan-2020-Archive-Registration-LP.html",
+              "_blank",
+            )
           }
         >
           ナノ科学シンポジウム2020 アーカイブ

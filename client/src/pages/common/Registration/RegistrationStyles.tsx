@@ -2,11 +2,6 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material";
 
 export const RegistrationContainer = styled.div`
-  max-width: 1200px;
-  min-height: calc(100vh - 120px);
-  padding: 30px 0;
-  margin: 0 auto;
-
   .mktoForm {
     margin: 0 auto;
     font-family: "Open Sans" !important;
@@ -16,6 +11,16 @@ export const RegistrationContainer = styled.div`
     .mktoField {
       background-color: white;
       border: 1px solid #ddd;
+    }
+  }
+  .banner {
+    background-size: cover;
+    height: 300px;
+    .banner-img {
+      margin-left: 30px;
+      height: 80px;
+      left: 80px;
+      position: relative;
     }
   }
   .flex-reverse {
@@ -50,6 +55,20 @@ export const RegistrationContainer = styled.div`
     }
   }
 
+  // reset
+  .mktoForm input[type="text"],
+  .mktoForm input[type="url"],
+  .mktoForm input[type="email"],
+  .mktoForm input[type="tel"],
+  .mktoForm input[type="number"],
+  .mktoForm input[type="date"],
+  .mktoForm select.mktoField,
+  .mktoForm textarea.mktoField,
+  .mktoForm input[type="checkbox"] + label:before,
+  .mktoForm input[type="radio"] + label:before {
+    box-shadow: none;
+  }
+
   .mktoLogicalField.mktoCheckboxList.mktoHasWidth {
     width: initial !important;
   }
@@ -60,16 +79,27 @@ export const RegistrationContainer = styled.div`
   }
 
   .mktoButton2 {
-    left: 50%;
-    transform: translateX(-50%);
+    margin: 0 auto;
+    transition: opacity 0.3s ease-in-out;
+    &.disabled {
+      opacity: 0.4;
+      pointer-events: none;
+    }
   }
 
   &.loading form {
     display: none;
   }
 
-  @media screen and (max-width: 1090px) {
-    margin: 52px auto 0 auto;
+  @media screen and (max-width: 1024px) {
+    .banner {
+      height: 220px;
+      background-position: right;
+      .banner-img {
+        height: 40px;
+        left: 0;
+      }
+    }
   }
 `;
 
