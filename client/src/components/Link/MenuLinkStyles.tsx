@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material";
 
 export const MenuLinkContainer = styled.div`
   display: flex;
+  align-items: center;
   font-weight: ${() => {
     const theme = useTheme();
     return theme.typography.fontWeightBold;

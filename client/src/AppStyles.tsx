@@ -60,6 +60,10 @@ export const AppContainer = styled.div`
     .layout {
       padding: 35px;
     }
+
+    a {
+      padding: 10px 5px;
+    }
   }
   @media screen and (min-width: 1024px) {
     .layout {

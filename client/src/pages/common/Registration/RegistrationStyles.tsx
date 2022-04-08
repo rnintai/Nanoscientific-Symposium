@@ -17,7 +17,10 @@ export const RegistrationContainer = styled.div`
     background-size: cover;
     height: 300px;
     .banner-img {
-      height: 200px;
+      margin-left: 30px;
+      height: 80px;
+      left: 80px;
+      position: relative;
     }
   }
   .flex-reverse {
@@ -90,10 +93,11 @@ export const RegistrationContainer = styled.div`
 
   @media screen and (max-width: 1024px) {
     .banner {
-      height: 250px;
+      height: 220px;
       background-position: right;
       .banner-img {
-        height: 150px;
+        height: 40px;
+        left: 0;
       }
     }
   }

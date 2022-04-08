@@ -40,12 +40,14 @@ export const NavBarContainer = styled.div`
       display: flex;
       justify-content: center;
       align-self: flex-end;
+      align-items: center;
       // height: 131px;
       // width: 25%;
       // height: 100%;
       img {
         // width: 100%;
         // height: 100%;
+        margin-left: 30px;
         height: 45px;
         padding: 20px 0;
       }
@@ -70,10 +72,11 @@ export const NavBarContainer = styled.div`
   }
 
   @media screen and (max-width: 1140px) {
+    height: 70px;
     .nav-wrap {
       .menu-container {
         position: absolute;
-        top: 120px;
+        top: 70px;
         width: 100%;
         max-height: 0px;
         overflow: hidden;
@@ -87,6 +90,8 @@ export const NavBarContainer = styled.div`
           width: 100%;
           max-height: 100vh;
           box-shadow: 0px 2px 2px #0000002b;
+          padding: 0 20px;
+          box-sizing: border-box;
           div {
             transform: scale(1.1) translateY(-15px);
             transition: transform 0.8s ease-in-out;
@@ -99,10 +104,9 @@ export const NavBarContainer = styled.div`
         left: 0;
       }
       .logo-link {
-        // min-width: 240px;
-        height: 116px;
+        align-self: center;
         img {
-          height: 116px;
+          height: 33px;
         }
       }
       .user-menu-wrap {
@@ -117,9 +121,6 @@ export const NavBarContainer = styled.div`
       // mobile
     }
     &.mobile {
-      .logo-link {
-        align-self: center;
-      }
       .menu-container {
         max-height: 100vh;
         .menu-item-wrap {
