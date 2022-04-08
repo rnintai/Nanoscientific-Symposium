@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material";
 
 export const NavBarContainer = styled.div`
   width: 100%;
-  height: 130px;
+  height: 110px;
   border-bottom: ${() => {
     const theme = useTheme();
     return `3px solid ${theme.palette.background.default}`;
