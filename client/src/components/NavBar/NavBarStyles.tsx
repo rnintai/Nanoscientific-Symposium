@@ -39,7 +39,6 @@ export const NavBarContainer = styled.div`
     .logo-link {
       display: flex;
       justify-content: center;
-      align-self: flex-end;
       align-items: center;
       // height: 131px;
       // width: 25%;
@@ -104,7 +103,6 @@ export const NavBarContainer = styled.div`
         left: 0;
       }
       .logo-link {
-        align-self: center;
         img {
           height: 33px;
         }

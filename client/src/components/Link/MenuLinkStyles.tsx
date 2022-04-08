@@ -34,4 +34,11 @@ export const MenuLinkContainer = styled.div`
       }};
     }
   }
+  @media screen and (max-width: 1024px) {
+    a {
+      &::before {
+        width: calc(100% - 10px);
+      }
+    }
+  }
 `;
