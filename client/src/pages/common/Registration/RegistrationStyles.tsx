@@ -91,6 +91,7 @@ export const RegistrationContainer = styled.div`
   @media screen and (max-width: 1024px) {
     .banner {
       height: 250px;
+      background-position: right;
       .banner-img {
         height: 150px;
       }

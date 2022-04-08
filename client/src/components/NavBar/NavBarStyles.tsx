@@ -39,13 +39,15 @@ export const NavBarContainer = styled.div`
     .logo-link {
       display: flex;
       justify-content: center;
-      height: 131px;
+      align-self: flex-end;
+      // height: 131px;
       // width: 25%;
       // height: 100%;
       img {
         // width: 100%;
         // height: 100%;
-        height: 131px;
+        height: 45px;
+        padding: 20px 0;
       }
     }
     .user-menu-wrap {
