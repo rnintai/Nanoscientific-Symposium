@@ -10,8 +10,9 @@ interface NSSButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   variant: "gradient" | "primary" | "secondary";
   loading?: boolean;
   disabled?: boolean;
-  fontSize?: string;
-  fontWeight?: number;
+  fontSize?: any;
+  fontWeight?: any;
+  letterSpacing?: string;
 }
 const NSSButton = (props: NSSButtonProps) => {
   const {
@@ -21,6 +22,7 @@ const NSSButton = (props: NSSButtonProps) => {
     disabled,
     fontSize,
     fontWeight,
+    letterSpacing,
     ...rest
   } = props;
   let className =
@@ -37,6 +39,7 @@ const NSSButton = (props: NSSButtonProps) => {
         <Typography
           fontSize={fontSize || mainFontSize}
           fontWeight={fontWeight || theme.typography.fontWeightMedium}
+          letterSpacing={letterSpacing || "inherit"}
         >
           {children}
         </Typography>

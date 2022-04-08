@@ -15,6 +15,7 @@ import {
   Stack,
   Box,
   useTheme,
+  Typography,
 } from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
@@ -269,10 +270,10 @@ const NavBar = ({
                       onClick={() => {
                         navigate(`${pathname}/registration`);
                       }}
-                      fontWeight={
-                        (theme.typography.fontWeightBold as number) || 500
-                      }
                       style={{ alignSelf: "center" }}
+                      fontSize={mainFontSize}
+                      fontWeight={theme.typography.fontWeightBold}
+                      letterSpacing="1.2px"
                     >
                       {registration}
                     </NSSButton>

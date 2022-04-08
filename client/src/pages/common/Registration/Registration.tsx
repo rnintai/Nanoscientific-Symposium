@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
@@ -128,6 +128,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const { registrationBannerURL } = globalData.get(
     "common",
   ) as Common.globalDataType;
+  const theme = useTheme();
 
   const submitHandler = async () => {
     const formData =
@@ -204,6 +205,8 @@ const Registration = ({ formNo }: RegistrationProps) => {
                 disabled={emailValid !== 1}
                 className="mktoButton2"
                 loading={submitBlock}
+                fontWeight={theme.typography.fontWeightBold}
+                letterSpacing="1.2px"
                 onClick={() => {
                   if (
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

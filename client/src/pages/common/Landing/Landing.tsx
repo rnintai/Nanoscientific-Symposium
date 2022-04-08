@@ -120,18 +120,14 @@ const Landing = () => {
                 className="z1"
                 variant="gradient"
                 style={{ padding: "5px 20px" }}
+                fontSize={mainFontSize}
+                fontWeight={theme.typography.fontWeightBold}
+                letterSpacing="1.2px"
                 onClick={() => {
                   navigate(`/${pathname}/registration`);
                 }}
               >
-                <Typography
-                  sx={{
-                    fontSize: mainFontSize,
-                  }}
-                  fontWeight={theme.typography.fontWeightBold}
-                >
-                  {registration}
-                </Typography>
+                {registration}
               </NSSButton>
             )}
             <Typography
@@ -387,13 +383,10 @@ const Landing = () => {
                         onClick={() => {
                           openLink(landingSection6ButtonLink);
                         }}
+                        fontSize={smallFontSize}
+                        fontWeight={theme.typography.fontWeightBold}
                       >
-                        <Typography
-                          fontSize={smallFontSize}
-                          fontWeight={theme.typography.fontWeightBold}
-                        >
-                          {landingSection6ButtonText}
-                        </Typography>
+                        {landingSection6ButtonText}
                       </NSSButton>
                     </Box>
                   </Stack>
