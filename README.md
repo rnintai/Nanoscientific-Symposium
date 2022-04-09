@@ -299,12 +299,6 @@ Use this space to list resources you find helpful and would like to give credit 
 
 ### Command
 
-`ssh access`
-```
-ssh -i nanoscientific.pem ubuntu@18.144.161.137
-```
-
-
 `Nginx restart` 
 ```
 sudo service nginx restart
