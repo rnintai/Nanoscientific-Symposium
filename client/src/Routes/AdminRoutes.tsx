@@ -27,9 +27,9 @@ export default [
     ),
   },
   {
-    path: "/us/admin",
+    path: "/americas/admin",
     element: (
-      <AdminRoute key="/us/admin">
+      <AdminRoute key="/americas/admin">
         <Admin />
       </AdminRoute>
     ),
@@ -67,9 +67,9 @@ export default [
     ),
   },
   {
-    path: "/us/admin/program",
+    path: "/americas/admin/program",
     element: (
-      <AdminRoute key="/us/admin/program">
+      <AdminRoute key="/americas/admin/program">
         <AdminPrograms />
       </AdminRoute>
     ),
@@ -107,9 +107,9 @@ export default [
     ),
   },
   {
-    path: "/us/admin/speakers",
+    path: "/americas/admin/speakers",
     element: (
-      <AdminRoute key="/us/admin/speakers">
+      <AdminRoute key="/americas/admin/speakers">
         <AdminSpeakers />
       </AdminRoute>
     ),
@@ -155,9 +155,9 @@ export default [
     ),
   },
   {
-    path: "/us/admin/users",
+    path: "/americas/admin/users",
     element: (
-      <AdminRoute key="/us/admin/users">
+      <AdminRoute key="/americas/admin/users">
         <AdminUsers />
       </AdminRoute>
     ),

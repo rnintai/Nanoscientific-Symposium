@@ -19,7 +19,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         {
           name: "NSS Americas",
           date: "Sep 29",
-          path: "us",
+          path: "americas",
         },
         {
           name: "NSF Europe",
@@ -357,7 +357,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "us",
+    "americas",
     {
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
       speakers: "SPEAKERS",
