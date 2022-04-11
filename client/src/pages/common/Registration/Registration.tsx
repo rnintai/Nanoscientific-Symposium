@@ -34,7 +34,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
 
   // seo
   const { registration } = globalData.get(nation) as Common.globalDataType;
-  useSeoTitle(registration as string, nation);
+  useSeoTitle(registration as string);
 
   const dispatchLogin = (e: string, r: string, t: string) =>
     dispatch({

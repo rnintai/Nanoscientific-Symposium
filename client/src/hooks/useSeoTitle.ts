@@ -1,10 +1,12 @@
 import { useEffect } from "react";
+import { globalData } from "utils/GlobalData";
+import usePageViews from "./usePageViews";
 
-const useSeoTitle = (title: string, country: string) => {
+const useSeoTitle = (title: string) => {
+  const pathname = usePageViews();
+  const { fullName } = globalData.get(pathname) as Common.globalDataType;
   useEffect(() => {
-    document.title = title
-      ? `${title} | 2022 Nanoscientific Symposium ${country.toUpperCase()}`
-      : `2022 Nanoscientific Symposium ${country.toUpperCase()}`;
+    document.title = title ? `${title} | ${fullName}` : `${fullName}`;
   }, []);
 };
 

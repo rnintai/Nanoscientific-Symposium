@@ -64,7 +64,7 @@ const Landing = () => {
     cookieConsentText,
     seePrivacyPolicyText,
   } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(home as string, pathname);
+  useSeoTitle(home as string);
 
   const navigate = useNavigate();
 

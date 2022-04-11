@@ -82,6 +82,7 @@ declare namespace Common {
   }
 
   interface globalDataType {
+    fullName?: string;
     logoURL?: string;
     fullLogoURL?: string;
     speakers?: string;

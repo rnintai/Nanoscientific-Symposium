@@ -40,7 +40,7 @@ const EuropeRegistration = () => {
 
   // seo
   const { registration } = globalData.get(nation) as Common.globalDataType;
-  useSeoTitle(registration as string, nation);
+  useSeoTitle(registration as string);
 
   useEffect(() => {
     const script = document.createElement("script");

@@ -31,7 +31,7 @@ const Speakers = () => {
   }, []);
 
   const { speakers } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(speakers as string, pathname);
+  useSeoTitle(speakers as string);
 
   const isLocal = useCheckLocal();
   const globalDataTitle = new Map<string, { title: string }>([

@@ -11,7 +11,7 @@ const ExhibitParkSystems = () => {
   const pathname = usePageViews();
   const { exhibitHall } = globalData.get(pathname) as Common.globalDataType;
 
-  useSeoTitle(exhibitHall as string, pathname);
+  useSeoTitle(exhibitHall as string);
 
   // useEffect(() => {
   //   document.title = `${exhibitHall} | Nanoscientific 2022 ${pathname

@@ -89,7 +89,7 @@ const JapanArchive = () => {
   const pathname = usePageViews();
   const { archive } = globalData.get(pathname) as Common.globalDataType;
   const [imagePadding, setImagePadding] = useState<number>(25);
-  useSeoTitle(archive as string, pathname);
+  useSeoTitle(archive as string);
   const size = useWindowSize();
 
   const dispatch = useThemeDispatch();
