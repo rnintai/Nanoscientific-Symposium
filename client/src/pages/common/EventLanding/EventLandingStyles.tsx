@@ -6,7 +6,8 @@ export const EventLandingContainer = styled.div`
   color: #000;
 
   img.section-logo {
-    margin-left: -20px;
+    max-width: 370px;
+    margin-right: 20px;
   }
   .banner-section {
     height: 300px;
@@ -26,6 +27,15 @@ export const EventLandingContainer = styled.div`
   @media screen and (max-width: 1024px) {
     .body-container {
       min-height: initial;
+    }
+    .section-logo {
+      max-width: 220px;
+      margin-right: 0px;
+      margin-bottom: 10px;
+    }
+    .teaser-video {
+      height: auto;
+      width: 100%;
     }
   }
   @media screen and (min-width: 1921px) {
