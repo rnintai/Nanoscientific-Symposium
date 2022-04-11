@@ -129,7 +129,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -231,7 +231,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -331,7 +331,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -430,7 +430,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -527,7 +527,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
