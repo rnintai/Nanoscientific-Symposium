@@ -169,7 +169,11 @@ const ForgotPassword = () => {
             </Stack>
             {showCodeInput && (
               <>
-                <Stack direction="row" className="code-section">
+                <Stack
+                  direction="row"
+                  className="code-section"
+                  sx={{ position: "relative" }}
+                >
                   <TextField
                     id="code"
                     label="Verification Code"
@@ -194,11 +198,12 @@ const ForgotPassword = () => {
                   >
                     Confirm
                   </LoadingButton>
+                  {/* 타이머 */}
+                  {isTimerStarted && (
+                    <Timer second={180} setIsExpired={setIsExpired} />
+                  )}
                 </Stack>
-                {/* 타이머 */}
-                {isTimerStarted && (
-                  <Timer second={180} setIsExpired={setIsExpired} />
-                )}
+
                 {/* {!isTimerStarted && <Box sx={{ width: "48px" }} />} */}
               </>
             )}
