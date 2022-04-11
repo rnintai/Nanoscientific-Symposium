@@ -28,7 +28,7 @@ export const EventLandingContainer = styled.div`
     .body-container {
       min-height: initial;
     }
-    .section-logo {
+    img.section-logo {
       max-width: 220px;
       margin-right: 0px;
       margin-bottom: 10px;
