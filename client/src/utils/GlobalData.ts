@@ -270,15 +270,15 @@ export const globalData = new Map<string, Common.globalDataType>([
       attend: "参加手順",
       archive: "アーカイブ",
 
-      signInText: "SIGN IN",
+      signInText: "ログイン",
       registration: "登録",
-      goNextText: "다음",
-      goPrevText: "이전",
+      goNextText: "NEXT",
+      goPrevText: "PREV",
       // user관련
-      emailInputLabel: "이메일 주소",
-      passwordInputLabel: "비밀번호",
-      forgotPasswordText: "비밀번호 찾기",
-      createAccountText: "계정 등록",
+      emailInputLabel: "Email address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot Password?",
+      createAccountText: "登録",
       // landing
       showLandingSection1: true,
       showLandingSection2: true,
