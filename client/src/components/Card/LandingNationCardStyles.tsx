@@ -13,6 +13,10 @@ export const LandingNationCardContainer = styled.button`
       .card-background {
         filter: grayscale(1);
         transition: filter 0.2s ease-in-out;
+        width: 100%;
+        height: 100%;
+        background-position: center;
+        background-size: cover;
       }
       .overlay.bluescale {
         transition: background-color 0.2s ease-in-out;

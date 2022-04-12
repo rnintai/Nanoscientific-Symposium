@@ -44,10 +44,7 @@ const LandingNationCard = ({
           <div
             className="card-background"
             style={{
-              background: `url("${img}")`,
-              width: "100%",
-              height: "100%",
-              backgroundSize: "cover",
+              backgroundImage: `url("${img}")`,
             }}
           />
           <div className="overlay bluescale z0" />
