@@ -106,6 +106,7 @@ const EventLanding = () => {
                       return (
                         <LandingNationCard
                           key={nation.name}
+                          img={nation.img}
                           name={nation.name}
                           date={nation.date}
                           path={nation.path}
@@ -116,6 +117,7 @@ const EventLanding = () => {
                     return (
                       <LandingNationCard
                         key={nation.name}
+                        img={nation.img}
                         name={nation.name}
                         date={nation.date}
                         path={`/${nation.path}`}

@@ -1,11 +1,32 @@
 import styled from "styled-components";
 
 export const LandingNationCardContainer = styled.button`
+  text-align: center;
   &.disabled {
     pointer-events: none;
     opacity: 0.6;
   }
-  text-align: center;
+
+  .card-wrap {
+    .card-image-container {
+      position: relative;
+      .card-background {
+        filter: grayscale(1);
+        transition: filter 0.2s ease-in-out;
+      }
+      .overlay.bluescale {
+        transition: background-color 0.2s ease-in-out;
+      }
+    }
+    &:hover {
+      .card-background {
+        filter: grayscale(0);
+      }
+      .overlay.bluescale {
+        background-color: #00000000;
+      }
+    }
+  }
 
   margin-bottom: 15px;
   @media screen and (min-width: 0px) {
