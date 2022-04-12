@@ -37,6 +37,9 @@ export const LandingSectionContainer = styled.div`
       return theme.palette.secondary.overlay;
     }};
   }
+  .overlay.bluescale {
+    background: #2ba4dd52;
+  }
 `;
 
 // transition: background-color 0.2s ease-in-out;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Title from "components/Title/Title";
-import { Box, TextField } from "@mui/material";
+import { Box, Stack, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import useInput from "hooks/useInput";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
@@ -9,7 +9,16 @@ import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
 import { useNavigate } from "react-router";
 import { globalData } from "utils/GlobalData";
-import { ResetPasswordContainer } from "./ResetPasswordStyles";
+import LandingSection from "components/Section/LandingSection";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import LooksTwoIcon from "@mui/icons-material/LooksTwo";
+import Looks3Icon from "@mui/icons-material/Looks3";
+
+import { smallFontSize } from "utils/FontSize";
+import {
+  ResetPasswordContainer,
+  OuterResetContainer,
+} from "./ResetPasswordStyles";
 
 const inputBoxStyle = {
   backgroundColor: "#fff",
@@ -29,8 +38,15 @@ const ResetPassword = () => {
     resetPasswordNewLabel,
     resetPasswordNewConfirmLabel,
     submitBtnText,
+    registerBtnText,
+    logoURL,
+    registrationStep1Label,
+    registrationStep2Label,
+    registrationStep3Label,
   } = globalData.get(pathname) as Common.globalDataType;
-
+  const { registrationBannerURL } = globalData.get(
+    "common",
+  ) as Common.globalDataType;
   const curPassword = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
@@ -130,13 +146,67 @@ const ResetPassword = () => {
   }, []);
 
   return (
-    <>
+    <OuterResetContainer>
+      {!isUserPasswordSet && (
+        <LandingSection
+          className="banner"
+          background={registrationBannerURL}
+          maxWidth="1920px"
+          fullWidth
+        >
+          <Stack justifyContent="center" alignItems="center" height="100%">
+            <img className="banner-img" src={logoURL} alt="NSS Logo" />
+          </Stack>
+        </LandingSection>
+      )}
       <ResetPasswordContainer className="layout body-fit">
+        {!isUserPasswordSet && (
+          <Stack
+            className="step-container"
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <div>
+              <CheckBoxIcon className="step-icon active" />
+              <Typography
+                className="step-caption active"
+                fontSize={smallFontSize}
+                sx={{ position: "absolute" }}
+              >
+                {registrationStep1Label || "Your Information"}
+              </Typography>
+            </div>
+            <div className="icon-divider active" />
+            <div>
+              <LooksTwoIcon className="step-icon active" />
+              <Typography
+                className="step-caption caption2 active"
+                fontSize={smallFontSize}
+                sx={{ position: "absolute" }}
+              >
+                {registrationStep2Label || "Setting a password"}
+              </Typography>
+            </div>
+            <div className="icon-divider" />
+            <div>
+              <Looks3Icon className="step-icon" />
+              <Typography
+                className="step-caption"
+                fontSize={smallFontSize}
+                sx={{ position: "absolute" }}
+              >
+                {registrationStep3Label || "Complete"}
+              </Typography>
+            </div>
+          </Stack>
+        )}
+
         <Title
           fontSize={25}
           title={
             isUserPasswordSet
-              ? resetPasswordHeading || "Password Reset"
+              ? resetPasswordHeading || "Change a Password"
               : setPasswordHeading || "Set a Password"
           }
         />
@@ -208,7 +278,10 @@ const ResetPassword = () => {
               color="primary"
               onClick={passwordSetHandler}
             >
-              {submitBtnText || "SUBMIT"}
+              {isUserPasswordSet
+                ? submitBtnText || "SUBMIT"
+                : registerBtnText || "REGISTER"}
+              {/* {submitBtnText || "SUBMIT"} */}
             </LoadingButton>
           </Box>
         </Box>
@@ -253,7 +326,7 @@ const ResetPassword = () => {
         severity="error"
         content="Token expired."
       />
-    </>
+    </OuterResetContainer>
   );
 };
 

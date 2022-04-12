@@ -15,31 +15,37 @@ export const globalData = new Map<string, Common.globalDataType>([
           name: "NSS Asia",
           date: "Sep 22",
           path: "asia",
+          img: `${S3_URL}/asia/main-page-banner.jpg`,
         },
         {
           name: "NSS Americas",
           date: "Sep 29",
           path: "americas",
+          img: `${S3_URL}/us/main-page-banner.jpg`,
         },
         {
           name: "NSF Europe",
           date: "Oct 06 - 07",
           path: "eu",
+          img: `${S3_URL}/eu/main-page-banner.jpg`,
         },
         {
           name: "NSS China",
           date: "Oct 27 - 28",
           path: "https://nanoscientific.com.cn",
+          img: `${S3_URL}/cn/main-page-banner.jpg`,
         },
         {
           name: "NSS Japan",
           date: "Nov 18",
           path: "jp",
+          img: `${S3_URL}/jp/main-page-banner.jpg`,
         },
         {
           name: "NSS Korea",
           date: "Nov 24",
           path: "kr",
+          img: `${S3_URL}/kr/main-page-banner.jpg`,
         },
       ],
       logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
@@ -74,6 +80,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       goNextText: "NEXT",
       goPrevText: "PREV",
       submitBtnText: "SUBMIT",
+      registerBtnText: "REGISTER",
       // user관련
       emailInputLabel: "Email Address",
       passwordInputLabel: "Password",
@@ -145,11 +152,14 @@ export const globalData = new Map<string, Common.globalDataType>([
           url: "https://parksystems.com",
         },
       ],
+
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // registration
 
       // cookie
       cookieConsentText:
@@ -248,7 +258,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
@@ -348,7 +358,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
@@ -447,7 +457,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
@@ -544,7 +554,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",

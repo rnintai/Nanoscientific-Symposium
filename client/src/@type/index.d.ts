@@ -73,6 +73,7 @@ declare namespace Common {
     name: string;
     date: string;
     path: string;
+    img: string;
   }
 
   interface sponsorType {
@@ -102,6 +103,8 @@ declare namespace Common {
     goNextText?: string;
     goPrevText?: string;
     submitBtnText?: string;
+    registerBtnText?: string;
+
     // user 관련
     emailInputLabel?: string;
     passwordInputLabel?: string;
@@ -110,6 +113,11 @@ declare namespace Common {
     adminBtnText?: string;
     signOutBtnText?: string;
     changePasswordBtnText?: string;
+
+    // registration 관련
+    registrationStep1Label?: string;
+    registrationStep2Label?: string;
+    registrationStep3Label?: string;
 
     // common
     nations?: nationType[];
