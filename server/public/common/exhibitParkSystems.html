@@ -1,4 +1,7 @@
 <style>
+  *{
+    box-sizing: border-box;
+  }
   .load-wrap {
     position: absolute;
     display: inline-block;
@@ -7,19 +10,6 @@
     z-index: 9;
     background-color: #fff;
   }
-
-  /* .load-wrap::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url(https://us.nanoscientific.org/wp-content/uploads/2021/07/exhibit_10_thumb.jpg);
-      background-size: cover;
-      background-position: center top;
-      filter: blur(17px);
-  } */
 
   .load-wrap img {
     width: 100%;
@@ -836,19 +826,25 @@
   .modal-image-switch {
     display: block;
     position: absolute;
-    top: 10%;
-    left: 0;
-    width: 100%;
-    height: 92% !important;
-    /* margin-top: 3rem; */
+    top: 50%;
+    left: 50%;
+    padding:30px;
+    transform:translate(-50%,-50%);
+    width: 95%;
     opacity: 0;
-    -o-object-fit: cover;
-    object-fit: cover;
+    -o-object-fit: contain;
+    object-fit: contain;
     -o-object-position: center;
     object-position: center;
     cursor: grab;
   }
-
+  
+  .modal-image-switch.nxtsh-img {
+    width: 55%;
+  }
+  .modal-image-switch.smartscan-img {
+    width: 75%;
+  }
   .image-active {
     opacity: 1;
   }
@@ -864,8 +860,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 75%;
-    margin: 0 17%;
+    width: 100%;
+    padding: 0 13%;
   }
 
   .modal-index {
@@ -1239,9 +1235,9 @@ button
 
   .inner-circle {
     position: absolute;
-    transform: translate(11%, 11%);
-    width: 1.1em;
-    height: 1.1em;
+    transform: translate(19%, 18%);
+    width: 1.7em;
+    height: 1.7em;
     border: 0.4em solid #6e9dc0;
     border-radius: 100%;
     background-color: #005ca1;
@@ -1281,7 +1277,7 @@ button
 
   /* svg */
   .cross-zoom-svg {
-    transform: scale(0.6) translate(-51.9%, -50%);
+    transform: scale(0.6) translate(-55.9%, -52%);
   }
 
   .cross--active {
@@ -1524,7 +1520,7 @@ button
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: 70%;
+    height: 90%;
     padding: 40px;
   }
 
@@ -1535,7 +1531,7 @@ button
   }
 
   .modal-description .description {
-    font-size: 1.1em;
+    font-size: 0.8em;
     line-height: 1.5;
     letter-spacing: -0.4px;
     font-weight: 400;
@@ -1589,17 +1585,6 @@ button
 
   .arrow-wrap .fas {
     margin-left: 15px;
-  }
-
-  .modal-wrap.not-3d img {
-    transform: scale(0.6);
-    cursor: default;
-  }
-
-  .modal-nx20_300mm img {
-    top: 25%;
-    height: 66% !important;
-    transform: scale(0.7);
   }
 
   /* keyshot icon & rotate icon */
@@ -1840,15 +1825,17 @@ button
 
     .tooltip-section--active .tooltip-textbox {
       visibility: visible;
+      flex-direction: column-reverse;
     }
 
     .tooltip-content {
-      width: 60%;
+      width: 100%;
       padding: 0;
+      text-align:center;
     }
 
     .tooltip-img {
-      width: 40%;
+      width: 100%;
       padding: 0 10px 0 10px;
     }
 
@@ -1879,26 +1866,13 @@ button
 
     .modal-img .product-sort {
       margin: 0;
-      font-size: 1.2em;
+      font-size: 1em;
     }
 
     .modal-image-switch {
-      top: 50%;
-      width: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      height:100%;
     }
 
-    .modal-wrap.not-3d img {
-      transform: translate(-50%, -50%);
-    }
-
-    .modal-nx20_300mm img {
-      width: 255px;
-      top: 50%;
-      height: 92% !important;
-      transform: translate(-50%, -50%);
-    }
 
     /* rotation */
     .keyshot-icon {
@@ -1947,7 +1921,6 @@ button
     }
 
     .modal-content-text {
-      /* height: 85%; */
       padding:20px 30px;
     }
 
@@ -1958,6 +1931,9 @@ button
       padding: 0 30px;
     }
 
+    .learn-more-btn {
+      font-size: 1em;
+    }
     .learn-more-btn:hover {
       transform: none;
     }
@@ -1969,13 +1945,13 @@ button
     }
 
     .modal-name-wrap {
-      font-size: 1.8em;
-      justify-content: center;
+      font-size: 1.3em;
+      justify-content: flex-start;
     }
 
     .modal-content-text .sub-heading {
       margin-bottom: 0.4em;
-      font-size: 1em;
+      font-size: 0.8em;
       line-height: 1.3;
     }
 
@@ -2026,8 +2002,6 @@ button
           "Bringing the power and versatility of AFM technology to everyone"
   );
 
-  append3D();
-
   generateSingleModalImage("hdm");
   generateModalImages("nxwafer", 35, 15);
   //
@@ -2040,6 +2014,8 @@ button
   //
   generateModalImages("nxhivac", 17, 9);
   generateSingleModalImage("smartscan");
+
+  append3D();
 
   jQuery(document).ready(function () {
     var imageLoaded = 0;
@@ -2264,7 +2240,7 @@ button
 
   function generateSingleModalImage(model) {
     var $img = jQuery(`
-    <img src="https://d25unujvh7ui3r.cloudfront.net/exhibit-hall/keyshot/${model}.jpg" alt="${model}-3d" class="modal-image-switch image-active">
+    <img src="https://d25unujvh7ui3r.cloudfront.net/exhibit-hall/keyshot/${model}.jpg" alt="${model}-3d" class="modal-image-switch image-active ${model}-img">
     `);
 
     $img.appendTo(jQuery(`.modal-${model} .modal-image-wrap`));
