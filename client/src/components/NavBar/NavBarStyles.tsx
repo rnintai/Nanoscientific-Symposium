@@ -47,7 +47,7 @@ export const NavBarContainer = styled.div`
         // width: 100%;
         // height: 100%;
         margin-left: 30px;
-        height: 45px;
+        height: 85px;
         padding: 20px 0;
         margin-top: 13px;
       }
@@ -76,7 +76,7 @@ export const NavBarContainer = styled.div`
     .nav-wrap {
       .menu-container {
         position: absolute;
-        top: 70px;
+        top: 67px;
         width: 100%;
         max-height: 0px;
         overflow: hidden;
@@ -106,7 +106,7 @@ export const NavBarContainer = styled.div`
       .logo-link {
         img {
           margin-top: 0;
-          height: 33px;
+          height: 73px;
         }
       }
       .user-menu-wrap {
