@@ -1877,7 +1877,7 @@ button
     /* rotation */
     .keyshot-icon {
       top: 20px;
-      width: 50px;
+      width: 36px;
       left: 20px;
       transform: none;
     }
@@ -2905,13 +2905,13 @@ button
 
     function setMobileRoation() {
       jQuery(".modal-wrap.3d").each((index, $this) => {
-        $this.querySelector(".rotate-btn-wrap .fa-redo-alt").addEventListener("click", function (e) { setMobileRoationCW($this) });
-        $this.querySelector(".rotate-btn-wrap .fa-undo-alt").addEventListener("click", function (e) { setMobileRoationCCW($this) });
+        $this.querySelector(".rotate-btn-wrap .cw-btn").addEventListener("click", function (e) { setMobileRoationCW($this) });
+        $this.querySelector(".rotate-btn-wrap .ccw-btn").addEventListener("click", function (e) { setMobileRoationCCW($this) });
       })
     };
 
 
-    function setMobileRoationCW($parent) {
+    function setMobileRoationCCW($parent) {
       let imageList = $parent.getElementsByClassName("modal-image-switch");
       const offset = imageList.length / 9;
       let imgSrc = jQuery("." + $parent.classList[1] + " .image-active").attr("src") + "";
@@ -2925,7 +2925,7 @@ button
       imageList[indexOfActive].classList.remove("image-active");
       imageList[nextIdx].classList.add("image-active");
     }
-    function setMobileRoationCCW($parent) {
+    function setMobileRoationCW($parent) {
       let imageList = $parent.getElementsByClassName("modal-image-switch");
       const offset = imageList.length / 9;
       let imgSrc = jQuery("." + $parent.classList[1] + " .image-active").attr("src") + "";
