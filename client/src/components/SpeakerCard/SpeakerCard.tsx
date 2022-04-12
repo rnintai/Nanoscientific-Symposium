@@ -1,7 +1,12 @@
 import React from "react";
 import { Grid, Box, Typography, useTheme } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
-import { mainFontSize, smallFontSize } from "utils/FontSize";
+import {
+  mainFontSize,
+  smallFontSize,
+  subHeadingFontSize,
+  xsmallFontSize,
+} from "utils/FontSize";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -55,10 +60,10 @@ const SpeakerCard = ({
           variant="h6"
           color={theme.palette.text.primary}
           fontWeight={theme.typography.fontWeightBold}
+          fontSize={subHeadingFontSize}
           sx={{
             marginTop: "5px",
             marginBottom: 0,
-            fontSize: mainFontSize,
           }}
         >
           {speaker.name}
@@ -66,14 +71,18 @@ const SpeakerCard = ({
         <Typography
           variant="body2"
           color={theme.palette.text.primary}
-          sx={{ fontSize: smallFontSize }}
+          fontSize={mainFontSize}
           fontWeight={theme.typography.fontWeightMedium}
           style={{ margin: 0 }}
         >
           {speaker.belong}
         </Typography>
         {speaker.description && (
-          <Typography color={theme.palette.grey[600]} fontSize={smallFontSize}>
+          <Typography
+            sx={{ mt: 1 }}
+            color={theme.palette.grey[600]}
+            fontSize={xsmallFontSize}
+          >
             {speaker.description}
           </Typography>
         )}
