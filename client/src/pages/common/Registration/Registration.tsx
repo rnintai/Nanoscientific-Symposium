@@ -11,6 +11,10 @@ import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import NSSButton from "components/Button/NSSButton";
 import LandingSection from "components/Section/LandingSection";
+import LooksOneIcon from "@mui/icons-material/LooksOne";
+import LooksTwoIcon from "@mui/icons-material/LooksTwo";
+import Looks3Icon from "@mui/icons-material/Looks3";
+import { smallFontSize } from "utils/FontSize";
 import { RegistrationContainer, MktoFormContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {
@@ -23,6 +27,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
   const [submitBlock, setSubmitBlock] = useState<boolean>(false);
   const [emailValid, setEmailValid] = useState<TFN>(-1);
+  const [emailValidLoading, setEmailValidLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const nation = usePageViews();
@@ -33,7 +38,12 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const [emailNotValidAlert, setEmailNotValidAlert] = useState<boolean>(false);
 
   // seo
-  const { registration } = globalData.get(nation) as Common.globalDataType;
+  const {
+    registration,
+    registrationStep1Label,
+    registrationStep2Label,
+    registrationStep3Label,
+  } = globalData.get(nation) as Common.globalDataType;
   useSeoTitle(registration as string);
 
   const dispatchLogin = (e: string, r: string, t: string) =>
@@ -60,6 +70,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
       formNo,
       (form: any) => {
         document.querySelector(".mktoButton[type='submit']")?.remove();
+
         setMktoLoading(false);
 
         // validation 끼워넣기
@@ -72,7 +83,6 @@ const Registration = ({ formNo }: RegistrationProps) => {
 
         check1?.classList.add("flex-reverse");
         check2?.classList.add("flex-reverse");
-        check2?.parentElement?.childNodes[0].remove();
 
         document
           .querySelector("#LblEmail")
@@ -81,7 +91,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
         // validation & 중복체크
         document
           .querySelector("input#Email")
-          ?.addEventListener("focusout", async (e: Event) => {
+          ?.addEventListener("change", async (e: Event) => {
             const target = e.target as HTMLInputElement;
             if (
               target.value.indexOf("@") === -1 ||
@@ -90,6 +100,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
               setEmailValid(0);
             } else {
               try {
+                setEmailValidLoading(true);
                 const res = await axios.post("/api/users/checkemail", {
                   email: target.value,
                   nation,
@@ -97,6 +108,8 @@ const Registration = ({ formNo }: RegistrationProps) => {
                 setEmailValid(!res.data.result ? 1 : 0);
               } catch (err) {
                 console.log(err);
+              } finally {
+                setEmailValidLoading(false);
               }
             }
           });
@@ -109,7 +122,11 @@ const Registration = ({ formNo }: RegistrationProps) => {
       const validationDOM = document.querySelector(
         ".validation-msg",
       ) as HTMLParagraphElement;
-      if (emailValid === 1) {
+      if (emailValidLoading) {
+        validationDOM.classList.remove("valid");
+        validationDOM.classList.remove("invalid");
+        validationDOM.innerText = "Checking an email address...";
+      } else if (emailValid === 1) {
         validationDOM.classList.add("valid");
         validationDOM.classList.remove("invalid");
         validationDOM.innerText = "Valid Email!";
@@ -119,10 +136,10 @@ const Registration = ({ formNo }: RegistrationProps) => {
         validationDOM.innerText = "Invalid or duplicate email.";
       }
     }
-  }, [emailValid]);
+  }, [emailValid, emailValidLoading]);
 
   const pathname = usePageViews();
-  const { submitBtnText, logoURL } = globalData.get(
+  const { goNextText, logoURL } = globalData.get(
     pathname,
   ) as Common.globalDataType;
   const { registrationBannerURL } = globalData.get(
@@ -196,13 +213,53 @@ const Registration = ({ formNo }: RegistrationProps) => {
             <img className="banner-img" src={logoURL} alt="NSS Logo" />
           </Stack>
         </LandingSection>
+
         <LandingSection className="layout">
+          <Stack
+            className="step-container"
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <div>
+              <LooksOneIcon className="step-icon active" />
+              <Typography
+                className="step-caption active"
+                fontSize={smallFontSize}
+                sx={{ position: "absolute" }}
+              >
+                {registrationStep1Label || "Your Information"}
+              </Typography>
+            </div>
+            <div className="icon-divider" />
+            <div>
+              <LooksTwoIcon className="step-icon" />
+              <Typography
+                className="step-caption caption2"
+                fontSize={smallFontSize}
+                sx={{ position: "absolute" }}
+              >
+                {registrationStep2Label || "Setting a password"}
+              </Typography>
+            </div>
+            <div className="icon-divider" />
+            <div>
+              <Looks3Icon className="step-icon" />
+              <Typography
+                className="step-caption"
+                fontSize={smallFontSize}
+                sx={{ position: "absolute" }}
+              >
+                {registrationStep3Label || "Complete"}
+              </Typography>
+            </div>
+          </Stack>
           <MktoFormContainer>
             <form id={`mktoForm_${formNo}`} />
             {!mktoLoading && (
               <NSSButton
                 variant="gradient"
-                disabled={emailValid !== 1}
+                disabled={emailValid !== 1 || emailValidLoading}
                 className="mktoButton2"
                 loading={submitBlock}
                 fontWeight={theme.typography.fontWeightBold}
@@ -222,7 +279,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
                   }
                 }}
               >
-                {submitBtnText || "Submit"}
+                {goNextText || "Next"}
               </NSSButton>
             )}
           </MktoFormContainer>
