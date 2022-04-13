@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import Title from "components/Title/Title";
 import { TextField, Box, Fade, Stack } from "@mui/material";
@@ -45,6 +45,20 @@ const ForgotPassword = () => {
 
   const pathname = usePageViews();
   const navigate = useNavigate();
+
+  // password ref
+  const passwordInputRef = useRef<HTMLInputElement>(null);
+
+  // password focus
+  useEffect(() => {
+    if (isEmailVerified) {
+      setTimeout(() => {
+        const input = passwordInputRef.current?.children[1]
+          .children[0] as HTMLInputElement;
+        input.focus();
+      }, 10);
+    }
+  }, [isEmailVerified]);
 
   // 인증 이메일 보내기 버튼 handler
   const sendHandler = async () => {
@@ -169,7 +183,11 @@ const ForgotPassword = () => {
             </Stack>
             {showCodeInput && (
               <>
-                <Stack direction="row" className="code-section">
+                <Stack
+                  direction="row"
+                  className="code-section"
+                  sx={{ position: "relative" }}
+                >
                   <TextField
                     id="code"
                     label="Verification Code"
@@ -194,11 +212,12 @@ const ForgotPassword = () => {
                   >
                     Confirm
                   </LoadingButton>
+                  {/* 타이머 */}
+                  {isTimerStarted && (
+                    <Timer second={180} setIsExpired={setIsExpired} />
+                  )}
                 </Stack>
-                {/* 타이머 */}
-                {isTimerStarted && (
-                  <Timer second={180} setIsExpired={setIsExpired} />
-                )}
+
                 {/* {!isTimerStarted && <Box sx={{ width: "48px" }} />} */}
               </>
             )}
@@ -216,7 +235,7 @@ const ForgotPassword = () => {
           >
             <Title title="Reset Your Password" fontSize={22} />
             <TextField
-              autoFocus
+              ref={passwordInputRef}
               id="password1"
               type="password"
               label="New Password"
@@ -230,7 +249,6 @@ const ForgotPassword = () => {
               {...password1}
             />
             <TextField
-              autoFocus
               id="password2"
               type="password"
               label="New Password Confirmation"
@@ -245,7 +263,11 @@ const ForgotPassword = () => {
               {...password2}
             />
             <LoadingButton
-              disabled={!isPasswordSame}
+              disabled={
+                !isPasswordSame ||
+                password1.value === "" ||
+                password2.value === ""
+              }
               loading={submitPasswordHandlerLoading}
               variant="contained"
               color="info"

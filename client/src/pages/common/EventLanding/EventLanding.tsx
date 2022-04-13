@@ -18,6 +18,7 @@ const EventLanding = () => {
     eventLandingDesc,
     eventLandingBodyBackground,
     teaserVideoEmbed,
+    teaserVideoURL,
     nations,
     bannerLogoURL,
     sponsor1LogoURL,
@@ -38,25 +39,45 @@ const EventLanding = () => {
             <Stack className="layout" spacing={4} alignItems="center">
               {/* 영상, desc */}
               <Stack
-                alignItems={{
-                  mobile: "center",
-                  laptop: "center",
-                }}
-                spacing={2}
+                justifyContent="space-between"
+                spacing={4}
+                alignItems="center"
               >
-                <img
-                  className="section-logo"
-                  src={logoURL}
-                  alt="logo"
-                  style={{
-                    maxWidth: "500px",
+                <Stack
+                  sx={{
+                    width: "100%",
+                    flexDirection: {
+                      laptop: "row",
+                      mobile: "column",
+                    },
                   }}
-                />
-                {/* <YoutubeEmbed
+                  alignItems={{
+                    mobile: "center",
+                    laptop: "center",
+                  }}
+                  justifyContent="center"
+                >
+                  <img className="section-logo" src={logoURL} alt="logo" />
+                  {teaserVideoURL && (
+                    // eslint-disable-next-line jsx-a11y/media-has-caption
+                    <video
+                      className="teaser-video"
+                      src={teaserVideoURL}
+                      height="250"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      controlsList="nodownload"
+                    />
+                  )}
+                  {/* <YoutubeEmbed
                   embedId={teaserVideoEmbed}
                   width="400"
                   height="250"
                 /> */}
+                </Stack>
                 <Typography
                   textAlign="left"
                   mt={1}
@@ -68,6 +89,7 @@ const EventLanding = () => {
                   <InnerHTML html={eventLandingDesc || ""} />
                 </Typography>
               </Stack>
+
               {/* 나라 카드 */}
               <Stack
                 direction="row"
@@ -84,6 +106,7 @@ const EventLanding = () => {
                       return (
                         <LandingNationCard
                           key={nation.name}
+                          img={nation.img}
                           name={nation.name}
                           date={nation.date}
                           path={nation.path}
@@ -94,6 +117,7 @@ const EventLanding = () => {
                     return (
                       <LandingNationCard
                         key={nation.name}
+                        img={nation.img}
                         name={nation.name}
                         date={nation.date}
                         path={`/${nation.path}`}

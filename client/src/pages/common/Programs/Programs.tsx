@@ -7,7 +7,7 @@ import { globalData } from "utils/GlobalData";
 const Programs = () => {
   const pathname = usePageViews();
   const { programs } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(programs as string, pathname);
+  useSeoTitle(programs as string);
   return <ProgramsList />;
 };
 

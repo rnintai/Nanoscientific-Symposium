@@ -64,7 +64,7 @@ const Landing = () => {
     cookieConsentText,
     seePrivacyPolicyText,
   } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(home as string, pathname);
+  useSeoTitle(home as string);
 
   const navigate = useNavigate();
 
@@ -120,17 +120,14 @@ const Landing = () => {
                 className="z1"
                 variant="gradient"
                 style={{ padding: "5px 20px" }}
+                fontSize={mainFontSize}
+                fontWeight={theme.typography.fontWeightBold}
+                letterSpacing="1.2px"
                 onClick={() => {
                   navigate(`/${pathname}/registration`);
                 }}
               >
-                <Typography
-                  sx={{
-                    fontSize: subHeadingFontSize,
-                  }}
-                >
-                  {registration}
-                </Typography>
+                {registration}
               </NSSButton>
             )}
             <Typography
@@ -386,13 +383,10 @@ const Landing = () => {
                         onClick={() => {
                           openLink(landingSection6ButtonLink);
                         }}
+                        fontSize={smallFontSize}
+                        fontWeight={theme.typography.fontWeightBold}
                       >
-                        <Typography
-                          fontSize={smallFontSize}
-                          fontWeight={theme.typography.fontWeightBold}
-                        >
-                          {landingSection6ButtonText}
-                        </Typography>
+                        {landingSection6ButtonText}
                       </NSSButton>
                     </Box>
                   </Stack>

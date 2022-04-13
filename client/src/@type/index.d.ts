@@ -73,6 +73,7 @@ declare namespace Common {
     name: string;
     date: string;
     path: string;
+    img: string;
   }
 
   interface sponsorType {
@@ -82,6 +83,7 @@ declare namespace Common {
   }
 
   interface globalDataType {
+    fullName?: string;
     logoURL?: string;
     fullLogoURL?: string;
     speakers?: string;
@@ -101,6 +103,8 @@ declare namespace Common {
     goNextText?: string;
     goPrevText?: string;
     submitBtnText?: string;
+    registerBtnText?: string;
+
     // user 관련
     emailInputLabel?: string;
     passwordInputLabel?: string;
@@ -110,12 +114,18 @@ declare namespace Common {
     signOutBtnText?: string;
     changePasswordBtnText?: string;
 
+    // registration 관련
+    registrationStep1Label?: string;
+    registrationStep2Label?: string;
+    registrationStep3Label?: string;
+
     // common
     nations?: nationType[];
     eventLandingMainBannerURL?: string;
     fullLogoURL?: string;
     eventLandingDesc?: string;
     eventLandingBodyBackground?: string;
+    teaserVideoURL?: string;
     teaserVideoEmbed?: string;
     bannerLogoURL?: string;
     sponsor1LogoURL?: string;

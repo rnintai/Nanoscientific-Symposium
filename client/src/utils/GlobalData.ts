@@ -15,34 +15,41 @@ export const globalData = new Map<string, Common.globalDataType>([
           name: "NSS Asia",
           date: "Sep 22",
           path: "asia",
+          img: `${S3_URL}/asia/main-page-banner.jpg`,
         },
         {
           name: "NSS Americas",
           date: "Sep 29",
-          path: "us",
+          path: "americas",
+          img: `${S3_URL}/us/main-page-banner.jpg`,
         },
         {
           name: "NSF Europe",
           date: "Oct 06 - 07",
           path: "eu",
+          img: `${S3_URL}/eu/main-page-banner.jpg`,
         },
         {
           name: "NSS China",
           date: "Oct 27 - 28",
           path: "https://nanoscientific.com.cn",
+          img: `${S3_URL}/cn/main-page-banner.jpg`,
         },
         {
           name: "NSS Japan",
           date: "Nov 18",
           path: "jp",
+          img: `${S3_URL}/jp/main-page-banner.jpg`,
         },
         {
           name: "NSS Korea",
           date: "Nov 24",
           path: "kr",
+          img: `${S3_URL}/kr/main-page-banner.jpg`,
         },
       ],
       logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
+      teaserVideoURL: `${S3_URL}/common/2022NSS_Teaser_v1.0_LQ.mp4`,
       teaserVideoEmbed: "a",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
       eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
@@ -59,8 +66,9 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "asia",
     {
+      fullName: "2022 NanoScientific Symposium Asia",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
-      speakers: "SPEAKERS",
+      speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
@@ -72,6 +80,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       goNextText: "NEXT",
       goPrevText: "PREV",
       submitBtnText: "SUBMIT",
+      registerBtnText: "REGISTER",
       // user관련
       emailInputLabel: "Email Address",
       passwordInputLabel: "Password",
@@ -127,7 +136,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -143,11 +152,14 @@ export const globalData = new Map<string, Common.globalDataType>([
           url: "https://parksystems.com",
         },
       ],
+
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // registration
 
       // cookie
       cookieConsentText:
@@ -158,6 +170,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr",
     {
+      fullName: "2022 NanoScientific Symposium Korea",
       logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
@@ -228,7 +241,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -245,7 +258,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
@@ -259,6 +272,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "jp",
     {
+      fullName: "2022 NanoScientific Symposium Japan",
       logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
       speakers: "講演者",
       programs: "プログラム",
@@ -270,15 +284,15 @@ export const globalData = new Map<string, Common.globalDataType>([
       attend: "参加手順",
       archive: "アーカイブ",
 
-      signInText: "SIGN IN",
+      signInText: "ログイン",
       registration: "登録",
-      goNextText: "다음",
-      goPrevText: "이전",
+      goNextText: "NEXT",
+      goPrevText: "PREV",
       // user관련
-      emailInputLabel: "이메일 주소",
-      passwordInputLabel: "비밀번호",
-      forgotPasswordText: "비밀번호 찾기",
-      createAccountText: "계정 등록",
+      emailInputLabel: "Email address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot Password?",
+      createAccountText: "登録",
       // landing
       showLandingSection1: true,
       showLandingSection2: true,
@@ -327,7 +341,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -344,7 +358,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
@@ -356,10 +370,11 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "us",
+    "americas",
     {
+      fullName: "2022 NanoScientific Symposium Americas",
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
-      speakers: "SPEAKERS",
+      speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
@@ -392,7 +407,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1Desc:
         "Join the 2022 NanoScientific Symposium Americas - Connecting the Nanomaterials Community.",
       landingSection2Title: "NanoScientific Symposium",
-      landingSection2Desc: `The NanoScientific Symposium US 2022 - Connecting the Nanomaterials Community, will be a 1-day virtual event that features experts in the nanomaterials community.
+      landingSection2Desc: `The NanoScientific Symposium Americas 2022 - Connecting the Nanomaterials Community, will be a 1-day virtual event that features experts in the nanomaterials community.
       NanoScientific Symposium focuses on sharing, exchanging, and exploring new advances in nanomaterials applications. This event also emphasizes the growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing.
       <br /><br />Expand your insight through the NanoScientific Symposium.`,
       landingSection2Video: "5aqzJQgN9X0",
@@ -425,7 +440,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -442,7 +457,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
@@ -456,8 +471,9 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu",
     {
+      fullName: "2022 NanoScientific Forum Europe",
       logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
-      speakers: "SPEAKERS",
+      speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
@@ -521,7 +537,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Dr.-Ing. Lisa Ditscherlein<br/> TU Bergakademie Freiberg",
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
-      landingSection5Title: "Keynote Speakers",
+      landingSection5Title: "Featured Speakers",
       landingSection6Title: "Submit All Year long",
       landingSection6Desc:
         "Learn and be inspired at any time with more then 200 sessions on demand",
@@ -538,7 +554,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
       ],
       // resetPassword
-      resetPasswordHeading: "Password Reset",
+      resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",

@@ -15,6 +15,11 @@ export const FooterContainer = styled.div`
     color: #d3d3d3;
     margin: 0px;
   }
+
+  .privacy-policy {
+    padding: 0;
+    margin-bottom: 5px;
+  }
 `;
 
 export const FooterIconContainer = styled.ul`

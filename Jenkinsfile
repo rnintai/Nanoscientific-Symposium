@@ -45,11 +45,5 @@ pipeline {
                     }
             }
         }
-        stage('clean-up-workspace') {
-            steps{
-                cleanWs deleteDirs: true
-            }
-        }
-
     }
 }

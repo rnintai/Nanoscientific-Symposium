@@ -16,7 +16,7 @@ module.exports = {
       case "kr":
         currentPool = koreaPool;
         break;
-      case "us":
+      case "americas":
         currentPool = usPool;
         break;
       case "jp":

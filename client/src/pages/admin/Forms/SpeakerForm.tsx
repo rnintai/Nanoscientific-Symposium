@@ -162,7 +162,7 @@ const SpeakerForm = ({
             onClick={() => setKeynoteCheck(!keynoteCheck)}
           />
         }
-        label="Keynote Speaker? (Would be revealed on main page)"
+        label="Show the speaker on main page"
       />
       <S3Upload
         setImagePath={setImagePath}

@@ -14,12 +14,18 @@ import {
   MenuItem,
   Stack,
   Box,
+  useTheme,
+  Typography,
+  Button,
 } from "@mui/material";
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
 import PersonIcon from "@mui/icons-material/Person";
 import MenuIcon from "@mui/icons-material/Menu";
+import { mainFontSize } from "utils/FontSize";
+import PublicIcon from "@mui/icons-material/Public";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 import MobileNavBar from "./MobileNavBar";
 
@@ -70,6 +76,7 @@ const NavBar = ({
   const pathname = usePageViews();
   const subpath = useSubPath();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
@@ -140,6 +147,17 @@ const NavBar = ({
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
+      <NSSButton
+        variant="icon"
+        className="return-main-btn"
+        style={{ position: "absolute", padding: "8px 8px 8px 0" }}
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <ChevronLeftIcon />
+        <PublicIcon sx={{ marginLeft: "-4px" }} />
+      </NSSButton>
       <Stack
         direction="row"
         alignItems="center"
@@ -164,23 +182,29 @@ const NavBar = ({
               className="menu-item-wrap"
             >
               {speakers && (
-                <MenuLink to={`/${pathname}/speakers`}>{speakers}</MenuLink>
+                <MenuLink to={`/${pathname}/speakers`}>
+                  {speakers.toUpperCase()}
+                </MenuLink>
               )}
               {programs && (
-                <MenuLink to={`/${pathname}/program`}>{programs}</MenuLink>
+                <MenuLink to={`/${pathname}/program`}>
+                  {programs.toUpperCase()}
+                </MenuLink>
               )}
               {lectureHall && (
                 <MenuLink to={`/${pathname}/lecture-hall`}>
-                  {lectureHall}
+                  {lectureHall.toUpperCase()}
                 </MenuLink>
               )}
               {exhibitHall && (
                 <MenuLink to={`/${pathname}/exhibit/parksystems`}>
-                  {exhibitHall}
+                  {exhibitHall.toUpperCase()}
                 </MenuLink>
               )}
               {sponsors && (
-                <MenuLink to={`/${pathname}/sponsors`}>{sponsors}</MenuLink>
+                <MenuLink to={`/${pathname}/sponsors`}>
+                  {sponsors.toUpperCase()}
+                </MenuLink>
               )}
               {archive && (
                 <MenuLink to={`/${pathname}/archive`}>{archive}</MenuLink>
@@ -191,7 +215,7 @@ const NavBar = ({
                     id="basic-button"
                     className="user-menu"
                     type="button"
-                    variant="primary"
+                    variant="icon"
                     onClick={handleUserMenuClick}
                     aria-controls={openUserMenu ? "basic-menu" : undefined}
                     aria-haspopup="true"
@@ -266,7 +290,10 @@ const NavBar = ({
                       onClick={() => {
                         navigate(`${pathname}/registration`);
                       }}
-                      style={{ alignSelf: "center", fontWeight: 700 }}
+                      style={{ alignSelf: "center" }}
+                      fontSize={mainFontSize}
+                      fontWeight={theme.typography.fontWeightBold}
+                      letterSpacing="1.2px"
                     >
                       {registration}
                     </NSSButton>

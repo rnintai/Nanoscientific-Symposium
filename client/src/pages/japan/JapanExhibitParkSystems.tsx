@@ -13,7 +13,7 @@ const JapanExhibitParkSystems = () => {
   const pathname = usePageViews();
   const { exhibitHall } = globalData.get(pathname) as Common.globalDataType;
 
-  useSeoTitle(exhibitHall as string, pathname);
+  useSeoTitle(exhibitHall as string);
 
   const [HTML, loading] = useHTML("/api/page/jp/exhibit/parksystems");
   if (loading) {

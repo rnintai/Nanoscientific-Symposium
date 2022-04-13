@@ -14,53 +14,53 @@ import Registration from "pages/common/Registration/Registration";
 
 export default [
   {
-    path: "/us",
+    path: "/americas",
     element: <Landing />,
   },
   {
-    path: "/us/speakers",
+    path: "/americas/speakers",
     element: (
-      <AdminRoute key="/us/speakers">
+      <AdminRoute key="/americas/speakers">
         <Speakers />
       </AdminRoute>
     ),
   },
   {
-    path: "/us/program",
+    path: "/americas/program",
     element: (
-      <AdminRoute key="/us/program">
+      <AdminRoute key="/americas/program">
         <Programs />
       </AdminRoute>
     ),
   },
   {
-    path: "/us/lecture-hall",
+    path: "/americas/lecture-hall",
     element: <LectureHall />,
     isPrivate: true,
   },
   {
-    path: "/us/exhibit/parksystems",
+    path: "/americas/exhibit/parksystems",
     element: <ExhibitParkSystems />,
   },
   {
-    path: "/us/exhibit/nanoscientific",
+    path: "/americas/exhibit/nanoscientific",
     element: <ExhibitNanoScientific />,
   },
   {
-    path: "/us/registration",
+    path: "/americas/registration",
     element: <Registration formNo="1184" />,
   },
   {
-    path: "/us/sponsors",
+    path: "/americas/sponsors",
     element: <Sponsors />,
   },
   {
-    path: "/us/user/reset-password",
+    path: "/americas/user/reset-password",
     element: <ResetPassword />,
     isPrivate: true,
   },
   {
-    path: "/us/user/forgot-password",
+    path: "/americas/user/forgot-password",
     element: <ForgotPassword />,
   },
 ];

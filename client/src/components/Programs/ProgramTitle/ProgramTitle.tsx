@@ -2,6 +2,7 @@ import React from "react";
 import { ProgramTitleContainer } from "components/Programs/ProgramTitle/ProgramTitleStyles";
 import { Typography, useTheme } from "@mui/material";
 import { dateToLocaleString } from "utils/Date";
+import { headingFontSize, subHeadingFontSize } from "utils/FontSize";
 
 interface ProgramTitleProps {
   title: string;
@@ -24,13 +25,16 @@ const ProgramTitle = ({
   return (
     <ProgramTitleContainer onClick={onClick} isAdmin={isAdmin as boolean}>
       <Typography
-        variant="h3"
+        fontSize={headingFontSize}
         fontWeight={theme.typography.fontWeightBold}
-        sx={{ mb: 1 }}
       >
         {title}
       </Typography>
-      <Typography variant="h6" fontWeight={theme.typography.fontWeightMedium}>
+      <Typography
+        fontSize={subHeadingFontSize}
+        color={theme.palette.grey[700]}
+        fontWeight={theme.typography.fontWeightMedium}
+      >
         {dateToLocaleString(date, timezone, "MMM DD YYYY")}
       </Typography>
     </ProgramTitleContainer>

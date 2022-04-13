@@ -9,7 +9,7 @@ import { globalData } from "utils/GlobalData";
 const Sponsors = () => {
   const pathname = usePageViews();
   const { sponsors } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(sponsors as string, pathname);
+  useSeoTitle(sponsors as string);
 
   const config = {
     params: {

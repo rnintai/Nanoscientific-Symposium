@@ -1,28 +1,48 @@
 /* eslint-disable react/require-default-props */
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress, Typography, useTheme } from "@mui/material";
 import Loading from "components/Loading/Loading";
 import React from "react";
+import { mainFontSize } from "utils/FontSize";
 import { NSSButtonContainer } from "./NSSButtonStyles";
 
 interface NSSButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   children: JSX.Element | JSX.Element[] | string | string[];
-  variant: "gradient" | "primary" | "secondary";
+  variant: "gradient" | "primary" | "secondary" | "icon";
   loading?: boolean;
   disabled?: boolean;
+  fontSize?: any;
+  fontWeight?: any;
+  letterSpacing?: string;
 }
 const NSSButton = (props: NSSButtonProps) => {
-  const { children, variant, loading, disabled, ...rest } = props;
+  const {
+    children,
+    variant,
+    loading,
+    disabled,
+    fontSize,
+    fontWeight,
+    letterSpacing,
+    ...rest
+  } = props;
   let className =
     rest.className !== undefined
       ? `${variant} ${rest.className}`
       : `${variant}`;
   className += disabled ? " disabled" : "";
+  const theme = useTheme();
   return (
     <NSSButtonContainer type="button" {...rest} className={className}>
       {loading ? (
         <CircularProgress size="24px" />
       ) : (
-        <Typography>{children}</Typography>
+        <Typography
+          fontSize={fontSize || mainFontSize}
+          fontWeight={fontWeight || theme.typography.fontWeightMedium}
+          letterSpacing={letterSpacing || "inherit"}
+        >
+          {children}
+        </Typography>
       )}
     </NSSButtonContainer>
   );

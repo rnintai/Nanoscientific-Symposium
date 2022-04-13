@@ -40,7 +40,7 @@ const EuropeRegistration = () => {
 
   // seo
   const { registration } = globalData.get(nation) as Common.globalDataType;
-  useSeoTitle(registration as string, nation);
+  useSeoTitle(registration as string);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -54,6 +54,7 @@ const EuropeRegistration = () => {
       1149,
       (form: any) => {
         document.querySelector(".mktoButton[type='submit']")?.remove();
+
         setMktoLoading(false);
 
         // validation 끼워넣기
@@ -68,7 +69,6 @@ const EuropeRegistration = () => {
         const check2 = document.querySelector("#LblpsOptin")?.parentElement;
         check1?.classList.add("flex-reverse");
         check2?.classList.add("flex-reverse");
-        check2?.parentElement?.childNodes[0].remove();
 
         // validation & 중복체크
         document

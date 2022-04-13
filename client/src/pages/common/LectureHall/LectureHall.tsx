@@ -14,7 +14,7 @@ const LectureHall = () => {
   const pathname = usePageViews();
   // seo
   const { lectureHall } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(lectureHall as string, pathname);
+  useSeoTitle(lectureHall as string);
 
   // 국가에 해당하는 모든 webinars
   const [webinarList, setWebinarList] = useState<Webinar.webinarType[]>([]);

@@ -32,13 +32,25 @@ export const NSSButtonContainer = styled.button`
 
     border: 2px solid #fff;
     border-radius: 25px;
-    padding: 3px 15px;
+    padding: 3px 20px;
     transition: transform 0.15s ease-in-out;
     &:hover {
       transform: scale(1.05);
     }
     &:active {
       transform: scale(1.05);
+    }
+  }
+
+  &.icon {
+    svg {
+      color: #00000080;
+      transition: color 0.2s ease-in-out;
+    }
+    &:hover {
+      svg {
+        color: #000;
+      }
     }
   }
   display: flex;

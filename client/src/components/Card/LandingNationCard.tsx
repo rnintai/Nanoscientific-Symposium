@@ -9,6 +9,7 @@ interface LandingNationCardProps {
   name: string;
   date: string;
   path: string;
+  img: string;
   disabled?: boolean;
 }
 
@@ -16,6 +17,7 @@ const LandingNationCard = ({
   name,
   date,
   path,
+  img,
   disabled,
 }: LandingNationCardProps) => {
   const theme = useTheme();
@@ -33,6 +35,20 @@ const LandingNationCard = ({
       }}
     >
       <Stack className="card-wrap">
+        <div
+          className="card-image-container"
+          style={{
+            height: "80px",
+          }}
+        >
+          <div
+            className="card-background"
+            style={{
+              backgroundImage: `url("${img}")`,
+            }}
+          />
+          <div className="overlay bluescale z0" />
+        </div>
         <Box
           sx={{
             background: theme.palette.primary.gradation,
@@ -51,18 +67,7 @@ const LandingNationCard = ({
             }}
           >
             {name}
-            {/* |{" "} */}
           </Typography>
-          {/* <Typography
-            component="span"
-            variant="body2"
-            fontWeight={theme.typography.fontWeightLight}
-            sx={{
-              fontSize: mainFontSize,
-            }}
-          >
-            {date}
-          </Typography> */}
         </Box>
 
         <Typography
