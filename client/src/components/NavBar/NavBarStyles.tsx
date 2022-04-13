@@ -71,8 +71,21 @@ export const NavBarContainer = styled.div`
     }
   }
 
+  .return-main-btn {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
   @media screen and (max-width: 1140px) {
     height: 70px;
+
+    .return-main-btn {
+      svg {
+        width: 0.8em;
+        height: 0.8em;
+      }
+    }
+
     .nav-wrap {
       .menu-container {
         position: absolute;
@@ -101,7 +114,7 @@ export const NavBarContainer = styled.div`
       .mobile-menu-btn {
         display: inline-block;
         position: absolute;
-        left: 0;
+        right: 0;
       }
       .logo-link {
         img {
