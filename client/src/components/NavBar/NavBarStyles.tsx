@@ -46,10 +46,10 @@ export const NavBarContainer = styled.div`
       img {
         // width: 100%;
         // height: 100%;
-        margin-left: 30px;
         height: 85px;
         padding: 20px 0;
         margin-top: 13px;
+        margin-right: 10px;
       }
     }
     .user-menu-wrap {
@@ -105,7 +105,7 @@ export const NavBarContainer = styled.div`
       }
       .logo-link {
         img {
-          margin-top: 0;
+          margin: 0;
           height: 73px;
         }
       }
