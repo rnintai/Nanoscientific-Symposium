@@ -6,7 +6,9 @@ const useSeoTitle = (title: string) => {
   const pathname = usePageViews();
   const { fullName } = globalData.get(pathname) as Common.globalDataType;
   useEffect(() => {
-    document.title = title ? `${title} | ${fullName}` : `${fullName}`;
+    document.title = title
+      ? `${title.toUpperCase()} | ${fullName}`
+      : `${fullName}`;
   }, []);
 };
 

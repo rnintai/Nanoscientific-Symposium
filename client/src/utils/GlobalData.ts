@@ -68,7 +68,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2022 NanoScientific Symposium Asia",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
-      speakers: "SPEAKERS",
+      speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
@@ -374,7 +374,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2022 NanoScientific Symposium Americas",
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
-      speakers: "SPEAKERS",
+      speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
@@ -473,7 +473,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2022 NanoScientific Forum Europe",
       logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
-      speakers: "SPEAKERS",
+      speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
       exhibitHall: "EXHIBIT HALL",
