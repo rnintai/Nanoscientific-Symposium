@@ -7,7 +7,7 @@ import { NSSButtonContainer } from "./NSSButtonStyles";
 
 interface NSSButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   children: JSX.Element | JSX.Element[] | string | string[];
-  variant: "gradient" | "primary" | "secondary";
+  variant: "gradient" | "primary" | "secondary" | "icon";
   loading?: boolean;
   disabled?: boolean;
   fontSize?: any;

@@ -41,6 +41,18 @@ export const NSSButtonContainer = styled.button`
       transform: scale(1.05);
     }
   }
+
+  &.icon {
+    svg {
+      color: #00000080;
+      transition: color 0.2s ease-in-out;
+    }
+    &:hover {
+      svg {
+        color: #000;
+      }
+    }
+  }
   display: flex;
   align-items: center;
 `;
