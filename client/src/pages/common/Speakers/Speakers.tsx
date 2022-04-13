@@ -4,11 +4,9 @@ import { Box, Grid } from "@mui/material";
 import Title from "components/Title/Title";
 import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
-import useCheckLocal from "hooks/useCheckLocal";
 import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
-import { subHeadingFontSize } from "utils/FontSize";
 import { SpeakersContainer } from "./SpeakersStyles";
 
 const Speakers = () => {
@@ -33,49 +31,13 @@ const Speakers = () => {
   const { speakers } = globalData.get(pathname) as Common.globalDataType;
   useSeoTitle(speakers as string);
 
-  const isLocal = useCheckLocal();
-  const globalDataTitle = new Map<string, { title: string }>([
-    [
-      "asia",
-      {
-        title: "Speakers",
-      },
-    ],
-    [
-      "us",
-      {
-        title: "Speakers",
-      },
-    ],
-    [
-      "kr",
-      {
-        title: "초청 연사",
-      },
-    ],
-    [
-      "jp",
-      {
-        title: "Speakers",
-      },
-    ],
-    [
-      "eu",
-      {
-        title: "Speakers",
-      },
-    ],
-  ]);
-
-  const { title } = globalDataTitle.get(pathname) as { title: string };
-
   if (loading) {
     return <Loading />;
   }
 
   return (
     <SpeakersContainer className="layout body-fit">
-      <Title fontSize={30} title={title} />
+      <Title fontSize={30} title={speakers || "Speakers"} />
       <Box sx={{ flexGrow: 1 }}>
         <Grid
           container
