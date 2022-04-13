@@ -99,24 +99,26 @@ const ProgramsList = () => {
               timezone={selectedTimezone}
               date={session.date}
             />
-            <Table sx={{ width: "100%" }}>
-              <TableBody>
-                {programs
-                  .filter((program) => {
-                    return program.session === session.id;
-                  })
-                  .map((program, index) => (
-                    <ProgramContent
-                      selectedTimezone={selectedTimezone}
-                      isAdmin={false}
-                      key={program.id}
-                      {...program}
-                      index={index}
-                      programAgenda={programAgenda}
-                    />
-                  ))}
-              </TableBody>
-            </Table>
+            <div className="program-table-container">
+              <Table sx={{ width: "100%", minWidth: "600px", mb: 1 }}>
+                <TableBody>
+                  {programs
+                    .filter((program) => {
+                      return program.session === session.id;
+                    })
+                    .map((program, index) => (
+                      <ProgramContent
+                        selectedTimezone={selectedTimezone}
+                        isAdmin={false}
+                        key={program.id}
+                        {...program}
+                        index={index}
+                        programAgenda={programAgenda}
+                      />
+                    ))}
+                </TableBody>
+              </Table>
+            </div>
           </TableContainer>
         );
       })}

@@ -17,6 +17,11 @@ export const ProgramsListContainer = styled.div<{ isAdmin?: boolean }>`
     }
   }
 
+  @media screen and (max-width: 1024px) {
+    .program-table-container {
+      overflow-x: auto;
+    }
+  }
   @media screen and (max-width: 1280px) {
     .program-wrap {
       padding: 10px;
