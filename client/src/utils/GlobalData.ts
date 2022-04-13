@@ -407,7 +407,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1Desc:
         "Join the 2022 NanoScientific Symposium Americas - Connecting the Nanomaterials Community.",
       landingSection2Title: "NanoScientific Symposium",
-      landingSection2Desc: `The NanoScientific Symposium US 2022 - Connecting the Nanomaterials Community, will be a 1-day virtual event that features experts in the nanomaterials community.
+      landingSection2Desc: `The NanoScientific Symposium Americas 2022 - Connecting the Nanomaterials Community, will be a 1-day virtual event that features experts in the nanomaterials community.
       NanoScientific Symposium focuses on sharing, exchanging, and exploring new advances in nanomaterials applications. This event also emphasizes the growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing.
       <br /><br />Expand your insight through the NanoScientific Symposium.`,
       landingSection2Video: "5aqzJQgN9X0",
