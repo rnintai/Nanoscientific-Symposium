@@ -1,41 +1,31 @@
-import { Stack } from "@mui/material";
+import { Stack, Typography, useTheme } from "@mui/material";
 import React from "react";
-import { FooterContainer, FooterIconContainer } from "./FooterStyles";
+import { smallFontSize, xsmallFontSize } from "utils/FontSize";
+import { FooterContainer } from "./FooterStyles";
 
 const Footer = () => {
+  const theme = useTheme();
+
   return (
     <FooterContainer>
       <Stack maxWidth="230px" margin="0 auto">
-        <FooterIconContainer>
-          <a
-            href="https://www.facebook.com/nanoscien"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <i aria-hidden="true" className="fab fa-facebook-f" />
-          </a>
-          <a
-            href="https://twitter.com/NanoscientificC"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <i aria-hidden="true" className="fab fa-twitter" />
-          </a>
-          <a
-            href="https://www.linkedin.com/company/nanoscientific-conferences/?viewAsMember=true"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <i aria-hidden="true" className="fab fa-linkedin" />
-          </a>
-        </FooterIconContainer>
-        <a className="privacy-policy" href="/" target="_blank">
-          Privacy &amp; Cookie Policy
+        <a
+          className="privacy-policy"
+          href="https://parksystems.com/con/privacy-cookie-policy"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Typography component="div" fontWeight={600} fontSize={smallFontSize}>
+            Privacy &amp; Cookie Policy
+          </Typography>
         </a>
-
-        <h5 className="nss">
+        <Typography
+          fontSize={xsmallFontSize}
+          fontWeight={700}
+          color={theme.palette.grey[500]}
+        >
           © {new Date().getFullYear()} NanoScientific Symposium
-        </h5>
+        </Typography>
       </Stack>
     </FooterContainer>
   );

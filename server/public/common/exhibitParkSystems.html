@@ -914,8 +914,7 @@
 
   .exhibit-wrap {
     position: relative;
-    height: calc(100vh - 123px);
-    /* height: 100vh; */
+    min-height: calc(100vh - 64px);
   }
 
   /* image */
@@ -1512,7 +1511,10 @@ button
     background-color: #e6e6e7;
     width: 62%;
     height: 100%;
-    /* padding: 6% 7% 3.8% 7%; */
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .modal-content-text {
@@ -1520,7 +1522,6 @@ button
     flex-direction: column;
     justify-content: flex-start;
     height: 90%;
-    padding: 40px;
   }
 
   .modal-name-wrap {
@@ -1540,12 +1541,15 @@ button
   .modal-description {
     font-size: 1.2em;
     height: 81%;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-right: 10px;
   }
 
-  .modal-description::-webkit-scrollbar,
-  .tooltip-mobile::-webkit-scrollbar {
+  /* .modal-description::-webkit-scrollbar,
+  .tooltip-a::-webkit-scrollbar,
+    .tooltip-b::-webkit-scrollbar,
+    .tooltip-c::-webkit-scrollbar,
+    .tooltip-d::-webkit-scrollbar {
     background-color: #013b821e;
     border-radius: 15px;
     width: 1em;
@@ -1554,17 +1558,18 @@ button
   }
 
   .modal-description::-webkit-scrollbar-thumb,
-  .tooltip-mobile::-webkit-scrollbar-thumb {
+  .tooltip-a,
+    .tooltip-b,
+    .tooltip-c,
+    .tooltip-d ::-webkit-scrollbar-thumb {
     background-color: #013c82;
     border-radius: 15px;
     background-clip: padding-box;
     border: 4px solid transparent;
-  }
+  } */
 
   .learn-more-wrap {
-    /* position: absolute;
-    bottom: 10%; */
-    padding: 0 40px;
+    margin:0 auto;
   }
 
   .learn-more-btn {
@@ -1670,8 +1675,7 @@ button
     visibility: hidden;
     position: relative;
     top: 315px;
-    height:490px;
-    overflow-y:scroll;
+    height:430px;
   }
 
   @media (max-width: 1024px) {
@@ -1698,7 +1702,7 @@ button
     }
 
     .exhibit-wrap{
-      height: calc(100vh - 121px);
+      min-height: 800px;
       background-color: #fff;
     }
 
@@ -1718,7 +1722,7 @@ button
 
     .arrows-wrap {
       margin: 0px 2%;
-      top: 42%;
+      top: 50%;
     }
 
     .fa-chevron-left {
@@ -1746,10 +1750,10 @@ button
       justify-content: space-between;
       flex-direction: column;
       align-items: center;
-      top: 103%;
       margin: 0 auto;
       left: 0;
       transform: none;
+      top: 112%;
     }
 
     .slider-text {
@@ -1785,12 +1789,11 @@ button
     .tooltip-c,
     .tooltip-d {
       visibility: hidden;
-      display: flex;
-      flex-direction: column;
       position: absolute;
       width: 100%;
       height: 100%;
       opacity: 0;
+      overflow-y: auto;
     }
 
     .tooltip-a .tooltip-textbox,
@@ -1841,6 +1844,13 @@ button
       width: auto;
       height: 112px;
     }
+
+    .tooltip-img .SmartScan-tooltip-picture,
+    .tooltip-img .NX10-tooltip-picture {
+      width: auto;
+    }
+    
+
 
     .tooltip-content .heading {
       font-size: 20px;
@@ -1915,19 +1925,12 @@ button
 
     .modal-content {
       width: 100%;
-      height:60%;
-      /* padding: 15px; */
+      height: 60%;
+      padding: 15px;
     }
 
     .modal-content-text {
       padding:20px 30px;
-    }
-
-    .learn-more-wrap {
-      /* left: 50%;
-      bottom: 15px;
-      transform: translateX(-50%); */
-      padding: 0 30px;
     }
 
     .learn-more-btn {
@@ -1957,6 +1960,15 @@ button
     .modal-description {
       font-size: 0.9em;
       line-height: 1.3;
+    }
+
+    section.tooltip-mobile::after{
+      content: "";
+      width: 100%;
+      position: absolute;
+      height: 30px;
+      bottom: -1px;
+      background: linear-gradient(360deg, white, transparent);
     }
   }
 </style>
