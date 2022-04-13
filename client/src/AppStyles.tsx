@@ -52,7 +52,7 @@ export const AppContainer = styled.div`
   }
 
   .body-fit {
-    min-height: calc(100vh - 140px);
+    min-height: calc(100vh - 64px);
   }
 
   @media screen and (min-width: 0px) {
