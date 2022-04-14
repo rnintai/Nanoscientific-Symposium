@@ -354,43 +354,50 @@ const Landing = () => {
         {showLandingSection6 && (
           <LandingSection fullWidth maxWidth="1920px">
             <Stack className="layout">
-              {landingSection6Title && (
-                <LandingTitle title={landingSection6Title} />
-              )}
+              <LandingTitle
+                title={
+                  landingSection6Title ||
+                  "The times of the NanoScientific Symposium past journey"
+                }
+              />
+              {landingSection6ButtonText && landingSection6ButtonLink && (
+                <Stack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{
+                    margin: "-15px 0 20px 0",
+                    flexDirection: {
+                      laptop: "row",
+                    },
+                  }}
+                >
+                  <Box sx={{ width: { laptop: "50%" } }}>
+                    <Typography
+                      fontSize={mainFontSize}
+                      fontWeight={theme.typography.fontWeightMedium}
+                    >
+                      {landingSection6Desc ||
+                        "We are enormously grateful and say thank you to the +4,600 attendees at the last NanoScientific Symposium. Explore all on-demand that will inspire and expand your knowledge."}
+                    </Typography>
+                  </Box>
 
-              {landingSection6ButtonText &&
-                landingSection6Desc &&
-                landingSection6ButtonLink && (
-                  <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    sx={{ margin: "-27px 0 20px 0" }}
+                  <Box
+                    sx={{ m: "15px", width: { mobile: "70%", laptop: "30%" } }}
                   >
-                    <Box sx={{ width: "50%" }}>
-                      <Typography
-                        fontSize={mainFontSize}
-                        fontWeight={theme.typography.fontWeightMedium}
-                        lineHeight={1.1}
-                      >
-                        {landingSection6Desc}
-                      </Typography>
-                    </Box>
-
-                    <Box sx={{ m: "15px", width: "30%" }}>
-                      <NSSButton
-                        variant="gradient"
-                        onClick={() => {
-                          openLink(landingSection6ButtonLink);
-                        }}
-                        fontSize={smallFontSize}
-                        fontWeight={theme.typography.fontWeightBold}
-                      >
-                        {landingSection6ButtonText}
-                      </NSSButton>
-                    </Box>
-                  </Stack>
-                )}
+                    <NSSButton
+                      variant="gradient"
+                      style={{ margin: "0 auto" }}
+                      onClick={() => {
+                        openLink(landingSection6ButtonLink);
+                      }}
+                      fontSize={smallFontSize}
+                      fontWeight={theme.typography.fontWeightBold}
+                    >
+                      {landingSection6ButtonText}
+                    </NSSButton>
+                  </Box>
+                </Stack>
+              )}
               <Stack
                 sx={{
                   flexDirection: {

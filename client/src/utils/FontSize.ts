@@ -3,12 +3,12 @@
 
 // heading은 간격 예외
 export const headingFontSize = {
-  mobile: "1.625rem",
-  laptop: "2.125rem",
+  mobile: "1.25rem",
+  laptop: "1.875rem",
   // wide: "2.625rem",
 };
 export const subHeadingFontSize = {
-  mobile: "1.125rem",
+  mobile: "1rem",
   laptop: "1.15rem",
   // wide: "1.75rem",
 };

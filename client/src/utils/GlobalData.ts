@@ -1,4 +1,4 @@
-const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
+const S3_URL = "https://nss-integration.s3.us-west-1.amazonaws.com";
 
 export const globalData = new Map<string, Common.globalDataType>([
   [
@@ -146,9 +146,9 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
       landingSection5Title: "Featured Speakers",
-      landingSection6Title: "Submit All Year long",
-      landingSection6Desc:
-        "Learn and be inspired at any time with more then 200 sessions on demand",
+      // landingSection6Title: "Submit All Year long",
+      // landingSection6Desc:
+      //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
         "https://www.youtube.com/watch?v=dxZkJmRGL8M&list=PLH4cAUjlEqR0I1ahoDjwod-DTlhkmZ-zA",
@@ -251,9 +251,9 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
       landingSection5Title: "Featured Speakers",
-      landingSection6Title: "Submit All Year long",
-      landingSection6Desc:
-        "Learn and be inspired at any time with more then 200 sessions on demand",
+      // landingSection6Title: "Submit All Year long",
+      // landingSection6Desc:
+      //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
         "https://www.youtube.com/watch?v=jyL4uMCIVZo&list=PLH4cAUjlEqR3cx9W7SmvkxoR0lAAHMqrb",
@@ -351,9 +351,9 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
       landingSection5Title: "Featured Speakers",
-      landingSection6Title: "Submit All Year long",
-      landingSection6Desc:
-        "Learn and be inspired at any time with more then 200 sessions on demand",
+      // landingSection6Title: "Submit All Year long",
+      // landingSection6Desc:
+      //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
         "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
@@ -450,9 +450,9 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
       landingSection5Title: "Featured Speakers",
-      landingSection6Title: "Submit All Year long",
-      landingSection6Desc:
-        "Learn and be inspired at any time with more then 200 sessions on demand",
+      // landingSection6Title: "Submit All Year long",
+      // landingSection6Desc:
+      //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
         "https://www.youtube.com/watch?v=U0GmKXppD-8&list=PLH4cAUjlEqR2X0-2f27v1FkaxZx7XCNZe",
@@ -547,9 +547,9 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
       landingSection5Title: "Featured Speakers",
-      landingSection6Title: "Submit All Year long",
-      landingSection6Desc:
-        "Learn and be inspired at any time with more then 200 sessions on demand",
+      // landingSection6Title: "Submit All Year long",
+      // landingSection6Desc:
+      //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
         "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
