@@ -147,17 +147,19 @@ const NavBar = ({
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
-      <NSSButton
-        variant="icon"
-        className="return-main-btn"
-        style={{ position: "absolute", padding: "8px 8px 8px 0" }}
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        <ChevronLeftIcon />
-        <PublicIcon sx={{ marginLeft: "-4px" }} />
-      </NSSButton>
+      {!hideMenu && (
+        <NSSButton
+          variant="icon"
+          className="return-main-btn"
+          style={{ position: "absolute", padding: "8px 8px 8px 0" }}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <ChevronLeftIcon />
+          <PublicIcon sx={{ marginLeft: "-4px" }} />
+        </NSSButton>
+      )}
       <Stack
         direction="row"
         alignItems="center"
@@ -169,7 +171,7 @@ const NavBar = ({
         </IconButton>
         <Link
           to={`/${pathname}`}
-          className="logo-link"
+          className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
           style={{ padding: "0px" }}
         >
           <img src={logoURL} alt="logo" />

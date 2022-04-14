@@ -51,6 +51,9 @@ export const NavBarContainer = styled.div`
         margin-top: 13px;
         margin-right: 10px;
       }
+      &.disabled {
+        pointer-events: none;
+      }
     }
     .user-menu-wrap {
       display: flex;
