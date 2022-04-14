@@ -28,7 +28,11 @@ const LandingNationCard = ({
       className="hover-zoom"
       onClick={() => {
         if (!disabled) {
-          navigate(path);
+          if (path.indexOf("cn") === -1) {
+            navigate(path);
+          } else {
+            window.location.href = path;
+          }
         } else {
           alert("Coming Soon!");
         }
