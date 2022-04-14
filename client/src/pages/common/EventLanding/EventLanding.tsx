@@ -110,7 +110,7 @@ const EventLanding = () => {
                           name={nation.name}
                           date={nation.date}
                           path={nation.path}
-                          disabled
+                          // disabled -> coming soon
                         />
                       );
                     }
@@ -121,52 +121,13 @@ const EventLanding = () => {
                         name={nation.name}
                         date={nation.date}
                         path={`/${nation.path}`}
-                        disabled
+                        // disabled -> coming soon
                       />
                     );
                   })}
               </Stack>
               {/* 스폰서 */}
             </Stack>
-
-            {/* 나라 카드 */}
-            {/* <Stack
-              className="layout"
-              direction="column"
-              alignItems="center"
-              style={{ width: "80%", padding: "0px 50px" }}
-            >
-              <Stack
-                direction="row"
-                width={{ mobile: "300px", laptop: "100%" }}
-                flexWrap="wrap"
-                justifyContent="center"
-              >
-                {nations &&
-                  nations.map((nation) => {
-                    if (nation.name === "NSS China") {
-                      return (
-                        <LandingNationCard
-                          key={nation.name}
-                          name={nation.name}
-                          date={nation.date}
-                          path={nation.path}
-                          disabled
-                        />
-                      );
-                    }
-                    return (
-                      <LandingNationCard
-                        key={nation.name}
-                        name={nation.name}
-                        date={nation.date}
-                        path={`/${nation.path}`}
-                        disabled
-                      />
-                    );
-                  })}
-              </Stack>
-            </Stack> */}
             {/* Sponsor */}
           </LandingSection>
         )}

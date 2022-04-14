@@ -13,37 +13,37 @@ export const globalData = new Map<string, Common.globalDataType>([
       nations: [
         {
           name: "NSS Asia",
-          date: "Sep 22",
+          date: "Sep 22, 2022",
           path: "asia",
           img: `${S3_URL}/asia/main-page-banner.jpg`,
         },
         {
           name: "NSS Americas",
-          date: "Sep 29",
+          date: "Sep 29, 2022",
           path: "americas",
           img: `${S3_URL}/us/main-page-banner.jpg`,
         },
         {
           name: "NSF Europe",
-          date: "Oct 06 - 07",
+          date: "Oct 06 - 07, 2022",
           path: "eu",
           img: `${S3_URL}/eu/main-page-banner.jpg`,
         },
         {
           name: "NSS China",
-          date: "Oct 27 - 28",
+          date: "Oct 27 - 28, 2022",
           path: "https://nanoscientific.com.cn",
           img: `${S3_URL}/cn/main-page-banner.jpg`,
         },
         {
           name: "NSS Japan",
-          date: "Nov 18",
+          date: "Nov 18, 2022",
           path: "jp",
           img: `${S3_URL}/jp/main-page-banner.jpg`,
         },
         {
           name: "NSS Korea",
-          date: "Nov 24",
+          date: "Nov 24, 2022",
           path: "kr",
           img: `${S3_URL}/kr/main-page-banner.jpg`,
         },
@@ -53,9 +53,16 @@ export const globalData = new Map<string, Common.globalDataType>([
       teaserVideoEmbed: "a",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
       eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
-      eventLandingDesc: `The growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing. And those who strive to acquire the technology.
-      <br/>NanoScientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.
-      <br/>An opportunity to discuss and experience firsthand what innovative research results have been derived using the latest SPM (Scanning Probe Microscope) and AFM (Atomic Force Microscope) equipment. We invite you to the NanoScientific Symposium 2022. Expand your insight through the Nanoscientific Symposium.
+      eventLandingDesc: `
+      The growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing. And those who strive to acquire the technology.
+      <br/><br/>
+      NanoScientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.
+      <br/><br/>
+      An opportunity to discuss and experience firsthand what innovative research results have been derived using the latest SPM (Scanning Probe Microscopy) technology.
+      <br/><br/>
+      We invite you to the NanoScientific Symposium 2022.
+      <br/><br/>
+      Expand your insight through the Nanoscientific Symposium.
       `,
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
       sponsor2LogoURL: `${S3_URL}/common/Park_logo.svg`,
@@ -102,11 +109,13 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1Desc:
         "Join us for the 4th edition of the NanoScientific Symposium Asia 2022 to be held on September 22, 2022.",
       landingSection2Title: "NanoScientific Symposium",
-      landingSection2Desc: `NanoScientific Symposium Asia, or NSSA, is a platform where industry professionals, nanoscience researchers, and scientists gather to learn and get insights on the future direction and latest studies being formed using Scanning Probe Microscopy.
+      landingSection2Desc: `
+      NanoScientific Symposium Asia (NSSA) is a platform where industry professionals, nanoscience researchers, and scientists join together to share knowledge and gain insights on the future direction and latest studies using Scanning Probe Microscopy.
       <br/><br/>
-      NanoScientific Asia 2022 will feature state-of-the-art presentations on materials, electrical and electronics, manufacturing, life sciences, and nanotechnology. NSSA 2022 will be a great opportunity to share research on the latest advanced metrology and trends in nanotechnology with peers and attendees from the industry and academia.
+      NSSA 2022 will feature state-of-the-art presentations on materials, electrical and electronics, manufacturing, life sciences, and other nanotechnology applications.  NSSA 2022 will be a great opportunity to share research on the latest advanced metrology research and trends in nanotechnology with peers and attendees from both industry and academia.
       <br/><br/>
-      This year's event will be live-streamed across Asia and Oceania countries, such as but not limited to Singapore, Malaysia, Indonesia, Thailand, Vietnam, Philippines, Australia, India, Pakistan, Saudi Arabia, Bangladesh, Sri Lanka, and more.`,
+      This year's event will be live streamed across Asia and Oceania countries, such as but not limited to Singapore, Malaysia, Indonesia, Thailand, Vietnam, Philippines, Australia, India, Pakistan, Saudi Arabia, Bangladesh, Sri Lanka, and more.
+      `,
       landingSection2Video: "5aqzJQgN9X0",
       landingSection3Title: "Why Attend NanoScientific Symposium?",
       landingSection3Desc: `NSSA 2022, will be a 1-day event, showcasing scientific talks and open discussion for diverse research and industry applications. This hybrid event will bring together a leading group of experts and will be a great networking opportunity.`,
