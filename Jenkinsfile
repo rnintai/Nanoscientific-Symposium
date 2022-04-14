@@ -28,8 +28,8 @@ pipeline {
                     dir('client'){
                         sh '''
                         ls -al
-                        sudo rm -rf /home/ubuntu/client/build
-                        sudo cp -r ./build /home/ubuntu/client/build
+                        sudo rm -rf /home/ubuntu/client/dist
+                        sudo cp -r ./dist /home/ubuntu/client/dist
                         '''
                 }
             }
