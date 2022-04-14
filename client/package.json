@@ -45,7 +45,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --hot --open",
     "debug": "webpack server --mode devleopment --display-error-details",
-    "build": "webpack --progress --mode production"
+    "build": "webpack --progress"
   },
   "eslintConfig": {
     "extends": [
