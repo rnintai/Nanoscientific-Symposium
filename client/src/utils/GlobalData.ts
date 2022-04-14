@@ -1,4 +1,4 @@
-const S3_URL = "https://nss-integration.s3.us-west-1.amazonaws.com";
+const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
 export const globalData = new Map<string, Common.globalDataType>([
   [
