@@ -159,9 +159,9 @@ const App = () => {
             return routeLoopHelper(route, true);
           })}
         </Routes>
-        {pathname !== "" && pathname !== "admin" && pathname !== "jp" && (
-          <Footer />
-        )}
+        {pathname !== "" &&
+          pathname !== "admin" &&
+          window.location.pathname !== "/jp/archive" && <Footer />}
 
         <EuropeLoginModal
           setSuccess={setLoginSuccess}
