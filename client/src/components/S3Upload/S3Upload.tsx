@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import AWS from "aws-sdk";
+import S3 from "aws-sdk/clients/s3";
 import { Button, Fab } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
 import { useLocation } from "react-router";
@@ -29,14 +29,11 @@ const S3Upload = ({
   const pathname = usePageViews();
   const location = useLocation();
 
-  AWS.config.update({
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_ACCESS_KEY,
-  });
-
-  const myBucket = new AWS.S3({
+  const myBucket = new S3({
     params: { Bucket: S3_BUCKET },
     region: REGION,
+    accessKeyId: ACCESS_KEY,
+    secretAccessKey: SECRET_ACCESS_KEY,
   });
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
