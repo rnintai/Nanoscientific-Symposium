@@ -215,7 +215,11 @@ const ForgotPassword = () => {
                   </LoadingButton>
                   {/* 타이머 */}
                   {isTimerStarted && (
-                    <Timer second={180} setIsExpired={setIsExpired} />
+                    <Box
+                      sx={{ position: "absolute", right: "-60px", top: "6px" }}
+                    >
+                      <Timer second={180} setIsExpired={setIsExpired} />
+                    </Box>
                   )}
                 </Stack>
 

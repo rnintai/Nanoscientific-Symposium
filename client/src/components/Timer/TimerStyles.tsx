@@ -6,7 +6,4 @@ export const TimerContainer = styled.div`
   color: #0e3c7a;
   padding: 0 10px;
   font-weight: 700;
-  position: absolute;
-  right: -60px;
-  top: 6px;
 `;

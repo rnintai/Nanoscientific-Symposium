@@ -580,6 +580,11 @@ const EuropeLoginModal = ({
               )}
             </Stack>
 
+            {isTimerStarted ? (
+              <Timer second={180} setIsExpired={setIsExpired} />
+            ) : (
+              <Box sx={{ width: "60px" }} />
+            )}
             <LoadingButton
               sx={{ borderRadius: "30px", px: 1, py: 0, height: "38px" }}
               color="primary"
@@ -590,11 +595,6 @@ const EuropeLoginModal = ({
             >
               {isTimerStarted ? "RESEND" : "SEND"}
             </LoadingButton>
-            {isTimerStarted ? (
-              <Timer second={180} setIsExpired={setIsExpired} />
-            ) : (
-              <Box sx={{ width: "60px" }} />
-            )}
           </Box>
         </DialogContent>
         <DialogActions>
