@@ -237,11 +237,13 @@ const ProgramContent = ({
         }${reorderLoading ? " disabled" : ""}`}
         onClick={onClick}
       >
-        <StyledTableCell
-          align="center"
-          width="0%"
-          style={{ padding: 0, border: "none" }}
-        />
+        {isAdmin && (
+          <StyledTableCell
+            align="center"
+            width="0%"
+            style={{ padding: 0, border: "none" }}
+          />
+        )}
         <StyledTableCell align="center" width="15%">
           {dateToLocaleString(start_time, selectedTimezone, "HH:mm")}
         </StyledTableCell>
@@ -261,11 +263,11 @@ const ProgramContent = ({
                 reorderLoading ? " disabled" : ""
               }`}
             >
-              <StyledTableCell
-                width="0%"
-                style={{ padding: 0, border: "none" }}
-              >
-                {isAdmin && (
+              {isAdmin && (
+                <StyledTableCell
+                  width="0%"
+                  style={{ padding: 0, border: "none" }}
+                >
                   <Box
                     className={`agenda-move-section ${
                       agendaEditList[index].edit ? " active" : "active"
@@ -290,8 +292,8 @@ const ProgramContent = ({
                       <ArrowCircleDown />
                     </IconButton>
                   </Box>
-                )}
-              </StyledTableCell>
+                </StyledTableCell>
+              )}
 
               <StyledTableCell
                 align="center"

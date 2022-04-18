@@ -100,7 +100,14 @@ const ProgramsList = () => {
               date={session.date}
             />
             <div className="program-table-container">
-              <Table sx={{ width: "100%", minWidth: "600px", mb: 1 }}>
+              <Table
+                sx={{
+                  width: "100%",
+                  minWidth: "600px",
+                  mb: 1,
+                  border: "3px solid #424242",
+                }}
+              >
                 <TableBody>
                   {programs
                     .filter((program) => {
