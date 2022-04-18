@@ -9,6 +9,7 @@ import useInput from "hooks/useInput";
 import Timer from "components/Timer/Timer";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import CircularProgress from "@mui/material/CircularProgress";
+import NSSButton from "components/Button/NSSButton";
 import { ForgotPasswordContainer } from "./ForgotPasswordStyles";
 
 const ForgotPassword = () => {
@@ -149,7 +150,7 @@ const ForgotPassword = () => {
   }, [isExpired]);
 
   return (
-    <ForgotPasswordContainer>
+    <ForgotPasswordContainer className="body-fit">
       {/* Step 1. 이메일 확인 */}
       {!isEmailVerified && (
         <Fade in={!isEmailVerified}>
@@ -262,21 +263,20 @@ const ForgotPassword = () => {
               }}
               {...password2}
             />
-            <LoadingButton
+            <NSSButton
               disabled={
                 !isPasswordSame ||
                 password1.value === "" ||
                 password2.value === ""
               }
               loading={submitPasswordHandlerLoading}
-              variant="contained"
+              variant="gradient"
               color="info"
               onClick={submitPasswordHandler}
-              size="small"
-              fullWidth
+              letterSpacing="1.2px"
             >
-              submit
-            </LoadingButton>
+              SUBMIT
+            </NSSButton>
           </Stack>
         </Fade>
       )}

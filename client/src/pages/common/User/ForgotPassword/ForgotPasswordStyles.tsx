@@ -4,7 +4,6 @@ export const ForgotPasswordContainer = styled.div`
   // display: flex;
   // flex-direction: column;
   max-width: 1200px;
-  min-height: calc(100vh - 120px);
   padding: 80px 30px;
   margin: 0 auto;
 
