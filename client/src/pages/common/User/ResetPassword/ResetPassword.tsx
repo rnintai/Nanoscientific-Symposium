@@ -3,6 +3,7 @@ import axios from "axios";
 import Title from "components/Title/Title";
 import { Box, Stack, TextField, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import NSSButton from "components/Button/NSSButton";
 import useInput from "hooks/useInput";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
@@ -53,6 +54,9 @@ const ResetPassword = () => {
   const password2 = useInput("");
 
   // state
+  const [changePasswordloading, setChangePasswordLoading] =
+    useState<boolean>(false);
+  const [getUserDataloading, setGetUserDataLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [passwordNotMatch, setPasswordNotMatch] = useState<boolean>(false);
   // 유저 패스워드 설정 여부
@@ -82,6 +86,7 @@ const ResetPassword = () => {
       return;
     }
 
+    setChangePasswordLoading(true);
     axios
       .post("/api/users/passwordreset", {
         token: authState.accessToken,
@@ -113,6 +118,9 @@ const ResetPassword = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setChangePasswordLoading(false);
       });
   };
 
@@ -129,7 +137,7 @@ const ResetPassword = () => {
   }, [password1, password2]);
 
   useEffect(() => {
-    setLoading(true);
+    setGetUserDataLoading(true);
     axios
       .post("/api/users/passwordset/check", {
         nation: pathname,
@@ -142,14 +150,14 @@ const ResetPassword = () => {
         console.log(err);
       })
       .finally(() => {
-        setLoading(false);
+        setGetUserDataLoading(false);
       });
   }, []);
 
   return (
     <OuterResetContainer>
-      {loading && <Loading />}
-      {!isUserPasswordSet && !loading && (
+      {getUserDataloading && <Loading />}
+      {!isUserPasswordSet && !getUserDataloading && (
         <LandingSection
           className="banner"
           background={registrationBannerURL}
@@ -161,7 +169,7 @@ const ResetPassword = () => {
           </Stack>
         </LandingSection>
       )}
-      {!loading && (
+      {!getUserDataloading && (
         <ResetPasswordContainer className="layout body-fit">
           {!isUserPasswordSet && (
             <Stack
@@ -279,22 +287,21 @@ const ResetPassword = () => {
               }}
             />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <LoadingButton
-                loading={loading}
+              <NSSButton
+                loading={changePasswordloading}
                 style={{
                   margin: "40px 20px",
                   borderRadius: "30px",
-                  // width: "100%",
                 }}
-                variant="contained"
+                variant="gradient"
                 color="primary"
                 onClick={passwordSetHandler}
+                letterSpacing="1.2px"
               >
                 {isUserPasswordSet
                   ? submitBtnText || "SUBMIT"
                   : registerBtnText || "REGISTER"}
-                {/* {submitBtnText || "SUBMIT"} */}
-              </LoadingButton>
+              </NSSButton>
             </Box>
           </Box>
         </ResetPasswordContainer>
