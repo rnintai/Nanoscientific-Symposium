@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material";
 
 export const NSSButtonContainer = styled.button`
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   padding: 15px 10px;
   font-weight: ${() => {
     const theme = useTheme();
@@ -33,12 +33,16 @@ export const NSSButtonContainer = styled.button`
     border: 2px solid #fff;
     border-radius: 25px;
     padding: 3px 20px;
-    transition: transform 0.15s ease-in-out;
+    // transition: transform 0.15s ease-in-out;
     &:hover {
       transform: scale(1.05);
     }
     &:active {
       transform: scale(1.05);
+    }
+
+    .loading {
+      color: #fff;
     }
   }
 
@@ -53,6 +57,15 @@ export const NSSButtonContainer = styled.button`
       }
     }
   }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
   display: flex;
   align-items: center;
+
+  .loading {
+    padding: 5px;
+  }
 `;

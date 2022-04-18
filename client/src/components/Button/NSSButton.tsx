@@ -30,11 +30,12 @@ const NSSButton = (props: NSSButtonProps) => {
       ? `${variant} ${rest.className}`
       : `${variant}`;
   className += disabled ? " disabled" : "";
+  className += loading ? " disabled loading" : "";
   const theme = useTheme();
   return (
     <NSSButtonContainer type="button" {...rest} className={className}>
       {loading ? (
-        <CircularProgress size="24px" />
+        <CircularProgress className="loading" size="22px" />
       ) : (
         <Typography
           fontSize={fontSize || mainFontSize}
