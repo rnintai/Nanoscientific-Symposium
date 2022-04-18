@@ -13,6 +13,7 @@ import LandingSection from "components/Section/LandingSection";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
+import Loading from "components/Loading/Loading";
 
 import { smallFontSize } from "utils/FontSize";
 import {
@@ -81,7 +82,6 @@ const ResetPassword = () => {
       return;
     }
 
-    setLoading(true);
     axios
       .post("/api/users/passwordreset", {
         token: authState.accessToken,
@@ -113,9 +113,6 @@ const ResetPassword = () => {
       })
       .catch((err) => {
         console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
 
@@ -132,6 +129,7 @@ const ResetPassword = () => {
   }, [password1, password2]);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .post("/api/users/passwordset/check", {
         nation: pathname,
@@ -142,12 +140,16 @@ const ResetPassword = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
   return (
     <OuterResetContainer>
-      {!isUserPasswordSet && (
+      {loading && <Loading />}
+      {!isUserPasswordSet && !loading && (
         <LandingSection
           className="banner"
           background={registrationBannerURL}
@@ -159,64 +161,80 @@ const ResetPassword = () => {
           </Stack>
         </LandingSection>
       )}
-      <ResetPasswordContainer className="layout body-fit">
-        {!isUserPasswordSet && (
-          <Stack
-            className="step-container"
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <div>
-              <CheckBoxIcon className="step-icon active" />
-              <Typography
-                className="step-caption active"
-                fontSize={smallFontSize}
-                sx={{ position: "absolute" }}
-              >
-                {registrationStep1Label || "Your Information"}
-              </Typography>
-            </div>
-            <div className="icon-divider active" />
-            <div>
-              <LooksTwoIcon className="step-icon active" />
-              <Typography
-                className="step-caption caption2 active"
-                fontSize={smallFontSize}
-                sx={{ position: "absolute" }}
-              >
-                {registrationStep2Label || "Setting a password"}
-              </Typography>
-            </div>
-            <div className="icon-divider" />
-            <div>
-              <Looks3Icon className="step-icon" />
-              <Typography
-                className="step-caption"
-                fontSize={smallFontSize}
-                sx={{ position: "absolute" }}
-              >
-                {registrationStep3Label || "Complete"}
-              </Typography>
-            </div>
-          </Stack>
-        )}
+      {!loading && (
+        <ResetPasswordContainer className="layout body-fit">
+          {!isUserPasswordSet && (
+            <Stack
+              className="step-container"
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+            >
+              <div>
+                <CheckBoxIcon className="step-icon active" />
+                <Typography
+                  className="step-caption active"
+                  fontSize={smallFontSize}
+                  sx={{ position: "absolute" }}
+                >
+                  {registrationStep1Label || "Your Information"}
+                </Typography>
+              </div>
+              <div className="icon-divider active" />
+              <div>
+                <LooksTwoIcon className="step-icon active" />
+                <Typography
+                  className="step-caption caption2 active"
+                  fontSize={smallFontSize}
+                  sx={{ position: "absolute" }}
+                >
+                  {registrationStep2Label || "Setting a password"}
+                </Typography>
+              </div>
+              <div className="icon-divider" />
+              <div>
+                <Looks3Icon className="step-icon" />
+                <Typography
+                  className="step-caption"
+                  fontSize={smallFontSize}
+                  sx={{ position: "absolute" }}
+                >
+                  {registrationStep3Label || "Complete"}
+                </Typography>
+              </div>
+            </Stack>
+          )}
 
-        <Title
-          fontSize={25}
-          title={
-            isUserPasswordSet
-              ? resetPasswordHeading || "Change a Password"
-              : setPasswordHeading || "Set a Password"
-          }
-        />
-        <Box sx={inputBoxStyle}>
-          {isUserPasswordSet && (
+          <Title
+            fontSize={25}
+            title={
+              isUserPasswordSet
+                ? resetPasswordHeading || "Change a Password"
+                : setPasswordHeading || "Set a Password"
+            }
+          />
+          <Box sx={inputBoxStyle}>
+            {isUserPasswordSet && (
+              <TextField
+                autoFocus
+                margin="dense"
+                id="curPassword"
+                label={resetPasswordCurrentLabel || "Current Password"}
+                type="password"
+                fullWidth
+                variant="standard"
+                onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                  if (e.key === "Enter") {
+                    passwordSetHandler();
+                  }
+                }}
+                {...curPassword}
+              />
+            )}
             <TextField
-              autoFocus
               margin="dense"
-              id="curPassword"
-              label={resetPasswordCurrentLabel || "Current Password"}
+              id="password1"
+              label={resetPasswordNewLabel || "New Password"}
               type="password"
               fullWidth
               variant="standard"
@@ -225,67 +243,63 @@ const ResetPassword = () => {
                   passwordSetHandler();
                 }
               }}
-              {...curPassword}
+              {...password1}
             />
-          )}
-          <TextField
-            margin="dense"
-            id="password1"
-            label={resetPasswordNewLabel || "New Password"}
-            type="password"
-            fullWidth
-            variant="standard"
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === "Enter") {
-                passwordSetHandler();
+            <TextField
+              margin="dense"
+              id="password2"
+              label={
+                resetPasswordNewConfirmLabel || "New Password Confirmation"
               }
-            }}
-            {...password1}
-          />
-          <TextField
-            margin="dense"
-            id="password2"
-            label={resetPasswordNewConfirmLabel || "New Password Confirmation"}
-            type="password"
-            fullWidth
-            variant="standard"
-            onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-              if (e.key === "Enter") {
-                passwordSetHandler();
-              }
-            }}
-            {...password2}
-          />
-          <span style={{ color: passwordNotMatch ? "red" : "green" }}>
-            {passwordNotMatch ? "Password is not matched." : <div>&nbsp;</div>}
-          </span>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: { mobile: "column", tablet: "row" },
-              justifyContent: { mobile: "flex-start", tablet: "space-between" },
-            }}
-          />
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <LoadingButton
-              loading={loading}
-              style={{
-                margin: "40px 20px",
-                borderRadius: "30px",
-                // width: "100%",
+              type="password"
+              fullWidth
+              variant="standard"
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === "Enter") {
+                  passwordSetHandler();
+                }
               }}
-              variant="contained"
-              color="primary"
-              onClick={passwordSetHandler}
-            >
-              {isUserPasswordSet
-                ? submitBtnText || "SUBMIT"
-                : registerBtnText || "REGISTER"}
-              {/* {submitBtnText || "SUBMIT"} */}
-            </LoadingButton>
+              {...password2}
+            />
+            <span style={{ color: passwordNotMatch ? "red" : "green" }}>
+              {passwordNotMatch ? (
+                "Password is not matched."
+              ) : (
+                <div>&nbsp;</div>
+              )}
+            </span>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { mobile: "column", tablet: "row" },
+                justifyContent: {
+                  mobile: "flex-start",
+                  tablet: "space-between",
+                },
+              }}
+            />
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <LoadingButton
+                loading={loading}
+                style={{
+                  margin: "40px 20px",
+                  borderRadius: "30px",
+                  // width: "100%",
+                }}
+                variant="contained"
+                color="primary"
+                onClick={passwordSetHandler}
+              >
+                {isUserPasswordSet
+                  ? submitBtnText || "SUBMIT"
+                  : registerBtnText || "REGISTER"}
+                {/* {submitBtnText || "SUBMIT"} */}
+              </LoadingButton>
+            </Box>
           </Box>
-        </Box>
-      </ResetPasswordContainer>
+        </ResetPasswordContainer>
+      )}
+
       {/* 비밀번호 변경 성공 alert */}
       <TopCenterSnackBar
         value={passwordSetSuccessAlert}
