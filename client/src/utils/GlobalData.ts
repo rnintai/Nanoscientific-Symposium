@@ -55,13 +55,13 @@ export const globalData = new Map<string, Common.globalDataType>([
       eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
       eventLandingDesc: `
       The growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing. And those who strive to acquire the technology.
-      <br/><br/>
+      <br/>
       NanoScientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.
-      <br/><br/>
+      <br/>
       An opportunity to discuss and experience firsthand what innovative research results have been derived using the latest SPM (Scanning Probe Microscopy) technology.
-      <br/><br/>
+      <br/>
       We invite you to the NanoScientific Symposium 2022.
-      <br/><br/>
+      <br/>
       Expand your insight through the Nanoscientific Symposium.
       `,
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,

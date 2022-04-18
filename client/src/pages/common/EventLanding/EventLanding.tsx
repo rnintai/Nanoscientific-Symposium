@@ -84,6 +84,9 @@ const EventLanding = () => {
                   color={theme.palette.grey[600]}
                   sx={{
                     fontSize: mainFontSize,
+                    width: {
+                      laptop: "90%",
+                    },
                   }}
                 >
                   <InnerHTML html={eventLandingDesc || ""} />
