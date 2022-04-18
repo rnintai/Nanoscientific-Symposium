@@ -7,7 +7,6 @@ const mailCtrl = {
   sendVcode: async (req, res) => {
     const { email, nation } = req.body;
     const currentPool = getCurrentPool(nation);
-    console.log(process.env.SMTP_PASS);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
