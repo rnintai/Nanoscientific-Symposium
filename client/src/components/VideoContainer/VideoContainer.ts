@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const VideoContainer = styled.div`
-  height: 100vh;
   video {
     max-width: 100%;
     width: 100%;

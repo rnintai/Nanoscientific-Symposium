@@ -6,6 +6,7 @@ import useSubPath from "hooks/useSubPath";
 import { editorRole } from "utils/Roles";
 import axios from "axios";
 import Loading from "components/Loading/Loading";
+import ComingSoon from "components/ComingSoon/ComingSoon";
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -44,41 +45,15 @@ const AdminRoute = ({ children, redirect }: AdminRouteProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (!loading && isPublishedRoute !== -1) {
-      if (isPublishedRoute === 0 || isAdminRoute) {
-        if (isUserAdmin) {
-          // case 1: unpublished 페이지나 어드민 페이지는 어드민만 허용.
-        } else {
-          // case 2: unpublished 페이지나 어드민 페이지는 방문자에게 비허용.
-          alert("Coming Soon");
-          // navigate(`/${pathname}`);
-          // navigate(-1);
-          if (redirect) {
-            navigate(`${redirect}`);
-          } else {
-            // navigate(`/${pathname}`);
-            navigate(-1);
-          }
-        }
-      } else {
-        // case 3: publish된 페이지 or admin이 아닌 페이지 -> 공개
-      }
-    }
-
-    // loading
-    // resultJSX = <Loading />;
-  }, [isPublishedRoute, loading]);
-
-  // return resultJSX;
   return (
     <>
       {(loading || isPublishedRoute === -1) && <Loading />}
-      {(!loading && (isPublishedRoute === 1 || isAdminRoute)) ||
-      editorRole.includes(authState.role) ? (
+      {(!loading && (isPublishedRoute === 1 || isAdminRoute)) || isUserAdmin ? (
         <>{children} </>
       ) : (
-        <Loading />
+        <div className="layout body-fit">
+          <ComingSoon />
+        </div>
       )}
     </>
   );

@@ -98,7 +98,7 @@ const LectureHall = () => {
   }, [webinarList]);
 
   return (
-    <VideoContainer>
+    <VideoContainer className="body-fit">
       {/* {getWebinarLoading && <Loading />} */}
       <video
         src="https://d25unujvh7ui3r.cloudfront.net/lecture_hall.mp4"

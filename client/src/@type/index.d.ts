@@ -69,6 +69,13 @@ declare namespace User {
 declare namespace Common {
   type showStatus = "show" | "hide";
 
+  interface menuType {
+    id: number;
+    name: string;
+    path: string;
+    is_published: 0 | 1;
+  }
+
   interface nationType {
     name: string;
     date: string;
@@ -85,7 +92,6 @@ declare namespace Common {
   interface globalDataType {
     fullName?: string;
     logoURL?: string;
-    fullLogoURL?: string;
     speakers?: string;
     programs?: string;
     lectureHall?: string;

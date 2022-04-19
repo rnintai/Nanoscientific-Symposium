@@ -108,6 +108,26 @@ const App = () => {
     return <Route key={route.path} path={route.path} element={resultElement} />;
   };
 
+  // menu state
+  const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
+  const [menuList, setMenuList] = useState<Common.menuType[]>(null);
+  useEffect(() => {
+    if (pathname !== "") {
+      setMenuStateLoading(true);
+      axios
+        .post("/api/menu/admin/list", { nation: pathname })
+        .then((res) => {
+          setMenuList(res.data.result);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setMenuStateLoading(false);
+        });
+    }
+  }, [pathname]);
+
   if (authState.isLoading) return <Loading />;
 
   return (
@@ -128,6 +148,8 @@ const App = () => {
               setPasswordInputModalOpen={setPasswordInputModalOpen}
               setLogoutSuccess={setLogoutSuccess}
               setLogoutLoading={setLogoutLoading}
+              menuStateLoading={menuStateLoading}
+              menuList={menuList}
             />
           )}
 

@@ -28,7 +28,7 @@ const PrivateRoute = ({ children, setEmailModalOpen }: PrivateRouteProps) => {
   ) : (
     // <Navigate to={`/${pathname}`} />
     <Box
-      minHeight="calc(100vh - 200px)"
+      className="body-fit"
       display="flex"
       alignItems="center"
       justifyContent="center"

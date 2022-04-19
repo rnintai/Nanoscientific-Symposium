@@ -39,7 +39,8 @@ interface navProps {
   setPasswordInputModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLogoutLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setLogoutSuccess: React.Dispatch<React.SetStateAction<boolean>>;
-
+  menuStateLoading: boolean;
+  menuList: Common.menuType[];
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
 }
@@ -55,7 +56,12 @@ const NavBar = ({
   setPasswordInputModalOpen,
   setLogoutSuccess,
   setLogoutLoading,
+  menuStateLoading,
+  menuList,
 }: navProps) => {
+  // menu list
+  // const [menuList, setMenuList] = useState<menuType[]>(null);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openUserMenu = Boolean(anchorEl);
   const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -145,6 +151,22 @@ const NavBar = ({
     changePasswordBtnText,
   } = globalData.get(pathname) as Common.globalDataType;
 
+  // const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
+  // useEffect(() => {
+  //   setMenuStateLoading(true);
+  //   axios
+  //     .post("/api/menu/admin/list", { nation: pathname })
+  //     .then((res) => {
+  //       setMenuList(res.data.result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .finally(() => {
+  //       setMenuStateLoading(false);
+  //     });
+  // }, []);
+
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
       {!hideMenu && (
@@ -183,34 +205,21 @@ const NavBar = ({
               alignSelf="flex-end"
               className="menu-item-wrap"
             >
-              {speakers && (
-                <MenuLink to={`/${pathname}/speakers`}>
-                  {speakers.toUpperCase()}
-                </MenuLink>
-              )}
-              {programs && (
-                <MenuLink to={`/${pathname}/program`}>
-                  {programs.toUpperCase()}
-                </MenuLink>
-              )}
-              {lectureHall && (
-                <MenuLink to={`/${pathname}/lecture-hall`}>
-                  {lectureHall.toUpperCase()}
-                </MenuLink>
-              )}
-              {exhibitHall && (
-                <MenuLink to={`/${pathname}/exhibit/parksystems`}>
-                  {exhibitHall.toUpperCase()}
-                </MenuLink>
-              )}
-              {sponsors && (
-                <MenuLink to={`/${pathname}/sponsors`}>
-                  {sponsors.toUpperCase()}
-                </MenuLink>
-              )}
-              {archive && (
-                <MenuLink to={`/${pathname}/archive`}>{archive}</MenuLink>
-              )}
+              <Stack direction="row" minWidth="450px">
+                {!menuStateLoading &&
+                  menuList.map((menu) => (
+                    <MenuLink
+                      key={menu.name}
+                      to={`/${pathname}${menu.path}`}
+                      published={
+                        menu.is_published === 1 ||
+                        editorRole.includes(authState.role)
+                      }
+                    >
+                      {menu.name.toUpperCase()}
+                    </MenuLink>
+                  ))}
+              </Stack>
               {authState.isLogin && !checkLoading && (
                 <div className="user-menu-wrap">
                   <NSSButton

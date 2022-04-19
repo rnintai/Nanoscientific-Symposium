@@ -9,9 +9,11 @@ import { MenuLinkContainer } from "./MenuLinkStyles";
 interface MenuLinkProps extends React.ComponentPropsWithoutRef<"a"> {
   to: string;
   children: JSX.Element | JSX.Element[] | string | string[];
+  // eslint-disable-next-line react/require-default-props
+  published?: boolean;
 }
 const MenuLink = (props: MenuLinkProps) => {
-  const { to, children, ...rest } = props;
+  const { to, children, published, ...rest } = props;
   const [active, setActive] = useState<string>("");
   const pathname = usePageViews();
   const subpath = useSubPath();
@@ -25,7 +27,7 @@ const MenuLink = (props: MenuLinkProps) => {
     }
   }, [pathname, subpath]);
   return (
-    <MenuLinkContainer>
+    <MenuLinkContainer className={!published ? "disabled" : ""}>
       <Link to={to} {...rest} className={active}>
         <Typography
           fontWeight={theme.typography.fontWeightBold}

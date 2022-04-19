@@ -25,6 +25,7 @@ declare module "@mui/material/styles" {
     main: string;
     contrastText: string;
     contrastTextAlpha?: string;
+    navy?: string;
     alpha50?: string;
     gradation?: string;
     verticalGradation?: string;
@@ -37,6 +38,7 @@ declare module "@mui/material/styles" {
     contrastText: string;
     contrastTextAlpha?: string;
     alpha50?: string;
+    navy?: string;
     heading?: string;
     gradation?: string;
     verticalGradation?: string;
@@ -53,6 +55,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           light: "#0040ff",
           main: "#21ade5",
           dark: "#189cd1",
+          navy: "#243d7c",
           heading: "rgb(14, 60, 122)",
           contrastText: "#fff",
           contrastTextAlpha: "#ffffffad",
