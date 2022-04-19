@@ -127,7 +127,7 @@ const App = () => {
         });
     }
   }, [pathname]);
-
+  //
   if (authState.isLoading) return <Loading />;
 
   return (
