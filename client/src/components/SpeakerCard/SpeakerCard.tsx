@@ -7,6 +7,7 @@ import {
   subHeadingFontSize,
   xsmallFontSize,
 } from "utils/FontSize";
+import { S3_URL } from "utils/GlobalData";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -51,7 +52,7 @@ const SpeakerCard = ({
         <Box sx={{ position: "relative" }}>
           <img
             className="speaker-image"
-            src={`https://nss-integration.s3.us-west-1.amazonaws.com/${speaker.image_path}`}
+            src={`${S3_URL}/${speaker.image_path}`}
             alt="speakerImage"
           />
           <div className="overlay" />

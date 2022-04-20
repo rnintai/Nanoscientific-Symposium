@@ -4,6 +4,7 @@ import { Button, Fab } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
 import { useLocation } from "react-router";
 import usePageViews from "hooks/usePageViews";
+import { S3_URL } from "utils/GlobalData";
 
 interface S3UploadProps {
   setImagePath: Dispatch<SetStateAction<string>>;
@@ -105,7 +106,7 @@ const S3Upload = ({
         {previewURL && (
           <img
             style={{ marginLeft: "10px", width: "100px", height: "100px" }}
-            src={`https://nss-integration.s3.us-west-1.amazonaws.com/${previewURL}`}
+            src={`${S3_URL}/${previewURL}`}
             alt="preview"
           />
         )}
