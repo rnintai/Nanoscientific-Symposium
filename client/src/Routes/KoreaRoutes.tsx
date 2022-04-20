@@ -16,7 +16,7 @@ import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 export default [
   {
     path: "/kr",
-    element: <Landing />,
+    element: <Landing key="kr-landing-section" />,
   },
   {
     path: "/kr/speakers",

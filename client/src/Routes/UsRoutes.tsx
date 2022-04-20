@@ -15,7 +15,7 @@ import Registration from "pages/common/Registration/Registration";
 export default [
   {
     path: "/americas",
-    element: <Landing />,
+    element: <Landing key="americas-landing-section" />,
   },
   {
     path: "/americas/speakers",

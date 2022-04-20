@@ -15,7 +15,7 @@ import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 export default [
   {
     path: "/asia",
-    element: <Landing />,
+    element: <Landing key="asia-landing-section" />,
   },
   {
     path: "/asia/lecture-hall",

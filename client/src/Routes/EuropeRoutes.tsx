@@ -13,7 +13,7 @@ import LectureHall from "pages/common/LectureHall/LectureHall";
 export default [
   {
     path: "/eu",
-    element: <Landing />,
+    element: <Landing key="eu-landing-section" />,
   },
   {
     path: "/eu/registration",

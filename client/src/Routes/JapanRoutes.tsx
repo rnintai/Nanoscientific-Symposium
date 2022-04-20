@@ -18,7 +18,7 @@ import Speakers from "../pages/common/Speakers/Speakers";
 export default [
   {
     path: "/jp",
-    element: <Landing />,
+    element: <Landing key="jp-landing-section" />,
   },
   {
     path: "/jp/speakers",
