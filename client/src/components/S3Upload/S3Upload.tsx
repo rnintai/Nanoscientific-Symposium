@@ -29,6 +29,8 @@ const S3Upload = ({
   const pathname = usePageViews();
   const location = useLocation();
 
+  console.log(ACCESS_KEY, SECRET_ACCESS_KEY);
+
   const myBucket = new S3({
     params: { Bucket: S3_BUCKET },
     region: REGION,
