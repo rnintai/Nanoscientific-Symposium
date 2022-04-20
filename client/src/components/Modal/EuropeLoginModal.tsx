@@ -16,7 +16,6 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import CloseButton from "components/CloseButton/CloseButton";
 import axios from "axios";
 import Timer from "components/Timer/Timer";
-import NSSButton from "components/Button/NSSButton";
 import { globalData } from "utils/GlobalData";
 import useInput from "hooks/useInput";
 import { smallFontSize } from "utils/FontSize";
@@ -356,7 +355,7 @@ const EuropeLoginModal = ({
         maxWidth="tablet"
       >
         <CloseButton setOpen={setEmailModalOpen} />
-        {signInText && <DialogTitle>{signInText}</DialogTitle>}
+        <DialogTitle>{signInText || "SIGN IN"}</DialogTitle>
         {emailInputLabel && (
           <DialogContent>
             <TextField
@@ -432,7 +431,7 @@ const EuropeLoginModal = ({
         maxWidth="tablet"
       >
         <CloseButton setOpen={setPasswordInputModalOpen} />
-        <DialogTitle>{signInText}</DialogTitle>
+        <DialogTitle>{signInText || "SIGN IN"}</DialogTitle>
         <DialogContent>
           <TextField
             disabled={!passwordInputModalOpen}
@@ -473,7 +472,7 @@ const EuropeLoginModal = ({
               loginHandler(email.value, password.value);
             }}
           >
-            {signInText}
+            {signInText || "SIGN IN"}
           </LoadingButton>
         </DialogActions>
 

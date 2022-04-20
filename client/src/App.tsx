@@ -11,6 +11,7 @@ import { theme, jpTheme } from "theme/themes";
 import PrivateRoute from "components/Route/PrivateRoute";
 import EuropeLoginModal from "components/Modal/EuropeLoginModal";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import NotFound from "pages/common/NotFound/NotFound";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -112,7 +113,7 @@ const App = () => {
   const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
   const [menuList, setMenuList] = useState<Common.menuType[]>(null);
   useEffect(() => {
-    if (pathname !== "") {
+    if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);
       axios
         .post("/api/menu/admin/list", { nation: pathname })
@@ -133,7 +134,8 @@ const App = () => {
   return (
     <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
       <AppContainer>
-        {pathname !== "" &&
+        {pathname !== "home" &&
+          pathname !== "" &&
           subpath.indexOf("admin") === -1 &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar
@@ -180,22 +182,25 @@ const App = () => {
           {AdminRoutes.map((route) => {
             return routeLoopHelper(route, true);
           })}
+          <Route path="*" element={<NotFound />} />
         </Routes>
-        {pathname !== "" &&
+        {pathname !== "home" &&
           pathname !== "admin" &&
           window.location.pathname !== "/jp/archive" && <Footer />}
 
-        <EuropeLoginModal
-          setSuccess={setLoginSuccess}
-          setFailed={setLoginFailed}
-          emailModalOpen={emailModalOpen}
-          setEmailModalOpen={setEmailModalOpen}
-          setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
-          passwordSetModalOpen={passwordSetModalOpen}
-          setPasswordSetModalOpen={setPasswordSetModalOpen}
-          passwordInputModalOpen={passwordInputModalOpen}
-          setPasswordInputModalOpen={setPasswordInputModalOpen}
-        />
+        {pathname !== "" && (
+          <EuropeLoginModal
+            setSuccess={setLoginSuccess}
+            setFailed={setLoginFailed}
+            emailModalOpen={emailModalOpen}
+            setEmailModalOpen={setEmailModalOpen}
+            setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
+            passwordSetModalOpen={passwordSetModalOpen}
+            setPasswordSetModalOpen={setPasswordSetModalOpen}
+            passwordInputModalOpen={passwordInputModalOpen}
+            setPasswordInputModalOpen={setPasswordInputModalOpen}
+          />
+        )}
 
         {/* alert */}
         <TopCenterSnackBar
