@@ -91,6 +91,8 @@ declare namespace Common {
 
   interface globalDataType {
     fullName?: string;
+    fullDate?: string;
+    eventLocation?: string;
     logoURL?: string;
     speakers?: string;
     programs?: string;

@@ -2,7 +2,7 @@ export const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
 export const globalData = new Map<string, Common.globalDataType>([
   [
-    "",
+    "home",
     {
       signInText: "SIGN IN",
     },
@@ -74,6 +74,8 @@ export const globalData = new Map<string, Common.globalDataType>([
     "asia",
     {
       fullName: "2022 NanoScientific Symposium Asia",
+      fullDate: "September 22, 2022",
+      eventLocation: "TBD",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
       programs: "PROGRAM",
@@ -180,6 +182,9 @@ export const globalData = new Map<string, Common.globalDataType>([
     "kr",
     {
       fullName: "2022 NanoScientific Symposium Korea",
+      fullDate: "November 24, 2022",
+      eventLocation: "TBD",
+
       logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
@@ -217,7 +222,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc: `국내 원자현미경 전문 심포지엄 나노사이언티픽 코리아 2022에 여러분을 초대합니다!
       <br/> <br/>
-      나노사이언티픽 코리아는 국내 나노기술 및 원자현미경 관련 전문가들이 모여 다양한 응용기술의 최신 동향을 확인하고 새로운 연구결과들을 공유하는 심포지엄으로, 원자현미경 분야의 육성을 위한 연구자들 간의 소통이 장이 되고 있습니다. 
+      나노사이언티픽 코리아는 국내 나노기술 및 원자현미경 관련 전문가들이 모여 다양한 응용기술의 최신 동향을 확인하고 새로운 연구결과들을 공유하는 심포지엄으로, 원자현미경 분야의 육성을 위한 연구자들 간의 소통의 장이 되고 있습니다. 
       최근 인공지능, 자율주행 등 4차 산업혁명이 가속화됨에 따라 핵심 기술인 나노기술의 중요성이 높아지고 있으며, 나노기술을 열어가는 중요한 도구인 원자현미경에 대한 관심도 더욱 증가하고 있습니다. 
       <br/><br/>
       나노사이언티픽 코리아에서는 국내 저명한 연사들을 초청하여 혁신적인 나노과학기술과 이와 연관된 연구결과들을 소개하고 다양한 원자현미경 어플리케이션 정보를 제공합니다.`,
@@ -282,6 +287,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     "jp",
     {
       fullName: "2022 NanoScientific Symposium Japan",
+      fullDate: "2022年11月18日金曜日",
       logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
       speakers: "講演者",
       programs: "プログラム",
@@ -382,6 +388,9 @@ export const globalData = new Map<string, Common.globalDataType>([
     "americas",
     {
       fullName: "2022 NanoScientific Symposium Americas",
+      fullDate: "September 29, 2022",
+      eventLocation: "TBD",
+
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
       programs: "PROGRAM",
@@ -481,6 +490,8 @@ export const globalData = new Map<string, Common.globalDataType>([
     "eu",
     {
       fullName: "2022 NanoScientific Forum Europe",
+      fullDate: "October 6-7, 2022",
+      eventLocation: "TBD",
       logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
       programs: "PROGRAM",

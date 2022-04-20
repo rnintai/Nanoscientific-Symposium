@@ -22,6 +22,7 @@ import {
   subHeadingFontSize,
   mainFontSize,
   smallFontSize,
+  headingFontSize,
 } from "utils/FontSize";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 
@@ -32,6 +33,8 @@ const Landing = () => {
   const {
     home,
     registration,
+    fullDate,
+    eventLocation,
     showLandingSection2,
     showLandingSection3,
     showLandingSection4,
@@ -115,6 +118,48 @@ const Landing = () => {
                 minWidth: "200px",
               }}
             />
+            <Stack
+              sx={{
+                flexDirection: {
+                  mobile: "column",
+                  laptop: "row",
+                },
+                backgroundColor: theme.palette.common.white,
+                padding: "0 10px",
+              }}
+              style={{ marginTop: 0 }}
+              alignItems="center"
+            >
+              {eventLocation !== undefined && (
+                <>
+                  <Typography
+                    fontSize={headingFontSize}
+                    fontWeight={700}
+                    color={theme.palette.primary.navy}
+                  >
+                    {eventLocation}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      display: { mobile: "none", laptop: "inline-block" },
+                      margin: "0 8px",
+                    }}
+                    fontWeight={700}
+                    fontSize={subHeadingFontSize}
+                    color={theme.palette.primary.navy}
+                  >
+                    |
+                  </Typography>
+                </>
+              )}
+              <Typography
+                fontSize={headingFontSize}
+                fontWeight={700}
+                color={theme.palette.primary.navy}
+              >
+                {fullDate}
+              </Typography>
+            </Stack>
             {registration && (
               <NSSButton
                 className="z1"
@@ -277,7 +322,6 @@ const Landing = () => {
                     mb: { mobile: 5, laptop: 0 },
                   }}
                 >
-                  {/*  */}
                   <Typography
                     fontSize={subHeadingFontSize}
                     fontWeight={theme.typography.fontWeightBold}
