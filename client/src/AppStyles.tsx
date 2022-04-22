@@ -29,6 +29,16 @@ export const AppContainer = styled.div`
         return theme.palette.text.primary;
       }};
     }
+
+    &.link-white {
+      color: white;
+      &:hover {
+        color: ${() => {
+          const theme = useTheme();
+          return theme.palette.primary.main;
+        }};
+      }
+    }
   }
 
   .hover-zoom {

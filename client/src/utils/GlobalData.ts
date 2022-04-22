@@ -523,7 +523,11 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection7: true,
       landingSection1BackgroundURL: `${S3_URL}/eu/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/logo-type-1b.svg`,
-      landingSection1Desc: `Registration is running through another NSFE website. For the virtual platform please use only "Sign in" tab/button for people who already registered.`,
+      landingSection1Desc: `Welcome to the virtual platform of
+      NanoScientific Forum Europe (NSFE)
+      <br/>
+      For conference details and registration, please visit: <a class="link-white" href="https://www.nanoscientificforum.com/" target="_blank" style="padding: 0;">www.nanoscientificforum.com</a>
+      `,
       landingSection2Title: "NanoScientific Symposium",
       landingSection2Desc: `
       NSFE is a part of <strong>NANOSCIENTIFIC SYMPOSIUM SERIES</strong> taking place each year around the globe.<br/><br/>
