@@ -86,7 +86,8 @@ declare namespace Common {
   interface sponsorType {
     name: string;
     img: string;
-    url: string;
+    url?: string;
+    height?: string;
   }
 
   interface globalDataType {

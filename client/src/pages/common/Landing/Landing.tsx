@@ -481,23 +481,38 @@ const Landing = () => {
           <LandingSection fullWidth maxWidth="1920px">
             <Stack className="layout">
               <LandingTitle title={landingSection7Title || "Sponsored By"} />
-              <Box display="inline-block">
+              <Stack
+                flexWrap="wrap"
+                alignItems="center"
+                sx={{
+                  flexDirection: {
+                    mobile: "column",
+                    tablet: "row",
+                  },
+                }}
+              >
                 {landingSection7Sponsors.map((sponsor) => (
                   <a
                     className="hover-zoom"
                     href={sponsor.url}
                     target="_blank"
                     rel="noreferrer"
-                    style={{ display: "inline-block" }}
+                    style={{
+                      pointerEvents: sponsor.url ? "inherit" : "none",
+                      position: "relative",
+                    }}
                   >
                     <img
                       src={sponsor.img}
                       alt={sponsor.name}
-                      style={{ maxHeight: "80px" }}
+                      style={{
+                        maxHeight: sponsor.height ? sponsor.height : "80px",
+                        width: "100%",
+                      }}
                     />
                   </a>
                 ))}
-              </Box>
+              </Stack>
             </Stack>
           </LandingSection>
         )}

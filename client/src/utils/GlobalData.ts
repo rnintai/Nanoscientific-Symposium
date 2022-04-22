@@ -159,7 +159,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection7Sponsors: [
         {
           name: "Park Systems",
-          img: "https://d25unujvh7ui3r.cloudfront.net/event/park_logo.png",
+          img: `${S3_URL}/common/Park_logo.svg`,
           url: "https://parksystems.com",
         },
       ],
@@ -267,7 +267,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection7Sponsors: [
         {
           name: "Park Systems",
-          img: "https://d25unujvh7ui3r.cloudfront.net/event/park_logo.png",
+          img: `${S3_URL}/common/Park_logo.svg`,
           url: "https://parksystems.com",
         },
       ],
@@ -368,7 +368,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection7Sponsors: [
         {
           name: "Park Systems",
-          img: "https://d25unujvh7ui3r.cloudfront.net/event/park_logo.png",
+          img: `${S3_URL}/common/Park_logo.svg`,
           url: "https://parksystems.com",
         },
       ],
@@ -470,7 +470,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection7Sponsors: [
         {
           name: "Park Systems",
-          img: "https://d25unujvh7ui3r.cloudfront.net/event/park_logo.png",
+          img: `${S3_URL}/common/Park_logo.svg`,
           url: "https://parksystems.com",
         },
       ],
@@ -525,9 +525,12 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1LogoURL: `${S3_URL}/eu/logo-type-1b.svg`,
       landingSection1Desc: `Registration is running through another NSFE website. For the virtual platform please use only "Sign in" tab/button for people who already registered.`,
       landingSection2Title: "NanoScientific Symposium",
-      landingSection2Desc: `NSFE series is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Miscroscopy (AFM).
+      landingSection2Desc: `
+      NSFE is a part of <strong>NANOSCIENTIFIC SYMPOSIUM SERIES</strong> taking place each year around the globe.<br/><br/>
+      The European edition, NSFE is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Microscopy (AFM). 
       <br/><br/>
-      The research focus of the 5th NSFE 2022 will be laid on wide range of SPM applications and techniques that empower to transform life standards. We will talk about emerging nanomaterials for advanced technologies, functional surfaces and hybrid materials as well as innovative methods in nanotechnology and correlative microscopy. The edition is open to global audience and will be held online.`,
+      The research focus of the <strong>5th NSFE 2022</strong> will be laid on wide range of SPM applications and techniques that empower to transform life standards. We will talk about emerging nanomaterials for advanced technologies, functional surfaces, and hybrid materials as well as innovative methods in nanotechnology and correlative microscopy. This edition is open to global audience and will be held online.
+      `,
       landingSection2Video: "5aqzJQgN9X0",
       landingSection3Title: "Why Attend NanoScientific Symposium?",
       landingSection3Desc: ``,
@@ -565,12 +568,27 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection6ButtonLink:
         "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
-      landingSection7Title: "Sponsored By",
+      landingSection7Title: "Supported By",
       landingSection7Sponsors: [
         {
           name: "Park Systems",
-          img: "https://d25unujvh7ui3r.cloudfront.net/event/park_logo.png",
+          img: `${S3_URL}/common/Park_logo.svg`,
           url: "https://parksystems.com",
+        },
+        {
+          name: "Imaging & Microscopy",
+          img: `${S3_URL}/eu/sponsors/imaging_microscopy_logo.png`,
+        },
+        {
+          name: "NuNano",
+          img: `${S3_URL}/eu/sponsors/nunano_logo.png`,
+          url: "https://www.nunano.com/",
+        },
+        {
+          name: "NANOscientific",
+          img: `${S3_URL}/eu/sponsors/nanoscientific_logo.png`,
+          url: "https://nanoscientific.org/",
+          height: "40px",
         },
       ],
       // resetPassword
