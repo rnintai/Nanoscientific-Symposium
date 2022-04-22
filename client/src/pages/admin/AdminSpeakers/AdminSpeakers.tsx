@@ -104,10 +104,12 @@ const AdminSpeakers = () => {
     <SpeakersContainer>
       <AdminLayout
         title="Speakers"
-        menu4="Add speaker"
-        menu4ClickHandler={openSpeakerFormHandler}
-        // menu2="Hidden Items"
-        // menu2ClickHandler={openHideFormHandler}
+        menus={[
+          {
+            name: "Add speaker",
+            clickHandler: openSpeakerFormHandler,
+          },
+        ]}
         hideToggle={hideToggle}
         setHideToggle={setHideToggle}
         hideToggleHandler={hideToggleHandler}

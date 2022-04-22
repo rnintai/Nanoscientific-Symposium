@@ -167,9 +167,6 @@ const AdminPrograms = () => {
     setOpenProgramForm(true);
   };
 
-  const openHideFormHandler = () => {
-    setOpenHideForm(true);
-  };
   const openAgendaFormHandler = () => {
     setAgendaEdit(false);
     setOpenAgendaForm(true);
@@ -178,21 +175,27 @@ const AdminPrograms = () => {
   return (
     <AdminLayout
       title="Programs"
-      menu1="Add Session"
-      menu1ClickHandler={openSessionFormHandler}
-      menu2="Add Programs"
-      menu2ClickHandler={openProgramFormHandler}
-      menu3="Add Agenda"
-      menu3ClickHandler={openAgendaFormHandler}
-      // menu4="Hidden Items"
-      // menu4ClickHandler={openHideFormHandler}
       hideToggle={hideToggle}
       setHideToggle={setHideToggle}
       hideToggleHandler={hideToggleHandler}
       isHideLoading={isAdminLoading}
       isPublished={isPublished}
-      menu2Disabled={sessions.length === 0}
-      menu3Disabled={programs.length === 0}
+      menus={[
+        {
+          name: "Add Session",
+          clickHandler: openSessionFormHandler,
+        },
+        {
+          name: "Add Programs",
+          clickHandler: openProgramFormHandler,
+          disabled: sessions.length === 0,
+        },
+        {
+          name: "Add Agenda",
+          clickHandler: openAgendaFormHandler,
+          disabled: programs.length === 0,
+        },
+      ]}
     >
       <AdminProgramsContainer>
         <ProgramsListContainer className="layout">

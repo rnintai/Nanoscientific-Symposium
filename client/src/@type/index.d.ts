@@ -199,3 +199,11 @@ declare namespace Webinar {
     type: number;
   }
 }
+
+declare namespace Admin {
+  interface menuType {
+    name: string;
+    clickHandler: () => void;
+    disabled?: boolean;
+  }
+}

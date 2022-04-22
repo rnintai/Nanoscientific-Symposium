@@ -18,6 +18,23 @@ const drawerWidth = 240;
 
 const AdminNavBar = () => {
   const pathname = usePageViews();
+  const menus = [
+    {
+      title: "Programs",
+      link: `/${pathname}/admin/program`,
+      icon: <EventNoteTwoToneIcon />,
+    },
+    {
+      title: "Speakers",
+      link: `/${pathname}/admin/speakers`,
+      icon: <CampaignTwoToneIcon />,
+    },
+    {
+      title: "Users",
+      link: `/${pathname}/admin/users`,
+      icon: <PeopleAltTwoToneIcon />,
+    },
+  ];
   return (
     <Drawer
       sx={{
@@ -38,30 +55,15 @@ const AdminNavBar = () => {
       <Toolbar />
       <Divider />
       <List>
-        <Link to={`/${pathname}/admin/program`}>
-          <ListItem button>
-            <ListItemIcon>
-              <EventNoteTwoToneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Program" />
-          </ListItem>
-        </Link>
-        <Link to={`/${pathname}/admin/speakers`}>
-          <ListItem button>
-            <ListItemIcon>
-              <CampaignTwoToneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Speakers" />
-          </ListItem>
-        </Link>
-        <Link to={`/${pathname}/admin/users`}>
-          <ListItem button>
-            <ListItemIcon>
-              <PeopleAltTwoToneIcon />
-            </ListItemIcon>
-            <ListItemText primary="Users" />
-          </ListItem>
-        </Link>
+        {menus &&
+          menus.map((menu) => (
+            <Link to={menu.link}>
+              <ListItem button>
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primary={menu.title} />
+              </ListItem>
+            </Link>
+          ))}
       </List>
       <Divider />
       <List>
@@ -70,7 +72,7 @@ const AdminNavBar = () => {
             <ListItemIcon>
               <LogoutTwoToneIcon />
             </ListItemIcon>
-            <ListItemText primary="GO Site" />
+            <ListItemText primary="Back to Site" />
           </ListItem>
         </Link>
       </List>
