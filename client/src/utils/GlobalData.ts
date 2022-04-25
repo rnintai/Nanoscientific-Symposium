@@ -184,7 +184,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       fullName: "2022 NanoScientific Symposium Korea",
       fullDate: "November 24, 2022",
       eventLocation: "TBD",
-
       logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
@@ -491,7 +490,6 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2022 NanoScientific Forum Europe",
       fullDate: "October 6-7, 2022",
-      eventLocation: "TBD",
       logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
       programs: "PROGRAM",
@@ -528,7 +526,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       <br/>
       For conference details and registration, please visit: <a class="link-white" href="https://www.nanoscientificforum.com/" target="_blank" style="padding: 0;">www.nanoscientificforum.com</a>
       `,
-      landingSection2Title: "NanoScientific Symposium",
+      landingSection2Title: "NanoScientific Forum",
       landingSection2Desc: `
       NSFE is a part of <strong>NANOSCIENTIFIC SYMPOSIUM SERIES</strong> taking place each year around the globe.<br/><br/>
       The European edition, NSFE is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Microscopy (AFM). 
