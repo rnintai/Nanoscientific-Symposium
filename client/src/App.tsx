@@ -70,6 +70,7 @@ const App = () => {
         nation: pathname === "" ? "" : pathname,
       })
       .then((res) => {
+        console.log("hi");
         if (res.data.success !== false) {
           const { accessToken, email, role } = res.data.data;
           if (accessToken !== undefined) {
@@ -85,6 +86,13 @@ const App = () => {
               },
             });
           }
+        } else {
+          authDispatch({
+            type: "LOGOUT",
+            authState: {
+              ...authState,
+            },
+          });
         }
       })
       .catch((err) => {
@@ -93,7 +101,7 @@ const App = () => {
       .finally(() => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
       });
-  }, [authState.isLoading]);
+  }, [authState.isLoading, pathname, subpath]);
 
   // 로그아웃
 
@@ -116,7 +124,7 @@ const App = () => {
     if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);
       axios
-        .post("/api/menu/admin/list", { nation: pathname })
+        .post("/api/menu/list", { nation: pathname })
         .then((res) => {
           setMenuList(res.data.result);
         })
@@ -139,7 +147,6 @@ const App = () => {
           subpath.indexOf("admin") === -1 &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar
-              key={subpath}
               hideMenu={window.location.pathname === "/jp/archive"}
               checkLoading={authState.isLoading}
               passwordSetModalOpen={passwordSetModalOpen}
