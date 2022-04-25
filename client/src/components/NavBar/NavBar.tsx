@@ -151,22 +151,6 @@ const NavBar = ({
     changePasswordBtnText,
   } = globalData.get(pathname) as Common.globalDataType;
 
-  // const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
-  // useEffect(() => {
-  //   setMenuStateLoading(true);
-  //   axios
-  //     .post("/api/menu/admin/list", { nation: pathname })
-  //     .then((res) => {
-  //       setMenuList(res.data.result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     })
-  //     .finally(() => {
-  //       setMenuStateLoading(false);
-  //     });
-  // }, []);
-
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
       {!hideMenu && (
