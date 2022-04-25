@@ -175,10 +175,6 @@ const AdminPrograms = () => {
   return (
     <AdminLayout
       title="Programs"
-      hideToggle={hideToggle}
-      setHideToggle={setHideToggle}
-      hideToggleHandler={hideToggleHandler}
-      isHideLoading={isAdminLoading}
       isPublished={isPublished}
       menus={[
         {

@@ -11,23 +11,19 @@ import "css/admin.css";
 interface AdminLayoutProps {
   children: React.ReactNode;
   title: string;
-  hideToggle?: boolean;
-  setHideToggle?: React.Dispatch<React.SetStateAction<boolean>>;
-  hideToggleHandler?: () => void;
-  isHideLoading?: boolean;
   isPublished?: boolean;
   menus?: Admin.menuType[];
+  applyHandler?: () => void;
+  disableApply?: boolean;
 }
 
 const AdminLayout = ({
   title,
   children,
-  hideToggle,
-  setHideToggle,
-  hideToggleHandler,
-  isHideLoading,
   isPublished,
   menus,
+  applyHandler,
+  disableApply,
 }: AdminLayoutProps) => {
   return (
     <AdminLayoutContainer>
@@ -35,12 +31,10 @@ const AdminLayout = ({
         <CssBaseline />
         <AdminAppBar
           title={title}
-          hideToggle={hideToggle}
-          setHideToggle={setHideToggle}
-          hideToggleHandler={hideToggleHandler}
-          isHideLoading={isHideLoading}
           isPublished={isPublished}
           menus={menus}
+          applyHandler={applyHandler}
+          disableApply={disableApply}
         />
         <AdminNavBar />
         <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

@@ -110,10 +110,6 @@ const AdminSpeakers = () => {
             clickHandler: openSpeakerFormHandler,
           },
         ]}
-        hideToggle={hideToggle}
-        setHideToggle={setHideToggle}
-        hideToggleHandler={hideToggleHandler}
-        isHideLoading={isAdminLoading}
         isPublished={isPublished}
       >
         <Box className="layout body-fit" sx={{ flexGrow: 1 }}>
