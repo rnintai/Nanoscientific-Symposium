@@ -205,5 +205,6 @@ declare namespace Admin {
     name: string;
     clickHandler: () => void;
     disabled?: boolean;
+    adminOnly?: boolean;
   }
 }

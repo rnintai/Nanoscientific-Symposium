@@ -13,11 +13,15 @@ import Drawer from "@mui/material/Drawer";
 import { Link } from "react-router-dom";
 import usePageViews from "hooks/usePageViews";
 import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
+import MenuIcon from "@mui/icons-material/Menu";
+import { adminRole } from "utils/Roles";
+import { useAuthState } from "context/AuthContext";
 
 const drawerWidth = 240;
 
 const AdminNavBar = () => {
   const pathname = usePageViews();
+  const authState = useAuthState();
   const menus = [
     {
       title: "Programs",
@@ -33,6 +37,12 @@ const AdminNavBar = () => {
       title: "Users",
       link: `/${pathname}/admin/users`,
       icon: <PeopleAltTwoToneIcon />,
+    },
+    {
+      title: "Menus",
+      link: `/${pathname}/admin/menus`,
+      icon: <MenuIcon />,
+      adminOnly: true,
     },
   ];
   return (
@@ -56,14 +66,19 @@ const AdminNavBar = () => {
       <Divider />
       <List>
         {menus &&
-          menus.map((menu) => (
-            <Link to={menu.link}>
-              <ListItem button>
-                <ListItemIcon>{menu.icon}</ListItemIcon>
-                <ListItemText primary={menu.title} />
-              </ListItem>
-            </Link>
-          ))}
+          menus.map((menu) => {
+            if (menu.adminOnly && !adminRole.includes(authState.role)) {
+              return false;
+            }
+            return (
+              <Link to={menu.link}>
+                <ListItem button>
+                  <ListItemIcon>{menu.icon}</ListItemIcon>
+                  <ListItemText primary={menu.title} />
+                </ListItem>
+              </Link>
+            );
+          })}
       </List>
       <Divider />
       <List>
