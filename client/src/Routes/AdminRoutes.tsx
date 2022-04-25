@@ -3,6 +3,7 @@ import AdminRoute from "components/Route/AdminRoute";
 import Admin from "pages/admin/Admin";
 import AdminPrograms from "pages/admin/AdminPrograms/AdminPrograms";
 import AdminSpeakers from "pages/admin/AdminSpeakers/AdminSpeakers";
+import AdminMenus from "pages/admin/AdminMenus/AdminMenus";
 import AdminUsers from "../pages/admin/AdminUsers/AdminUsers";
 
 // 어드민이어야 접근가능한 element 들을 모아둔 라우츠 입니다.
@@ -167,6 +168,46 @@ export default [
     element: (
       <AdminRoute key="/eu/admin/users">
         <AdminUsers />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/asia/admin/menus",
+    element: (
+      <AdminRoute key="/asia/admin/menus">
+        <AdminMenus />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/kr/admin/menus",
+    element: (
+      <AdminRoute key="/kr/admin/menus">
+        <AdminMenus />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/jp/admin/menus",
+    element: (
+      <AdminRoute key="/jp/admin/menus">
+        <AdminMenus />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/americas/admin/menus",
+    element: (
+      <AdminRoute key="/americas/admin/menus">
+        <AdminMenus />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/eu/admin/menus",
+    element: (
+      <AdminRoute key="/eu/admin/menus">
+        <AdminMenus />
       </AdminRoute>
     ),
   },
