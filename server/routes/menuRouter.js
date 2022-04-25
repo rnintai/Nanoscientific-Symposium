@@ -3,26 +3,46 @@ const router = require("express").Router();
 
 /**
  * @swagger
- *  /api/menu/admin:
- *    post:
+ *  /api/menu/list:
+ *    get:
  *      tags:
  *      - Menu
  *      description: menu의 item을 모두 불러옵니다.
  *      parameters:
- *        - name: id
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *          description: nation code
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+router.route("/list").get(menuCtrl.getMenuList);
+/**
+ * @swagger
+ *  /api/menu/list:
+ *    post:
+ *      tags:
+ *      - Menu
+ *      description: menu의 publish 상태 업데이트.
+ *      parameters:
+ *        - name: request
  *          in: body
  *          required: true
  *          schema:
  *            type: string
  *            example: {
  *              "nation": "us",
+ *              "menus": menu list
  *            }
  *      responses:
  *        '200':
  *          description: successful operation
  */
+router.route("/list").post(menuCtrl.updateMenuList);
 
-router.route("/admin/list").post(menuCtrl.getMenuList);
 /**
  * @swagger
  *  /api/menu/admin:

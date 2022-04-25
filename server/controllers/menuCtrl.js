@@ -2,7 +2,7 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const menuCtrl = {
   getMenuList: async (req, res) => {
-    const { nation } = req.body;
+    const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
@@ -23,6 +23,32 @@ const menuCtrl = {
           msg: "해당 path가 없음",
         });
       }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        msg: err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  updateMenuList: async (req, res) => {
+    const { nation, menus } = req.body;
+    const currentPool = getCurrentPool(nation);
+
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      for (const menu of menus) {
+        if (menu.isChanged) {
+          const sql = `UPDATE menu SET is_published=${menu.is_published} WHERE id=${menu.id}`;
+          const row = await connection.query(sql);
+        }
+      }
+      res.status(200).json({
+        success: true,
+        msg: "성공",
+      });
     } catch (err) {
       console.log(err);
       res.status(500).json({

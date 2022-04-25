@@ -70,7 +70,6 @@ const App = () => {
         nation: pathname === "" ? "" : pathname,
       })
       .then((res) => {
-        console.log("hi");
         if (res.data.success !== false) {
           const { accessToken, email, role } = res.data.data;
           if (accessToken !== undefined) {
@@ -124,7 +123,7 @@ const App = () => {
     if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);
       axios
-        .post("/api/menu/list", { nation: pathname })
+        .get(`/api/menu/list?nation=${pathname}`)
         .then((res) => {
           setMenuList(res.data.result);
         })
