@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import Title from "components/Title/Title";
 import JPSpeakerCard from "components/SpeakerCard/JPSpeakerCard";
-import { Link } from "react-router-dom";
+import Link from "components/Link/LinkWithSearch";
 import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import useSeoTitle from "hooks/useSeoTitle";
 import usePageViews from "hooks/usePageViews";

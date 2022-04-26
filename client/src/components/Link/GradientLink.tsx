@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import Link from "components/Link/LinkWithSearch";
 import { GradientLinkContainer } from "./GradientLinkStyles";
 
 interface GradientLinkProps {

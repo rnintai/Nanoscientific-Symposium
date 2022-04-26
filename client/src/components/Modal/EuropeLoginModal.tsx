@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import Link from "components/Link/LinkWithSearch";
+import { useNavigate } from "hooks/useNavigateWithSearch";
 import Box from "@mui/material/Box";
 import { Button, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import TextField from "@mui/material/TextField";
-
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";

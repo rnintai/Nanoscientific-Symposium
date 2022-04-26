@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "hooks/useNavigateWithSearch";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
@@ -159,7 +160,7 @@ const NavBar = ({
           className="return-main-btn"
           style={{ position: "absolute", padding: "8px 8px 8px 0" }}
           onClick={() => {
-            navigate("/");
+            navigate(`/`);
           }}
         >
           <ChevronLeftIcon />

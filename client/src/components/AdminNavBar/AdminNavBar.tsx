@@ -10,7 +10,7 @@ import CampaignTwoToneIcon from "@mui/icons-material/CampaignTwoTone";
 import PeopleAltTwoToneIcon from "@mui/icons-material/PeopleAltTwoTone";
 import ListItemText from "@mui/material/ListItemText";
 import Drawer from "@mui/material/Drawer";
-import { Link } from "react-router-dom";
+import Link from "components/Link/LinkWithSearch";
 import usePageViews from "hooks/usePageViews";
 import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import MenuIcon from "@mui/icons-material/Menu";

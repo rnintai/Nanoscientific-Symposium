@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Link from "components/Link/LinkWithSearch";
 import usePageViews from "hooks/usePageViews";
 import useSubPath from "hooks/useSubPath";
 import { Typography, useTheme } from "@mui/material";
@@ -19,6 +20,7 @@ const MenuLink = (props: MenuLinkProps) => {
   const subpath = useSubPath();
 
   const theme = useTheme();
+
   useEffect(() => {
     if (to === `/${pathname + subpath}`) {
       setActive("active");
