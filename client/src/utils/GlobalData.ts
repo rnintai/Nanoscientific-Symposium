@@ -13,7 +13,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       nations: [
         {
           name: "NSS Asia",
-          date: "Sep 22, 2022",
+          date: "Sep 26, 2022",
           path: "asia",
           img: `${S3_URL}/asia/main-page-banner.jpg`,
         },
@@ -74,7 +74,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     "asia",
     {
       fullName: "2022 NanoScientific Symposium Asia",
-      fullDate: "September 22, 2022",
+      fullDate: "September 26, 2022",
       eventLocation: "TBD",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
