@@ -9,6 +9,7 @@ import AdminRoute from "components/Route/AdminRoute";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import LectureHall from "pages/common/LectureHall/LectureHall";
+import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 
 export default [
   {
@@ -35,6 +36,15 @@ export default [
       </AdminRoute>
     ),
   },
+  {
+    path: "/eu/speakers/:id",
+    element: (
+      <AdminRoute key="/eu/speakers">
+        <SpeakerDetail />
+      </AdminRoute>
+    ),
+  },
+
   {
     path: "/eu/lecture-hall",
     element: <LectureHall />,

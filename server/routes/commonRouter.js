@@ -217,4 +217,29 @@ router.route("/speakers").get(commonCtrl.getSpeakers);
 
 router.route("/speakers/keynote").get(commonCtrl.getKeynoteSpeakers);
 
+/**
+ * @swagger
+ *  /api/page/common/speakers/detail:
+ *    get:
+ *      tags:
+ *      - Common
+ *      description: id에 해당하는 speaker의 정보를 반환
+ *      parameters:
+ *        - name: nation
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *        - name: id
+ *          in: query
+ *          required: true
+ *          schema:
+ *            type: string
+ *      responses:
+ *        '200':
+ *          description: successful operation
+ */
+
+router.route("/speakers/detail").get(commonCtrl.getSpeakerDetailById);
+
 module.exports = router;

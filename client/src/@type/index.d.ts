@@ -36,6 +36,7 @@ declare namespace Speaker {
     image_path: string;
     status: number;
     keynote?: number;
+    has_abstract?: number;
   }
 
   interface japanSpeakerType {

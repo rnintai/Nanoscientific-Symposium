@@ -7,7 +7,8 @@ import {
   subHeadingFontSize,
   xsmallFontSize,
 } from "utils/FontSize";
-import { S3_URL } from "utils/GlobalData";
+import SpeakerImage from "components/SpeakerImage/SpeakerImage";
+import Link from "components/Link/LinkWithSearch";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -48,15 +49,7 @@ const SpeakerCard = ({
       onClick={onClick}
     >
       <Item className="speaker-card">
-        {/* 같은 도메인의 백엔드 주소 가져오기 */}
-        <Box sx={{ position: "relative" }}>
-          <img
-            className="speaker-image"
-            src={`${S3_URL}/${speaker.image_path}`}
-            alt="speakerImage"
-          />
-          <div className="overlay" />
-        </Box>
+        <SpeakerImage src={speaker.image_path} alt={`${speaker.name}`} />
         <Typography
           variant="h6"
           color={theme.palette.text.primary}
@@ -78,7 +71,24 @@ const SpeakerCard = ({
         >
           {speaker.belong}
         </Typography>
-        {speaker.description && (
+        {speaker.description && speaker.has_abstract === 1 && (
+          <Link
+            to={`${speaker.id}`}
+            style={{ padding: 0, pointerEvents: isAdmin ? "none" : "initial" }}
+          >
+            <Typography
+              sx={{
+                mt: 1,
+                textDecoration: "underline",
+              }}
+              color={theme.palette.grey[600]}
+              fontSize={xsmallFontSize}
+            >
+              {speaker.description}
+            </Typography>
+          </Link>
+        )}
+        {speaker.description && speaker.has_abstract === 0 && (
           <Typography
             sx={{ mt: 1 }}
             color={theme.palette.grey[600]}

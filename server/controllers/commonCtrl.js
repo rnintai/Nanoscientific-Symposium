@@ -66,7 +66,14 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM speakers WHERE status=1`;
+      // const sql = `SELECT * FROM speakers WHERE status=1`;
+      const sql = `
+      SELECT 
+      *,
+      (EXISTS(SELECT * FROM speaker_abstract as SA WHERE SA.speaker_id=S.id)) 
+      as has_abstract
+      FROM speakers as S
+      `;
       const result = await connection.query(sql);
       res.send(result[0]);
       connection.release();
@@ -85,6 +92,31 @@ const commonCtrl = {
       connection.release();
     } catch (err) {
       console.log(err);
+    }
+  },
+  getSpeakerDetailById: async (req, res) => {
+    const { nation, id } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `
+      SELECT 
+        S.id, 
+        S.name, 
+        S.image_path,
+        S.description as title,
+        SA.belong,
+        SA.description
+      FROM speakers as S 
+      INNER JOIN speaker_abstract as SA 
+        ON S.id=SA.speaker_id WHERE S.id=${id}
+      `;
+      const result = await connection.query(sql);
+      res.status(200).json({ success: true, result: result[0] });
+      connection.release();
+    } catch (err) {
+      res.status(200).json({ success: false, err });
     }
   },
   getSponsors: async (req, res) => {
