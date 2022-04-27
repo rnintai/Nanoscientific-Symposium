@@ -190,21 +190,19 @@ const NavBar = ({
               alignSelf="flex-end"
               className="menu-item-wrap"
             >
-              <Stack direction="row" minWidth="450px">
-                {!menuStateLoading &&
-                  menuList.map((menu) => (
-                    <MenuLink
-                      key={menu.name}
-                      to={`/${pathname}${menu.path}`}
-                      published={
-                        menu.is_published === 1 ||
-                        editorRole.includes(authState.role)
-                      }
-                    >
-                      {menu.name.toUpperCase()}
-                    </MenuLink>
-                  ))}
-              </Stack>
+              {!menuStateLoading &&
+                menuList.map((menu) => (
+                  <MenuLink
+                    key={menu.name}
+                    to={`/${pathname}${menu.path}`}
+                    published={
+                      menu.is_published === 1 ||
+                      editorRole.includes(authState.role)
+                    }
+                  >
+                    {menu.name.toUpperCase()}
+                  </MenuLink>
+                ))}
               {authState.isLogin && !checkLoading && (
                 <div className="user-menu-wrap">
                   <NSSButton
