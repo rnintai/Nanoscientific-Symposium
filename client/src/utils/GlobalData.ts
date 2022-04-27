@@ -523,15 +523,15 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1LogoURL: `${S3_URL}/eu/logo-type-1b.svg`,
       landingSection1Desc: `Welcome to the virtual platform of
       NanoScientific Forum Europe (NSFE)
-      <br/>
-      For conference details and registration, please visit: <a class="link-white" href="https://www.nanoscientificforum.com/" target="_blank" style="padding: 0;">www.nanoscientificforum.com</a>
       `,
-      landingSection2Title: "NanoScientific Forum",
+      landingSection2Title: "About NSFE:",
       landingSection2Desc: `
-      NSFE is a part of <strong>NANOSCIENTIFIC SYMPOSIUM SERIES</strong> taking place each year around the globe.<br/><br/>
+      NSFE is a part of <strong>Nanoscientific Symposium Series</strong> taking place each year around the globe.<br/><br/>
       The European edition, NSFE is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Microscopy (AFM). 
       <br/><br/>
       The research focus of the <strong>5th NSFE 2022</strong> will be laid on wide range of SPM applications and techniques that empower to transform life standards. We will talk about emerging nanomaterials for advanced technologies, functional surfaces, and hybrid materials as well as innovative methods in nanotechnology and correlative microscopy. This edition is open to global audience and will be held online.
+      <br/><br/>
+      <span style="color:red">For conference details and registration, please visit: <a style="font-weight: 600; padding:0;color: red" href="https://www.nanoscientificforum.com/" target="_blank">www.nanoscientificforum.com</a></span>
       `,
       landingSection2Video: "5aqzJQgN9X0",
       landingSection3Title: "Why Attend NanoScientific Symposium?",
@@ -563,7 +563,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         "Prof. Brian Rodriguez<br/>Universty College Dublin",
       ],
       landingSection5Title: "Featured Speakers",
-      // landingSection6Title: "Submit All Year long",
+      landingSection6Title: "Watch previous editions",
       // landingSection6Desc:
       //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
@@ -580,6 +580,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         {
           name: "Imaging & Microscopy",
           img: `${S3_URL}/eu/sponsors/imaging_microscopy_logo.png`,
+          url: "https://analyticalscience.wiley.com/do/10.1002/was.0004000235",
         },
         {
           name: "NuNano",
