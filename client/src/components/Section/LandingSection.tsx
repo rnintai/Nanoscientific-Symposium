@@ -31,7 +31,7 @@ const LandingSection = (props: LandingSectionProps) => {
           display: "block",
           minHeight: height,
           maxWidth,
-          backgroundImage: `${background ? `url(${background})` : "none"}`,
+          backgroundImage: `${background ? `url(${background})` : "forError"}`,
           margin: "0 auto",
         },
       }}

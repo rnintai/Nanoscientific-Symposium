@@ -3,7 +3,9 @@ import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 
-import { Table, TableContainer, TableBody } from "@mui/material";
+import { Table, TableContainer, TableBody, Box } from "@mui/material";
+import LandingSection from "components/Section/LandingSection";
+import { globalData } from "utils/GlobalData";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -24,7 +26,9 @@ const ProgramsList = () => {
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
-
+  const { programBannerURL } = globalData.get(
+    "common",
+  ) as Common.globalDataType;
   const config = {
     params: {
       nation: pathname,
@@ -84,51 +88,62 @@ const ProgramsList = () => {
   }
 
   return (
-    <ProgramsListContainer className="layout body-fit">
-      <StyledTimezoneSelect
-        value={selectedTimezone}
-        onChange={(e) => {
-          setSelectedTimezone(e.value);
-        }}
+    <ProgramsListContainer>
+      <LandingSection
+        className="banner"
+        background={programBannerURL}
+        maxWidth="1920px"
+        fullWidth
       />
-      {sessions.map((session) => {
-        return (
-          <TableContainer key={session.id} sx={{ overflowX: "hidden", mb: 8 }}>
-            <ProgramTitle
-              title={session.session_title}
-              timezone={selectedTimezone}
-              date={session.date}
-            />
-            <div className="program-table-container">
-              <Table
-                sx={{
-                  width: "100%",
-                  minWidth: "600px",
-                  mb: 1,
-                  border: "3px solid #424242",
-                }}
-              >
-                <TableBody>
-                  {programs
-                    .filter((program) => {
-                      return program.session === session.id;
-                    })
-                    .map((program, index) => (
-                      <ProgramContent
-                        selectedTimezone={selectedTimezone}
-                        isAdmin={false}
-                        key={program.id}
-                        {...program}
-                        index={index}
-                        programAgenda={programAgenda}
-                      />
-                    ))}
-                </TableBody>
-              </Table>
-            </div>
-          </TableContainer>
-        );
-      })}
+      <Box className="layout body-fit">
+        <StyledTimezoneSelect
+          value={selectedTimezone}
+          onChange={(e) => {
+            setSelectedTimezone(e.value);
+          }}
+        />
+        {sessions.map((session) => {
+          return (
+            <TableContainer
+              key={session.id}
+              sx={{ overflowX: "hidden", mb: 8 }}
+            >
+              <ProgramTitle
+                title={session.session_title}
+                timezone={selectedTimezone}
+                date={session.date}
+              />
+              <div className="program-table-container">
+                <Table
+                  sx={{
+                    width: "100%",
+                    minWidth: "600px",
+                    mb: 1,
+                    border: "3px solid #424242",
+                  }}
+                >
+                  <TableBody>
+                    {programs
+                      .filter((program) => {
+                        return program.session === session.id;
+                      })
+                      .map((program, index) => (
+                        <ProgramContent
+                          selectedTimezone={selectedTimezone}
+                          isAdmin={false}
+                          key={program.id}
+                          {...program}
+                          index={index}
+                          programAgenda={programAgenda}
+                        />
+                      ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </TableContainer>
+          );
+        })}
+      </Box>
     </ProgramsListContainer>
   );
 };

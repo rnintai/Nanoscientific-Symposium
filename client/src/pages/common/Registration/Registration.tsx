@@ -142,9 +142,6 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const { goNextText, logoURL } = globalData.get(
     pathname,
   ) as Common.globalDataType;
-  const { registrationBannerURL } = globalData.get(
-    "common",
-  ) as Common.globalDataType;
   const theme = useTheme();
 
   const submitHandler = async () => {
@@ -203,12 +200,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
     <>
       {mktoLoading && <Loading />}
       <RegistrationContainer>
-        <LandingSection
-          className="banner"
-          background={registrationBannerURL}
-          maxWidth="1920px"
-          fullWidth
-        >
+        <LandingSection className="banner" maxWidth="1920px" fullWidth>
           <Stack justifyContent="center" alignItems="center" height="100%">
             <img className="banner-img" src={logoURL} alt="NSS Logo" />
           </Stack>

@@ -66,6 +66,9 @@ export const AppContainer = styled.div`
   }
 
   @media screen and (min-width: 0px) {
+    .banner {
+      height: 240px;
+    }
     .layout {
       padding: 35px;
     }
@@ -75,6 +78,11 @@ export const AppContainer = styled.div`
     }
   }
   @media screen and (min-width: 1024px) {
+    // banner
+    .banner {
+      height: 300px;
+    }
+
     .layout {
       padding: 70px 50px;
       max-width: 1024px;

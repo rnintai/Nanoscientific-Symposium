@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useTheme } from "@mui/material";
+import { globalData } from "utils/GlobalData";
 
 export const RegistrationContainer = styled.div`
   .mktoForm {
@@ -14,12 +15,17 @@ export const RegistrationContainer = styled.div`
     }
   }
   .banner {
+    background-image: ${() => {
+      const { registrationBannerDesktopURL } = globalData.get(
+        "common",
+      ) as Common.globalDataType;
+      return `url("${registrationBannerDesktopURL}")`;
+    }};
     background-size: cover;
-    height: 300px;
     .banner-img {
       margin-left: 30px;
       height: 80px;
-      left: 80px;
+      left: 100px;
       position: relative;
     }
   }
@@ -132,10 +138,16 @@ export const RegistrationContainer = styled.div`
 
   @media screen and (max-width: 1024px) {
     .banner {
-      height: 220px;
+      background-image: ${() => {
+        const { registrationBannerMobileURL } = globalData.get(
+          "common",
+        ) as Common.globalDataType;
+        return `url("${registrationBannerMobileURL}")`;
+      }};
       background-position: right;
       .banner-img {
         height: 40px;
+        top: 30px;
         left: 0;
       }
     }

@@ -107,7 +107,10 @@ declare namespace Common {
     archive?: string;
     home?: string;
     registration?: string;
-    registrationBannerURL?: string;
+    registrationBannerDesktopURL?: string;
+    registrationBannerMobileURL?: string;
+    speakerBannerURL?: string;
+    programBannerURL?: string;
     // button text
     signInText?: string;
     goNextText?: string;

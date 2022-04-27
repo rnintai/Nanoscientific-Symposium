@@ -46,9 +46,6 @@ const ResetPassword = () => {
     registrationStep2Label,
     registrationStep3Label,
   } = globalData.get(pathname) as Common.globalDataType;
-  const { registrationBannerURL } = globalData.get(
-    "common",
-  ) as Common.globalDataType;
   const curPassword = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
@@ -158,12 +155,7 @@ const ResetPassword = () => {
     <OuterResetContainer>
       {getUserDataloading && <Loading />}
       {!isUserPasswordSet && !getUserDataloading && (
-        <LandingSection
-          className="banner"
-          background={registrationBannerURL}
-          maxWidth="1920px"
-          fullWidth
-        >
+        <LandingSection className="banner" maxWidth="1920px" fullWidth>
           <Stack justifyContent="center" alignItems="center" height="100%">
             <img className="banner-img" src={logoURL} alt="NSS Logo" />
           </Stack>
