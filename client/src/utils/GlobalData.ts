@@ -156,7 +156,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
-        "https://www.youtube.com/watch?v=dxZkJmRGL8M&list=PLH4cAUjlEqR0I1ahoDjwod-DTlhkmZ-zA",
+        "https://www.youtube.com/playlist?list=PLH4cAUjlEqR0I1ahoDjwod-DTlhkmZ-zA",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Sponsored By",
       landingSection7Sponsors: [
@@ -263,7 +263,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
-        "https://www.youtube.com/watch?v=jyL4uMCIVZo&list=PLH4cAUjlEqR3cx9W7SmvkxoR0lAAHMqrb",
+        "https://www.youtube.com/playlist?list=PLH4cAUjlEqR3cx9W7SmvkxoR0lAAHMqrb",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Sponsored By",
       landingSection7Sponsors: [
@@ -466,7 +466,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
-        "https://www.youtube.com/watch?v=U0GmKXppD-8&list=PLH4cAUjlEqR2X0-2f27v1FkaxZx7XCNZe",
+        "https://www.youtube.com/watch?v=BR-FOCgEyu8&list=PLH4cAUjlEqR3YXP4T_XufZ_IZVbe8cIBs",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Sponsored By",
       landingSection7Sponsors: [
@@ -571,7 +571,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       //   "Learn and be inspired at any time with more then 200 sessions on demand",
       landingSection6ButtonText: "Explore all on-demand sessions",
       landingSection6ButtonLink:
-        "https://www.youtube.com/watch?v=8K__qXUK6pQ&list=PLH4cAUjlEqR22kq2fJ7v1raLfZHx6HVQn",
+        "https://www.youtube.com/playlist?list=PLH4cAUjlEqR1e5d8pUozjWfp0bkUZjLdj",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Supported By",
       landingSection7Sponsors: [
