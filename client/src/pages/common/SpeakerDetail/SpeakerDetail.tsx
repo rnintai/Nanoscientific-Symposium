@@ -11,6 +11,8 @@ import {
   subHeadingFontSize,
 } from "utils/FontSize";
 import InnerHTML from "dangerously-set-html-content";
+import LandingSection from "components/Section/LandingSection";
+import { globalData } from "utils/GlobalData";
 import { SpeakerDetailContainer } from "./SpeakerDetailStyles";
 
 interface speakerDataType {
@@ -30,6 +32,10 @@ const SpeakerDetail = () => {
   const [speakerData, setSpeakerData] = useState<speakerDataType>(null);
   const [speakerLoading, setSpeakerLoading] = useState<boolean>(true);
 
+  const { speakerBannerURL } = globalData.get(
+    "common",
+  ) as Common.globalDataType;
+
   const getSpeakerDetailById = () => {
     setSpeakerLoading(true);
     axios
@@ -46,33 +52,61 @@ const SpeakerDetail = () => {
   }, []);
 
   return (
-    <SpeakerDetailContainer className="layout body-fit">
+    <SpeakerDetailContainer>
       {speakerLoading && <Loading />}
       {!speakerLoading && (
-        <Stack>
-          <Stack direction="row" spacing={4} mb={2}>
-            <SpeakerImage src={speakerData.image_path} alt={speakerData.name} />
-            <Stack>
-              <Typography fontSize={subHeadingFontSize} mb={2}>
-                {speakerData.name}:{" "}
-                <span
-                  style={{
-                    color: theme.palette.primary.main,
-                    fontWeight: 600,
-                  }}
-                >
-                  {speakerData.title}
-                </span>
-              </Typography>
-              <Typography fontSize={mainFontSize}>
-                {speakerData.belong}
-              </Typography>
+        <>
+          <LandingSection
+            className="banner"
+            background={speakerBannerURL}
+            maxWidth="1920px"
+            fullWidth
+          />
+          <Stack className="layout body-fit">
+            <Stack
+              mb={2}
+              sx={{
+                flexDirection: {
+                  mobile: "column",
+                  laptop: "row",
+                },
+                alignItems: {
+                  mobile: "center",
+                  laptop: "initial",
+                },
+              }}
+            >
+              <SpeakerImage
+                src={speakerData.image_path}
+                alt={speakerData.name}
+                className="speaker-image-container"
+              />
+              <Stack>
+                <Typography fontSize={subHeadingFontSize} mb={2}>
+                  {speakerData.name}:{" "}
+                  <span
+                    style={{
+                      color: theme.palette.primary.main,
+                      fontWeight: 600,
+                    }}
+                  >
+                    {speakerData.title}
+                  </span>
+                </Typography>
+                <Typography fontSize={mainFontSize}>
+                  {speakerData.belong}
+                </Typography>
+              </Stack>
             </Stack>
+            <Typography
+              fontSize={smallFontSize}
+              lineHeight={1.7}
+              color={theme.palette.grey[600]}
+            >
+              <InnerHTML html={speakerData.description} />
+            </Typography>
           </Stack>
-          <Typography fontSize={smallFontSize} lineHeight={1.7}>
-            <InnerHTML html={speakerData.description} />
-          </Typography>
-        </Stack>
+        </>
       )}
     </SpeakerDetailContainer>
   );
