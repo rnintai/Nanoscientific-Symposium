@@ -6,6 +6,7 @@ import Loading from "components/Loading/Loading";
 import { Table, TableContainer, TableBody, Box } from "@mui/material";
 import LandingSection from "components/Section/LandingSection";
 import { globalData } from "utils/GlobalData";
+import ComingSoon from "components/ComingSoon/ComingSoon";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -102,6 +103,7 @@ const ProgramsList = () => {
             setSelectedTimezone(e.value);
           }}
         />
+        {sessions.length === 0 && <ComingSoon />}
         {sessions.map((session) => {
           return (
             <TableContainer

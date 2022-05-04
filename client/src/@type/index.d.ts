@@ -186,6 +186,8 @@ declare namespace Common {
     // cookie consent text
     cookieConsentText?: string;
     seePrivacyPolicyText?: string;
+
+    comingSoonText?: string;
   }
 }
 

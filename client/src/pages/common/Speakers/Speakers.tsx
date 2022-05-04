@@ -8,6 +8,7 @@ import useSeoTitle from "hooks/useSeoTitle";
 import { globalData, S3_URL } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import LandingSection from "components/Section/LandingSection";
+import ComingSoon from "components/ComingSoon/ComingSoon";
 import { SpeakersContainer } from "./SpeakersStyles";
 
 const Speakers = () => {
@@ -41,9 +42,14 @@ const Speakers = () => {
 
   return (
     <SpeakersContainer>
-      {/* <Title fontSize={30} title={speakers || "Speakers"} /> */}
-      <LandingSection className="banner" maxWidth="1920px" fullWidth />
+      <LandingSection
+        className="banner"
+        maxWidth="1920px"
+        background={speakerBannerURL}
+        fullWidth
+      />
       <Box sx={{ flexGrow: 1 }} className="layout body-fit">
+        {speakersState.length === 0 && <ComingSoon />}
         <Grid
           container
           spacing={{ xs: 4, md: 7 }}
