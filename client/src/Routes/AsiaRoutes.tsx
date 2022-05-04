@@ -1,8 +1,6 @@
 import React from "react";
-import AdminRoute from "components/Route/AdminRoute";
 import Landing from "pages/common/Landing/Landing";
 import AsiaLectureHall from "pages/asia/AsiaLectureHall";
-import PrivateRoute from "components/Route/PrivateRoute";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import Sponsors from "pages/common/Sponsors";
@@ -36,19 +34,11 @@ export default [
   },
   {
     path: "/asia/program",
-    element: (
-      <AdminRoute key="/asia/program">
-        <Programs />
-      </AdminRoute>
-    ),
+    element: <Programs />,
   },
   {
     path: "/asia/speakers",
-    element: (
-      <AdminRoute key="/asia/program">
-        <Speakers />
-      </AdminRoute>
-    ),
+    element: <Speakers />,
   },
   {
     path: "/asia/registration",

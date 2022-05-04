@@ -27,6 +27,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { mainFontSize } from "utils/FontSize";
 import PublicIcon from "@mui/icons-material/Public";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import useMenuStore from "store/MenuStore";
 import EuropeLoginModal from "../Modal/EuropeLoginModal";
 import MobileNavBar from "./MobileNavBar";
 
@@ -41,7 +42,6 @@ interface navProps {
   setLogoutLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setLogoutSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   menuStateLoading: boolean;
-  menuList: Common.menuType[];
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
 }
@@ -58,11 +58,11 @@ const NavBar = ({
   setLogoutSuccess,
   setLogoutLoading,
   menuStateLoading,
-  menuList,
 }: navProps) => {
   // menu list
   // const [menuList, setMenuList] = useState<menuType[]>(null);
-
+  const menuStore = useMenuStore();
+  const { menuList } = menuStore;
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openUserMenu = Boolean(anchorEl);
   const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -195,10 +195,10 @@ const NavBar = ({
                   <MenuLink
                     key={menu.name}
                     to={`/${pathname}${menu.path}`}
-                    published={
-                      menu.is_published === 1 ||
-                      editorRole.includes(authState.role)
-                    }
+                    // published={
+                    //   menu.is_published === 1 ||
+                    //   editorRole.includes(authState.role)
+                    // }
                   >
                     {menu.name.toUpperCase()}
                   </MenuLink>

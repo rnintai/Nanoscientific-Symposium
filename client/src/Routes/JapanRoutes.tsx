@@ -1,8 +1,6 @@
 import React from "react";
-import AdminRoute from "components/Route/AdminRoute";
 import Landing from "pages/common/Landing/Landing";
 import Programs from "pages/common/Programs/Programs";
-import PrivateRoute from "components/Route/PrivateRoute";
 import JapanExhibitParkSystems from "pages/japan/JapanExhibitParkSystems";
 import Sponsors from "pages/common/Sponsors";
 import JapanAttend from "pages/japan/JapanAttend/JapanAttend";
@@ -21,11 +19,7 @@ export default [
   },
   {
     path: "/jp/speakers",
-    element: (
-      <AdminRoute key="/jp/speakers">
-        <Speakers />
-      </AdminRoute>
-    ),
+    element: <Speakers />,
   },
   {
     path: "/jp/attend",
@@ -33,11 +27,7 @@ export default [
   },
   {
     path: "/jp/program",
-    element: (
-      <AdminRoute key="/jp/program">
-        <Programs />
-      </AdminRoute>
-    ),
+    element: <Programs />,
   },
   {
     path: "/jp/greeting",

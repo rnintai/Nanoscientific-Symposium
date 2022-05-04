@@ -7,7 +7,6 @@ import Sponsors from "pages/common/Sponsors";
 import LectureHall from "pages/common/LectureHall/LectureHall";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
-import AdminRoute from "components/Route/AdminRoute";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import Registration from "pages/common/Registration/Registration";
@@ -19,19 +18,11 @@ export default [
   },
   {
     path: "/americas/speakers",
-    element: (
-      <AdminRoute key="/americas/speakers">
-        <Speakers />
-      </AdminRoute>
-    ),
+    element: <Speakers />,
   },
   {
     path: "/americas/program",
-    element: (
-      <AdminRoute key="/americas/program">
-        <Programs />
-      </AdminRoute>
-    ),
+    element: <Programs />,
   },
   {
     path: "/americas/lecture-hall",

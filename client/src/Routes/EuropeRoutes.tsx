@@ -5,7 +5,6 @@ import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
-import AdminRoute from "components/Route/AdminRoute";
 import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import LectureHall from "pages/common/LectureHall/LectureHall";
@@ -22,27 +21,15 @@ export default [
   },
   {
     path: "/eu/program",
-    element: (
-      <AdminRoute key="/eu/program">
-        <Programs />
-      </AdminRoute>
-    ),
+    element: <Programs />,
   },
   {
     path: "/eu/speakers",
-    element: (
-      <AdminRoute key="/eu/speakers">
-        <Speakers />
-      </AdminRoute>
-    ),
+    element: <Speakers />,
   },
   {
     path: "/eu/speakers/:id",
-    element: (
-      <AdminRoute key="/eu/speakers">
-        <SpeakerDetail />
-      </AdminRoute>
-    ),
+    element: <SpeakerDetail />,
   },
 
   {

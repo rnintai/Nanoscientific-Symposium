@@ -7,6 +7,9 @@ import { Table, TableContainer, TableBody, Box } from "@mui/material";
 import LandingSection from "components/Section/LandingSection";
 import { globalData } from "utils/GlobalData";
 import ComingSoon from "components/ComingSoon/ComingSoon";
+import useMenuStore from "store/MenuStore";
+import { editorRole } from "utils/Roles";
+import { useAuthState } from "context/AuthContext";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -16,6 +19,8 @@ import ProgramContent from "./ProgramContent/ProgramContent";
 import ProgramTitle from "./ProgramTitle/ProgramTitle";
 
 const ProgramsList = () => {
+  const { currentMenu } = useMenuStore();
+  const authState = useAuthState();
   const pathname = usePageViews();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [programAgenda, setProgramAgenda] = useState<
@@ -103,48 +108,53 @@ const ProgramsList = () => {
             setSelectedTimezone(e.value);
           }}
         />
-        {sessions.length === 0 && <ComingSoon />}
-        {sessions.map((session) => {
-          return (
-            <TableContainer
-              key={session.id}
-              sx={{ overflowX: "hidden", mb: 8 }}
-            >
-              <ProgramTitle
-                title={session.session_title}
-                timezone={selectedTimezone}
-                date={session.date}
-              />
-              <div className="program-table-container">
-                <Table
-                  sx={{
-                    width: "100%",
-                    minWidth: "600px",
-                    mb: 1,
-                    border: "3px solid #424242",
-                  }}
+        {currentMenu &&
+          currentMenu.is_published === 0 &&
+          !editorRole.includes(authState.role) && <ComingSoon />}
+
+        {(currentMenu && currentMenu.is_published === 1) ||
+          (editorRole.includes(authState.role) &&
+            sessions.map((session) => {
+              return (
+                <TableContainer
+                  key={session.id}
+                  sx={{ overflowX: "hidden", mb: 8 }}
                 >
-                  <TableBody>
-                    {programs
-                      .filter((program) => {
-                        return program.session === session.id;
-                      })
-                      .map((program, index) => (
-                        <ProgramContent
-                          selectedTimezone={selectedTimezone}
-                          isAdmin={false}
-                          key={program.id}
-                          {...program}
-                          index={index}
-                          programAgenda={programAgenda}
-                        />
-                      ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </TableContainer>
-          );
-        })}
+                  <ProgramTitle
+                    title={session.session_title}
+                    timezone={selectedTimezone}
+                    date={session.date}
+                  />
+                  <div className="program-table-container">
+                    <Table
+                      sx={{
+                        width: "100%",
+                        minWidth: "600px",
+                        mb: 1,
+                        border: "3px solid #424242",
+                      }}
+                    >
+                      <TableBody>
+                        {programs
+                          .filter((program) => {
+                            return program.session === session.id;
+                          })
+                          .map((program, index) => (
+                            <ProgramContent
+                              selectedTimezone={selectedTimezone}
+                              isAdmin={false}
+                              key={program.id}
+                              {...program}
+                              index={index}
+                              programAgenda={programAgenda}
+                            />
+                          ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </TableContainer>
+              );
+            }))}
       </Box>
     </ProgramsListContainer>
   );

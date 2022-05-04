@@ -9,9 +9,14 @@ import { globalData, S3_URL } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import LandingSection from "components/Section/LandingSection";
 import ComingSoon from "components/ComingSoon/ComingSoon";
+import useMenuStore from "store/MenuStore";
+import { useAuthState } from "context/AuthContext";
+import { editorRole } from "utils/Roles";
 import { SpeakersContainer } from "./SpeakersStyles";
 
 const Speakers = () => {
+  const { currentMenu } = useMenuStore();
+  const authState = useAuthState();
   const [speakersState, setSpeakersState] = useState<Speaker.speakerType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePageViews();
@@ -49,16 +54,21 @@ const Speakers = () => {
         fullWidth
       />
       <Box sx={{ flexGrow: 1 }} className="layout body-fit">
-        {speakersState.length === 0 && <ComingSoon />}
-        <Grid
-          container
-          spacing={{ xs: 4, md: 7 }}
-          columns={{ xs: 1, sm: 8, md: 16 }}
-        >
-          {speakersState.map((speaker) => (
-            <SpeakerCard key={speaker.id} speaker={speaker} />
+        {currentMenu &&
+          currentMenu.is_published === 0 &&
+          !editorRole.includes(authState.role) && <ComingSoon />}
+        {(currentMenu && currentMenu.is_published === 1) ||
+          (editorRole.includes(authState.role) && (
+            <Grid
+              container
+              spacing={{ xs: 4, md: 7 }}
+              columns={{ xs: 1, sm: 8, md: 16 }}
+            >
+              {speakersState.map((speaker) => (
+                <SpeakerCard key={speaker.id} speaker={speaker} />
+              ))}
+            </Grid>
           ))}
-        </Grid>
       </Box>
     </SpeakersContainer>
   );

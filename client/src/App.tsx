@@ -12,6 +12,7 @@ import PrivateRoute from "components/Route/PrivateRoute";
 import EuropeLoginModal from "components/Modal/EuropeLoginModal";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import NotFound from "pages/common/NotFound/NotFound";
+import useMenuStore from "store/MenuStore";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -118,7 +119,9 @@ const App = () => {
 
   // menu state
   const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
-  const [menuList, setMenuList] = useState<Common.menuType[]>(null);
+  // const [menuList, setMenuList] = useState<Common.menuType[]>(null);
+  const menuStore = useMenuStore();
+  const { menuList, currentMenu, setMenuList, setCurrentMenuState } = menuStore;
   useEffect(() => {
     if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);
@@ -135,6 +138,13 @@ const App = () => {
         });
     }
   }, [pathname]);
+
+  useEffect(() => {
+    setCurrentMenuState(window.location.pathname);
+  }, [menuList, window.location.href]);
+
+  // useEffect(() => {
+  // }, [window.location.href]);
   //
   if (authState.isLoading) return <Loading />;
 
@@ -146,7 +156,6 @@ const App = () => {
           subpath.indexOf("admin") === -1 &&
           window.location.pathname !== "/eu/registration" && (
             <NavBar
-              hideMenu={window.location.pathname === "/jp/archive"}
               checkLoading={authState.isLoading}
               passwordSetModalOpen={passwordSetModalOpen}
               emailModalOpen={emailModalOpen}
@@ -157,7 +166,6 @@ const App = () => {
               setLogoutSuccess={setLogoutSuccess}
               setLogoutLoading={setLogoutLoading}
               menuStateLoading={menuStateLoading}
-              menuList={menuList}
             />
           )}
 
