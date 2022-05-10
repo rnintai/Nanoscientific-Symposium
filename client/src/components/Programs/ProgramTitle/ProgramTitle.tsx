@@ -2,7 +2,7 @@ import React from "react";
 import { ProgramTitleContainer } from "components/Programs/ProgramTitle/ProgramTitleStyles";
 import { Typography, useTheme } from "@mui/material";
 import { dateToLocaleString } from "utils/Date";
-import { headingFontSize, subHeadingFontSize } from "utils/FontSize";
+import { mainFontSize } from "utils/FontSize";
 
 interface ProgramTitleProps {
   title: string;
@@ -25,17 +25,13 @@ const ProgramTitle = ({
   return (
     <ProgramTitleContainer onClick={onClick} isAdmin={isAdmin as boolean}>
       <Typography
-        fontSize={headingFontSize}
+        component="span"
         fontWeight={theme.typography.fontWeightBold}
+        color="white"
+        fontSize={mainFontSize}
+        letterSpacing="1.3px"
       >
-        {title}
-      </Typography>
-      <Typography
-        fontSize={subHeadingFontSize}
-        color={theme.palette.grey[700]}
-        fontWeight={theme.typography.fontWeightMedium}
-      >
-        {dateToLocaleString(date, timezone, "MMM DD YYYY")}
+        {title} | {dateToLocaleString(date, timezone, "MMM DD YYYY")}
       </Typography>
     </ProgramTitleContainer>
   );

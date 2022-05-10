@@ -55,16 +55,18 @@ const ProgramForm = ({
   const [emphasizeCheck, setEmphasizeCheck] = useState<boolean>(
     edit ? selectedProgram.emphasize === 1 : false,
   );
+  const [speakerCheck, setSpeakerCheck] = useState<boolean>(
+    edit ? selectedProgram.speakers !== "" : false,
+  );
 
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
-  const [status, setStatus] = useState<Common.showStatus>("show");
 
   const pathname = usePageViews();
 
   const programSubmitHandler = async () => {
     if (
-      title.value === "" ||
+      // title.value === "" ||
       !isDateValid(startTime) ||
       !isDateValid(endTime)
     ) {
@@ -88,7 +90,6 @@ const ProgramForm = ({
           timeZone: "utc",
         }),
         session: selectedSession,
-        status: status === "show" ? 1 : 0,
         emphasize: emphasizeCheck,
       });
     } else {
@@ -115,13 +116,6 @@ const ProgramForm = ({
       getPrograms();
     }
   };
-
-  // const statusChangeHandler = (
-  //   event: React.MouseEvent<HTMLElement>,
-  //   newStatus: Common.showStatus,
-  // ) => {
-  //   setStatus(newStatus);
-  // };
 
   // selectedProgram.session 은 id 이고 selectedSession 은 string 이 들어가야한다
   const [selectedSession, setSelectedSession] = useState<number>(
@@ -175,6 +169,12 @@ const ProgramForm = ({
     }
   };
 
+  useEffect(() => {
+    if (!speakerCheck) {
+      speakers.value = "";
+    }
+  }, [speakerCheck]);
+
   return (
     <CommonModal
       open={openProgramForm}
@@ -188,7 +188,8 @@ const ProgramForm = ({
       onSubmit={programSubmitHandler}
       loading={loading}
       submitDisabled={
-        title.value === "" || !isDateValid(startTime) || !isDateValid(endTime)
+        // title.value === "" ||
+        !isDateValid(startTime) || !isDateValid(endTime)
       }
     >
       <FormControl fullWidth sx={{ mt: 3, mb: 3 }}>
@@ -210,16 +211,7 @@ const ProgramForm = ({
           ))}
         </Select>
       </FormControl>
-      <TextField
-        margin="dense"
-        label="Program Title"
-        fullWidth
-        variant="filled"
-        sx={{ marginBottom: "30px" }}
-        required
-        error={title.value === ""}
-        {...title}
-      />
+
       <FormControlLabel
         control={
           <Checkbox
@@ -229,15 +221,36 @@ const ProgramForm = ({
         }
         label="Emphasize?"
       />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={speakerCheck}
+            onClick={() => setSpeakerCheck(!speakerCheck)}
+          />
+        }
+        label="Has Speaker?"
+      />
       <TextField
         margin="dense"
-        label="Speakers"
+        label="Speaker"
+        fullWidth
+        variant="filled"
+        disabled={!speakerCheck}
+        sx={{ marginBottom: "30px" }}
+        {...speakers}
+        value={!speakerCheck ? "" : speakers.value}
+      />
+      <TextField
+        margin="dense"
+        label={speakerCheck ? "Affiliation" : "Title"}
         fullWidth
         variant="filled"
         sx={{ marginBottom: "30px" }}
-        {...speakers}
+        // error={title.value === ""}
+        {...title}
       />
-      {/* <TextField
+      <TextField
         margin="dense"
         label="Description"
         fullWidth
@@ -245,7 +258,7 @@ const ProgramForm = ({
         multiline
         sx={{ marginBottom: "30px" }}
         {...description}
-      /> */}
+      />
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}

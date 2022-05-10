@@ -44,7 +44,7 @@ const SpeakerDetail = () => {
   }, []);
 
   return (
-    <SpeakerDetailContainer>
+    <SpeakerDetailContainer className="body-fit">
       {speakerLoading && <Loading />}
       {!speakerLoading && (
         <>

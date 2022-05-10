@@ -1,6 +1,13 @@
+import { useTheme } from "@mui/material";
 import styled from "styled-components";
 
 export const ProgramTitleContainer = styled.div<{ isAdmin: boolean }>`
+  margin: 10px 10px 0 10px;
+  background: ${() => {
+    const theme = useTheme();
+    return theme.palette.primary.gradation;
+  }};
+  padding: 5px 20px;
   .styled-table {
     font-size: 3rem;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.15);

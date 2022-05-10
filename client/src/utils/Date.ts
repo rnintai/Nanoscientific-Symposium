@@ -34,6 +34,15 @@ export const dateToLocaleString = (
         hour: "2-digit",
         minute: "2-digit",
       });
+    case "HH:mm am/pm": {
+      const resultDate = new Date(date).toLocaleString("en-GB", {
+        timeZone,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+      return resultDate === "00:00 pm" ? "12:00 pm" : resultDate;
+    }
     default:
       return new Date(date).toLocaleString("sv-SE", {
         timeZone,

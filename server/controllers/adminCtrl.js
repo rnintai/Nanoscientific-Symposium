@@ -98,12 +98,12 @@ const adminCtrl = {
       const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description, emphasize) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}', ${emphasize})`;
 
       const sqlResult = await connection.query(sql);
-      console.log(sqlResult[0]);
+      // console.log(sqlResult[0]);
 
       try {
         const adjustSql = `UPDATE programs SET next_id=${sqlResult[0].insertId} WHERE id!=${sqlResult[0].insertId} AND session=${session} AND next_id IS NULL`;
         const adjustSqlResult = await connection.query(adjustSql);
-        console.log(adjustSqlResult);
+        // console.log(adjustSqlResult);
         res.status(200).json({
           success: true,
           message: "Success",
@@ -131,7 +131,6 @@ const adminCtrl = {
       nation,
       title,
       id,
-      status,
       session,
       speakers,
       description,
@@ -150,7 +149,6 @@ const adminCtrl = {
       description="${description}",
       start_time='${startTime}',
       end_time='${endTime}',
-      status=${status},
       emphasize=${emphasize} WHERE id=${id}`;
 
       await connection.query(sql);

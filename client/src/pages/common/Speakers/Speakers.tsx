@@ -46,14 +46,15 @@ const Speakers = () => {
   }
 
   return (
-    <SpeakersContainer>
+    <SpeakersContainer className="body-fit">
+      {/* <Title fontSize={30} title={speakers || "Speakers"} /> */}
       <LandingSection
         className="banner"
-        maxWidth="1920px"
         background={speakerBannerURL}
+        maxWidth="1920px"
         fullWidth
       />
-      <Box sx={{ flexGrow: 1 }} className="layout body-fit">
+      <Box sx={{ flexGrow: 1 }} className="layout">
         {currentMenu &&
           currentMenu.is_published === 0 &&
           !editorRole.includes(authState.role) && <ComingSoon />}

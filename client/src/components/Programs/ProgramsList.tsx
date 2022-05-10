@@ -94,14 +94,14 @@ const ProgramsList = () => {
   }
 
   return (
-    <ProgramsListContainer>
+    <ProgramsListContainer className="body-fit">
       <LandingSection
         className="banner"
         background={programBannerURL}
         maxWidth="1920px"
         fullWidth
       />
-      <Box className="layout body-fit">
+      <Box className="layout">
         <StyledTimezoneSelect
           value={selectedTimezone}
           onChange={(e) => {
@@ -111,7 +111,6 @@ const ProgramsList = () => {
         {currentMenu &&
           currentMenu.is_published === 0 &&
           !editorRole.includes(authState.role) && <ComingSoon />}
-
         {(currentMenu && currentMenu.is_published === 1) ||
           (editorRole.includes(authState.role) &&
             sessions.map((session) => {
@@ -131,7 +130,8 @@ const ProgramsList = () => {
                         width: "100%",
                         minWidth: "600px",
                         mb: 1,
-                        border: "3px solid #424242",
+                        borderCollapse: "separate",
+                        borderSpacing: "10px",
                       }}
                     >
                       <TableBody>
@@ -146,7 +146,6 @@ const ProgramsList = () => {
                               key={program.id}
                               {...program}
                               index={index}
-                              programAgenda={programAgenda}
                             />
                           ))}
                       </TableBody>

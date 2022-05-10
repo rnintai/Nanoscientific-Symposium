@@ -186,11 +186,11 @@ const AdminPrograms = () => {
           clickHandler: openProgramFormHandler,
           disabled: sessions.length === 0,
         },
-        {
-          name: "Add Agenda",
-          clickHandler: openAgendaFormHandler,
-          disabled: programs.length === 0,
-        },
+        // {
+        //   name: "Add Agenda",
+        //   clickHandler: openAgendaFormHandler,
+        //   disabled: programs.length === 0,
+        // },
       ]}
     >
       <AdminProgramsContainer>
@@ -218,33 +218,38 @@ const AdminPrograms = () => {
                     setOpenSessionForm(true);
                   }}
                 />
-                <Table sx={{ width: "100%" }}>
-                  <TableBody>
-                    {programs
-                      .filter((program) => {
-                        return program.session === session.id;
-                      })
-                      .map((program, index) => (
-                        <ProgramContent
-                          selectedTimezone={selectedTimezone}
-                          isAdmin
-                          key={program.id}
-                          {...program}
-                          index={index}
-                          programAgenda={programAgenda}
-                          onClick={() => {
-                            setSelectedProgram(program);
-                            setProgramEdit(true);
-                            setOpenProgramForm(true);
-                          }}
-                          selectedAgenda={selectedAgenda}
-                          setSelectedAgenda={setSelectedAgenda}
-                          setOpenAgendaForm={setOpenAgendaForm}
-                          setAgendaEdit={setAgendaEdit}
-                        />
-                      ))}
-                  </TableBody>
-                </Table>
+                <div className="program-table-container">
+                  <Table
+                    sx={{
+                      width: "100%",
+                      minWidth: "600px",
+                      mb: 1,
+                      borderCollapse: "separate",
+                      borderSpacing: "10px",
+                    }}
+                  >
+                    <TableBody>
+                      {programs
+                        .filter((program) => {
+                          return program.session === session.id;
+                        })
+                        .map((program, index) => (
+                          <ProgramContent
+                            selectedTimezone={selectedTimezone}
+                            isAdmin
+                            key={program.id}
+                            {...program}
+                            index={index}
+                            onClick={() => {
+                              setSelectedProgram(program);
+                              setProgramEdit(true);
+                              setOpenProgramForm(true);
+                            }}
+                          />
+                        ))}
+                    </TableBody>
+                  </Table>
+                </div>
               </TableContainer>
             );
           })}

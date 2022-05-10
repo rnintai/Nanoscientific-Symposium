@@ -49,59 +49,54 @@ const SpeakerCard = ({
       className={`${isAdmin ? "hover-zoom" : ""}`}
       onClick={onClick}
     >
-      <Item className="speaker-card">
-        <SpeakerImage src={speaker.image_path} alt={`${speaker.name}`} />
-        <Typography
-          variant="h6"
-          color={theme.palette.text.primary}
-          fontWeight={theme.typography.fontWeightBold}
-          fontSize={subHeadingFontSize}
-          sx={{
-            marginTop: "5px",
-            marginBottom: 0,
-          }}
-        >
-          {speaker.name}
-        </Typography>
-        <Typography
-          variant="body2"
-          color={theme.palette.text.primary}
-          fontSize={mainFontSize}
-          fontWeight={theme.typography.fontWeightMedium}
-          style={{ margin: 0 }}
-        >
-          {speaker.belong}
-        </Typography>
-        {speaker.description &&
-          (speaker.has_abstract === 1 ? (
-            <Link
-              to={`/${pathname}/speakers/${speaker.id}`}
-              style={{
-                padding: 0,
-                pointerEvents: isAdmin ? "none" : "initial",
-              }}
-            >
-              <Typography
-                sx={{
-                  mt: 1,
-                  textDecoration: "underline",
-                }}
-                color={theme.palette.grey[600]}
-                fontSize={xsmallFontSize}
-              >
-                {speaker.description}
-              </Typography>
-            </Link>
-          ) : (
+      <Link
+        to={`/${pathname}/speakers/${speaker.id}`}
+        style={{
+          padding: 0,
+          pointerEvents:
+            isAdmin || speaker.has_abstract === 0 ? "none" : "initial",
+
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Item className="speaker-card">
+          <SpeakerImage src={speaker.image_path} alt={`${speaker.name}`} />
+          <Typography
+            variant="h6"
+            color={theme.palette.text.primary}
+            fontWeight={theme.typography.fontWeightBold}
+            fontSize={subHeadingFontSize}
+            sx={{
+              marginTop: "5px",
+              marginBottom: 0,
+            }}
+          >
+            {speaker.name}
+          </Typography>
+          <Typography
+            variant="body2"
+            color={theme.palette.text.primary}
+            fontSize={mainFontSize}
+            fontWeight={theme.typography.fontWeightMedium}
+            style={{ margin: 0 }}
+          >
+            {speaker.belong}
+          </Typography>
+          {speaker.description && (
             <Typography
-              sx={{ mt: 1 }}
+              sx={{
+                mt: 1,
+                textDecoration: speaker.has_abstract === 1 ? "underline" : "",
+              }}
               color={theme.palette.grey[600]}
               fontSize={xsmallFontSize}
             >
               {speaker.description}
             </Typography>
-          ))}
-      </Item>
+          )}
+        </Item>
+      </Link>
     </Grid>
   );
 };

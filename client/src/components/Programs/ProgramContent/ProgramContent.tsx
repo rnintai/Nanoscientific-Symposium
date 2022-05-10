@@ -8,6 +8,7 @@ import {
   useTheme,
   Box,
   IconButton,
+  Typography,
 } from "@mui/material";
 import {
   ArrowCircleUp,
@@ -16,6 +17,7 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
+import { mainFontSize } from "utils/FontSize";
 
 interface ProgramContentProps extends Program.programType {
   id: number;
@@ -23,7 +25,6 @@ interface ProgramContentProps extends Program.programType {
   isAdmin: boolean;
   onClick?: () => void;
   selectedTimezone: string;
-  programAgenda: Program.programAgendaType[];
   selectedAgenda?: Program.programAgendaType;
   setSelectedAgenda?: React.Dispatch<Program.programAgendaType>;
   setOpenAgendaForm?: React.Dispatch<boolean>;
@@ -46,7 +47,6 @@ const ProgramContent = ({
   isAdmin,
   onClick,
   selectedTimezone,
-  programAgenda,
   selectedAgenda,
   setSelectedAgenda,
   setOpenAgendaForm,
@@ -66,36 +66,42 @@ const ProgramContent = ({
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     color: theme.palette.common.black,
-    border: `3px solid ${theme.palette.grey[800]}`,
   }));
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     cursor: isAdmin ? "pointer" : "default",
-    td: { lineHeight: "2.2", padding: "0 40px" },
+    td: {
+      // lineHeight: "2.2",
+      padding: "6px 20px",
+    },
     transition: "all 0.2s ease-in-out",
     opacity: "1.0",
-    "&.agenda-row:nth-of-type(odd)": {
-      backgroundColor: theme.palette.grey[300],
+    ".speaker-text": {
+      color: "#14b1e7",
     },
-    "&.agenda-row:nth-of-type(even)": {
-      backgroundColor: theme.palette.grey[100],
-    },
-    "&.program-row": {
-      backgroundColor: "#939598",
-      td: {
-        color: theme.palette.common.white,
+    ".title-col": {
+      // whiteSpace: "nowrap",
+      "&.emphasize .title": {
+        fontWeight: theme.typography.fontWeightBold,
       },
     },
-    "&.program-row.gradient": {
-      background: theme.palette.primary.gradation,
-      border: `2px solid ${theme.palette.grey[800]}`,
-      td: {
-        color: theme.palette.common.white,
-        border: 0,
+    "&.program-row:nth-of-type(odd)": {
+      ".time-col": {
+        backgroundColor: "#dbdbdb",
+      },
+
+      ".title-col": {
+        backgroundColor: "#f6f6f6",
       },
     },
-    "li::marker": {
-      color: "#1CAFE4",
+    "&.program-row:nth-of-type(even)": {
+      ".time-col": {
+        backgroundColor: "#cacaca",
+      },
+
+      ".title-col": {
+        backgroundColor: "#ececec",
+      },
     },
 
     // admin
@@ -221,37 +227,65 @@ const ProgramContent = ({
     reorderAgendaHandler(updatedList);
   };
 
-  useEffect(() => {
-    setAgendaEditList([
-      ...programAgenda.map((agenda) => {
-        return { ...agenda, edit: false };
-      }),
-    ]);
-  }, [programAgenda]);
-
   return (
     <>
       <StyledTableRow
-        className={`program-row${emphasize === 1 ? " gradient" : ""}${
-          isAdmin ? " admin" : ""
-        }${reorderLoading ? " disabled" : ""}`}
+        className={`program-row${isAdmin ? " admin" : ""}${
+          reorderLoading ? " disabled" : ""
+        }`}
         onClick={onClick}
       >
-        {isAdmin && (
-          <StyledTableCell
-            align="center"
-            width="0%"
-            style={{ padding: 0, border: "none" }}
-          />
-        )}
-        <StyledTableCell align="center" width="15%">
-          {dateToLocaleString(start_time, selectedTimezone, "HH:mm")}
+        <StyledTableCell className="time-col" align="center" width="134px">
+          <Typography
+            fontSize={mainFontSize}
+            fontWeight={theme.typography.fontWeightMedium}
+          >
+            {dateToLocaleString(start_time, selectedTimezone, "HH:mm")} -{" "}
+            {dateToLocaleString(end_time, selectedTimezone, "HH:mm")}
+          </Typography>
         </StyledTableCell>
-        <StyledTableCell align="left" width="50%">
-          {title}
-        </StyledTableCell>
-        <StyledTableCell align="left" width="35%">
-          {speakers}
+        <StyledTableCell
+          className={`title-col${emphasize ? " emphasize" : ""}`}
+          align="left"
+        >
+          {speakers && (
+            <Typography
+              component="span"
+              className="speaker-text title"
+              fontSize={mainFontSize}
+              fontWeight={theme.typography.fontWeightMedium}
+            >
+              {speakers}
+            </Typography>
+          )}
+          {speakers && title && (
+            <Typography
+              component="span"
+              className="title"
+              fontSize={mainFontSize}
+              fontWeight={theme.typography.fontWeightMedium}
+            >
+              {" "}
+              |{" "}
+            </Typography>
+          )}
+          <Typography
+            component="span"
+            className="title"
+            fontSize={mainFontSize}
+            fontWeight={theme.typography.fontWeightMedium}
+          >
+            {title}
+          </Typography>
+          <br />
+          <Typography
+            component="span"
+            fontSize={mainFontSize}
+            fontWeight={theme.typography.fontWeightMedium}
+            color={theme.palette.grey[600]}
+          >
+            {description}
+          </Typography>
         </StyledTableCell>
       </StyledTableRow>
       {agendaEditList
@@ -310,15 +344,6 @@ const ProgramContent = ({
                 }}
               >
                 <li style={{ listStyle: "square" }}>{agenda.title}</li>
-              </StyledTableCell>
-              <StyledTableCell
-                align="left"
-                width="35%"
-                onClick={() => {
-                  agendaEditHandler(agenda);
-                }}
-              >
-                {agenda.speakers}
               </StyledTableCell>
             </StyledTableRow>
           </React.Fragment>
