@@ -15,21 +15,13 @@ import LandingSection from "components/Section/LandingSection";
 import { globalData } from "utils/GlobalData";
 import { SpeakerDetailContainer } from "./SpeakerDetailStyles";
 
-interface speakerDataType {
-  id: number;
-  name: string;
-  title: string;
-  image_path: string;
-  belong: string;
-  description: string;
-}
-
 const SpeakerDetail = () => {
   const { id } = useParams();
   const pathname = usePageViews();
   const theme = useTheme();
 
-  const [speakerData, setSpeakerData] = useState<speakerDataType>(null);
+  const [speakerData, setSpeakerData] =
+    useState<Speaker.speakerDetailType>(null);
   const [speakerLoading, setSpeakerLoading] = useState<boolean>(true);
 
   const { speakerBannerURL } = globalData.get(
@@ -40,7 +32,7 @@ const SpeakerDetail = () => {
     setSpeakerLoading(true);
     axios
       .get(`/api/page/common/speakers/detail?nation=${pathname}&id=${id}`)
-      .then((res) => setSpeakerData(res.data.result[0]))
+      .then((res) => setSpeakerData(res.data.result))
       .catch((err) => console.log(err))
       .finally(() => {
         setSpeakerLoading(false);
@@ -93,12 +85,13 @@ const SpeakerDetail = () => {
                     {speakerData.title}
                   </span>
                 </Typography>
-                <Typography fontSize={mainFontSize}>
+                <Typography className="editor-content" fontSize={mainFontSize}>
                   <InnerHTML html={speakerData.belong} />
                 </Typography>
               </Stack>
             </Stack>
             <Typography
+              className="editor-content"
               fontSize={smallFontSize}
               lineHeight={1.7}
               color={theme.palette.grey[600]}

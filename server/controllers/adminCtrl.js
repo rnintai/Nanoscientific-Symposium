@@ -395,15 +395,31 @@ const adminCtrl = {
   },
 
   addSpeaker: async (req, res) => {
-    const { nation, name, belong, imagePath, keynote, description } = req.body;
+    const {
+      nation,
+      name,
+      belong,
+      imagePath,
+      keynote,
+      description,
+      abstractBelong,
+      abstractDesc,
+      hasAbstract,
+    } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO speakers(name,belong,image_path,status,keynote,description) VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}')`;
+      const sql = `INSERT INTO speakers
+      (name,belong,image_path,status,keynote,description,has_abstract)
+      VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}', ${hasAbstract})`;
+      const data = await connection.query(sql);
 
-      await connection.query(sql);
+      const sql2 = `INSERT INTO speaker_abstract(speaker_id,belong,description)
+          VALUES(${data[0].insertId},'${abstractBelong}','${abstractDesc}')`;
+      await connection.query(sql2);
+
       res.status(200).json({
         success: true,
         message: "Success",
@@ -420,16 +436,44 @@ const adminCtrl = {
       belong,
       imagePath,
       id,
-      status,
       keynote,
       description,
+      abstractBelong,
+      abstractDesc,
+      hasAbstract,
     } = req.body;
+
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE speakers SET name='${name}', belong='${belong}',image_path='${imagePath}',status=${status}, keynote=${keynote}, description='${description}' WHERE id=${id}`;
+      const sql = `UPDATE speakers SET 
+      name='${name}',
+      belong='${belong}',
+      image_path='${imagePath}',
+      keynote=${keynote},
+      description='${description}', 
+      has_abstract=${hasAbstract}
+      WHERE id=${id}
+      `;
 
-      await connection.query(sql);
+      const data = await connection.query(sql);
+
+      const sql2 = `INSERT INTO speaker_abstract (
+        speaker_id,
+        belong,
+        description
+        ) VALUES (
+          ${id},
+          '${abstractBelong}',
+          '${abstractDesc}'
+        )
+        ON DUPLICATE KEY UPDATE
+          belong='${abstractBelong}',
+          description='${abstractDesc}'
+        `;
+
+      await connection.query(sql2);
+
       res.status(200).json({
         success: true,
         message: "Success",
@@ -447,9 +491,10 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql = `DELETE FROM speakers WHERE id=${id}`;
-
+      const sql = `DELETE FROM speakers WHERE id=${id}`;
       await connection.query(sql);
+      const sql2 = `DELETE FROM speaker_abstract WHERE speaker_id=${id}`;
+      await connection.query(sql2);
 
       res.status(200).json({
         success: true,

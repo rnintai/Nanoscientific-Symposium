@@ -66,12 +66,9 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      // const sql = `SELECT * FROM speakers WHERE status=1`;
       const sql = `
       SELECT 
-      *,
-      (EXISTS(SELECT * FROM speaker_abstract as SA WHERE SA.speaker_id=S.id)) 
-      as has_abstract
+      *
       FROM speakers as S
       `;
       const result = await connection.query(sql);
@@ -113,9 +110,22 @@ const commonCtrl = {
         ON S.id=SA.speaker_id WHERE S.id=${id}
       `;
       const result = await connection.query(sql);
-      res.status(200).json({ success: true, result: result[0] });
+      if (result[0].length === 0) {
+        res.status(200).json({
+          success: true,
+          result: { ...result[0][0] },
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          result: {
+            ...result[0][0],
+          },
+        });
+      }
       connection.release();
     } catch (err) {
+      console.log(err);
       res.status(200).json({ success: false, err });
     }
   },

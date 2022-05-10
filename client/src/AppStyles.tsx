@@ -55,6 +55,12 @@ export const AppContainer = styled.div`
     z-index: 1;
   }
 
+  .editor-content {
+    p {
+      margin: 0;
+    }
+  }
+
   .layout {
     margin: 0 auto;
     padding: 70px 50px;

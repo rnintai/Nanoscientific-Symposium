@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from "react";
 import { Grid, Box, Typography, useTheme } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
@@ -9,6 +10,7 @@ import {
 } from "utils/FontSize";
 import SpeakerImage from "components/SpeakerImage/SpeakerImage";
 import Link from "components/Link/LinkWithSearch";
+import usePageViews from "hooks/usePageViews";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -21,9 +23,7 @@ const Item = styled("div")(({ theme }) => ({
 
 interface SpeakerCardProps {
   speaker: Speaker.speakerType;
-  // eslint-disable-next-line react/require-default-props
   isAdmin?: boolean;
-  // eslint-disable-next-line react/require-default-props
   onClick?: () => void;
 }
 
@@ -33,6 +33,7 @@ const SpeakerCard = ({
   onClick,
 }: SpeakerCardProps) => {
   const theme = useTheme();
+  const pathname = usePageViews();
 
   return (
     <Grid
@@ -71,32 +72,35 @@ const SpeakerCard = ({
         >
           {speaker.belong}
         </Typography>
-        {speaker.description && speaker.has_abstract === 1 && (
-          <Link
-            to={`${speaker.id}`}
-            style={{ padding: 0, pointerEvents: isAdmin ? "none" : "initial" }}
-          >
-            <Typography
-              sx={{
-                mt: 1,
-                textDecoration: "underline",
+        {speaker.description &&
+          (speaker.has_abstract === 1 ? (
+            <Link
+              to={`/${pathname}/speakers/${speaker.id}`}
+              style={{
+                padding: 0,
+                pointerEvents: isAdmin ? "none" : "initial",
               }}
+            >
+              <Typography
+                sx={{
+                  mt: 1,
+                  textDecoration: "underline",
+                }}
+                color={theme.palette.grey[600]}
+                fontSize={xsmallFontSize}
+              >
+                {speaker.description}
+              </Typography>
+            </Link>
+          ) : (
+            <Typography
+              sx={{ mt: 1 }}
               color={theme.palette.grey[600]}
               fontSize={xsmallFontSize}
             >
               {speaker.description}
             </Typography>
-          </Link>
-        )}
-        {speaker.description && speaker.has_abstract === 0 && (
-          <Typography
-            sx={{ mt: 1 }}
-            color={theme.palette.grey[600]}
-            fontSize={xsmallFontSize}
-          >
-            {speaker.description}
-          </Typography>
-        )}
+          ))}
       </Item>
     </Grid>
   );
