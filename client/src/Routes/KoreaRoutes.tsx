@@ -10,52 +10,56 @@ import LectureHall from "pages/common/LectureHall/LectureHall";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 import Registration from "pages/common/Registration/Registration";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
+import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
+
+const pathname = "kr";
+const formNo = "1239";
 
 export default [
   {
-    path: "/kr",
-    element: <Landing key="kr-landing-section" />,
+    path: `/${pathname}`,
+    element: <Landing key={`${pathname}-landing-section`} />,
   },
   {
-    path: "/kr/speakers",
-    element: <Speakers />,
-  },
-  {
-    path: "/kr/attend",
-    element: <KoreaAttend />,
-  },
-  {
-    path: "/kr/program",
-    element: <Programs />,
-  },
-  {
-    path: "/kr/lecture-hall",
+    path: `/${pathname}/lecture-hall`,
     element: <LectureHall />,
     isPrivate: true,
   },
   {
-    path: "/kr/exhibit/parksystems",
+    path: `/${pathname}/exhibit/parksystems`,
     element: <ExhibitParkSystems />,
   },
   {
-    path: "/kr/exhibit/nanoscientific",
+    path: `/${pathname}/exhibit/nanoscientific`,
     element: <ExhibitNanoScientific />,
   },
   {
-    path: "/kr/sponsors",
+    path: `/${pathname}/sponsors`,
     element: <Sponsors />,
   },
   {
-    path: "/kr/user/reset-password",
+    path: `/${pathname}/program`,
+    element: <Programs />,
+  },
+  {
+    path: `/${pathname}/speakers`,
+    element: <Speakers />,
+  },
+  {
+    path: `/${pathname}/speakers/:id`,
+    element: <SpeakerDetail />,
+  },
+  {
+    path: `/${pathname}/registration`,
+    element: <Registration formNo={formNo} />,
+  },
+  {
+    path: `/${pathname}/user/reset-password`,
     element: <ResetPassword />,
     isPrivate: true,
   },
   {
-    path: "/kr/user/forgot-password",
+    path: `/${pathname}/user/forgot-password`,
     element: <ForgotPassword />,
-  },
-  {
-    path: "/kr/registration",
-    element: <Registration formNo="1239" />,
   },
 ];

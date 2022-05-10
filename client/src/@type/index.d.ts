@@ -39,6 +39,16 @@ declare namespace Speaker {
     has_abstract?: number;
   }
 
+  interface speakerDetailType {
+    id: number;
+    name: string;
+    title: string;
+    image_path: string;
+    belong: string;
+    description: string;
+    rawDescription?: string;
+  }
+
   interface japanSpeakerType {
     id: number;
     name_en: string;

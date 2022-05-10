@@ -10,48 +10,50 @@ import Speakers from "pages/common/Speakers/Speakers";
 import LectureHall from "pages/common/LectureHall/LectureHall";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 
+const pathname = "eu";
+const formNo = "1149";
+
 export default [
   {
-    path: "/eu",
-    element: <Landing key="eu-landing-section" />,
+    path: `/${pathname}`,
+    element: <Landing key={`${pathname}-landing-section`} />,
   },
   {
-    path: "/eu/registration",
+    path: `/${pathname}/registration`,
     element: <EuropeRegistration />,
   },
   {
-    path: "/eu/program",
+    path: `/${pathname}/program`,
     element: <Programs />,
   },
   {
-    path: "/eu/speakers",
+    path: `/${pathname}/speakers`,
     element: <Speakers />,
   },
   {
-    path: "/eu/speakers/:id",
+    path: `/${pathname}/speakers/:id`,
     element: <SpeakerDetail />,
   },
-
   {
-    path: "/eu/lecture-hall",
+    path: `/${pathname}/lecture-hall`,
     element: <LectureHall />,
     isPrivate: true,
   },
   {
-    path: "/eu/exhibit/parksystems",
+    path: `/${pathname}/exhibit/parksystems`,
     element: <ExhibitParkSystems />,
   },
   {
-    path: "/eu/exhibit/nanoscientific",
+    path: `/${pathname}/exhibit/nanoscientific`,
     element: <ExhibitNanoScientific />,
   },
   {
-    path: "/eu/user/reset-password",
+    path: `/${pathname}/user/reset-password`,
     element: <ResetPassword />,
     isPrivate: true,
   },
   {
-    path: "/eu/user/forgot-password",
+    path: `/${pathname}/user/forgot-password`,
     element: <ForgotPassword />,
   },
 ];

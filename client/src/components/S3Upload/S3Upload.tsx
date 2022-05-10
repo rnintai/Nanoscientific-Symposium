@@ -14,6 +14,18 @@ interface S3UploadProps {
   setUploadLoading: Dispatch<SetStateAction<boolean>>;
 }
 
+const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY;
+const SECRET_ACCESS_KEY = process.env.REACT_APP_S3_SECRET_ACCESS_KEY;
+const REGION = "us-west-1";
+const S3_BUCKET = "nss-integration";
+
+export const myBucket = new S3({
+  params: { Bucket: S3_BUCKET },
+  region: REGION,
+  accessKeyId: ACCESS_KEY,
+  secretAccessKey: SECRET_ACCESS_KEY,
+});
+
 const S3Upload = ({
   setImagePath,
   edit = false,
@@ -22,22 +34,9 @@ const S3Upload = ({
   setUploadLoading,
 }: S3UploadProps) => {
   const [progress, setProgress] = useState<number>(0);
-  const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY;
-  const SECRET_ACCESS_KEY = process.env.REACT_APP_S3_SECRET_ACCESS_KEY;
-  const REGION = "us-west-1";
-  const S3_BUCKET = "nss-integration";
 
   const pathname = usePageViews();
   const location = useLocation();
-
-  console.log(ACCESS_KEY, SECRET_ACCESS_KEY);
-
-  const myBucket = new S3({
-    params: { Bucket: S3_BUCKET },
-    region: REGION,
-    accessKeyId: ACCESS_KEY,
-    secretAccessKey: SECRET_ACCESS_KEY,
-  });
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;

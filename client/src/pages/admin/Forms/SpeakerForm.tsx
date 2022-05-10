@@ -1,14 +1,20 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CommonModal from "components/CommonModal/CommonModal";
 import S3Upload from "components/S3Upload/S3Upload";
-import { TextField, Checkbox, FormControlLabel } from "@mui/material";
+import {
+  TextField,
+  Checkbox,
+  FormControlLabel,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import { useAuthState } from "context/AuthContext";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import ToggleButton from "@mui/material/ToggleButton";
 import usePageViews from "hooks/usePageViews";
+import { subHeadingFontSize } from "utils/FontSize";
+import QuillEditor from "components/QuillEditor/QuillEditor";
 
 interface SpeakerFormProps {
   openSpeakerForm: boolean;
@@ -16,6 +22,7 @@ interface SpeakerFormProps {
   setSpeakerSuccessAlert: Dispatch<SetStateAction<boolean>>;
   refreshFunction: () => void;
   selectedSpeaker: Speaker.speakerType;
+  selectedSpeakerDetail: Speaker.speakerDetailType;
   // eslint-disable-next-line react/require-default-props
   edit?: boolean;
 }
@@ -26,6 +33,7 @@ const SpeakerForm = ({
   setSpeakerSuccessAlert,
   refreshFunction,
   selectedSpeaker,
+  selectedSpeakerDetail,
   edit = false,
 }: SpeakerFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -35,15 +43,33 @@ const SpeakerForm = ({
   const [keynoteCheck, setKeynoteCheck] = useState<boolean>(
     edit ? selectedSpeaker.keynote === 1 : false,
   );
+  const [hasAbstractCheck, setHasAbstractCheck] = useState<boolean>(
+    edit ? selectedSpeaker.has_abstract === 1 : false,
+  );
 
   const name = useInput(edit ? selectedSpeaker.name : "");
   const belong = useInput(edit ? selectedSpeaker.belong : "");
   const description = useInput(edit ? selectedSpeaker.description : "");
+  // const abstractBelong = useInput(
+  //   edit && selectedSpeakerDetail !== undefined
+  //     ? selectedSpeakerDetail.belong
+  //     : "",
+  // );
+  // const abstractDesc = useInput(
+  //   edit && selectedSpeakerDetail ? selectedSpeakerDetail.rawDescription : "",
+  // );
+  const [abstractBelong, setAbstractBelong] = useState<string>(
+    edit && selectedSpeakerDetail !== undefined
+      ? selectedSpeakerDetail.belong
+      : "",
+  );
+  const [abstractDesc, setAbstractDesc] = useState<string>(
+    edit && selectedSpeakerDetail ? selectedSpeakerDetail.description : "",
+  );
   const [imagePath, setImagePath] = useState<string>(
-    edit ? selectedSpeaker.image_path : "",
+    edit && selectedSpeaker ? selectedSpeaker.image_path : "",
   );
   const [previewURL, setPreviewURL] = useState<string>("");
-  const [status, setStatus] = useState<Common.showStatus>("show");
 
   const authState = useAuthState();
   const pathname = usePageViews();
@@ -55,11 +81,11 @@ const SpeakerForm = ({
   const speakerSubmitHandler = async () => {
     if (imagePath === "") return;
     setLoading(true);
-    let data;
 
+    let speakerResult;
     // 편집 모드일때 즉, 스피커 카드를 클릭한 경우
     if (edit) {
-      data = await axios.put("/api/admin/speaker", {
+      speakerResult = await axios.put("/api/admin/speaker", {
         id: selectedSpeaker.id,
         nation: pathname,
         name: name.value,
@@ -67,33 +93,31 @@ const SpeakerForm = ({
         description: description.value,
         imagePath,
         keynote: keynoteCheck,
-        status: status === "show" ? 1 : 0,
+        abstractBelong,
+        abstractDesc,
+        hasAbstract: hasAbstractCheck,
       });
     } else {
       // 새롭게 생성하는 경우 즉, ADD SPEAKER 를 클릭한경우
-      data = await axios.post("/api/admin/speaker", {
+      speakerResult = await axios.post("/api/admin/speaker", {
         nation: pathname,
         name: name.value,
         belong: belong.value,
         description: description.value,
         imagePath,
         keynote: keynoteCheck,
+        abstractBelong,
+        abstractDesc,
+        hasAbstract: hasAbstractCheck,
       });
     }
 
-    if (data.data.success) {
+    if (speakerResult.data.success) {
       setLoading(false);
       setOpenSpeakerForm(false);
       setSpeakerSuccessAlert(true);
       refreshFunction();
     }
-  };
-
-  const statusChangeHandler = (
-    event: React.MouseEvent<HTMLElement>,
-    newStatus: Common.showStatus,
-  ) => {
-    setStatus(newStatus);
   };
 
   const deleteHandler = async () => {
@@ -102,7 +126,6 @@ const SpeakerForm = ({
       await axios.delete(
         `/api/admin/speaker/${selectedSpeaker.id}?nation=${pathname}`,
       );
-
       setSpeakerSuccessAlert(true);
       setOpenSpeakerForm(false);
     } catch (err) {
@@ -124,7 +147,10 @@ const SpeakerForm = ({
           : "Please write down the name and affiliation of the speaker."
       }
       onSubmit={speakerSubmitHandler}
-      submitDisabled={name.value === "" || imagePath === ""}
+      submitDisabled={
+        name.value === "" ||
+        imagePath === ""
+      }
       loading={loading || uploadLoading}
     >
       <TextField
@@ -134,7 +160,7 @@ const SpeakerForm = ({
         variant="filled"
         required
         error={name.value === ""}
-        sx={{ marginBottom: "30px" }}
+        sx={{ marginBottom: "15px" }}
         {...name}
       />
       <TextField
@@ -143,7 +169,7 @@ const SpeakerForm = ({
         fullWidth
         variant="filled"
         multiline
-        sx={{ marginBottom: "30px" }}
+        sx={{ marginBottom: "15px" }}
         {...belong}
       />
       <TextField
@@ -152,18 +178,40 @@ const SpeakerForm = ({
         fullWidth
         variant="filled"
         multiline
-        sx={{ marginBottom: "30px" }}
+        sx={{ marginBottom: "15px" }}
         {...description}
       />
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={keynoteCheck}
-            onClick={() => setKeynoteCheck(!keynoteCheck)}
-          />
-        }
-        label="Show the speaker on main page"
-      />
+      <Stack direction="row">
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={keynoteCheck}
+              onClick={() => setKeynoteCheck(!keynoteCheck)}
+            />
+          }
+          label="Show the speaker on main page"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={hasAbstractCheck}
+              onClick={() => setHasAbstractCheck(!hasAbstractCheck)}
+            />
+          }
+          label="Show Speakers Abstract"
+        />
+      </Stack>
+      {/* abstract form */}
+      {hasAbstractCheck && (
+        <>
+          <Typography fontWeight={600}>Abstract affiliation:</Typography>
+          <QuillEditor value={abstractBelong} setValue={setAbstractBelong} />
+          <br />
+          <Typography fontWeight={600}>Abstract description:</Typography>
+          <QuillEditor value={abstractDesc} setValue={setAbstractDesc} />
+        </>
+      )}
+      {/* abstract form end */}
       <S3Upload
         setImagePath={setImagePath}
         edit={edit}
@@ -171,19 +219,6 @@ const SpeakerForm = ({
         setPreviewURL={setPreviewURL}
         setUploadLoading={setUploadLoading}
       />
-      {/* {edit && (
-        <ToggleButtonGroup
-          size="large"
-          color="primary"
-          value={status}
-          exclusive
-          onChange={statusChangeHandler}
-          sx={{ mt: 5 }}
-        >
-          <ToggleButton value="show">show</ToggleButton>
-          <ToggleButton value="hide">hide</ToggleButton>
-        </ToggleButtonGroup>
-      )} */}
       {edit && (
         <LoadingButton
           loading={deleteLoading}

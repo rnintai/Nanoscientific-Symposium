@@ -44,6 +44,8 @@ const AdminSpeakers = () => {
   const [speakersState, setSpeakersState] = useState<Speaker.speakerType[]>([]);
   const [edit, setEdit] = useState<boolean>(false);
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker.speakerType>();
+  const [selectedSpeakerDetail, setSelectedSpeakerDetail] =
+    useState<Speaker.speakerDetailType>();
   const config = {
     params: {
       nation: pathname,
@@ -53,6 +55,18 @@ const AdminSpeakers = () => {
     setLoading(true);
     const speakers = await axios.get(`/api/page/common/speakers`, config);
     setSpeakersState(speakers.data);
+    setLoading(false);
+  };
+  const getSpeakersDetailById = async (id: number) => {
+    setLoading(true);
+    const detail = await axios.get(
+      `/api/page/common/speakers/detail?id=${id}&nation=${pathname}`,
+    );
+    if (detail.data.result.length === 0) {
+      setSelectedSpeakerDetail(null);
+    } else {
+      setSelectedSpeakerDetail(detail.data.result);
+    }
     setLoading(false);
   };
 
@@ -121,6 +135,7 @@ const AdminSpeakers = () => {
             {speakersState.map((speaker) => (
               <SpeakerCard
                 onClick={() => {
+                  getSpeakersDetailById(speaker.id);
                   setSelectedSpeaker(speaker);
                   setEdit(true);
                   setOpenSpeakerForm(true);
@@ -137,16 +152,12 @@ const AdminSpeakers = () => {
             edit={edit}
             setSpeakerSuccessAlert={setSpeakerSuccessAlert}
             selectedSpeaker={selectedSpeaker as Speaker.speakerType}
+            selectedSpeakerDetail={
+              selectedSpeakerDetail as Speaker.speakerDetailType
+            }
             refreshFunction={getSpeakers}
             openSpeakerForm={openSpeakerForm}
             setOpenSpeakerForm={setOpenSpeakerForm}
-          />
-        )}
-        {openHideForm && (
-          <SpeakerHideForm
-            refreshFunction={getSpeakers}
-            openHideForm={openHideForm}
-            setOpenHideForm={setOpenHideForm}
           />
         )}
       </AdminLayout>
