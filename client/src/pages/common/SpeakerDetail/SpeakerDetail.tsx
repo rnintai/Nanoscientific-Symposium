@@ -94,7 +94,7 @@ const SpeakerDetail = () => {
                   </span>
                 </Typography>
                 <Typography fontSize={mainFontSize}>
-                  {speakerData.belong}
+                  <InnerHTML html={speakerData.belong} />
                 </Typography>
               </Stack>
             </Stack>
