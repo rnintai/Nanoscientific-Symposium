@@ -55,16 +55,19 @@ export const AppContainer = styled.div`
     z-index: 1;
   }
 
-  .editor-content {
-    p {
-      margin: 0;
-    }
-  }
-
   .layout {
     margin: 0 auto;
     padding: 70px 50px;
     box-sizing: border-box;
+  }
+
+  .editor-content {
+    p {
+      margin: 0;
+    }
+    a {
+      padding: 0;
+    }
   }
 
   .body-fit {
