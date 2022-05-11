@@ -401,11 +401,25 @@ const EuropeLoginModal = ({
             justifyContent="space-between"
             sx={{ width: "95%" }}
           >
-            <Link to={`${pathname}/registration`} onClick={closeAllModal}>
-              <Typography fontSize={smallFontSize}>
-                {createAccountText}
-              </Typography>
-            </Link>
+            {pathname === "eu" ? (
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  window.location.href =
+                    "https://www.nanoscientificforum.com/registration";
+                }}
+              >
+                <Typography fontSize={smallFontSize}>
+                  {createAccountText}
+                </Typography>
+              </div>
+            ) : (
+              <Link to={`${pathname}/registration`} onClick={closeAllModal}>
+                <Typography fontSize={smallFontSize}>
+                  {createAccountText}
+                </Typography>
+              </Link>
+            )}
             <Link
               to={`${pathname}/user/forgot-password`}
               onClick={closeAllModal}
