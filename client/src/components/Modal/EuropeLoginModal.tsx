@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useEffect, useState, useRef } from "react";
 import Link from "components/Link/LinkWithSearch";
 import { useNavigate } from "hooks/useNavigateWithSearch";
