@@ -96,12 +96,7 @@ module.exports = {
 
     // env 변수 사용을 위한 플러그인
     new webpack.DefinePlugin({
-      "process.env.REACT_APP_S3_ACCESS_KEY": JSON.stringify(
-        process.env.REACT_APP_S3_ACCESS_KEY,
-      ),
-      "process.env.REACT_APP_S3_SECRET_ACCESS_KEY": JSON.stringify(
-        process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
-      ),
+      "process.env": JSON.stringify(process.env),
     }),
   ],
 };
