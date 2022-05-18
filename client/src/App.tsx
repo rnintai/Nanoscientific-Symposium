@@ -65,6 +65,7 @@ const App = () => {
 
   //
   useEffect(() => {
+    //
     axios
       .post("/api/users/check", {
         accessToken: authState.accessToken,
@@ -102,6 +103,10 @@ const App = () => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
       });
   }, [authState.isLoading, pathname, subpath]);
+  useEffect(() => {
+    // 스크롤 to top
+    window.scrollTo(0, 0);
+  }, [pathname, subpath, window.location.search]);
 
   // 로그아웃
 
