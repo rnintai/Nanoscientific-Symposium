@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { Dispatch, SetStateAction } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -10,23 +11,16 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 
 interface CommonModalProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   setOpen: Dispatch<SetStateAction<boolean>>;
   open: boolean;
   title: string;
-  // eslint-disable-next-line react/require-default-props
   desc?: string;
-  // eslint-disable-next-line react/require-default-props
   submitText?: string;
-  // eslint-disable-next-line react/require-default-props
   onSubmit?: () => void;
-  // eslint-disable-next-line react/require-default-props
   loading?: boolean;
-  // eslint-disable-next-line react/require-default-props
   transitionDir?: "left" | "right" | "up" | "down";
-  // eslint-disable-next-line react/require-default-props
   hideSaveButton?: boolean;
-  // eslint-disable-next-line react/require-default-props
   submitDisabled?: boolean;
 }
 
