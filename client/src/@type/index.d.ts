@@ -77,6 +77,17 @@ declare namespace User {
   }
 }
 
+declare namespace Announcement {
+  interface announcementType {
+    id: number;
+    title: string;
+    content: string;
+    created: string;
+    hits: number;
+    total_count: number;
+  }
+}
+
 declare namespace Common {
   type showStatus = "show" | "hide";
 
@@ -198,6 +209,9 @@ declare namespace Common {
     seePrivacyPolicyText?: string;
 
     comingSoonText?: string;
+
+    // announcement
+    viewsLabel?: string;
   }
 }
 
