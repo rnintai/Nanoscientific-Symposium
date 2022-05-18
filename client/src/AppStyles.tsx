@@ -48,6 +48,14 @@ export const AppContainer = styled.div`
     }
   }
 
+  .border-grey {
+    border: 1px solid
+      ${() => {
+        const theme = useTheme();
+        return theme.palette.grey.A200;
+      }};
+  }
+
   .z0 {
     z-index: 0;
   }
@@ -72,6 +80,31 @@ export const AppContainer = styled.div`
 
   .body-fit {
     min-height: calc(100vh - 64px);
+  }
+
+  .p0 {
+    padding: 0;
+  }
+  .btn-alpha {
+    cursor: pointer;
+    color: ${() => {
+      const theme = useTheme();
+      return theme.palette.grey.A400;
+    }};
+    transition: all 0.2s ease-in-out;
+    &:hover {
+      color: ${() => {
+        const theme = useTheme();
+        return theme.palette.common.black;
+      }};
+    }
+  }
+
+  .btn-disabled {
+    color: ${() => {
+      const theme = useTheme();
+      return theme.palette.grey.A200;
+    }};
   }
 
   @media screen and (min-width: 0px) {
