@@ -11,6 +11,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+img {
+  object-fit: cover;
+}
+
 div::-webkit-scrollbar,
 textarea::-webkit-scrollbar {
   width: 0.4em;
