@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Grid, Stack } from "@mui/material";
-import Title from "components/Title/Title";
+import { Box, Grid } from "@mui/material";
 import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
 import useSeoTitle from "hooks/useSeoTitle";
-import { globalData, S3_URL } from "utils/GlobalData";
+import { globalData } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import LandingSection from "components/Section/LandingSection";
 import ComingSoon from "components/ComingSoon/ComingSoon";
@@ -55,21 +54,27 @@ const Speakers = () => {
         fullWidth
       />
       <Box sx={{ flexGrow: 1 }} className="layout">
-        {currentMenu &&
+        {/* {currentMenu &&
           currentMenu.is_published === 0 &&
           !editorRole.includes(authState.role) && <ComingSoon />}
         {(currentMenu && currentMenu.is_published === 1) ||
-          (editorRole.includes(authState.role) && (
-            <Grid
-              container
-              spacing={{ xs: 4, md: 7 }}
-              columns={{ xs: 1, sm: 8, md: 16 }}
-            >
-              {speakersState.map((speaker) => (
-                <SpeakerCard key={speaker.id} speaker={speaker} />
-              ))}
-            </Grid>
-          ))}
+          (editorRole.includes(authState.role) && ( */}
+        {((currentMenu &&
+          currentMenu.is_published === 0 &&
+          !editorRole.includes(authState.role)) ||
+          speakersState.length === 0) && <ComingSoon />}
+        {((currentMenu && currentMenu.is_published === 1) ||
+          editorRole.includes(authState.role)) && (
+          <Grid
+            container
+            spacing={{ xs: 4, md: 7 }}
+            columns={{ xs: 1, sm: 8, md: 16 }}
+          >
+            {speakersState.map((speaker) => (
+              <SpeakerCard key={speaker.id} speaker={speaker} />
+            ))}
+          </Grid>
+        )}
       </Box>
     </SpeakersContainer>
   );
