@@ -15,8 +15,34 @@ export const dateToLocaleString = (
         .split(" ")
         .reverse()
         .join(" ");
-    // ex> Mon, Jan 17, 2022, 02:00 PM
+    // ex> Jan 17, 2022
     case "MMM DD YYYY": {
+      const splitResult = new Date(date)
+        .toLocaleString("en-US", {
+          timeZone,
+          // weekday: "long",
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+        })
+        .split(",");
+      return `${splitResult}`;
+    }
+    case "MMM DD YYYY hh:mm": {
+      const splitResult = new Date(date)
+        .toLocaleString("en-US", {
+          timeZone,
+          year: "numeric",
+          month: "short",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+        .split(",");
+      return `${splitResult}`;
+    }
+    case "MMM DD (d) YYYY": {
       const splitResult = new Date(date)
         .toLocaleString("en-US", {
           timeZone,
@@ -96,4 +122,8 @@ export const getUserTimezoneDate = (startTime: string, timeZone: string) => {
 
 export const isDateValid = (d: Date | null) => {
   return d instanceof Date && !Number.isNaN(d.getTime());
+};
+
+export const jsTimeToTimeStamp = (d: string) => {
+  return d.replace("T", " ").split(".")[0];
 };
