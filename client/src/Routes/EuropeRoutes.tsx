@@ -9,6 +9,8 @@ import Programs from "pages/common/Programs/Programs";
 import Speakers from "pages/common/Speakers/Speakers";
 import LectureHall from "pages/common/LectureHall/LectureHall";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
+import Announcement from "pages/common/Announcement/Announcement";
+import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 
 const pathname = "eu";
 const formNo = "1149";
@@ -55,5 +57,13 @@ export default [
   {
     path: `/${pathname}/user/forgot-password`,
     element: <ForgotPassword />,
+  },
+  {
+    path: `/${pathname}/announcement`,
+    element: <Announcement />,
+  },
+  {
+    path: `/${pathname}/announcement/:id`,
+    element: <AnnouncementDetail />,
   },
 ];
