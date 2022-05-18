@@ -239,15 +239,13 @@ const NavBar = ({
                     </MenuList>
                   </Menu>
                   {editorRole.includes(authState.role) && (
-                    <NSSButton
-                      type="button"
-                      variant="primary"
-                      style={{ fontWeight: 700 }}
-                      onClick={() => {
-                        navigate(`${pathname}/admin`);
-                      }}
-                    >
-                      {adminBtnText || "ADMIN"}
+                    <NSSButton variant="primary" style={{ fontWeight: 700 }}>
+                      <Link
+                        to={`${pathname}/admin`}
+                        style={{ padding: 0, color: "rgba(0,0,0,0.87)" }}
+                      >
+                        {adminBtnText || "ADMIN"}
+                      </Link>
                     </NSSButton>
                   )}
 
