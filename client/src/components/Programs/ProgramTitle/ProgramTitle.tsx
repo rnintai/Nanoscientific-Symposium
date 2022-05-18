@@ -31,7 +31,7 @@ const ProgramTitle = ({
         fontSize={mainFontSize}
         letterSpacing="1.3px"
       >
-        {title} | {dateToLocaleString(date, timezone, "MMM DD YYYY")}
+        {title} | {dateToLocaleString(date, timezone, "MMM DD (d) YYYY")}
       </Typography>
     </ProgramTitleContainer>
   );
