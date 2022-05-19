@@ -30,6 +30,14 @@ interface routeType {
   isPrivate?: boolean;
 }
 
+declare global {
+  interface Window {
+    gtag: Gtag.Gtag;
+  }
+}
+
+const gaID = "G-BS77NX7Z9T";
+
 const App = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
@@ -142,15 +150,21 @@ const App = () => {
           setMenuStateLoading(false);
         });
     }
+    // ga
+    const { title } = window.document;
+    const { href } = window.location;
+    const path = window.location.pathname;
+    window.gtag("config", gaID, {
+      page_title: title,
+      page_location: href,
+      page_path: path,
+    });
   }, [pathname]);
 
   useEffect(() => {
     setCurrentMenuState(window.location.pathname);
   }, [menuList, window.location.href]);
 
-  // useEffect(() => {
-  // }, [window.location.href]);
-  //
   if (authState.isLoading) return <Loading />;
 
   return (
