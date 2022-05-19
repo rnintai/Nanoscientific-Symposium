@@ -149,8 +149,6 @@ const App = () => {
     const { title } = window.document;
     const { href } = window.location;
     const path = window.location.pathname;
-    console.log("hey");
-
     window.gtag("config", gaID, {
       page_title: title,
       page_location: href,
