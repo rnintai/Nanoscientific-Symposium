@@ -10,48 +10,61 @@ import Speakers from "pages/common/Speakers/Speakers";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import Registration from "pages/common/Registration/Registration";
+import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
+import Announcement from "pages/common/Announcement/Announcement";
+
+const pathname = "americas";
+const formNo = "1184";
 
 export default [
   {
-    path: "/americas",
+    path: `/${pathname}`,
     element: <Landing key="americas-landing-section" />,
   },
   {
-    path: "/americas/speakers",
+    path: `/${pathname}/speakers`,
     element: <Speakers />,
   },
   {
-    path: "/americas/program",
+    path: `/${pathname}/program`,
     element: <Programs />,
   },
   {
-    path: "/americas/lecture-hall",
+    path: `/${pathname}/lecture-hall`,
     element: <LectureHall />,
     isPrivate: true,
   },
   {
-    path: "/americas/exhibit/parksystems",
+    path: `/${pathname}/exhibit/parksystems`,
     element: <ExhibitParkSystems />,
   },
   {
-    path: "/americas/exhibit/nanoscientific",
+    path: `/${pathname}/exhibit/nanoscientific`,
     element: <ExhibitNanoScientific />,
   },
   {
-    path: "/americas/registration",
-    element: <Registration formNo="1184" />,
+    path: `/${pathname}/registration`,
+    element: <Registration formNo={formNo} />,
   },
   {
-    path: "/americas/sponsors",
+    path: `/${pathname}/sponsors`,
     element: <Sponsors />,
   },
   {
-    path: "/americas/user/reset-password",
+    path: `/${pathname}/user/reset-password`,
     element: <ResetPassword />,
     isPrivate: true,
   },
   {
-    path: "/americas/user/forgot-password",
+    path: `/${pathname}/user/forgot-password`,
     element: <ForgotPassword />,
+  },
+  {
+    path: `/${pathname}/announcement`,
+    element: <Announcement />,
+  },
+  {
+    path: `/${pathname}/announcement/:id`,
+    element: <AnnouncementDetail />,
   },
 ];

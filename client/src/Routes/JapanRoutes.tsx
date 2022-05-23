@@ -11,7 +11,9 @@ import Registration from "pages/common/Registration/Registration";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import LectureHall from "pages/common/LectureHall/LectureHall";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
-import Speakers from "../pages/common/Speakers/Speakers";
+import Speakers from "pages/common/Speakers/Speakers";
+import Announcement from "pages/common/Announcement/Announcement";
+import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 
 const pathname = "jp";
 const formNo = "1223";
@@ -70,5 +72,13 @@ export default [
   {
     path: `/${pathname}/registration`,
     element: <Registration formNo={formNo} />,
+  },
+  {
+    path: `/${pathname}/announcement`,
+    element: <Announcement />,
+  },
+  {
+    path: `/${pathname}/announcement/:id`,
+    element: <AnnouncementDetail />,
   },
 ];

@@ -11,6 +11,8 @@ import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 import Registration from "pages/common/Registration/Registration";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
+import Announcement from "pages/common/Announcement/Announcement";
+import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 
 const pathname = "kr";
 const formNo = "1239";
@@ -61,5 +63,13 @@ export default [
   {
     path: `/${pathname}/user/forgot-password`,
     element: <ForgotPassword />,
+  },
+  {
+    path: `/${pathname}/announcement`,
+    element: <Announcement />,
+  },
+  {
+    path: `/${pathname}/announcement/:id`,
+    element: <AnnouncementDetail />,
   },
 ];
