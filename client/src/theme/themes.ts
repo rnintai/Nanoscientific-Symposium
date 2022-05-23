@@ -91,6 +91,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           contrastText: "rgba(0, 0, 0, 0.87)",
           dark: "#1897c5",
           heading: "#002348",
+          navy: "#222e57",
           light: "#e3f2fd",
           main: "#1CAFE4",
           gradation: "linear-gradient(270deg, #243d7c, #26a4dd)",
