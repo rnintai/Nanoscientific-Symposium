@@ -24,6 +24,7 @@ const SpeakerDetail = () => {
   const [speakerData, setSpeakerData] =
     useState<Speaker.speakerDetailType>(null);
   const [speakerLoading, setSpeakerLoading] = useState<boolean>(true);
+  const nationData = globalData.get(pathname) as Common.globalDataType;
 
   const { speakerBannerURL } = globalData.get(
     "common",
@@ -51,7 +52,7 @@ const SpeakerDetail = () => {
         <>
           <LandingSection
             className="banner"
-            background={speakerBannerURL}
+            background={nationData.speakerBannerURL || speakerBannerURL}
             maxWidth="1920px"
             fullWidth
           />

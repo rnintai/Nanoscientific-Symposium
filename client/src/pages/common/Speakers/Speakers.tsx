@@ -38,6 +38,7 @@ const Speakers = () => {
   const { speakerBannerURL } = globalData.get(
     "common",
   ) as Common.globalDataType;
+  const nationData = globalData.get(pathname) as Common.globalDataType;
   useSeoTitle(speakers as string);
 
   if (loading) {
@@ -49,16 +50,11 @@ const Speakers = () => {
       {/* <Title fontSize={30} title={speakers || "Speakers"} /> */}
       <LandingSection
         className="banner"
-        background={speakerBannerURL}
+        background={nationData.speakerBannerURL || speakerBannerURL}
         maxWidth="1920px"
         fullWidth
       />
       <Box sx={{ flexGrow: 1 }} className="layout">
-        {/* {currentMenu &&
-          currentMenu.is_published === 0 &&
-          !editorRole.includes(authState.role) && <ComingSoon />}
-        {(currentMenu && currentMenu.is_published === 1) ||
-          (editorRole.includes(authState.role) && ( */}
         {((currentMenu &&
           currentMenu.is_published === 0 &&
           !editorRole.includes(authState.role)) ||

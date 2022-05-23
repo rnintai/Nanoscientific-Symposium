@@ -592,6 +592,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // speaker
+      speakerBannerURL: `${S3_URL}/eu/speaker-banner.jpg`,
     },
   ],
 ]);
