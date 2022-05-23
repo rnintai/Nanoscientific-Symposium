@@ -704,9 +704,9 @@
               shape="rect">
       </map>
 
-    <!-- <div class="jump-wrap" onclick="location.href='./nanoscientific'">
+    <div class="jump-wrap" onclick="location.href='./nanoscientific'">
       <span class="jump-text">NANOSCIENTIFIC</span><i class="fas fa-arrow-right"></i>
-    </div> -->
+    </div>
     <div class="arrows-wrap">
       <button class="arrow-left-wrap" onclick="clickLeft()">
         <i class="fas fa-chevron-left"></i>
@@ -900,7 +900,7 @@
 
   .exhibit-wrap {
     position: relative;
-    min-height: calc(100vh - 64px);
+    min-height: calc(100vh - 174px);
   }
 
   /* image */
@@ -1007,7 +1007,7 @@ min-height: 752px; */
     margin: 2px -4px;
     width: 71px;
     height: 2px;
-    background-color: #d8d8d8;
+    background-color: #eaeaea;
   }
 
   .helper-wrap-1,
@@ -1409,7 +1409,7 @@ button
     left: 50%;
     top: 56%;
     transform: translate(-50%, -50%);
-    z-index: 8;
+    z-index: 12;
     /* display: none; */
     visibility: hidden;
     opacity: 0;
@@ -1424,11 +1424,12 @@ button
 
   .modal-overlay {
     display: none;
-    position: absolute;
+    position: fixed;
     width: 100vw;
     height: 100vh;
+    top: 0px;
     background-color: rgba(0, 0, 0, 0.6);
-    z-index: 7;
+    z-index: 11;
   }
 
   .modal-overlay--active {
@@ -1619,7 +1620,7 @@ button
     display: flex;
     align-items: center;
     position: absolute;
-    top: 13%;
+    top: 3%;
     left: 97%;
     transform: translateX(-100%);
     cursor: pointer;
