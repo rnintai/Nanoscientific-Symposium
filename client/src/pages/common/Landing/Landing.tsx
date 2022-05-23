@@ -3,7 +3,6 @@ import InnerHTML from "dangerously-set-html-content";
 import useHTML from "hooks/useHTML";
 import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
-import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "utils/GlobalData";
 import LandingTitle from "components/Title/LandingTitle";
 import LandingSection from "components/Section/LandingSection";
@@ -31,7 +30,6 @@ const Landing = () => {
   const theme = useTheme();
 
   const {
-    home,
     registration,
     fullDate,
     eventLocation,
@@ -67,7 +65,6 @@ const Landing = () => {
     cookieConsentText,
     seePrivacyPolicyText,
   } = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(home as string);
 
   const navigate = useNavigate();
 

@@ -13,6 +13,7 @@ import EuropeLoginModal from "components/Modal/EuropeLoginModal";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import NotFound from "pages/common/NotFound/NotFound";
 import useMenuStore from "store/MenuStore";
+import useSeoTitle from "hooks/useSeoTitle";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -43,7 +44,6 @@ const App = () => {
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
-
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -135,6 +135,8 @@ const App = () => {
   // const [menuList, setMenuList] = useState<Common.menuType[]>(null);
   const menuStore = useMenuStore();
   const { menuList, currentMenu, setMenuList, setCurrentMenuState } = menuStore;
+  useSeoTitle(currentMenu);
+
   useEffect(() => {
     if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);

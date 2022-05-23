@@ -3,7 +3,6 @@ import axios from "axios";
 import { Box, Grid } from "@mui/material";
 import Loading from "components/Loading/Loading";
 import usePageViews from "hooks/usePageViews";
-import useSeoTitle from "hooks/useSeoTitle";
 import { globalData } from "utils/GlobalData";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import LandingSection from "components/Section/LandingSection";
@@ -34,12 +33,10 @@ const Speakers = () => {
     getSpeakers();
   }, []);
 
-  const { speakers } = globalData.get(pathname) as Common.globalDataType;
   const { speakerBannerURL } = globalData.get(
     "common",
   ) as Common.globalDataType;
   const nationData = globalData.get(pathname) as Common.globalDataType;
-  useSeoTitle(speakers as string);
 
   if (loading) {
     return <Loading />;
