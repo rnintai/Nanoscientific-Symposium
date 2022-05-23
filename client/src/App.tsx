@@ -176,12 +176,7 @@ const App = () => {
           window.location.pathname !== "/eu/registration" && (
             <NavBar
               checkLoading={authState.isLoading}
-              passwordSetModalOpen={passwordSetModalOpen}
-              emailModalOpen={emailModalOpen}
               setEmailModalOpen={setEmailModalOpen}
-              setPasswordSetModalOpen={setPasswordSetModalOpen}
-              passwordInputModalOpen={passwordInputModalOpen}
-              setPasswordInputModalOpen={setPasswordInputModalOpen}
               setLogoutSuccess={setLogoutSuccess}
               setLogoutLoading={setLogoutLoading}
               menuStateLoading={menuStateLoading}
