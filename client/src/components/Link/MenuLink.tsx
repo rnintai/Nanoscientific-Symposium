@@ -20,7 +20,6 @@ const MenuLink = (props: MenuLinkProps) => {
   const subpath = useSubPath();
 
   const theme = useTheme();
-
   useEffect(() => {
     if (to === `/${pathname + subpath}`) {
       setActive("active");
@@ -29,9 +28,7 @@ const MenuLink = (props: MenuLinkProps) => {
     }
   }, [pathname, subpath]);
   return (
-    <MenuLinkContainer
-    // className={!published ? "disabled" : ""}
-    >
+    <MenuLinkContainer>
       <Link to={to} {...rest} className={active}>
         <Typography
           fontWeight={theme.typography.fontWeightBold}

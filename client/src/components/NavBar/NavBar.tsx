@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Link from "components/Link/LinkWithSearch";
 import { useNavigate } from "hooks/useNavigateWithSearch";
@@ -8,6 +8,8 @@ import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   IconButton,
   Menu,
@@ -23,8 +25,8 @@ import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
 import PersonIcon from "@mui/icons-material/Person";
-import MenuIcon from "@mui/icons-material/Menu";
-import { mainFontSize } from "utils/FontSize";
+
+import { mainFontSize, smallFontSize } from "utils/FontSize";
 import PublicIcon from "@mui/icons-material/Public";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useMenuStore from "store/MenuStore";
@@ -33,12 +35,7 @@ import MobileNavBar from "./MobileNavBar";
 
 interface navProps {
   checkLoading: boolean;
-  passwordSetModalOpen: boolean;
-  emailModalOpen: boolean;
   setEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setPasswordSetModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  passwordInputModalOpen: boolean;
-  setPasswordInputModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLogoutLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setLogoutSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   menuStateLoading: boolean;
@@ -49,36 +46,37 @@ interface navProps {
 const NavBar = ({
   checkLoading,
   hideMenu,
-  emailModalOpen,
   setEmailModalOpen,
-  passwordSetModalOpen,
-  setPasswordSetModalOpen,
-  passwordInputModalOpen,
-  setPasswordInputModalOpen,
   setLogoutSuccess,
   setLogoutLoading,
   menuStateLoading,
 }: navProps) => {
   // menu list
-  // const [menuList, setMenuList] = useState<menuType[]>(null);
   const menuStore = useMenuStore();
   const { menuList } = menuStore;
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const openUserMenu = Boolean(anchorEl);
+  const [userMenuanchorEl, setUserMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+  const [moreMenuanchorEl, setMoreMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+  const openUserMenu = Boolean(userMenuanchorEl);
+  const openMoreMenu = Boolean(moreMenuanchorEl);
   const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    if (!authState.isLogin && !checkLoading) {
+      setEmailModalOpen(true);
+    } else {
+      setUserMenuAnchorEl(event.currentTarget);
+    }
   };
   const handleUserMenuClose = () => {
-    setAnchorEl(null);
+    setUserMenuAnchorEl(null);
+  };
+  const handleMoreMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setMoreMenuAnchorEl(event.currentTarget);
+  };
+  const handleMoreMenuClose = () => {
+    setMoreMenuAnchorEl(null);
   };
   const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
-  // const [loginModalOpen, setLoginModalOpen] = useState<boolean>(false);
-  // const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
-  // const [loginFailed, setLoginFailed] = useState<boolean>(false);
-  // const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
-  // const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
-  // const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
-  //   useState<boolean>(false);
 
   const pathname = usePageViews();
   const subpath = useSubPath();
@@ -87,6 +85,9 @@ const NavBar = ({
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+
+  // submenu refs
+  const submenuRefs = useRef({});
 
   const logoutHandler = async (email: string) => {
     setLogoutLoading(true);
@@ -116,35 +117,8 @@ const NavBar = ({
     setOpenMobileNav(!openMobileNav);
   };
 
-  // active router 감지 effect hook
-  // useEffect(() => {
-  //   if (document.querySelector(`.menu-link[href="/${pathname + subpath}"]`)) {
-  //     document
-  //       .querySelector(`.menu-link[href="/${pathname + subpath}"]`)
-  //       ?.parentElement?.classList.add("active");
-  //   } else {
-  //     document
-  //       .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
-  //       ?.parentElement?.classList.add("active");
-  //     document
-  //       .querySelector(`.submenu-link[href="/${pathname + subpath}"]`)
-  //       ?.parentElement?.parentElement?.parentElement?.parentElement?.classList.add(
-  //         "active",
-  //       );
-  //   }
-  // }, []);
-
   const {
     logoURL,
-    speakers,
-    programs,
-    lectureHall,
-    exhibitHall,
-    sponsors,
-    greeting,
-    attend,
-    symposium,
-    archive,
     registration,
     signInText,
     adminBtnText,
@@ -154,19 +128,17 @@ const NavBar = ({
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
-      {!hideMenu && (
-        <NSSButton
-          variant="icon"
-          className="return-main-btn"
-          style={{ position: "absolute", padding: "8px 8px 8px 0" }}
-          onClick={() => {
-            navigate(`/`);
-          }}
-        >
-          <ChevronLeftIcon />
-          <PublicIcon sx={{ marginLeft: "-4px" }} />
-        </NSSButton>
-      )}
+      <NSSButton
+        variant="icon"
+        className="return-main-btn"
+        style={{ position: "absolute", padding: "8px 8px 8px 0" }}
+        onClick={() => {
+          navigate(`/`);
+        }}
+      >
+        <ChevronLeftIcon />
+        <PublicIcon sx={{ marginLeft: "-4px" }} />
+      </NSSButton>
       <Stack
         direction="row"
         alignItems="center"
@@ -183,118 +155,232 @@ const NavBar = ({
         >
           <img src={logoURL} alt="logo" />
         </Link>
-        {!hideMenu && (
-          <div className="menu-container">
-            <Stack
-              direction="row"
-              alignSelf="flex-end"
-              className="menu-item-wrap"
-            >
-              {!menuStateLoading &&
-                menuList.map((menu) => (
-                  <MenuLink
-                    key={menu.name}
-                    to={`/${pathname}${menu.path}`}
-                    // published={
-                    //   menu.is_published === 1 ||
-                    //   editorRole.includes(authState.role)
-                    // }
-                  >
-                    {menu.name.toUpperCase()}
-                  </MenuLink>
-                ))}
-              {authState.isLogin && !checkLoading && (
-                <div className="user-menu-wrap">
+        <div className="menu-container">
+          <Stack
+            direction="row"
+            alignSelf="flex-end"
+            className="menu-item-wrap"
+          >
+            {!menuStateLoading &&
+              menuList.map((menu) => {
+                if (
+                  menu.show &&
+                  menu.is_main &&
+                  !menu.parent &&
+                  !menu.has_child
+                ) {
+                  return (
+                    <MenuLink key={menu.name} to={`/${pathname}${menu.path}`}>
+                      {menu.name.toUpperCase()}
+                    </MenuLink>
+                  );
+                }
+                if (menu.has_child) {
+                  return (
+                    <Box
+                      className="parent"
+                      ref={(element) => {
+                        submenuRefs.current[menu.id] = element;
+                      }}
+                      onMouseOver={() => {
+                        if (!openMobileNav) {
+                          submenuRefs.current[menu.id].classList.add("active");
+                        }
+                      }}
+                      onMouseOut={() => {
+                        if (!openMobileNav) {
+                          submenuRefs.current[menu.id].classList.remove(
+                            "active",
+                          );
+                        }
+                      }}
+                      onClick={() => {
+                        if (openMobileNav) {
+                          if (
+                            submenuRefs.current[menu.id].classList.contains(
+                              "active",
+                            )
+                          ) {
+                            submenuRefs.current[menu.id].classList.remove(
+                              "active",
+                            );
+                          } else {
+                            submenuRefs.current[menu.id].classList.add(
+                              "active",
+                            );
+                          }
+                        }
+                      }}
+                    >
+                      <Box>
+                        <Box
+                          className={`parent-label${
+                            `/${pathname + subpath}`.indexOf(
+                              `/${pathname + menu.path}`,
+                            ) !== -1
+                              ? " hover"
+                              : ""
+                          }`}
+                        >
+                          <Typography
+                            component="span"
+                            sx={{
+                              padding: "10px",
+                            }}
+                            fontWeight={theme.typography.fontWeightBold}
+                            fontSize={mainFontSize}
+                          >
+                            {menu.name.toUpperCase()}
+                          </Typography>
+                          <KeyboardArrowDownIcon />
+                        </Box>
+                        <Box component="ul" className="child-container">
+                          {menuList
+                            .filter((m) => m.parent === menu.id)
+                            .map((m) => {
+                              if (
+                                m.show ||
+                                editorRole.includes(authState.role)
+                              ) {
+                                return (
+                                  <Box
+                                    key={m.id}
+                                    component="li"
+                                    className={`child-item${
+                                      `/${pathname}${m.path}` ===
+                                      `/${pathname + subpath}`
+                                        ? " active"
+                                        : ""
+                                    }`}
+                                  >
+                                    <Link
+                                      key={m.name}
+                                      to={`/${pathname}${m.path}`}
+                                    >
+                                      <Typography
+                                        fontSize={smallFontSize}
+                                        fontWeight={600}
+                                      >
+                                        {m.name}
+                                      </Typography>
+                                    </Link>
+                                  </Box>
+                                );
+                              }
+                              return null;
+                            })}
+                        </Box>
+                      </Box>
+                    </Box>
+                  );
+                }
+                return null;
+              })}
+            <div className="user-menu-wrap">
+              {(menuList.filter((m) => !m.is_main && m.show).length !== 0 ||
+                (editorRole.includes(authState.role) &&
+                  menuList.filter((m) => !m.is_main).length !== 0)) && (
+                <>
                   <NSSButton
                     id="basic-button"
                     className="user-menu"
                     type="button"
                     variant="icon"
-                    onClick={handleUserMenuClick}
+                    onClick={handleMoreMenuClick}
                     aria-controls={openUserMenu ? "basic-menu" : undefined}
                     aria-haspopup="true"
                     aria-expanded={openUserMenu ? "true" : undefined}
                   >
-                    <PersonIcon />
+                    <MenuIcon />
                   </NSSButton>
                   <Menu
                     id="basic-menu"
-                    open={openUserMenu}
-                    onClose={handleUserMenuClose}
+                    open={openMoreMenu}
+                    onClose={handleMoreMenuClose}
                     MenuListProps={{
                       "aria-labelledby": "basic-button",
                     }}
-                    anchorEl={anchorEl}
+                    anchorEl={moreMenuanchorEl}
                     disableScrollLock
                   >
                     <MenuList dense>
-                      <MenuItem
-                        onClick={() => {
-                          handleUserMenuClose();
-                          navigate(`${pathname}/user/reset-password`);
-                        }}
-                      >
-                        {changePasswordBtnText || "Change Password"}
-                      </MenuItem>
+                      {menuList
+                        .filter((m) => !m.is_main)
+                        .map((m) => {
+                          if (m.show || editorRole.includes(authState.role)) {
+                            return (
+                              <MenuItem key={`menu-${m.id}`}>
+                                <Link
+                                  to={pathname + m.path}
+                                  onClick={handleMoreMenuClose}
+                                >
+                                  {m.name}
+                                </Link>
+                              </MenuItem>
+                            );
+                          }
+                          return null;
+                        })}
                     </MenuList>
                   </Menu>
-                  {editorRole.includes(authState.role) && (
-                    <NSSButton variant="primary" style={{ fontWeight: 700 }}>
-                      <Link
-                        to={`${pathname}/admin`}
-                        style={{ padding: 0, color: "rgba(0,0,0,0.87)" }}
-                      >
-                        {adminBtnText || "ADMIN"}
-                      </Link>
-                    </NSSButton>
-                  )}
-
-                  <NSSButton
-                    type="button"
-                    variant="primary"
-                    style={{ fontWeight: 700 }}
-                    onClick={() => {
-                      logoutHandler(authState.email);
-                    }}
-                  >
-                    {signOutBtnText || "SIGN OUT"}
-                  </NSSButton>
-                </div>
+                </>
               )}
-              {!authState.isLogin && !checkLoading && (
-                <div className="user-menu-wrap">
-                  {signInText && (
-                    <NSSButton
-                      type="button"
-                      variant="primary"
-                      style={{ fontWeight: 700 }}
+
+              <NSSButton
+                id="basic-button"
+                className="user-menu"
+                type="button"
+                variant="icon"
+                onClick={handleUserMenuClick}
+                aria-controls={openUserMenu ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={openUserMenu ? "true" : undefined}
+              >
+                <PersonIcon />
+              </NSSButton>
+              <Menu
+                id="basic-menu"
+                open={openUserMenu}
+                onClose={handleUserMenuClose}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+                anchorEl={userMenuanchorEl}
+                disableScrollLock
+              >
+                {authState.isLogin && !checkLoading && (
+                  <MenuList dense>
+                    {editorRole.includes(authState.role) && (
+                      <MenuItem>
+                        <Link
+                          to={`${pathname}/admin`}
+                          style={{ padding: 0, color: "rgba(0,0,0,0.87)" }}
+                        >
+                          {adminBtnText || "Admin Page"}
+                        </Link>
+                      </MenuItem>
+                    )}
+                    <MenuItem
                       onClick={() => {
-                        setEmailModalOpen(true);
+                        handleUserMenuClose();
+                        navigate(`${pathname}/user/reset-password`);
                       }}
                     >
-                      {signInText}
-                    </NSSButton>
-                  )}
-
-                  {registration && (
-                    <NSSButton
-                      variant="gradient"
+                      {changePasswordBtnText || "Change Password"}
+                    </MenuItem>
+                    <MenuItem
                       onClick={() => {
-                        navigate(`${pathname}/registration`);
+                        logoutHandler(authState.email);
                       }}
-                      style={{ alignSelf: "center" }}
-                      fontSize={mainFontSize}
-                      fontWeight={theme.typography.fontWeightBold}
-                      letterSpacing="1.2px"
                     >
-                      {registration}
-                    </NSSButton>
-                  )}
-                </div>
-              )}
-            </Stack>
-          </div>
-        )}
+                      {signOutBtnText || "Sign out"}
+                    </MenuItem>
+                  </MenuList>
+                )}
+              </Menu>
+            </div>
+          </Stack>
+        </div>
       </Stack>
       <Box
         className="overlay"

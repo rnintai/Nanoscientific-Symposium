@@ -96,6 +96,10 @@ declare namespace Common {
     name: string;
     path: string;
     is_published: 0 | 1;
+    is_main: 0 | 1;
+    parent: number;
+    show: 0 | 1;
+    has_child: 0 | 1;
   }
 
   interface nationType {

@@ -21,7 +21,7 @@ export const NavBarContainer = styled.div`
     background: #0000001b;
     position: absolute;
     width: 100vw;
-    height: 100vh;
+    height: 0;
     z-index: 1;
     opacity: 0;
     visibility: hidden;
@@ -77,6 +77,119 @@ export const NavBarContainer = styled.div`
   .return-main-btn {
     top: 50%;
     transform: translateY(-50%);
+  }
+
+  .parent {
+    display: flex;
+    align-items: center;
+
+    &.active {
+      .parent-label {
+        color: ${() => {
+          const theme = useTheme();
+          return theme.palette.text.primary;
+        }};
+        span::before {
+          background-color: ${() => {
+            const theme = useTheme();
+            return theme.palette.primary.main;
+          }};
+        }
+      }
+      .child-container {
+        max-height: 50vh;
+        border-width: 1px;
+      }
+    }
+
+    .parent-label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      position: relative;
+      color: rgba(0, 0, 0, 0.6);
+      transition: color 0.2s ease-in-out;
+      span {
+        position: relative;
+        &::before {
+          content: "";
+          position: absolute;
+          width: calc(100% - 10px);
+          top: 5px;
+          height: 3px;
+          background-color: transparent;
+          transition: background-color 0.2s ease-in-out;
+        }
+      }
+      &.active {
+        cursor: default;
+        span {
+          &::before {
+            background-color: ${() => {
+              const theme = useTheme();
+              return theme.palette.primary.main;
+            }};
+          }
+        }
+      }
+
+      &:hover {
+        color: ${() => {
+          const theme = useTheme();
+          return theme.palette.text.primary;
+        }};
+      }
+      &.hover {
+        color: ${() => {
+          const theme = useTheme();
+          return theme.palette.text.primary;
+        }};
+
+        span::before {
+          background-color: ${() => {
+            const theme = useTheme();
+            return theme.palette.primary.main;
+          }};
+        }
+      }
+    }
+
+    .child-container {
+      position: absolute;
+      background-color: white;
+      overflow: hidden;
+      max-height: 0%;
+      border-width: 0px;
+      border-style: solid;
+      border-color: ${() => {
+        const theme = useTheme();
+        return theme.palette.grey.A200;
+      }};
+      transition-property: max-height, border-width;
+      transition-duration: 0.5s, 0.5s;
+      transition-timing-function: ease-in-out, ease-in-out;
+      box-shadow: 2px 2px 6px #00000030;
+
+      .child-item {
+        background-color: rgba(33, 173, 229, 0);
+        transition: background-color 0.3s ease-in-out;
+        &.active {
+          background-color: rgba(33, 173, 229, 0.06);
+          a {
+            color: rgba(0, 0, 0, 0.87);
+          }
+        }
+        &:hover {
+          background-color: rgba(33, 173, 229, 0.06);
+        }
+
+        a {
+          width: 100%;
+          text-align: center;
+          padding: 10px 15px !important;
+        }
+      }
+    }
   }
 
   @media screen and (max-width: 1140px) {
@@ -144,18 +257,46 @@ export const NavBarContainer = styled.div`
             transform: none;
           }
         }
+
+        .parent {
+          .parent-label {
+            justify-content: center;
+
+            &.hover
+          }
+          .child-container {
+            width: 100vw;
+            display: none;
+            position: relative;
+            background-color: #0000000b;
+
+            .child-item{
+              &.active,
+              &:hover{
+                background-color: rgb(33 173 229 / 13%);
+              }
+            }
+          }
+
+          &.active {
+            .child-container {
+              display: block;
+            }
+          }
+        }
       }
       .overlay {
         visibility: visible;
+        height: 100vh;
         opacity: 1;
         transition-delay: 0s;
       }
-    }
-    .login-wrap {
-      align-self: initial;
+      .login-wrap {
+        align-self: initial;
 
-      button:not(.user-menu) {
-        display: none;
+        button:not(.user-menu) {
+          display: none;
+        }
       }
     }
   }

@@ -4,12 +4,15 @@ import { useTheme } from "@mui/material";
 export const MenuLinkContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   font-weight: ${() => {
     const theme = useTheme();
     return theme.typography.fontWeightBold;
   }};
   a {
     position: relative;
+    padding: 10px !important;
+
     &.active {
       color: ${() => {
         const theme = useTheme();
@@ -43,7 +46,7 @@ export const MenuLinkContainer = styled.div`
   @media screen and (max-width: 1024px) {
     a {
       &::before {
-        width: calc(100% - 10px);
+        // width: calc(100% - 10px);
       }
     }
   }
