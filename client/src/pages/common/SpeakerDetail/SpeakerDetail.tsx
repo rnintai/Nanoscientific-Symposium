@@ -55,7 +55,7 @@ const SpeakerDetail = () => {
             maxWidth="1920px"
             fullWidth
           />
-          <Stack className="layout body-fit">
+          <Stack className="layout">
             <Stack
               direction="row"
               justifyContent="space-between"
