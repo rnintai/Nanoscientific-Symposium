@@ -1,12 +1,7 @@
 export const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
 export const globalData = new Map<string, Common.globalDataType>([
-  [
-    "home",
-    {
-      signInText: "SIGN IN",
-    },
-  ],
+  ["home", {}],
   [
     "common",
     {
@@ -88,7 +83,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       home: "HOME",
       registration: "REGISTRATION",
       // buttonText
-      signInText: "SIGN IN",
       goNextText: "NEXT",
       goPrevText: "PREV",
       submitBtnText: "SUBMIT",
@@ -98,8 +92,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot your password?",
       createAccountText: "Create an account",
-      adminBtnText: "ADMIN",
-      signOutBtnText: "SIGN OUT",
       changePasswordBtnText: "Change Password",
       // landing
       showLandingSection1: true,
@@ -401,7 +393,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       home: "HOME",
       registration: "REGISTRATION",
       // buttonText
-      signInText: "SIGN IN",
       goNextText: "NEXT",
       goPrevText: "PREV",
       submitBtnText: "SUBMIT",
@@ -410,8 +401,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot your password?",
       createAccountText: "Create an account",
-      adminBtnText: "ADMIN",
-      signOutBtnText: "SIGN OUT",
       changePasswordBtnText: "Change Password",
       // landing
       showLandingSection1: true,
@@ -501,7 +490,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       home: "HOME",
       // registration: "REGISTRATION",
       // buttonText
-      signInText: "SIGN IN",
       goNextText: "NEXT",
       goPrevText: "PREV",
       submitBtnText: "SUBMIT",
@@ -510,8 +498,6 @@ export const globalData = new Map<string, Common.globalDataType>([
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot your password?",
       createAccountText: "Create an account",
-      adminBtnText: "ADMIN",
-      signOutBtnText: "SIGN OUT",
       changePasswordBtnText: "Change Password",
       // landing
       showLandingSection1: true,
