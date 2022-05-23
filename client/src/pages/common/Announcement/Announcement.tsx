@@ -19,10 +19,13 @@ import useInput from "hooks/useInput";
 import { editorRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import ComingSoon from "components/ComingSoon/ComingSoon";
+import useMenuStore from "store/MenuStore";
 import { AnnouncementContainer } from "./AnnouncementStyles";
 
 const Announcement = () => {
   const pathname = usePageViews();
+  const { currentMenu } = useMenuStore();
   const theme = useTheme();
   const [announcementList, setAnnouncementList] =
     useState<Announcement.announcementType[]>(null);
@@ -40,6 +43,8 @@ const Announcement = () => {
   const [openSuccessAlert, setOpenSuccessAlert] = useState<boolean>(false);
 
   // loading
+  const [getAnnouncementsLoading, setGetAnnouncementsLoading] =
+    useState<boolean>(false);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
   // 총 페이지
@@ -61,6 +66,7 @@ const Announcement = () => {
 
   const getAnnouncements = async (curPage: number) => {
     try {
+      setGetAnnouncementsLoading(true);
       const result = await axios.get(
         `/api/announcement/list?nation=${pathname}&page=${curPage}`,
       );
@@ -72,6 +78,8 @@ const Announcement = () => {
       );
     } catch (err) {
       alert(err);
+    } finally {
+      setGetAnnouncementsLoading(false);
     }
   };
 
@@ -107,27 +115,38 @@ const Announcement = () => {
   return (
     <AnnouncementContainer className="layout">
       {isEditor && (
-        <Typography
-          fontSize={smallFontSize}
-          className="btn-alpha"
-          sx={{ mb: 1, textAlign: "right" }}
-          onClick={() => {
-            setOpenWriteModal(true);
-          }}
-        >
-          New
-        </Typography>
+        <Box sx={{ width: "100%", textAlign: "right" }}>
+          <Typography
+            component="span"
+            fontSize={smallFontSize}
+            className="btn-alpha"
+            sx={{ mb: 1, textAlign: "right" }}
+            onClick={() => {
+              setOpenWriteModal(true);
+            }}
+          >
+            New
+          </Typography>
+        </Box>
       )}
-      <Box className="body-fit">
-        {announcementList &&
-          announcementList.map((a) => (
-            <AnnouncementCard
-              announcement={a}
-              curPage={curPage}
-              key={`announcement-${a.id}`}
-            />
-          ))}
-      </Box>
+      {(!getAnnouncementsLoading &&
+        currentMenu &&
+        currentMenu.is_published === 0 &&
+        !editorRole.includes(authState.role)) ||
+        (announcementList === undefined && <ComingSoon />)}
+      {((currentMenu && currentMenu.is_published === 1) ||
+        editorRole.includes(authState.role)) && (
+        <Box className="body-fit">
+          {announcementList &&
+            announcementList.map((a) => (
+              <AnnouncementCard
+                announcement={a}
+                curPage={curPage}
+                key={`announcement-${a.id}`}
+              />
+            ))}
+        </Box>
+      )}
       {/* Pagination */}
       <Stack
         direction="row"
