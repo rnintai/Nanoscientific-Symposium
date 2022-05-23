@@ -178,6 +178,7 @@ const NavBar = ({
                 if (menu.has_child) {
                   return (
                     <Box
+                      key={menu.name}
                       className="parent"
                       ref={(element) => {
                         submenuRefs.current[menu.id] = element;
