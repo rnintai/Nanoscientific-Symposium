@@ -11,10 +11,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-img {
-  object-fit: cover;
-}
-
 div::-webkit-scrollbar,
 textarea::-webkit-scrollbar {
   width: 0.4em;
@@ -43,6 +39,11 @@ button {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
 }
 
 /* #root {
