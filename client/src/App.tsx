@@ -152,6 +152,13 @@ const App = () => {
           setMenuStateLoading(false);
         });
     }
+  }, [pathname]);
+
+  useEffect(() => {
+    setCurrentMenuState(window.location.pathname);
+
+    console.log("asd");
+
     // ga
     const { title } = window.document;
     const { href } = window.location;
@@ -161,10 +168,6 @@ const App = () => {
       page_location: href,
       page_path: path,
     });
-  }, [pathname]);
-
-  useEffect(() => {
-    setCurrentMenuState(window.location.pathname);
   }, [menuList, window.location.href]);
 
   if (authState.isLoading) return <Loading />;
