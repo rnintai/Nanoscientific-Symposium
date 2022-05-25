@@ -3,6 +3,8 @@ const nodemailer = require("nodemailer");
 const vCode = require("../utils/verificationCode");
 const mailHTML = require("../utils/mailTemplates");
 
+const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
+
 const mailCtrl = {
   sendVcode: async (req, res) => {
     const { email, nation } = req.body;
@@ -102,7 +104,7 @@ const mailCtrl = {
         attachments: [
           {
             filename: attachment.split("/")[attachment.split("/").length - 1],
-            path: attachment,
+            path: `${S3_URL}/${attachment}`,
           },
         ],
       });
