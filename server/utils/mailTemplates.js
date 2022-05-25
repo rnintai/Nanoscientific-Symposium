@@ -30,10 +30,10 @@ module.exports = {
   </body>
   `;
   },
-  abstractMailHTML: (title) => {
+  abstractMailHTML: (title, presentationForm) => {
     return `<body class="text-center">
     <div style="padding: 20px 60px;font-family: &quot;Open Sans&quot;, sans-serif;">
-      <h3>Abstract Submission Received</h3>
+      <h3>Abstract Submission Received (${presentationForm})</h3>
       <div class="box" style="font-family: &quot;Open Sans&quot;, sans-serif;width: 50%;border: 1px solid #f4f4f4;margin: 0 auto;padding: 10px 20px;font-size: 20px;">
         <span>${title}<span class="code" style="font-style: italic;font-size: 22px;font-weight: 700;cursor: pointer;"></span></span>
       </div>

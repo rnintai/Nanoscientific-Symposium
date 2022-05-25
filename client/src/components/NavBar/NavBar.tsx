@@ -164,7 +164,7 @@ const NavBar = ({
             {!menuStateLoading &&
               menuList.map((menu) => {
                 if (
-                  menu.show &&
+                  (menu.show || editorRole.includes(authState.role)) &&
                   menu.is_main &&
                   !menu.parent &&
                   !menu.has_child

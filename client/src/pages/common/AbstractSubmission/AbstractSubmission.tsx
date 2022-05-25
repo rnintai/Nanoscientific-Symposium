@@ -12,6 +12,7 @@ import Loading from "components/Loading/Loading";
 import S3PdfUpload from "components/S3Upload/S3PdfUpload";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
+import useConfigStore from "store/ConfigStore";
 import {
   mainFontSize,
   smallFontSize,
@@ -31,6 +32,9 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   // s3
   const [filePath, setFilePath] = useState<string>("");
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+
+  const configStore = useConfigStore();
+  const { configState } = configStore;
 
   const submitHandler = async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -57,6 +61,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
       return false;
     });
     try {
+      // DB에 저장
       const res = await axios.post("/api/abstract", {
         nation: pathname,
         abstract_title: psAbstractTitle,
@@ -75,11 +80,13 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
         pdf_file_path: filePath,
       });
 
+      // 메일 전송
       const res2 = await axios.post("/api/mail/abstract", {
-        email: "eric.kim@parksystems.com",
+        email: configState.alert_receive_email,
         attachment: filePath,
         title: psAbstractTitle,
         nation: pathname,
+        presentationForm: psPresentationForm,
       });
     } catch (err) {
       alert(err);
@@ -141,7 +148,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
         )}
         <form id={`mktoForm_${formNo}`} className="mktoForm" />
         {!mktoLoading && (
-          <Stack justifyContent="center" alignItems="center" spacing={2}>
+          <Stack justifyContent="center" alignItems="center">
             <S3PdfUpload
               filePath={filePath}
               setFilePath={setFilePath}

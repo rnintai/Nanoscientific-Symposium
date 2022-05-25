@@ -79,9 +79,19 @@ const mailCtrl = {
   },
 
   sendAbstractAlert: async (req, res) => {
-    const { email, attachment, title, nation } = req.body;
+    const { email, attachment, title, nation, presentationForm } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const attachments =
+      attachment !== ""
+        ? [
+            {
+              filename: attachment.split("/")[attachment.split("/").length - 1],
+              path: encodeURI(`${S3_URL}/${attachment}`),
+            },
+          ]
+        : [];
 
     try {
       const transporter = nodemailer.createTransport({
@@ -99,20 +109,14 @@ const mailCtrl = {
       const info = await transporter.sendMail({
         from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
         to: email,
-        subject: `[${nation}] Abstract Submission: ${title}`,
-        html: mailHTML.abstractMailHTML(title, attachment),
-        attachments: [
-          {
-            filename: attachment.split("/")[attachment.split("/").length - 1],
-            path: `${S3_URL}/${attachment}`,
-          },
-        ],
+        subject: `[${nation}] Abstract Submission: (${presentationForm}) ${title}`,
+        html: mailHTML.abstractMailHTML(title, presentationForm),
+        attachments,
       });
 
-      console.log(info);
       // info.accepted: [], info.rejected: [].
       // length를 통해 성공 실패 여부 판단 가능.
-      if (info.accepted.length === 1) {
+      if (info.accepted.length > 0) {
         res.status(200).json({
           success: true,
           result: true,

@@ -102,6 +102,11 @@ declare namespace Common {
     has_child: 0 | 1;
   }
 
+  interface configType {
+    id: number;
+    alert_receive_email: string[];
+  }
+
   interface nationType {
     name: string;
     date: string;

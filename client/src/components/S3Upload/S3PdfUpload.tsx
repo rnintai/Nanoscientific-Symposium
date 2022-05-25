@@ -92,17 +92,29 @@ const S3PdfUpload = ({
   return (
     <label htmlFor="contained-button-file">
       <Stack
-        direction="row"
+        sx={{
+          flexDirection: {
+            mobile: "column",
+            tablet: "row",
+          },
+          margin: "0 0 8px 0",
+        }}
         justifyContent="center"
         alignItems="center"
-        spacing={2}
       >
         <Box
           sx={{
             border: `1px solid ${theme.palette.grey.A200}`,
             padding: "5px 15px",
             borderRadius: "4px",
-            width: "400px",
+            width: {
+              mobile: "100%",
+              tablet: "400px",
+            },
+            margin: {
+              mobile: "0 0 8px 0",
+              tablet: "0 8px 0 0",
+            },
           }}
         >
           {fileName === "" ? (

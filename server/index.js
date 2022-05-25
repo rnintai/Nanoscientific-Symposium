@@ -35,6 +35,7 @@ app.use("/api/mail", require("./routes/mailRouter"));
 app.use("/api/zoom", require("./routes/zoomRouter"));
 app.use("/api/announcement", require("./routes/announcementRouter"));
 app.use("/api/abstract", require("./routes/abstractRouter"));
+app.use("/api/configuration", require("./routes/configurationRouter"));
 
 app.use(
   "/api/docs",

@@ -14,6 +14,7 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import NotFound from "pages/common/NotFound/NotFound";
 import useMenuStore from "store/MenuStore";
 import useSeoTitle from "hooks/useSeoTitle";
+import useConfigStore from "store/ConfigStore";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -110,6 +111,8 @@ const App = () => {
       .finally(() => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
       });
+
+    //
   }, [authState.isLoading, pathname, subpath]);
   useEffect(() => {
     // 스크롤 to top
@@ -129,13 +132,21 @@ const App = () => {
     }
     return <Route key={route.path} path={route.path} element={resultElement} />;
   };
-
   // menu state
   const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
   // const [menuList, setMenuList] = useState<Common.menuType[]>(null);
   const menuStore = useMenuStore();
   const { menuList, currentMenu, setMenuList, setCurrentMenuState } = menuStore;
   useSeoTitle(currentMenu);
+
+  // config state
+  const configStore = useConfigStore();
+  const { setConfigState } = configStore;
+
+  const getConfig = async () => {
+    const res = await axios.get(`/api/configuration?nation=${pathname}`);
+    setConfigState(res.data.result);
+  };
 
   useEffect(() => {
     if (pathname !== "" && pathname !== "home") {
@@ -151,6 +162,8 @@ const App = () => {
         .finally(() => {
           setMenuStateLoading(false);
         });
+
+      getConfig();
     }
   }, [pathname]);
 
