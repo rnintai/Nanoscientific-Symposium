@@ -10,58 +10,117 @@ const mailCtrl = {
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT EXISTS
-      (SELECT email FROM user WHERE email="admin1")
-      as emailExist`;
+      // const sql = `SELECT EXISTS
+      // (SELECT email FROM user WHERE email="admin1")
+      // as emailExist`;
 
-      const row = await connection.query(sql);
-      const emailExist = row[0][0].emailExist === 1 ? true : false;
+      // const row = await connection.query(sql);
+      // const emailExist = row[0][0].emailExist === 1 ? true : false;
 
       const code = vCode.create();
-      if (emailExist) {
-        const transporter = nodemailer.createTransport({
-          debug: true,
-          port: 587,
-          host: "smtp.ionos.com",
-          secure: false,
-          requireTLS: true,
-          // tls: {
-          //   ciphers: "SSLv3",
-          // },
-          auth: {
-            user: process.env.SMTP_EMAIL,
-            pass: process.env.SMTP_PASS,
-          },
-        });
+      // if (emailExist) {
+      const transporter = nodemailer.createTransport({
+        debug: true,
+        port: 587,
+        host: "smtp.ionos.com",
+        secure: false,
+        requireTLS: true,
+        // tls: {
+        //   ciphers: "SSLv3",
+        // },
+        auth: {
+          user: process.env.SMTP_EMAIL,
+          pass: process.env.SMTP_PASS,
+        },
+      });
 
-        const info = await transporter.sendMail({
-          from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
-          to: email,
-          subject: `[${code}] Verification Code`,
-          html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
-        });
+      const info = await transporter.sendMail({
+        from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
+        to: email,
+        subject: `[${code}] Verification Code`,
+        html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
+      });
 
-        // info.accepted: [], info.rejected: [].
-        // length를 통해 성공 실패 여부 판단 가능.
-        if (info.accepted.length === 1) {
-          res.status(200).json({
-            success: true,
-            result: true,
-            code,
-            msg: "메일 전송 성공",
-          });
-        } else {
-          res.status(200).json({
-            success: true,
-            result: false,
-            msg: "메일 전송 실패",
-          });
-        }
+      // info.accepted: [], info.rejected: [].
+      // length를 통해 성공 실패 여부 판단 가능.
+      if (info.accepted.length === 1) {
+        res.status(200).json({
+          success: true,
+          result: true,
+          code,
+          msg: "메일 전송 성공",
+        });
       } else {
         res.status(200).json({
           success: true,
           result: false,
-          msg: "이메일에 해당하는 유저 없음",
+          msg: "메일 전송 실패",
+        });
+      }
+      // }
+      // else {
+      //   res.status(200).json({
+      //     success: true,
+      //     result: false,
+      //     msg: "이메일에 해당하는 유저 없음",
+      //   });
+      // }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
+  sendAbstractAlert: async (req, res) => {
+    const { email, attachment, title, nation } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const transporter = nodemailer.createTransport({
+        debug: true,
+        port: 587,
+        host: "smtp.ionos.com",
+        secure: false,
+        requireTLS: true,
+        auth: {
+          user: process.env.SMTP_EMAIL,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+
+      const info = await transporter.sendMail({
+        from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
+        to: email,
+        subject: `[${nation}] Abstract Submission: ${title}`,
+        html: mailHTML.abstractMailHTML(title, attachment),
+        attachments: [
+          {
+            filename: attachment.split("/")[attachment.split("/").length - 1],
+            path: attachment,
+          },
+        ],
+      });
+
+      console.log(info);
+      // info.accepted: [], info.rejected: [].
+      // length를 통해 성공 실패 여부 판단 가능.
+      if (info.accepted.length === 1) {
+        res.status(200).json({
+          success: true,
+          result: true,
+          msg: "메일 전송 성공",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          result: false,
+          msg: "메일 전송 실패",
         });
       }
     } catch (err) {

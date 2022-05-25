@@ -156,9 +156,6 @@ const App = () => {
 
   useEffect(() => {
     setCurrentMenuState(window.location.pathname);
-
-    console.log("asd");
-
     // ga
     const { title } = window.document;
     const { href } = window.location;
