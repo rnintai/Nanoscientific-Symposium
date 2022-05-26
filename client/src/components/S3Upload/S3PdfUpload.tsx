@@ -47,7 +47,15 @@ const S3PdfUpload = ({
     const file = event.target.files[0];
 
     if (
-      !(file.type === "application/msword" || file.type === "application/pdf")
+      !(
+        file.type === "application/msword" ||
+        file.type === "application/pdf" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        file.type === "application/vnd.ms-powerpoint" ||
+        file.type ===
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+      )
     ) {
       alert(".doc, .pdf allowed only");
       return;
@@ -132,7 +140,7 @@ const S3PdfUpload = ({
                   : theme.palette.grey.A400
               }
             >
-              Click to upload file (.pdf,.doc) (Maximum size: 15MB)
+              Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)
             </Typography>
           ) : (
             <Typography
@@ -159,7 +167,7 @@ const S3PdfUpload = ({
         </Box>
         <input
           style={{ display: "none" }}
-          accept="application/pdf, application/msword"
+          accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
           type="file"
           onChange={handleFileInput}
           id="contained-button-file"
