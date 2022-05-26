@@ -4,7 +4,10 @@ import usePageViews from "./usePageViews";
 
 const useSeoTitle = (currentMenu: Common.menuType) => {
   const pathname = usePageViews();
-  const { fullName } = globalData.get(pathname) as Common.globalDataType;
+  const fullName = pathname
+    ? "2022 NanoScientific"
+    : globalData.get(pathname).fullName;
+
   useEffect(() => {
     document.title = currentMenu
       ? `${currentMenu.name.toUpperCase()} | ${fullName}`
