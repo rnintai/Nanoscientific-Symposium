@@ -6,7 +6,6 @@ pipeline {
     stages {
         stage('prepare') {
             steps {
-                cleanWs()
                 echo 'prepare'
                  git branch: "main", credentialsId: "github_access_token_chanhyuk", url: 'https://github.com/Park-Systems-web/Nanoscientific-Symposium.git'
                  sh  'ls -al'
@@ -17,7 +16,7 @@ pipeline {
                     dir('client'){
                         sh '''
                         ls -al
-                        npm i
+                        npm ci
                         echo "REACT_APP_S3_ACCESS_KEY=${REACT_APP_S3_ACCESS_KEY_EXT}\nREACT_APP_S3_SECRET_ACCESS_KEY=${REACT_APP_S3_SECRET_ACCESS_KEY_EXT}" >> .env
                         CI=false npm run build
                         '''
