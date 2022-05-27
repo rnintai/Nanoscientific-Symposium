@@ -61,7 +61,7 @@ const S3PdfUpload = ({
       return;
     }
     setProgress(0);
-    // setUploadLoading(true);
+    setUploadLoading(true);
     uploadFile(file);
   };
 

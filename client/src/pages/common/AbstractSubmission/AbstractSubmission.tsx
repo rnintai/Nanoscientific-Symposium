@@ -32,11 +32,14 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   // s3
   const [filePath, setFilePath] = useState<string>("");
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+  const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
 
   const configStore = useConfigStore();
   const { configState } = configStore;
 
   const submitHandler = async () => {
+    setSubmitLoading(true);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const mktoForm = window.MktoForms2.allForms()[0];
@@ -88,8 +91,12 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
         nation: pathname,
         presentationForm: psPresentationForm,
       });
+
+      setSubmitSuccess(true);
     } catch (err) {
       alert(err);
+    } finally {
+      setSubmitLoading(false);
     }
   };
   useEffect(() => {
@@ -146,8 +153,10 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
             <CircularProgress />
           </Box>
         )}
-        <form id={`mktoForm_${formNo}`} className="mktoForm" />
-        {!mktoLoading && (
+        {!submitSuccess && (
+          <form id={`mktoForm_${formNo}`} className="mktoForm" />
+        )}
+        {!mktoLoading && !submitSuccess && (
           <Stack justifyContent="center" alignItems="center">
             <S3PdfUpload
               filePath={filePath}
@@ -159,10 +168,20 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
               className="registration-btn"
               onClick={submitHandler}
               disabled={uploadLoading}
+              loading={submitLoading}
             >
               Submit
             </NSSButton>
           </Stack>
+        )}
+        {submitSuccess && (
+          <Typography
+            textAlign="center"
+            sx={{ margin: "100px 0" }}
+            fontWeight={600}
+          >
+            Thanks for your submission.
+          </Typography>
         )}
       </Box>
     </AbstractSubmissionContainer>
