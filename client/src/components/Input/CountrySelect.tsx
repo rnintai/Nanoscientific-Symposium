@@ -26,7 +26,7 @@ const CountrySelect = ({
       id="country-select-demo"
       options={countries}
       autoHighlight
-      getOptionLabel={(option) => option.label}
+      getOptionLabel={(option: CountryType) => option.label}
       renderOption={(props, option) => {
         return (
           <Box
