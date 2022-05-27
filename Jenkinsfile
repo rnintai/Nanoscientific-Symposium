@@ -6,7 +6,6 @@ pipeline {
     stages {
         stage('prepare') {
             steps {
-                cleanWs()
                 echo 'prepare'
                  git branch: "main", credentialsId: "github_access_token_chanhyuk", url: 'https://github.com/Park-Systems-web/Nanoscientific-Symposium.git'
                  sh  'ls -al'
