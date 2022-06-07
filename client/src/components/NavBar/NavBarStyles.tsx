@@ -70,7 +70,7 @@ export const NavBarContainer = styled.div`
 
     .mobile-menu-btn {
       display: none;
-      height: 40px;
+      // height: 40px;
     }
   }
 
@@ -243,7 +243,7 @@ export const NavBarContainer = styled.div`
         width: 100%;
         justify-content: flex-end;
         .user-menu {
-          margin-right: auto;
+          // margin-right: auto;
         }
       }
 
