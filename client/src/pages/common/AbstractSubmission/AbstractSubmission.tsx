@@ -34,6 +34,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
+  const [mktoLoaded, setMktoLoaded] = useState<boolean>(false);
 
   const configStore = useConfigStore();
   const { configState } = configStore;
@@ -100,27 +101,38 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
     }
   };
   useEffect(() => {
-    setMktoLoading(true);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    window.MktoForms2.loadForm(
-      "//pages.parksystems.com",
-      "988-FTP-549",
-      formNo,
-      (form: any) => {
-        setMktoLoading(false);
-        // 체크박스 layout 변경
-        const check1 = document.querySelector("#LblpsmktOptin")?.parentElement;
-        const check2 = document.querySelector("#LblpsOptin")?.parentElement;
-        check1?.classList.add("flex-reverse");
-        check2?.classList.add("flex-reverse");
+    setMktoLoaded(true);
+  }, [window.location.pathname]);
 
-        // Register button 제거
-        const registerBtn = document.querySelector(".mktoButtonRow");
-        registerBtn.remove();
-      },
-    );
-  }, []);
+  useEffect(() => {
+    if (
+      document.querySelector(".mktoForm").childElementCount === 0 &&
+      !mktoLoaded
+    ) {
+      setMktoLoading(true);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.MktoForms2.loadForm(
+        "//pages.parksystems.com",
+        "988-FTP-549",
+        formNo,
+        (form: any) => {
+          setMktoLoading(false);
+          // 체크박스 layout 변경
+          const check1 =
+            document.querySelector("#LblpsmktOptin")?.parentElement;
+          const check2 = document.querySelector("#LblpsOptin")?.parentElement;
+          check1?.classList.add("flex-reverse");
+          check2?.classList.add("flex-reverse");
+
+          // Register button 제거
+          const registerBtn = document.querySelector(".mktoButtonRow");
+          registerBtn.remove();
+        },
+      );
+    }
+  }, [mktoLoaded]);
+
   return (
     <AbstractSubmissionContainer className="body-fit">
       <Box className="layout">
