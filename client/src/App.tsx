@@ -15,6 +15,9 @@ import NotFound from "pages/common/NotFound/NotFound";
 import useMenuStore from "store/MenuStore";
 import useSeoTitle from "hooks/useSeoTitle";
 import useConfigStore from "store/ConfigStore";
+import LandingSection from "components/Section/LandingSection";
+import { S3_URL } from "utils/GlobalData";
+import useLoadingStore from "store/LoadingStore";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -56,6 +59,7 @@ const App = () => {
   const themeObj = theme(themeState.darkMode);
   const jpThemeObj = jpTheme(themeState.darkMode);
   const themeDispatch = useThemeDispatch();
+  const { bannerLoading, setBannerLoading } = useLoadingStore();
 
   // mode
   useEffect(() => {
@@ -71,6 +75,27 @@ const App = () => {
 
   // subpath 가져오기
   const subpath = useSubPath();
+
+  // banner
+  const [bannerURL, setBannerURL] = useState<string>("");
+  // const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+  // const [imagePath, setImagePath] = useState<string>("");
+  const getBanner = async () => {
+    setBannerLoading(true);
+    const banner = await axios.get(
+      `/api/page/common/banner?nation=${pathname}&path=${encodeURIComponent(
+        window.location.pathname
+          .replace(`/${pathname}`, "")
+          .replace(/\/+(\d)+/g, ""),
+      )}`,
+    );
+    if (banner.data.success) {
+      setBannerURL(banner.data.result);
+    } else {
+      setBannerURL("");
+    }
+    setBannerLoading(false);
+  };
 
   //
   useEffect(() => {
@@ -180,7 +205,15 @@ const App = () => {
     });
   }, [menuList, window.location.href]);
 
-  if (authState.isLoading) return <Loading />;
+  useEffect(() => {
+    if (window.location.pathname !== "/") {
+      getBanner();
+    } else {
+      setBannerURL("");
+    }
+  }, [bannerURL, window.location.href]);
+
+  if (authState.isLoading || bannerLoading) return <Loading />;
 
   return (
     <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
@@ -197,7 +230,14 @@ const App = () => {
               menuStateLoading={menuStateLoading}
             />
           )}
-
+        {!bannerLoading && bannerURL && (
+          <LandingSection
+            className="banner"
+            background={`${S3_URL}/${bannerURL}`}
+            maxWidth="1920px"
+            fullWidth
+          />
+        )}
         <Routes>
           {/* common */}
           <Route path="/" element={<EventLanding />} />

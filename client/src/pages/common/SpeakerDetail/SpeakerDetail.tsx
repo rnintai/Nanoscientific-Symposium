@@ -49,69 +49,61 @@ const SpeakerDetail = () => {
     <SpeakerDetailContainer className="body-fit">
       {speakerLoading && <Loading />}
       {!speakerLoading && (
-        <>
-          <LandingSection
-            className="banner"
-            background={nationData.speakerBannerURL || speakerBannerURL}
-            maxWidth="1920px"
-            fullWidth
-          />
-          <Stack className="layout">
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-              sx={{ mb: 2 }}
-            >
-              <Link to={`/${pathname}/speakers`} className="p0">
-                <ArrowBackIcon className="btn-alpha" />
-              </Link>
-            </Stack>
-            <Stack
-              mb={2}
-              sx={{
-                flexDirection: {
-                  mobile: "column",
-                  laptop: "row",
-                },
-                alignItems: {
-                  mobile: "center",
-                  laptop: "initial",
-                },
-              }}
-            >
-              <SpeakerImage
-                src={speakerData.image_path}
-                alt={speakerData.name}
-                className="speaker-image-container"
-              />
-              <Stack>
-                <Typography fontSize={subHeadingFontSize} mb={2}>
-                  {speakerData.name}:{" "}
-                  <span
-                    style={{
-                      color: theme.palette.primary.main,
-                      fontWeight: 600,
-                    }}
-                  >
-                    {speakerData.title}
-                  </span>
-                </Typography>
-                <Typography className="editor-content" fontSize={mainFontSize}>
-                  <InnerHTML html={speakerData.belong} />
-                </Typography>
-              </Stack>
-            </Stack>
-            <Typography
-              className="editor-content"
-              fontSize={smallFontSize}
-              lineHeight={1.7}
-              color={theme.palette.grey[600]}
-            >
-              <InnerHTML html={speakerData.description} />
-            </Typography>
+        <Stack className="layout">
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ mb: 2 }}
+          >
+            <Link to={`/${pathname}/speakers`} className="p0">
+              <ArrowBackIcon className="btn-alpha" />
+            </Link>
           </Stack>
-        </>
+          <Stack
+            mb={2}
+            sx={{
+              flexDirection: {
+                mobile: "column",
+                laptop: "row",
+              },
+              alignItems: {
+                mobile: "center",
+                laptop: "initial",
+              },
+            }}
+          >
+            <SpeakerImage
+              src={speakerData.image_path}
+              alt={speakerData.name}
+              className="speaker-image-container"
+            />
+            <Stack>
+              <Typography fontSize={subHeadingFontSize} mb={2}>
+                {speakerData.name}:{" "}
+                <span
+                  style={{
+                    color: theme.palette.primary.main,
+                    fontWeight: 600,
+                  }}
+                >
+                  {speakerData.title}
+                </span>
+              </Typography>
+              <Typography className="editor-content" fontSize={mainFontSize}>
+                <InnerHTML html={speakerData.belong} />
+              </Typography>
+            </Stack>
+          </Stack>
+          <Typography
+            className="editor-content"
+            fontSize={smallFontSize}
+            lineHeight={1.7}
+            color={theme.palette.grey[600]}
+          >
+            <InnerHTML html={speakerData.description} />
+          </Typography>
+        </Stack>
       )}
     </SpeakerDetailContainer>
   );

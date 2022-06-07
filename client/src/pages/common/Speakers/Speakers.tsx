@@ -44,13 +44,6 @@ const Speakers = () => {
 
   return (
     <SpeakersContainer className="body-fit">
-      {/* <Title fontSize={30} title={speakers || "Speakers"} /> */}
-      <LandingSection
-        className="banner"
-        background={nationData.speakerBannerURL || speakerBannerURL}
-        maxWidth="1920px"
-        fullWidth
-      />
       <Box sx={{ flexGrow: 1 }} className="layout">
         {((currentMenu &&
           currentMenu.is_published === 0 &&

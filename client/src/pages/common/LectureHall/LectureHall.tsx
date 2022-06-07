@@ -8,6 +8,7 @@ import usePageViews from "hooks/usePageViews";
 import { calculateDurationToDate } from "utils/Date";
 import { globalData } from "utils/GlobalData";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import ComingSoon from "components/ComingSoon/ComingSoon";
 
 const LectureHall = () => {
   const pathname = usePageViews();
@@ -96,14 +97,6 @@ const LectureHall = () => {
   return (
     <VideoContainer className="body-fit">
       {/* {getWebinarLoading && <Loading />} */}
-      <video
-        src="https://d25unujvh7ui3r.cloudfront.net/lecture_hall.mp4"
-        muted
-        autoPlay
-        loop
-        playsInline
-        style={{ position: "absolute" }}
-      />
       <Stack
         direction="column"
         sx={{
@@ -200,20 +193,26 @@ const LectureHall = () => {
               </Stack>
             </>
           )}
-          {webinarList.map((webinar) => (
-            <ZoomCard
-              key={webinar.id}
-              webinar={webinar}
-              timezone={selectedTimezone}
-              isOnAir={
-                liveWebinarList.filter(
-                  (liveWebinar) => webinar.id === liveWebinar.id,
-                ).length !== 0
-              }
-              setSuccessAlert={setAddRegistrantSuccess}
-              setFailedAlert={setAddRegistrantFailed}
-            />
-          ))}
+          {!getWebinarLoading && webinarList.length === 0 && (
+            <Box sx={{ width: "100%" }}>
+              <ComingSoon />
+            </Box>
+          )}
+          {!getWebinarLoading &&
+            webinarList.map((webinar) => (
+              <ZoomCard
+                key={webinar.id}
+                webinar={webinar}
+                timezone={selectedTimezone}
+                isOnAir={
+                  liveWebinarList.filter(
+                    (liveWebinar) => webinar.id === liveWebinar.id,
+                  ).length !== 0
+                }
+                setSuccessAlert={setAddRegistrantSuccess}
+                setFailedAlert={setAddRegistrantFailed}
+              />
+            ))}
         </Stack>
       </Stack>
       <TopCenterSnackBar
