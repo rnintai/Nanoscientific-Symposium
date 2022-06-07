@@ -7,6 +7,7 @@ import { IconButton, Stack, TextField, Typography } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
+  headingFontSize,
   xsmallFontSize,
   smallFontSize,
   subHeadingFontSize,
@@ -114,6 +115,13 @@ const Announcement = () => {
 
   return (
     <AnnouncementContainer className="layout">
+      <Typography
+        fontSize={headingFontSize}
+        color={theme.palette.primary.navy}
+        fontWeight={700}
+      >
+        Announcement
+      </Typography>
       {isEditor && (
         <Box sx={{ width: "100%", textAlign: "right" }}>
           <Typography
