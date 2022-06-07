@@ -12,6 +12,7 @@ import Loading from "components/Loading/Loading";
 import S3PdfUpload from "components/S3Upload/S3PdfUpload";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import useConfigStore from "store/ConfigStore";
 import {
   mainFontSize,
@@ -38,6 +39,8 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
 
   const configStore = useConfigStore();
   const { configState } = configStore;
+
+  const navigate = useNavigate();
 
   const submitHandler = async () => {
     setSubmitLoading(true);
@@ -102,6 +105,10 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   };
   useEffect(() => {
     setMktoLoaded(true);
+
+    if (document.querySelectorAll("#LblpsOptin").length > 2) {
+      navigate(0);
+    }
   }, [window.location.pathname]);
 
   useEffect(() => {
