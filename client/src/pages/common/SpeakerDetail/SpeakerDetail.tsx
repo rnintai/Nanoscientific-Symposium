@@ -80,15 +80,15 @@ const SpeakerDetail = () => {
             />
             <Stack>
               <Typography fontSize={subHeadingFontSize} mb={2}>
-                {speakerData.name}:{" "}
                 <span
                   style={{
                     color: theme.palette.primary.main,
                     fontWeight: 600,
                   }}
                 >
-                  {speakerData.title}
+                  {speakerData.name}:{" "}
                 </span>
+                {speakerData.title}
               </Typography>
               <Typography className="editor-content" fontSize={mainFontSize}>
                 <InnerHTML html={speakerData.belong} />
