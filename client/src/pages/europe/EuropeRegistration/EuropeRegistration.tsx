@@ -90,7 +90,12 @@ const EuropeRegistration = () => {
       },
     );
   }, []);
-
+  // 마케토폼 2개 렌더링 될 시 refresh
+  useEffect(() => {
+    if (document.querySelectorAll("#LblpsOptin").length > 2) {
+      navigate(0);
+    }
+  }, [document.querySelectorAll("#LblpsOptin")]);
   useEffect(() => {
     if (document.querySelector(".validation-msg") !== null) {
       const validationDOM = document.querySelector(
@@ -119,7 +124,11 @@ const EuropeRegistration = () => {
             if (
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
-              !window.MktoForms2.allForms()[0]?.validate()
+              !window.MktoForms2.allForms()[
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                window.MktoForms2.allForms().length - 1
+              ]?.validate()
             ) {
               // 마케토 validator가 알려줌
             } else if (emailValid !== 1) {
@@ -167,7 +176,11 @@ const EuropeRegistration = () => {
                     const formData =
                       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                       // @ts-ignore
-                      window.MktoForms2.allForms()[0].getValues();
+                      window.MktoForms2.allForms()[
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        window.MktoForms2.allForms().length - 1
+                      ].getValues();
                     try {
                       // user db submit
                       const regResponse = await axios.post(
@@ -195,8 +208,12 @@ const EuropeRegistration = () => {
                       // marketo submit
                       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                       // @ts-ignore
-                      window.MktoForms2.allForms()[0]
-                        .submit()
+                      window.MktoForms2.allForms()
+                        [
+                          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                          // @ts-ignore
+                          window.MktoForms2.allForms().length - 1
+                        ].submit()
                         .onSuccess(() => {
                           console.log("mkto success");
                           return false;

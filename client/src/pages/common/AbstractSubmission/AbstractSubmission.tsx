@@ -44,9 +44,14 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
 
   const submitHandler = async () => {
     setSubmitLoading(true);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const mktoForm = window.MktoForms2.allForms()[0];
+    const mktoForm =
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.MktoForms2.allForms()[
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.MktoForms2.allForms().length - 1
+      ];
     const formData = mktoForm.getValues();
     const {
       psAbstractTitle,
