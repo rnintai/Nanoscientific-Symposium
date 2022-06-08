@@ -12,6 +12,7 @@ import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import Registration from "pages/common/Registration/Registration";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import Announcement from "pages/common/Announcement/Announcement";
+import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 
 const pathname = "americas";
 const formNo = "1184";
@@ -24,6 +25,10 @@ export default [
   {
     path: `/${pathname}/speakers`,
     element: <Speakers />,
+  },
+  {
+    path: `/${pathname}/speakers/:id`,
+    element: <SpeakerDetail />,
   },
   {
     path: `/${pathname}/program`,
