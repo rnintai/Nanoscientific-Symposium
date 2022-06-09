@@ -200,12 +200,16 @@ const Registration = ({ formNo }: RegistrationProps) => {
       setSubmitBlock(false);
     }
   };
+
   // 마케토폼 2개 렌더링 될 시 refresh
   useEffect(() => {
-    if (document.querySelectorAll("#LblpsOptin").length > 2) {
-      navigate(0);
-    }
-  }, [document.querySelectorAll("#LblpsOptin")]);
+    setTimeout(() => {
+      if (document.querySelectorAll("#LblpsOptin").length > 2) {
+        navigate(0);
+      }
+    }, 300);
+  }, [mktoLoading]);
+
   return (
     <>
       {mktoLoading && <Loading />}

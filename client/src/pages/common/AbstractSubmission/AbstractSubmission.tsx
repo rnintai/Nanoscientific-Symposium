@@ -108,13 +108,15 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
       setSubmitLoading(false);
     }
   };
-  useEffect(() => {
-    setMktoLoaded(true);
 
-    if (document.querySelectorAll("#LblpsOptin").length > 2) {
-      navigate(0);
-    }
-  }, [window.location.pathname]);
+  // 마케토폼 2개 렌더링 될 시 refresh
+  useEffect(() => {
+    setTimeout(() => {
+      if (document.querySelectorAll("#LblpsOptin").length > 2) {
+        navigate(0);
+      }
+    }, 300);
+  }, [mktoLoading]);
 
   useEffect(() => {
     if (
