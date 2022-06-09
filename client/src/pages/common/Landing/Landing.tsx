@@ -23,6 +23,7 @@ import {
   smallFontSize,
   headingFontSize,
 } from "utils/FontSize";
+import Link from "components/Link/LinkWithSearch";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 
 const Landing = () => {
@@ -165,11 +166,13 @@ const Landing = () => {
                 fontSize={mainFontSize}
                 fontWeight={theme.typography.fontWeightBold}
                 letterSpacing="1.2px"
-                onClick={() => {
-                  navigate(`/${pathname}/registration`);
-                }}
               >
-                {registration}
+                <Link
+                  style={{ padding: 0, color: "white" }}
+                  to={`/${pathname}/registration`}
+                >
+                  {registration}
+                </Link>
               </NSSButton>
             )}
             <Typography
