@@ -4,7 +4,8 @@ import Loading from "components/Loading/Loading";
 import SpeakerImage from "components/SpeakerImage/SpeakerImage";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import Link from "components/Link/LinkWithSearch";
 import {
   mainFontSize,
   smallFontSize,
