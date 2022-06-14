@@ -152,12 +152,12 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
       landingSection7Title: "Supported By",
       landingSection7Sponsors: [
-        // {
-        //   name: "Park Systems",
-        //   img: `${S3_URL}/common/Park_logo.svg`,
-        //   url: "https://parksystems.com",
-        //   height: 120,
-        // },
+        {
+          name: "Park Systems",
+          img: `${S3_URL}/common/Park_logo.svg`,
+          url: "https://parksystems.com",
+          height: 120,
+        },
         {
           name: "NANOscientific",
           img: `${S3_URL}/asia/sponsor/NANOscientific-logo.png`,
