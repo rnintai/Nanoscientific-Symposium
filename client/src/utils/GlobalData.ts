@@ -150,15 +150,85 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection6ButtonLink:
         "https://www.youtube.com/playlist?list=PLH4cAUjlEqR0I1ahoDjwod-DTlhkmZ-zA",
       landingSection6Videos: ["8K__qXUK6pQ", "LxzYo74X044"],
-      landingSection7Title: "Sponsored By",
+      landingSection7Title: "Supported By",
       landingSection7Sponsors: [
+        // {
+        //   name: "Park Systems",
+        //   img: `${S3_URL}/common/Park_logo.svg`,
+        //   url: "https://parksystems.com",
+        //   height: 120,
+        // },
         {
-          name: "Park Systems",
-          img: `${S3_URL}/common/Park_logo.svg`,
-          url: "https://parksystems.com",
+          name: "NANOscientific",
+          img: `${S3_URL}/asia/sponsor/NANOscientific-logo.png`,
+          height: 50,
+        },
+        {
+          name: "NWA",
+          img: `${S3_URL}/asia/sponsor/nwa-logo.jpg`,
+          height: 110,
+        },
+        {
+          name: "Physics World",
+          img: `${S3_URL}/asia/sponsor/physicsworld-logo.png`,
+          height: 110,
+        },
+        {
+          name: "Gaia Science",
+          img: `${S3_URL}/asia/sponsor/01_Gaia-Science-SG-logo.png`,
+          height: 50,
+        },
+        {
+          name: "ICONAnalytical",
+          img: `${S3_URL}/asia/sponsor/03_ICONAnalytical-logo.png`,
+          height: 50,
+        },
+        {
+          name: "OMC",
+          img: `${S3_URL}/asia/sponsor/04_OMC-logo.png`,
+          height: 27,
+        },
+        {
+          name: "Rotak",
+          img: `${S3_URL}/asia/sponsor/05_Rotak-logo.png`,
+          height: 50,
+        },
+        {
+          name: "Vanadia",
+          img: `${S3_URL}/asia/sponsor/06_Vanadia-logo.png`,
+          height: 40,
+        },
+        {
+          name: "Professional Systems",
+          img: `${S3_URL}/asia/sponsor/07_Prof-Sys-logo.jpg`,
+          height: 35,
+        },
+        {
+          name: "KFI",
+          img: `${S3_URL}/asia/sponsor/08_KFI-logo.jpg`,
+          height: 57,
+        },
+        {
+          name: "Puditec",
+          img: `${S3_URL}/asia/sponsor/09_Puditec-logo.jpg`,
+          height: 65,
+        },
+        {
+          name: "Scitek",
+          img: `${S3_URL}/asia/sponsor/11_Scitek-logo.png`,
+          height: 88,
+        },
+        {
+          name: "Dutcotennent",
+          img: `${S3_URL}/asia/sponsor/12_Dutco-LLC-logo.jpg`,
+          height: 96,
+        },
+        {
+          name: "T&N",
+          img: `${S3_URL}/asia/sponsor/13_tn-logo.jpg`,
+          height: 70,
         },
       ],
-
       // resetPassword
       resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
@@ -579,7 +649,7 @@ export const globalData = new Map<string, Common.globalDataType>([
           name: "NANOscientific",
           img: `${S3_URL}/eu/sponsors/nanoscientific_logo.png`,
           url: "https://nanoscientific.org/",
-          height: "40px",
+          height: 40,
         },
       ],
       // resetPassword

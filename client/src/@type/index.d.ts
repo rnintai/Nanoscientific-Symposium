@@ -118,7 +118,7 @@ declare namespace Common {
     name: string;
     img: string;
     url?: string;
-    height?: string;
+    height?: number;
   }
 
   interface globalDataType {

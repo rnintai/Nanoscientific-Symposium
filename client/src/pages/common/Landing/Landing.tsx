@@ -485,9 +485,10 @@ const Landing = () => {
                 flexWrap="wrap"
                 alignItems="center"
                 sx={{
-                  flexDirection: {
-                    mobile: "column",
-                    tablet: "row",
+                  flexDirection: "row",
+                  justifyContent: {
+                    mobile: "center",
+                    tablet: "flex-start",
                   },
                 }}
               >
