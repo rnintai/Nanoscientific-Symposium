@@ -26,7 +26,6 @@ module.exports = {
         currentPool = europePool;
         break;
       default:
-        console.log("no pool");
         break;
     }
     return currentPool;
