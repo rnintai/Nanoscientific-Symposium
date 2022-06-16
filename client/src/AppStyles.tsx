@@ -109,7 +109,7 @@ export const AppContainer = styled.div`
 
   @media screen and (min-width: 0px) {
     .banner {
-      height: 240px;
+      height: 210px;
     }
     .layout {
       padding: 35px;
