@@ -38,6 +38,7 @@ const SpeakerCard = ({
   return (
     <Grid
       item
+      component={isAdmin ? "button" : "div"}
       xs={2}
       sm={3}
       md={3}

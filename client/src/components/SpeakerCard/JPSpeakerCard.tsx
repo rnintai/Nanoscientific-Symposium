@@ -27,6 +27,7 @@ const JPSpeakerCard = ({
   return (
     <Grid
       item
+      component={isAdmin ? "button" : "div"}
       xs={2}
       sm={4}
       md={4}
