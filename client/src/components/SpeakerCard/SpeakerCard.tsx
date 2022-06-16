@@ -38,13 +38,10 @@ const SpeakerCard = ({
   return (
     <Grid
       item
-      xs={2}
-      sm={3}
-      md={3}
       key={speaker.id}
       sx={{
         cursor: `${isAdmin ? "pointer" : "auto"}`,
-        width: { tablet: "33.3%", mobile: "100%" },
+        width: { laptop: "33.3%", mobile: "100%" },
       }}
       className={`${isAdmin ? "hover-zoom" : ""}`}
     >

@@ -27,9 +27,6 @@ const JPSpeakerCard = ({
   return (
     <Grid
       item
-      xs={2}
-      sm={4}
-      md={4}
       key={speaker.id}
       sx={{
         cursor: `${isAdmin ? "pointer" : "auto"}`,
