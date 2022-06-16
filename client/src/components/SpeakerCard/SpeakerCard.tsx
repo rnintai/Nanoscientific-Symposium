@@ -38,7 +38,6 @@ const SpeakerCard = ({
   return (
     <Grid
       item
-      component={isAdmin ? "button" : "div"}
       xs={2}
       sm={3}
       md={3}
@@ -48,7 +47,6 @@ const SpeakerCard = ({
         width: { tablet: "33.3%", mobile: "100%" },
       }}
       className={`${isAdmin ? "hover-zoom" : ""}`}
-      onClick={onClick}
     >
       <Link
         to={`/${pathname}/speakers/${speaker.id}`}

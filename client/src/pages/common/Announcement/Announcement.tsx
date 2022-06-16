@@ -3,7 +3,7 @@ import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import AnnouncementCard from "components/AnnouncementCard/AnnouncementCard";
-import { IconButton, Stack, TextField, Typography } from "@mui/material";
+import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import {
@@ -13,7 +13,6 @@ import {
   subHeadingFontSize,
 } from "utils/FontSize";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { Box } from "@mui/system";
 import CommonModal from "components/CommonModal/CommonModal";
 import QuillEditor from "components/QuillEditor/QuillEditor";
 import useInput from "hooks/useInput";
