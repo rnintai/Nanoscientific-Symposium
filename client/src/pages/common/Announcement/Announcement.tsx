@@ -115,13 +115,6 @@ const Announcement = () => {
 
   return (
     <AnnouncementContainer className="layout">
-      <Typography
-        fontSize={headingFontSize}
-        color={theme.palette.primary.navy}
-        fontWeight={700}
-      >
-        Announcement
-      </Typography>
       {isEditor && (
         <Box sx={{ width: "100%", textAlign: "right" }}>
           <Typography
