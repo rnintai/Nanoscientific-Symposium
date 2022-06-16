@@ -38,7 +38,6 @@ const SpeakerCard = ({
   return (
     <Grid
       item
-      component="div"
       xs={2}
       sm={3}
       md={3}
