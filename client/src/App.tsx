@@ -59,7 +59,8 @@ const App = () => {
   const themeObj = theme(themeState.darkMode);
   const jpThemeObj = jpTheme(themeState.darkMode);
   const themeDispatch = useThemeDispatch();
-  const { bannerLoading, setBannerLoading } = useLoadingStore();
+  const { bannerLoading, setBannerLoading, landingListLoading } =
+    useLoadingStore();
 
   // mode
   useEffect(() => {
@@ -213,7 +214,12 @@ const App = () => {
     }
   }, [bannerURL, window.location.href]);
 
-  if (authState.isLoading || bannerLoading) return <Loading />;
+  if (authState.isLoading || bannerLoading)
+    return (
+      <ThemeProvider theme={themeObj}>
+        <Loading />
+      </ThemeProvider>
+    );
 
   return (
     <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>

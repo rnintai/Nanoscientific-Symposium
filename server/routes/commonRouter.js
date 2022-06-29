@@ -80,26 +80,6 @@ router.route("/maintenance").get(commonCtrl.getMaintenance);
 
 /**
  * @swagger
- *  /api/page/common/landing:
- *    get:
- *      tags:
- *      - Common
- *      description: 각 국가의 landing page html 을 줍니다. 국가는 쿼리에 담습니다
- *      parameters:
- *        - name: nation
- *          in: query
- *          required: true
- *          schema:
- *            type: string
- *      responses:
- *        '200':
- *          description: successful operation
- */
-
-router.route("/landing").get(commonCtrl.getLanding);
-
-/**
- * @swagger
  *  /api/page/common/sponsors:
  *    get:
  *      tags:
@@ -242,5 +222,26 @@ router.route("/speakers/keynote").get(commonCtrl.getKeynoteSpeakers);
 
 router.route("/speakers/detail").get(commonCtrl.getSpeakerDetailById);
 router.route("/banner").get(commonCtrl.getBanner).post(commonCtrl.setBanner);
+
+router
+  .route("/landing")
+  .get(commonCtrl.getLandingSectionList)
+  .post(commonCtrl.setLandingSectionList);
+router.route("/landing/:id").get(commonCtrl.getLandingContent);
+router.route("/landing/title/:id").post(commonCtrl.setLandingTitle);
+router.route("/landing/2").post(commonCtrl.setLanding2Content);
+router.route("/landing/3").post(commonCtrl.setLanding3Content);
+router
+  .route("/landing/4")
+  .post(commonCtrl.setLanding4Content)
+  .put(commonCtrl.modifyLanding4Content)
+  .delete(commonCtrl.deleteLanding4Content);
+router.route("/landing/6").post(commonCtrl.setLanding6Content);
+router.route("/landing/button/6").post(commonCtrl.setLanding6Button);
+router
+  .route("/landing/7")
+  .post(commonCtrl.addSponsor)
+  .put(commonCtrl.modifySponsor)
+  .delete(commonCtrl.deleteSponsor);
 
 module.exports = router;
