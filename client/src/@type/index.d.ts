@@ -247,3 +247,34 @@ declare namespace Admin {
     adminOnly?: boolean;
   }
 }
+
+declare namespace Landing {
+  interface landingType {
+    id: number;
+    title: string;
+    show: number;
+  }
+  interface landing3Type {
+    id: number;
+    title?: string;
+    description: string;
+  }
+  interface landing4Type {
+    id: number;
+    title: string;
+    description: string;
+  }
+  interface landing6Type {
+    id: number;
+    description: string;
+    url?: string;
+    button_text?: string;
+  }
+  interface landing7Type {
+    id: number;
+    name?: string;
+    url?: string;
+    image_path: string;
+    height: number;
+  }
+}

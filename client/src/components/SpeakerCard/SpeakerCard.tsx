@@ -44,6 +44,7 @@ const SpeakerCard = ({
         width: { laptop: "33.3%", mobile: "100%" },
       }}
       className={`${isAdmin ? "hover-zoom" : ""}`}
+      onClick={onClick}
     >
       <Link
         to={`/${pathname}/speakers/${speaker.id}`}

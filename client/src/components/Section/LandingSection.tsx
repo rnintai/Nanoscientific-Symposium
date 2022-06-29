@@ -24,7 +24,7 @@ const LandingSection = (props: LandingSectionProps) => {
       {...rest}
       className={`${rest.className !== undefined ? ` ${rest.className}` : ""}${
         fullWidth ? " fullWidth" : ""
-      }`}
+      } bg-transition`}
       style={{
         ...rest.style,
         ...{

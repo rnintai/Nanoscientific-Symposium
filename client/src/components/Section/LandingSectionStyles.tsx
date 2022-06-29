@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material";
 export const LandingSectionContainer = styled.div`
   background-size: cover;
   background-position: center;
-
+  transition: background-color 1s ease;
   .gradient-box {
     background: ${() => {
       const theme = useTheme();

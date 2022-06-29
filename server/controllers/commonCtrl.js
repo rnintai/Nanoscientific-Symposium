@@ -134,10 +134,6 @@ const commonCtrl = {
     res.sendFile(path.join(__dirname, "..", `public/${nation}/sponsors.html`));
   },
 
-  getLanding: async (req, res) => {
-    const { nation } = req.query;
-    res.sendFile(path.join(__dirname, "..", `public/${nation}/landing.html`));
-  },
   getBanner: async (req, res) => {
     const { nation, path } = req.query;
     const currentPool = getCurrentPool(nation);
@@ -176,6 +172,336 @@ const commonCtrl = {
         path
       )}'`;
       await connection.query(sql);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  getLandingSectionList: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      SELECT * FROM landing_section;
+      `;
+      const row = await connection.query(sql);
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
+  setLandingSectionList: async (req, res) => {
+    const { nation, landingSectionList } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      for (let landing of landingSectionList) {
+        const sql = `
+        UPDATE landing_section SET 
+        landing_section.show=${landing.show}
+        WHERE id=${landing.id}
+        `;
+
+        await connection.query(sql);
+      }
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  setLandingTitle: async (req, res) => {
+    const { nation, title } = req.body;
+    const { id } = req.params;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `
+        UPDATE landing_section SET 
+        landing_section.title='${title}'
+        WHERE id=${id}
+        `;
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  getLandingContent: async (req, res) => {
+    const { nation } = req.query;
+    const { id } = req.params;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      SELECT * FROM landing_section_${id};
+      `;
+      const row = await connection.query(sql);
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  setLanding2Content: async (req, res) => {
+    const { nation, title, description } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE landing_section_2 SET 
+      description='${description}'
+      WHERE id=1`;
+      await connection.query(sql);
+
+      const sql2 = `UPDATE landing_section SET 
+      title='${title}'
+      WHERE id=2`;
+      await connection.query(sql2);
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  setLanding3Content: async (req, res) => {
+    const { nation, title, description } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE landing_section_3 SET 
+      description='${description}'
+      WHERE id=1`;
+      await connection.query(sql);
+
+      const sql2 = `UPDATE landing_section SET 
+      title='${title}'
+      WHERE id=3`;
+      await connection.query(sql2);
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  setLanding6Content: async (req, res) => {
+    const { nation, title, description } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE landing_section_6 SET 
+      description='${description}'
+      WHERE id=1`;
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  setLanding6Button: async (req, res) => {
+    const { nation, url, buttonText } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE landing_section_6 SET 
+      url='${url}',
+      button_text='${buttonText}'
+      WHERE id=1`;
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  setLanding4Content: async (req, res) => {
+    const { nation, title, description } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `INSERT INTO landing_section_4 (title,description) VALUES 
+      ('${title}','${description}')`;
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  modifyLanding4Content: async (req, res) => {
+    const { nation, id, title, description } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE landing_section_4 SET 
+      title='${title}',
+      description='${description}'
+      WHERE id=${id}`;
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  deleteLanding4Content: async (req, res) => {
+    const { nation, id } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `DELETE FROM landing_section_4 WHERE id=${id}`;
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+
+  addSponsor: async (req, res) => {
+    const { nation, name, url, imagePath, height } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `INSERT INTO landing_section_7 
+      (name, url, image_path, height)
+      VALUES
+      ('${name}','${url}','${imagePath}', ${height ? height : 0})
+      `;
+      const row = await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  modifySponsor: async (req, res) => {
+    const { nation, id, name, url, imagePath, height } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `UPDATE landing_section_7 SET
+      name='${name}', url='${url}',
+      image_path='${imagePath}',
+      height=${height ? height : 0}
+      WHERE id=${id}
+      `;
+      const row = await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    } finally {
+      connection.release();
+    }
+  },
+  deleteSponsor: async (req, res) => {
+    const { nation, id } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `DELETE FROM landing_section_7 WHERE id=${id}`;
+      const row = await connection.query(sql);
+
       res.status(200).json({
         success: true,
       });
