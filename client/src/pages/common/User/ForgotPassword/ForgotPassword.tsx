@@ -75,6 +75,7 @@ const ForgotPassword = () => {
         setCorrectCode(res.data.code);
         setShowCodeInput(true);
         setEmailSentAlert(true);
+        setIsTimerStarted(false);
         setIsTimerStarted(true);
       } else {
         // alert: 이메일이 존재하지 않아요
