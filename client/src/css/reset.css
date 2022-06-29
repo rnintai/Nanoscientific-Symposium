@@ -14,3 +14,7 @@ ul,
 li {
   padding: 0;
 }
+
+p {
+  margin-block: 0;
+}
