@@ -710,7 +710,7 @@ const Landing = () => {
                     {landing4Title || ""}
                   </LandingTextEditor>
 
-                  {isAdmin && (
+                  {isEditor && (
                     <IconButton onClick={handleAddSection4}>
                       <AddCircleOutlineIcon color="primary" />
                     </IconButton>
@@ -726,7 +726,7 @@ const Landing = () => {
                 >
                   {landingSection4List?.map((item) => (
                     <Box
-                      component={isAdmin ? "button" : "div"}
+                      component={isEditor ? "button" : "div"}
                       className="gradient-box"
                       sx={{
                         width: {
@@ -748,7 +748,7 @@ const Landing = () => {
                       }}
                       key={`box-${item.id}`}
                       onClick={() => {
-                        if (isAdmin) {
+                        if (isEditor) {
                           setSelectedSection4(item);
                           setEditSection4(true);
                           setOpenSection4Modal(true);
@@ -890,7 +890,7 @@ const Landing = () => {
                           {landing6Content.button_text}
                         </NSSButton>
                       )}
-                      {isAdmin && (
+                      {isEditor && (
                         <IconButton
                           component="span"
                           className="landing6-edit-btn"

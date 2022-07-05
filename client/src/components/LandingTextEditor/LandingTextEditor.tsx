@@ -58,7 +58,7 @@ const LandingTextEditor = ({
 
   return (
     <Box className="editor-content">
-      {isAdmin && (
+      {isEditor && (
         <IconButton
           component="span"
           className="edit-btn"
@@ -71,7 +71,7 @@ const LandingTextEditor = ({
           <EditIcon />
         </IconButton>
       )}
-      {isAdmin && edit ? (
+      {isEditor && edit ? (
         <>
           <QuillEditor value={value} setValue={setValue} />
           <Box sx={{ textAlign: "right", my: 2 }}>
