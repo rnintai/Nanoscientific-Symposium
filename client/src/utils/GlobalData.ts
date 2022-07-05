@@ -7,12 +7,6 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       nations: [
         {
-          name: "NSS Asia",
-          date: "Sep 26, 2022",
-          path: "asia",
-          img: `${S3_URL}/asia/main-page-banner.jpg`,
-        },
-        {
           name: "NSS Americas",
           date: "Sep 29, 2022",
           path: "americas",
@@ -41,6 +35,12 @@ export const globalData = new Map<string, Common.globalDataType>([
           date: "Nov 24, 2022",
           path: "kr",
           img: `${S3_URL}/kr/main-page-banner.jpg`,
+        },
+        {
+          name: "NSS Asia",
+          date: "Nov 25, 2022",
+          path: "asia",
+          img: `${S3_URL}/asia/main-page-banner.jpg`,
         },
       ],
       logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
@@ -72,7 +72,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     "asia",
     {
       fullName: "2022 NanoScientific Symposium Asia",
-      fullDate: "September 26, 2022",
+      fullDate: "November 25, 2022",
       // eventLocation: "TBD",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
@@ -98,7 +98,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/asia/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/asia/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join us for the 4th edition of the NanoScientific Symposium Asia 2022 to be held on September 22, 2022.",
+        "Join us for the 4th edition of the NanoScientific Symposium Asia 2022 to be held on November 25, 2022.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",
