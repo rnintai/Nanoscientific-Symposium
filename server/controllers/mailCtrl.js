@@ -12,15 +12,15 @@ const mailCtrl = {
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      // const sql = `SELECT EXISTS
-      // (SELECT email FROM user WHERE email="admin1")
-      // as emailExist`;
+      const [code, token] = vCode.create(email);
 
-      // const row = await connection.query(sql);
-      // const emailExist = row[0][0].emailExist === 1 ? true : false;
+      const sql = `INSERT INTO email_verification (email, token)
+      VALUES ("${email}","${token}")
+      ON DUPLICATE KEY UPDATE
+      token="${token}"`;
 
-      const code = vCode.create();
-      // if (emailExist) {
+      const row = await connection.query(sql);
+
       const transporter = nodemailer.createTransport({
         debug: true,
         port: 587,
@@ -75,6 +75,35 @@ const mailCtrl = {
       });
     } finally {
       connection.release();
+    }
+  },
+
+  checkVcode: async (req, res) => {
+    const { email, code, nation } = req.body;
+    const currentPool = getCurrentPool(nation);
+
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `SELECT token from email_verification WHERE email="${email}"`;
+      const row = await connection.query(sql);
+
+      const { token } = row[0][0];
+      const isCorrect = vCode.check(code, token);
+      if (isCorrect) {
+        res.status(200).json({
+          success: true,
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        msg: err,
+      });
     }
   },
 

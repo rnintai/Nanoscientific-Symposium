@@ -75,8 +75,6 @@ const EuropeLoginModal = ({
   const [nameNotMatchAlert, setNameNotMatchAlert] = useState<boolean>(false);
 
   // 인증번호
-  const [correctCode, setCorrectCode] = useState<string>("");
-  // const [showCodeInput, setShowCodeInput] = useState<boolean>(false);
   const [isEmailVerified, setIsEmailVerified] = useState<boolean>(false);
   const [sendHandlerLoading, setSendHandlerLoading] = useState<boolean>(false);
 
@@ -86,6 +84,8 @@ const EuropeLoginModal = ({
 
   // alert
   const [emailSentAlert, setEmailSentAlert] = useState<boolean>(false);
+  const [emailNotVerifiedAlert, setEmailNotVerifiedAlert] =
+    useState<boolean>(false);
   const [emailNotExistAlert, setEmailNotExistAlert] = useState<boolean>(false);
   const [timerExpiredAlert, setTimerExpiredAlert] = useState<boolean>(false);
   const [codeCorrectAlert, setCodeCorrectAlert] = useState<boolean>(false);
@@ -138,9 +138,8 @@ const EuropeLoginModal = ({
         nation: pathname,
       });
       if (res.data.result) {
-        // 인증번호 세팅
-        setCorrectCode(res.data.code);
         setEmailSentAlert(true);
+        setIsTimerStarted(false);
         setIsTimerStarted(true);
       } else {
         // alert: 이메일이 존재하지 않아요
@@ -154,14 +153,24 @@ const EuropeLoginModal = ({
   };
 
   // 인증번호 확인 버튼 handler
-  const confirmCodeHandler = () => {
-    if (correctCode === verificationCode.value) {
-      setIsEmailVerified(true);
-      setCodeCorrectAlert(true);
-      setIsExpired(true);
-    } else {
-      setIsEmailVerified(false);
-      setCodeWrongAlert(true);
+  const confirmCodeHandler = async () => {
+    try {
+      const res = await axios.post(`/api/mail/vcode/check`, {
+        nation: pathname,
+        email: email.value.trim(),
+        code: verificationCode.value.trim(),
+      });
+
+      if (res.data.success) {
+        setIsEmailVerified(true);
+        setCodeCorrectAlert(true);
+        setIsExpired(true);
+      } else {
+        setIsEmailVerified(false);
+        setCodeWrongAlert(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -182,7 +191,6 @@ const EuropeLoginModal = ({
 
   // timer 만료 handler
   const timerExpiredHandler = () => {
-    setCorrectCode("");
     setIsTimerStarted(false);
     if (!isEmailVerified) setTimerExpiredAlert(true);
   };
@@ -275,7 +283,10 @@ const EuropeLoginModal = ({
       setEmptyAlert(true);
       return;
     }
-
+    if (!isEmailVerified) {
+      setEmailNotVerifiedAlert(true);
+      return;
+    }
     setLoading(true);
     axios
       .post("/api/users/passwordset", {
@@ -573,7 +584,7 @@ const EuropeLoginModal = ({
                 variant="filled"
                 onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
                   if (e.key === "Enter") {
-                    passwordSetHandler();
+                    confirmCodeHandler();
                   }
                 }}
                 {...verificationCode}
@@ -690,6 +701,13 @@ const EuropeLoginModal = ({
           variant="filled"
           severity="error"
           content="The code is wrong. Please check again."
+        />
+        <TopCenterSnackBar
+          value={emailNotVerifiedAlert}
+          setValue={setEmailNotVerifiedAlert}
+          variant="filled"
+          severity="error"
+          content='Please enter verification code then "Confirm" button.'
         />
         <TopCenterSnackBar
           value={passwordChangeSuccessAlert}
