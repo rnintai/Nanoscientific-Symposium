@@ -51,7 +51,9 @@ const AnnouncementDetail = () => {
   const getAnnouncementDetail = async () => {
     try {
       const result = await axios.get(
-        `/api/announcement/post?nation=${pathname}&id=${id}`,
+        `/api/announcement/post?nation=${pathname}&id=${id}&admin=${
+          isEditor ? 1 : 0
+        }`,
       );
       setCurrentAnnouncement(result.data.result);
       setTitle(result.data.result.title);

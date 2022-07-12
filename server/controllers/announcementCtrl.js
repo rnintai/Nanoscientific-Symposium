@@ -40,17 +40,21 @@ const announcementCtrl = {
     }
   },
   getPostById: async (req, res) => {
-    const { nation, id } = req.query;
+    const { nation, id, admin } = req.query;
     const currentPool = getCurrentPool(nation);
-
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT id,title,content,created, (SELECT hits+1 FROM announcement) as hits FROM announcement WHERE id=${id}`;
+      const sql =
+        admin == 1
+          ? `SELECT id,title,content,created, hits FROM announcement WHERE id=${id}`
+          : `SELECT id,title,content,created, hits+1 as hits FROM announcement WHERE id=${id}`;
       const row = await connection.query(sql);
 
       // 조회수 추가
-      const sql2 = `UPDATE announcement SET hits=${row[0][0].hits} WHERE id=${id}`;
-      const row2 = await connection.query(sql2);
+      if (admin == 0) {
+        const sql2 = `UPDATE announcement SET hits=${row[0][0].hits} WHERE id=${id}`;
+        const row2 = await connection.query(sql2);
+      }
 
       if (row[0].length !== 0) {
         res.status(200).json({
