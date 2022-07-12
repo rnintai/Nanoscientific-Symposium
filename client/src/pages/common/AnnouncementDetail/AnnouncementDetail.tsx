@@ -70,7 +70,6 @@ const AnnouncementDetail = () => {
         id: currentAnnouncement.id,
         title,
         content,
-        created: jsTimeToTimeStamp(currentAnnouncement.created),
       });
       getAnnouncementDetail();
       setOpenEditSuccessAlert(true);
@@ -93,8 +92,6 @@ const AnnouncementDetail = () => {
 
   useEffect(() => {
     getAnnouncementDetail();
-    // 조회수 증가 api 호출
-    // postHits();
   }, []);
   return (
     <AnnouncementDetailContainer className="layout body-fit">

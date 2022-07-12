@@ -96,8 +96,7 @@ const announcementCtrl = {
         sql = `
         UPDATE announcement SET
         title='${title}',
-        content='${content}',
-        created='${created}'
+        content='${content}'
         WHERE id=${id}
         `;
       }
