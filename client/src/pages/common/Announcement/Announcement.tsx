@@ -89,7 +89,7 @@ const Announcement = () => {
       const result = await axios.post(`/api/announcement/post`, {
         nation: pathname,
         title: title.value,
-        content,
+        content: `${content.replace(/'/g, `\\'`).replace(/"/g, `\\"`)}`,
       });
       if (result.data.success) {
         setOpenWriteModal(false);
