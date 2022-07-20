@@ -123,7 +123,7 @@ const ProgramsList = () => {
                   <Table
                     sx={{
                       width: "100%",
-                      minWidth: "600px",
+                      // minWidth: "600px",
                       mb: 1,
                       borderCollapse: "separate",
                       borderSpacing: "10px",

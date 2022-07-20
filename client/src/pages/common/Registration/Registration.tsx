@@ -179,6 +179,10 @@ const Registration = ({ formNo }: RegistrationProps) => {
         .onSuccess(() => {
           return false;
         });
+      await axios.post(`/api/zoom/webinar/registrant/fetch`, {
+        email: formData.Email,
+        nation: pathname,
+      });
       try {
         const res = await axios.post("/api/users/login", {
           nation,

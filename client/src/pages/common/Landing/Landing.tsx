@@ -252,7 +252,8 @@ const Landing = () => {
       });
       setLanding2Title(landing2Title);
       setLanding2Desc(landing2Desc);
-      navigate(0);
+      setLanding2TitleEdit(false);
+      setLanding2DescEdit(false);
     }
   };
 
@@ -277,7 +278,8 @@ const Landing = () => {
       });
       setLanding3Title(landing3Title);
       setLanding3Desc(landing3Desc);
-      navigate(0);
+      setLanding3TitleEdit(false);
+      setLanding3DescEdit(false);
     }
   };
 
@@ -303,7 +305,7 @@ const Landing = () => {
         title: landing4Title,
       });
       setLanding4Title(landing4Title);
-      navigate(0);
+      setLanding4TitleEdit(false);
     }
   };
   const handleAddSection4 = () => {
@@ -325,7 +327,7 @@ const Landing = () => {
         title: landing5Title,
       });
       setLanding5Title(landing5Title);
-      navigate(0);
+      setLanding5TitleEdit(false);
     }
   };
 
@@ -339,7 +341,8 @@ const Landing = () => {
       });
       setLanding6Title(landing6Title);
       setLanding6Desc(landing6Desc);
-      navigate(0);
+      setLanding6TitleEdit(false);
+      setLanding6DescEdit(false);
     }
   };
   const getLandingSection6 = async () => {
@@ -377,7 +380,7 @@ const Landing = () => {
         title: landing7Title,
       });
       setLanding7Title(landing7Title);
-      navigate(0);
+      setLanding7TitleEdit(false);
     }
   };
   const getLandingSection7 = async () => {

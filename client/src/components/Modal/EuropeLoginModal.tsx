@@ -219,24 +219,33 @@ const EuropeLoginModal = ({
 
   const loginHandler = async (email: string, password: string) => {
     setLoading(true);
-    axios
-      .post("/api/users/login", {
+    try {
+      await axios.post(`/api/zoom/webinar/registrant/fetch`, {
         email,
-        password,
         nation: pathname,
-      })
-      .then((res) => {
-        if (res.data.success === true) {
-          dispatchLogin(email, res.data.role, res.data.accessToken);
-          setSuccess(true);
-          setPasswordInputModalOpen(false);
-        } else {
-          setFailed(true);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
       });
+
+      const res = await axios.post(
+        `/api/users/login`,
+        {
+          email,
+          password,
+          nation: pathname,
+        },
+        {
+          withCredentials: true,
+        },
+      );
+      if (res.data.success === true) {
+        dispatchLogin(email, res.data.role, res.data.accessToken);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setSuccess(true);
+      setPasswordInputModalOpen(false);
+      setLoading(false);
+    }
   };
 
   const nextHandler = () => {
