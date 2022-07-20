@@ -12,6 +12,7 @@ const configurationCtrl = {
       SELECT * FROM configuration
       `;
       const result = await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
         result: result[0][0],

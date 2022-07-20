@@ -60,18 +60,18 @@ const abstractCtrl = {
       )
       `;
       const result = await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
         result,
       });
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(200).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
 };

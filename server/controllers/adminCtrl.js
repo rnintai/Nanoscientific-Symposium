@@ -413,16 +413,17 @@ const adminCtrl = {
       (name,belong,image_path,status,keynote,description,has_abstract)
       VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}', ${hasAbstract})`;
       const data = await connection.query(sql);
+      connection.release();
 
       const sql2 = `INSERT INTO speaker_abstract(speaker_id,belong,description)
           VALUES(${data[0].insertId},'${abstractBelong}','${abstractDesc}')`;
       await connection.query(sql2);
+      connection.release();
 
       res.status(200).json({
         success: true,
         message: "Success",
       });
-      connection.release();
     } catch (err) {
       console.log(err);
     }
@@ -455,6 +456,7 @@ const adminCtrl = {
       `;
 
       const data = await connection.query(sql);
+      connection.release();
 
       const sql2 = `INSERT INTO speaker_abstract (
         speaker_id,
@@ -471,12 +473,12 @@ const adminCtrl = {
         `;
 
       await connection.query(sql2);
+      connection.release();
 
       res.status(200).json({
         success: true,
         message: "Success",
       });
-      connection.release();
     } catch (err) {
       console.log(err);
     }

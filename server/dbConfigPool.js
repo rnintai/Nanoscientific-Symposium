@@ -11,6 +11,9 @@ const asiaPool = mysql.createPool({
   port: conf.port,
   database: "asia",
   connectionLimit: 30,
+  enableKeepAlive: true,
+  waitForConnections: true,
+  queueLimit: 0,
 });
 
 const koreaPool = mysql.createPool({
@@ -20,6 +23,9 @@ const koreaPool = mysql.createPool({
   port: conf.port,
   database: "korea",
   connectionLimit: 30,
+  enableKeepAlive: true,
+  waitForConnections: true,
+  queueLimit: 0,
 });
 const japanPool = mysql.createPool({
   host: conf.host,
@@ -28,6 +34,9 @@ const japanPool = mysql.createPool({
   port: conf.port,
   database: "japan",
   connectionLimit: 30,
+  enableKeepAlive: true,
+  waitForConnections: true,
+  queueLimit: 0,
 });
 const usPool = mysql.createPool({
   host: conf.host,
@@ -36,6 +45,9 @@ const usPool = mysql.createPool({
   port: conf.port,
   database: "us",
   connectionLimit: 30,
+  enableKeepAlive: true,
+  waitForConnections: true,
+  queueLimit: 0,
 });
 const europePool = mysql.createPool({
   host: conf.host,
@@ -44,6 +56,9 @@ const europePool = mysql.createPool({
   port: conf.port,
   database: "europe",
   connectionLimit: 30,
+  enableKeepAlive: true,
+  waitForConnections: true,
+  queueLimit: 0,
 });
 
 module.exports.asiaPool = asiaPool;

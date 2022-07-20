@@ -17,6 +17,7 @@ const usersCtrl = {
       const sql = `SELECT email, password, role FROM user WHERE email='${userEmail}'`;
 
       const result = await connection.query(sql);
+      connection.release();
       if (result[0].length) {
         let dbPassword = result[0][0].password; // 해쉬화 된 db상의 wordpress 비밀번호
         checked = hasher.CheckPassword(userPw, dbPassword);
@@ -89,6 +90,7 @@ const usersCtrl = {
       WHERE email='${userEmail}' AND refresh_token='${refreshToken}'`;
 
       const result = await connection.query(sql);
+      connection.release();
       // if (result[0].changedRows === 0) {
       //   res.status(200).json({
       //     success: true,
@@ -103,7 +105,6 @@ const usersCtrl = {
         message: "Successfully logged out",
       });
       // }
-      connection.release();
     } catch (error) {
       await connection.rollback();
       connection.release();
@@ -122,6 +123,7 @@ const usersCtrl = {
         SELECT email FROM user WHERE email="${userEmail}"
       ) as result;`;
       const result = await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
@@ -145,6 +147,7 @@ const usersCtrl = {
     try {
       const sql = `SELECT is_password_set FROM user WHERE email="${userEmail}"`;
       result = await connection.query(sql);
+      connection.release();
 
       if (result[0].length === 0) {
         res.status(200).json({
@@ -178,6 +181,7 @@ const usersCtrl = {
       const sql2 = `UPDATE user SET password='${userPassword}', is_password_set=1 WHERE email='${userEmail}'`;
       try {
         await connection.query(sql2);
+        connection.release();
         res.status(200).json({
           success: true,
           result: "success",
@@ -190,12 +194,11 @@ const usersCtrl = {
         return false;
       }
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
 
@@ -211,10 +214,12 @@ const usersCtrl = {
     try {
       const sql1 = `SELECT password FROM user WHERE email='${userEmail}'`;
       const passwordRow = await connection.query(sql1);
+      connection.release();
 
       if (hasher.CheckPassword(curPassword, passwordRow[0][0].password)) {
         const sql2 = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
         await connection.query(sql2);
+        connection.release();
         res.status(200).json({
           success: true,
           result: "success",
@@ -227,14 +232,13 @@ const usersCtrl = {
         });
       }
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(500).json({
         success: false,
         err,
       });
       return false;
-    } finally {
-      connection.release();
     }
   },
 
@@ -249,6 +253,7 @@ const usersCtrl = {
     try {
       const sql = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
       await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
@@ -257,13 +262,13 @@ const usersCtrl = {
       });
     } catch (err) {
       console.log(err);
+      connection.release();
+
       res.status(500).json({
         success: false,
         err,
       });
       return false;
-    } finally {
-      connection.release();
     }
   },
 
@@ -322,6 +327,7 @@ const usersCtrl = {
       await connection.commit();
       connection.release();
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,

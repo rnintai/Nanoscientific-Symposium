@@ -10,6 +10,7 @@ const menuCtrl = {
       const sql = `SELECT * FROM menu`;
 
       const row = await connection.query(sql);
+      connection.release();
 
       if (row[0].length !== 0) {
         res.status(200).json({
@@ -43,6 +44,7 @@ const menuCtrl = {
         if (menu.isChanged) {
           const sql = `UPDATE menu SET is_published=${menu.is_published} WHERE id=${menu.id}`;
           const row = await connection.query(sql);
+          connection.release();
         }
       }
       res.status(200).json({
@@ -68,6 +70,7 @@ const menuCtrl = {
       const sql = `SELECT is_published FROM menu WHERE path='${path}'`;
 
       const row = await connection.query(sql);
+      connection.release();
 
       if (row[0].length !== 0) {
         res.status(200).json({
@@ -100,6 +103,7 @@ const menuCtrl = {
       const sql = `UPDATE menu SET is_published=${isPublished} WHERE path='${path}'`;
 
       await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,

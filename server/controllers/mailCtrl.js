@@ -20,6 +20,7 @@ const mailCtrl = {
       token="${token}"`;
 
       const row = await connection.query(sql);
+      connection.release();
 
       const transporter = nodemailer.createTransport({
         debug: true,
@@ -85,6 +86,7 @@ const mailCtrl = {
     try {
       const sql = `SELECT token from email_verification WHERE email="${email}"`;
       const row = await connection.query(sql);
+      connection.release();
 
       const { token } = row[0][0];
       const isCorrect = vCode.check(code, token);
@@ -177,6 +179,7 @@ const mailCtrl = {
       const sql = `SELECT is_published FROM menu WHERE path='${path}'`;
 
       const row = await connection.query(sql);
+      connection.release();
 
       if (row[0].length !== 0) {
         res.status(200).json({

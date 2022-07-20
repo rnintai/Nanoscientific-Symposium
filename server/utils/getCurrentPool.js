@@ -8,7 +8,7 @@ const {
 
 module.exports = {
   getCurrentPool: (req) => {
-    let currentPool = "";
+    let currentPool;
     switch (req) {
       case "asia":
         currentPool = asiaPool;
@@ -26,6 +26,7 @@ module.exports = {
         currentPool = europePool;
         break;
       default:
+        currentPool = "";
         break;
     }
     return currentPool;

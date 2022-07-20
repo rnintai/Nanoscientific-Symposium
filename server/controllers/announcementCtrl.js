@@ -16,6 +16,7 @@ const announcementCtrl = {
       LIMIT ${(Number(page) - 1) * postPerPage},${postPerPage}`;
 
       const row = await connection.query(sql);
+      connection.release();
       if (row[0].length !== 0) {
         res.status(200).json({
           success: true,
@@ -30,13 +31,12 @@ const announcementCtrl = {
         });
       }
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(500).json({
         success: false,
         msg: err,
       });
-    } finally {
-      connection.release();
     }
   },
   getPostById: async (req, res) => {
@@ -49,12 +49,14 @@ const announcementCtrl = {
           ? `SELECT id,title,content,created, hits FROM announcement WHERE id=${id}`
           : `SELECT id,title,content,created, hits+1 as hits FROM announcement WHERE id=${id}`;
       const row = await connection.query(sql);
+      connection.release();
 
       // 조회수 추가
       if (admin == 0) {
         const sql2 = `UPDATE announcement SET hits=${row[0][0].hits} WHERE id=${id}`;
         const row2 = await connection.query(sql2);
       }
+      connection.release();
 
       if (row[0].length !== 0) {
         res.status(200).json({
@@ -69,13 +71,12 @@ const announcementCtrl = {
         });
       }
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(500).json({
         success: false,
         msg: err,
       });
-    } finally {
-      connection.release();
     }
   },
   addPost: async (req, res) => {
@@ -101,19 +102,19 @@ const announcementCtrl = {
         `;
       }
       const row = await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
         msg: "성공",
       });
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(500).json({
         success: false,
         msg: err,
       });
-    } finally {
-      connection.release();
     }
   },
   deletePost: async (req, res) => {
@@ -124,19 +125,20 @@ const announcementCtrl = {
     try {
       const sql = `DELETE FROM announcement WHERE id=${id}`;
       const row = await connection.query(sql);
+      connection.release();
+
       res.status(200).json({
         success: true,
 
         msg: "성공",
       });
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(500).json({
         success: false,
         msg: err,
       });
-    } finally {
-      connection.release();
     }
   },
 };

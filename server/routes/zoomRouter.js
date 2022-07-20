@@ -64,4 +64,13 @@ router.get(
 
 router.route("/webinar/registrants/:webinarId").post(zoomCtrl.addRegistrant);
 
+router.get("/webinar/registrants/:webinarId", zoomCtrl.getRegistrantLink);
+router.post("/webinar/registrant/fetch", zoomCtrl.fetchRegistrantId);
+
+router.post("/webinar", zoomCtrl.addWebinar);
+router
+  .route("/webinar/:webinarId")
+  .get(zoomCtrl.getWebinar)
+  .delete(zoomCtrl.removeWebinar);
+
 module.exports = router;

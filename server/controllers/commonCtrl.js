@@ -248,6 +248,7 @@ const commonCtrl = {
         WHERE id=${id}
         `;
       await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
       });
@@ -293,11 +294,13 @@ const commonCtrl = {
       description='${description}'
       WHERE id=1`;
       await connection.query(sql);
+      // connection.release();
 
       const sql2 = `UPDATE landing_section SET 
       title='${title}'
       WHERE id=2`;
       await connection.query(sql2);
+      // connection.release();
 
       res.status(200).json({
         success: true,
