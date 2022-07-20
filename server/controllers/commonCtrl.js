@@ -27,9 +27,10 @@ const commonCtrl = {
     try {
       const sql = `SELECT * FROM programs WHERE status=1 ORDER BY start_time `;
       const result = await connection.query(sql);
-      res.send(result[0]);
       connection.release();
+      res.send(result[0]);
     } catch (err) {
+      connection.release();
       console.log(err);
     }
   },
@@ -40,12 +41,12 @@ const commonCtrl = {
     try {
       const sql = `SELECT * FROM program_agenda ORDER BY program_id,next_id`;
       const result = await connection.query(sql);
-      res.status(200).json({ success: 1, data: result[0] });
       connection.release();
+      res.status(200).json({ success: 1, data: result[0] });
     } catch (err) {
+      connection.release();
       res.status(200).json({ success: 0, err });
       console.log(err);
-      connection.release();
     }
   },
   getSessions: async (req, res) => {
@@ -55,9 +56,10 @@ const commonCtrl = {
     try {
       const sql = `SELECT * FROM program_sessions WHERE status=1 ORDER BY date `;
       const result = await connection.query(sql);
-      res.send(result[0]);
       connection.release();
+      res.send(result[0]);
     } catch (err) {
+      connection.release();
       console.log(err);
     }
   },
@@ -72,9 +74,10 @@ const commonCtrl = {
       FROM speakers as S
       `;
       const result = await connection.query(sql);
-      res.send(result[0]);
       connection.release();
+      res.send(result[0]);
     } catch (err) {
+      connection.release();
       console.log(err);
     }
   },
@@ -85,9 +88,10 @@ const commonCtrl = {
     try {
       const sql = `SELECT * FROM speakers WHERE keynote=1`;
       const result = await connection.query(sql);
-      res.send(result[0]);
       connection.release();
+      res.send(result[0]);
     } catch (err) {
+      connection.release();
       console.log(err);
     }
   },
@@ -110,6 +114,7 @@ const commonCtrl = {
         ON S.id=SA.speaker_id WHERE S.id=${id}
       `;
       const result = await connection.query(sql);
+      connection.release();
       if (result[0].length === 0) {
         res.status(200).json({
           success: true,
@@ -123,8 +128,8 @@ const commonCtrl = {
           },
         });
       }
-      connection.release();
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(200).json({ success: false, err });
     }
@@ -143,6 +148,7 @@ const commonCtrl = {
         path
       )}'`;
       const row = await connection.query(sql);
+      connection.release();
       if (row[0].length === 0) {
         res.status(200).json({
           success: false,
@@ -155,12 +161,11 @@ const commonCtrl = {
         });
       }
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   setBanner: async (req, res) => {
@@ -172,16 +177,16 @@ const commonCtrl = {
         path
       )}'`;
       await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   getLandingSectionList: async (req, res) => {
@@ -193,17 +198,17 @@ const commonCtrl = {
       SELECT * FROM landing_section;
       `;
       const row = await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
         result: row[0],
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
 
@@ -221,18 +226,18 @@ const commonCtrl = {
         `;
 
         await connection.query(sql);
+        connection.release();
       }
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       console.log(err);
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   setLandingTitle: async (req, res) => {
@@ -272,17 +277,17 @@ const commonCtrl = {
       SELECT * FROM landing_section_${id};
       `;
       const row = await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
         result: row[0],
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   setLanding2Content: async (req, res) => {
@@ -294,24 +299,23 @@ const commonCtrl = {
       description='${description}'
       WHERE id=1`;
       await connection.query(sql);
-      // connection.release();
+      connection.release();
 
       const sql2 = `UPDATE landing_section SET 
       title='${title}'
       WHERE id=2`;
       await connection.query(sql2);
-      // connection.release();
+      connection.release();
 
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   setLanding3Content: async (req, res) => {
@@ -323,22 +327,23 @@ const commonCtrl = {
       description='${description}'
       WHERE id=1`;
       await connection.query(sql);
+      connection.release();
 
       const sql2 = `UPDATE landing_section SET 
       title='${title}'
       WHERE id=3`;
       await connection.query(sql2);
+      connection.release();
 
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   setLanding6Content: async (req, res) => {
@@ -350,17 +355,17 @@ const commonCtrl = {
       description='${description}'
       WHERE id=1`;
       await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   setLanding6Button: async (req, res) => {
@@ -373,17 +378,17 @@ const commonCtrl = {
       button_text='${buttonText}'
       WHERE id=1`;
       await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   setLanding4Content: async (req, res) => {
@@ -394,16 +399,17 @@ const commonCtrl = {
       const sql = `INSERT INTO landing_section_4 (title,description) VALUES 
       ('${title}','${description}')`;
       await connection.query(sql);
+      connection.release();
+
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   modifyLanding4Content: async (req, res) => {
@@ -416,16 +422,16 @@ const commonCtrl = {
       description='${description}'
       WHERE id=${id}`;
       await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   deleteLanding4Content: async (req, res) => {
@@ -435,16 +441,16 @@ const commonCtrl = {
     try {
       const sql = `DELETE FROM landing_section_4 WHERE id=${id}`;
       await connection.query(sql);
+      connection.release();
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
 
@@ -459,17 +465,17 @@ const commonCtrl = {
       ('${name}','${url}','${imagePath}', ${height ? height : 0})
       `;
       const row = await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   modifySponsor: async (req, res) => {
@@ -484,17 +490,17 @@ const commonCtrl = {
       WHERE id=${id}
       `;
       const row = await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
   deleteSponsor: async (req, res) => {
@@ -504,17 +510,17 @@ const commonCtrl = {
     try {
       const sql = `DELETE FROM landing_section_7 WHERE id=${id}`;
       const row = await connection.query(sql);
+      connection.release();
 
       res.status(200).json({
         success: true,
       });
     } catch (err) {
+      connection.release();
       res.status(500).json({
         success: false,
         err,
       });
-    } finally {
-      connection.release();
     }
   },
 };
