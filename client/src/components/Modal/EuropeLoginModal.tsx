@@ -238,12 +238,14 @@ const EuropeLoginModal = ({
       );
       if (res.data.success === true) {
         dispatchLogin(email, res.data.role, res.data.accessToken);
+        setSuccess(true);
+        setPasswordInputModalOpen(false);
+      } else {
+        setPasswordNotMatchAlert(true);
       }
     } catch (err) {
       console.log(err);
     } finally {
-      setSuccess(true);
-      setPasswordInputModalOpen(false);
       setLoading(false);
     }
   };
