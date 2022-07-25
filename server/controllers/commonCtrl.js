@@ -81,6 +81,21 @@ const commonCtrl = {
       console.log(err);
     }
   },
+  getPosters: async (req, res) => {
+    const {nation} = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try{
+      const sql = `SELECT * FROM poster`;
+      const result = await connection.query(sql);
+      connection.release();
+      console.log(result[0]); // test
+      res.send(result[0]);
+    }catch(err){
+      connection.release();
+      console.log(err);
+    }
+  },
   getKeynoteSpeakers: async (req, res) => {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
