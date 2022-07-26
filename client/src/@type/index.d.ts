@@ -60,6 +60,18 @@ declare namespace Speaker {
   }
 }
 
+declare namespace Poster {
+  interface posterType{
+    id: number;
+    title: string;
+    sub_title: string;
+    author: string;
+    image: string;
+    index: number;
+    attachment: string;
+  }
+}
+
 declare namespace User {
   interface userType {
     id: number;

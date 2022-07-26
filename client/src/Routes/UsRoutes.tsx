@@ -13,6 +13,7 @@ import Registration from "pages/common/Registration/Registration";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import Announcement from "pages/common/Announcement/Announcement";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
+import PosterHall from "pages/common/PosterHall/PosterHall";
 
 const pathname = "americas";
 const formNo = "1184";
@@ -71,5 +72,10 @@ export default [
   {
     path: `/${pathname}/announcement/:id`,
     element: <AnnouncementDetail />,
+  },
+  {
+    path: `/${pathname}/poster-hall`,
+    element: <PosterHall />,
+    isPrivate: true,
   },
 ];
