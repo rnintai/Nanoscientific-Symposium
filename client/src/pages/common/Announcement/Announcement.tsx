@@ -21,6 +21,7 @@ import { useAuthState } from "context/AuthContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import ComingSoon from "components/ComingSoon/ComingSoon";
 import useMenuStore from "store/MenuStore";
+import { escapeQuotes } from "utils/String";
 import { AnnouncementContainer } from "./AnnouncementStyles";
 
 const Announcement = () => {
@@ -89,7 +90,7 @@ const Announcement = () => {
       const result = await axios.post(`/api/announcement/post`, {
         nation: pathname,
         title: title.value,
-        content: `${content.replace(/'/g, `\\'`).replace(/"/g, `\\"`)}`,
+        content: escapeQuotes(content),
       });
       if (result.data.success) {
         setOpenWriteModal(false);
