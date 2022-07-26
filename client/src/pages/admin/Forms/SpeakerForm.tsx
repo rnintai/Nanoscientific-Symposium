@@ -15,6 +15,7 @@ import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
 import { subHeadingFontSize } from "utils/FontSize";
 import QuillEditor from "components/QuillEditor/QuillEditor";
+import { escapeQuotes } from "utils/String";
 
 interface SpeakerFormProps {
   openSpeakerForm: boolean;
@@ -93,8 +94,8 @@ const SpeakerForm = ({
         description: description.value,
         imagePath,
         keynote: keynoteCheck,
-        abstractBelong,
-        abstractDesc,
+        abstractBelong: escapeQuotes(abstractBelong),
+        abstractDesc: escapeQuotes(abstractDesc),
         hasAbstract: hasAbstractCheck,
       });
     } else {
@@ -106,8 +107,8 @@ const SpeakerForm = ({
         description: description.value,
         imagePath,
         keynote: keynoteCheck,
-        abstractBelong,
-        abstractDesc,
+        abstractBelong: escapeQuotes(abstractBelong),
+        abstractDesc: escapeQuotes(abstractDesc),
         hasAbstract: hasAbstractCheck,
       });
     }
@@ -147,10 +148,7 @@ const SpeakerForm = ({
           : "Please write down the name and affiliation of the speaker."
       }
       onSubmit={speakerSubmitHandler}
-      submitDisabled={
-        name.value === "" ||
-        imagePath === ""
-      }
+      submitDisabled={name.value === "" || imagePath === ""}
       loading={loading || uploadLoading}
     >
       <TextField

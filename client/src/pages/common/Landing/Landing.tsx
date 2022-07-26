@@ -47,6 +47,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SponsorForm from "pages/admin/Forms/SponsorForm";
 import useAdminStore from "store/AdminStore";
 import Landing6Form from "pages/admin/Forms/Landing6Form";
+import { escapeQuotes } from "utils/String";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 import { LandingContainer } from "./LandingStyles";
 
@@ -247,8 +248,8 @@ const Landing = () => {
     if (confirm("Are you sure?")) {
       const result = await axios.post(`/api/page/common/landing/2`, {
         nation: pathname,
-        title: landing2Title,
-        description: landing2Desc,
+        title: escapeQuotes(landing2Title),
+        description: escapeQuotes(landing2Desc),
       });
       setLanding2Title(landing2Title);
       setLanding2Desc(landing2Desc);
@@ -273,8 +274,8 @@ const Landing = () => {
     if (confirm("Are you sure?")) {
       const result = await axios.post(`/api/page/common/landing/3`, {
         nation: pathname,
-        title: landing3Title,
-        description: landing3Desc,
+        title: escapeQuotes(landing3Title),
+        description: escapeQuotes(landing3Desc),
       });
       setLanding3Title(landing3Title);
       setLanding3Desc(landing3Desc);
@@ -302,7 +303,7 @@ const Landing = () => {
     if (confirm("Are you sure?")) {
       const result = await axios.post(`/api/page/common/landing/title/4`, {
         nation: pathname,
-        title: landing4Title,
+        title: escapeQuotes(landing4Title),
       });
       setLanding4Title(landing4Title);
       setLanding4TitleEdit(false);
@@ -324,7 +325,7 @@ const Landing = () => {
     if (confirm("Are you sure?")) {
       const result = await axios.post(`/api/page/common/landing/title/5`, {
         nation: pathname,
-        title: landing5Title,
+        title: escapeQuotes(landing5Title),
       });
       setLanding5Title(landing5Title);
       setLanding5TitleEdit(false);
@@ -336,8 +337,8 @@ const Landing = () => {
     if (confirm("Are you sure?")) {
       const result = await axios.post(`/api/page/common/landing/6`, {
         nation: pathname,
-        title: landing6Title,
-        description: landing6Desc,
+        title: escapeQuotes(landing6Title),
+        description: escapeQuotes(landing6Desc),
       });
       setLanding6Title(landing6Title);
       setLanding6Desc(landing6Desc);
@@ -377,7 +378,7 @@ const Landing = () => {
     if (confirm("Are you sure?")) {
       const result = await axios.post(`/api/page/common/landing/title/7`, {
         nation: pathname,
-        title: landing7Title,
+        title: escapeQuotes(landing7Title),
       });
       setLanding7Title(landing7Title);
       setLanding7TitleEdit(false);

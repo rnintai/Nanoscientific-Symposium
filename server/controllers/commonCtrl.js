@@ -83,17 +83,17 @@ const commonCtrl = {
     }
   },
   getPosters: async (req, res) => {
-    const {nation} = req.query;
+    const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-    console.log(`${nation} ${currentPool} ${connection}`);
-    try{
+
+    try {
       const sql = `SELECT * FROM poster`;
       const result = await connection.query(sql);
       connection.release();
-      console.log(`result = ${result[0]}`); // test
+
       res.send(result[0]);
-    }catch(err){
+    } catch (err) {
       connection.release();
       console.log(err);
     }
