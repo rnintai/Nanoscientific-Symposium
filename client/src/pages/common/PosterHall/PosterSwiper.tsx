@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Pagination, EffectCoverflow, Navigation } from "swiper";
+import SwiperCore, { Keyboard, Navigation, Pagination, EffectCoverflow } from "swiper";
 
 // import "swiper/swiper.scss";
 // import "swiper/components/pagination/pagination.scss";
@@ -16,7 +16,7 @@ type posterProps = {
     posterState: Poster.posterType[];
 }
 
-SwiperCore.use([Pagination, EffectCoverflow, Navigation]);
+SwiperCore.use([Keyboard, Pagination, EffectCoverflow, Navigation]);
 
 const PosterSwiper = ({ posterState }: posterProps) => {
     const prevRef = useRef<HTMLButtonElement>(null);
@@ -75,12 +75,16 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                 effect={"coverflow"}
                 grabCursor={true}
                 centeredSlides={true}
-                navigation={{
-                    prevEl: prevRef.current, // 이전 버튼
-                    nextEl: nextRef.current, // 다음 버튼
-                }}
+                // navigation={{
+                //     prevEl: prevRef.current, // 이전 버튼
+                //     nextEl: nextRef.current, // 다음 버튼
+                // }}
+                navigation={true}
+                keyboard={{
+                    enabled: true,
+                  }}
                 loop={true}
-                pagination={{ clickable: true, dynamicBullets: true }}
+                pagination={{ clickable: true, dynamicBullets: true, type: "fraction" }}
                 coverflowEffect={{
                     rotate: 5,
                     stretch: 10,
