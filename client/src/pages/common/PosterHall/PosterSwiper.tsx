@@ -10,11 +10,25 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import {PosterContainer, Photos} from './PosterSwipterStyle';
+import {PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle} from './PosterSwipterStyle';
+
+// pdfjs
+import { pdfjs } from 'react-pdf';
+import { Document, Page } from 'react-pdf';
+
+// pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
+// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 type posterProps = {
     posterState: Poster.posterType[];
 }
+
+const option = {
+    cMapUrl: 'cmaps/',
+  cMapPacked: true,
+  standardFontDataUrl: 'standard_fonts/',
+};
 
 SwiperCore.use([Keyboard, Pagination, EffectCoverflow, Navigation]);
 
@@ -23,6 +37,23 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     const nextRef = useRef<HTMLButtonElement>(null);
     const [swiperSetting, setSwiperSetting] = useState<any | null>(null); // any -> Swiper
 
+
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+
+    function onDocumentLoadSuccess({numPages}){
+        setNumPages(numPages);
+    }
+
+    function handleClick(index: number, e: React.MouseEvent<HTMLImageElement, MouseEvent>)
+    {
+        window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`,"_blank");
+    }
+
+    const onPageClick = ({ pageNumber }) => {
+        alert('Clicked an item from page ' + pageNumber + '!')
+    }
+    
     // useEffect(() => {
     //     if (!swiperSetting) {
     //         setSwiperSetting({
@@ -113,9 +144,30 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             >
                 {posterState.map((poster, idx) => (
                     <SwiperSlide>
-                        <Photos src={poster.image} alt={`pic ${idx + 1}`}/>
+                        <PosterInner>
+                        <PosterTitle>{poster.title}</PosterTitle>
+                        <PosterAuthor>{poster.author}</PosterAuthor>
+                        <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                        <Photos src={poster.image} alt={`pic ${idx + 1}`} onClick={(e) => {handleClick(idx, e)}}/>
+                        </PosterInner>
                     </SwiperSlide>
                 ))}
+                {/* <Document 
+                file="https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_1.pdf" 
+                // onLoadSuccess={onDocumentLoadSuccess}
+                onItemClick={onPageClick}
+                options={option}
+                >
+                    <Page pageNumber={pageNumber} onClick={() => console.log('hi')}/>
+                </Document>
+                <p>
+                    <span onClick={() => pageNumber > 1 ? setPageNumber(pageNumber - 1) : null}>
+                        &lt;
+                    </span>
+                    <span onClick={() => pageNumber < numPages ? setPageNumber(pageNumber + 1) : null}>
+                        &gt;
+                    </span>
+                </p> */}
             </Swiper>
         </PosterContainer>
     )
