@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle, DividedLine, ImageContainer, PosterOverlay } from './PosterSwipterStyle';
+import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle, DividedLine, ImageContainer, PosterOverlay, MagnifyIcon } from './PosterSwipterStyle';
 
 // pdfjs
 import { pdfjs } from 'react-pdf';
@@ -148,7 +148,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             >
                 {posterState.map((poster, idx) => (
                     <SwiperSlide>
-                        <PosterInner onClick={(e) => { handleClick(idx, e) }}>
+                        <PosterInner>
                             <PosterTitle>{poster.title}</PosterTitle>
                             <PosterAuthor>{poster.author}</PosterAuthor>
                             <DividedLine />
@@ -157,7 +157,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                                 <Photos src={poster.image} alt={`pic ${idx + 1}`} />
                             </ImageContainer>
                         </PosterInner>
-                        <PosterOverlay/>
+                        <PosterOverlay onClick={(e) => { handleClick(idx, e) }}><MagnifyIcon className={'override'} /></PosterOverlay>
                     </SwiperSlide>
                 ))}
                 {/* <Document 

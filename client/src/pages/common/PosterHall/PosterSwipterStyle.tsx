@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 export const PosterTitle = styled.div`
     display: flex;
@@ -59,7 +60,19 @@ export const PosterOverlay = styled.div`
     height: 534px;
     background-color: rgba(46, 132, 206, 0.7);
     transition: opacity 0.4s ease;
+    cursor: pointer;
 `;
+
+export const MagnifyIcon = styled(ZoomInIcon)`
+    &.override{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 22px;
+        }
+`
 
 // 가장 바깥쪽 -> 그림자 비추는 효과 x
 export const PosterInner = styled.div`
@@ -71,7 +84,6 @@ export const PosterInner = styled.div`
     align-items: center;
     background: #ffffff;
     text-align: center;
-    cursor: pointer;
     padding: 20px 10px;
     /* -webkit-box-reflect: below 0.01px */
     /* linear-gradient(transparent, transparent, #0006); */
