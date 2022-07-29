@@ -74,6 +74,23 @@ export const MagnifyIcon = styled(ZoomInIcon)`
         }
 `
 
+export const PdfContainer = styled.div<{isVsb : boolean}>`
+    visibility: ${props => props.isVsb ? "visible" : "hidden" };
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+// iframe
+export const PdfInner = styled.iframe`
+    width: 100%;
+    height: 100%;
+`;
+
+
 // 가장 바깥쪽 -> 그림자 비추는 효과 x
 export const PosterInner = styled.div`
     width: 100%;
@@ -128,15 +145,25 @@ export const PosterContainer = styled.div`
     }
     font-family: 'Noto Serif', serif;
 
-    .swiper{
-        height: 580px;
+    .mySwiper{
+        height: 100%;
+        padding: 72px 0;
     }
 
-    .swiper-slide{
+    .swiper-slide.swiper-slide-active {
+        pointer-events: auto;
         &:hover{
             ${PosterOverlay}{
                 opacity: 1;
             }
+        }
+    }
+    .swiper-slide:not(.swiper-slide-active){
+        /* pointer-events: none; */
+        &:hover{
+            ${PosterOverlay}{
+                opacity: 0;
+            };
         }
     }
 `;
