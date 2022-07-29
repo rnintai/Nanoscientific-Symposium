@@ -53,15 +53,18 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         const target = e.target as HTMLInputElement;
         const clickedTarget = target.parentElement;
         // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank");
-        if(target.parentElement.classList.contains("swiper-slide-active")){
-            // clickedTarget.style.visibility = 'visible';
-            let lastChildren = clickedTarget.querySelectorAll("div");
-            const iframeOuter = lastChildren[lastChildren.length - 1]
-            iframeOuter.style.visibility = "visible";
+        if (target.parentElement.classList.contains("swiper-slide-active")) {
+            const ancesterEl = clickedTarget.parentElement.parentElement.parentElement.parentElement;
+            const iframeOuter = ancesterEl.children[2] as HTMLDivElement | null;
+            if (iframeOuter != null) {
+                iframeOuter.style.visibility = 'visible';
+            }
             const iframeInner = iframeOuter.children[0] as HTMLImageElement | null;
             if (iframeInner != null) {
                 iframeInner.src = `https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`;
             }
+            ancesterEl.style.background = '#000';
+            ancesterEl.style.opacity = '0.5';
             // setIsVisible(true);
             // setPdfUrl(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`);
         }
@@ -74,8 +77,8 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     const handleMouseOverEvent = (e) => {
         e.preventDefault();
         const hoveredEl = e.target.parentElement;
-        
-        if(hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")){
+
+        if (hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")) {
             let resultArr = hoveredEl.style.transform.split(' ');
             resultArr.push('translateY(-80px)');
             resultArr = resultArr.join(' ');
@@ -86,8 +89,8 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     const handleMouseOutEvent = (e) => {
         e.preventDefault();
         const hoveredEl = e.target.parentElement;
-        
-        if(hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")){
+
+        if (hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")) {
             let resultArr = hoveredEl.style.transform.split(' ');
             resultArr.pop();
             resultArr = resultArr.join(' ');
@@ -96,89 +99,88 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     };
 
     return (
-        <PosterContainer>
-            <Swiper
-                slideToClickedSlide={true}
-                // {...swiperSetting}
-                effect={"coverflow"}
-                grabCursor={true}
-                centeredSlides={true}
-                // navigation={{
-                //     prevEl: prevRef.current, // 이전 버튼
-                //     nextEl: nextRef.current, // 다음 버튼
-                // }}
-                navigation={true}
-                style={{
-                    // "--swiper-navigation-color": "#fff",
-                    // "--swiper-pagination-color": "#fff",
-                    // "background": "#ccc"
-                }}
-                keyboard={{
-                    enabled: true,
-                }}
-                loop={true}
-                pagination={{ clickable: true, dynamicBullets: true, type: "fraction" }}
-                coverflowEffect={{
-                    rotate: 5,
-                    stretch: 10,
-                    depth: 300, // 가운데 제외 모두 들어가는 깊이
-                    modifier: 2, // 가운데 모이는 정도(0: 사이간격 안겹침)
-                    slideShadows: false,
-                }}
-                breakpoints={{
-                    700: {
-                        spaceBetween: 0,
-                        slidesPerView: 4,
-                    },
-                    500: {
-                        spaceBetween: 100,
-                        slidesPerView: 2,
-                    },
-                    411: {
-                        spaceBetween: 100,
-                        slidesPerView: 2,
-                    },
-                    300: {
-                        spaceBetween: 0,
-                        slidesPerView: 1,
-                    },
-                }}
-                on={{
-                    init: function(){
-                        console.log('init');
-                    },
-                    tap: (swiper, event) => console.log(`clicked! ${event}`),
-                    // tab: () => console.log('clicked'),
-                }}
-                className="mySwiper"
-            >
-                {posterState.map((poster, idx) => (
-                    <SwiperSlide className="swiperSlide" onMouseOver={handleMouseOverEvent} onMouseOut={handleMouseOutEvent} onClick={event => handleClick(event, idx +1)} key={idx}>
-                        <PosterInner>
-                            <PosterTitle>{poster.title}</PosterTitle>
-                            <PosterAuthor>{poster.author}</PosterAuthor>
-                            <DividedLine />
-                            <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
-                            <ImageContainer>
-                                <Photos src={poster.image} alt={`pic ${idx + 1}`} />
-                            </ImageContainer>
-                        </PosterInner>
-                        <PosterOverlay><MagnifyIcon className={'override'} /></PosterOverlay>
-                        {/* isVsb={isVisible} */}
-                        <PdfContainer>
-                            {/* src={pdfUrl} */}
-                            <PdfInner />
-                        </PdfContainer>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </PosterContainer>
+        <>
+            <PosterContainer>
+                <Swiper
+                    slideToClickedSlide={true}
+                    // {...swiperSetting}
+                    effect={"coverflow"}
+                    grabCursor={true}
+                    centeredSlides={true}
+                    // navigation={{
+                    //     prevEl: prevRef.current, // 이전 버튼
+                    //     nextEl: nextRef.current, // 다음 버튼
+                    // }}
+                    navigation={true}
+                    style={{
+                        // "--swiper-navigation-color": "#fff",
+                        // "--swiper-pagination-color": "#fff",
+                        // "background": "#ccc"
+                    }}
+                    keyboard={{
+                        enabled: true,
+                    }}
+                    loop={true}
+                    pagination={{ clickable: true, dynamicBullets: true, type: "fraction" }}
+                    coverflowEffect={{
+                        rotate: 5,
+                        stretch: 10,
+                        depth: 300, // 가운데 제외 모두 들어가는 깊이
+                        modifier: 2, // 가운데 모이는 정도(0: 사이간격 안겹침)
+                        slideShadows: false,
+                    }}
+                    breakpoints={{
+                        700: {
+                            spaceBetween: 0,
+                            slidesPerView: 4,
+                        },
+                        500: {
+                            spaceBetween: 100,
+                            slidesPerView: 2,
+                        },
+                        411: {
+                            spaceBetween: 100,
+                            slidesPerView: 2,
+                        },
+                        300: {
+                            spaceBetween: 0,
+                            slidesPerView: 1,
+                        },
+                    }}
+                    // on={{
+                    //     init: function(){
+                    //         console.log('init');
+                    //     },
+                    //     tap: (swiper, event) => console.log(`clicked! ${event}`),
+                    // }}
+                    className="mySwiper"
+                >
+                    {posterState.map((poster, idx) => (
+                        <SwiperSlide className="swiperSlide" onMouseOver={handleMouseOverEvent} onMouseOut={handleMouseOutEvent} onClick={event => handleClick(event, idx + 1)} key={idx}>
+                            <PosterInner>
+                                <PosterTitle>{poster.title}</PosterTitle>
+                                <PosterAuthor>{poster.author}</PosterAuthor>
+                                <DividedLine />
+                                <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                                <ImageContainer>
+                                    <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                                </ImageContainer>
+                            </PosterInner>
+                            <PosterOverlay><MagnifyIcon className={'override'} /></PosterOverlay>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </PosterContainer>
+            <PdfContainer>
+                <PdfInner />
+            </PdfContainer>
+        </>
     )
 }
 
 export default PosterSwiper;
 
-{/*onClick={(e) => { handleClick(idx, e) }}*/}
+{/*onClick={(e) => { handleClick(idx, e) }}*/ }
 
 
     // useEffect(() => {

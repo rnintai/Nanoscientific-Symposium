@@ -17,6 +17,7 @@ export const PosterTitle = styled.div`
     -webkit-box-orient: vertical;
     font-family: 'Noto Serif', serif;
     font-weight: 700;
+    position: relative;
 `;
 
 export const PosterAuthor = styled.div`
@@ -84,6 +85,7 @@ export const PdfContainer = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 99;
 `;
 
 // iframe
