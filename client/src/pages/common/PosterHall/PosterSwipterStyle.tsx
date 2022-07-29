@@ -74,8 +74,10 @@ export const MagnifyIcon = styled(ZoomInIcon)`
         }
 `
 
-export const PdfContainer = styled.div<{isVsb : boolean}>`
-    visibility: ${props => props.isVsb ? "visible" : "hidden" };
+// export const PdfContainer = styled.div<{isVsb : boolean}>`
+// visibility: ${props => props.isVsb ? "visible" : "hidden" };
+export const PdfContainer = styled.div`
+    visibility: hidden;
     position: absolute;
     width: 80%;
     height: 80%;
@@ -151,7 +153,7 @@ export const PosterContainer = styled.div`
     }
 
     .swiper-slide.swiper-slide-active {
-        pointer-events: auto;
+        /* pointer-events: auto; */
         &:hover{
             ${PosterOverlay}{
                 opacity: 1;

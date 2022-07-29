@@ -15,6 +15,7 @@ import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, Poster
 // pdfjs
 import { pdfjs } from 'react-pdf';
 import { Document, Page } from 'react-pdf';
+import { ModeOfTravel } from '@mui/icons-material';
 
 // pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
@@ -42,16 +43,28 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     const [pageNumber, setPageNumber] = useState(1);
     const [pdfUrl, setPdfUrl] = useState(null);
     const [isVisible, setIsVisible] = useState(false);
-    const [isHovering, setIsHovering] = useState(0);
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
     }
 
-    function handleClick(index: number, e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    function handleClick(e: React.MouseEvent<HTMLElement, MouseEvent>, index: number) {
+        e.preventDefault();
+        const target = e.target as HTMLInputElement;
+        const clickedTarget = target.parentElement;
         // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank");
-        setIsVisible(true);
-        setPdfUrl(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`);
+        if(target.parentElement.classList.contains("swiper-slide-active")){
+            // clickedTarget.style.visibility = 'visible';
+            let lastChildren = clickedTarget.querySelectorAll("div");
+            const iframeOuter = lastChildren[lastChildren.length - 1]
+            iframeOuter.style.visibility = "visible";
+            const iframeInner = iframeOuter.children[0] as HTMLImageElement | null;
+            if (iframeInner != null) {
+                iframeInner.src = `https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`;
+            }
+            // setIsVisible(true);
+            // setPdfUrl(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`);
+        }
     }
 
     const onPageClick = ({ pageNumber }) => {
@@ -60,11 +73,9 @@ const PosterSwiper = ({ posterState }: posterProps) => {
 
     const handleMouseOverEvent = (e) => {
         e.preventDefault();
-        // setIsHovering(1)
         const hoveredEl = e.target.parentElement;
         
-        if(!hoveredEl.classList.contains(".swiper-slide-active")){ // 왜 안걸러지지???
-            console.log(`가운데가 아닌 객체들 on MouseOver`);
+        if(hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")){
             let resultArr = hoveredEl.style.transform.split(' ');
             resultArr.push('translateY(-80px)');
             resultArr = resultArr.join(' ');
@@ -74,13 +85,10 @@ const PosterSwiper = ({ posterState }: posterProps) => {
 
     const handleMouseOutEvent = (e) => {
         e.preventDefault();
-        // setIsHovering(1)
         const hoveredEl = e.target.parentElement;
         
-        if(!hoveredEl.classList.contains(".swiper-slide-active")){ // 왜 안걸러지지???
-            console.log(`가운데가 아닌 객체들 on MouseOut`);
+        if(hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")){
             let resultArr = hoveredEl.style.transform.split(' ');
-            console.log(resultArr);
             resultArr.pop();
             resultArr = resultArr.join(' ');
             hoveredEl.style.transform = resultArr;
@@ -139,13 +147,13 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                     init: function(){
                         console.log('init');
                     },
-                    click: () => console.log('clicked'),
+                    tap: (swiper, event) => console.log(`clicked! ${event}`),
                     // tab: () => console.log('clicked'),
                 }}
                 className="mySwiper"
             >
                 {posterState.map((poster, idx) => (
-                    <SwiperSlide className="swiperSlide" onMouseOver={handleMouseOverEvent} onMouseOut={handleMouseOutEvent}>
+                    <SwiperSlide className="swiperSlide" onMouseOver={handleMouseOverEvent} onMouseOut={handleMouseOutEvent} onClick={event => handleClick(event, idx +1)} key={idx}>
                         <PosterInner>
                             <PosterTitle>{poster.title}</PosterTitle>
                             <PosterAuthor>{poster.author}</PosterAuthor>
@@ -156,8 +164,10 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                             </ImageContainer>
                         </PosterInner>
                         <PosterOverlay><MagnifyIcon className={'override'} /></PosterOverlay>
-                        <PdfContainer isVsb={isVisible}>
-                            <PdfInner src={pdfUrl}/>
+                        {/* isVsb={isVisible} */}
+                        <PdfContainer>
+                            {/* src={pdfUrl} */}
+                            <PdfInner />
                         </PdfContainer>
                     </SwiperSlide>
                 ))}
