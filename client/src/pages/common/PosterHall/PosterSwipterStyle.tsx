@@ -1,7 +1,5 @@
 import styled from "styled-components";
-import ZoomInIcon from '@mui/icons-material/ZoomIn';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
-import CancelIcon from '@mui/icons-material/Cancel';
+import IconButton from '@mui/material/IconButton';
 
 export const PosterTitle = styled.div`
     display: flex;
@@ -66,33 +64,32 @@ export const PosterOverlay = styled.div`
     cursor: pointer;
 `;
 
-export const ZoomInButton = styled(ZoomInIcon)`
-    &.override{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 22px;
-        }
-`
-
-export const CloseButton = styled(CancelIcon)`
+export const StyledButton = styled(IconButton)`
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: -8%;
-    color: rgba(32,33,36,0.6);
-    &:hover{
-        color: rgba(32,33,36,0.8);
-    }
     cursor: pointer;
-    height: 34px;
-    width: 34px;
+
+    &.zoomIn{
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 22px;
+}
+
+    &.close{
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -8%;
+        color: rgba(32,33,36,0.6);
+        &:hover{
+            color: rgba(32,33,36,0.8);
+        }
+        cursor: pointer;
+        height: 34px;
+        width: 34px;
+    }
 `;
 
-// export const PdfContainer = styled.div<{isVsb : boolean}>`
-// visibility: ${props => props.isVsb ? "visible" : "hidden" };
 export const PdfContainer = styled.div`
     visibility: hidden; /* opacity:0 */
     position: absolute;
@@ -129,29 +126,6 @@ export const PosterInner = styled.div`
     /* -webkit-box-reflect: below 0.01px */
     /* linear-gradient(transparent, transparent, #0006); */
     box-shadow: 0px 5px 11px #9fb4d4cf;
-
-    &:hover{  
-        /*
-        background: #000000;
-        opacity: 0.9;
-
-        ${PosterTitle} {
-            opacity: 0.9;
-        }
-
-        ${DividedLine} {
-            opacity: 0.9;
-        }
-
-        ${ImageContainer} {
-            opacity: 0.9;
-        }
-        
-        ${PosterOverlay}{
-            opacity: 1;
-        }
-        */
-    }
 `;
 
 export const PosterContainer = styled.div`

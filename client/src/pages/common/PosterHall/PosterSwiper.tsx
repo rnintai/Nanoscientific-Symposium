@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Keyboard, Navigation, Pagination, EffectCoverflow } from "swiper";
+// import IconButton from '@mui/material/IconButton';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import CancelIcon from '@mui/icons-material/Cancel';
 
-// import "swiper/swiper.scss";
-// import "swiper/components/pagination/pagination.scss";
-// import "swiper/components/effect-coverflow/effect-coverflow.sss";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle, DividedLine, ImageContainer, PosterOverlay, PdfContainer, PdfInner, PosterPageOverlay, ZoomInButton, CloseButton } from './PosterSwipterStyle';
+import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle, DividedLine, ImageContainer, PosterOverlay, PdfContainer, PdfInner, PosterPageOverlay, StyledButton } from './PosterSwipterStyle';
 
 // pdfjs
 import { pdfjs } from 'react-pdf';
@@ -48,11 +47,23 @@ const PosterSwiper = ({ posterState }: posterProps) => {
 
     function handleOpenClick(e: React.MouseEvent<HTMLElement, MouseEvent>, index: number) {
         e.preventDefault();
-        const target = e.target as HTMLInputElement;
+        const target = e.target as HTMLDivElement;
         const clickedTarget = target.parentElement;
+        clickPoster(clickedTarget, index);
+    }
+
+    function handleZoomInClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number){
+        e.preventDefault();
+        const target = e.target as HTMLDivElement;
+        const clickedTarget = target.parentElement.parentElement;
+        clickPoster(clickedTarget, index);
+    }
+
+    function clickPoster(clickedTarget: HTMLElement, index: number){
         // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank"); // 다른 창으로 크게 생성
-        if (target.parentElement.classList.contains("swiper-slide-active")) {
-            const ancesterEl = clickedTarget.parentElement.parentElement.parentElement.parentElement;
+        // if (clickedTarget.classList.contains("swiper-slide-active") && clickedTarget.style.opacity === "1") {
+        if (clickedTarget.classList.contains("swiper-slide-active") && clickedTarget.classList.contains("hover-able")) {
+            const ancesterEl = clickedTarget.parentElement.parentElement.parentElement.parentElement;   
             const iframeOuter = ancesterEl.children[3] as HTMLDivElement | null;
             const iframeInner = iframeOuter.children[0] as HTMLImageElement | null;
             const backgroundOverlay = ancesterEl.children[2] as HTMLDivElement | null;
@@ -85,6 +96,10 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             resultArr = resultArr.join(' ');
             hoveredEl.style.transform = resultArr;
         }
+        
+        if(hoveredEl.classList.contains("swiper-slide-active")){
+            hoveredEl.classList.add("hover-able");
+        }
     };
 
     const handleMouseOutEvent = (e) => {
@@ -97,9 +112,21 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             resultArr = resultArr.join(' ');
             hoveredEl.style.transform = resultArr;
         }
+
+        if(hoveredEl.classList.contains("swiper-slide-active")){
+            hoveredEl.classList.remove("hover-able");
+        }
     };
 
-    const handleClose = (e: React.MouseEvent<SVGSVGElement>) => {
+    const handleZoomInMouseOverEvent = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        console.log('icon mouse over');
+        const hoveredEl = (e.target as HTMLDivElement | null);
+        const activePosterEl = hoveredEl.parentElement.parentElement;
+        activePosterEl.classList.add("hover-able");
+    }
+
+    const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         const target = (e.target as HTMLDivElement | null);
         const openedEls = document.querySelectorAll(".is--open");
@@ -125,7 +152,11 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                         enabled: true,
                     }}
                     loop={true}
-                    pagination={{ clickable: true, dynamicBullets: true, type: "fraction" }}
+                    pagination={{ 
+                        clickable: true, 
+                        dynamicBullets: true, 
+                        type: "fraction" 
+                    }}
                     coverflowEffect={{
                         rotate: 5,
                         stretch: 10,
@@ -160,7 +191,13 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                     className="mySwiper"
                 >
                     {posterState.map((poster, idx) => (
-                        <SwiperSlide className="swiperSlide" onMouseOver={handleMouseOverEvent} onMouseOut={handleMouseOutEvent} onClick={event => handleOpenClick(event, idx)} key={idx}>
+                        <SwiperSlide 
+                            className="swiperSlide" 
+                            onMouseOver={handleMouseOverEvent} 
+                            onMouseOut={handleMouseOutEvent} 
+                            onClick={event => handleOpenClick(event, idx)} 
+                            key={idx}
+                        >
                             <PosterInner>
                                 <PosterTitle>{poster.title}</PosterTitle>
                                 <PosterAuthor>{poster.author}</PosterAuthor>
@@ -170,7 +207,15 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                                     <Photos src={poster.image} alt={`pic ${idx + 1}`} />
                                 </ImageContainer>
                             </PosterInner>
-                            <PosterOverlay><ZoomInButton className={'override'} /></PosterOverlay>
+                            <PosterOverlay>
+                                <StyledButton 
+                                    onMouseOver={event => handleZoomInMouseOverEvent(event)}
+                                    onClick={event => handleZoomInClick(event, idx)} 
+                                    className={'zoomIn'}
+                                >
+                                    <ZoomInIcon />
+                                </StyledButton>
+                            </PosterOverlay>
                         </SwiperSlide>
                     ))}
                 </Swiper>
@@ -178,7 +223,12 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             <PosterPageOverlay onClick={event => handleOverlayClick(event)}/>
             <PdfContainer>
                 <PdfInner />
-                <CloseButton fontSize="large" onClick={event => handleClose(event)}/>
+                <StyledButton 
+                    onClick={event => handleClose(event)}
+                    className={'close'}
+                >
+                    <CancelIcon fontSize="large"/>
+                </StyledButton>
             </PdfContainer>
         </>
     )
