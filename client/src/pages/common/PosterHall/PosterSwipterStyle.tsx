@@ -73,13 +73,12 @@ export const StyledButton = styled(IconButton)`
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
-        font-size: 22px;
-}
+    }
 
     &.close{
         left: 50%;
         transform: translateX(-50%);
-        bottom: -8%;
+        bottom: -4%;
         color: rgba(32,33,36,0.6);
         &:hover{
             color: rgba(32,33,36,0.8);

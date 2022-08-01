@@ -13,6 +13,7 @@ import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, Poster
 
 // pdfjs
 import { pdfjs } from 'react-pdf';
+import { CribSharp } from '@mui/icons-material';
 
 // pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
@@ -52,11 +53,13 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         clickPoster(clickedTarget, index);
     }
 
+// class명을 줘서 그걸 이용 ㄱㄱ 이렇게 하니까 내부의 svg, path 등 이상한 것으로 잡히면 parentElement의 값이 상대적으로 잡혀서 애매함
     function handleZoomInClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number){
         e.preventDefault();
-        const target = e.target as HTMLDivElement;
-        const clickedTarget = target.parentElement.parentElement;
-        clickPoster(clickedTarget, index);
+        // const target = e.target as HTMLDivElement;
+        // const clickedTarget = target.parentElement.parentElement;
+        const clickedTarget = document.querySelector('.swiper-slide-active') as HTMLDivElement;
+        clickPoster(clickedTarget, index); // clickedTarget.classList.contains("hover-able") 이 로직을 빼도 된다.
     }
 
     function clickPoster(clickedTarget: HTMLElement, index: number){
@@ -120,7 +123,6 @@ const PosterSwiper = ({ posterState }: posterProps) => {
 
     const handleZoomInMouseOverEvent = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
-        console.log('icon mouse over');
         const hoveredEl = (e.target as HTMLDivElement | null);
         const activePosterEl = hoveredEl.parentElement.parentElement;
         activePosterEl.classList.add("hover-able");
@@ -212,6 +214,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                                     onMouseOver={event => handleZoomInMouseOverEvent(event)}
                                     onClick={event => handleZoomInClick(event, idx)} 
                                     className={'zoomIn'}
+                                    size='large'
                                 >
                                     <ZoomInIcon />
                                 </StyledButton>
