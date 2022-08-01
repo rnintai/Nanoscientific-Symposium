@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export const PosterTitle = styled.div`
     display: flex;
@@ -64,7 +66,7 @@ export const PosterOverlay = styled.div`
     cursor: pointer;
 `;
 
-export const MagnifyIcon = styled(ZoomInIcon)`
+export const ZoomInButton = styled(ZoomInIcon)`
     &.override{
             position: absolute;
             top: 50%;
@@ -75,17 +77,35 @@ export const MagnifyIcon = styled(ZoomInIcon)`
         }
 `
 
+export const CloseButton = styled(CancelIcon)`
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -8%;
+    color: rgba(32,33,36,0.6);
+    &:hover{
+        color: rgba(32,33,36,0.8);
+    }
+    cursor: pointer;
+    height: 34px;
+    width: 34px;
+`;
+
 // export const PdfContainer = styled.div<{isVsb : boolean}>`
 // visibility: ${props => props.isVsb ? "visible" : "hidden" };
 export const PdfContainer = styled.div`
-    visibility: hidden;
+    visibility: hidden; /* opacity:0 */
     position: absolute;
     width: 80%;
     height: 80%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 99;
+    z-index: 999;
+
+    &.is--open{
+        visibility: visible;
+    }
 `;
 
 // iframe
@@ -169,5 +189,21 @@ export const PosterContainer = styled.div`
                 opacity: 0;
             };
         }
+    }
+`;
+
+export const PosterPageOverlay = styled.div`
+    position:absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 998;
+    background: black;
+    visibility: hidden;
+    opacity: 0.5;
+
+    &.is--open{
+        visibility: visible;
     }
 `;

@@ -10,12 +10,10 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle, DividedLine, ImageContainer, PosterOverlay, MagnifyIcon, PdfContainer, PdfInner } from './PosterSwipterStyle';
+import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle, DividedLine, ImageContainer, PosterOverlay, PdfContainer, PdfInner, PosterPageOverlay, ZoomInButton, CloseButton } from './PosterSwipterStyle';
 
 // pdfjs
 import { pdfjs } from 'react-pdf';
-import { Document, Page } from 'react-pdf';
-import { ModeOfTravel } from '@mui/icons-material';
 
 // pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
@@ -48,30 +46,33 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         setNumPages(numPages);
     }
 
-    function handleClick(e: React.MouseEvent<HTMLElement, MouseEvent>, index: number) {
+    function handleOpenClick(e: React.MouseEvent<HTMLElement, MouseEvent>, index: number) {
         e.preventDefault();
         const target = e.target as HTMLInputElement;
         const clickedTarget = target.parentElement;
-        // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank");
+        // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank"); // 다른 창으로 크게 생성
         if (target.parentElement.classList.contains("swiper-slide-active")) {
             const ancesterEl = clickedTarget.parentElement.parentElement.parentElement.parentElement;
-            const iframeOuter = ancesterEl.children[2] as HTMLDivElement | null;
-            if (iframeOuter != null) {
-                iframeOuter.style.visibility = 'visible';
-            }
+            const iframeOuter = ancesterEl.children[3] as HTMLDivElement | null;
             const iframeInner = iframeOuter.children[0] as HTMLImageElement | null;
+            const backgroundOverlay = ancesterEl.children[2] as HTMLDivElement | null;
+            if (iframeOuter != null) {
+                iframeOuter.classList.add('is--open');
+                backgroundOverlay.classList.add('is--open');
+            }
             if (iframeInner != null) {
                 iframeInner.src = `https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`;
             }
-            ancesterEl.style.background = '#000';
-            ancesterEl.style.opacity = '0.5';
-            // setIsVisible(true);
-            // setPdfUrl(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`);
         }
     }
 
-    const onPageClick = ({ pageNumber }) => {
-        alert('Clicked an item from page ' + pageNumber + '!')
+    const handleOverlayClick = (e : React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const target = (e.target as HTMLDivElement | null);
+        const targetParentEl = target.parentElement;
+        const iframeOuter = targetParentEl.children[3] as HTMLDivElement || null;
+        iframeOuter.classList.remove('is--open');
+        target.classList.remove('is--open');
     }
 
     const handleMouseOverEvent = (e) => {
@@ -98,6 +99,13 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         }
     };
 
+    const handleClose = (e: React.MouseEvent<SVGSVGElement>) => {
+        e.preventDefault();
+        const target = (e.target as HTMLDivElement | null);
+        const openedEls = document.querySelectorAll(".is--open");
+        openedEls.forEach(El => El.classList.remove("is--open"));
+    }
+
     return (
         <>
             <PosterContainer>
@@ -107,10 +115,6 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                     effect={"coverflow"}
                     grabCursor={true}
                     centeredSlides={true}
-                    // navigation={{
-                    //     prevEl: prevRef.current, // 이전 버튼
-                    //     nextEl: nextRef.current, // 다음 버튼
-                    // }}
                     navigation={true}
                     style={{
                         // "--swiper-navigation-color": "#fff",
@@ -156,7 +160,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                     className="mySwiper"
                 >
                     {posterState.map((poster, idx) => (
-                        <SwiperSlide className="swiperSlide" onMouseOver={handleMouseOverEvent} onMouseOut={handleMouseOutEvent} onClick={event => handleClick(event, idx + 1)} key={idx}>
+                        <SwiperSlide className="swiperSlide" onMouseOver={handleMouseOverEvent} onMouseOut={handleMouseOutEvent} onClick={event => handleOpenClick(event, idx)} key={idx}>
                             <PosterInner>
                                 <PosterTitle>{poster.title}</PosterTitle>
                                 <PosterAuthor>{poster.author}</PosterAuthor>
@@ -166,82 +170,18 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                                     <Photos src={poster.image} alt={`pic ${idx + 1}`} />
                                 </ImageContainer>
                             </PosterInner>
-                            <PosterOverlay><MagnifyIcon className={'override'} /></PosterOverlay>
+                            <PosterOverlay><ZoomInButton className={'override'} /></PosterOverlay>
                         </SwiperSlide>
                     ))}
                 </Swiper>
             </PosterContainer>
+            <PosterPageOverlay onClick={event => handleOverlayClick(event)}/>
             <PdfContainer>
                 <PdfInner />
+                <CloseButton fontSize="large" onClick={event => handleClose(event)}/>
             </PdfContainer>
         </>
     )
 }
 
 export default PosterSwiper;
-
-{/*onClick={(e) => { handleClick(idx, e) }}*/ }
-
-
-    // useEffect(() => {
-    //     if (!swiperSetting) {
-    //         setSwiperSetting({
-    //             spaceBetween: 0,
-    //             Navigation: {
-    //                 prevEl: prevRef.current, // 이전 버튼
-    //                 nextEl: nextRef.current, // 다음 버튼
-    //             },
-    //             // scrollbar: { draggable: true, el: null },
-    //             // cardList: ReactElement[],
-    //             slidesPerView: 3 | 4,
-    //             loop: true,
-    //             effect: "coverflow",
-    //             grabCursor: true,
-    //             centeredSlides: true,
-    //             pagination: { clickable: true, dynamicBullets: true },
-    //             coverflowEffect: {
-    //                 rotate: 5,
-    //                 stretch: 10,
-    //                 depth: 300, // 가운데 제외 모두 들어가는 깊이
-    //                 modifier: 2, // 가운데 모이는 정도(0: 사이간격 안겹침)
-    //                 slideShadows: true,
-    //             },
-    //             breakPoints: {
-    //                 700: {
-    //                     spaceBetween: 0,
-    //                     slidesPerView: 4,
-    //                 },
-    //                 500: {
-    //                     spaceBetween: 100,
-    //                     slidesPerView: 2,
-    //                 },
-    //                 411: {
-    //                     spaceBetween: 100,
-    //                     slidesPerView: 2,
-    //                 },
-    //                 300: {
-    //                     spaceBetween: 0,
-    //                     slidesPerView: 1,
-    //                 },
-    //             }
-    //         })
-    //     }
-    // }, []);
-
-
-/* <Document 
-file="https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_1.pdf" 
-// onLoadSuccess={onDocumentLoadSuccess}
-onItemClick={onPageClick}
-options={option}
->
-    <Page pageNumber={pageNumber} onClick={() => console.log('hi')}/>
-</Document>
-<p>
-    <span onClick={() => pageNumber > 1 ? setPageNumber(pageNumber - 1) : null}>
-        &lt;
-    </span>
-    <span onClick={() => pageNumber < numPages ? setPageNumber(pageNumber + 1) : null}>
-        &gt;
-    </span>
-</p> */
