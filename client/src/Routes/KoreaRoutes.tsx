@@ -13,6 +13,7 @@ import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
+import PosterHall from "pages/common/PosterHall/PosterHall";
 
 const pathname = "kr";
 const formNo = "1239";
@@ -71,5 +72,10 @@ export default [
   {
     path: `/${pathname}/announcement/:id`,
     element: <AnnouncementDetail />,
+  },
+  {
+    path: `/${pathname}/poster-hall`,
+    element: <PosterHall />,
+    isPrivate: true,
   },
 ];
