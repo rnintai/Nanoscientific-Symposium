@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import IconButton from '@mui/material/IconButton';
 
+const BREAK_POINT_MOBILE = 768;
+const BREAK_POINT_TABLET = 992;
+const BREAK_POINT_SMALL_PC = 1140;
+
 export const PosterTitle = styled.div`
     display: flex;
     align-items: center;
@@ -62,20 +66,32 @@ export const PosterOverlay = styled.div`
     background-color: rgba(46, 132, 206, 0.7);
     transition: opacity 0.4s ease;
     cursor: pointer;
+
+    @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px){
+        height: 406px;
+    }
+
+    @media only screen and (max-width: ${BREAK_POINT_TABLET}px){
+        height: 347px;
+    }
+
+    @media only screen and (max-width: ${BREAK_POINT_MOBILE}px){
+        height: 509px;
+    }
 `;
 
 export const StyledButton = styled(IconButton)`
     position: absolute;
     cursor: pointer;
 
-    &.zoomIn{
+    &.ZoomIn{
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         color: white;
     }
 
-    &.close{
+    &.Close{
         left: 50%;
         transform: translateX(-50%);
         bottom: -4%;
@@ -102,6 +118,10 @@ export const PdfContainer = styled.div`
     &.is--open{
         visibility: visible;
     }
+
+    @media only screen and (max-width: ${BREAK_POINT_MOBILE}px){
+        height: 43%;
+    }
 `;
 
 // iframe
@@ -125,6 +145,18 @@ export const PosterInner = styled.div`
     /* -webkit-box-reflect: below 0.01px */
     /* linear-gradient(transparent, transparent, #0006); */
     box-shadow: 0px 5px 11px #9fb4d4cf;
+
+    @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px){
+        height: 406px;
+    }
+
+    @media only screen and (max-width: ${BREAK_POINT_TABLET}px){
+        height: 347px;
+    }
+
+    @media only screen and (max-width: ${BREAK_POINT_MOBILE}px){
+        height: 509px;
+    }
 `;
 
 export const PosterContainer = styled.div`
@@ -135,6 +167,10 @@ export const PosterContainer = styled.div`
     justify-content: center;
     margin-right: auto;
     margin-left: auto;
+    
+    @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px){
+        min-height: calc(100vh - 64px - 67px);
+    }
 
     .swiper-button-prev,
     .swiper-button-next{

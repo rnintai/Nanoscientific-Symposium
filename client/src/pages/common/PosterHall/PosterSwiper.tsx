@@ -1,6 +1,11 @@
 import React, { useRef, useState } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Keyboard, Navigation, Pagination, EffectCoverflow } from "swiper";
+import SwiperCore, { 
+    Keyboard, 
+    Navigation, 
+    Pagination, 
+    EffectCoverflow 
+} from "swiper";
 // import IconButton from '@mui/material/IconButton';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -9,15 +14,21 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import { PosterContainer, Photos, PosterInner, PosterTitle, PosterAuthor, PosterSubTitle, DividedLine, ImageContainer, PosterOverlay, PdfContainer, PdfInner, PosterPageOverlay, StyledButton } from './PosterSwipterStyle';
-
-// pdfjs
-import { pdfjs } from 'react-pdf';
-import { CribSharp } from '@mui/icons-material';
-
-// pdfjs.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.js`;
-// pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import { 
+    PosterContainer, 
+    Photos, 
+    PosterInner, 
+    PosterTitle, 
+    PosterAuthor, 
+    PosterSubTitle, 
+    DividedLine, 
+    ImageContainer, 
+    PosterOverlay, 
+    PdfContainer, 
+    PdfInner, 
+    PosterPageOverlay, 
+    StyledButton 
+} from './PosterSwipterStyle';
 
 type posterProps = {
     posterState: Poster.posterType[];
@@ -34,17 +45,6 @@ SwiperCore.use([Keyboard, Pagination, EffectCoverflow, Navigation]);
 const PosterSwiper = ({ posterState }: posterProps) => {
     const prevRef = useRef<HTMLButtonElement>(null);
     const nextRef = useRef<HTMLButtonElement>(null);
-    const [swiperSetting, setSwiperSetting] = useState<any | null>(null); // any -> Swiper
-
-
-    const [numPages, setNumPages] = useState(null);
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pdfUrl, setPdfUrl] = useState(null);
-    const [isVisible, setIsVisible] = useState(false);
-
-    function onDocumentLoadSuccess({ numPages }) {
-        setNumPages(numPages);
-    }
 
     function handleOpenClick(e: React.MouseEvent<HTMLElement, MouseEvent>, index: number) {
         e.preventDefault();
@@ -53,23 +53,19 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         clickPoster(clickedTarget, index);
     }
 
-// class명을 줘서 그걸 이용 ㄱㄱ 이렇게 하니까 내부의 svg, path 등 이상한 것으로 잡히면 parentElement의 값이 상대적으로 잡혀서 애매함
     function handleZoomInClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, index: number){
         e.preventDefault();
-        // const target = e.target as HTMLDivElement;
-        // const clickedTarget = target.parentElement.parentElement;
         const clickedTarget = document.querySelector('.swiper-slide-active') as HTMLDivElement;
-        clickPoster(clickedTarget, index); // clickedTarget.classList.contains("hover-able") 이 로직을 빼도 된다.
+        clickPoster(clickedTarget, index); // clickedTarget.classList.contains("hover-able") 이 로직을 빼는게 효율적
     }
 
     function clickPoster(clickedTarget: HTMLElement, index: number){
         // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank"); // 다른 창으로 크게 생성
-        // if (clickedTarget.classList.contains("swiper-slide-active") && clickedTarget.style.opacity === "1") {
         if (clickedTarget.classList.contains("swiper-slide-active") && clickedTarget.classList.contains("hover-able")) {
-            const ancesterEl = clickedTarget.parentElement.parentElement.parentElement.parentElement;   
-            const iframeOuter = ancesterEl.children[3] as HTMLDivElement | null;
+            const ancesterEl = clickedTarget.parentElement.parentElement.parentElement.parentElement; 
+            const iframeOuter = (ancesterEl as HTMLDivElement | null).querySelector(".PdfContainer");
             const iframeInner = iframeOuter.children[0] as HTMLImageElement | null;
-            const backgroundOverlay = ancesterEl.children[2] as HTMLDivElement | null;
+            const backgroundOverlay = ancesterEl.querySelector(".PdfBackgroundOverlay") as HTMLDivElement | null;
             if (iframeOuter != null) {
                 iframeOuter.classList.add('is--open');
                 backgroundOverlay.classList.add('is--open');
@@ -89,15 +85,16 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         target.classList.remove('is--open');
     }
 
-    const handleMouseOverEvent = (e) => {
+    const handleMouseOverEvent = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
-        const hoveredEl = e.target.parentElement;
+        const hoveredEl = (e.target as HTMLDivElement | null).parentElement;
 
         if (hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")) {
             let resultArr = hoveredEl.style.transform.split(' ');
+            let resultStr = '';
             resultArr.push('translateY(-80px)');
-            resultArr = resultArr.join(' ');
-            hoveredEl.style.transform = resultArr;
+            resultStr = resultArr.join(' ');
+            hoveredEl.style.transform = resultStr;
         }
         
         if(hoveredEl.classList.contains("swiper-slide-active")){
@@ -105,15 +102,16 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         }
     };
 
-    const handleMouseOutEvent = (e) => {
+    const handleMouseOutEvent = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         e.preventDefault();
-        const hoveredEl = e.target.parentElement;
+        const hoveredEl = (e.target as HTMLDivElement | null).parentElement;
 
         if (hoveredEl.classList.contains("swiper-slide") && !hoveredEl.classList.contains("swiper-slide-active")) {
             let resultArr = hoveredEl.style.transform.split(' ');
+            let resultStr = '';
             resultArr.pop();
-            resultArr = resultArr.join(' ');
-            hoveredEl.style.transform = resultArr;
+            resultStr = resultArr.join(' ');
+            hoveredEl.style.transform = resultStr;
         }
 
         if(hoveredEl.classList.contains("swiper-slide-active")){
@@ -211,9 +209,9 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                             </PosterInner>
                             <PosterOverlay>
                                 <StyledButton 
-                                    onMouseOver={event => handleZoomInMouseOverEvent(event)}
+                                    onMouseOver={handleZoomInMouseOverEvent}
                                     onClick={event => handleZoomInClick(event, idx)} 
-                                    className={'zoomIn'}
+                                    className="ZoomIn"
                                     size='large'
                                 >
                                     <ZoomInIcon />
@@ -223,12 +221,12 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                     ))}
                 </Swiper>
             </PosterContainer>
-            <PosterPageOverlay onClick={event => handleOverlayClick(event)}/>
-            <PdfContainer>
+            <PosterPageOverlay onClick={handleOverlayClick} className="PdfBackgroundOverlay"/>
+            <PdfContainer className="PdfContainer">
                 <PdfInner />
                 <StyledButton 
-                    onClick={event => handleClose(event)}
-                    className={'close'}
+                    onClick={handleClose}
+                    className="Close"
                 >
                     <CancelIcon fontSize="large"/>
                 </StyledButton>
