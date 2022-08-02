@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import S3 from "aws-sdk/clients/s3";
 import { Button, Fab, Stack, Typography, useTheme } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
@@ -15,6 +15,8 @@ interface S3PdfUploadProps {
   // previewURL: string;
   // setPreviewURL: Dispatch<SetStateAction<string>>;
   setUploadLoading: Dispatch<SetStateAction<boolean>>;
+  // eslint-disable-next-line react/require-default-props
+  align?: "flex-start" | "center" | "flex-end";
 }
 
 const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY;
@@ -33,6 +35,7 @@ const S3PdfUpload = ({
   filePath,
   setFilePath,
   setUploadLoading,
+  align = "center",
 }: S3PdfUploadProps) => {
   const [progress, setProgress] = useState<number>(-1);
   const theme = useTheme();
@@ -97,6 +100,11 @@ const S3PdfUpload = ({
         });
     }
   };
+
+  useEffect(() => {
+    setFileName(filePath.split("/")[filePath.split("/").length - 1]);
+  }, [filePath]);
+
   return (
     <label htmlFor="contained-button-file">
       <Stack
@@ -107,7 +115,7 @@ const S3PdfUpload = ({
           },
           margin: "0 0 8px 0",
         }}
-        justifyContent="center"
+        justifyContent={align}
         alignItems="center"
       >
         <Box
@@ -125,7 +133,7 @@ const S3PdfUpload = ({
             },
           }}
         >
-          {fileName === "" ? (
+          {filePath === "" ? (
             <Typography
               fontSize={smallFontSize}
               sx={{
@@ -135,7 +143,7 @@ const S3PdfUpload = ({
                 whiteSpace: "nowrap",
               }}
               color={
-                fileName !== ""
+                filePath !== ""
                   ? theme.palette.grey[700]
                   : theme.palette.grey.A400
               }
@@ -146,7 +154,11 @@ const S3PdfUpload = ({
             <Typography
               component="a"
               target="_blank"
-              href={`${S3_URL}/${filePath}`}
+              href={
+                filePath.indexOf("https://") !== -1
+                  ? filePath
+                  : `${S3_URL}/${filePath}`
+              }
               fontSize={smallFontSize}
               sx={{
                 width: "100%",

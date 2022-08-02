@@ -30,9 +30,7 @@ const Speakers = () => {
     const getSpeakers = async () => {
       setLoading(true);
       const speakers = await axios.get(`/api/page/common/speakers`, config);
-      console.log(`nation: ${speakers}`);
       setSpeakersState(speakers.data);
-      console.log(setSpeakersState);
       setLoading(false);
     };
     getSpeakers();

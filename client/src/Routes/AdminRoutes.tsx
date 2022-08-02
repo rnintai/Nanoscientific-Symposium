@@ -4,6 +4,7 @@ import Admin from "pages/admin/Admin";
 import AdminPrograms from "pages/admin/AdminPrograms/AdminPrograms";
 import AdminSpeakers from "pages/admin/AdminSpeakers/AdminSpeakers";
 import AdminMenus from "pages/admin/AdminMenus/AdminMenus";
+import AdminPosters from "pages/admin/AdminPosters/AdminPosters";
 import AdminUsers from "../pages/admin/AdminUsers/AdminUsers";
 
 // 어드민이어야 접근가능한 element 들을 모아둔 라우츠 입니다.
@@ -208,6 +209,15 @@ export default [
     element: (
       <AdminRoute key="/eu/admin/menus">
         <AdminMenus />
+      </AdminRoute>
+    ),
+  },
+  // poster
+  {
+    path: "/americas/admin/poster",
+    element: (
+      <AdminRoute key="/americas/admin/poster">
+        <AdminPosters />
       </AdminRoute>
     ),
   },
