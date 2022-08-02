@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import IconButton from '@mui/material/IconButton';
 
-const BREAK_POINT_TOO_SMALL = 480;
 const BREAK_POINT_MOBILE = 768;
 const BREAK_POINT_TABLET = 992;
 const BREAK_POINT_SMALL_PC = 1190;
@@ -169,6 +168,10 @@ export const PosterContainer = styled.div`
 
     @media only screen and (max-width: 1140px){
         min-height: calc(100vh - 64px - 67px);
+    }
+
+    @media only screen and (max-width: 1023.33px){
+        min-height: calc(100vh - 64px - 58px);
     }
 
     @media only screen and (max-width: 886px){
