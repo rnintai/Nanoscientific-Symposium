@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import IconButton from '@mui/material/IconButton';
 
+const BREAK_POINT_TOO_SMALL = 480;
 const BREAK_POINT_MOBILE = 768;
 const BREAK_POINT_TABLET = 992;
-const BREAK_POINT_SMALL_PC = 1140;
+const BREAK_POINT_SMALL_PC = 1190;
+const Break_POINT_BIG_PC = 1540;
 
 export const PosterTitle = styled.div`
     display: flex;
@@ -15,7 +17,8 @@ export const PosterTitle = styled.div`
     text-overflow: ellipsis;
     margin-bottom: 5px;
     overflow: hidden;
-    max-height: 64px;
+    // max-height: 64px;
+    height: 64px;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -53,7 +56,7 @@ export const Photos = styled.img`
     align-items: center;
     width: 100%;
     margin-right: 0;
-    max-height: 310px;
+    height: 310px;
 `;
 
 export const PosterOverlay = styled.div`
@@ -66,18 +69,6 @@ export const PosterOverlay = styled.div`
     background-color: rgba(46, 132, 206, 0.7);
     transition: opacity 0.4s ease;
     cursor: pointer;
-
-    @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px){
-        height: 406px;
-    }
-
-    @media only screen and (max-width: ${BREAK_POINT_TABLET}px){
-        height: 347px;
-    }
-
-    @media only screen and (max-width: ${BREAK_POINT_MOBILE}px){
-        height: 509px;
-    }
 `;
 
 export const StyledButton = styled(IconButton)`
@@ -118,10 +109,6 @@ export const PdfContainer = styled.div`
     &.is--open{
         visibility: visible;
     }
-
-    @media only screen and (max-width: ${BREAK_POINT_MOBILE}px){
-        height: 43%;
-    }
 `;
 
 // iframe
@@ -145,31 +132,81 @@ export const PosterInner = styled.div`
     /* -webkit-box-reflect: below 0.01px */
     /* linear-gradient(transparent, transparent, #0006); */
     box-shadow: 0px 5px 11px #9fb4d4cf;
-
-    @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px){
-        height: 406px;
-    }
-
-    @media only screen and (max-width: ${BREAK_POINT_TABLET}px){
-        height: 347px;
-    }
-
-    @media only screen and (max-width: ${BREAK_POINT_MOBILE}px){
-        height: 509px;
-    }
 `;
 
 export const PosterContainer = styled.div`
     min-height: calc(100vh - 64px - 110px);
-    width: 80%;
+    // width: 70%;
+    width: 1536px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: auto;
     margin-left: auto;
+    // padding: 0 20%;
+    
+
+    @media only screen and (max-width: ${Break_POINT_BIG_PC}px){
+        width: 1188px;
+
+        ${Photos}{
+            height: auto;
+        }
+    }
     
     @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px){
+        width: 869px;
+
+        ${PosterInner}{
+            height: 436px;
+        }
+
+        ${PosterOverlay}{
+            height: 436px;
+        }
+        
+    }
+
+    @media only screen and (max-width: 1140px){
         min-height: calc(100vh - 64px - 67px);
+    }
+
+    @media only screen and (max-width: 886px){
+        width: 745px;
+
+        ${PosterInner}{
+            height: 367px;
+        }
+
+        ${PosterOverlay}{
+            height: 367px;
+        }
+    }
+
+    @media only screen and (max-width: ${BREAK_POINT_MOBILE}px){
+        width: 400px;
+
+        ${PosterInner}{
+            height: 100%;
+        }
+
+        ${Photos}{
+            width: 100%;
+            height: 321px;
+        }
+
+        ${PosterOverlay}{
+            height: 100%;
+        }
+    }
+
+    @media only screen and (max-width: 513px){
+        width: 299px;
+
+        ${Photos}{
+            width: 100%;
+            height: 277px;
+        }
     }
 
     .swiper-button-prev,

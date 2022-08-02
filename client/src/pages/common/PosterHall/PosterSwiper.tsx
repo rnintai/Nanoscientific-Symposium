@@ -165,17 +165,9 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                         slideShadows: false,
                     }}
                     breakpoints={{
-                        700: {
+                        769: {
                             spaceBetween: 0,
                             slidesPerView: 4,
-                        },
-                        500: {
-                            spaceBetween: 100,
-                            slidesPerView: 2,
-                        },
-                        411: {
-                            spaceBetween: 100,
-                            slidesPerView: 2,
                         },
                         300: {
                             spaceBetween: 0,
