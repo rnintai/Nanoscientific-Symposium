@@ -11,6 +11,7 @@ import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
+import PosterHall from "pages/common/PosterHall/PosterHall";
 
 const pathname = "asia";
 const formNo = "1247";
@@ -65,5 +66,10 @@ export default [
   {
     path: `/${pathname}/announcement/:id`,
     element: <AnnouncementDetail />,
+  },
+  {
+    path: `/${pathname}/poster-hall`,
+    element: <PosterHall />,
+    isPrivate: true,
   },
 ];

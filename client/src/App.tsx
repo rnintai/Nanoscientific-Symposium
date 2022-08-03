@@ -28,6 +28,7 @@ import EuropeRoutes from "./Routes/EuropeRoutes";
 import JapanRoutes from "./Routes/JapanRoutes";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
+import "./css/font.css";
 
 interface routeType {
   path: string;
