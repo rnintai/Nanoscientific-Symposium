@@ -28,6 +28,7 @@ import {
   PdfInner,
   PosterPageOverlay,
   StyledButton,
+  PosterBackground,
 } from "./PosterSwipterStyle";
 
 type posterProps = {
@@ -164,7 +165,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   };
 
   return (
-    <>
+    <PosterBackground>
       <PosterContainer>
         <Swiper
           slideToClickedSlide
@@ -254,7 +255,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
           <CancelIcon fontSize="large" />
         </StyledButton>
       </PdfContainer>
-    </>
+    </PosterBackground>
   );
 };
 

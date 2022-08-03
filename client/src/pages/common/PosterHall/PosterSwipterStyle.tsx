@@ -216,6 +216,7 @@ export const PosterContainer = styled.div`
     .swiper-button-next{
         color: #1D2088; 
     }
+    
     font-family: 'Noto Serif', serif;
 
     .mySwiper{
@@ -255,4 +256,10 @@ export const PosterPageOverlay = styled.div`
     &.is--open{
         visibility: visible;
     }
+`;
+
+export const PosterBackground = styled.div`
+    background-image: url(https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/background.png);
+    background-size: cover;
+    background-position: center;
 `;
