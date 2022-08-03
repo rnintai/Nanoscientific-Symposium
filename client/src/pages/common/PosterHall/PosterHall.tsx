@@ -7,11 +7,9 @@ import PosterSwiper from "./PosterSwiper";
 
 const PosterHall = () => {
   const [posterLoading, setPosterLoading] = useState<boolean>(false);
-  const [posterState, setposterState] = useState<Poster.posterType[]>([]);
+  const [posterState, setPosterState] = useState<Poster.posterType[]>([]);
   const pathname = usePageViews();
   const { currentMenu } = useMenuStore();
-
-  console.log(`currentMenu: ${currentMenu}`);
 
   useEffect(() => {
     const config = {
@@ -23,12 +21,8 @@ const PosterHall = () => {
     const getPosters = async () => {
       setPosterLoading(true);
       const posters = await axios.get(`/api/page/common/poster`, config);
-      setposterState(posters.data);
-      // console.log(`posters object -> ${posters}`);
-      // console.log(posters);
-      posterState.forEach(
-        (poster) => console.log(`result -> ${poster.id}`), // 확인이 안되는 이유 알아보기
-      );
+      setPosterState(posters.data);
+
       setPosterLoading(false);
     };
 
