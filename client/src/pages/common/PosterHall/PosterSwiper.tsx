@@ -28,6 +28,7 @@ import {
   PdfInner,
   PosterPageOverlay,
   StyledButton,
+  PosterBackground,
 } from "./PosterSwipterStyle";
 
 type posterProps = {
@@ -97,8 +98,11 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     const target = e.target as HTMLDivElement | null;
+    console.log(target.parentElement);
     const targetParentEl = target.parentElement;
-    const iframeOuter = (targetParentEl.children[3] as HTMLDivElement) || null;
+    const iframeOuter = (targetParentEl.children[2] as HTMLDivElement) || null;
+    console.log(iframeOuter);
+    console.log(target);
     iframeOuter.classList.remove("is--open");
     target.classList.remove("is--open");
   };
@@ -115,7 +119,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     ) {
       const resultArr = hoveredEl.style.transform.split(" ");
       let resultStr = "";
-      resultArr.push("translateY(-80px)");
+      resultArr.push("translateY(-15px)");
       resultStr = resultArr.join(" ");
       hoveredEl.style.transform = resultStr;
     }
@@ -158,13 +162,12 @@ const PosterSwiper = ({ posterState }: posterProps) => {
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    const target = e.target as HTMLDivElement | null;
     const openedEls = document.querySelectorAll(".is--open");
     openedEls.forEach((El) => El.classList.remove("is--open"));
   };
 
   return (
-    <>
+    <PosterBackground>
       <PosterContainer>
         <Swiper
           slideToClickedSlide
@@ -254,7 +257,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
           <CancelIcon fontSize="large" />
         </StyledButton>
       </PdfContainer>
-    </>
+    </PosterBackground>
   );
 };
 
