@@ -15,6 +15,7 @@ export const TitleContainer = styled.div`
   position: relative;
   overflow: hidden;
   margin-bottom: 5px;
+  width: 100%;
 
   &::after {
     content: "";
@@ -259,16 +260,8 @@ export const PosterContainer = styled.div`
     }
   }
 
-  @media only screen and (max-width: 1140px) {
-    min-height: calc(100vh - 64px - 67px);
-  }
-
-  @media only screen and (max-width: 1023.33px) {
-    min-height: calc(100vh - 64px - 58px);
-  }
-
-  @media only screen and (max-width: ${BREAK_POINT_TABLET}px) {
-    width: 745px;
+  @media only screen and (max-width: 900px) { // 변수로 주기
+    width: 100%;
 
     ${PosterInner} {
       height: 367px;
@@ -282,6 +275,27 @@ export const PosterContainer = styled.div`
     ${PosterOverlay} {
       height: 367px;
     }
+    
+    .mySwiper {
+      padding: 72px 99px; // 좌우(99px)를 키우면 화면에 하나로 볼 수는 없지만 띄워서 볼 수는 있다!
+    }
+  }
+
+
+  @media only screen and (max-width: 1140px) {
+    min-height: calc(100vh - 64px - 67px);
+  }
+
+  @media only screen and (max-width: 1023.33px) {
+    min-height: calc(100vh - 64px - 58px);
+  }
+
+  @media only screen and (max-width: ${BREAK_POINT_TABLET}px) { // 없앨지 생각
+    /* width: 745px; */
+
+    /* .swiper-slide { 안먹힘
+      width: 440px;
+    } */
   }
 
   @media only screen and (max-width: ${BREAK_POINT_MOBILE}px) {
@@ -302,11 +316,7 @@ export const PosterContainer = styled.div`
     }
 
     .mySwiper {
-      padding: 72px 60px;
-    }
-
-    .swiper-slide {
-      width: 440px;
+      padding: 72px 100px;
     }
   }
 

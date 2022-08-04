@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
   Keyboard,
@@ -6,7 +6,7 @@ import SwiperCore, {
   Pagination,
   EffectCoverflow,
 } from "swiper";
-// import IconButton from '@mui/material/IconButton';
+
 import ZoomInIcon from "@mui/icons-material/ZoomIn";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -36,21 +36,20 @@ type posterProps = {
   posterState: Poster.posterType[];
 };
 
-// const option = {
-//   cMapUrl: "cmaps/",
-//   cMapPacked: true,
-//   standardFontDataUrl: "standard_fonts/",
-// };
-
 SwiperCore.use([Keyboard, Pagination, EffectCoverflow, Navigation]);
 
 const PosterSwiper = ({ posterState }: posterProps) => {
-  // const prevRef = useRef<HTMLButtonElement>(null);
-  // const nextRef = useRef<HTMLButtonElement>(null);
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isPdfOpen, setIsPdfOpen] = useState<boolean>(false);
   const [posterAttachment, setPosterAttachment] = useState<string>("");
+  const [windowSize, setWindowSize] = useState(getWindowSize());
 
+
+  function getWindowSize() {
+  const {innerWidth, innerHeight} = window;
+  return {innerWidth, innerHeight};
+  }
+  
   function handleOpenClick(
     e: React.MouseEvent<HTMLElement, MouseEvent>,
     attachment: string,
@@ -73,45 +72,17 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   }
 
   function clickPoster(clickedTarget: HTMLElement, attachment: string) {
-    // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank"); // 다른 창으로 크게 생성
     if (
       clickedTarget.classList.contains("swiper-slide-active") &&
       clickedTarget.classList.contains("hover-able")
     ) {
-      // const ancesterEl =
-      //   clickedTarget.parentElement.parentElement.parentElement.parentElement;
-      // const iframeOuter = (ancesterEl as HTMLDivElement | null).querySelector(
-      //   ".PdfContainer",
-      // );
-      // const iframeInner = iframeOuter.children[0] as HTMLImageElement | null;
-      // const backgroundOverlay = ancesterEl.querySelector(
-      //   ".PdfBackgroundOverlay",
-      // ) as HTMLDivElement | null;
 
       setPosterAttachment(attachment);
       setIsPdfOpen(true);
-      // if (iframeOuter != null) {
-      //   iframeOuter.classList.add("is--open");
-      //   backgroundOverlay.classList.add("is--open");
-      // }
-      // if (iframeInner != null) {
-      //   iframeInner.src = `https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${
-      //     index + 1
-      //   }.pdf`;
-      // }
     }
   }
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // e.preventDefault();
-    // const target = e.target as HTMLDivElement | null;
-    // console.log(target.parentElement);
-    // const targetParentEl = target.parentElement;
-    // const iframeOuter = (targetParentEl.children[2] as HTMLDivElement) || null;
-    // console.log(iframeOuter);
-    // console.log(target);
-    // iframeOuter.classList.remove("is--open");
-    // target.classList.remove("is--open");
+  const handleOverlayClick = () => {
     setIsPdfOpen(false);
   };
 
@@ -133,7 +104,6 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     }
 
     if (hoveredEl.classList.contains("swiper-slide-active")) {
-      // hoveredEl.classList.add("hover-able");
       setIsHover(true);
     }
   };
@@ -156,18 +126,12 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     }
 
     if (hoveredEl.classList.contains("swiper-slide-active")) {
-      // hoveredEl.classList.remove("hover-able");
       setIsHover(false);
     }
   };
 
   const handleZoomInMouseOverEvent = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
-    e.preventDefault();
-    const hoveredEl = e.target as HTMLDivElement | null;
-    const activePosterEl = hoveredEl.parentElement.parentElement;
-    // activePosterEl.classList.add("hover-able");
     setIsHover(true);
   };
 
@@ -177,23 +141,27 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     openedEls.forEach((El) => El.classList.remove("is--open"));
   };
 
+  useEffect(() => {
+    function handleWindowResize() {
+      setWindowSize(getWindowSize());
+    }
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
   return (
     <PosterBackground>
       <PosterContainer>
         <Swiper
           slideToClickedSlide
-          // {...swiperSetting}
-          effect="coverflow"
+          effect={windowSize.innerWidth > 900 ? "coverflow" : null}
           grabCursor
           centeredSlides
           navigation
-          style={
-            {
-              // "--swiper-navigation-color": "#fff",
-              // "--swiper-pagination-color": "#fff",
-              // "background": "#ccc"
-            }
-          }
           keyboard={{
             enabled: true,
           }}
@@ -210,25 +178,19 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             slideShadows: false,
           }}
           breakpoints={{
-            900: {
+            901: { // >= 900
               spaceBetween: 0,
               slidesPerView: 4,
             },
             600: {
-              spaceBetween: 0,
-              slidesPerView: 2,
+              spaceBetween: 100,
+              slidesPerView: 1,
             },
             300: {
-              spaceBetween: 0,
+              spaceBetween: 100,
               slidesPerView: 1,
             },
           }}
-          // on={{
-          //     init: function(){
-          //         console.log('init');
-          //     },
-          //     tap: (swiper, event) => console.log(`clicked! ${event}`),
-          // }}
           className="mySwiper"
         >
           {posterState.map((poster, idx) => {
