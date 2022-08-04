@@ -11,7 +11,7 @@ const PosterHall = () => {
   const pathname = usePageViews();
   const { currentMenu } = useMenuStore();
 
-  console.log(`currentMenu: ${currentMenu}`);
+  // console.log(`currentMenu: ${currentMenu}`);
 
   useEffect(() => {
     const config = {
