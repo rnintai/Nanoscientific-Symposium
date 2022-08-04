@@ -80,7 +80,7 @@ export const PosterTitle = styled.div`
   @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px) {
     font-size: 11px;
     line-height: 13px;
-    height: 43px;
+    /* height: 43px; */
     padding: 1px 5px;
   }
 
@@ -98,7 +98,7 @@ export const PosterTitle = styled.div`
 
   @media only screen and (max-width: ${BREAK_POINT_SMALL_MOBILE}px) {
     font-size: 15px;
-    height: 60px;
+    /* height: 60px; */
     line-height: 1.1;
     padding: 9px 5px;
   }
@@ -272,6 +272,11 @@ export const PosterContainer = styled.div`
 
     ${PosterInner} {
       height: 367px;
+    }
+
+    ${Photos} {
+      width: 100%;
+      height: 209px;
     }
 
     ${PosterOverlay} {
