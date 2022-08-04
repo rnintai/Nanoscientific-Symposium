@@ -7,46 +7,93 @@ const BREAK_POINT_TABLET = 886;
 const BREAK_POINT_SMALL_PC = 1190;
 const Break_POINT_BIG_PC = 1540;
 
+export const TitleContainer = styled.div`
+  height: 71px;
+  background-color: #1d2088;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 5px;
+
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    height: 9px;
+    background: #1d2089;
+  }
+
+  @media only screen and (max-width: ${Break_POINT_BIG_PC}px) {
+    height: 71px;
+  }
+
+  @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px) {
+    height: 51px;
+
+    &::after {
+      height: 6px;
+    }
+  }
+
+  @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px) {
+    height: 54px;
+  }
+
+  @media only screen and (max-width: ${BREAK_POINT_MOBILE}px) {
+    &::after {
+      height: 4px;
+    }
+  }
+`;
+
 export const PosterTitle = styled.div`
   display: flex;
   align-items: center;
   line-height: 1.1;
   background-color: #1d2088;
   color: #fff;
-  padding: 9px 5px;
-  text-overflow: ellipsis;
-  margin-bottom: 5px;
-  overflow: hidden;
-  // max-height: 64px;
-  height: 64px;
+  padding: 0 5px;
+  // text-overflow: ellipsis;
+  // overflow: hidden;
+  // max-height: 71px;
+  // height: 66px;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   font-family: "Noto Serif", serif;
   font-weight: 700;
-  position: relative;
   text-align: center;
   vertical-align: center;
+  width: 100%;
+
+  @media only screen and (max-width: ${Break_POINT_BIG_PC}px) {
+    font-size: 14px;
+    line-height: 16px;
+    // max-height: 71px;
+    padding: 0 5px;
+  }
 
   @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px) {
     font-size: 11px;
-    line-height: 12px;
+    line-height: 13px;
     height: 43px;
-    padding: 6px 5px 9px 5px;
+    padding: 1px 5px;
   }
 
   @media only screen and (max-width: ${BREAK_POINT_TABLET}px) {
-    font-size: 10px;
-    line-height: 12px;
-    height: 43px;
-    padding: 5px 5px 9px 5px px;
+    font-size: 11px;
+    line-height: 13px;
+    // max-height: 43px;
+    padding: 1px 5px;
   }
 
   @media only screen and (max-width: ${BREAK_POINT_MOBILE}px) {
-    font-size: 16px;
-    height: 64px;
-    line-height: 1.1;
-    padding: 9px 5px;
+    font-size: 14px;
+    line-height: 14px;
   }
 
   @media only screen and (max-width: ${BREAK_POINT_SMALL_MOBILE}px) {
@@ -58,7 +105,11 @@ export const PosterTitle = styled.div`
 `;
 
 export const PosterAuthor = styled.div`
-  font-size: 0.625rem;
+  font-size: 0.75rem;
+
+  @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px) {
+    font-size: 0.7rem;
+  }
 `;
 
 export const DividedLine = styled.div`
@@ -68,9 +119,14 @@ export const DividedLine = styled.div`
 `;
 
 export const PosterSubTitle = styled.div`
-  font-size: 0.5rem;
+  font-size: 0.813rem;
   line-height: 1.2;
   margin: 8px 0;
+  color: #1d2088;
+
+  @media only screen and (max-width: ${BREAK_POINT_SMALL_PC}px) {
+    font-size: 0.7rem;
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -242,6 +298,10 @@ export const PosterContainer = styled.div`
 
     .mySwiper {
       padding: 72px 60px;
+    }
+
+    .swiper-slide {
+      width: 440px;
     }
   }
 

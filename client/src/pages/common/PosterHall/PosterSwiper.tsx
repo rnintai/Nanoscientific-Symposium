@@ -29,6 +29,7 @@ import {
   PosterPageOverlay,
   StyledButton,
   PosterBackground,
+  TitleContainer,
 } from "./PosterSwipterStyle";
 
 type posterProps = {
@@ -48,30 +49,30 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   // const nextRef = useRef<HTMLButtonElement>(null);
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isPdfOpen, setIsPdfOpen] = useState<boolean>(false);
-  const [posterIdx, setPosterIndex] = useState<number>(0);
+  const [posterAttachment, setPosterAttachment] = useState<string>("");
 
   function handleOpenClick(
     e: React.MouseEvent<HTMLElement, MouseEvent>,
-    index: number,
+    attachment: string,
   ) {
     e.preventDefault();
     const target = e.target as HTMLDivElement;
     const clickedTarget = target.parentElement;
-    clickPoster(clickedTarget, index);
+    clickPoster(clickedTarget, attachment);
   }
 
   function handleZoomInClick(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    index: number,
+    attachment: string,
   ) {
     e.preventDefault();
     const clickedTarget = document.querySelector(
       ".swiper-slide-active",
     ) as HTMLDivElement;
-    clickPoster(clickedTarget, index); // clickedTarget.classList.contains("hover-able") 이 로직을 빼는게 효율적
+    clickPoster(clickedTarget, attachment); // clickedTarget.classList.contains("hover-able") 이 로직을 빼는게 효율적
   }
 
-  function clickPoster(clickedTarget: HTMLElement, index: number) {
+  function clickPoster(clickedTarget: HTMLElement, attachment: string) {
     // window.open(`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${index + 1}.pdf`, "_blank"); // 다른 창으로 크게 생성
     if (
       clickedTarget.classList.contains("swiper-slide-active") &&
@@ -87,7 +88,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       //   ".PdfBackgroundOverlay",
       // ) as HTMLDivElement | null;
 
-      setPosterIndex(index);
+      setPosterAttachment(attachment);
       setIsPdfOpen(true);
       // if (iframeOuter != null) {
       //   iframeOuter.classList.add("is--open");
@@ -209,9 +210,13 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             slideShadows: false,
           }}
           breakpoints={{
-            769: {
+            900: {
               spaceBetween: 0,
               slidesPerView: 4,
+            },
+            600: {
+              spaceBetween: 0,
+              slidesPerView: 2,
             },
             300: {
               spaceBetween: 0,
@@ -232,11 +237,13 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                 className={isHover ? "hover-able" : ""}
                 onMouseOver={handleMouseOverEvent}
                 onMouseOut={handleMouseOutEvent}
-                onClick={(event) => handleOpenClick(event, idx)}
+                onClick={(event) => handleOpenClick(event, poster.attachment)}
                 key={poster.id}
               >
                 <PosterInner>
-                  <PosterTitle>{poster.title}</PosterTitle>
+                  <TitleContainer>
+                    <PosterTitle>{poster.title}</PosterTitle>
+                  </TitleContainer>
                   <PosterAuthor>{poster.author}</PosterAuthor>
                   <DividedLine />
                   <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
@@ -247,7 +254,9 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                 <PosterOverlay>
                   <StyledButton
                     onMouseOver={handleZoomInMouseOverEvent}
-                    onClick={(event) => handleZoomInClick(event, poster.id)}
+                    onClick={(event) =>
+                      handleZoomInClick(event, poster.attachment)
+                    }
                     className="ZoomIn"
                     size="large"
                   >
@@ -264,11 +273,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
         className={isPdfOpen ? "is--open" : ""}
       />
       <PdfContainer className={isPdfOpen ? "is--open" : ""}>
-        <PdfInner
-          src={`https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/poster_${
-            posterIdx + 1
-          }.pdf`}
-        />
+        <PdfInner src={posterAttachment} />
         <StyledButton onClick={handleClose} className="Close">
           <CancelIcon fontSize="large" />
         </StyledButton>
