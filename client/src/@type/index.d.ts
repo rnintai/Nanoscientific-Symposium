@@ -61,7 +61,7 @@ declare namespace Speaker {
 }
 
 declare namespace Poster {
-  interface posterType{
+  interface posterType {
     id: number;
     title: string;
     sub_title: string;
