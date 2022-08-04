@@ -37,12 +37,14 @@ const menuCtrl = {
   updateMenuList: async (req, res) => {
     const { nation, menus } = req.body;
     const currentPool = getCurrentPool(nation);
-
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       for (const menu of menus) {
         if (menu.isChanged) {
-          const sql = `UPDATE menu SET is_published=${menu.is_published} WHERE id=${menu.id}`;
+          const sql = `UPDATE menu SET 
+          is_published=${menu.is_published},
+          menu.show=${menu.show} 
+          WHERE id=${menu.id}`;
           const row = await connection.query(sql);
           connection.release();
         }

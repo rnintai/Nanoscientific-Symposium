@@ -156,6 +156,39 @@ const commonCtrl = {
     }
   },
 
+  updatePosterList: async (req, res) => {
+    const { nation, list } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      while (list.length > 0) {
+        const { id, title, sub_title, author, image, attachment } =
+          list.shift();
+        const sql = `UPDATE poster SET
+        title='${title}',
+        sub_title='${sub_title}',
+        author='${author}',
+        image='${image}',
+        attachment='${attachment}'
+        WHERE id=${id}
+        `;
+        await connection.query(sql);
+        connection.release();
+      }
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(400).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
   getKeynoteSpeakers: async (req, res) => {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);

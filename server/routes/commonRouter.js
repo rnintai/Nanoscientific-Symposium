@@ -250,4 +250,6 @@ router
   .post(commonCtrl.addPoster)
   .delete(commonCtrl.deletePoster);
 
+router.route("/poster/list").post(commonCtrl.updatePosterList);
+
 module.exports = router;
