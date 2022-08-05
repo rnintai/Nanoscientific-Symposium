@@ -42,22 +42,20 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   const [isHover, setIsHover] = useState<boolean>(false);
   const [isPdfOpen, setIsPdfOpen] = useState<boolean>(false);
   const [posterAttachment, setPosterAttachment] = useState<string>("");
-  const [windowSize, setWindowSize] = useState(getWindowSize());
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth);
 
-
-  function getWindowSize() {
-  const {innerWidth, innerHeight} = window;
-  return {innerWidth, innerHeight};
-  }
-  
   function handleOpenClick(
     e: React.MouseEvent<HTMLElement, MouseEvent>,
     attachment: string,
   ) {
-    e.preventDefault();
     const target = e.target as HTMLDivElement;
     const clickedTarget = target.parentElement;
-    clickPoster(clickedTarget, attachment);
+    if (windowWidth > 900) {
+      clickPoster(clickedTarget, attachment);
+    } else {
+      setPosterAttachment(attachment);
+      setIsPdfOpen(true);
+    }
   }
 
   function handleZoomInClick(
@@ -76,7 +74,6 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       clickedTarget.classList.contains("swiper-slide-active") &&
       clickedTarget.classList.contains("hover-able")
     ) {
-
       setPosterAttachment(attachment);
       setIsPdfOpen(true);
     }
@@ -130,8 +127,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     }
   };
 
-  const handleZoomInMouseOverEvent = (
-  ) => {
+  const handleZoomInMouseOverEvent = () => {
     setIsHover(true);
   };
 
@@ -143,92 +139,120 @@ const PosterSwiper = ({ posterState }: posterProps) => {
 
   useEffect(() => {
     function handleWindowResize() {
-      setWindowSize(getWindowSize());
+      setwindowWidth(window.innerWidth);
     }
 
-    window.addEventListener('resize', handleWindowResize);
-
+    window.addEventListener("resize", handleWindowResize);
     return () => {
-      window.removeEventListener('resize', handleWindowResize);
+      window.removeEventListener("resize", handleWindowResize);
     };
   }, []);
 
   return (
     <PosterBackground>
       <PosterContainer>
-        <Swiper
-          slideToClickedSlide
-          effect={windowSize.innerWidth > 900 ? "coverflow" : null}
-          grabCursor
-          centeredSlides
-          navigation
-          keyboard={{
-            enabled: true,
-          }}
-          pagination={{
-            clickable: true,
-            dynamicBullets: true,
-            type: "fraction",
-          }}
-          coverflowEffect={{
-            rotate: 5,
-            stretch: 10,
-            depth: 300, // 가운데 제외 모두 들어가는 깊이
-            modifier: 2, // 가운데 모이는 정도(0: 사이간격 안겹침)
-            slideShadows: false,
-          }}
-          breakpoints={{
-            901: { // >= 900
-              spaceBetween: 0,
-              slidesPerView: 4,
-            },
-            600: {
-              spaceBetween: 100,
-              slidesPerView: 1,
-            },
-            300: {
-              spaceBetween: 100,
-              slidesPerView: 1,
-            },
-          }}
-          className="mySwiper"
-        >
-          {posterState.map((poster, idx) => {
-            return (
-              <SwiperSlide
-                className={isHover ? "hover-able" : ""}
-                onMouseOver={handleMouseOverEvent}
-                onMouseOut={handleMouseOutEvent}
-                onClick={(event) => handleOpenClick(event, poster.attachment)}
-                key={poster.id}
-              >
-                <PosterInner>
-                  <TitleContainer>
-                    <PosterTitle>{poster.title}</PosterTitle>
-                  </TitleContainer>
-                  <PosterAuthor>{poster.author}</PosterAuthor>
-                  <DividedLine />
-                  <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
-                  <ImageContainer>
-                    <Photos src={poster.image} alt={`pic ${idx + 1}`} />
-                  </ImageContainer>
-                </PosterInner>
-                <PosterOverlay>
-                  <StyledButton
-                    onMouseOver={handleZoomInMouseOverEvent}
-                    onClick={(event) =>
-                      handleZoomInClick(event, poster.attachment)
-                    }
-                    className="ZoomIn"
-                    size="large"
-                  >
-                    <ZoomInIcon />
-                  </StyledButton>
-                </PosterOverlay>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+        {windowWidth > 900 ? (
+          <Swiper
+            slideToClickedSlide
+            effect="coverflow"
+            spaceBetween={0}
+            slidesPerView={4}
+            grabCursor
+            centeredSlides
+            navigation
+            key="a"
+            keyboard={{
+              enabled: true,
+            }}
+            pagination={{
+              clickable: true,
+              type: "fraction",
+            }}
+            coverflowEffect={{
+              rotate: 5,
+              stretch: 10,
+              depth: 300, // 가운데 제외 모두 들어가는 깊이
+              modifier: 2, // 가운데 모이는 정도(0: 사이간격 안겹침)
+              slideShadows: false,
+            }}
+            className="mySwiper"
+          >
+            {posterState.map((poster, idx) => {
+              return (
+                <SwiperSlide
+                  className={isHover ? "hover-able" : ""}
+                  onMouseOver={handleMouseOverEvent}
+                  onMouseOut={handleMouseOutEvent}
+                  onClick={(event) => handleOpenClick(event, poster.attachment)}
+                  key={poster.id}
+                >
+                  <PosterInner>
+                    <TitleContainer>
+                      <PosterTitle>{poster.title}</PosterTitle>
+                    </TitleContainer>
+                    <PosterAuthor>{poster.author}</PosterAuthor>
+                    <DividedLine />
+                    <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                    <ImageContainer>
+                      <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                    </ImageContainer>
+                  </PosterInner>
+                  <PosterOverlay>
+                    <StyledButton
+                      onMouseOver={handleZoomInMouseOverEvent}
+                      onClick={(event) =>
+                        handleZoomInClick(event, poster.attachment)
+                      }
+                      className="ZoomIn"
+                      size="large"
+                    >
+                      <ZoomInIcon />
+                    </StyledButton>
+                  </PosterOverlay>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        ) : (
+          <Swiper
+            grabCursor
+            centeredSlides
+            spaceBetween={100}
+            slidesPerView={1}
+            navigation
+            key="b"
+            keyboard={{
+              enabled: true,
+            }}
+            pagination={{
+              clickable: true,
+              type: "fraction",
+            }}
+            className="mySwiper"
+          >
+            {posterState.map((poster, idx) => {
+              return (
+                <SwiperSlide
+                  className={isHover ? "hover-able" : ""}
+                  onClick={(event) => handleOpenClick(event, poster.attachment)}
+                  key={poster.id}
+                >
+                  <PosterInner>
+                    <TitleContainer>
+                      <PosterTitle>{poster.title}</PosterTitle>
+                    </TitleContainer>
+                    <PosterAuthor>{poster.author}</PosterAuthor>
+                    <DividedLine />
+                    <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                    <ImageContainer>
+                      <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                    </ImageContainer>
+                  </PosterInner>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        )}
       </PosterContainer>
       <PosterPageOverlay
         onClick={handleOverlayClick}
