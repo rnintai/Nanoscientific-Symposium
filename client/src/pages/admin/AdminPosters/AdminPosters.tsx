@@ -141,7 +141,13 @@ const AdminPosters = () => {
     setDisableApplyBtn(true);
   };
   const handleResetOrder = () => {
-    setPosterList(originalPosterList);
+    const newOriginalPosterList = JSON.parse(
+      JSON.stringify(originalPosterList),
+    );
+    for (let i = 0; i < newOriginalPosterList.length; i += 1) {
+      newOriginalPosterList[i].isChanged = false;
+    }
+    setPosterList(newOriginalPosterList);
     setDisableApplyBtn(true);
   };
   return (
@@ -254,6 +260,7 @@ const AdminPosters = () => {
           >
             <Stack flexDirection="row" alignItems="center">
               <Stack sx={{ width: "48%" }}>
+                <Typography fontWeight={600}>&lt;Before&gt;</Typography>
                 {originalPosterList.map((poster, idx) => (
                   <Box
                     key={`${poster.id}`}
@@ -265,11 +272,6 @@ const AdminPosters = () => {
                     }}
                   >
                     <Typography
-                      onClick={() => {
-                        setSelectedPoster(poster);
-                        setEdit(true);
-                        setOpenPosterForm(true);
-                      }}
                       sx={{
                         ml: 1,
                         textAlign: "left",
@@ -290,8 +292,9 @@ const AdminPosters = () => {
                   </Box>
                 ))}
               </Stack>
-              <ArrowRightAltIcon sx={{ color: theme.palette.grey[400] }} />
+              <ArrowRightAltIcon sx={{ color: theme.palette.grey[600] }} />
               <Stack sx={{ width: "48%" }}>
+                <Typography fontWeight={600}>&lt;After&gt;</Typography>
                 {posterList.map((poster, idx) => (
                   <Box
                     key={`${poster.id}`}
@@ -303,11 +306,6 @@ const AdminPosters = () => {
                     }}
                   >
                     <Typography
-                      onClick={() => {
-                        setSelectedPoster(poster);
-                        setEdit(true);
-                        setOpenPosterForm(true);
-                      }}
                       sx={{
                         ml: 1,
                         textAlign: "left",
