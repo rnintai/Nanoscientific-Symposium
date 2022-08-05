@@ -19,8 +19,6 @@ const Speakers = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePageViews();
 
-  // console.log(`hi`);
-
   useEffect(() => {
     const config = {
       params: {
