@@ -359,6 +359,7 @@ const NavBar = ({
                         <MenuItem>
                           <Link
                             to={`${pathname}/admin`}
+                            target="_blank"
                             style={{ padding: 0, color: "rgba(0,0,0,0.87)" }}
                           >
                             {adminBtnText || "Admin Page"}
