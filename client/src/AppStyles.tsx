@@ -56,6 +56,10 @@ export const AppContainer = styled.div`
       }};
   }
 
+  .text-center {
+    text-align: center;
+  }
+
   .z0 {
     z-index: 0;
   }
@@ -80,6 +84,10 @@ export const AppContainer = styled.div`
 
   .body-fit {
     min-height: calc(100vh - 64px);
+  }
+
+  .body-fit-banner {
+    min-height: calc(100vh - 364px);
   }
 
   .p0 {

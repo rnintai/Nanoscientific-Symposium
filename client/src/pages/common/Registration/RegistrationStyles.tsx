@@ -3,6 +3,14 @@ import { useTheme } from "@mui/material";
 import { globalData } from "utils/GlobalData";
 
 export const RegistrationContainer = styled.div`
+  .registration-fee-container {
+    width: 48%;
+    height: 200px;
+    background: ${() => {
+      const theme = useTheme();
+      return theme.palette.primary.verticalGradation;
+    }};
+  }
   .mktoForm {
     margin: 0 auto;
     font-family: "Open Sans" !important;
@@ -136,6 +144,12 @@ export const RegistrationContainer = styled.div`
     display: none;
   }
 
+  @media screen and (max-width: 768px) {
+    .registration-fee-container {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
   @media screen and (max-width: 1024px) {
     .banner {
       background-image: ${() => {

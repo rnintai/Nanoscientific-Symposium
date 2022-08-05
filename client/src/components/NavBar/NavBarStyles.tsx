@@ -8,7 +8,7 @@ export const NavBarContainer = styled.div`
     const theme = useTheme();
     return `3px solid ${theme.palette.background.default}`;
   }};
-  z-index: 10;
+  z-index: 101;
   position: sticky;
   top: 0;
   background-color: ${() => {

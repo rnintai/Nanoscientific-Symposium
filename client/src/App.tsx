@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
@@ -18,6 +18,7 @@ import useConfigStore from "store/ConfigStore";
 import LandingSection from "components/Section/LandingSection";
 import { S3_URL } from "utils/GlobalData";
 import useLoadingStore from "store/LoadingStore";
+import useWindowSize from "hooks/useWindowSize";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -48,6 +49,8 @@ const App = () => {
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
+  const navigate = useNavigate();
+
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -55,7 +58,6 @@ const App = () => {
     useState<boolean>(false);
   const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
-
   const themeObj = theme(themeState.darkMode);
   const jpThemeObj = jpTheme(themeState.darkMode);
   const themeDispatch = useThemeDispatch();
@@ -108,7 +110,7 @@ const App = () => {
       })
       .then((res) => {
         if (res.data.success !== false) {
-          const { accessToken, email, role } = res.data.data;
+          const { accessToken, email, role, isPasswordSet } = res.data.data;
           if (accessToken !== undefined) {
             authDispatch({
               type: "LOGIN",
@@ -118,9 +120,14 @@ const App = () => {
                 email,
                 role,
                 accessToken,
+                isPasswordSet,
                 isLoading: false,
               },
             });
+          }
+          // 비밀번호 미설정 시 reset 시키기
+          if (!isPasswordSet) {
+            navigate(`/${pathname}/user/reset-password`);
           }
         } else {
           authDispatch({
@@ -226,8 +233,7 @@ const App = () => {
       <AppContainer>
         {pathname !== "home" &&
           pathname !== "" &&
-          subpath.indexOf("admin") === -1 &&
-          window.location.pathname !== "/eu/registration" && (
+          subpath.indexOf("admin") === -1 && (
             <NavBar
               checkLoading={authState.isLoading}
               setEmailModalOpen={setEmailModalOpen}
