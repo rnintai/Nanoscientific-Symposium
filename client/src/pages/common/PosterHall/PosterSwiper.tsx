@@ -30,7 +30,7 @@ import {
   StyledButton,
   PosterBackground,
   TitleContainer,
-} from "./PosterSwipterStyle";
+} from "./PosterSwiperStyle";
 
 type posterProps = {
   posterState: Poster.posterType[];
