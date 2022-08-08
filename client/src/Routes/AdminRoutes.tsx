@@ -221,4 +221,36 @@ export default [
       </AdminRoute>
     ),
   },
+  {
+    path: "/eu/admin/poster",
+    element: (
+      <AdminRoute key="/eu/admin/poster">
+        <AdminPosters />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/jp/admin/poster",
+    element: (
+      <AdminRoute key="/jp/admin/poster">
+        <AdminPosters />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/kr/admin/poster",
+    element: (
+      <AdminRoute key="/kr/admin/poster">
+        <AdminPosters />
+      </AdminRoute>
+    ),
+  },
+  {
+    path: "/asia/admin/poster",
+    element: (
+      <AdminRoute key="/asia/admin/poster">
+        <AdminPosters />
+      </AdminRoute>
+    ),
+  },
 ];
