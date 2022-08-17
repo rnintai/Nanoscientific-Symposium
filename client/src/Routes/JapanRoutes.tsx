@@ -15,9 +15,11 @@ import Speakers from "pages/common/Speakers/Speakers";
 import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import PosterHall from "pages/common/PosterHall/PosterHall";
+import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
 
 const pathname = "jp";
 const formNo = "1223";
+const AbsFormNo = "1652";
 
 export default [
   {
@@ -86,5 +88,9 @@ export default [
     path: `/${pathname}/poster-hall`,
     element: <PosterHall />,
     isPrivate: true,
+  },
+  {
+    path: `/${pathname}/abstract`,
+    element: <AbstractSubmission formNo={AbsFormNo} />,
   },
 ];
