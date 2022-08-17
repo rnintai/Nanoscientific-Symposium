@@ -107,6 +107,13 @@ export const AppContainer = styled.div`
     }};
   }
 
+  .ql-size-large {
+    font-size: 1.5rem;
+  }
+  .ql-size-small {
+    font-size: 0.8rem;
+  }
+
   @media screen and (min-width: 0px) {
     .banner {
       height: 195px;

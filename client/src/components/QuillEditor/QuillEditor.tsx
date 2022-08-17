@@ -111,7 +111,7 @@ const QuillEditor = (props: editorProps) => {
           [{ list: "ordered" }, { list: "bullet" }],
           [{ script: "sub" }, { script: "super" }], // superscript/subscript
           [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
-          // [{ size: ["small", false, "large", "huge"] }], // custom dropdown
+          [{ size: ["small", false, "large"] }], // custom dropdown
           ["link"],
           [{ color: [] }],
           // , { background: [] }], // dropdown with defaults from theme
