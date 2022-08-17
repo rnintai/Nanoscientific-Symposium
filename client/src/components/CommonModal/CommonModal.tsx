@@ -18,6 +18,7 @@ interface CommonModalProps {
   desc?: string;
   submitText?: string;
   onSubmit?: () => void;
+  onCloseCallback?: () => void;
   loading?: boolean;
   transitionDir?: "left" | "right" | "up" | "down";
   hideSaveButton?: boolean;
@@ -32,6 +33,7 @@ const CommonModal = ({
   desc,
   submitText = "save",
   onSubmit,
+  onCloseCallback,
   loading,
   transitionDir,
   hideSaveButton,
@@ -42,6 +44,7 @@ const CommonModal = ({
 
   const handleClose = () => {
     setOpen(false);
+    onCloseCallback();
   };
   const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {

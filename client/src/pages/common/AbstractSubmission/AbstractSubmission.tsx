@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import {
   Box,
   Button,
@@ -8,6 +9,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import NSSButton from "components/Button/NSSButton";
+import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
 import Loading from "components/Loading/Loading";
 import S3PdfUpload from "components/S3Upload/S3PdfUpload";
 import usePageViews from "hooks/usePageViews";
@@ -19,6 +21,7 @@ import {
   smallFontSize,
   subHeadingFontSize,
 } from "utils/FontSize";
+import { escapeQuotes } from "utils/String";
 import { AbstractSubmissionContainer } from "./AbstractSubmissionStyles";
 
 interface abstractProps {
@@ -36,6 +39,15 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
   const [mktoLoaded, setMktoLoaded] = useState<boolean>(false);
+
+  //
+  const [description, setDescription] = useState<string>("");
+  const [initialDescription, setInitialDescription] = useState<string>("");
+  const [descriptionEdit, setDescriptionEdit] = useState<boolean>(false);
+  const [descriptionPreview, setDescriptionPreview] = useState<boolean>(false);
+  const [descriptionPreviewContent, setDescriptionPreviewContent] =
+    useState<string>("");
+  //
 
   const configStore = useConfigStore();
   const { configState } = configStore;
@@ -96,9 +108,8 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
       const res2 = await axios.post("/api/mail/abstract", {
         email: configState.alert_receive_email,
         attachment: filePath,
-        title: psAbstractTitle,
         nation: pathname,
-        presentationForm: psPresentationForm,
+        formData,
       });
 
       setSubmitSuccess(true);
@@ -109,13 +120,40 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
     }
   };
 
+  // description 가져오기
+  const getDescription = async () => {
+    const res = await axios.get("/api/page/common/abstract", {
+      params: {
+        nation: pathname,
+      },
+    });
+    const { desc } = res.data.result[0];
+    setDescription(desc);
+    setInitialDescription(desc);
+  };
+
+  const applyDescription = async () => {
+    // eslint-disable-next-line no-alert
+    if (confirm("Are you sure?")) {
+      const result = await axios.post(`/api/page/common/abstract`, {
+        nation: pathname,
+        desc: escapeQuotes(description),
+      });
+      setInitialDescription(description);
+      setDescriptionEdit(false);
+    }
+  };
+  useEffect(() => {
+    getDescription();
+  }, []);
+
   // 마케토폼 2개 렌더링 될 시 refresh
   useEffect(() => {
     setTimeout(() => {
       if (document.querySelectorAll("#LblpsOptin").length > 2) {
         navigate(0);
       }
-    }, 300);
+    }, 1000);
   }, [mktoLoading]);
 
   useEffect(() => {
@@ -151,21 +189,20 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
     <AbstractSubmissionContainer className="body-fit">
       <Box className="layout">
         <Box sx={{ textAlign: "center" }}>
-          <Typography
-            fontSize={subHeadingFontSize}
-            fontWeight={600}
-            sx={{ mb: 2 }}
+          <LandingTextEditor
+            initialValue={initialDescription}
+            value={description}
+            setValue={setDescription}
+            edit={descriptionEdit}
+            setEdit={setDescriptionEdit}
+            preview={descriptionPreview}
+            setPreview={setDescriptionPreview}
+            previewContent={descriptionPreviewContent}
+            setPreviewContent={setDescriptionPreviewContent}
+            applyHandler={applyDescription}
           >
-            Abstract Submission
-          </Typography>
-          <Typography fontSize={mainFontSize} sx={{ mb: 2 }}>
-            Submit your Abstract at NSFE 2022 and win up to €500 AFM Scholarship
-            from Park Systems. The best paper will also be acknowledged with a
-            featured article in NanoScientific Journal.
-          </Typography>
-          <Typography color="red" fontSize={smallFontSize} fontWeight={600}>
-            Abstracts Submission Deadline: 30 June 2022.
-          </Typography>
+            {initialDescription || ""}
+          </LandingTextEditor>
         </Box>
         {mktoLoading && (
           <Box

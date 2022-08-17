@@ -252,4 +252,9 @@ router
 
 router.route("/poster/list").post(commonCtrl.updatePosterList);
 
+router
+  .route("/abstract")
+  .get(commonCtrl.getAbstractDesc)
+  .post(commonCtrl.setAbstractDesc);
+
 module.exports = router;

@@ -631,6 +631,51 @@ const commonCtrl = {
       });
     }
   },
+
+  getAbstractDesc: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      SELECT * FROM abstract_submission_desc;
+      `;
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      connection.release();
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+  setAbstractDesc: async (req, res) => {
+    const { nation, desc } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      UPDATE abstract_submission_desc as a SET a.desc="${desc}" WHERE id=1
+      `;
+      await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
 };
 
 module.exports = commonCtrl;

@@ -1,6 +1,30 @@
 const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const abstractCtrl = {
+  getSubmissions: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `
+      SELECT * from abstract_submission
+      `;
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(200).json({
+        success: false,
+        err,
+      });
+    }
+  },
   submitAbstract: async (req, res) => {
     const {
       nation,

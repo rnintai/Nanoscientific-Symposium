@@ -26,7 +26,7 @@ module.exports = {
       style="
         font-family: 'Open Sans', sans-serif;
         width: 50%;
-        border: 1px solid #f4f4f4;
+        border: 1px solid #d8d8d8;
         margin: 0 auto;
         font-size: 20px;
       "
@@ -58,7 +58,7 @@ module.exports = {
     <tr>
       <td>
         <hr
-          style="margin: 20px 0; width: 100%; border-top: 1px solid #f4f4f4"
+          style="margin: 20px 0; width: 100%; border-top: 1px solid #d8d8d8"
         />
       </td>
     </tr>
@@ -110,21 +110,52 @@ module.exports = {
   </tbody>
 </table>`;
   },
-  abstractMailHTML: (title, presentationForm) => {
+  abstractMailHTML: (formData) => {
+    const {
+      psAbstractTitle,
+      Salutation,
+      FirstName,
+      LastName,
+      Company,
+      Department,
+      Email,
+      Phone,
+      Country,
+      State,
+      psApplications,
+      psExistingAFMBrand,
+      psPresentationForm,
+    } = formData;
+
     return `<body class="text-center">
     <div style="padding: 20px 60px;font-family: &quot;Open Sans&quot;, sans-serif;">
-      <h3>Abstract Submission Received (${presentationForm})</h3>
-      <div class="box" style="font-family: &quot;Open Sans&quot;, sans-serif;width: 50%;border: 1px solid #f4f4f4;margin: 0 auto;padding: 10px 20px;font-size: 20px;">
-        <span>${title}<span class="code" style="font-style: italic;font-size: 22px;font-weight: 700;cursor: pointer;"></span></span>
+      <h3>Abstract Submission Received (${
+        psPresentationForm ? psPresentationForm : "Poster"
+      })</h3>
+      <div class="box" style="font-family: &quot;Open Sans&quot;, sans-serif;width: 50%;border: 1px solid #d8d8d8;margin: 0 auto;padding: 10px 20px;font-size: 14px;">
+        <ul>
+          <li>Presentation Form: ${
+            psPresentationForm ? psPresentationForm : "Poster"
+          }</li>
+          <li>Topic: ${psAbstractTitle}</li>
+          <li>Email Address: ${Email}</li>
+          <li>Name: ${Salutation} ${FirstName} ${LastName}</li>
+          <li>Company/Organization: ${Company}</li>
+          <li>Department: ${Department ? Department : "N/A"}</li>
+          <li>Contact Number: ${Phone}</li>
+          <li>Country/Region: ${Country}</li>
+          <li>State/Province: ${State}</li>
+          <li>Application: ${psApplications}</li>
+          <li>Using AFM Model: ${psExistingAFMBrand}</li>
+        </ul>
       </div>
       <div style="margin-top: 20px">
       Please check attachment.
       </div>
-      <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #f4f4f4;">
+      <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
       <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;color: #16aee5;font-weight: 700;">
         <span style="color: #003e7f">Nano<span><span style="color: #16aee5">Scientific</span> 2022
-      </span></span></div>
-  
+      </span></span></div>  
       <div class="desc-wrap text-center" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 12px;">
         <span class="desc desc-1">
           NanoScientific plans are underway to continue the excitement that comes

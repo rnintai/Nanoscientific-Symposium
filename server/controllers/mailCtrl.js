@@ -109,9 +109,25 @@ const mailCtrl = {
   },
 
   sendAbstractAlert: async (req, res) => {
-    const { email, attachment, title, nation, presentationForm } = req.body;
+    const { email, attachment, nation, formData } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+
+    const {
+      psAbstractTitle,
+      Salutation,
+      FirstName,
+      LastName,
+      Company,
+      Department,
+      Email,
+      Phone,
+      Country,
+      State,
+      psApplications,
+      psExistingAFMBrand,
+      psPresentationForm,
+    } = formData;
 
     const attachments =
       attachment !== ""
@@ -139,8 +155,8 @@ const mailCtrl = {
       const info = await transporter.sendMail({
         from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
         to: email,
-        subject: `[${nation}] Abstract Submission: (${presentationForm}) ${title}`,
-        html: mailHTML.abstractMailHTML(title, presentationForm),
+        subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
+        html: mailHTML.abstractMailHTML(formData),
         attachments,
       });
 

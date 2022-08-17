@@ -19,6 +19,8 @@ import CommonModal from "components/CommonModal/CommonModal";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import PosterForm from "../Forms/PosterForm";
 
+type PosterStageType = 0 | 1 | 2;
+
 interface adminPosterType extends Poster.posterType {
   isChanged: boolean;
 }
@@ -26,6 +28,10 @@ interface adminPosterType extends Poster.posterType {
 const AdminPosters = () => {
   const pathname = usePageViews();
   const theme = useTheme();
+
+  //
+  const [stage, setStage] = useState<PosterStageType>(0);
+
   //
   const [posterList, setPosterList] = useState<adminPosterType[]>([]);
   const [originalPosterList, setOriginalPosterList] = useState<
@@ -198,6 +204,7 @@ const AdminPosters = () => {
                   component="button"
                   onClick={() => {
                     setSelectedPoster(poster);
+                    setStage(2);
                     setEdit(true);
                     setOpenPosterForm(true);
                   }}
@@ -245,6 +252,8 @@ const AdminPosters = () => {
             setOpen={setOpenPosterForm}
             selected={selectedPoster}
             edit={edit}
+            stage={stage}
+            setStage={setStage}
             setApplyFailed={setEditPosterFailed}
             setDeleteFailed={setDeletePosterFailed}
           />
