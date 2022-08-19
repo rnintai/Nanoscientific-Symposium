@@ -426,17 +426,17 @@ const EuropeLoginModal = ({
             sx={{ width: "95%" }}
           >
             {pathname === "eu" ? (
-              <div
+              // {pathname === "" ? (
+              <a
                 style={{ cursor: "pointer" }}
-                onClick={() => {
-                  window.location.href =
-                    "https://www.nanoscientificforum.com/registration";
-                }}
+                href="https://www.nanoscientificforum.com/registration"
+                target="_blank"
+                rel="noreferrer"
               >
                 <Typography fontSize={smallFontSize}>
                   {createAccountText}
                 </Typography>
-              </div>
+              </a>
             ) : (
               <Link to={`${pathname}/registration`} onClick={closeAllModal}>
                 <Typography fontSize={smallFontSize}>

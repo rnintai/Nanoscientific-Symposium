@@ -30,12 +30,13 @@ const EuropeRegistration = () => {
   const [stage, setStage] = useState<number>(1);
 
   // 등록비
-  const [registrationFee, setRegistrationFee] = useState(0);
+  const [registrationFee, setRegistrationFee] = useState<string>("0");
+  // student 여부
+  const [isStudent, setIsStudent] = useState<boolean>(false);
 
   //
   const [checkout, setCheckout] = useState<boolean>(false);
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
-  const [registerFee, setRegisterFee] = useState<string>("20");
   const [emailValid, setEmailValid] = useState<TFN>(-1);
   const navigate = useNavigate();
   const nation = usePageViews();
@@ -66,7 +67,7 @@ const EuropeRegistration = () => {
       },
     });
 
-  const clickFeeHandler = (fee: number) => {
+  const clickFeeHandler = (fee: string) => {
     setRegistrationFee(fee);
     setStage(2);
   };
@@ -130,7 +131,7 @@ const EuropeRegistration = () => {
       if (document.querySelectorAll("#LblpsOptin").length > 2) {
         navigate(0);
       }
-    }, 300);
+    }, 1000);
   }, [mktoLoading]);
 
   useEffect(() => {
@@ -207,7 +208,9 @@ const EuropeRegistration = () => {
                   size="small"
                   disableElevation
                   onClick={() => {
-                    clickFeeHandler(20);
+                    // clickFeeHandler("20");
+                    clickFeeHandler("1");
+                    setIsStudent(true);
                   }}
                 >
                   Register
@@ -230,7 +233,8 @@ const EuropeRegistration = () => {
                   size="small"
                   disableElevation
                   onClick={() => {
-                    clickFeeHandler(35);
+                    clickFeeHandler("35");
+                    setIsStudent(false);
                   }}
                 >
                   Register
@@ -318,7 +322,7 @@ const EuropeRegistration = () => {
               <div className="paypal-container">
                 <PayPalScriptProvider
                   options={{
-                    "client-id": process.env.REACT_APP_PAYPAL_SB_CLIENT_ID,
+                    "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
                     currency: "EUR",
                   }}
                 >
@@ -329,7 +333,7 @@ const EuropeRegistration = () => {
                         purchase_units: [
                           {
                             amount: {
-                              value: registerFee,
+                              value: registrationFee,
                             },
                           },
                         ],
@@ -367,6 +371,7 @@ const EuropeRegistration = () => {
                                 country: formData.Country,
                                 state: formData.State,
                                 nation,
+                                isStudent,
                               },
                             );
 
