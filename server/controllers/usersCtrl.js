@@ -272,7 +272,7 @@ const usersCtrl = {
     }
   },
 
-  // 유럽 제외 회원가입
+  // 회원가입
   register: async (req, res) => {
     const {
       title,
@@ -285,36 +285,67 @@ const usersCtrl = {
       country,
       state,
       nation,
+      isStudent,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO user(
-        title,
-        first_name,
-        last_name,
-        email,
-        password,
-        phone,
-        institute,
-        department,
-        country,
-        state)
-      VALUES(
-        '${title}',
-        '${firstName}',
-        '${lastName}',
-        '${email}',
-        '${hasher.HashPassword(null)}',
-        '${phone}',
-        '${institute}',
-        '${department}',
-        '${country}',
-        '${state}'
-      )
-      `;
+      let sql;
+      if (nation !== "eu") {
+        sql = `INSERT INTO user(
+          title,
+          first_name,
+          last_name,
+          email,
+          password,
+          phone,
+          institute,
+          department,
+          country,
+          state)
+        VALUES(
+          '${title}',
+          '${firstName}',
+          '${lastName}',
+          '${email}',
+          '${hasher.HashPassword(null)}',
+          '${phone}',
+          '${institute}',
+          '${department}',
+          '${country}',
+          '${state}'
+        )
+        `;
+      } else {
+        sql = `INSERT INTO user(
+          title,
+          first_name,
+          last_name,
+          email,
+          password,
+          phone,
+          institute,
+          department,
+          country,
+          state,
+          is_student)
+        VALUES(
+          '${title}',
+          '${firstName}',
+          '${lastName}',
+          '${email}',
+          '${hasher.HashPassword(null)}',
+          '${phone}',
+          '${institute}',
+          '${department}',
+          '${country}',
+          '${state}',
+          ${isStudent ? 1 : 0}
+        )
+        `;
+      }
 
       const result = await connection.query(sql);
 

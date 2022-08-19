@@ -222,17 +222,17 @@ export default [
     ),
   },
   {
-    path: "/jp/admin/poster",
+    path: "/eu/admin/poster",
     element: (
-      <AdminRoute key="/americas/admin/poster">
+      <AdminRoute key="/eu/admin/poster">
         <AdminPosters />
       </AdminRoute>
     ),
   },
   {
-    path: "/asia/admin/poster",
+    path: "/jp/admin/poster",
     element: (
-      <AdminRoute key="/americas/admin/poster">
+      <AdminRoute key="/jp/admin/poster">
         <AdminPosters />
       </AdminRoute>
     ),
@@ -240,15 +240,15 @@ export default [
   {
     path: "/kr/admin/poster",
     element: (
-      <AdminRoute key="/americas/admin/poster">
+      <AdminRoute key="/kr/admin/poster">
         <AdminPosters />
       </AdminRoute>
     ),
   },
   {
-    path: "/eu/admin/poster",
+    path: "/asia/admin/poster",
     element: (
-      <AdminRoute key="/americas/admin/poster">
+      <AdminRoute key="/asia/admin/poster">
         <AdminPosters />
       </AdminRoute>
     ),
