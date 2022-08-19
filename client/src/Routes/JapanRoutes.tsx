@@ -14,6 +14,7 @@ import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 import Speakers from "pages/common/Speakers/Speakers";
 import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
+import PosterHall from "pages/common/PosterHall/PosterHall";
 
 const pathname = "jp";
 const formNo = "1223";
@@ -80,5 +81,10 @@ export default [
   {
     path: `/${pathname}/announcement/:id`,
     element: <AnnouncementDetail />,
+  },
+  {
+    path: `/${pathname}/poster-hall`,
+    element: <PosterHall />,
+    isPrivate: true,
   },
 ];

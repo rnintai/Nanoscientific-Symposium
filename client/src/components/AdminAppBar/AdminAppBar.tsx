@@ -55,6 +55,7 @@ const AdminAppBar = ({
         {menus &&
           menus.map((menu) => (
             <Button
+              key={menu.name}
               onClick={menu.clickHandler}
               color="inherit"
               disabled={menu.disabled ? menu.disabled : false}

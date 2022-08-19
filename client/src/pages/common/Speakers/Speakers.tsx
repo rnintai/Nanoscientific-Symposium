@@ -19,8 +19,6 @@ const Speakers = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const pathname = usePageViews();
 
-  // console.log(`hi`);
-
   useEffect(() => {
     const config = {
       params: {
@@ -30,9 +28,7 @@ const Speakers = () => {
     const getSpeakers = async () => {
       setLoading(true);
       const speakers = await axios.get(`/api/page/common/speakers`, config);
-      console.log(`nation: ${speakers}`);
       setSpeakersState(speakers.data);
-      console.log(setSpeakersState);
       setLoading(false);
     };
     getSpeakers();

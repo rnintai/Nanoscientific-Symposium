@@ -244,7 +244,12 @@ router
   .put(commonCtrl.modifySponsor)
   .delete(commonCtrl.deleteSponsor);
 
+router
+  .route("/poster")
+  .get(commonCtrl.getPosters)
+  .post(commonCtrl.addPoster)
+  .delete(commonCtrl.deletePoster);
 
-router.route("/poster").get(commonCtrl.getPosters);
+router.route("/poster/list").post(commonCtrl.updatePosterList);
 
 module.exports = router;

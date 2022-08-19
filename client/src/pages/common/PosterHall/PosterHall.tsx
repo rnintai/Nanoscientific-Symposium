@@ -1,53 +1,39 @@
-import axios from 'axios';
-import Loading from 'components/Loading/Loading';
-import usePageViews from 'hooks/usePageViews';
-import React, { useEffect, useState } from 'react'
-import useMenuStore from 'store/MenuStore';
+import axios from "axios";
+import Loading from "components/Loading/Loading";
+import usePageViews from "hooks/usePageViews";
+import React, { useEffect, useState } from "react";
+import useMenuStore from "store/MenuStore";
+import PosterSwiper from "./PosterSwiper";
 
 const PosterHall = () => {
+  const [posterLoading, setPosterLoading] = useState<boolean>(false);
+  const [posterState, setPosterState] = useState<Poster.posterType[]>([]);
+  const pathname = usePageViews();
+  const { currentMenu } = useMenuStore();
 
-    const [posterLoading, setPosterLoading] = useState<boolean>(false);
-    const [posterState, setposterState] = useState<Poster.posterType[]>([]);
-    const pathname = usePageViews();
-    const { currentMenu } = useMenuStore();
+  useEffect(() => {
+    const config = {
+      params: {
+        nation: pathname,
+      },
+    };
 
-    console.log(`currentMenu: ${currentMenu}`);
+    const getPosters = async () => {
+      setPosterLoading(true);
+      const posters = await axios.get(`/api/page/common/poster`, config);
+      setPosterState(posters.data);
 
-    useEffect(() => {
+      setPosterLoading(false);
+    };
 
-        const config = {
-            params: {
-                nation: pathname,
-            }
-        }
+    getPosters();
+  }, []);
 
-        const getPosters = async () => {
-            setPosterLoading(true);
-            const posters = await axios.get(`/api/page/common/poster`, config);
-            setposterState(posters.data);
-            console.log(posters);
-            posterState.forEach((poster) => (
-                console.log(`result -> ${poster}`)
-            ));
-            setPosterLoading(false);
-        };
+  if (posterLoading) {
+    return <Loading />;
+  }
 
-        getPosters();
-    }, []);
-
-
-    if (posterLoading) {
-        return <Loading />;
-    }
-
-    return (
-        // <div>hhhhhhhhhhhhhhhhhhhhh</div>
-        <div>
-            {posterState.map((poster) => (
-                <div>{poster.id}</div> 
-            ))}
-        </div>
-    )
-}
+  return <PosterSwiper posterState={posterState} />;
+};
 
 export default PosterHall;

@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React, { Dispatch, SetStateAction, useState } from "react";
 import S3 from "aws-sdk/clients/s3";
-import { Button, Fab } from "@mui/material";
+import { Button, Fab, TextField } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
 import { useLocation } from "react-router";
 import usePageViews from "hooks/usePageViews";
@@ -9,7 +9,7 @@ import { S3_URL } from "utils/GlobalData";
 
 interface S3UploadProps {
   setImagePath: Dispatch<SetStateAction<string>>;
-  edit: boolean;
+  edit?: boolean;
   previewURL: string;
   setPreviewURL: Dispatch<SetStateAction<string>>;
   setUploadLoading: Dispatch<SetStateAction<boolean>>;
@@ -112,11 +112,32 @@ const S3Upload = ({
         {previewURL && (
           <img
             style={{ marginLeft: "10px", width: "100px", height: "100px" }}
-            src={`${S3_URL}/${previewURL}`}
+            src={
+              previewURL.indexOf("https://") !== -1
+                ? previewURL
+                : `${S3_URL}/${previewURL}`
+            }
             alt="preview"
           />
         )}
       </label>
+      <TextField
+        margin="dense"
+        label="Image URL"
+        variant="filled"
+        required
+        fullWidth
+        size="small"
+        error={previewURL === ""}
+        sx={{ marginBottom: "15px" }}
+        value={previewURL}
+        onChange={(
+          event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
+        ) => {
+          const { currentTarget } = event;
+          setPreviewURL(currentTarget.value);
+        }}
+      />
     </div>
   );
 };

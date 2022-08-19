@@ -14,6 +14,7 @@ import Link from "components/Link/LinkWithSearch";
 import usePageViews from "hooks/usePageViews";
 import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import MenuIcon from "@mui/icons-material/Menu";
+import PhotoIcon from "@mui/icons-material/Photo";
 import { adminRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
 
@@ -32,6 +33,12 @@ const AdminNavBar = () => {
       title: "Speakers",
       link: `/${pathname}/admin/speakers`,
       icon: <CampaignTwoToneIcon />,
+    },
+    {
+      title: "Posters",
+      link: `/${pathname}/admin/poster`,
+      icon: <PhotoIcon />,
+      adminOnly: true,
     },
     {
       title: "Users",
@@ -71,7 +78,7 @@ const AdminNavBar = () => {
               return false;
             }
             return (
-              <Link to={menu.link}>
+              <Link to={menu.link} key={menu.link}>
                 <ListItem button>
                   <ListItemIcon>{menu.icon}</ListItemIcon>
                   <ListItemText primary={menu.title} />

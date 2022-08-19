@@ -91,6 +91,7 @@ const AdminMenus = () => {
                 <TableCell>name</TableCell>
                 <TableCell>path</TableCell>
                 <TableCell>Published?</TableCell>
+                <TableCell>Show menu?</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -110,6 +111,21 @@ const AdminMenus = () => {
                           menuListCpy[index] = {
                             ...menu,
                             is_published: menu.is_published === 1 ? 0 : 1,
+                            isChanged: true,
+                          };
+                          setMenuList(menuListCpy);
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Switch
+                        checked={menu.show === 1}
+                        color="default"
+                        onClick={() => {
+                          const menuListCpy = [...menuList];
+                          menuListCpy[index] = {
+                            ...menu,
+                            show: menu.show === 1 ? 0 : 1,
                             isChanged: true,
                           };
                           setMenuList(menuListCpy);

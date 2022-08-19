@@ -67,7 +67,6 @@ const commonCtrl = {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-    console.log(`${nation} ${currentPool} ${connection}`);
     try {
       const sql = `
       SELECT 
@@ -98,6 +97,98 @@ const commonCtrl = {
       console.log(err);
     }
   },
+  // poster add
+  addPoster: async (req, res) => {
+    const { nation, id, title, affiliation, author, previewURL, filePath } =
+      req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = "";
+      if (id === undefined) {
+        sql = `INSERT INTO poster (title,sub_title,author,image,attachment) VALUES 
+        ('${title}','${affiliation}','${author}','${previewURL}','${filePath}')`;
+      } else {
+        sql = `UPDATE poster SET 
+        title='${title}',
+        sub_title='${affiliation}',
+        author='${author}',
+        image='${previewURL}',
+        attachment='${filePath}'
+        WHERE id=${id}
+        `;
+      }
+      const row = await connection.query(sql);
+      connection.release();
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(400).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
+  deletePoster: async (req, res) => {
+    const { nation, id } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `DELETE FROM poster WHERE id=${id}`;
+      await connection.query(sql);
+      connection.release();
+      res.json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      res.status(400).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
+  updatePosterList: async (req, res) => {
+    const { nation, list } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      while (list.length > 0) {
+        const { id, title, sub_title, author, image, attachment } =
+          list.shift();
+        const sql = `UPDATE poster SET
+        title='${title}',
+        sub_title='${sub_title}',
+        author='${author}',
+        image='${image}',
+        attachment='${attachment}'
+        WHERE id=${id}
+        `;
+        await connection.query(sql);
+        connection.release();
+      }
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(400).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
   getKeynoteSpeakers: async (req, res) => {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
