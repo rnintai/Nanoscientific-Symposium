@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const zoomCtrl = require("../controllers/zoomCtrl");
+const zoomMiddle = require("../middlewares/zoomMiddle");
 
 /**
  * @swagger
@@ -12,7 +13,7 @@ const zoomCtrl = require("../controllers/zoomCtrl");
  *        '200':
  *          description: successful operation
  */
-router.get("/webinar/list", zoomCtrl.getWebinarList);
+router.get("/webinar/list", zoomMiddle.getZoomToken, zoomCtrl.getWebinarList);
 
 /**
  * @swagger
@@ -34,6 +35,7 @@ router.get("/webinar/list", zoomCtrl.getWebinarList);
  */
 router.get(
   "/webinar/registrant/questions/:webinarId",
+  zoomMiddle.getZoomToken,
   zoomCtrl.getRegistrationQuestions
 );
 
@@ -62,15 +64,25 @@ router.get(
  *          description: successful operation
  */
 
-router.route("/webinar/registrants/:webinarId").post(zoomCtrl.addRegistrant);
+router
+  .route("/webinar/registrants/:webinarId")
+  .post(zoomMiddle.getZoomToken, zoomCtrl.addRegistrant);
 
-router.get("/webinar/registrants/:webinarId", zoomCtrl.getRegistrantLink);
-router.post("/webinar/registrant/fetch", zoomCtrl.fetchRegistrantId);
+router.get(
+  "/webinar/registrants/:webinarId",
+  zoomMiddle.getZoomToken,
+  zoomCtrl.getRegistrantLink
+);
+router.post(
+  "/webinar/registrant/fetch",
+  zoomMiddle.getZoomToken,
+  zoomCtrl.fetchRegistrantId
+);
 
-router.post("/webinar", zoomCtrl.addWebinar);
+router.post("/webinar", zoomMiddle.getZoomToken, zoomCtrl.addWebinar);
 router
   .route("/webinar/:webinarId")
-  .get(zoomCtrl.getWebinar)
-  .delete(zoomCtrl.removeWebinar);
+  .get(zoomMiddle.getZoomToken, zoomCtrl.getWebinar)
+  .delete(zoomMiddle.getZoomToken, zoomCtrl.removeWebinar);
 
 module.exports = router;
