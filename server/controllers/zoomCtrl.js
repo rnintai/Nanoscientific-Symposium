@@ -3,15 +3,6 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 const { getCurrentPool } = require("../utils/getCurrentPool");
 
-const zoomEmail = "event@nanoscientific.org";
-
-const payload = {
-  iss: process.env.ZOOM_API_KEY,
-  exp: new Date().getTime() + 5000,
-};
-
-const token = jwt.sign(payload, process.env.ZOOM_API_SECRET);
-
 const zoomCtrl = {
   getWebinarList: async (req, res) => {
     const { nation } = req.query;
@@ -29,7 +20,7 @@ const zoomCtrl = {
           `https://api.zoom.us/v2/webinars/${wi}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${res.locals.zoom_token}`,
             },
           }
         );
@@ -84,7 +75,7 @@ const zoomCtrl = {
         `https://api.zoom.us/v2/webinars/${webinarId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${res.locals.zoom_token}`,
           },
         }
       );
@@ -139,7 +130,7 @@ const zoomCtrl = {
         `https://api.zoom.us/v2/webinars/${req.params.webinarId}/registrants/questions`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${res.locals.zoom_token}`,
           },
         }
       );
@@ -168,7 +159,7 @@ const zoomCtrl = {
         newQuestions,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${res.locals.zoom_token}`,
           },
         }
       );
@@ -196,7 +187,7 @@ const zoomCtrl = {
         newQuestions,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${res.locals.zoom_token}`,
           },
         }
       );
@@ -240,7 +231,7 @@ const zoomCtrl = {
           `https://api.zoom.us/v2/webinars/${webinarId}/registrants/${row[0][0].registrant_id}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${res.locals.zoom_token}`,
             },
           }
         );
@@ -293,7 +284,7 @@ const zoomCtrl = {
           `https://api.zoom.us/v2/webinars/${webinarId}/registrants`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${res.locals.zoom_token}`,
             },
           }
         );
@@ -315,7 +306,7 @@ const zoomCtrl = {
             `https://api.zoom.us/v2/webinars/${webinarId}/registrants?next_page_token=${response.data.next_page_token}`,
             {
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${res.locals.zoom_token}`,
               },
             }
           );

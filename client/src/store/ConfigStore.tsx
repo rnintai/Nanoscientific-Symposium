@@ -10,7 +10,10 @@ const useConfigStore = create<ConfigState>((set) => ({
   setConfigState: (config: Common.configType) =>
     set(() => {
       return {
-        configState: config,
+        configState: {
+          id: config.id,
+          alert_receive_email: config.alert_receive_email,
+        },
       };
     }),
 }));

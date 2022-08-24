@@ -116,7 +116,7 @@ declare namespace Common {
 
   interface configType {
     id: number;
-    alert_receive_email: string[];
+    alert_receive_email: string;
   }
 
   interface nationType {

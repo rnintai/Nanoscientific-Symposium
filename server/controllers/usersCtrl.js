@@ -329,7 +329,6 @@ const usersCtrl = {
           institute,
           department,
           country,
-          state,
           is_student)
         VALUES(
           '${title}',
@@ -341,7 +340,6 @@ const usersCtrl = {
           '${institute}',
           '${department}',
           '${country}',
-          '${state}',
           ${isStudent ? 1 : 0}
         )
         `;

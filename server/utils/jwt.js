@@ -20,4 +20,12 @@ module.exports = {
       expiresIn: "14d",
     });
   },
+
+  issueZoomToken: (apiKey, apiSecret) => {
+    const payload = {
+      iss: apiKey,
+      exp: new Date().getTime() + 5000,
+    };
+    return jwt.sign(payload, apiSecret);
+  },
 };
