@@ -2,17 +2,24 @@ import { useEffect } from "react";
 import { globalData } from "utils/GlobalData";
 import usePageViews from "./usePageViews";
 
-const useSeoTitle = (currentMenu: Common.menuType) => {
-  const pathname = usePageViews();
-  const fullName = pathname
-    ? "2022 NanoScientific"
-    : globalData.get(pathname).fullName;
+const useSeoTitle = (pathname: string) => {
+  let fullName;
 
-  useEffect(() => {
-    document.title = currentMenu
-      ? `${currentMenu.name.toUpperCase()} | ${fullName}`
-      : fullName;
-  }, [currentMenu]);
+  switch (pathname) {
+    case "americas":
+    case "jp":
+    case "kr":
+    case "asia":
+    case "eu": {
+      fullName = globalData.get(pathname).fullName;
+      break;
+    }
+    default: {
+      fullName = "2022 NanoScientific";
+    }
+  }
+
+  return fullName;
 };
 
 export default useSeoTitle;

@@ -149,6 +149,8 @@ const App = () => {
     //
   }, [authState.isLoading, pathname, subpath]);
   useEffect(() => {
+    setDocumentTitle(useSeoTitle(pathname));
+
     // 스크롤 to top
     window.scrollTo(0, 0);
   }, [pathname, subpath, window.location.search]);
@@ -171,7 +173,7 @@ const App = () => {
   // const [menuList, setMenuList] = useState<Common.menuType[]>(null);
   const menuStore = useMenuStore();
   const { menuList, currentMenu, setMenuList, setCurrentMenuState } = menuStore;
-  useSeoTitle(currentMenu);
+  const [documentTitle, setDocumentTitle] = useState<string>();
 
   // config state
   const configStore = useConfigStore();
@@ -213,6 +215,14 @@ const App = () => {
       page_path: path,
     });
   }, [menuList, window.location.href]);
+
+  // doc title 변경
+  useEffect(() => {
+    // seo title
+    document.title = currentMenu
+      ? `${currentMenu.name.toUpperCase()} | ${documentTitle}`
+      : documentTitle;
+  }, [currentMenu]);
 
   useEffect(() => {
     if (window.location.pathname !== "/") {
