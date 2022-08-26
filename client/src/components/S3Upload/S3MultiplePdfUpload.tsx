@@ -72,7 +72,6 @@ const S3MultiplePdfUpload = ({
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
   const [fileList, setFileList] = useState<fileType[]>([]);
-  // const [filePath, setFilePath] = useState<string[]>([]);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -108,19 +107,11 @@ const S3MultiplePdfUpload = ({
     ) {
       alert(".docx, .pdf, .pptx allowed only");
     }
-    // const filePathCpy = JSON.parse(JSON.stringify(filePath));
-    // filePathCpy.push(file.name);
-    // setFilePath(filePathCpy);
-    // inputRef.current.value = "";
-    // uploadFile(file);
   };
 
   const handlefileDelete = (targetName: string) => {
     let fileListCpy = JSON.parse(JSON.stringify(fileList));
-    console.log(fileListCpy);
-
     fileListCpy = fileListCpy.filter((f) => f.name !== targetName);
-
     setFileList(fileListCpy);
   };
 
@@ -135,7 +126,6 @@ const S3MultiplePdfUpload = ({
       ]?.validate()
     ) {
       // 마케토 validator가 알려줌
-      console.log("not validated");
     } else {
       fileList.forEach((f) => {
         uploadFile(f);
@@ -230,23 +220,13 @@ const S3MultiplePdfUpload = ({
         .putObject(params)
         .on("httpUploadProgress", (evt, res) => {
           setProgress(Math.round((evt.loaded / evt.total) * 100));
-          // setTimeout(() => {
-          //   setUploadLoading(false);
-          // }, 3000);
         })
         .send((err, data) => {
           if (err) console.log(err);
-
-          // const filePathArr = JSON.parse(JSON.stringify(filePath));
-          // filePathArr.push(`${newPath}`);
-          // setFilePath(filePathArr);
         });
     }
   };
 
-  useEffect(() => {
-    console.log(fileList);
-  }, [fileList]);
   return (
     <>
       <label htmlFor="contained-button-file">

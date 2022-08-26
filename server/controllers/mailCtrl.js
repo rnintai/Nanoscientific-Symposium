@@ -138,17 +138,6 @@ const mailCtrl = {
       }
     }
 
-    console.log(attachmentArr);
-    // const attachments =
-    // attachment !== ""
-    //   ? [
-    //       {
-    //         filename: attachment.split("/")[attachment.split("/").length - 1],
-    //         path: encodeURI(`${S3_URL}/${attachment}`),
-    //       },
-    //     ]
-    //   : [];
-
     try {
       const transporter = nodemailer.createTransport({
         debug: true,
