@@ -8,6 +8,7 @@ import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { getUserTimezoneDate, isDateValid } from "utils/Date";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState } from "../../../context/AuthContext";
@@ -44,16 +45,14 @@ const SessionForm = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
-  const [date, setDate] = useState<Date | null>(
-    edit
-      ? getUserTimezoneDate(selectedSession.date, selectedTimezone)
-      : new Date(),
+  const [date, setDate] = useState<Dayjs | null>(
+    edit ? dayjs(selectedSession.date) : dayjs(),
   );
 
   const title = useInput(edit ? selectedSession.session_title : "");
 
   const sessionSubmitHandler = async () => {
-    if (title.value === "" || !isDateValid(date)) {
+    if (title.value === "" || !date.isValid()) {
       setSessionValidAlert(true);
       return;
     }
@@ -84,7 +83,7 @@ const SessionForm = ({
       getSessions();
     }
   };
-  const dateChangeHandler = (newValue: Date | null) => {
+  const dateChangeHandler = (newValue: Dayjs | null) => {
     setDate(newValue);
   };
 
@@ -126,7 +125,7 @@ const SessionForm = ({
       }
       onSubmit={sessionSubmitHandler}
       loading={loading}
-      submitDisabled={title.value === "" || !isDateValid(date)}
+      submitDisabled={title.value === "" || !date.isValid()}
     >
       <TextField
         autoFocus
@@ -143,8 +142,7 @@ const SessionForm = ({
         <DesktopDatePicker
           label="Session Date"
           inputFormat="YYYY/MM/DD"
-          mask="____/__/__"
-          value={date}
+          value={dayjs(date)}
           onChange={dateChangeHandler}
           renderInput={(params) => <TextField {...params} />}
         />

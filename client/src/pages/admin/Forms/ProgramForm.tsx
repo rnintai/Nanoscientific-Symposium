@@ -15,11 +15,12 @@ import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import { LoadingButton } from "@mui/lab";
+import dayjs, { Dayjs } from "dayjs";
 
 import axios from "axios";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
-import { getUserTimezoneDate, isDateValid } from "utils/Date";
+import { getUserTimezoneDate } from "utils/Date";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
@@ -45,15 +46,11 @@ const ProgramForm = ({
   selectedTimezone,
   edit = false,
 }: ProgramFormProps) => {
-  const [startTime, setStartTime] = useState<Date | null>(
-    edit
-      ? getUserTimezoneDate(selectedProgram.start_time, selectedTimezone)
-      : getUserTimezoneDate(sessions[0].date, selectedTimezone),
+  const [startTime, setStartTime] = useState<Dayjs | null>(
+    edit ? dayjs(selectedProgram.start_time) : dayjs(sessions[0].date),
   );
-  const [endTime, setEndTime] = useState<Date | null>(
-    edit
-      ? getUserTimezoneDate(selectedProgram.end_time, selectedTimezone)
-      : getUserTimezoneDate(sessions[0].date, selectedTimezone),
+  const [endTime, setEndTime] = useState<Dayjs | null>(
+    edit ? dayjs(selectedProgram.end_time) : dayjs(sessions[0].date),
   );
   const [emphasizeCheck, setEmphasizeCheck] = useState<boolean>(
     edit ? selectedProgram.emphasize === 1 : false,
@@ -70,8 +67,8 @@ const ProgramForm = ({
   const programSubmitHandler = async () => {
     if (
       // title.value === "" ||
-      !isDateValid(startTime) ||
-      !isDateValid(endTime)
+      !startTime.isValid() ||
+      !endTime.isValid()
     ) {
       setProgramValidAlert(true);
       return;
@@ -86,10 +83,10 @@ const ProgramForm = ({
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: startTime?.toLocaleString("sv-SE", {
+        startTime: startTime.toDate()?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
-        endTime: endTime?.toLocaleString("sv-SE", {
+        endTime: endTime.toDate()?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
         session: selectedSession,
@@ -102,10 +99,10 @@ const ProgramForm = ({
         title: title.value,
         speakers: speakers.value,
         description: description.value,
-        startTime: startTime?.toLocaleString("sv-SE", {
+        startTime: startTime.toDate()?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
-        endTime: endTime?.toLocaleString("sv-SE", {
+        endTime: endTime.toDate()?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
         emphasize: emphasizeCheck ? 1 : 0,
@@ -135,23 +132,31 @@ const ProgramForm = ({
     const selectedSessionArr = sessions.filter((session) => {
       return session.id === event.target.value;
     });
-    const selectedDate = new Date(selectedSessionArr[0].date);
-    const newYear = selectedDate.getFullYear();
-    const newMonth = selectedDate.getMonth();
-    const newDate = selectedDate.getDate();
+    const selectedDate = dayjs(selectedSessionArr[0].date);
+    const newYear = selectedDate.get("year");
+    const newMonth = selectedDate.get("month");
+    const newDate = selectedDate.get("date");
+
+    console.log(newYear, newMonth, newDate);
 
     // 선택한 세션에 맞게 시간 변경.
-    const newStart = startTime;
-    newStart?.setFullYear(newYear);
-    newStart?.setMonth(newMonth);
-    newStart?.setDate(newDate);
-    const newEnd = endTime;
-    newEnd?.setFullYear(newYear);
-    newEnd?.setMonth(newMonth);
-    newEnd?.setDate(newDate);
+    // const newStart = startTime;
+    // newStart.set("year", newYear);
+    // newStart.set("month", newMonth);
+    // newStart.set("date", newDate);
+    // const newEnd = endTime;
+    // newEnd.set("year", newYear);
+    // newEnd.set("month", newMonth);
+    // newEnd.set("date", newDate);
 
+    const newStart = dayjs()
+      .set("year", newYear)
+      .set("month", newMonth)
+      .set("date", newDate);
+
+    // console.log(newStart, newEnd);
     setStartTime(newStart);
-    setEndTime(newEnd);
+    setEndTime(newStart);
   };
 
   const deleteHandler = async () => {
@@ -192,7 +197,7 @@ const ProgramForm = ({
       loading={loading}
       submitDisabled={
         // title.value === "" ||
-        !isDateValid(startTime) || !isDateValid(endTime)
+        !startTime.isValid() || !endTime.isValid()
       }
     >
       <FormControl fullWidth sx={{ mt: 3, mb: 3 }}>
@@ -268,7 +273,6 @@ const ProgramForm = ({
           label="Start Time"
           value={startTime}
           inputFormat="YYYY/MM/DD hh:mm a"
-          mask="____/__/__ __:__ _M"
           onChange={(newValue) => {
             setStartTime(newValue);
           }}
@@ -278,7 +282,6 @@ const ProgramForm = ({
           renderInput={(props) => <TextField {...props} />}
           label="End Time"
           inputFormat="YYYY/MM/DD hh:mm a"
-          mask="____/__/__ __:__ _M"
           value={endTime}
           onChange={(newValue) => {
             setEndTime(newValue);
