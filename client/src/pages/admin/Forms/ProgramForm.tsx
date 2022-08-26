@@ -137,24 +137,11 @@ const ProgramForm = ({
     const newMonth = selectedDate.get("month");
     const newDate = selectedDate.get("date");
 
-    console.log(newYear, newMonth, newDate);
-
-    // 선택한 세션에 맞게 시간 변경.
-    // const newStart = startTime;
-    // newStart.set("year", newYear);
-    // newStart.set("month", newMonth);
-    // newStart.set("date", newDate);
-    // const newEnd = endTime;
-    // newEnd.set("year", newYear);
-    // newEnd.set("month", newMonth);
-    // newEnd.set("date", newDate);
-
     const newStart = dayjs()
       .set("year", newYear)
       .set("month", newMonth)
       .set("date", newDate);
 
-    // console.log(newStart, newEnd);
     setStartTime(newStart);
     setEndTime(newStart);
   };
