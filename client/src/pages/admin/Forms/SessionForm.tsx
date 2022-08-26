@@ -1,16 +1,13 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import {
-  DesktopDatePicker,
-  LocalizationProvider,
-  LoadingButton,
-} from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { LoadingButton } from "@mui/lab";
 import axios, { AxiosResponse } from "axios";
 import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { getUserTimezoneDate, isDateValid } from "utils/Date";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState } from "../../../context/AuthContext";
@@ -142,10 +139,11 @@ const SessionForm = ({
         {...title}
         error={title.value === ""}
       />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DesktopDatePicker
           label="Session Date"
-          inputFormat="MM/dd/yyyy"
+          inputFormat="YYYY/MM/DD"
+          mask="____/__/__"
           value={date}
           onChange={dateChangeHandler}
           renderInput={(params) => <TextField {...params} />}
