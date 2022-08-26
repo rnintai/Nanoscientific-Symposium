@@ -15,6 +15,7 @@ import usePageViews from "hooks/usePageViews";
 import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import MenuIcon from "@mui/icons-material/Menu";
 import PhotoIcon from "@mui/icons-material/Photo";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { adminRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
 
@@ -28,28 +29,37 @@ const AdminNavBar = () => {
       title: "Programs",
       link: `/${pathname}/admin/program`,
       icon: <EventNoteTwoToneIcon />,
+      adminOnly: false,
     },
     {
       title: "Speakers",
       link: `/${pathname}/admin/speakers`,
       icon: <CampaignTwoToneIcon />,
+      adminOnly: false,
     },
     {
       title: "Posters",
       link: `/${pathname}/admin/poster`,
       icon: <PhotoIcon />,
-      adminOnly: true,
+      adminOnly: false,
     },
     {
       title: "Users",
       link: `/${pathname}/admin/users`,
       icon: <PeopleAltTwoToneIcon />,
+      adminOnly: false,
     },
     {
       title: "Menus",
       link: `/${pathname}/admin/menus`,
       icon: <MenuIcon />,
-      adminOnly: true,
+      adminOnly: false,
+    },
+    {
+      title: "Configuration",
+      link: `/${pathname}/admin/config`,
+      icon: <SettingsIcon />,
+      adminOnly: false,
     },
   ];
   return (

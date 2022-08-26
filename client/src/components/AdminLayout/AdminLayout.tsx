@@ -14,6 +14,7 @@ interface AdminLayoutProps {
   isPublished?: boolean;
   menus?: Admin.menuType[];
   applyHandler?: () => void;
+  applyLoading?: boolean;
   disableApply?: boolean;
 }
 
@@ -23,6 +24,7 @@ const AdminLayout = ({
   isPublished,
   menus,
   applyHandler,
+  applyLoading,
   disableApply,
 }: AdminLayoutProps) => {
   return (
@@ -34,6 +36,7 @@ const AdminLayout = ({
           isPublished={isPublished}
           menus={menus}
           applyHandler={applyHandler}
+          applyLoading={applyLoading}
           disableApply={disableApply}
         />
         <AdminNavBar />

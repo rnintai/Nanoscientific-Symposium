@@ -109,10 +109,9 @@ const mailCtrl = {
   },
 
   sendAbstractAlert: async (req, res) => {
-    const { email, attachment, nation, formData } = req.body;
+    const { email, attachments, nation, formData } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-
     const {
       psAbstractTitle,
       Salutation,
@@ -129,15 +128,26 @@ const mailCtrl = {
       psPresentationForm,
     } = formData;
 
-    const attachments =
-      attachment !== ""
-        ? [
-            {
-              filename: attachment.split("/")[attachment.split("/").length - 1],
-              path: encodeURI(`${S3_URL}/${attachment}`),
-            },
-          ]
-        : [];
+    let attachmentArr = [];
+    if (attachments.length !== 0) {
+      for (attachment of attachments) {
+        attachmentArr.push({
+          filename: attachment.filename,
+          path: encodeURI(`${S3_URL}/${attachment.path}`),
+        });
+      }
+    }
+
+    console.log(attachmentArr);
+    // const attachments =
+    // attachment !== ""
+    //   ? [
+    //       {
+    //         filename: attachment.split("/")[attachment.split("/").length - 1],
+    //         path: encodeURI(`${S3_URL}/${attachment}`),
+    //       },
+    //     ]
+    //   : [];
 
     try {
       const transporter = nodemailer.createTransport({
@@ -157,7 +167,7 @@ const mailCtrl = {
         to: email,
         subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
         html: mailHTML.abstractMailHTML(formData),
-        attachments,
+        attachments: attachmentArr,
       });
 
       // info.accepted: [], info.rejected: [].

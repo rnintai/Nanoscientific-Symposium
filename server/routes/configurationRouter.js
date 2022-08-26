@@ -21,6 +21,9 @@ const router = require("express").Router();
  *        '200':
  *          description: successful operation
  */
-router.route("/").get(configurationCtrl.getConfig);
+router
+  .route("/")
+  .get(configurationCtrl.getConfig)
+  .post(configurationCtrl.setConfig);
 
 module.exports = router;

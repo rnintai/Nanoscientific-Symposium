@@ -10,6 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { AdminMenusContainer } from "./AdminMenusStyles";
 
 interface adminMenuType extends Common.menuType {
@@ -21,6 +22,8 @@ const AdminMenus = () => {
   const [menuListLoading, setMenuListLoading] = useState<boolean>(true);
   const [isChanged, setIsChanged] = useState<boolean>(false);
   const [applyLoading, setApplyLoading] = useState<boolean>(false);
+  // snackbar
+  const [successAlert, setSuccessAlert] = useState<boolean>(false);
 
   useEffect(() => {
     axios
@@ -57,7 +60,7 @@ const AdminMenus = () => {
     axios
       .post("/api/menu/list", { nation: pathname, menus: menuList })
       .then((res) => {
-        console.log(res.data);
+        setSuccessAlert(true);
       })
       .catch((err) => {
         console.log(err);
@@ -75,12 +78,8 @@ const AdminMenus = () => {
     <AdminMenusContainer className="body-fit">
       <AdminLayout
         title="Menus"
-        applyHandler={
-          applyHandler
-          // () => {
-          //
-          // }
-        }
+        applyHandler={applyHandler}
+        applyLoading={applyLoading}
         disableApply={!isChanged}
       >
         <TableContainer component={Paper}>
@@ -138,6 +137,14 @@ const AdminMenus = () => {
           </Table>
         </TableContainer>
       </AdminLayout>
+      {/* snack bar */}
+      <TopCenterSnackBar
+        value={successAlert}
+        setValue={setSuccessAlert}
+        severity="success"
+        content="Success"
+        variant="filled"
+      />
     </AdminMenusContainer>
   );
 };

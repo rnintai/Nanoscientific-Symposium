@@ -281,8 +281,7 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
         {pathname !== "home" &&
-          pathname !== "admin" &&
-          window.location.pathname !== "/jp/archive" && <Footer />}
+          window.location.pathname.indexOf("admin") === -1 && <Footer />}
 
         {pathname !== "" && (
           <EuropeLoginModal

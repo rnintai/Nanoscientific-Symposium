@@ -11,7 +11,7 @@ import axios from "axios";
 import NSSButton from "components/Button/NSSButton";
 import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
 import Loading from "components/Loading/Loading";
-import S3PdfUpload from "components/S3Upload/S3PdfUpload";
+import S3MultiplePdfUpload from "components/S3Upload/S3MultiplePdfUpload";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
@@ -34,9 +34,9 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
 
   // s3
-  const [filePath, setFilePath] = useState<string>("");
+  // const [filePath, setFilePath] = useState<string[]>([]);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
-  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+  // const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
   const [mktoLoaded, setMktoLoaded] = useState<boolean>(false);
 
@@ -54,71 +54,71 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
 
   const navigate = useNavigate();
 
-  const submitHandler = async () => {
-    setSubmitLoading(true);
-    const mktoForm =
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.MktoForms2.allForms()[
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        window.MktoForms2.allForms().length - 1
-      ];
-    const formData = mktoForm.getValues();
-    const {
-      psAbstractTitle,
-      Salutation,
-      FirstName,
-      LastName,
-      Company,
-      Department,
-      Email,
-      Phone,
-      Country,
-      State,
-      psApplications,
-      psExistingAFMBrand,
-      psPresentationForm,
-    } = formData;
-    // 제출
-    mktoForm.submit().onSuccess(() => {
-      return false;
-    });
-    try {
-      // DB에 저장
-      const res = await axios.post("/api/abstract", {
-        nation: pathname,
-        abstract_title: psAbstractTitle,
-        salutation: Salutation,
-        first_name: FirstName,
-        last_name: LastName,
-        institution: Company,
-        department: Department,
-        email: Email,
-        phone: Phone,
-        country: Country,
-        state: State,
-        application: psApplications,
-        afm_model: psExistingAFMBrand,
-        presentation_form: psPresentationForm,
-        pdf_file_path: filePath,
-      });
+  // const submitHandler = async () => {
+  //   setSubmitLoading(true);
+  //   const mktoForm =
+  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //     // @ts-ignore
+  //     window.MktoForms2.allForms()[
+  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //       // @ts-ignore
+  //       window.MktoForms2.allForms().length - 1
+  //     ];
+  //   const formData = mktoForm.getValues();
+  //   const {
+  //     psAbstractTitle,
+  //     Salutation,
+  //     FirstName,
+  //     LastName,
+  //     Company,
+  //     Department,
+  //     Email,
+  //     Phone,
+  //     Country,
+  //     State,
+  //     psApplications,
+  //     psExistingAFMBrand,
+  //     psPresentationForm,
+  //   } = formData;
+  //   // 제출
+  //   mktoForm.submit().onSuccess(() => {
+  //     return false;
+  //   });
+  //   try {
+  //     // DB에 저장
+  //     const res = await axios.post("/api/abstract", {
+  //       nation: pathname,
+  //       abstract_title: psAbstractTitle,
+  //       salutation: Salutation,
+  //       first_name: FirstName,
+  //       last_name: LastName,
+  //       institution: Company,
+  //       department: Department,
+  //       email: Email,
+  //       phone: Phone,
+  //       country: Country,
+  //       state: State,
+  //       application: psApplications,
+  //       afm_model: psExistingAFMBrand,
+  //       presentation_form: psPresentationForm,
+  //       pdf_file_path: filePath.join(","),
+  //     });
 
-      // 메일 전송
-      const res2 = await axios.post("/api/mail/abstract", {
-        email: configState.alert_receive_email,
-        attachment: filePath,
-        nation: pathname,
-        formData,
-      });
+  //     // 메일 전송
+  //     const res2 = await axios.post("/api/mail/abstract", {
+  //       email: configState.alert_receive_email,
+  //       attachments: filePath,
+  //       nation: pathname,
+  //       formData,
+  //     });
 
-      setSubmitSuccess(true);
-    } catch (err) {
-      alert(err);
-    } finally {
-      setSubmitLoading(false);
-    }
-  };
+  //     setSubmitSuccess(true);
+  //   } catch (err) {
+  //     alert(err);
+  //   } finally {
+  //     setSubmitLoading(false);
+  //   }
+  // };
 
   // description 가져오기
   const getDescription = async () => {
@@ -221,12 +221,12 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
         )}
         {!mktoLoading && !submitSuccess && (
           <Stack justifyContent="center" alignItems="center">
-            <S3PdfUpload
-              filePath={filePath}
-              setFilePath={setFilePath}
+            <S3MultiplePdfUpload
+              uploadLoading={uploadLoading}
               setUploadLoading={setUploadLoading}
+              setSubmitSuccess={setSubmitSuccess}
             />
-            <NSSButton
+            {/* <NSSButton
               variant="gradient"
               className="registration-btn"
               onClick={submitHandler}
@@ -234,7 +234,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
               loading={submitLoading}
             >
               Submit
-            </NSSButton>
+            </NSSButton> */}
           </Stack>
         )}
         {submitSuccess && (

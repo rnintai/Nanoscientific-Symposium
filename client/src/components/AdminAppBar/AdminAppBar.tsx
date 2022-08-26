@@ -17,6 +17,7 @@ interface AdminAppBarProps {
   isPublished?: boolean;
   menus?: Admin.menuType[];
   applyHandler?: () => void;
+  applyLoading?: boolean;
   disableApply?: boolean;
 }
 
@@ -24,6 +25,7 @@ const AdminAppBar = ({
   title,
   menus,
   applyHandler,
+  applyLoading,
   disableApply,
 }: AdminAppBarProps) => {
   const authState = useAuthState();
@@ -43,6 +45,7 @@ const AdminAppBar = ({
         {applyHandler && (
           <LoadingButton
             onClick={applyHandler}
+            loading={applyLoading}
             disabled={disableApply}
             color="success"
             variant="contained"
