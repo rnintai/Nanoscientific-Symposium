@@ -12,9 +12,10 @@ import CommonModal from "components/CommonModal/CommonModal";
 
 import MenuItem from "@mui/material/MenuItem";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
 import { LoadingButton } from "@mui/lab";
 
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
@@ -261,12 +262,13 @@ const ProgramForm = ({
         sx={{ marginBottom: "30px" }}
         {...description}
       />
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
           label="Start Time"
           value={startTime}
-          inputFormat="yyyy/MM/dd hh:mm a"
+          inputFormat="YYYY/MM/DD hh:mm a"
+          mask="____/__/__ __:__ _M"
           onChange={(newValue) => {
             setStartTime(newValue);
           }}
@@ -275,7 +277,8 @@ const ProgramForm = ({
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
           label="End Time"
-          inputFormat="yyyy/MM/dd hh:mm a"
+          inputFormat="YYYY/MM/DD hh:mm a"
+          mask="____/__/__ __:__ _M"
           value={endTime}
           onChange={(newValue) => {
             setEndTime(newValue);
