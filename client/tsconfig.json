@@ -12,7 +12,6 @@
     "allowSyntheticDefaultImports": true,
     "keyofStringsOnly": true,
     "baseUrl": "./src",
-    "outDir": "",
   },
   "typeRoots": ["node_modules/@types", "src/@type"],
   "exclude": [
