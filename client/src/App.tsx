@@ -222,7 +222,7 @@ const App = () => {
     document.title = currentMenu
       ? `${currentMenu.name.toUpperCase()} | ${documentTitle}`
       : documentTitle;
-  }, [currentMenu]);
+  }, [currentMenu, documentTitle]);
 
   useEffect(() => {
     if (window.location.pathname !== "/") {
