@@ -54,8 +54,7 @@
     "start": "webpack-dev-server --mode development --hot --open",
     "debug": "webpack server --mode devleopment --display-error-details",
     "build": "webpack --mode production --progress",
-    "sitemap": "babel-node ./src/sitemap/sitemapGenerator.js",
-    "prebuild": "npm run sitemap"
+    "sitemap": "babel-node ./src/sitemap/sitemapGenerator.js"
   },
   "eslintConfig": {
     "extends": [
