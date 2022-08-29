@@ -425,8 +425,8 @@ const EuropeLoginModal = ({
             justifyContent="space-between"
             sx={{ width: "95%" }}
           >
-            {pathname === "eu" ? (
-              // {pathname === "" ? (
+            {/* {pathname === "eu" ? ( */}
+            {pathname === "" ? (
               <a
                 style={{ cursor: "pointer" }}
                 href="https://www.nanoscientificforum.com/registration"

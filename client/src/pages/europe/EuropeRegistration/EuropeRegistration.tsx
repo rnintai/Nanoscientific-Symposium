@@ -208,8 +208,8 @@ const EuropeRegistration = () => {
                   size="small"
                   disableElevation
                   onClick={() => {
-                    // clickFeeHandler("20");
-                    clickFeeHandler("1");
+                    clickFeeHandler("20");
+                    // clickFeeHandler("1");
                     setIsStudent(true);
                   }}
                 >

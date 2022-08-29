@@ -24,8 +24,8 @@ export default [
     element: <Landing key={`${pathname}-landing-section`} />,
   },
   {
-    path: `/${pathname}/registration-test`,
-    // path: `/${pathname}/registration`,
+    // path: `/${pathname}/registration-test`,
+    path: `/${pathname}/registration`,
     element: <EuropeRegistration />,
   },
   {
