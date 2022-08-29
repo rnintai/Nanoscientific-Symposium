@@ -76,14 +76,14 @@ module.exports = (env, argv) => {
         // robot, sitemap
         {
           test: /\.xml/,
-          type: "asset",
+          type: "asset/resource",
           generator: {
             filename: "sitemap.xml",
           },
         },
         {
           test: /\.txt/,
-          type: "asset",
+          type: "asset/resource",
           generator: {
             filename: "robots.txt",
           },
