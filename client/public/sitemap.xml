@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url> <loc>https://event.nanoscientific.org/</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/registration</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/program</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/speakers</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/lecture-hall</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/exhibit/parksystems</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/exhibit/nanoscientific</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/announcement</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/abstract</loc> </url>
+<url> <loc>https://event.nanoscientific.org/americas/poster-hall</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/registration</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/program</loc> </url>
@@ -10,17 +21,6 @@
 <url> <loc>https://event.nanoscientific.org/eu/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/poster-hall</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/registration</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/program</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/speakers</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/lecture-hall</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/exhibit/parksystems</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/exhibit/nanoscientific</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/announcement</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/abstract</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/poster-hall</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/archive</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/registration</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/program</loc> </url>
@@ -31,16 +31,7 @@
 <url> <loc>https://event.nanoscientific.org/asia/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/poster-hall</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/registration</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/program</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/speakers</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/lecture-hall</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/exhibit/parksystems</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/exhibit/nanoscientific</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/announcement</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/abstract</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/poster-hall</loc> </url><url> <loc>https://event.nanoscientific.org/kr</loc> </url>
+<url> <loc>https://event.nanoscientific.org/kr</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/registration</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/program</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/speakers</loc> </url>
@@ -50,4 +41,14 @@
 <url> <loc>https://event.nanoscientific.org/kr/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/poster-hall</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/registration</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/program</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/speakers</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/lecture-hall</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/exhibit/parksystems</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/exhibit/nanoscientific</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/announcement</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/abstract</loc> </url>
+<url> <loc>https://event.nanoscientific.org/jp/poster-hall</loc> </url>
 </urlset>
