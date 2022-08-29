@@ -4,3 +4,8 @@ Disallow: /api
 Disallow: /*/user
 Disallow: /*/admin
 Sitemap: https://event.nanoscientific.org/sitemap.xml
+Sitemap: https://event.nanoscientific.org/kr/sitemap.xml
+Sitemap: https://event.nanoscientific.org/eu/sitemap.xml
+Sitemap: https://event.nanoscientific.org/jp/sitemap.xml
+Sitemap: https://event.nanoscientific.org/americas/sitemap.xml
+Sitemap: https://event.nanoscientific.org/asia/sitemap.xml

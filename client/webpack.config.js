@@ -75,17 +75,50 @@ module.exports = (env, argv) => {
         },
         // robot, sitemap
         {
-          test: /\.xml/,
+          test: /sitemap\.xml/,
           type: "asset/resource",
           generator: {
-            filename: "sitemaps/kr/sitemap.xml",
+            filename: "sitemap.xml",
           },
         },
         {
-          test: /\.xml/,
+          test: /sitemap-kr\.xml/,
           type: "asset/resource",
           generator: {
-            filename: "sitemaps/sitemap.xml",
+            filename: "sitemap.xml",
+            outputPath: "kr/",
+          },
+        },
+        {
+          test: /sitemap-jp\.xml/,
+          type: "asset/resource",
+          generator: {
+            filename: "sitemap.xml",
+            outputPath: "jp/",
+          },
+        },
+        {
+          test: /sitemap-asia\.xml/,
+          type: "asset/resource",
+          generator: {
+            filename: "sitemap.xml",
+            outputPath: "asia/",
+          },
+        },
+        {
+          test: /sitemap-americas\.xml/,
+          type: "asset/resource",
+          generator: {
+            filename: "sitemap.xml",
+            outputPath: "americas/",
+          },
+        },
+        {
+          test: /sitemap-eu\.xml/,
+          type: "asset/resource",
+          generator: {
+            filename: "sitemap.xml",
+            outputPath: "eu/",
           },
         },
         {

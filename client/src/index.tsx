@@ -7,7 +7,11 @@ import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import "./css/reset.css";
 import "../public/sitemaps/sitemap.xml";
-import "../public/sitemaps/kr/sitemap.xml";
+import "../public/sitemaps/sitemap-kr.xml";
+import "../public/sitemaps/sitemap-jp.xml";
+import "../public/sitemaps/sitemap-eu.xml";
+import "../public/sitemaps/sitemap-americas.xml";
+
 import "../public/robots.txt";
 // import "./css/main-style.css";
 // import "./css/custom-frontend.css";
