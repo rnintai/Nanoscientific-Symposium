@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url> <loc>https://event.nanoscientific.org/asia</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/registration</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/program</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/speakers</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/lecture-hall</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/exhibit/parksystems</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/exhibit/nanoscientific</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/user/reset-password</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/user/forgot-password</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/announcement</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/abstract</loc> </url>
+<url> <loc>https://event.nanoscientific.org/asia/poster-hall</loc> </url>
+</urlset>

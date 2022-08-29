@@ -78,7 +78,14 @@ module.exports = (env, argv) => {
           test: /\.xml/,
           type: "asset/resource",
           generator: {
-            filename: "sitemap.xml",
+            filename: "/sitemaps/kr/sitemap.xml",
+          },
+        },
+        {
+          test: /\.xml/,
+          type: "asset/resource",
+          generator: {
+            filename: "/sitemaps/sitemap.xml",
           },
         },
         {
