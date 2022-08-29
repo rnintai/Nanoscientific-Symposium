@@ -49,7 +49,6 @@ const AdminMenus = () => {
     if (menuList) {
       menuList.forEach((menu) => {
         result ||= menu.isChanged;
-        console.log(result, menu.isChanged);
       });
     }
     return result;
@@ -89,7 +88,6 @@ const AdminMenus = () => {
                 <TableCell>id</TableCell>
                 <TableCell>name</TableCell>
                 <TableCell>path</TableCell>
-                <TableCell>Published?</TableCell>
                 <TableCell>Show menu?</TableCell>
               </TableRow>
             </TableHead>
@@ -101,21 +99,7 @@ const AdminMenus = () => {
                     <TableCell>{menu.id}</TableCell>
                     <TableCell>{menu.name}</TableCell>
                     <TableCell>{menu.path}</TableCell>
-                    <TableCell>
-                      <Switch
-                        checked={menu.is_published === 1}
-                        color="default"
-                        onClick={() => {
-                          const menuListCpy = [...menuList];
-                          menuListCpy[index] = {
-                            ...menu,
-                            is_published: menu.is_published === 1 ? 0 : 1,
-                            isChanged: true,
-                          };
-                          setMenuList(menuListCpy);
-                        }}
-                      />
-                    </TableCell>
+
                     <TableCell>
                       <Switch
                         checked={menu.show === 1}

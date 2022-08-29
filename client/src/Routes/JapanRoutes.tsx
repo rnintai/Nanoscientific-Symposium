@@ -19,7 +19,7 @@ import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmissi
 
 const pathname = "jp";
 const formNo = "1223";
-const AbsFormNo = "1652";
+const abstractFormNo = "1896";
 
 export default [
   {
@@ -91,6 +91,6 @@ export default [
   },
   {
     path: `/${pathname}/abstract`,
-    element: <AbstractSubmission formNo={AbsFormNo} />,
+    element: <AbstractSubmission formNo={abstractFormNo} />,
   },
 ];
