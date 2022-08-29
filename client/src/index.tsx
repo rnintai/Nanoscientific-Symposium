@@ -11,6 +11,7 @@ import "../public/sitemaps/sitemap-kr.xml";
 import "../public/sitemaps/sitemap-jp.xml";
 import "../public/sitemaps/sitemap-eu.xml";
 import "../public/sitemaps/sitemap-americas.xml";
+import "../public/sitemaps/sitemap-asia.xml";
 
 import "../public/robots.txt";
 // import "./css/main-style.css";
