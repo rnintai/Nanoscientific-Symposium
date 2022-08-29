@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, Routes } from "react-router";
+import { Route } from "react-router";
 
 const RouteArr = (pathname) => {
   return [
@@ -24,12 +24,6 @@ const RouteArr = (pathname) => {
     },
     {
       path: `${pathname}/exhibit/nanoscientific`,
-    },
-    {
-      path: `${pathname}/user/reset-password`,
-    },
-    {
-      path: `${pathname}/user/forgot-password`,
     },
     {
       path: `${pathname}/announcement`,

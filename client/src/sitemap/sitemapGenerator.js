@@ -3,10 +3,10 @@
 //   presets: ["env"],
 // });
 
-// const Sitemap = require("react-router-sitemap").default;
-// const router = require("./SiteMapRoutes.js").default; // 좀 전에 만든 sitemapRoutes 파일이 있는 경로입니다.
-import Sitemap from "react-router-sitemap";
-import router from "./SiteMapRoutes.js"; // 좀 전에 만든 sitemapRoutes 파일이 있는 경로입니다.
+const Sitemap = require("react-router-sitemap").default;
+const router = require("./SiteMapRoutes.js").default; // 좀 전에 만든 sitemapRoutes 파일이 있는 경로입니다.
+// import Sitemap from "react-router-sitemap";
+// import router from "./SiteMapRoutes.js"; // 좀 전에 만든 sitemapRoutes 파일이 있는 경로입니다.
 
 function generateSitemap() {
   return new Sitemap(router)

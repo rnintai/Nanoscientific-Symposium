@@ -8,8 +8,6 @@
 <url> <loc>https://event.nanoscientific.org/americas/lecture-hall</loc> </url>
 <url> <loc>https://event.nanoscientific.org/americas/exhibit/parksystems</loc> </url>
 <url> <loc>https://event.nanoscientific.org/americas/exhibit/nanoscientific</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/user/reset-password</loc> </url>
-<url> <loc>https://event.nanoscientific.org/americas/user/forgot-password</loc> </url>
 <url> <loc>https://event.nanoscientific.org/americas/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/americas/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/americas/poster-hall</loc> </url>
@@ -20,8 +18,6 @@
 <url> <loc>https://event.nanoscientific.org/eu/lecture-hall</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/exhibit/parksystems</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/exhibit/nanoscientific</loc> </url>
-<url> <loc>https://event.nanoscientific.org/eu/user/reset-password</loc> </url>
-<url> <loc>https://event.nanoscientific.org/eu/user/forgot-password</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/eu/poster-hall</loc> </url>
@@ -32,8 +28,6 @@
 <url> <loc>https://event.nanoscientific.org/asia/lecture-hall</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/exhibit/parksystems</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/exhibit/nanoscientific</loc> </url>
-<url> <loc>https://event.nanoscientific.org/asia/user/reset-password</loc> </url>
-<url> <loc>https://event.nanoscientific.org/asia/user/forgot-password</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/asia/poster-hall</loc> </url>
@@ -44,8 +38,6 @@
 <url> <loc>https://event.nanoscientific.org/kr/lecture-hall</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/exhibit/parksystems</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/exhibit/nanoscientific</loc> </url>
-<url> <loc>https://event.nanoscientific.org/kr/user/reset-password</loc> </url>
-<url> <loc>https://event.nanoscientific.org/kr/user/forgot-password</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/kr/poster-hall</loc> </url>
@@ -56,8 +48,6 @@
 <url> <loc>https://event.nanoscientific.org/jp/lecture-hall</loc> </url>
 <url> <loc>https://event.nanoscientific.org/jp/exhibit/parksystems</loc> </url>
 <url> <loc>https://event.nanoscientific.org/jp/exhibit/nanoscientific</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/user/reset-password</loc> </url>
-<url> <loc>https://event.nanoscientific.org/jp/user/forgot-password</loc> </url>
 <url> <loc>https://event.nanoscientific.org/jp/announcement</loc> </url>
 <url> <loc>https://event.nanoscientific.org/jp/abstract</loc> </url>
 <url> <loc>https://event.nanoscientific.org/jp/poster-hall</loc> </url>
