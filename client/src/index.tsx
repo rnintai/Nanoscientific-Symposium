@@ -6,6 +6,8 @@ import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import "./css/reset.css";
+import "../public/sitemap.xml";
+import "../public/robots.txt";
 // import "./css/main-style.css";
 // import "./css/custom-frontend.css";
 

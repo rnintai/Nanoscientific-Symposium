@@ -73,6 +73,21 @@ module.exports = (env, argv) => {
           test: /\.(s*)css$/,
           use: ["style-loader", "css-loader", "sass-loader"],
         },
+        // robot, sitemap
+        {
+          test: /\.xml/,
+          type: "asset",
+          generator: {
+            filename: "sitemap.xml",
+          },
+        },
+        {
+          test: /\.txt/,
+          type: "asset",
+          generator: {
+            filename: "robots.txt",
+          },
+        },
       ],
     },
     // proxy 설정
