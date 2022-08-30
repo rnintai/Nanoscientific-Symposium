@@ -11,6 +11,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { getUserTimezoneDate, isDateValid } from "utils/Date";
 import usePageViews from "hooks/usePageViews";
+import { escapeQuotes } from "utils/String";
 import { useAuthState } from "../../../context/AuthContext";
 
 interface SessionFormProps {
@@ -64,7 +65,7 @@ const SessionForm = ({
       data = await axios.put("/api/admin/session", {
         nation: pathname,
         id: selectedSession.id,
-        title: title.value,
+        title: escapeQuotes(title.value),
         status: status === "show" ? 1 : 0,
         date,
       });
@@ -72,7 +73,7 @@ const SessionForm = ({
       // 추가 모달이라면 post 호출
       data = await axios.post("/api/admin/session", {
         nation: pathname,
-        title: title.value,
+        title: escapeQuotes(title.value),
         date,
       });
     }

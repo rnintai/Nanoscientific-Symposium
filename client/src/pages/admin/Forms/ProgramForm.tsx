@@ -13,7 +13,7 @@ import CommonModal from "components/CommonModal/CommonModal";
 import MenuItem from "@mui/material/MenuItem";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-
+import { escapeQuotes } from "utils/String";
 import { LoadingButton } from "@mui/lab";
 import dayjs, { Dayjs } from "dayjs";
 
@@ -80,9 +80,9 @@ const ProgramForm = ({
       data = await axios.put("/api/admin/program", {
         nation: pathname,
         id: selectedProgram.id,
-        title: title.value,
-        speakers: speakers.value,
-        description: description.value,
+        title: escapeQuotes(title.value),
+        speakers: escapeQuotes(speakers.value),
+        description: escapeQuotes(description.value),
         startTime: startTime.toDate()?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
@@ -96,9 +96,9 @@ const ProgramForm = ({
       data = await axios.post("/api/admin/program", {
         nation: pathname,
         session: selectedSession,
-        title: title.value,
-        speakers: speakers.value,
-        description: description.value,
+        title: escapeQuotes(title.value),
+        speakers: escapeQuotes(speakers.value),
+        description: escapeQuotes(description.value),
         startTime: startTime.toDate()?.toLocaleString("sv-SE", {
           timeZone: "utc",
         }),
@@ -242,7 +242,7 @@ const ProgramForm = ({
         fullWidth
         variant="filled"
         sx={{ marginBottom: "30px" }}
-        // error={title.value === ""}
+        // error={escapeQuotes(title.value) === ""}
         {...title}
       />
       <TextField
