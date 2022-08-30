@@ -174,10 +174,16 @@ const EuropeRegistration = () => {
                 </Typography>
               </Typography>
               <Typography fontSize={smallFontSize}>
-                Please fill in the registration form and your choice for
-                hands-on-sessions. After successful registration, you will
-                receive an email with your individual link to join the virtual
-                conference.
+                After successful registration, click on LECTURE HALL button at{" "}
+                <Typography
+                  component="a"
+                  href="https://event.nanoscientific.org/eu"
+                  fontSize={smallFontSize}
+                  sx={{ padding: "0 !important" }}
+                >
+                  event.nanoscientific.org/eu
+                </Typography>{" "}
+                on the event date to join all online sessions.
               </Typography>
             </Box>
             <Box
