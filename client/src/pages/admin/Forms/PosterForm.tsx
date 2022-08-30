@@ -96,7 +96,11 @@ const PosterForm = (posterformProps: PosterFormProps) => {
       title.setValue(abstract_title);
       author.setValue(`${salutation} ${first_name} ${last_name}`);
       affiliation.setValue(institution);
-      setFilePath(pdf_file_path);
+      if (pdf_file_path.indexOf(",upload") !== -1) {
+        setFilePath(pdf_file_path.split(",upload")[0]);
+      } else {
+        setFilePath(pdf_file_path);
+      }
     }
     setStage(2);
   };
@@ -158,7 +162,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
   const getAbstractSubmissions = async () => {
     const res = await axios("/api/abstract", { params: { nation: pathname } });
     setSubmissionList(res.data.result);
-    if (res.data.result.length === 0) {
+    if (res.data.result.length === 0 || edit) {
       setStage(2);
     } else {
       setStage(1);
@@ -206,7 +210,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
                 nextHandler();
               }}
             >
-              Add Another Poster..
+              Add Poster from scratch..
             </Box>
           </Stack>
         </CommonModal>

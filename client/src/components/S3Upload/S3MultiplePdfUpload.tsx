@@ -28,16 +28,9 @@ interface S3PdfUploadProps {
   align?: "flex-start" | "center" | "flex-end";
 }
 
-interface fileType {
-  lastModified: number;
-  // lastModifiedDate: Date;
+interface FilePathType {
   name: string;
-  size: number;
-  type: string;
-  webkitRelativePath: string;
-  blob: string;
-  filePath: string;
-  fileName: string;
+  path: string;
 }
 
 const ACCESS_KEY = process.env.REACT_APP_S3_ACCESS_KEY;
@@ -71,48 +64,49 @@ const S3MultiplePdfUpload = ({
 
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
-  const [fileList, setFileList] = useState<fileType[]>([]);
+  const [fileList, setFileList] = useState<File[]>([]);
+  const [filePathList, setFilePathList] = useState<FilePathType[]>([]);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
-    const file = event.target.files[0];
-    const fileListCpy = JSON.parse(JSON.stringify(fileList));
-    const { lastModified, name, webkitRelativePath } = file;
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      const filePath = `upload/${pathname}/${
-        location.pathname.split("/").slice(-1)[0]
-      }/${`${name.split(".")[0]}_${Date.now()}.${name.split(".")[1]}`}`;
-      fileListCpy.push({
-        lastModified,
-        name,
-        blob: e.target.result,
-        webkitRelativePath,
-        filePath,
-        fileName: filePath.split("/")[filePath.split("/").length - 1],
+    const fileListCpy = [];
+    const filePathListCpy = JSON.parse(JSON.stringify(filePathList));
+    for (let i = 0; i < event.target.files.length; i += 1) {
+      const file = event.target.files[i];
+      fileListCpy.push(file);
+      filePathListCpy.push({
+        name: file.name,
+        path: `upload/${pathname}/${
+          location.pathname.split("/").slice(-1)[0]
+        }/${`${file.name.split(".")[0]}_${Date.now()}.${
+          file.name.split(".")[1]
+        }`}`,
       });
-      setFileList(fileListCpy);
-    };
-    if (
-      !(
-        file.type === "application/msword" ||
-        file.type === "application/pdf" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-        file.type === "application/vnd.ms-powerpoint" ||
-        file.type ===
-          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
-      )
-    ) {
-      alert(".docx, .pdf, .pptx allowed only");
+      if (
+        !(
+          file.type === "application/msword" ||
+          file.type === "application/pdf" ||
+          file.type ===
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+          file.type === "application/vnd.ms-powerpoint" ||
+          file.type ===
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        )
+      ) {
+        alert(".docx, .pdf, .pptx allowed only");
+      }
     }
+    setFileList(fileListCpy);
+    setFilePathList(filePathListCpy);
   };
 
   const handlefileDelete = (targetName: string) => {
-    let fileListCpy = JSON.parse(JSON.stringify(fileList));
+    let fileListCpy = fileList;
     fileListCpy = fileListCpy.filter((f) => f.name !== targetName);
+    let filePathListCpy = JSON.parse(JSON.stringify(filePathList));
+    filePathListCpy = filePathListCpy.filter((f) => f.name !== targetName);
     setFileList(fileListCpy);
+    setFilePathList(filePathListCpy);
   };
 
   const submitHandler = async () => {
@@ -127,8 +121,8 @@ const S3MultiplePdfUpload = ({
     ) {
       // 마케토 validator가 알려줌
     } else {
-      fileList.forEach((f) => {
-        uploadFile(f);
+      fileList.forEach((f, i) => {
+        uploadFile(f, filePathList[i].path);
       });
 
       setSubmitLoading(true);
@@ -177,17 +171,13 @@ const S3MultiplePdfUpload = ({
           application: psApplications,
           afm_model: psExistingAFMBrand,
           presentation_form: psPresentationForm,
-          pdf_file_path: fileList.map((f) => f.filePath).join(","),
-        });
-
-        const attachments = fileList.map((f) => {
-          return { filename: f.fileName, path: f.filePath };
+          pdf_file_path: filePathList.map((f) => f.path).join(","),
         });
 
         // 메일 전송
         const res2 = await axios.post("/api/mail/abstract", {
           email: configState.alert_receive_email,
-          attachments,
+          attachments: filePathList,
           nation: pathname,
           formData,
         });
@@ -201,7 +191,7 @@ const S3MultiplePdfUpload = ({
     }
   };
 
-  const uploadFile = (file: fileType) => {
+  const uploadFile = (file: File, filePath: string) => {
     setProgress(0);
     setUploadLoading(true);
 
@@ -211,9 +201,9 @@ const S3MultiplePdfUpload = ({
     } else {
       const params = {
         ACL: "public-read",
-        Body: file.blob,
+        Body: file,
         Bucket: S3_BUCKET,
-        Key: file.filePath,
+        Key: filePath,
       };
 
       myBucket
@@ -275,6 +265,7 @@ const S3MultiplePdfUpload = ({
             accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
             type="file"
             onChange={handleFileInput}
+            multiple
             id="contained-button-file"
             ref={inputRef}
           />

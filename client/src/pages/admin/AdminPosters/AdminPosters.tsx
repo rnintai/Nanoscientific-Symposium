@@ -77,7 +77,10 @@ const AdminPosters = () => {
     let changedCnt = 0;
     const updatedList = [...newList];
     for (let i = 0; i < updatedList.length; i += 1) {
-      if (originalPosterList[i].title !== updatedList[i].title) {
+      if (
+        originalPosterList[i].title !== updatedList[i].title ||
+        originalPosterList[i].attachment !== updatedList[i].attachment
+      ) {
         updatedList[i].isChanged = true;
         originalPosterList[i].isChanged = true;
         // changed.push({ ...updatedList[i] });

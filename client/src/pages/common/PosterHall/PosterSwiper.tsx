@@ -14,6 +14,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
+import { S3_URL } from "utils/GlobalData";
 import {
   PosterContainer,
   Photos,
@@ -50,10 +51,17 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   ) {
     const target = e.target as HTMLDivElement;
     const clickedTarget = target.parentElement;
+    let newAttachment =
+      attachment.indexOf("http") !== -1
+        ? attachment
+        : `${S3_URL}/${attachment}`;
+    if (newAttachment.indexOf(".ppt") !== -1) {
+      newAttachment = `https://view.officeapps.live.com/op/embed.aspx?src=${newAttachment}`;
+    }
     if (windowWidth > 900) {
-      clickPoster(clickedTarget, attachment);
+      clickPoster(clickedTarget, newAttachment);
     } else {
-      setPosterAttachment(attachment);
+      setPosterAttachment(newAttachment);
       setIsPdfOpen(true);
     }
   }
@@ -66,7 +74,17 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     const clickedTarget = document.querySelector(
       ".swiper-slide-active",
     ) as HTMLDivElement;
-    clickPoster(clickedTarget, attachment); // clickedTarget.classList.contains("hover-able") 이 로직을 빼는게 효율적
+    // const target = e.target as HTMLDivElement;
+    // const clickedTarget = target.parentElement.parentElement.parentElement;
+
+    let newAttachment =
+      attachment.indexOf("http") !== -1
+        ? attachment
+        : `${S3_URL}/${attachment}`;
+    if (newAttachment.indexOf(".ppt") !== -1) {
+      newAttachment = `https://view.officeapps.live.com/op/embed.aspx?src=${newAttachment}`;
+    }
+    clickPoster(clickedTarget, newAttachment); // clickedTarget.classList.contains("hover-able") 이 로직을 빼는게 효율적
   }
 
   function clickPoster(clickedTarget: HTMLElement, attachment: string) {
@@ -135,6 +153,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     e.preventDefault();
     const openedEls = document.querySelectorAll(".is--open");
     openedEls.forEach((El) => El.classList.remove("is--open"));
+    setPosterAttachment("");
   };
 
   useEffect(() => {
@@ -177,6 +196,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             }}
             className="mySwiper"
           >
+            {/* current pagination과 idx 동일 -> active */}
             {posterState.map((poster, idx) => {
               return (
                 <SwiperSlide

@@ -132,7 +132,7 @@ const mailCtrl = {
     if (attachments.length !== 0) {
       for (attachment of attachments) {
         attachmentArr.push({
-          filename: attachment.filename,
+          filename: attachment.name,
           path: encodeURI(`${S3_URL}/${attachment.path}`),
         });
       }

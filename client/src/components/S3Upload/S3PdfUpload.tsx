@@ -106,7 +106,7 @@ const S3PdfUpload = ({
   }, [filePath]);
 
   return (
-    <label htmlFor="contained-button-file">
+    <label htmlFor="contained-button-file-pdf">
       <Stack
         sx={{
           flexDirection: {
@@ -182,7 +182,7 @@ const S3PdfUpload = ({
           accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation"
           type="file"
           onChange={handleFileInput}
-          id="contained-button-file"
+          id="contained-button-file-pdf"
         />
         <Box
           className="upload-btn"
