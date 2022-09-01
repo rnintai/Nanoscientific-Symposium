@@ -19,6 +19,7 @@ import LandingSection from "components/Section/LandingSection";
 import { S3_URL } from "utils/GlobalData";
 import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
+import setMetaTag from "utils/MetaTag/SetMetaTag";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -51,7 +52,6 @@ const App = () => {
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
   const navigate = useNavigate();
-
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -223,6 +223,18 @@ const App = () => {
       ? `${currentMenu.name.toUpperCase()} | ${documentTitle}`
       : documentTitle;
   }, [currentMenu, documentTitle]);
+
+  // meta tag
+  useEffect(() => {
+    const { metaDescription, metaKeywords } = setMetaTag(pathname, subpath);
+    const setMetaAttribute = (name: string, value: string) => {
+      document
+        .querySelector(`meta[name='${name}']`)
+        .setAttribute("content", value);
+    };
+    setMetaAttribute("description", metaDescription);
+    setMetaAttribute("keywords", metaKeywords);
+  }, [window.location.href]);
 
   useEffect(() => {
     if (window.location.pathname !== "/") {
