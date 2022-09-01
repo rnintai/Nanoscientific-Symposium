@@ -234,6 +234,12 @@ declare namespace Common {
     // announcement
     viewsLabel?: string;
   }
+
+  interface MetaTagType {
+    path?: string;
+    description: string;
+    keywords?: string;
+  }
 }
 
 declare namespace Webinar {
