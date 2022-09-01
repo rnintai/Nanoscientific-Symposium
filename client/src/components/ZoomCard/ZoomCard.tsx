@@ -103,7 +103,11 @@ const ZoomCard = ({
   const getQuestionsHandler = () => {
     setGetQuestionsLoading(true);
     axios
-      .get(`/api/zoom/webinar/registrant/questions/${webinar.id}`)
+      .get(`/api/zoom/webinar/registrant/questions/${webinar.id}`, {
+        params: {
+          nation: pathname,
+        },
+      })
       .then((res) => {
         const resultArray = [...res.data.result.questions];
         const toBeUpdated = {} as any;
