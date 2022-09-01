@@ -26,6 +26,11 @@ export const MetaTag = new Map<string, Common.MetaTagType[]>([
     [
       {
         path: "default",
+        description: "",
+        keywords: "",
+      },
+      {
+        path: "",
         description:
           "The Nanoscience Symposium Americas 2022 is a virtual event that features experts in the nanomaterials community and focuses on sharing, exchanging and exploring new developments in nanomaterial applications.",
         keywords:

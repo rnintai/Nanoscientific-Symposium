@@ -4,6 +4,7 @@ const setMetaTag = (pathname: string, subpath: string) => {
   const metaTag = MetaTag.get(pathname);
   let metaDescription = "";
   let metaKeywords = "";
+  console.log(subpath);
 
   for (let i = 0; i < metaTag.length; i += 1) {
     if (metaTag[i].path === subpath) {
