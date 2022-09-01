@@ -136,6 +136,7 @@ const S3Upload = ({
         ) => {
           const { currentTarget } = event;
           setPreviewURL(currentTarget.value);
+          setImagePath(currentTarget.value);
         }}
       />
     </div>

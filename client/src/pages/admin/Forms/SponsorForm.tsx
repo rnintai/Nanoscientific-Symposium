@@ -213,20 +213,6 @@ const SponsorForm = ({
         setUploadLoading={setUploadLoading}
         uploadPath="sponsor"
       />
-      <TextField
-        label="Image Path"
-        margin="dense"
-        variant="filled"
-        sx={{ marginTop: "15px" }}
-        fullWidth
-        value={previewImagePath}
-        onChange={(
-          event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>,
-        ) => {
-          setSponsorImagePath(event.currentTarget.value);
-          setPreviewImagePath(event.currentTarget.value);
-        }}
-      />
       {edit && (
         <LoadingButton
           loading={deleteLoading || uploadLoading}
