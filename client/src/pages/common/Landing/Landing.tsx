@@ -331,6 +331,17 @@ const Landing = () => {
       setLanding5TitleEdit(false);
     }
   };
+  // landing6 title
+  const applyLanding6Title = async () => {
+    if (confirm("Are you sure?")) {
+      const result = await axios.post(`/api/page/common/landing/title/6`, {
+        nation: pathname,
+        title: escapeQuotes(landing6Title),
+      });
+      setLanding6Title(landing6Title);
+      setLanding6TitleEdit(false);
+    }
+  };
 
   // landing6 handler
   const applyLanding6Content = async () => {
@@ -834,7 +845,7 @@ const Landing = () => {
                   setPreview={setLanding6TitlePreview}
                   previewContent={landing6TitlePreviewContent}
                   setPreviewContent={setLanding6TitlePreviewContent}
-                  applyHandler={applyLanding6Content}
+                  applyHandler={applyLanding6Title}
                   sx={{
                     mb: 3,
                     fontSize: headingFontSize,
