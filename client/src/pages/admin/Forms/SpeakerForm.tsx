@@ -51,7 +51,7 @@ const SpeakerForm = ({
   const name = useInput(edit ? selectedSpeaker.name : "");
   const belong = useInput(edit ? selectedSpeaker.belong : "");
   const description = useInput(
-    edit ? selectedSpeaker.description.replace("<br />", "\n") : "",
+    edit ? selectedSpeaker.description.replace(/<br \/>/gi, "\n") : "",
   );
   // const abstractBelong = useInput(
   //   edit && selectedSpeakerDetail !== undefined
@@ -91,9 +91,9 @@ const SpeakerForm = ({
       speakerResult = await axios.put("/api/admin/speaker", {
         id: selectedSpeaker.id,
         nation: pathname,
-        name: name.value,
-        belong: belong.value,
-        description: description.value.replace("\n", "<br />"),
+        name: escapeQuotes(name.value),
+        belong: escapeQuotes(belong.value),
+        description: escapeQuotes(description.value).replace(/\n/gi, "<br />"),
         imagePath,
         keynote: keynoteCheck,
         abstractBelong: escapeQuotes(abstractBelong),
@@ -104,9 +104,9 @@ const SpeakerForm = ({
       // 새롭게 생성하는 경우 즉, ADD SPEAKER 를 클릭한경우
       speakerResult = await axios.post("/api/admin/speaker", {
         nation: pathname,
-        name: name.value,
-        belong: belong.value,
-        description: description.value,
+        name: escapeQuotes(name.value),
+        belong: escapeQuotes(belong.value),
+        description: escapeQuotes(description.value).replace(/\n/gi, "<br />"),
         imagePath,
         keynote: keynoteCheck,
         abstractBelong: escapeQuotes(abstractBelong),
