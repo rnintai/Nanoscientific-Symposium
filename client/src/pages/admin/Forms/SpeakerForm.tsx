@@ -50,7 +50,9 @@ const SpeakerForm = ({
 
   const name = useInput(edit ? selectedSpeaker.name : "");
   const belong = useInput(edit ? selectedSpeaker.belong : "");
-  const description = useInput(edit ? selectedSpeaker.description : "");
+  const description = useInput(
+    edit ? selectedSpeaker.description.replace("<br />", "\n") : "",
+  );
   // const abstractBelong = useInput(
   //   edit && selectedSpeakerDetail !== undefined
   //     ? selectedSpeakerDetail.belong
@@ -91,7 +93,7 @@ const SpeakerForm = ({
         nation: pathname,
         name: name.value,
         belong: belong.value,
-        description: description.value,
+        description: description.value.replace("\n", "<br />"),
         imagePath,
         keynote: keynoteCheck,
         abstractBelong: escapeQuotes(abstractBelong),

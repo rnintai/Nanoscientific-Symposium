@@ -11,6 +11,7 @@ import {
 import SpeakerImage from "components/SpeakerImage/SpeakerImage";
 import Link from "components/Link/LinkWithSearch";
 import usePageViews from "hooks/usePageViews";
+import InnerHTML from "dangerously-set-html-content";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -89,7 +90,7 @@ const SpeakerCard = ({
               color={theme.palette.grey[600]}
               fontSize={xsmallFontSize}
             >
-              {speaker.description}
+              <InnerHTML html={speaker.description} />
             </Typography>
           )}
         </Item>
