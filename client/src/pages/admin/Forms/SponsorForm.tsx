@@ -20,11 +20,11 @@ import useAdminStore from "store/AdminStore";
 interface SponsorFormProps extends React.ComponentPropsWithoutRef<"div"> {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  // setSpeakerSuccessAlert: Dispatch<SetStateAction<boolean>>;
-  // refreshFunction: () => void;
+  sectionNo: string;
   edit?: boolean;
   selectedSponsor?: Landing.landing7Type;
   sponsorList: Landing.landing7Type[];
+  setIsSponsorPreview: Dispatch<SetStateAction<boolean>>;
   setPreviewSponsorList: React.Dispatch<
     React.SetStateAction<Landing.landing7Type[]>
   >;
@@ -33,9 +33,11 @@ interface SponsorFormProps extends React.ComponentPropsWithoutRef<"div"> {
 const SponsorForm = ({
   open,
   setOpen,
+  sectionNo,
   edit,
   selectedSponsor,
   sponsorList,
+  setIsSponsorPreview,
   setPreviewSponsorList,
   ...rest
 }: SponsorFormProps) => {
@@ -52,7 +54,6 @@ const SponsorForm = ({
   const [previewImagePath, setPreviewImagePath] = useState<string>(
     selectedSponsor ? selectedSponsor.image_path : "",
   );
-  const { setIsSponsorPreview } = useAdminStore();
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const sponsorSubmitHandler = async () => {
@@ -61,6 +62,7 @@ const SponsorForm = ({
       if (edit) {
         await axios.put(`/api/page/common/landing/7`, {
           nation: pathname,
+          sectionNo,
           id: selectedSponsor.id,
           name: sponsorName.value,
           url: sponsorURL.value,
@@ -70,6 +72,7 @@ const SponsorForm = ({
       } else {
         await axios.post(`/api/page/common/landing/7`, {
           nation: pathname,
+          sectionNo,
           name: sponsorName.value,
           url: sponsorURL.value,
           imagePath: sponsorImagePath,
@@ -91,6 +94,7 @@ const SponsorForm = ({
         params: {
           nation: pathname,
           id: selectedSponsor.id,
+          sectionNo,
         },
       });
       setOpen(false);

@@ -563,11 +563,11 @@ const commonCtrl = {
   },
 
   addSponsor: async (req, res) => {
-    const { nation, name, url, imagePath, height } = req.body;
+    const { nation, name, url, imagePath, height, sectionNo } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `INSERT INTO landing_section_7 
+      const sql = `INSERT INTO landing_section_${sectionNo}
       (name, url, image_path, height)
       VALUES
       ('${name}','${url}','${imagePath}', ${height ? height : 0})
@@ -587,11 +587,11 @@ const commonCtrl = {
     }
   },
   modifySponsor: async (req, res) => {
-    const { nation, id, name, url, imagePath, height } = req.body;
+    const { nation, id, name, url, imagePath, height, sectionNo } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE landing_section_7 SET
+      const sql = `UPDATE landing_section_${sectionNo} SET
       name='${name}', url='${url}',
       image_path='${imagePath}',
       height=${height ? height : 0}
@@ -612,11 +612,11 @@ const commonCtrl = {
     }
   },
   deleteSponsor: async (req, res) => {
-    const { nation, id } = req.query;
+    const { nation, id, sectionNo } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `DELETE FROM landing_section_7 WHERE id=${id}`;
+      const sql = `DELETE FROM landing_section_${sectionNo} WHERE id=${id}`;
       const row = await connection.query(sql);
       connection.release();
 

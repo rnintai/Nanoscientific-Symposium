@@ -7,6 +7,8 @@ interface AdminState {
   toggleDarkMode: () => void;
   isSponsorPreview: boolean;
   setIsSponsorPreview: (newState: boolean) => void;
+  isSponsor2Preview: boolean;
+  setIsSponsor2Preview: (newState: boolean) => void;
 }
 
 const useAdminStore = create<AdminState>((set) => ({
@@ -16,6 +18,9 @@ const useAdminStore = create<AdminState>((set) => ({
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
   isSponsorPreview: false,
   setIsSponsorPreview: (newState) =>
+    set((state) => ({ ...state, isSponsorPreview: newState })),
+  isSponsor2Preview: false,
+  setIsSponsor2Preview: (newState) =>
     set((state) => ({ ...state, isSponsorPreview: newState })),
 }));
 
