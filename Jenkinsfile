@@ -41,8 +41,6 @@ pipeline {
                      ls -al
                      npm install
                      sudo cp -r . /home/ubuntu/server
-                     cd /home/ubuntu/server
-                     sudo forever restart index.js
                      '''
                     }
             }
