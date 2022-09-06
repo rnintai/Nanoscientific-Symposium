@@ -162,14 +162,14 @@ export const StyledButton = styled(IconButton)`
   position: absolute;
   cursor: pointer;
 
-  &.ZoomIn {
+  &.zoomIn {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
   }
 
-  &.Close {
+  &.close {
     left: 50%;
     transform: translateX(-50%);
     bottom: -4%;
@@ -360,19 +360,31 @@ export const PosterContainer = styled.div`
   //   }
 
   .swiper-slide.swiper-slide-active {
-    /* pointer-events: auto; */
     &:hover {
       ${PosterOverlay} {
         opacity: 1;
       }
     }
+
+    .zoomIn{
+      pointer-events: auto;
+    }
+
+    .zoomInIcon{
+      pointer-events: auto;
+    }
   }
   .swiper-slide:not(.swiper-slide-active) {
-    /* pointer-events: none; */
     &:hover {
       ${PosterOverlay} {
         opacity: 0;
       }
+    }
+    .zoomIn{
+      pointer-events: none;
+    }
+    .zoomInIcon{
+      pointer-events: none;
     }
   }
 `;

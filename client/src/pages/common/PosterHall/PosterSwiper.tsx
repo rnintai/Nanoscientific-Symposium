@@ -40,7 +40,7 @@ type posterProps = {
 SwiperCore.use([Keyboard, Pagination, EffectCoverflow, Navigation]);
 
 const PosterSwiper = ({ posterState }: posterProps) => {
-  const [isHover, setIsHover] = useState<boolean>(false);
+  // const [isHover, setIsHover] = useState<boolean>(false);
   const [isPdfOpen, setIsPdfOpen] = useState<boolean>(false);
   const [posterAttachment, setPosterAttachment] = useState<string>("");
   const [windowWidth, setwindowWidth] = useState(window.innerWidth);
@@ -70,9 +70,8 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     attachment: string,
   ) {
-    e.preventDefault();
     const clickedTarget = document.querySelector(
-      ".swiper-slide-active",
+      ".swiper-slide",
     ) as HTMLDivElement;
     // const target = e.target as HTMLDivElement;
     // const clickedTarget = target.parentElement.parentElement.parentElement;
@@ -89,22 +88,17 @@ const PosterSwiper = ({ posterState }: posterProps) => {
 
   function clickPoster(clickedTarget: HTMLElement, attachment: string) {
     if (
-      clickedTarget.classList.contains("swiper-slide-active") &&
-      clickedTarget.classList.contains("hover-able")
+      clickedTarget.classList.contains("swiper-slide-active")
     ) {
       setPosterAttachment(attachment);
       setIsPdfOpen(true);
     }
   }
 
-  const handleOverlayClick = () => {
-    setIsPdfOpen(false);
-  };
-
+  
   const handleMouseOverEvent = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
-    e.preventDefault();
     const hoveredEl = (e.target as HTMLDivElement | null).parentElement;
 
     if (
@@ -119,14 +113,13 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     }
 
     if (hoveredEl.classList.contains("swiper-slide-active")) {
-      setIsHover(true);
+      // setIsHover(true);
     }
   };
 
   const handleMouseOutEvent = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
-    e.preventDefault();
     const hoveredEl = (e.target as HTMLDivElement | null).parentElement;
 
     if (
@@ -139,23 +132,28 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       resultStr = resultArr.join(" ");
       hoveredEl.style.transform = resultStr;
     }
-
+    
     if (hoveredEl.classList.contains("swiper-slide-active")) {
-      setIsHover(false);
+      // setIsHover(false);
     }
   };
-
+  
   const handleZoomInMouseOverEvent = () => {
-    setIsHover(true);
+    // setIsHover(true);
+  };
+  
+  const handleOverlayClick = () => {
+    handleClose();
   };
 
-  const handleClose = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    const openedEls = document.querySelectorAll(".is--open");
-    openedEls.forEach((El) => El.classList.remove("is--open"));
+  const handleButtonClick = () => {
+    handleClose();
+  };
+  const handleClose = () => {
+    setIsPdfOpen(false);
     setPosterAttachment("");
   };
-
+  
   useEffect(() => {
     function handleWindowResize() {
       setwindowWidth(window.innerWidth);
@@ -200,7 +198,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             {posterState.map((poster, idx) => {
               return (
                 <SwiperSlide
-                  className={isHover ? "hover-able" : ""}
+                  // className={isHover ? "hover-able" : ""}
                   onMouseOver={handleMouseOverEvent}
                   onMouseOut={handleMouseOutEvent}
                   onClick={(event) => handleOpenClick(event, poster.attachment)}
@@ -211,7 +209,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                       <PosterTitle>{poster.title}</PosterTitle>
                     </TitleContainer>
                     <PosterAuthor>{poster.author}</PosterAuthor>
-                    <DividedLine />
+                    <DividedLine/>
                     <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
                     <ImageContainer>
                       <Photos src={poster.image} alt={`pic ${idx + 1}`} />
@@ -223,10 +221,12 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                       onClick={(event) =>
                         handleZoomInClick(event, poster.attachment)
                       }
-                      className="ZoomIn"
+                      className="zoomIn"
                       size="large"
                     >
-                      <ZoomInIcon />
+                      <ZoomInIcon
+                        className="zoomInIcon"
+                      />
                     </StyledButton>
                   </PosterOverlay>
                 </SwiperSlide>
@@ -253,7 +253,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             {posterState.map((poster, idx) => {
               return (
                 <SwiperSlide
-                  className={isHover ? "hover-able" : ""}
+                  // className={isHover ? "hover-able" : ""}
                   onClick={(event) => handleOpenClick(event, poster.attachment)}
                   key={poster.id}
                 >
@@ -280,7 +280,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       />
       <PdfContainer className={isPdfOpen ? "is--open" : ""}>
         <PdfInner src={posterAttachment} />
-        <StyledButton onClick={handleClose} className="Close">
+        <StyledButton onClick={handleButtonClick} className="close">
           <CancelIcon fontSize="large" />
         </StyledButton>
       </PdfContainer>
