@@ -178,21 +178,19 @@ export const globalData = new Map<string, Common.globalDataType>([
       archive: "アーカイブ",
 
       signInText: "ログイン",
-      registration: "登録",
+      registration: "参加登録はこちらから",
       goNextText: "NEXT",
       goPrevText: "PREV",
       // user관련
       emailInputLabel: "Email address",
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot Password?",
-      createAccountText: "登録",
+      createAccountText: "参加登録はこちらから",
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/jp/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/jp/logo-type-1b.svg`,
       landingSection1Desc: `
-        参加登録はこちらから
-        <br/>
         ナノテクノロジーとSPMに特化したナノ科学シンポジウム 2022 参加登録受付中！
         `,
       // resetPassword
