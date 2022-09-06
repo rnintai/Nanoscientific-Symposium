@@ -16,6 +16,7 @@ import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import PosterHall from "pages/common/PosterHall/PosterHall";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
+import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
 
 const pathname = "jp";
 const formNo = "1223";
@@ -54,6 +55,10 @@ export default [
   {
     path: `/${pathname}/exhibit/parksystems`,
     element: <JapanExhibitParkSystems />,
+  },
+  {
+    path: `/${pathname}/exhibit/nanoscientific`,
+    element: <ExhibitNanoScientific />,
   },
   {
     path: `/${pathname}/sponsors`,
