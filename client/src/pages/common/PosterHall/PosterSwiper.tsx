@@ -45,30 +45,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   const [posterAttachment, setPosterAttachment] = useState<string>("");
   const [windowWidth, setwindowWidth] = useState(window.innerWidth);
 
-  function handleOpenClick(
-    e: React.MouseEvent<HTMLElement, MouseEvent>,
-    attachment: string,
-  ) {
-    let newAttachment =
-      attachment.indexOf("http") !== -1
-        ? attachment
-        : `${S3_URL}/${attachment}`;
-    if (newAttachment.indexOf(".ppt") !== -1) {
-      newAttachment = `https://view.officeapps.live.com/op/embed.aspx?src=${newAttachment}`;
-    }
-    if (windowWidth > 900) {
-      clickPoster(newAttachment);
-    } else {
-      clickPoster(newAttachment);
-    }
-  }
-
-  function handleNotActiveSlide() {
-    console.log("i'm not actived slide!");
-    setIsPdfOpen(false);
-  }
-
-  function handleZoomInClick(attachment: string) {
+  function handleOpenClick(attachment: string) {
     let newAttachment =
       attachment.indexOf("http") !== -1
         ? attachment
@@ -196,12 +173,10 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                           </ImageContainer>
                         </PosterInner>
                         <PosterOverlay
-                          onClick={(event) =>
-                            handleOpenClick(event, poster.attachment)
-                          }
+                          onClick={() => handleOpenClick(poster.attachment)}
                         >
                           <StyledButton
-                            onClick={() => handleZoomInClick(poster.attachment)}
+                            onClick={() => handleOpenClick(poster.attachment)}
                             className="zoomIn"
                             size="large"
                           >
@@ -253,9 +228,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                   {({ isActive }) =>
                     isActive ? (
                       <PosterInner
-                        onClick={(event) =>
-                          handleOpenClick(event, poster.attachment)
-                        }
+                        onClick={() => handleOpenClick(poster.attachment)}
                       >
                         <TitleContainer>
                           <PosterTitle>{poster.title}</PosterTitle>
