@@ -51,6 +51,8 @@ const PosterSwiper = ({ posterState }: posterProps) => {
   ) {
     const target = e.target as HTMLDivElement;
     const clickedTarget = target.parentElement;
+    console.log(clickedTarget); // css는 남아있는데 classname은 없어지네..
+    console.log(clickedTarget.classList.contains("hoveredNotActiveSlide"))
     let newAttachment =
       attachment.indexOf("http") !== -1
         ? attachment
@@ -61,8 +63,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     if (windowWidth > 900) {
       clickPoster(clickedTarget, newAttachment);
     } else {
-      setPosterAttachment(newAttachment);
-      setIsPdfOpen(true);
+      clickPoster(clickedTarget, newAttachment);
     }
   }
 
@@ -71,7 +72,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     attachment: string,
   ) {
     const clickedTarget = document.querySelector(
-      ".swiper-slide",
+      ".swiper-slide-active",
     ) as HTMLDivElement;
     // const target = e.target as HTMLDivElement;
     // const clickedTarget = target.parentElement.parentElement.parentElement;
@@ -83,16 +84,12 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     if (newAttachment.indexOf(".ppt") !== -1) {
       newAttachment = `https://view.officeapps.live.com/op/embed.aspx?src=${newAttachment}`;
     }
-    clickPoster(clickedTarget, newAttachment); // clickedTarget.classList.contains("hover-able") 이 로직을 빼는게 효율적
+    clickPoster(clickedTarget, newAttachment);
   }
 
   function clickPoster(clickedTarget: HTMLElement, attachment: string) {
-    if (
-      clickedTarget.classList.contains("swiper-slide-active")
-    ) {
       setPosterAttachment(attachment);
       setIsPdfOpen(true);
-    }
   }
 
   
@@ -110,6 +107,8 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       resultArr.push("translateY(-15px)");
       resultStr = resultArr.join(" ");
       hoveredEl.style.transform = resultStr;
+
+      hoveredEl.classList.add("hoveredNotActiveSlide");
     }
 
     if (hoveredEl.classList.contains("swiper-slide-active")) {
@@ -131,6 +130,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       resultArr.pop();
       resultStr = resultArr.join(" ");
       hoveredEl.style.transform = resultStr;
+      hoveredEl.classList.remove("hoveredNotActiveSlide");
     }
     
     if (hoveredEl.classList.contains("swiper-slide-active")) {
@@ -201,9 +201,10 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                   // className={isHover ? "hover-able" : ""}
                   onMouseOver={handleMouseOverEvent}
                   onMouseOut={handleMouseOutEvent}
-                  onClick={(event) => handleOpenClick(event, poster.attachment)}
                   key={poster.id}
-                >
+                  >
+                  {({ isActive }) => (
+                    isActive ? <>
                   <PosterInner>
                     <TitleContainer>
                       <PosterTitle>{poster.title}</PosterTitle>
@@ -215,20 +216,56 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                       <Photos src={poster.image} alt={`pic ${idx + 1}`} />
                     </ImageContainer>
                   </PosterInner>
-                  <PosterOverlay>
-                    <StyledButton
-                      onMouseOver={handleZoomInMouseOverEvent}
-                      onClick={(event) =>
-                        handleZoomInClick(event, poster.attachment)
-                      }
-                      className="zoomIn"
-                      size="large"
-                    >
+                      <PosterOverlay
+                    onClick={(event) => handleOpenClick(event, poster.attachment)}
+                  >
+                      <StyledButton
+                        onMouseOver={handleZoomInMouseOverEvent}
+                        onClick={(event) =>
+                          handleZoomInClick(event, poster.attachment)
+                        }
+                        className="zoomIn"
+                        size="large"
+                      >
+                        <ZoomInIcon
+                          className="zoomInIcon"
+                        />
+                      </StyledButton>
+                    </PosterOverlay>
+                    </> : 
+                      <>
+                      <PosterOverlay
+                    onClick={(event) => handleOpenClick(event, poster.attachment)}
+                  >
+                      <StyledButton
+                        onMouseOver={handleZoomInMouseOverEvent}
+                        onClick={(event) =>
+                          handleZoomInClick(event, poster.attachment)
+                        }
+                        className="zoomIn"
+                        size="large"
+                      >
+                        <ZoomInIcon
+                          className="zoomInIcon"
+                        />
+                      </StyledButton>
+                        </PosterOverlay>
+                        <PosterOverlay>
+                      <StyledButton
+                        onMouseOver={handleZoomInMouseOverEvent}
+                        onClick={(event) =>
+                          handleZoomInClick(event, poster.attachment)
+                        }
+                        className="zoomIn"
+                        size="large"
+                      >
                       <ZoomInIcon
                         className="zoomInIcon"
                       />
                     </StyledButton>
                   </PosterOverlay>
+                      </>
+                  )}
                 </SwiperSlide>
               );
             })}
