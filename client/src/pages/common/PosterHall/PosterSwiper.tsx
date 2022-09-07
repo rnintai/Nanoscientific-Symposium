@@ -31,6 +31,7 @@ import {
   StyledButton,
   PosterBackground,
   TitleContainer,
+  NotActivedPosterContainer,
 } from "./PosterSwiperStyle";
 
 type posterProps = {
@@ -40,7 +41,6 @@ type posterProps = {
 SwiperCore.use([Keyboard, Pagination, EffectCoverflow, Navigation]);
 
 const PosterSwiper = ({ posterState }: posterProps) => {
-  // const [isHover, setIsHover] = useState<boolean>(false);
   const [isPdfOpen, setIsPdfOpen] = useState<boolean>(false);
   const [posterAttachment, setPosterAttachment] = useState<string>("");
   const [windowWidth, setwindowWidth] = useState(window.innerWidth);
@@ -49,10 +49,6 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     e: React.MouseEvent<HTMLElement, MouseEvent>,
     attachment: string,
   ) {
-    const target = e.target as HTMLDivElement;
-    const clickedTarget = target.parentElement;
-    console.log(clickedTarget); // css는 남아있는데 classname은 없어지네..
-    console.log(clickedTarget.classList.contains("hoveredNotActiveSlide"))
     let newAttachment =
       attachment.indexOf("http") !== -1
         ? attachment
@@ -61,22 +57,18 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       newAttachment = `https://view.officeapps.live.com/op/embed.aspx?src=${newAttachment}`;
     }
     if (windowWidth > 900) {
-      clickPoster(clickedTarget, newAttachment);
+      clickPoster(newAttachment);
     } else {
-      clickPoster(clickedTarget, newAttachment);
+      clickPoster(newAttachment);
     }
   }
 
-  function handleZoomInClick(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    attachment: string,
-  ) {
-    const clickedTarget = document.querySelector(
-      ".swiper-slide-active",
-    ) as HTMLDivElement;
-    // const target = e.target as HTMLDivElement;
-    // const clickedTarget = target.parentElement.parentElement.parentElement;
+  function handleNotActiveSlide() {
+    console.log("i'm not actived slide!");
+    setIsPdfOpen(false);
+  }
 
+  function handleZoomInClick(attachment: string) {
     let newAttachment =
       attachment.indexOf("http") !== -1
         ? attachment
@@ -84,15 +76,14 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     if (newAttachment.indexOf(".ppt") !== -1) {
       newAttachment = `https://view.officeapps.live.com/op/embed.aspx?src=${newAttachment}`;
     }
-    clickPoster(clickedTarget, newAttachment);
+    clickPoster(newAttachment);
   }
 
-  function clickPoster(clickedTarget: HTMLElement, attachment: string) {
-      setPosterAttachment(attachment);
-      setIsPdfOpen(true);
+  function clickPoster(attachment: string) {
+    setPosterAttachment(attachment);
+    setIsPdfOpen(true);
   }
 
-  
   const handleMouseOverEvent = (
     e: React.MouseEvent<HTMLElement, MouseEvent>,
   ) => {
@@ -109,10 +100,6 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       hoveredEl.style.transform = resultStr;
 
       hoveredEl.classList.add("hoveredNotActiveSlide");
-    }
-
-    if (hoveredEl.classList.contains("swiper-slide-active")) {
-      // setIsHover(true);
     }
   };
 
@@ -132,16 +119,8 @@ const PosterSwiper = ({ posterState }: posterProps) => {
       hoveredEl.style.transform = resultStr;
       hoveredEl.classList.remove("hoveredNotActiveSlide");
     }
-    
-    if (hoveredEl.classList.contains("swiper-slide-active")) {
-      // setIsHover(false);
-    }
   };
-  
-  const handleZoomInMouseOverEvent = () => {
-    // setIsHover(true);
-  };
-  
+
   const handleOverlayClick = () => {
     handleClose();
   };
@@ -153,7 +132,7 @@ const PosterSwiper = ({ posterState }: posterProps) => {
     setIsPdfOpen(false);
     setPosterAttachment("");
   };
-  
+
   useEffect(() => {
     function handleWindowResize() {
       setwindowWidth(window.innerWidth);
@@ -198,74 +177,55 @@ const PosterSwiper = ({ posterState }: posterProps) => {
             {posterState.map((poster, idx) => {
               return (
                 <SwiperSlide
-                  // className={isHover ? "hover-able" : ""}
                   onMouseOver={handleMouseOverEvent}
                   onMouseOut={handleMouseOutEvent}
                   key={poster.id}
-                  >
-                  {({ isActive }) => (
-                    isActive ? <>
-                  <PosterInner>
-                    <TitleContainer>
-                      <PosterTitle>{poster.title}</PosterTitle>
-                    </TitleContainer>
-                    <PosterAuthor>{poster.author}</PosterAuthor>
-                    <DividedLine/>
-                    <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
-                    <ImageContainer>
-                      <Photos src={poster.image} alt={`pic ${idx + 1}`} />
-                    </ImageContainer>
-                  </PosterInner>
-                      <PosterOverlay
-                    onClick={(event) => handleOpenClick(event, poster.attachment)}
-                  >
-                      <StyledButton
-                        onMouseOver={handleZoomInMouseOverEvent}
-                        onClick={(event) =>
-                          handleZoomInClick(event, poster.attachment)
-                        }
-                        className="zoomIn"
-                        size="large"
-                      >
-                        <ZoomInIcon
-                          className="zoomInIcon"
-                        />
-                      </StyledButton>
-                    </PosterOverlay>
-                    </> : 
+                >
+                  {({ isActive }) =>
+                    isActive ? (
                       <>
-                      <PosterOverlay
-                    onClick={(event) => handleOpenClick(event, poster.attachment)}
-                  >
-                      <StyledButton
-                        onMouseOver={handleZoomInMouseOverEvent}
-                        onClick={(event) =>
-                          handleZoomInClick(event, poster.attachment)
-                        }
-                        className="zoomIn"
-                        size="large"
-                      >
-                        <ZoomInIcon
-                          className="zoomInIcon"
-                        />
-                      </StyledButton>
+                        <PosterInner>
+                          <TitleContainer>
+                            <PosterTitle>{poster.title}</PosterTitle>
+                          </TitleContainer>
+                          <PosterAuthor>{poster.author}</PosterAuthor>
+                          <DividedLine />
+                          <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                          <ImageContainer>
+                            <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                          </ImageContainer>
+                        </PosterInner>
+                        <PosterOverlay
+                          onClick={(event) =>
+                            handleOpenClick(event, poster.attachment)
+                          }
+                        >
+                          <StyledButton
+                            onClick={() => handleZoomInClick(poster.attachment)}
+                            className="zoomIn"
+                            size="large"
+                          >
+                            <ZoomInIcon className="zoomInIcon" />
+                          </StyledButton>
                         </PosterOverlay>
-                        <PosterOverlay>
-                      <StyledButton
-                        onMouseOver={handleZoomInMouseOverEvent}
-                        onClick={(event) =>
-                          handleZoomInClick(event, poster.attachment)
-                        }
-                        className="zoomIn"
-                        size="large"
-                      >
-                      <ZoomInIcon
-                        className="zoomInIcon"
-                      />
-                    </StyledButton>
-                  </PosterOverlay>
                       </>
-                  )}
+                    ) : (
+                      <>
+                        <NotActivedPosterContainer />
+                        <PosterInner>
+                          <TitleContainer>
+                            <PosterTitle>{poster.title}</PosterTitle>
+                          </TitleContainer>
+                          <PosterAuthor>{poster.author}</PosterAuthor>
+                          <DividedLine />
+                          <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                          <ImageContainer>
+                            <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                          </ImageContainer>
+                        </PosterInner>
+                      </>
+                    )
+                  }
                 </SwiperSlide>
               );
             })}
@@ -289,22 +249,38 @@ const PosterSwiper = ({ posterState }: posterProps) => {
           >
             {posterState.map((poster, idx) => {
               return (
-                <SwiperSlide
-                  // className={isHover ? "hover-able" : ""}
-                  onClick={(event) => handleOpenClick(event, poster.attachment)}
-                  key={poster.id}
-                >
-                  <PosterInner>
-                    <TitleContainer>
-                      <PosterTitle>{poster.title}</PosterTitle>
-                    </TitleContainer>
-                    <PosterAuthor>{poster.author}</PosterAuthor>
-                    <DividedLine />
-                    <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
-                    <ImageContainer>
-                      <Photos src={poster.image} alt={`pic ${idx + 1}`} />
-                    </ImageContainer>
-                  </PosterInner>
+                <SwiperSlide key={poster.id}>
+                  {({ isActive }) =>
+                    isActive ? (
+                      <PosterInner
+                        onClick={(event) =>
+                          handleOpenClick(event, poster.attachment)
+                        }
+                      >
+                        <TitleContainer>
+                          <PosterTitle>{poster.title}</PosterTitle>
+                        </TitleContainer>
+                        <PosterAuthor>{poster.author}</PosterAuthor>
+                        <DividedLine />
+                        <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                        <ImageContainer>
+                          <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                        </ImageContainer>
+                      </PosterInner>
+                    ) : (
+                      <PosterInner>
+                        <TitleContainer>
+                          <PosterTitle>{poster.title}</PosterTitle>
+                        </TitleContainer>
+                        <PosterAuthor>{poster.author}</PosterAuthor>
+                        <DividedLine />
+                        <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
+                        <ImageContainer>
+                          <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                        </ImageContainer>
+                      </PosterInner>
+                    )
+                  }
                 </SwiperSlide>
               );
             })}
