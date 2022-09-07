@@ -208,7 +208,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "americas",
     {
-      fullName: "2022 NanoScientific Symposium Americas",
+      fullName: "2022 NanoScientific Symposium Americas | NSS Americas",
       fullDate: "September 29, 2022",
       // eventLocation: "TBD",
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
@@ -234,7 +234,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/us/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join the 2022 NanoScientific Symposium Americas - Connecting the Nanomaterials Community.",
+        "Join the 2022 NanoScientific Symposium Americas (NSS Americas)- Connecting the Nanomaterials Community.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",
