@@ -71,7 +71,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "asia",
     {
-      fullName: "2022 NanoScientific Symposium Asia",
+      fullName: "2022 NanoScientific Symposium Asia | NSS Asia",
       fullDate: "November 25, 2022",
       // eventLocation: "TBD",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
@@ -117,7 +117,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr",
     {
-      fullName: "2022 NanoScientific Symposium Korea",
+      fullName: "2022 NanoScientific Symposium Korea | NSS Korea",
       fullDate: "November 24, 2022",
       // eventLocation: "TBD",
       logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
@@ -146,7 +146,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1Desc: `
         NanoScientific Symposium Korea 등록하기
         <br/><br/>
-        국내 원자현미경 전문 심포지엄 NanoScientific Symposium Korea 등록을 위해 '등록(registration)' 을 클릭해주세요.
+        국내 원자현미경 전문 심포지엄 NanoScientific Symposium Korea (NSS Korea) 등록을 위해 '등록(registration)' 을 클릭해주세요.
         `,
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -163,7 +163,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "jp",
     {
-      fullName: "2022 NanoScientific Symposium Japan",
+      fullName: "2022 NanoScientific Symposium Japan | NSS Japan",
       fullDate: "2022年11月18日金曜日",
       eventLocation: "東京大学 本郷キャンパス",
       logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
@@ -251,7 +251,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu",
     {
-      fullName: "2022 NanoScientific Forum Europe",
+      fullName: "2022 NanoScientific Forum Europe | NSFE",
       fullDate: "October 6-7, 2022",
       logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
