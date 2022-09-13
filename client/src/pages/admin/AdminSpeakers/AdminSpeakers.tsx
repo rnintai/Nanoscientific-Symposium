@@ -9,7 +9,7 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { SpeakersContainer } from "../../common/Speakers/SpeakersStyles";
 import SpeakerForm from "../Forms/SpeakerForm";
 import SpeakerHideForm from "../Forms/SpeakerHideForm";
-import LocationChanger from "../Forms/LocationChanger";
+import LocationChanger from "./SpeakerChanger/LocationChanger";
 
 const AdminSpeakers = () => {
   const pathname = usePageViews();

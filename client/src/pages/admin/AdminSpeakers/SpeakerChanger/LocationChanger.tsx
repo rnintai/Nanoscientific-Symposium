@@ -193,7 +193,11 @@ const LocationChanger = ({
           submitText="apply"
           loading={applyOrderLoading}
         >
-          <Stack flexDirection="row" alignItems="center">
+          <Stack
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="space-around"
+          >
             <Stack sx={{ width: "48%" }}>
               <Typography fontWeight={600}>&lt;Before&gt;</Typography>
               {originalSpeakerList.map((speaker, idx) => (
