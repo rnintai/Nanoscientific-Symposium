@@ -9,13 +9,14 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { SpeakersContainer } from "../../common/Speakers/SpeakersStyles";
 import SpeakerForm from "../Forms/SpeakerForm";
 import SpeakerHideForm from "../Forms/SpeakerHideForm";
-import LocationChanger from '../Forms/LocationChanger';
+import LocationChanger from "../Forms/LocationChanger";
 
 const AdminSpeakers = () => {
   const pathname = usePageViews();
 
   const [openSpeakerForm, setOpenSpeakerForm] = useState<boolean>(false);
-  const [openLocationChanger, setOpenLocationChanger] = useState<boolean>(false);
+  const [openLocationChanger, setOpenLocationChanger] =
+    useState<boolean>(false);
   const [openHideForm, setOpenHideForm] = useState<boolean>(false);
 
   const [speakerSuccessAlert, setSpeakerSuccessAlert] =
@@ -40,7 +41,7 @@ const AdminSpeakers = () => {
 
   const openSpeakerLocationHandler = () => {
     setOpenLocationChanger(true);
-  }
+  };
 
   const openHideFormHandler = () => {
     setOpenHideForm(true);
