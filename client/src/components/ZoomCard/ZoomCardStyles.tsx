@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ZoomCardContainer = styled.div`
-  width: 440px;
+  width: 450px;
   margin-right: 20px;
   margin-bottom: 20px;
   position: relative;

@@ -358,7 +358,8 @@ const zoomCtrl = {
     }
   },
   removeWebinar: async (req, res) => {
-    const { nation, webinarId } = req.params;
+    const { webinarId } = req.params;
+    const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {

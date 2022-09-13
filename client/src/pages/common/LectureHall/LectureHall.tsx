@@ -113,6 +113,7 @@ const LectureHall = () => {
               mobile: "nowrap",
               tablet: "wrap",
             },
+            justifyContent: { mobile: "flex-start", tablet: "center" },
             position: "relative",
           }}
         >
@@ -191,9 +192,15 @@ const LectureHall = () => {
               />
             ))}
           {!getWebinarLoading && isEditor && (
-            <IconButton onClick={handleAddWebinar}>
-              <AddCircleOutlineIcon color="primary" />
-            </IconButton>
+            <Stack
+              sx={{ width: "300px" }}
+              direction="row"
+              justifyContent="center"
+            >
+              <IconButton onClick={handleAddWebinar}>
+                <AddCircleOutlineIcon color="primary" />
+              </IconButton>
+            </Stack>
           )}
         </Stack>
       </Stack>

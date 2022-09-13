@@ -158,7 +158,7 @@ const ZoomCard = ({
     if (confirm("Are you sure?")) {
       try {
         await axios.delete(
-          `${process.env.API_URL}/api/zoom/webinar/${webinar.id}?nation=${pathname}`,
+          `/api/zoom/webinar/${webinar.id}?nation=${pathname}`,
         );
         navigate(0);
       } catch (error) {
@@ -258,10 +258,15 @@ const ZoomCard = ({
               sx={{
                 backgroundColor: theme.palette.primary.main,
                 width: "100%",
+                height: "100%",
               }}
             />
             <CardActions
-              sx={{ display: "flex", justifyContent: "space-between" }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                height: "52.5px",
+              }}
               disableSpacing
             >
               {isWebinarRegistered ? (
