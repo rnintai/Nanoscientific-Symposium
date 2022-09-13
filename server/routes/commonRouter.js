@@ -251,6 +251,7 @@ router
   .delete(commonCtrl.deletePoster);
 
 router.route("/poster/list").post(commonCtrl.updatePosterList);
+router.route("/speakers/list").post(commonCtrl.updateSpeakerList);
 
 router
   .route("/abstract")
