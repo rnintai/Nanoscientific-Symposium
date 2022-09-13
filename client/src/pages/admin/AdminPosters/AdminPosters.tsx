@@ -100,6 +100,8 @@ const AdminPosters = () => {
 
   const handleClickUp = (idx: number) => {
     let l = JSON.parse(JSON.stringify(posterList));
+    console.log(l);
+    console.log(posterList);
 
     const tmp = l[idx].id;
     l[idx].id = l[idx - 1].id;
