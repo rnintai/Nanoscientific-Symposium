@@ -70,13 +70,39 @@ const CommonModal = ({
         TransitionComponent={transitionDir ? Transition : undefined}
         disableScrollLock
       >
+        {deleteHandler && (
+          <LoadingButton
+            loading={false}
+            variant="contained"
+            color="error"
+            onClick={() => {
+              if (confirm("Are you sure?")) {
+                deleteHandler();
+              }
+            }}
+            style={{
+              position: "absolute",
+              right: "22px",
+              top: "12px",
+            }}
+          >
+            Delete
+          </LoadingButton>
+        )}
         <DialogTitle sx={{ backgroundColor: "#21ade5", color: "#fff", mb: 2 }}>
           {title}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ padding: "45px 24px" }}>
           <DialogContentText>{desc}</DialogContentText>
           {children}
-          <DialogActions>
+          <DialogActions
+            sx={{
+              position: "absolute",
+              pr: 3,
+              bottom: 0,
+              right: 0,
+            }}
+          >
             {onSubmit && !hideSaveButton && (
               <LoadingButton
                 style={{ marginLeft: "10px" }}
@@ -88,28 +114,18 @@ const CommonModal = ({
                 {submitText}
               </LoadingButton>
             )}
-            <Button variant="outlined" onClick={handleClose}>
+            <Button
+              variant="outlined"
+              onClick={handleClose}
+              sx={{
+                backgroundColor: "white",
+                "&:hover": {
+                  backgroundColor: "rgb(239 250 255)",
+                },
+              }}
+            >
               Cancel
             </Button>
-            {deleteHandler && (
-              <LoadingButton
-                loading={false}
-                variant="contained"
-                color="error"
-                onClick={() => {
-                  if (confirm("Are you sure?")) {
-                    deleteHandler();
-                  }
-                }}
-                style={{
-                  position: "absolute",
-                  right: "22px",
-                  top: "12px",
-                }}
-              >
-                Delete
-              </LoadingButton>
-            )}
           </DialogActions>
         </DialogContent>
       </Dialog>

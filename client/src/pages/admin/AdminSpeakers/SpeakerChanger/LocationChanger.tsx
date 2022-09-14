@@ -155,14 +155,14 @@ const LocationChanger = ({
     <CommonModal
       open={openLocationChanger}
       setOpen={setOpenLocationChanger}
-      title="Change Speaker's Location"
-      desc="화살표를 눌러 변경해주세요. 변경된 스피커들은 색으로 표시됩니다."
+      title="Change Speaker's Order"
+      desc="Press an arrow button to change an order."
       onSubmit={() => {
         setOpenChangingOrderModal(true);
       }}
       submitDisabled={disableApplyBtn}
       loading={applyOrderLoading}
-      submitText="Apply Changed Orders"
+      submitText="Apply"
     >
       <SpeakersContainer>
         {speakerList.map((speaker, idx) => (

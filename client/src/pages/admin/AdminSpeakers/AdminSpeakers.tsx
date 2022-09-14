@@ -131,7 +131,7 @@ const AdminSpeakers = () => {
             clickHandler: openSpeakerFormHandler,
           },
           {
-            name: "Change Location",
+            name: "Change an Order",
             clickHandler: openSpeakerLocationHandler,
           },
         ]}

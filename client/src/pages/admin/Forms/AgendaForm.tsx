@@ -198,20 +198,6 @@ const AgendaForm = ({
         sx={{ marginBottom: "30px" }}
         {...speakers}
       />
-      {edit && (
-        <LoadingButton
-          loading={deleteLoading}
-          variant="contained"
-          color="error"
-          style={{
-            position: "absolute",
-            right: "22px",
-            top: "12px",
-          }}
-        >
-          Delete
-        </LoadingButton>
-      )}
     </CommonModal>
   );
 };

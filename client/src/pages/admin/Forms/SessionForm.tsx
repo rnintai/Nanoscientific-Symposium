@@ -164,20 +164,6 @@ const SessionForm = ({
           <ToggleButton value="hide">hide</ToggleButton>
         </ToggleButtonGroup>
       )} */}
-      {edit && (
-        <LoadingButton
-          loading={deleteLoading}
-          variant="contained"
-          color="error"
-          style={{
-            position: "absolute",
-            right: "22px",
-            top: "12px",
-          }}
-        >
-          Delete
-        </LoadingButton>
-      )}
     </CommonModal>
   );
 };
