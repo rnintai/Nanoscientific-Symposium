@@ -7,7 +7,11 @@ import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
-import { ArrowButtonContainer, SpeakerRowContainer, SpeakersContainer } from './LocationChangerStyles';
+import {
+  ArrowButtonContainer,
+  SpeakerRowContainer,
+  SpeakersContainer,
+} from "./LocationChangerStyles";
 
 interface LocationChangerProps {
   openLocationChanger: boolean;
@@ -157,40 +161,40 @@ const LocationChanger = ({
       submitText="Apply Changed Orders"
     >
       <SpeakersContainer>
-      {speakerList.map((speaker, idx) => (
-        <SpeakerRowContainer>
-        <Box
-          key={`${speaker.id}`}
-          sx={{
-            mb: 1,
-            textAlign: "left",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
-        >
-          <ArrowButtonContainer>
-          <IconButton
-            disabled={idx === 0}
-            onClick={() => {
-              handleClickUp(idx);
-            }}
-          >
-            <ArrowCircleUpIcon />
-          </IconButton>
-          <IconButton
-            disabled={idx === speakerList.length - 1}
-            onClick={() => {
-              handleClickDown(idx);
-            }}
-          >
-            <ArrowCircleDownIcon />
-          </IconButton>
-          </ArrowButtonContainer>
-            <SpeakerCard isAdmin speaker={speaker} />
-        </Box>
-        </SpeakerRowContainer>
-      ))}
+        {speakerList.map((speaker, idx) => (
+          <SpeakerRowContainer>
+            <Box
+              key={`${speaker.id}`}
+              sx={{
+                mb: 1,
+                textAlign: "left",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-around",
+              }}
+            >
+              <ArrowButtonContainer>
+                <IconButton
+                  disabled={idx === 0}
+                  onClick={() => {
+                    handleClickUp(idx);
+                  }}
+                >
+                  <ArrowCircleUpIcon />
+                </IconButton>
+                <IconButton
+                  disabled={idx === speakerList.length - 1}
+                  onClick={() => {
+                    handleClickDown(idx);
+                  }}
+                >
+                  <ArrowCircleDownIcon />
+                </IconButton>
+              </ArrowButtonContainer>
+              <SpeakerCard isAdmin speaker={speaker} />
+            </Box>
+          </SpeakerRowContainer>
+        ))}
       </SpeakersContainer>
       {openChangingOrderModal && (
         <CommonModal
