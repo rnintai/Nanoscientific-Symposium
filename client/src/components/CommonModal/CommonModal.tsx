@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/require-default-props */
 import React, { Dispatch, SetStateAction } from "react";
 import Dialog from "@mui/material/Dialog";
@@ -23,6 +25,7 @@ interface CommonModalProps {
   transitionDir?: "left" | "right" | "up" | "down";
   hideSaveButton?: boolean;
   submitDisabled?: boolean;
+  deleteHandler?: () => void;
 }
 
 const CommonModal = ({
@@ -38,6 +41,7 @@ const CommonModal = ({
   transitionDir,
   hideSaveButton,
   submitDisabled,
+  deleteHandler,
 }: CommonModalProps) => {
   // theme
   const theme = useTheme();
@@ -83,6 +87,25 @@ const CommonModal = ({
                 disabled={submitDisabled}
               >
                 {submitText}
+              </LoadingButton>
+            )}
+            {deleteHandler && (
+              <LoadingButton
+                loading={false}
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  if (confirm("Are you sure?")) {
+                    deleteHandler();
+                  }
+                }}
+                style={{
+                  position: "absolute",
+                  right: "22px",
+                  top: "12px",
+                }}
+              >
+                Delete
               </LoadingButton>
             )}
           </DialogActions>

@@ -156,20 +156,21 @@ export const PosterOverlay = styled.div`
   background-color: rgba(46, 132, 206, 0.7);
   transition: opacity 0.4s ease;
   cursor: pointer;
+  z-index: 998;
 `;
 
 export const StyledButton = styled(IconButton)`
   position: absolute;
   cursor: pointer;
 
-  &.ZoomIn {
+  &.zoomIn {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
   }
 
-  &.Close {
+  &.close {
     left: 50%;
     transform: translateX(-50%);
     bottom: -4%;
@@ -241,6 +242,27 @@ export const PosterContainer = styled.div`
     padding: 72px 0;
   }
 
+  .swiper-slide.swiper-slide-active {
+    &:hover {
+      ${PosterOverlay} {
+        opacity: 1;
+      }
+    }
+  }
+  .swiper-slide:not(.swiper-slide-active) {
+    position: relative;
+
+    &:hover {
+      ${PosterOverlay} {
+        opacity: 0;
+      }
+    }
+
+    ${PosterInner} {
+      pointer-events: none;
+    }
+  }
+
   @media only screen and (max-width: ${Break_POINT_BIG_PC}px) {
     width: 1188px;
 
@@ -281,6 +303,10 @@ export const PosterContainer = styled.div`
     .mySwiper {
       padding: 72px 183px; // 좌우(99px)를 키우면 화면에 하나로 볼 수는 없지만 띄워서 볼 수는 있다!
     }
+
+    // .swiper-slide:not(.swiper-slide-active) {
+    //   pointer-events: none;
+    // }
   }
 
   @media only screen and (max-width: 1140px) {
@@ -353,28 +379,6 @@ export const PosterContainer = styled.div`
   }
 
   font-family: "Noto Serif", serif;
-
-  //   스왑할 때, transition과 충돌나기때문에 사용x
-  //   .swiper-slide {
-  //     transition-duration: 300ms !important;
-  //   }
-
-  .swiper-slide.swiper-slide-active {
-    /* pointer-events: auto; */
-    &:hover {
-      ${PosterOverlay} {
-        opacity: 1;
-      }
-    }
-  }
-  .swiper-slide:not(.swiper-slide-active) {
-    /* pointer-events: none; */
-    &:hover {
-      ${PosterOverlay} {
-        opacity: 0;
-      }
-    }
-  }
 `;
 
 export const PosterPageOverlay = styled.div`
@@ -383,7 +387,7 @@ export const PosterPageOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 998;
+  z-index: 999;
   background: black;
   visibility: hidden;
   opacity: 0.5;
@@ -397,4 +401,15 @@ export const PosterBackground = styled.div`
   background-image: url(https://d25unujvh7ui3r.cloudfront.net/latam/posters_pdf/background.png);
   background-size: cover;
   background-position: center;
+`;
+
+export const NotActivedPosterContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 998;
+  background: black;
+  opacity: 0;
 `;

@@ -154,6 +154,7 @@ const SponsorForm = ({
       submitDisabled={sponsorImagePath === ""}
       loading={deleteLoading || uploadLoading}
       title={edit ? `Edit a supporter` : "Add a supporter"}
+      deleteHandler={edit && deleteHandler}
     >
       <TextField
         label="Name"
@@ -222,7 +223,6 @@ const SponsorForm = ({
           loading={deleteLoading || uploadLoading}
           variant="contained"
           color="error"
-          onClick={deleteHandler}
           style={{
             position: "absolute",
             right: "22px",

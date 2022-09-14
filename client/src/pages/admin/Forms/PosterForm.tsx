@@ -229,6 +229,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
             filePath === ""
           }
           onCloseCallback={onCloseModal}
+          deleteHandler={edit && deleteHandler}
         >
           <TextField
             margin="dense"
@@ -301,21 +302,6 @@ const PosterForm = (posterformProps: PosterFormProps) => {
               {/* <Typography component="a" href={filePath}>
                 {filePath}
               </Typography> */}
-              {edit && (
-                <LoadingButton
-                  loading={deleteLoading}
-                  variant="contained"
-                  color="error"
-                  onClick={deleteHandler}
-                  style={{
-                    position: "absolute",
-                    right: "22px",
-                    top: "12px",
-                  }}
-                >
-                  Delete
-                </LoadingButton>
-              )}
             </Box>
           </Box>
         </CommonModal>
