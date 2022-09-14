@@ -220,20 +220,6 @@ const SpeakerForm = ({
         setPreviewURL={setPreviewURL}
         setUploadLoading={setUploadLoading}
       />
-      {edit && (
-        <LoadingButton
-          loading={deleteLoading}
-          variant="contained"
-          color="error"
-          style={{
-            position: "absolute",
-            right: "22px",
-            top: "12px",
-          }}
-        >
-          Delete
-        </LoadingButton>
-      )}
     </CommonModal>
   );
 };
