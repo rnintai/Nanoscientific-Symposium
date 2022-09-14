@@ -25,6 +25,10 @@ interface adminSpeakerType extends Speaker.speakerType {
   isChanged: boolean;
 }
 
+export interface SpeakerProps {
+  readonly isActive: boolean;
+}
+
 const LocationChanger = ({
   openLocationChanger,
   setOpenLocationChanger,
@@ -152,7 +156,7 @@ const LocationChanger = ({
       open={openLocationChanger}
       setOpen={setOpenLocationChanger}
       title="Change Speaker's Location"
-      desc="화살표를 눌러 변경해주세요"
+      desc="화살표를 눌러 변경해주세요. 변경된 스피커들은 색으로 표시됩니다."
       onSubmit={() => {
         setOpenChangingOrderModal(true);
       }}
@@ -162,7 +166,7 @@ const LocationChanger = ({
     >
       <SpeakersContainer>
         {speakerList.map((speaker, idx) => (
-          <SpeakerRowContainer>
+          <SpeakerRowContainer isActive={speaker.isChanged}>
             <Box
               key={`${speaker.id}`}
               sx={{
@@ -203,6 +207,7 @@ const LocationChanger = ({
           setOpen={setOpenChangingOrderModal}
           onSubmit={handleApplyOrder}
           submitText="apply"
+          IsCustomWidth
           loading={applyOrderLoading}
         >
           <Stack
@@ -210,8 +215,10 @@ const LocationChanger = ({
             alignItems="center"
             justifyContent="space-around"
           >
-            <Stack sx={{ width: "48%" }}>
-              <Typography fontWeight={600}>&lt;Before&gt;</Typography>
+            <Stack>
+              <Typography fontWeight={600} mb={2}>
+                &lt;Before&gt;
+              </Typography>
               {originalSpeakerList.map((speaker, idx) => (
                 <Box
                   key={`${speaker.id}`}
@@ -243,9 +250,17 @@ const LocationChanger = ({
                 </Box>
               ))}
             </Stack>
-            <ArrowRightAltIcon sx={{ color: theme.palette.grey[600] }} />
-            <Stack sx={{ width: "48%" }}>
-              <Typography fontWeight={600}>&lt;After&gt;</Typography>
+            <ArrowRightAltIcon
+              sx={{
+                color: theme.palette.grey[600],
+                fontSize: 40,
+                mx: 5,
+              }}
+            />
+            <Stack>
+              <Typography fontWeight={600} mb={2}>
+                &lt;After&gt;
+              </Typography>
               {speakerList.map((speaker, idx) => (
                 <Box
                   key={`${speaker.id}`}

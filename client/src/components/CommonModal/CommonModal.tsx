@@ -25,6 +25,7 @@ interface CommonModalProps {
   transitionDir?: "left" | "right" | "up" | "down";
   hideSaveButton?: boolean;
   submitDisabled?: boolean;
+  IsCustomWidth?: boolean;
   deleteHandler?: () => void;
 }
 
@@ -41,6 +42,7 @@ const CommonModal = ({
   transitionDir,
   hideSaveButton,
   submitDisabled,
+  IsCustomWidth,
   deleteHandler,
 }: CommonModalProps) => {
   // theme
@@ -61,7 +63,7 @@ const CommonModal = ({
   return (
     <div>
       <Dialog
-        fullWidth
+        fullWidth={!IsCustomWidth}
         open={open}
         onClose={handleClose}
         maxWidth="laptop"
@@ -75,9 +77,6 @@ const CommonModal = ({
           <DialogContentText>{desc}</DialogContentText>
           {children}
           <DialogActions>
-            <Button variant="outlined" onClick={handleClose}>
-              Cancel
-            </Button>
             {onSubmit && !hideSaveButton && (
               <LoadingButton
                 style={{ marginLeft: "10px" }}
@@ -89,6 +88,9 @@ const CommonModal = ({
                 {submitText}
               </LoadingButton>
             )}
+            <Button variant="outlined" onClick={handleClose}>
+              Cancel
+            </Button>
             {deleteHandler && (
               <LoadingButton
                 loading={false}
