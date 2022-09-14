@@ -7,6 +7,7 @@ import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
+import { ArrowButtonContainer, SpeakerRowContainer, SpeakersContainer } from './LocationChangerStyles';
 
 interface LocationChangerProps {
   openLocationChanger: boolean;
@@ -155,7 +156,9 @@ const LocationChanger = ({
       loading={applyOrderLoading}
       submitText="Apply Changed Orders"
     >
+      <SpeakersContainer>
       {speakerList.map((speaker, idx) => (
+        <SpeakerRowContainer>
         <Box
           key={`${speaker.id}`}
           sx={{
@@ -163,8 +166,10 @@ const LocationChanger = ({
             textAlign: "left",
             display: "flex",
             alignItems: "center",
+            justifyContent: "space-around",
           }}
         >
+          <ArrowButtonContainer>
           <IconButton
             disabled={idx === 0}
             onClick={() => {
@@ -181,9 +186,12 @@ const LocationChanger = ({
           >
             <ArrowCircleDownIcon />
           </IconButton>
-          <SpeakerCard isAdmin speaker={speaker} />
+          </ArrowButtonContainer>
+            <SpeakerCard isAdmin speaker={speaker} />
         </Box>
+        </SpeakerRowContainer>
       ))}
+      </SpeakersContainer>
       {openChangingOrderModal && (
         <CommonModal
           title="Changing an order"
