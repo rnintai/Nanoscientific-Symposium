@@ -152,6 +152,7 @@ const SpeakerForm = ({
       onSubmit={speakerSubmitHandler}
       submitDisabled={name.value === "" || imagePath === ""}
       loading={loading || uploadLoading}
+      deleteHandler={edit && deleteHandler}
     >
       <TextField
         margin="dense"
@@ -224,7 +225,6 @@ const SpeakerForm = ({
           loading={deleteLoading}
           variant="contained"
           color="error"
-          onClick={deleteHandler}
           style={{
             position: "absolute",
             right: "22px",

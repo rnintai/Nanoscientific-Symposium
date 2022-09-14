@@ -127,6 +127,7 @@ const SessionForm = ({
       onSubmit={sessionSubmitHandler}
       loading={loading}
       submitDisabled={title.value === "" || !date.isValid()}
+      deleteHandler={edit && deleteHandler}
     >
       <TextField
         autoFocus
@@ -168,7 +169,6 @@ const SessionForm = ({
           loading={deleteLoading}
           variant="contained"
           color="error"
-          onClick={deleteHandler}
           style={{
             position: "absolute",
             right: "22px",

@@ -129,6 +129,7 @@ const AgendaForm = ({
       onSubmit={submitHandler}
       loading={loading}
       submitDisabled={title.value === "" || selectedProgram === -1}
+      deleteHandler={edit && deleteHandler}
     >
       <FormControl fullWidth sx={{ mt: 3, mb: 3 }}>
         <InputLabel id="demo-simple-select-label">Session</InputLabel>
@@ -202,7 +203,6 @@ const AgendaForm = ({
           loading={deleteLoading}
           variant="contained"
           color="error"
-          onClick={deleteHandler}
           style={{
             position: "absolute",
             right: "22px",

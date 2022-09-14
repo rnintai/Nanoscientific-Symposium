@@ -186,6 +186,7 @@ const ProgramForm = ({
         // title.value === "" ||
         !startTime.isValid() || !endTime.isValid()
       }
+      deleteHandler={edit && deleteHandler}
     >
       <FormControl fullWidth sx={{ mt: 3, mb: 3 }}>
         <InputLabel id="demo-simple-select-label">Session</InputLabel>
@@ -296,7 +297,6 @@ const ProgramForm = ({
           loading={deleteLoading}
           variant="contained"
           color="error"
-          onClick={deleteHandler}
           style={{
             position: "absolute",
             right: "22px",
