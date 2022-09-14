@@ -268,11 +268,14 @@ const AdminPosters = () => {
             setOpen={setOpenChangingOrderModal}
             onSubmit={handleApplyOrder}
             submitText="apply"
+            IsCustomWidth
             loading={applyOrderLoading}
           >
             <Stack flexDirection="row" alignItems="center">
-              <Stack sx={{ width: "48%" }}>
-                <Typography fontWeight={600}>&lt;Before&gt;</Typography>
+              <Stack>
+                <Typography fontWeight={600} mb={2}>
+                  &lt;Before&gt;
+                </Typography>
                 {originalPosterList.map((poster, idx) => (
                   <Box
                     key={`${poster.id}`}
@@ -304,9 +307,17 @@ const AdminPosters = () => {
                   </Box>
                 ))}
               </Stack>
-              <ArrowRightAltIcon sx={{ color: theme.palette.grey[600] }} />
-              <Stack sx={{ width: "48%" }}>
-                <Typography fontWeight={600}>&lt;After&gt;</Typography>
+              <ArrowRightAltIcon
+                sx={{
+                  color: theme.palette.grey[600],
+                  fontSize: 40,
+                  mx: 5,
+                }}
+              />
+              <Stack>
+                <Typography fontWeight={600} mb={2}>
+                  &lt;After&gt;
+                </Typography>
                 {posterList.map((poster, idx) => (
                   <Box
                     key={`${poster.id}`}

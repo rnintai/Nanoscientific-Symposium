@@ -81,6 +81,47 @@ const commonCtrl = {
       console.log(err);
     }
   },
+  updateSpeakerList: async (req, res) => {
+    const { nation, list } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      while (list.length > 0) {
+        const {
+          id,
+          name,
+          belong,
+          image_path,
+          status,
+          keynote,
+          has_abstract,
+          description,
+        } = list.shift();
+        const sql = `UPDATE speakers SET
+        name='${name}',
+        belong='${belong}',
+        image_path='${image_path}',
+        keynote=${keynote},
+        description='${description}', 
+        has_abstract=${has_abstract}
+        WHERE id=${id}
+        `;
+        await connection.query(sql);
+        connection.release();
+      }
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(400).json({
+        success: false,
+        err,
+      });
+    }
+  },
   getPosters: async (req, res) => {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
