@@ -7,6 +7,8 @@ type State = {
   accessToken: string;
   isLoading: boolean;
   isPasswordSet: boolean;
+  isNewAnnouncement: number;
+  isAnnouncementCached: number;
 };
 
 type Action =
@@ -32,6 +34,8 @@ function reducer(state: State, action: Action): State {
         accessToken: action.authState.accessToken,
         isPasswordSet: action.authState.isPasswordSet,
         isLoading: action.authState.isLoading,
+        isNewAnnouncement: action.authState.isNewAnnouncement,
+        isAnnouncementCached: action.authState.isAnnouncementCached,
       };
     case "LOGOUT":
       return {
@@ -41,6 +45,8 @@ function reducer(state: State, action: Action): State {
         role: "guest",
         accessToken: "",
         isLoading: false,
+        isNewAnnouncement: 1, // 추후 비회원일 경우 다시 고려하기
+        isAnnouncementCached: 0, // 추후 비회원일 경우 다시 고려하기
       };
 
     case "FINISHLOADING":
@@ -62,6 +68,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     accessToken: "",
     isPasswordSet: false,
     isLoading: true,
+    isNewAnnouncement: 1,
+    isAnnouncementCached: 0,
   });
 
   return (

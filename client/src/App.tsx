@@ -95,7 +95,16 @@ const App = () => {
     );
     if (banner.data.success) {
       setBannerURL(banner.data.result);
+      if (banner.data.result.includes("announcement-banner")) {
+        console.log("user의 is_announcement_cached 필요 x", authState);
+      } else {
+        const users = await axios.get("/api/admin/users", {
+          params: { nation: pathname },
+        });
+        console.log("user의 is_announcement_cached 필요 o", authState);
+      }
     } else {
+      console.log("poster-hall의 banner path를 DB에 추가해주세요~");
       setBannerURL("");
     }
     setBannerLoading(false);
@@ -112,6 +121,7 @@ const App = () => {
       .then((res) => {
         if (res.data.success !== false) {
           const { accessToken, email, role, isPasswordSet } = res.data.data;
+          // console.log(res.data);
           if (accessToken !== undefined) {
             authDispatch({
               type: "LOGIN",
@@ -123,6 +133,8 @@ const App = () => {
                 accessToken,
                 isPasswordSet,
                 isLoading: false,
+                isNewAnnouncement: 3,
+                isAnnouncementCached: 3,
               },
             });
           }

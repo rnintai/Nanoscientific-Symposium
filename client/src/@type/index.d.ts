@@ -87,6 +87,8 @@ declare namespace User {
     state?: string;
     createdAt: string;
     country: string;
+    is_new_announcement?: number;
+    is_announcement_cached?: number;
   }
 }
 
