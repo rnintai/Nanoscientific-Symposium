@@ -16,11 +16,6 @@ export const MetaTag = new Map<string, Common.MetaTagType[]>([
     [
       {
         path: "default",
-        description: "",
-        keywords: "",
-      },
-      {
-        path: "",
         description:
           "Attend NanoScientific Symposium Americas 2022 which focuses on sharing, exchanging, and exploring new advances in nanomaterials applications Sep 29, 2022",
         keywords:
@@ -67,11 +62,6 @@ export const MetaTag = new Map<string, Common.MetaTagType[]>([
     [
       {
         path: "default",
-        description: "",
-        keywords: "",
-      },
-      {
-        path: "",
         description:
           "NanoScientific Forum Europe (NSFE) is an open European AFM User Forum focusing on sharing and exchanging the cutting-edge research for both materials and life science disciplines using Atomic Force Microscopy (AFM).",
         keywords:
@@ -117,11 +107,6 @@ export const MetaTag = new Map<string, Common.MetaTagType[]>([
     [
       {
         path: "default",
-        description: "",
-        keywords: "",
-      },
-      {
-        path: "",
         description:
           "NanoScientific Symposium Asia (NSS Asia) is a platform where industry professionals, nanoscience researchers, and scientists join together to share knowledge and gain insights on the future direction and latest studies using Scanning Probe Microscopy.",
         keywords:
@@ -168,11 +153,6 @@ export const MetaTag = new Map<string, Common.MetaTagType[]>([
     [
       {
         path: "default",
-        description: "",
-        keywords: "",
-      },
-      {
-        path: "",
         description:
           "ナノ科学シンポジウムは、走査型プローブ顕微鏡を用いた 材料科学、半導体およびライフサイエンス分野の最先端の研究情報を共有・交換するSPMユーザーシンポジウムです。 NSSJ 2022では、科学に変革をもたらすSPMの幅広い応用と技術に焦点を当て、先端技術のための新しいナノ材料、機能性表面、さらにナノテクノロジーやSPMを使った応用技術についてもお話します。",
         keywords:
@@ -225,11 +205,6 @@ export const MetaTag = new Map<string, Common.MetaTagType[]>([
     [
       {
         path: "default",
-        description: "",
-        keywords: "",
-      },
-      {
-        path: "",
         description:
           "나노사이언티픽 코리아는 국내 나노기술 및 원자현미경 관련 전문가들이 모여 다양한 응용기술의 최신 동향을 확인하고 새로운 연구결과들을 공유하는 심포지엄입니다.",
         keywords:
