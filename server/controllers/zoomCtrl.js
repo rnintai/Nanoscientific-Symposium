@@ -8,14 +8,15 @@ const zoomCtrl = {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-    try {
-      const sql = `SELECT webinar_id FROM webinar`;
-      const row = await connection.query(sql);
+    // try {
+    const sql = `SELECT webinar_id FROM webinar`;
+    const row = await connection.query(sql);
 
-      const webinarIdList = row[0].map((e) => e.webinar_id);
+    const webinarIdList = row[0].map((e) => e.webinar_id);
 
-      let result = [];
-      for (let wi of webinarIdList) {
+    let result = [];
+    for (let wi of webinarIdList) {
+      try {
         let response = await axios.get(
           `https://api.zoom.us/v2/webinars/${wi}`,
           {
@@ -47,22 +48,27 @@ const zoomCtrl = {
           timezone,
           topic,
           type,
+          connected: true,
         });
+      } catch (err) {
+        result.push({ id: wi, connected: false });
+        continue;
       }
-      connection.release();
-
-      res.status(200).json({
-        result,
-        success: true,
-      });
-    } catch (err) {
-      console.log(err);
-      connection.release();
-
-      res.status(400).json({
-        err,
-      });
     }
+    connection.release();
+
+    res.status(200).json({
+      result,
+      success: true,
+    });
+    // } catch (err) {
+    //   console.log(err);
+    //   connection.release();
+
+    //   res.status(400).json({
+    //     err,
+    //   });
+    // }
   },
 
   getWebinar: async (req, res) => {
@@ -260,26 +266,33 @@ const zoomCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     const success = [];
+    const failed = [];
 
-    try {
-      const sql0 = `SELECT webinar_id FROM webinar`;
-      const row0 = await connection.query(sql0);
+    const sql0 = `SELECT webinar_id FROM webinar`;
+    const row0 = await connection.query(sql0);
 
-      for (let i = 0; i < row0[0].length; i++) {
-        let webinarId = row0[0][i].webinar_id;
+    if (row0.length === 0) {
+      res.status(200).json({
+        success,
+      });
+    }
 
-        const sql1 = `SELECT registrant_id FROM registrants
+    for (let i = 0; i < row0[0].length; i++) {
+      let webinarId = row0[0][i].webinar_id;
+
+      const sql1 = `SELECT registrant_id FROM registrants
       WHERE email="${email}" AND webinar_id="${webinarId}"`;
 
-        const row = await connection.query(sql1);
+      const row = await connection.query(sql1);
 
+      connection.release();
+      if (row[0].length !== 0) {
+        success.push(webinarId);
         connection.release();
-        if (row[0].length !== 0) {
-          success.push(webinarId);
-          connection.release();
-          continue;
-        }
+        continue;
+      }
 
+      try {
         let response = await axios.get(
           `https://api.zoom.us/v2/webinars/${webinarId}/registrants`,
           {
@@ -324,18 +337,23 @@ const zoomCtrl = {
             break;
           }
         }
+      } catch (err) {
+        failed.push(webinarId);
+        continue;
       }
-      connection.release();
-      res.status(200).json({
-        success,
-      });
-    } catch (err) {
-      console.log(err);
-      connection.release();
-      res.status(400).json({
-        err,
-      });
     }
+    connection.release();
+    res.status(200).json({
+      success,
+      failed,
+    });
+    // } catch (err) {
+    //   console.log(err);
+    //   connection.release();
+    //   res.status(400).json({
+    //     err,
+    //   });
+    // }
   },
   addWebinar: async (req, res) => {
     const { nation } = req.query;
