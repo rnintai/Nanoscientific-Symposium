@@ -83,14 +83,18 @@ router.post(
   usersMid.checkToken,
   usersMid.readUser,
   async (req, res) => {
+    console.log(res.locals);
     let resObj = {
       success: true,
       message: "success",
       data: {
+        id: res.locals.id,
         email: res.locals.email,
         role: res.locals.role,
         accessToken: res.locals.accessToken,
         isPasswordSet: res.locals.is_password_set,
+        isNewAnnouncement: res.locals.is_new_announcement,
+        isAnnouncementCached: res.locals.is_announcement_cached,
       },
     };
     res.status(200).json(resObj);

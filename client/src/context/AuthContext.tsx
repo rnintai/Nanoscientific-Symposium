@@ -2,6 +2,7 @@ import React, { useReducer, useContext, createContext, Dispatch } from "react";
 
 type State = {
   isLogin: boolean;
+  id: number;
   email: string;
   role: string;
   accessToken: string;
@@ -29,6 +30,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         isLogin: true,
+        id: action.authState.id,
         role: action.authState.role,
         email: action.authState.email,
         accessToken: action.authState.accessToken,
@@ -41,6 +43,7 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         isLogin: false,
+        id: 0,
         email: "",
         role: "guest",
         accessToken: "",
@@ -63,6 +66,7 @@ function reducer(state: State, action: Action): State {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, {
     isLogin: false,
+    id: 0,
     email: "",
     role: "guest",
     accessToken: "",

@@ -142,4 +142,7 @@ const announcementCtrl = {
     }
   },
 };
+
+// 유저 id에 대한 annoucement만 가져와야하는 작업
+
 module.exports = announcementCtrl;

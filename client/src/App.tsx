@@ -120,23 +120,37 @@ const App = () => {
       })
       .then((res) => {
         if (res.data.success !== false) {
-          const { accessToken, email, role, isPasswordSet } = res.data.data;
-          // console.log(res.data);
+          const {
+            accessToken,
+            id,
+            email,
+            role,
+            isPasswordSet,
+            isNewAnnouncement,
+            isAnnouncementCached,
+          } = res.data.data;
           if (accessToken !== undefined) {
             authDispatch({
               type: "LOGIN",
               authState: {
                 ...authState,
                 isLogin: true,
+                id,
                 email,
                 role,
                 accessToken,
                 isPasswordSet,
                 isLoading: false,
-                isNewAnnouncement: 3,
-                isAnnouncementCached: 3,
+                isNewAnnouncement,
+                isAnnouncementCached,
               },
             });
+            // 로그인했을 때, is_announcement_cached 판단 -> 로그인 시 어떤 페이지를 이동하든 여기를 거친다..
+            if (isAnnouncementCached) {
+              console.log("캐시되어 있다.");
+            } else {
+              console.log("캐시되어 있지 않아서 연산 필요하다.");
+            }
           }
           // 비밀번호 미설정 시 reset 시키기
           if (!isPasswordSet) {
@@ -156,6 +170,7 @@ const App = () => {
       })
       .finally(() => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
+        // authState를 바로 사용할 수 없음 따라서, then내부에서 로그인할 때, 검사
       });
 
     //
@@ -254,7 +269,16 @@ const App = () => {
     } else {
       setBannerURL("");
     }
+    console.log(
+      "캐시되어 있는가? ",
+      authState.isAnnouncementCached === 0 ? "아뇨" : "예",
+    );
   }, [bannerURL, window.location.href]);
+
+  useEffect(() => {
+    // 왜 id만 업데이트가 안되는가? -> EuropeLoginModal의 type: "LOGIN"를 찾아서 id 업데이트를 추가해주기!
+    console.log("로그인 성공~!", authState);
+  }, [loginSuccess]);
 
   if (authState.isLoading || bannerLoading)
     return (
