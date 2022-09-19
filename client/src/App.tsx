@@ -85,19 +85,40 @@ const App = () => {
   // const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   // const [imagePath, setImagePath] = useState<string>("");
 
-  const calcAnouncementCached = () => {
-    if (authState.isLogin && !authState.isAnnouncementCached) {
-      console.log(pathname, authState);
-      axios
-        .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    }
+  // const getBannerData = async () => {
+  //   setBannerLoading(true);
+
+  //   const banner = await axios.get(
+  //     `/api/page/common/banner?nation=${pathname}&path=${encodeURIComponent(
+  //       window.location.pathname
+  //         .replace(`/${pathname}`, "")
+  //         .replace(/\/+(\d)+/g, ""),
+  //     )}`,
+  //   );
+  //   if (banner.data.succss) {
+  //     if (banner.data.result.includes("announcement-banner")) {
+  //       console.log("user의 is_announcement_cached 필요 x");
+  //     } else {
+  //       console.log("user의 is_announcement_cached 필요 o");
+  //       calcAnouncementCached();
+  //     }
+  //   }
+  //   setBannerLoading(false);
+  // };
+  const calcAnnouncementCached = () => {
+    axios
+      .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
+      .then((res) => {
+        if (res.data.success) {
+        } else {
+          console.log(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
+
   const getBanner = async () => {
     setBannerLoading(true);
     const banner = await axios.get(
@@ -109,16 +130,9 @@ const App = () => {
     );
     if (banner.data.success) {
       setBannerURL(banner.data.result);
-      if (banner.data.result.includes("announcement-banner")) {
-        console.log("user의 is_announcement_cached 필요 x");
-      } else {
-        console.log("user의 is_announcement_cached 필요 o");
-        calcAnouncementCached();
-      }
     } else {
       // eu/ 의 경로 -> 단, 새로 고침할 때, 갱신이 안된다...?
       console.log("poster-hall의 banner path를 DB에 추가해주세요~");
-      calcAnouncementCached();
       setBannerURL("");
     }
     setBannerLoading(false);
@@ -159,11 +173,16 @@ const App = () => {
                 isAnnouncementCached,
               },
             });
-            // 로그인했을 때, is_announcement_cached 판단 -> 로그인 시 어떤 페이지를 이동하든 여기를 거친다..
-            if (isAnnouncementCached) {
-              console.log("캐시되어 있다.");
+            // 로그인했을 때x 로그인 되어있을 때o, is_announcement_cached 판단 -> 로그인 시 어떤 페이지를 이동하든 여기를 거친다..
+            // 새로고침할 때는 무조건 렌더링 2번?? 왜?? 거친다.
+            if (!window.location.pathname.includes("announcement")) {
+              if (isAnnouncementCached) {
+                console.log("캐시되어 있다.");
+              } else {
+                calcAnnouncementCached();
+              }
             } else {
-              console.log("캐시되어 있지 않아서 연산 필요하다.");
+              // announcement 페이지 로직 설정 필요 👀
             }
           }
           // 비밀번호 미설정 시 reset 시키기
@@ -283,7 +302,14 @@ const App = () => {
     } else {
       setBannerURL("");
     }
-  }, [bannerURL, window.location.href, loginSuccess]);
+  }, [bannerURL, window.location.href]);
+
+  useEffect(() => {
+    if (loginSuccess && authState.isLogin) {
+      console.log("로그인하자마자 데이터 획득");
+      calcAnnouncementCached();
+    }
+  }, [loginSuccess]);
 
   if (authState.isLoading || bannerLoading)
     return (
