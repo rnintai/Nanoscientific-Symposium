@@ -367,6 +367,16 @@ const usersCtrl = {
       });
     }
   },
+
+  announcementCacheUpdate: async (req, res) => {
+    const { nation, isAnnouncementCached, email } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `UPDATE user SET is_announcement_cached='${isAnnouncementCached}', is_password_set=1 WHERE email='${userEmail}'`;
+    } catch (err) {}
+  },
 };
 
 module.exports = usersCtrl;
