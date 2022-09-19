@@ -84,6 +84,20 @@ const App = () => {
   const [bannerURL, setBannerURL] = useState<string>("");
   // const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   // const [imagePath, setImagePath] = useState<string>("");
+
+  const calcAnouncementCached = () => {
+    if (authState.isLogin && !authState.isAnnouncementCached) {
+      console.log(pathname, authState);
+      axios
+        .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    }
+  };
   const getBanner = async () => {
     setBannerLoading(true);
     const banner = await axios.get(
@@ -96,15 +110,15 @@ const App = () => {
     if (banner.data.success) {
       setBannerURL(banner.data.result);
       if (banner.data.result.includes("announcement-banner")) {
-        console.log("user의 is_announcement_cached 필요 x", authState);
+        console.log("user의 is_announcement_cached 필요 x");
       } else {
-        const users = await axios.get("/api/admin/users", {
-          params: { nation: pathname },
-        });
-        console.log("user의 is_announcement_cached 필요 o", authState);
+        console.log("user의 is_announcement_cached 필요 o");
+        calcAnouncementCached();
       }
     } else {
+      // eu/ 의 경로 -> 단, 새로 고침할 때, 갱신이 안된다...?
       console.log("poster-hall의 banner path를 DB에 추가해주세요~");
+      calcAnouncementCached();
       setBannerURL("");
     }
     setBannerLoading(false);
@@ -269,16 +283,7 @@ const App = () => {
     } else {
       setBannerURL("");
     }
-    console.log(
-      "캐시되어 있는가? ",
-      authState.isAnnouncementCached === 0 ? "아뇨" : "예",
-    );
-  }, [bannerURL, window.location.href]);
-
-  useEffect(() => {
-    // 왜 id만 업데이트가 안되는가? -> EuropeLoginModal의 type: "LOGIN"를 찾아서 id 업데이트를 추가해주기!
-    console.log("로그인 성공~!", authState);
-  }, [loginSuccess]);
+  }, [bannerURL, window.location.href, loginSuccess]);
 
   if (authState.isLoading || bannerLoading)
     return (

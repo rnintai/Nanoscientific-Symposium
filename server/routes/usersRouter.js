@@ -83,7 +83,6 @@ router.post(
   usersMid.checkToken,
   usersMid.readUser,
   async (req, res) => {
-    console.log(res.locals);
     let resObj = {
       success: true,
       message: "success",

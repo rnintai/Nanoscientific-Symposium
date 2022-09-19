@@ -35,10 +35,12 @@ const usersCtrl = {
       // refresh토큰 생성 및 db에 저장
       let refreshToken = issueRefreshToken(userEmail);
       const insertSql = `UPDATE user SET refresh_token='${refreshToken}' WHERE email='${userEmail}'`;
+      const getUserIdSql = `SELECT id FROM user WHERE email='${userEmail}'`;
       try {
         await connection.beginTransaction();
         await connection.query(insertSql);
-
+        // fetch user id data
+        const result = await connection.query(getUserIdSql);
         await connection.commit();
         connection.release();
 
@@ -55,6 +57,7 @@ const usersCtrl = {
           message: "login success",
           accessToken,
           role,
+          userId: result[0][0].id,
         });
       } catch (error) {
         await connection.rollback();

@@ -205,7 +205,7 @@ const EuropeLoginModal = ({
   const state = useAuthState();
   const dispatch = useAuthDispatch();
 
-  const dispatchLogin = (e: string, r: string, t: string) =>
+  const dispatchLogin = (e: string, r: string, t: string, i: number) =>
     dispatch({
       type: "LOGIN",
       authState: {
@@ -214,6 +214,7 @@ const EuropeLoginModal = ({
         role: r,
         email: e,
         accessToken: t,
+        id: i,
       },
     });
 
@@ -237,7 +238,12 @@ const EuropeLoginModal = ({
         },
       );
       if (res.data.success === true) {
-        dispatchLogin(email, res.data.role, res.data.accessToken);
+        dispatchLogin(
+          email,
+          res.data.role,
+          res.data.accessToken,
+          res.data.userId,
+        );
         setSuccess(true);
         setPasswordInputModalOpen(false);
       } else {
