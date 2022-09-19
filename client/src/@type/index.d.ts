@@ -257,6 +257,7 @@ declare namespace Webinar {
     timezone: string;
     topic: string;
     type: number;
+    connected: boolean;
   }
 }
 

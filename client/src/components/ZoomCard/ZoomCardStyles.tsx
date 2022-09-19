@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const ZoomCardContainer = styled.div`
+  &.invalid-zoom-card.hide {
+    display: none;
+  }
   width: 450px;
   margin-right: 20px;
   margin-bottom: 20px;

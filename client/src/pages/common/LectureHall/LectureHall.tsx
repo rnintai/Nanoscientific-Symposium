@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import useMenuStore from "store/MenuStore";
 import WebinarForm from "pages/admin/Forms/WebinarForm";
+import InvalidZoomCard from "components/ZoomCard/InvalidZoomCard";
 
 const LectureHall = () => {
   const pathname = usePageViews();
@@ -175,22 +176,26 @@ const LectureHall = () => {
           {!getWebinarLoading &&
             ((currentMenu && currentMenu.is_published === 1) ||
               editorRole.includes(authState.role)) &&
-            webinarList.map((webinar) => (
-              <ZoomCard
-                key={webinar.id}
-                webinar={webinar}
-                timezone={selectedTimezone}
-                isOnAir={
-                  liveWebinarList.filter(
-                    (liveWebinar) => webinar.id === liveWebinar.id,
-                  ).length !== 0
-                }
-                setSuccessAlert={setAddRegistrantSuccess}
-                setFailedAlert={setAddRegistrantFailed}
-                // setCurrentZoomSignature={setCurrentZoomSignature}
-                // setCurrentZoomWebinar={setCurrentZoomWebinar}
-              />
-            ))}
+            webinarList.map((webinar) =>
+              !webinar.connected ? (
+                <InvalidZoomCard id={webinar.id} />
+              ) : (
+                <ZoomCard
+                  key={webinar.id}
+                  webinar={webinar}
+                  timezone={selectedTimezone}
+                  isOnAir={
+                    liveWebinarList.filter(
+                      (liveWebinar) => webinar.id === liveWebinar.id,
+                    ).length !== 0
+                  }
+                  setSuccessAlert={setAddRegistrantSuccess}
+                  setFailedAlert={setAddRegistrantFailed}
+                  // setCurrentZoomSignature={setCurrentZoomSignature}
+                  // setCurrentZoomWebinar={setCurrentZoomWebinar}
+                />
+              ),
+            )}
           {!getWebinarLoading && isEditor && (
             <Stack
               sx={{ width: "300px" }}
