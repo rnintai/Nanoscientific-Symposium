@@ -369,7 +369,7 @@ const usersCtrl = {
   },
 
   announcementCacheUpdate: async (req, res) => {
-    const { nation, isAnnouncementCached, email } = req.query;
+    const { nation, isAnnouncementCached, userEmail } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 

@@ -110,6 +110,7 @@ const App = () => {
       .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
       .then((res) => {
         if (res.data.success) {
+          console.log("캐쉬 완료");
         } else {
           console.log(res.data.msg);
         }
