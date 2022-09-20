@@ -64,7 +64,19 @@ const LectureHall = () => {
     setOpenWebinarForm(true);
   };
 
+  const fetchRegistrants = async () => {
+    try {
+      await axios.post(`/api/zoom/webinar/registrant/fetch`, {
+        email: authState.email,
+        nation: pathname,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
+    fetchRegistrants();
     getWebinars();
   }, []);
 
