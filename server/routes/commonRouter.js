@@ -258,4 +258,6 @@ router
   .get(commonCtrl.getAbstractDesc)
   .post(commonCtrl.setAbstractDesc);
 
+router.route("/speakersAbstract").get(commonCtrl.getSpeakersAbstract);
+
 module.exports = router;

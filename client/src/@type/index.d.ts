@@ -50,6 +50,13 @@ declare namespace Speaker {
     rawDescription?: string;
   }
 
+  interface speakerAbstractType{
+    id: number;
+    speaker_id: number;
+    belong: string;
+    description: string; 
+  }
+
   interface japanSpeakerType {
     id: number;
     name_en: string;
