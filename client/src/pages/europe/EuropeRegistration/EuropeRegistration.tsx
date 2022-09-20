@@ -167,12 +167,7 @@ const EuropeRegistration = () => {
               <Typography fontSize={headingFontSize} mb={1}>
                 Registration
               </Typography>
-              <Typography component="span" fontWeight={700}>
-                Deadline:&nbsp;
-                <Typography color="red" component="span" fontWeight={600}>
-                  20 September 2022
-                </Typography>
-              </Typography>
+
               <Typography fontSize={smallFontSize}>
                 After successful registration, click on LECTURE HALL button at{" "}
                 <Typography
