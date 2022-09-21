@@ -65,7 +65,7 @@ const LandingSection4Form = ({
     }
   };
 
-  const handleDelete = async () => {
+  const deleteHandler = async () => {
     try {
       setDeleteLoading(true);
       await axios.delete(
@@ -86,27 +86,13 @@ const LandingSection4Form = ({
       title={edit ? "Edit a Session" : "Add a Session"}
       onSubmit={handleSubmit}
       loading={submitLoading || deleteLoading}
+      deleteHandler={edit && deleteHandler}
     >
       <TextField variant="filled" label="title" sx={{ mb: 2 }} {...title} />
       <Typography fontSize={subHeadingFontSize} fontWeight={600}>
         Description
       </Typography>
       <QuillEditor value={description} setValue={setDescription} />
-      {edit && (
-        <LoadingButton
-          loading={deleteLoading}
-          variant="contained"
-          color="error"
-          onClick={handleDelete}
-          style={{
-            position: "absolute",
-            right: "22px",
-            top: "12px",
-          }}
-        >
-          Delete
-        </LoadingButton>
-      )}
     </CommonModal>
   );
 };
