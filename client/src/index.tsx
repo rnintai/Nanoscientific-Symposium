@@ -6,6 +6,7 @@ import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import "./css/reset.css";
+import "./css/quill.css";
 import "../public/sitemaps/sitemap.xml";
 import "../public/sitemaps/sitemap-kr.xml";
 import "../public/sitemaps/sitemap-jp.xml";
