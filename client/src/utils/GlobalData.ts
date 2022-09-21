@@ -81,6 +81,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "Upload",
       submitBtnText: "SUBMIT",
       registerBtnText: "REGISTER",
       // user관련
@@ -108,6 +109,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
     },
   ],
   [
@@ -130,6 +135,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       registration: "등록",
       goNextText: "다음",
       goPrevText: "이전",
+      uploadBtnText: "Upload",
+      submitBtnText: "제출",
+
       // user관련
       emailInputLabel: "이메일 주소",
       passwordInputLabel: "비밀번호",
@@ -154,6 +162,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
     },
   ],
   [
@@ -177,6 +189,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       registration: "参加登録はこちらから",
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "ポスターのアップロード",
+      submitBtnText: "提出",
+
       // user관련
       emailInputLabel: "Email address",
       passwordInputLabel: "Password",
@@ -199,6 +214,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "アップロード可能なファイル形式 (.pdf, .docx, .pptx) (ファイルサイズ最大 15MBまで)",
     },
   ],
   [
@@ -218,6 +237,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "Upload",
       submitBtnText: "SUBMIT",
       // user관련
       emailInputLabel: "Email Address",
@@ -242,6 +262,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
     },
   ],
   [
@@ -260,6 +284,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "Upload",
       submitBtnText: "SUBMIT",
       // user관련
       emailInputLabel: "Email Address",
@@ -284,6 +309,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
 
       // speaker
       speakerBannerURL: `${S3_URL}/eu/speaker-banner.jpg`,

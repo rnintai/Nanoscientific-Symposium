@@ -4,7 +4,7 @@ import { useTheme } from "@mui/material/styles";
 export const AbstractSubmissionContainer = styled.div`
   .mktoForm {
     margin: 80px auto 0 auto;
-    font-family: "Open Sans" !important;
+    font-family: "Open Sans", "Noto Sans JP" !important;
     max-width: 591px !important;
     width: initial !important;
 

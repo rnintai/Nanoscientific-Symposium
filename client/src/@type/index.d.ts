@@ -50,11 +50,11 @@ declare namespace Speaker {
     rawDescription?: string;
   }
 
-  interface speakerAbstractType{
+  interface speakerAbstractType {
     id: number;
     speaker_id: number;
     belong: string;
-    description: string; 
+    description: string;
   }
 
   interface japanSpeakerType {
@@ -167,6 +167,7 @@ declare namespace Common {
     goPrevText?: string;
     submitBtnText?: string;
     registerBtnText?: string;
+    uploadBtnText?: string;
 
     // user 관련
     emailInputLabel?: string;
@@ -241,6 +242,9 @@ declare namespace Common {
 
     // announcement
     viewsLabel?: string;
+
+    // pdf uploader
+    pdfUploadDescription?: string;
   }
 
   interface MetaTagType {

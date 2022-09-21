@@ -174,8 +174,8 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
           const check1 =
             document.querySelector("#LblpsmktOptin")?.parentElement;
           const check2 = document.querySelector("#LblpsOptin")?.parentElement;
-          check1?.classList.add("flex-reverse");
-          check2?.classList.add("flex-reverse");
+          // check1?.classList.add("flex-reverse");
+          // check2?.classList.add("flex-reverse");
 
           // Register button 제거
           const registerBtn = document.querySelector(".mktoButtonRow");
