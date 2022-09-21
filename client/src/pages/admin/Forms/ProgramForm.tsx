@@ -11,7 +11,11 @@ import {
 import CommonModal from "components/CommonModal/CommonModal";
 
 import MenuItem from "@mui/material/MenuItem";
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import {
+  DateTimePicker,
+  LocalizationProvider,
+  MobileDateTimePicker,
+} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { escapeQuotes } from "utils/String";
 import { LoadingButton } from "@mui/lab";
@@ -20,7 +24,11 @@ import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
-import { getUserTimezoneDate } from "utils/Date";
+import {
+  getUserTimezoneDate,
+  getUserTimezoneString,
+  isDateStringValid,
+} from "utils/Date";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
@@ -32,6 +40,7 @@ interface ProgramFormProps {
   sessions: Program.sessionType[];
   getPrograms: () => void;
   selectedTimezone: string;
+  selectedTimeZoneOffset: string;
   edit: boolean;
 }
 const ProgramForm = ({
@@ -44,13 +53,14 @@ const ProgramForm = ({
   sessions,
   getPrograms,
   selectedTimezone,
+  selectedTimeZoneOffset,
   edit = false,
 }: ProgramFormProps) => {
-  const [startTime, setStartTime] = useState<Dayjs | null>(
-    edit ? dayjs(selectedProgram.start_time) : dayjs(sessions[0].date),
+  const [startTime, setStartTime] = useState<string | null>(
+    edit ? selectedProgram.start_time : sessions[0].date,
   );
-  const [endTime, setEndTime] = useState<Dayjs | null>(
-    edit ? dayjs(selectedProgram.end_time) : dayjs(sessions[0].date),
+  const [endTime, setEndTime] = useState<string | null>(
+    edit ? selectedProgram.end_time : sessions[0].date,
   );
   const [emphasizeCheck, setEmphasizeCheck] = useState<boolean>(
     edit ? selectedProgram.emphasize === 1 : false,
@@ -67,8 +77,8 @@ const ProgramForm = ({
   const programSubmitHandler = async () => {
     if (
       // title.value === "" ||
-      !startTime.isValid() ||
-      !endTime.isValid()
+      !isDateStringValid(startTime) ||
+      !isDateStringValid(endTime)
     ) {
       setProgramValidAlert(true);
       return;
@@ -83,12 +93,14 @@ const ProgramForm = ({
         title: escapeQuotes(title.value),
         speakers: escapeQuotes(speakers.value),
         description: escapeQuotes(description.value),
-        startTime: startTime.toDate()?.toLocaleString("sv-SE", {
-          timeZone: "utc",
-        }),
-        endTime: endTime.toDate()?.toLocaleString("sv-SE", {
-          timeZone: "utc",
-        }),
+        // startTime: startTime.toDate()?.toLocaleString("sv-SE", {
+        //   timeZone: "utc",
+        // }),
+        // endTime: endTime.toDate()?.toLocaleString("sv-SE", {
+        //   timeZone: "utc",
+        // }),
+        startTime: getUserTimezoneString(startTime, "utc"),
+        endTime: getUserTimezoneString(endTime, "utc"),
         session: selectedSession,
         emphasize: emphasizeCheck,
       });
@@ -99,12 +111,14 @@ const ProgramForm = ({
         title: escapeQuotes(title.value),
         speakers: escapeQuotes(speakers.value),
         description: escapeQuotes(description.value),
-        startTime: startTime.toDate()?.toLocaleString("sv-SE", {
-          timeZone: "utc",
-        }),
-        endTime: endTime.toDate()?.toLocaleString("sv-SE", {
-          timeZone: "utc",
-        }),
+        // startTime: startTime.toDate()?.toLocaleString("sv-SE", {
+        //   timeZone: "utc",
+        // }),
+        // endTime: endTime.toDate()?.toLocaleString("sv-SE", {
+        //   timeZone: "utc",
+        // }),
+        startTime: getUserTimezoneString(startTime, "utc"),
+        endTime: getUserTimezoneString(endTime, "utc"),
         emphasize: emphasizeCheck ? 1 : 0,
       });
     }
@@ -132,18 +146,25 @@ const ProgramForm = ({
     const selectedSessionArr = sessions.filter((session) => {
       return session.id === event.target.value;
     });
-    const selectedDate = dayjs(selectedSessionArr[0].date);
-    const newYear = selectedDate.get("year");
-    const newMonth = selectedDate.get("month");
-    const newDate = selectedDate.get("date");
+    // const selectedDate = dayjs(selectedSessionArr[0].date);
+    // const newYear = selectedDate.get("year");
+    // const newMonth = selectedDate.get("month");
+    // const newDate = selectedDate.get("date");
 
-    const newStart = dayjs()
-      .set("year", newYear)
-      .set("month", newMonth)
-      .set("date", newDate);
+    // const newStart = dayjs()
+    //   .set("year", newYear)
+    //   .set("month", newMonth)
+    //   .set("date", newDate);
 
-    setStartTime(newStart);
-    setEndTime(newStart);
+    // setStartTime(newStart);
+    // setEndTime(newStart);
+
+    const newDate = getUserTimezoneString(
+      selectedSessionArr[0].date,
+      selectedTimezone,
+    );
+    setStartTime(newDate);
+    setEndTime(newDate);
   };
 
   const deleteHandler = async () => {
@@ -184,7 +205,7 @@ const ProgramForm = ({
       loading={loading}
       submitDisabled={
         // title.value === "" ||
-        !startTime.isValid() || !endTime.isValid()
+        !isDateStringValid(startTime) || !isDateStringValid(endTime)
       }
       deleteHandler={edit && deleteHandler}
     >
@@ -259,10 +280,13 @@ const ProgramForm = ({
         <DateTimePicker
           renderInput={(props) => <TextField {...props} />}
           label="Start Time"
-          value={startTime}
+          value={getUserTimezoneDate(startTime, selectedTimezone)}
           inputFormat="YYYY/MM/DD hh:mm a"
-          onChange={(newValue) => {
-            setStartTime(newValue);
+          onChange={(newValue: Dayjs) => {
+            setStartTime(
+              newValue.toDate().toLocaleString("sv-SE") +
+                selectedTimeZoneOffset,
+            );
           }}
         />
         {"  "}
@@ -270,15 +294,19 @@ const ProgramForm = ({
           renderInput={(props) => <TextField {...props} />}
           label="End Time"
           inputFormat="YYYY/MM/DD hh:mm a"
-          value={endTime}
-          onChange={(newValue) => {
-            setEndTime(newValue);
+          value={getUserTimezoneDate(endTime, selectedTimezone)}
+          onChange={(newValue: Dayjs) => {
+            setEndTime(
+              newValue.toDate().toLocaleString("sv-SE") +
+                selectedTimeZoneOffset,
+            );
           }}
         />
       </LocalizationProvider>
       <h3 style={{ marginTop: "5px" }}>
         {" "}
         Please enter the above time based on your location. ✔ {selectedTimezone}
+        (GMT{selectedTimeZoneOffset})
       </h3>
       {/* {edit && (
         <ToggleButtonGroup
