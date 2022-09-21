@@ -25,6 +25,14 @@ const AdminPrograms = () => {
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
+  const [selectedTimeZoneOffset, setSelectedTimeZoneOffset] = useState<string>(
+    new Date()
+      .toLocaleString("sv-SE", {
+        timeZone: selectedTimezone,
+        timeZoneName: "short",
+      })
+      .split("GMT")[1],
+  );
   // 스위치 상태
   const [hideToggle, setHideToggle] = useState<boolean>(false);
   // publish loading
@@ -199,6 +207,12 @@ const AdminPrograms = () => {
             value={selectedTimezone}
             onChange={(e) => {
               setSelectedTimezone(e.value);
+              setSelectedTimeZoneOffset(
+                e.label.substring(
+                  e.label.indexOf("GMT") + 3,
+                  e.label.indexOf(")"),
+                ),
+              );
             }}
           />
           {sessions.map((session) => {
@@ -287,6 +301,7 @@ const AdminPrograms = () => {
           setProgramSuccess={setProgramSuccess}
           edit={programEdit}
           selectedTimezone={selectedTimezone}
+          selectedTimeZoneOffset={selectedTimeZoneOffset}
           programValidAlert={programValidAlert}
           setProgramValidAlert={setProgramValidAlert}
         />
