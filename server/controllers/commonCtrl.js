@@ -81,8 +81,22 @@ const commonCtrl = {
       console.log(err);
     }
   },
+  getSpeakersAbstract: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `SELECT * FROM speaker_abstract as S`;
+      const result = await connection.query(sql);
+      connection.release();
+      res.send(result[0]);
+    } catch (err) {
+      connection.release();
+      console.log(err);
+    }
+  },
   updateSpeakerList: async (req, res) => {
-    const { nation, list } = req.body;
+    const { nation, list, abstractlist } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -107,6 +121,13 @@ const commonCtrl = {
         has_abstract=${has_abstract}
         WHERE id=${id}
         `;
+        await connection.query(sql);
+        connection.release();
+      }
+
+      while (abstractlist.length > 0) {
+        const { id, speaker_id, belong, description } = abstractlist.shift();
+        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}' WHERE id=${id}`;
         await connection.query(sql);
         connection.release();
       }
