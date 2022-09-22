@@ -133,7 +133,7 @@ const LectureHall = () => {
 
           discussionListCpy[i].app_join_link = discussion.join_url;
           discussionListCpy[i].web_join_link = discussion.join_url.replace(
-            "/w/",
+            "/j/",
             "/wc/join/",
           );
           setDiscussionList(discussionListCpy);
