@@ -16,6 +16,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import useMenuStore from "store/MenuStore";
 import WebinarForm from "pages/admin/Forms/WebinarForm";
 import InvalidZoomCard from "components/ZoomCard/InvalidZoomCard";
+import NSSButton from "components/Button/NSSButton";
 
 const LectureHall = () => {
   const pathname = usePageViews();
@@ -28,12 +29,18 @@ const LectureHall = () => {
   // 국가에 해당하는 모든 webinars
   const [webinarList, setWebinarList] = useState<Webinar.webinarType[]>([]);
   // 국가에 해당하는 live중인 webinars
-  const [liveWebinarList, setLiveWebinarList] = useState<Webinar.webinarType[]>(
+  // const [liveWebinarList, setLiveWebinarList] = useState<Webinar.webinarType[]>(
+  //   [],
+  // );
+  // Europe discussion table
+  const [discussionList, setDiscussionList] = useState<Webinar.webinarType[]>(
     [],
   );
+
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
+  const [lectureStage, setLectureStage] = useState<1 | 2>(1);
 
   // alert
   const [addRegistrantSuccess, setAddRegistrantSuccess] =
@@ -45,18 +52,91 @@ const LectureHall = () => {
   // getWebinar 로딩
   const [getWebinarLoading, setGetWebinarLoading] = useState<boolean>(false);
 
+  const [getDiscussionLoading, setGetDiscussionLoading] =
+    useState<boolean>(false);
+
   const getWebinars = async () => {
     setGetWebinarLoading(true);
     axios
       .get(`/api/zoom/webinar/list?nation=${pathname}`)
-      .then((res) => {
-        setWebinarList(res.data.result);
+      .then(async (res) => {
+        const webinarListCpy = JSON.parse(JSON.stringify(res.data.result));
+        for (let i = 0; i < webinarListCpy.length; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await getWebinarRegistrantLink(webinarListCpy[i], i);
+        }
+        setWebinarList(webinarListCpy);
+
+        // get registrants' link helper
+        async function getWebinarRegistrantLink(
+          webinar: Webinar.webinarType,
+          i: number,
+        ) {
+          try {
+            const result = await axios.get(
+              `/api/zoom/webinar/registrants/${webinar.id}?email=${authState.email}&nation=${pathname}`,
+            );
+            if (result.data.result) {
+              webinarListCpy[i].app_join_link = result.data.result;
+              webinarListCpy[i].web_join_link = result.data.result.replace(
+                "/w/",
+                "/wc/join/",
+              );
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
         setGetWebinarLoading(false);
+      });
+  };
+
+  // 웨비나 link 매핑
+  // useEffect(() => {
+  //   for (let i = 0; i < webinarList.length; i += 1) {
+  //     getWebinarRegistrantLink(i);
+  //   }
+  // }, [webinarList]);
+
+  const getDiscussions = async () => {
+    setGetDiscussionLoading(true);
+    axios
+      .get(`/api/zoom/meeting/list?nation=${pathname}`)
+      .then(async (res) => {
+        const discussionListCpy = JSON.parse(JSON.stringify(res.data.result));
+        console.log(discussionListCpy);
+
+        for (let i = 0; i < discussionListCpy.length; i += 1) {
+          // eslint-disable-next-line no-await-in-loop
+          await getDiscussionRegistrantLink(discussionListCpy[i], i);
+        }
+        setDiscussionList(discussionListCpy);
+
+        // get discussion table list handler
+        async function getDiscussionRegistrantLink(
+          discussion: Webinar.webinarType,
+          i: number,
+        ) {
+          console.log(discussion);
+
+          discussionListCpy[i].app_join_link = discussion.join_url;
+          discussionListCpy[i].web_join_link = discussion.join_url.replace(
+            "/w/",
+            "/wc/join/",
+          );
+          setDiscussionList(discussionListCpy);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setGetDiscussionLoading(false);
       });
   };
 
@@ -76,9 +156,14 @@ const LectureHall = () => {
   };
 
   useEffect(() => {
-    fetchRegistrants();
-    getWebinars();
-  }, []);
+    if (lectureStage === 1 && webinarList.length < 1) {
+      fetchRegistrants();
+      getWebinars();
+    }
+    if (lectureStage === 2 && discussionList.length < 1) {
+      getDiscussions();
+    }
+  }, [lectureStage]);
 
   return (
     <VideoContainer className="body-fit">
@@ -92,134 +177,264 @@ const LectureHall = () => {
           zIndex: 1,
         }}
       >
+        {pathname === "eu" && (
+          <Stack
+            mb={1}
+            flexDirection="row"
+            justifyContent={lectureStage === 1 ? "flex-end" : "flex-start"}
+          >
+            {lectureStage === 1 ? (
+              <NSSButton
+                variant="primary"
+                onClick={() => {
+                  setLectureStage(2);
+                }}
+              >
+                go dis
+              </NSSButton>
+            ) : (
+              <NSSButton
+                variant="primary"
+                onClick={() => {
+                  setLectureStage(1);
+                }}
+              >
+                go lecture
+              </NSSButton>
+            )}
+          </Stack>
+        )}
         <StyledTimezoneSelect
           value={selectedTimezone}
           onChange={(e) => {
             setSelectedTimezone(e.value);
           }}
         />
-        <Stack
-          sx={{
-            zIndex: 1,
-            mt: 2,
-            ml: {
-              // mobile: "auto",
-              // tablet: 8,
-            },
-            mr: {
-              // mobile: "auto",
-              tablet: 0,
-            },
-            flexDirection: {
-              mobile: "column",
-              tablet: "row",
-            },
-            alignItems: "center",
-            maxHeight: "650px",
-            overflowY: "auto",
-            overflowX: "hidden",
-            // width: {
-            //   mobile: "330px",
-            //   tablet: "auto",
-            // },
-            flexWrap: {
-              mobile: "nowrap",
-              tablet: "wrap",
-            },
-            justifyContent: { mobile: "flex-start", tablet: "center" },
-            position: "relative",
-          }}
-        >
-          {/* skeleton */}
-          {getWebinarLoading && (
-            <>
-              <Stack
-                sx={{ width: "300px", height: "220px", mr: 3 }}
-                direction="column"
-                justifyContent="space-between"
-              >
+        {lectureStage === 1 && (
+          <Stack
+            sx={{
+              zIndex: 1,
+              mt: 2,
+              ml: {
+                // mobile: "auto",
+                // tablet: 8,
+              },
+              mr: {
+                // mobile: "auto",
+                tablet: 0,
+              },
+              flexDirection: {
+                mobile: "column",
+                tablet: "row",
+              },
+              alignItems: "center",
+              maxHeight: "650px",
+              overflowY: "auto",
+              overflowX: "hidden",
+              // width: {
+              //   mobile: "330px",
+              //   tablet: "auto",
+              // },
+              flexWrap: {
+                mobile: "nowrap",
+                tablet: "wrap",
+              },
+              justifyContent: { mobile: "flex-start", tablet: "center" },
+              position: "relative",
+            }}
+          >
+            {/* skeleton */}
+            {getWebinarLoading && (
+              <>
                 <Stack
-                  sx={{ height: "90px", p: 2 }}
+                  sx={{ width: "300px", height: "220px", mr: 3 }}
                   direction="column"
-                  justifyContent="center"
+                  justifyContent="space-between"
                 >
-                  <Skeleton width="60%" />
-                  <Skeleton />
+                  <Stack
+                    sx={{ height: "90px", p: 2 }}
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Skeleton width="60%" />
+                    <Skeleton />
+                  </Stack>
+                  <Skeleton variant="rectangular" height={130} />
                 </Stack>
-                <Skeleton variant="rectangular" height={130} />
-              </Stack>
-              <Stack
-                sx={{ width: "300px", height: "220px", mr: 3 }}
-                direction="column"
-                justifyContent="space-between"
-              >
                 <Stack
-                  sx={{ height: "90px", p: 2 }}
+                  sx={{ width: "300px", height: "220px", mr: 3 }}
                   direction="column"
-                  justifyContent="center"
+                  justifyContent="space-between"
                 >
-                  <Skeleton width="60%" />
-                  <Skeleton />
+                  <Stack
+                    sx={{ height: "90px", p: 2 }}
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Skeleton width="60%" />
+                    <Skeleton />
+                  </Stack>
+                  <Skeleton variant="rectangular" height={130} />
                 </Stack>
-                <Skeleton variant="rectangular" height={130} />
-              </Stack>
-              <Stack
-                sx={{ width: "300px", height: "220px" }}
-                direction="column"
-                justifyContent="space-between"
-              >
                 <Stack
-                  sx={{ height: "90px", p: 2 }}
+                  sx={{ width: "300px", height: "220px" }}
                   direction="column"
-                  justifyContent="center"
+                  justifyContent="space-between"
                 >
-                  <Skeleton width="60%" />
-                  <Skeleton />
+                  <Stack
+                    sx={{ height: "90px", p: 2 }}
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Skeleton width="60%" />
+                    <Skeleton />
+                  </Stack>
+                  <Skeleton variant="rectangular" height={130} />
                 </Stack>
-                <Skeleton variant="rectangular" height={130} />
-              </Stack>
-            </>
-          )}
-          {!getWebinarLoading &&
-            ((currentMenu &&
-              currentMenu.is_published === 0 &&
-              !editorRole.includes(authState.role)) ||
-              webinarList.length === 0) && <ComingSoon />}
-          {!getWebinarLoading &&
-            ((currentMenu && currentMenu.is_published === 1) ||
-              editorRole.includes(authState.role)) &&
-            webinarList.map((webinar) =>
-              !webinar.connected ? (
-                <InvalidZoomCard id={webinar.id} />
-              ) : (
-                <ZoomCard
-                  key={webinar.id}
-                  webinar={webinar}
-                  timezone={selectedTimezone}
-                  isOnAir={
-                    liveWebinarList.filter(
-                      (liveWebinar) => webinar.id === liveWebinar.id,
-                    ).length !== 0
-                  }
-                  setSuccessAlert={setAddRegistrantSuccess}
-                  setFailedAlert={setAddRegistrantFailed}
-                  // setCurrentZoomSignature={setCurrentZoomSignature}
-                  // setCurrentZoomWebinar={setCurrentZoomWebinar}
-                />
-              ),
+              </>
             )}
-          {!getWebinarLoading && isEditor && (
-            <Stack
-              sx={{ width: "300px" }}
-              direction="row"
-              justifyContent="center"
-            >
-              <IconButton onClick={handleAddWebinar}>
-                <AddCircleOutlineIcon color="primary" />
-              </IconButton>
-            </Stack>
-          )}
-        </Stack>
+            {!getWebinarLoading &&
+              ((currentMenu &&
+                currentMenu.is_published === 0 &&
+                !editorRole.includes(authState.role)) ||
+                webinarList.length === 0) && <ComingSoon />}
+            {!getWebinarLoading &&
+              ((currentMenu && currentMenu.is_published === 1) ||
+                editorRole.includes(authState.role)) &&
+              webinarList.map((webinar) =>
+                !webinar.connected ? (
+                  <InvalidZoomCard id={webinar.id} />
+                ) : (
+                  <ZoomCard
+                    key={webinar.id}
+                    webinar={webinar}
+                    timezone={selectedTimezone}
+                    isOnAir={false}
+                    setSuccessAlert={setAddRegistrantSuccess}
+                    setFailedAlert={setAddRegistrantFailed}
+                  />
+                ),
+              )}
+            {!getWebinarLoading && isEditor && (
+              <Stack
+                sx={{ width: "300px" }}
+                direction="row"
+                justifyContent="center"
+              >
+                <IconButton onClick={handleAddWebinar}>
+                  <AddCircleOutlineIcon color="primary" />
+                </IconButton>
+              </Stack>
+            )}
+          </Stack>
+        )}
+        {lectureStage === 2 && (
+          <Stack
+            sx={{
+              zIndex: 1,
+              mt: 2,
+              ml: {
+                // mobile: "auto",
+                // tablet: 8,
+              },
+              mr: {
+                // mobile: "auto",
+                tablet: 0,
+              },
+              flexDirection: {
+                mobile: "column",
+                tablet: "row",
+              },
+              alignItems: "center",
+              maxHeight: "650px",
+              overflowY: "auto",
+              overflowX: "hidden",
+              // width: {
+              //   mobile: "330px",
+              //   tablet: "auto",
+              // },
+              flexWrap: {
+                mobile: "nowrap",
+                tablet: "wrap",
+              },
+              justifyContent: { mobile: "flex-start", tablet: "center" },
+              position: "relative",
+            }}
+          >
+            {/* skeleton */}
+            {getDiscussionLoading && (
+              <>
+                <Stack
+                  sx={{ width: "300px", height: "220px", mr: 3 }}
+                  direction="column"
+                  justifyContent="space-between"
+                >
+                  <Stack
+                    sx={{ height: "90px", p: 2 }}
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Skeleton width="60%" />
+                    <Skeleton />
+                  </Stack>
+                  <Skeleton variant="rectangular" height={130} />
+                </Stack>
+                <Stack
+                  sx={{ width: "300px", height: "220px", mr: 3 }}
+                  direction="column"
+                  justifyContent="space-between"
+                >
+                  <Stack
+                    sx={{ height: "90px", p: 2 }}
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Skeleton width="60%" />
+                    <Skeleton />
+                  </Stack>
+                  <Skeleton variant="rectangular" height={130} />
+                </Stack>
+                <Stack
+                  sx={{ width: "300px", height: "220px" }}
+                  direction="column"
+                  justifyContent="space-between"
+                >
+                  <Stack
+                    sx={{ height: "90px", p: 2 }}
+                    direction="column"
+                    justifyContent="center"
+                  >
+                    <Skeleton width="60%" />
+                    <Skeleton />
+                  </Stack>
+                  <Skeleton variant="rectangular" height={130} />
+                </Stack>
+              </>
+            )}
+            {!getDiscussionLoading &&
+              ((currentMenu &&
+                currentMenu.is_published === 0 &&
+                !editorRole.includes(authState.role)) ||
+                discussionList.length === 0) && <ComingSoon />}
+            {!getDiscussionLoading &&
+              ((currentMenu && currentMenu.is_published === 1) ||
+                editorRole.includes(authState.role)) &&
+              discussionList.map((discussion) =>
+                !discussion.connected ? (
+                  <InvalidZoomCard id={discussion.id} />
+                ) : (
+                  <ZoomCard
+                    key={discussion.id}
+                    webinar={discussion}
+                    timezone={selectedTimezone}
+                    isOnAir={false}
+                    setSuccessAlert={setAddRegistrantSuccess}
+                    setFailedAlert={setAddRegistrantFailed}
+                  />
+                ),
+              )}
+          </Stack>
+        )}
       </Stack>
       <WebinarForm open={openWebinarForm} setOpen={setOpenWebinarForm} />
       <TopCenterSnackBar

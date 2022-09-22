@@ -26,6 +26,23 @@ const zoomMiddle = {
       res.status(400).json({ success: false, err });
     }
   },
+  getZoomToken2: async (req, res, next) => {
+    const nation = req.query.nation || req.body.nation;
+    const currentPool = getCurrentPool(nation);
+
+    const connection = await currentPool.getConnection((conn) => conn);
+
+    try {
+      const { PSE_API_KEY, PSE_API_SECRET } = proces.env;
+
+      res.locals.zoom_token = issueZoomToken(PSE_API_KEY, PSE_API_SECRET);
+
+      next();
+    } catch (err) {
+      connection.release();
+      res.status(400).json({ success: false, err });
+    }
+  },
 };
 
 module.exports = zoomMiddle;

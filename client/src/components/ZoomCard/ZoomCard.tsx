@@ -86,7 +86,7 @@ const ZoomCard = ({
   const [addRegistrantLoading, setAddRegistrantLoading] =
     useState<boolean>(false);
   const [getRegistrantLinkLoading, setGetRegistrantLinkLoading] =
-    useState<boolean>(true);
+    useState<boolean>(false);
 
   // form validation
   const isEmail1Empty = email1.value === "";
@@ -167,25 +167,6 @@ const ZoomCard = ({
     }
   };
 
-  // get registrant list handler
-  const getRegistrantLink = async () => {
-    setGetRegistrantLinkLoading(true);
-    try {
-      const res = await axios.get(
-        `/api/zoom/webinar/registrants/${webinar.id}?email=${authState.email}&nation=${pathname}`,
-      );
-      setIsWebinarRegistered(!!res.data.result);
-      if (res.data.result) {
-        setJoinLink(res.data.result);
-        setWebJoinLink(res.data.result.replace("/w/", "/wc/join/"));
-      }
-    } catch (error) {
-      alert(error);
-    } finally {
-      setGetRegistrantLinkLoading(false);
-    }
-  };
-
   // 제출 가능 여부 check
   const checkSubmittable = () => {
     let result =
@@ -208,10 +189,6 @@ const ZoomCard = ({
     return result;
   };
 
-  useEffect(() => {
-    getRegistrantLink();
-  }, []);
-
   return (
     <ZoomCardContainer>
       {!getRegistrantLinkLoading && (
@@ -231,7 +208,8 @@ const ZoomCard = ({
                   sx={{
                     color: isOnAir
                       ? "#e60000"
-                      : theme.palette.whitescale.alpha50,
+                      : // : theme.palette.whitescale.alpha50,
+                        "#ffffffbf",
                   }}
                   fontSize="medium"
                 />
@@ -269,11 +247,11 @@ const ZoomCard = ({
               }}
               disableSpacing
             >
-              {isWebinarRegistered ? (
+              {webinar.app_join_link && webinar.web_join_link ? (
                 <>
                   <Button
                     onClick={() => {
-                      window.open(webJoinLink, "_blank");
+                      window.open(webinar.web_join_link, "_blank");
                     }}
                     variant="outlined"
                     sx={{ marginBottom: { mobile: "5px", desktop: "0" } }}
@@ -283,7 +261,7 @@ const ZoomCard = ({
                   </Button>
                   <Button
                     onClick={() => {
-                      window.open(joinLink, "_blank");
+                      window.open(webinar.app_join_link, "_blank");
                     }}
                     variant="outlined"
                     endIcon={<MeetingRoomIcon />}
