@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { VideoContainer } from "components/VideoContainer/VideoContainer";
-import { Box, Button, IconButton, Skeleton, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  IconButton,
+  Skeleton,
+  Stack,
+} from "@mui/material";
 import ZoomCard from "components/ZoomCard/ZoomCard";
 import { StyledTimezoneSelect } from "components/Programs/ProgramsListContainer";
 import usePageViews from "hooks/usePageViews";
@@ -178,30 +185,31 @@ const LectureHall = () => {
         }}
       >
         {pathname === "eu" && (
-          <Stack
-            mb={1}
-            flexDirection="row"
-            justifyContent={lectureStage === 1 ? "flex-end" : "flex-start"}
-          >
-            {lectureStage === 1 ? (
-              <NSSButton
-                variant="primary"
-                onClick={() => {
-                  setLectureStage(2);
-                }}
-              >
-                go dis
-              </NSSButton>
-            ) : (
-              <NSSButton
-                variant="primary"
+          <Stack mb={2} flexDirection="row" justifyContent="flex-start">
+            <ButtonGroup disableElevation variant="contained">
+              <Button
+                variant={lectureStage === 1 ? "contained" : "outlined"}
                 onClick={() => {
                   setLectureStage(1);
                 }}
+                sx={{
+                  textTransform: "none",
+                }}
               >
-                go lecture
-              </NSSButton>
-            )}
+                Lectures
+              </Button>
+              <Button
+                variant={lectureStage === 2 ? "contained" : "outlined"}
+                onClick={() => {
+                  setLectureStage(2);
+                }}
+                sx={{
+                  textTransform: "none",
+                }}
+              >
+                Discussion table
+              </Button>
+            </ButtonGroup>
           </Stack>
         )}
         <StyledTimezoneSelect
