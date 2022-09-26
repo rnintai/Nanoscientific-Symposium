@@ -80,16 +80,21 @@ const SpeakerDetail = () => {
               className="speaker-image-container"
             />
             <Stack>
-              <Typography fontSize={subHeadingFontSize} mb={2}>
+              <Typography
+                fontSize={subHeadingFontSize}
+                mb={2}
+                sx={{ display: "flex" }}
+              >
                 <span
                   style={{
                     color: theme.palette.primary.main,
                     fontWeight: 600,
+                    marginRight: "4px",
                   }}
                 >
                   {speakerData.name}:{" "}
                 </span>
-                {speakerData.title}
+                <InnerHTML html={speakerData.title} />
               </Typography>
               <Typography className="editor-content" fontSize={mainFontSize}>
                 <InnerHTML html={speakerData.belong} />
