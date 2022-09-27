@@ -22,9 +22,11 @@ export const ZoomCardContainer = styled.div`
     border-radius: 7px;
     text-align: center;
     margin-bottom: 4px;
+    transition: opacity 0.3s;
 
     &.off {
       opacity: 0.1;
+      transition: opacity 0.3s;
     }
   }
 
