@@ -66,13 +66,9 @@ router.get(
 
 router
   .route("/webinar/registrants/:webinarId")
+  .get(zoomMiddle.getZoomToken, zoomCtrl.getRegistrantLink)
   .post(zoomMiddle.getZoomToken, zoomCtrl.addRegistrant);
 
-router.get(
-  "/webinar/registrants/:webinarId",
-  zoomMiddle.getZoomToken,
-  zoomCtrl.getRegistrantLink
-);
 router.post(
   "/webinar/registrant/fetch",
   zoomMiddle.getZoomToken,

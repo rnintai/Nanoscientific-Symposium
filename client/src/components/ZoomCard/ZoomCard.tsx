@@ -43,6 +43,7 @@ interface ZoomCardProps {
   webinar: Webinar.webinarType;
   timezone: string;
   isOnAir: boolean;
+  isMeeting: boolean;
   setSuccessAlert: React.Dispatch<boolean>;
   setFailedAlert: React.Dispatch<boolean>;
 }
@@ -56,6 +57,7 @@ const ZoomCard = ({
   webinar,
   timezone,
   isOnAir,
+  isMeeting,
   setSuccessAlert,
   setFailedAlert,
 }: ZoomCardProps) => {
@@ -75,11 +77,15 @@ const ZoomCard = ({
   // questions state
   const [questions, setQuestions] = useState<any>();
   // register 여부
-  const [isWebinarRegistered, setIsWebinarRegistered] =
-    useState<boolean>(false);
+  // const [isWebinarRegistered, setIsWebinarRegistered] = useState<-1 | 0 | 1>(
+  //   -1,
+  // );
   // 유저 별 join link
-  const [joinLink, setJoinLink] = useState<string>("");
+  const [appJoinLink, setAppJoinLink] = useState<string>("");
   const [webJoinLink, setWebJoinLink] = useState<string>("");
+
+  const [isAppRegistering, setIsAppRegistering] = useState<boolean>(false);
+
   // loading
   const [getQuestionsLoading, setGetQuestionsLoading] =
     useState<boolean>(false);
@@ -87,6 +93,8 @@ const ZoomCard = ({
     useState<boolean>(false);
   const [getRegistrantLinkLoading, setGetRegistrantLinkLoading] =
     useState<boolean>(false);
+  const [openWebLinkLoading, setOpenWebLinkLoading] = useState<boolean>(false);
+  const [openAppLinkLoading, setOpenAppLinkLoading] = useState<boolean>(false);
 
   // form validation
   const isEmail1Empty = email1.value === "";
@@ -118,7 +126,6 @@ const ZoomCard = ({
           };
         });
         setQuestions(toBeUpdated);
-
         setOpenRegisterModal(true);
       })
       .catch((err) => {
@@ -143,7 +150,12 @@ const ZoomCard = ({
       .then(() => {
         setSuccessAlert(true);
         setOpenRegisterModal(false);
-        navigate(0);
+        // navigate(0);
+        if (isAppRegistering) {
+          handleOpenAppLink();
+        } else {
+          handleOpenWebLink();
+        }
       })
       .catch(() => {
         setFailedAlert(true);
@@ -188,6 +200,72 @@ const ZoomCard = ({
 
     return result;
   };
+
+  // web link open handler
+  const handleOpenWebLink = async () => {
+    if (webJoinLink === "") {
+      try {
+        setOpenWebLinkLoading(true);
+        const res = await axios.get(
+          `/api/zoom/webinar/registrants/${webinar.id}`,
+          {
+            params: { email: authState.email, nation: pathname },
+          },
+        );
+        if (res.data.result) {
+          setWebJoinLink(res.data.result.replace("/w/", "/wc/join/"));
+          setAppJoinLink(res.data.result);
+          window.open(res.data.result.replace("/w/", "/wc/join/"), "_blank");
+        } else {
+          setIsAppRegistering(false);
+          getQuestionsHandler();
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setOpenWebLinkLoading(false);
+      }
+    } else {
+      window.open(webJoinLink, "_blank");
+    }
+    // register 예외
+  };
+  // app link open handler
+  const handleOpenAppLink = async () => {
+    if (appJoinLink === "") {
+      try {
+        setOpenAppLinkLoading(true);
+        const res = await axios.get(
+          `/api/zoom/webinar/registrants/${webinar.id}`,
+          {
+            params: { email: authState.email, nation: pathname },
+          },
+        );
+        if (res.data.result) {
+          setWebJoinLink(res.data.result.replace("/w/", "/wc/join/"));
+          setAppJoinLink(res.data.result);
+          window.open(res.data.result, "_blank");
+        } else {
+          setIsAppRegistering(true);
+          getQuestionsHandler();
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setOpenAppLinkLoading(false);
+      }
+    } else {
+      window.open(appJoinLink, "_blank");
+    }
+    // register 예외
+  };
+
+  useEffect(() => {
+    if (isMeeting) {
+      setWebJoinLink(webinar.join_url.replace("/j/", "/wc/join/"));
+      setAppJoinLink(webinar.join_url);
+    }
+  }, []);
 
   return (
     <ZoomCardContainer>
@@ -247,38 +325,24 @@ const ZoomCard = ({
               }}
               disableSpacing
             >
-              {webinar.app_join_link && webinar.web_join_link ? (
-                <>
-                  <Button
-                    onClick={() => {
-                      window.open(webinar.web_join_link, "_blank");
-                    }}
-                    variant="outlined"
-                    sx={{ marginBottom: { mobile: "5px", desktop: "0" } }}
-                    startIcon={<LanguageIcon />}
-                  >
-                    Join via Browser
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      window.open(webinar.app_join_link, "_blank");
-                    }}
-                    variant="outlined"
-                    endIcon={<MeetingRoomIcon />}
-                  >
-                    JOIN via Zoom App
-                  </Button>
-                </>
-              ) : (
-                <LoadingButton
-                  onClick={getQuestionsHandler}
-                  variant="outlined"
-                  startIcon={<ContactPageRoundedIcon />}
-                  loading={getQuestionsLoading}
-                >
-                  Register
-                </LoadingButton>
-              )}
+              <LoadingButton
+                onClick={handleOpenWebLink}
+                variant="outlined"
+                sx={{ marginBottom: { mobile: "5px", desktop: "0" } }}
+                startIcon={<LanguageIcon />}
+                loading={openWebLinkLoading}
+              >
+                Join via Browser
+              </LoadingButton>
+              <LoadingButton
+                onClick={handleOpenAppLink}
+                variant="outlined"
+                endIcon={<MeetingRoomIcon />}
+                loading={openAppLinkLoading}
+              >
+                JOIN via Zoom App
+              </LoadingButton>
+
               {isEditor && (
                 <IconButton
                   sx={{
