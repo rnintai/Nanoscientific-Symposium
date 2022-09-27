@@ -38,10 +38,6 @@ export const StyledTimezoneSelect = styled(TimezoneSelect)`
   color: black;
 
   z-index: 3;
-  // #react-select-2-listbox,
-  // #react-select-3-listbox {
-  //   z-index: 3;
-  // }
 `;
 
 export const SessionContainer = styled.div``;

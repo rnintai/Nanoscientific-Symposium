@@ -43,6 +43,11 @@ const LectureHall = () => {
   const [discussionList, setDiscussionList] = useState<Webinar.webinarType[]>(
     [],
   );
+  // 유효한 웨비나 담을 list
+  const [failedWebinarList, setFailedWebinarList] = useState<string[]>([]);
+  const [successedWebinarList, setSuccessedWebinarList] = useState<string[]>(
+    [],
+  );
 
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -67,33 +72,7 @@ const LectureHall = () => {
     axios
       .get(`/api/zoom/webinar/list?nation=${pathname}`)
       .then(async (res) => {
-        const webinarListCpy = JSON.parse(JSON.stringify(res.data.result));
-        for (let i = 0; i < webinarListCpy.length; i += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          await getWebinarRegistrantLink(webinarListCpy[i], i);
-        }
-        setWebinarList(webinarListCpy);
-
-        // get registrants' link helper
-        async function getWebinarRegistrantLink(
-          webinar: Webinar.webinarType,
-          i: number,
-        ) {
-          try {
-            const result = await axios.get(
-              `/api/zoom/webinar/registrants/${webinar.id}?email=${authState.email}&nation=${pathname}`,
-            );
-            if (result.data.result) {
-              webinarListCpy[i].app_join_link = result.data.result;
-              webinarListCpy[i].web_join_link = result.data.result.replace(
-                "/w/",
-                "/wc/join/",
-              );
-            }
-          } catch (error) {
-            console.log(error);
-          }
-        }
+        setWebinarList(res.data.result);
       })
       .catch((err) => {
         console.log(err);
@@ -103,41 +82,12 @@ const LectureHall = () => {
       });
   };
 
-  // 웨비나 link 매핑
-  // useEffect(() => {
-  //   for (let i = 0; i < webinarList.length; i += 1) {
-  //     getWebinarRegistrantLink(i);
-  //   }
-  // }, [webinarList]);
-
   const getDiscussions = async () => {
     setGetDiscussionLoading(true);
     axios
       .get(`/api/zoom/meeting/list?nation=${pathname}`)
       .then(async (res) => {
-        const discussionListCpy = JSON.parse(JSON.stringify(res.data.result));
-        console.log(discussionListCpy);
-
-        for (let i = 0; i < discussionListCpy.length; i += 1) {
-          // eslint-disable-next-line no-await-in-loop
-          await getDiscussionRegistrantLink(discussionListCpy[i], i);
-        }
-        setDiscussionList(discussionListCpy);
-
-        // get discussion table list handler
-        async function getDiscussionRegistrantLink(
-          discussion: Webinar.webinarType,
-          i: number,
-        ) {
-          console.log(discussion);
-
-          discussionListCpy[i].app_join_link = discussion.join_url;
-          discussionListCpy[i].web_join_link = discussion.join_url.replace(
-            "/j/",
-            "/wc/join/",
-          );
-          setDiscussionList(discussionListCpy);
-        }
+        setDiscussionList(res.data.result);
       })
       .catch((err) => {
         console.log(err);
@@ -153,10 +103,12 @@ const LectureHall = () => {
 
   const fetchRegistrants = async () => {
     try {
-      await axios.post(`/api/zoom/webinar/registrant/fetch`, {
+      const res = await axios.post(`/api/zoom/webinar/registrant/fetch`, {
         email: authState.email,
         nation: pathname,
       });
+      setFailedWebinarList(res.data.failed);
+      setSuccessedWebinarList(res.data.success);
     } catch (err) {
       console.log(err);
     }
@@ -309,19 +261,22 @@ const LectureHall = () => {
             {!getWebinarLoading &&
               ((currentMenu && currentMenu.is_published === 1) ||
                 editorRole.includes(authState.role)) &&
-              webinarList.map((webinar) =>
-                !webinar.connected ? (
-                  <InvalidZoomCard id={webinar.id} />
-                ) : (
+              webinarList.map(
+                (webinar) => (
+                  // !webinar.connected ? (
+                  //   <InvalidZoomCard id={webinar.id} />
+                  // ) : (
                   <ZoomCard
                     key={webinar.id}
                     webinar={webinar}
                     timezone={selectedTimezone}
                     isOnAir={false}
+                    isMeeting={false}
                     setSuccessAlert={setAddRegistrantSuccess}
                     setFailedAlert={setAddRegistrantFailed}
                   />
                 ),
+                // ),
               )}
             {!getWebinarLoading && isEditor && (
               <Stack
@@ -436,6 +391,7 @@ const LectureHall = () => {
                     webinar={discussion}
                     timezone={selectedTimezone}
                     isOnAir={false}
+                    isMeeting
                     setSuccessAlert={setAddRegistrantSuccess}
                     setFailedAlert={setAddRegistrantFailed}
                   />
