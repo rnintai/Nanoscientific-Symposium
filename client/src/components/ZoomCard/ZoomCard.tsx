@@ -367,7 +367,7 @@ const ZoomCard = ({
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                height: "52.5px",
+                flexDirection: { mobile: "column", tablet: "row" },
               }}
               disableSpacing
             >

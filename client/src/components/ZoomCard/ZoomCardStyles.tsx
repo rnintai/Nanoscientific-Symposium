@@ -24,14 +24,14 @@ export const ZoomCardContainer = styled.div`
     margin-bottom: 4px;
     transition: opacity 0.3s;
 
-    &:hover {
+    &.admin:hover {
       opacity: 0.1;
     }
 
     &.off {
       opacity: 0.1;
       transition: opacity 0.3s;
-      &:hover {
+      &.admin:hover {
         opacity: 1;
       }
     }
