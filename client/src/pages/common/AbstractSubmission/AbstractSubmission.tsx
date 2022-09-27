@@ -11,9 +11,10 @@ import axios from "axios";
 import NSSButton from "components/Button/NSSButton";
 import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
 import Loading from "components/Loading/Loading";
+import MarketoForm from "components/MarketoForm/MarketoForm";
 import S3MultiplePdfUpload from "components/S3Upload/S3MultiplePdfUpload";
 import usePageViews from "hooks/usePageViews";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import useConfigStore from "store/ConfigStore";
 import {
@@ -33,13 +34,13 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   const pathname = usePageViews();
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
 
+  const mktoRef = useRef<HTMLFormElement>();
+
   // s3
   // const [filePath, setFilePath] = useState<string[]>([]);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   // const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [submitSuccess, setSubmitSuccess] = useState<boolean>(false);
-  const [mktoLoaded, setMktoLoaded] = useState<boolean>(false);
-
   //
   const [description, setDescription] = useState<string>("");
   const [initialDescription, setInitialDescription] = useState<string>("");
@@ -147,43 +148,30 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
     getDescription();
   }, []);
 
-  // 마케토폼 2개 렌더링 될 시 refresh
   useEffect(() => {
-    setTimeout(() => {
-      if (document.querySelectorAll("#LblpsOptin").length > 2) {
-        navigate(0);
-      }
-    }, 1000);
-  }, [mktoLoading]);
+    setMktoLoading(true);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window.MktoForms2.loadForm(
+      "//pages.parksystems.com",
+      "988-FTP-549",
+      formNo,
+      (form: any) => {
+        // 체크박스 layout 변경
+        // const check1 =
+        //   document.querySelector("#LblpsmktOptin")?.parentElement;
+        // const check2 = document.querySelector("#LblpsOptin")?.parentElement;
+        // check1?.classList.add("flex-reverse");
+        // check2?.classList.add("flex-reverse");
 
-  useEffect(() => {
-    if (
-      document.querySelector(".mktoForm").childElementCount === 0 &&
-      !mktoLoaded
-    ) {
-      setMktoLoading(true);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      window.MktoForms2.loadForm(
-        "//pages.parksystems.com",
-        "988-FTP-549",
-        formNo,
-        (form: any) => {
-          setMktoLoading(false);
-          // 체크박스 layout 변경
-          const check1 =
-            document.querySelector("#LblpsmktOptin")?.parentElement;
-          const check2 = document.querySelector("#LblpsOptin")?.parentElement;
-          // check1?.classList.add("flex-reverse");
-          // check2?.classList.add("flex-reverse");
-
-          // Register button 제거
-          const registerBtn = document.querySelector(".mktoButtonRow");
-          registerBtn.remove();
-        },
-      );
-    }
-  }, [mktoLoaded]);
+        // Register button 제거
+        const registerBtn = document.querySelector(".mktoButtonRow");
+        registerBtn.remove();
+        setMktoLoading(false);
+      },
+    );
+  }, []);
+  // }, [mktoLoading]);
 
   return (
     <AbstractSubmissionContainer className="body-fit">
@@ -216,9 +204,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
             <CircularProgress />
           </Box>
         )}
-        {!submitSuccess && (
-          <form id={`mktoForm_${formNo}`} className="mktoForm" />
-        )}
+        {!submitSuccess && <MarketoForm formId={formNo} />}
         {!mktoLoading && !submitSuccess && (
           <Stack justifyContent="center" alignItems="center">
             <S3MultiplePdfUpload

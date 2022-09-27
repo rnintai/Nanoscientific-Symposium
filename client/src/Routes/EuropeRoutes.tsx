@@ -24,9 +24,16 @@ export default [
     element: <Landing key={`${pathname}-landing-section`} />,
   },
   {
-    // path: `/${pathname}/registration-test`,
     path: `/${pathname}/registration`,
-    element: <EuropeRegistration />,
+    element: <EuropeRegistration init isStudent={false} />,
+  },
+  {
+    path: `/${pathname}/registration/student`,
+    element: <EuropeRegistration isStudent />,
+  },
+  {
+    path: `/${pathname}/registration/postdoc`,
+    element: <EuropeRegistration isStudent={false} />,
   },
   {
     path: `/${pathname}/program`,

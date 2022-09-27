@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, { useState, useEffect } from "react";
 import { Button, Box, Stack, Typography, IconButton } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
@@ -20,19 +21,27 @@ import {
   subHeadingFontSize,
 } from "utils/FontSize";
 import NSSButton from "components/Button/NSSButton";
+import MarketoForm from "components/MarketoForm/MarketoForm";
 
 type TFN = 1 | 0 | -1;
 
-const EuropeRegistration = () => {
+interface props {
+  isStudent?: boolean;
+  init?: boolean;
+}
+
+const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
   const pathname = usePageViews();
 
   // stage
-  const [stage, setStage] = useState<number>(1);
+  // const [stage, setStage] = useState<number>(1);
 
   // 등록비
-  const [registrationFee, setRegistrationFee] = useState<string>("0");
+  const [registrationFee, setRegistrationFee] = useState<string>(
+    isStudent ? "20" : "35",
+  );
   // student 여부
-  const [isStudent, setIsStudent] = useState<boolean>(false);
+  // const [isStudent, setIsStudent] = useState<boolean>(false);
 
   //
   const [checkout, setCheckout] = useState<boolean>(false);
@@ -67,14 +76,12 @@ const EuropeRegistration = () => {
       },
     });
 
-  const clickFeeHandler = (fee: string) => {
-    setRegistrationFee(fee);
-    setStage(2);
-  };
+  // const clickFeeHandler = (fee: string) => {
+  //   setRegistrationFee(fee);
+  // setStage(2);
+  // };
 
   useEffect(() => {
-    const script = document.createElement("script");
-    document.body.appendChild(script);
     setMktoLoading(true);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -124,15 +131,16 @@ const EuropeRegistration = () => {
           });
       },
     );
-  }, [stage]);
+  }, []);
+  // }, [stage]);
   // 마케토폼 2개 렌더링 될 시 refresh
-  useEffect(() => {
-    setTimeout(() => {
-      if (document.querySelectorAll("#LblpsOptin").length > 2) {
-        navigate(0);
-      }
-    }, 1000);
-  }, [mktoLoading]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (document.querySelectorAll("#LblpsOptin").length > 2) {
+  //       navigate(0);
+  //     }
+  //   }, 1000);
+  // }, [mktoLoading]);
 
   useEffect(() => {
     if (document.querySelector(".validation-msg") !== null) {
@@ -161,7 +169,7 @@ const EuropeRegistration = () => {
           </Stack>
         </LandingSection>
 
-        {stage === 1 && (
+        {init && (
           <Stack className="layout body-fit-banner">
             <Box className="text-center" mb={5}>
               <Typography fontSize={headingFontSize} mb={1}>
@@ -209,9 +217,10 @@ const EuropeRegistration = () => {
                   size="small"
                   disableElevation
                   onClick={() => {
-                    clickFeeHandler("20");
+                    navigate("student");
+                    // clickFeeHandler("20");
                     // clickFeeHandler("1");
-                    setIsStudent(true);
+                    // setIsStudent(true);
                   }}
                 >
                   Register
@@ -234,8 +243,9 @@ const EuropeRegistration = () => {
                   size="small"
                   disableElevation
                   onClick={() => {
-                    clickFeeHandler("35");
-                    setIsStudent(false);
+                    navigate("postdoc");
+                    // clickFeeHandler("35");
+                    // setIsStudent(false);
                   }}
                 >
                   Register
@@ -244,7 +254,7 @@ const EuropeRegistration = () => {
             </Box>
           </Stack>
         )}
-        {stage === 2 && (
+        {!init && (
           <LandingSection className="layout body-fit">
             <Stack
               className="step-container"
@@ -287,12 +297,13 @@ const EuropeRegistration = () => {
             </Stack>
             <IconButton
               onClick={() => {
-                setStage(1);
+                // setStage(1);
+                navigate("/eu/registration");
               }}
             >
               <ArrowBackIcon />
             </IconButton>
-            <form id="mktoForm_1149" />
+            {!init && <MarketoForm formId="1149" />}
             {!mktoLoading && !checkout && (
               <NSSButton
                 variant="gradient"
@@ -340,7 +351,9 @@ const EuropeRegistration = () => {
                         ],
                       });
                     }}
-                    onError={() => {
+                    onError={(err) => {
+                      console.log(err);
+
                       alert("Paypal Module Error. Please try again later.");
                     }}
                     onApprove={async (data, actions) => {

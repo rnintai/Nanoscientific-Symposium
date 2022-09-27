@@ -14,6 +14,7 @@ import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import { smallFontSize } from "utils/FontSize";
+import MarketoForm from "components/MarketoForm/MarketoForm";
 import { RegistrationContainer, MktoFormContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {
@@ -56,8 +57,8 @@ const Registration = ({ formNo }: RegistrationProps) => {
     });
 
   useEffect(() => {
-    const script = document.createElement("script");
-    document.body.appendChild(script);
+    // const script = document.createElement("script");
+    // document.body.appendChild(script);
     setMktoLoading(true);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -206,13 +207,13 @@ const Registration = ({ formNo }: RegistrationProps) => {
   };
 
   // 마케토폼 2개 렌더링 될 시 refresh
-  useEffect(() => {
-    setTimeout(() => {
-      if (document.querySelectorAll("#LblpsOptin").length > 2) {
-        navigate(0);
-      }
-    }, 300);
-  }, [mktoLoading]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     if (document.querySelectorAll("#LblpsOptin").length > 2) {
+  //       navigate(0);
+  //     }
+  //   }, 300);
+  // }, [mktoLoading]);
 
   return (
     <>
@@ -265,7 +266,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
             </div>
           </Stack>
           <MktoFormContainer>
-            <form id={`mktoForm_${formNo}`} />
+            <MarketoForm formId={formNo} />
             {!mktoLoading && (
               <NSSButton
                 variant="gradient"
