@@ -26,6 +26,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 
 // utils
 import { dateToLocaleString, calculateDurationToString } from "utils/Date";
+import { subHeadingFontSize, smallFontSize } from "utils/FontSize";
 
 import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
@@ -42,7 +43,6 @@ import { ZoomCardContainer } from "./ZoomCardStyles";
 interface ZoomCardProps {
   webinar: Webinar.webinarType;
   timezone: string;
-  isOnAir: boolean;
   isMeeting: boolean;
   setSuccessAlert: React.Dispatch<boolean>;
   setFailedAlert: React.Dispatch<boolean>;
@@ -56,7 +56,6 @@ interface QuestionType {
 const ZoomCard = ({
   webinar,
   timezone,
-  isOnAir,
   isMeeting,
   setSuccessAlert,
   setFailedAlert,
@@ -83,6 +82,9 @@ const ZoomCard = ({
   // 유저 별 join link
   const [appJoinLink, setAppJoinLink] = useState<string>("");
   const [webJoinLink, setWebJoinLink] = useState<string>("");
+
+  const [currentLive, setCurrentLive] = useState<number>(webinar.is_live);
+  const [liveToggleLoading, setLiveToggleLoading] = useState<boolean>(false);
 
   const [isAppRegistering, setIsAppRegistering] = useState<boolean>(false);
 
@@ -260,6 +262,23 @@ const ZoomCard = ({
     // register 예외
   };
 
+  const handleLiveClick = async () => {
+    try {
+      setLiveToggleLoading(true);
+      await axios.post("/api/zoom/webinar/live", {
+        nation: pathname,
+        id: webinar.id,
+        isLive: currentLive === 1 ? 0 : 1,
+      });
+      setCurrentLive(currentLive === 1 ? 0 : 1);
+      // navigate(0);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLiveToggleLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (isMeeting) {
       setWebJoinLink(webinar.join_url.replace("/j/", "/wc/join/"));
@@ -281,26 +300,53 @@ const ZoomCard = ({
             raised
           >
             <CardHeader
-              avatar={
-                <VideocamIcon
-                  sx={{
-                    color: isOnAir
-                      ? "#e60000"
-                      : // : theme.palette.whitescale.alpha50,
-                        "#ffffffbf",
-                  }}
-                  fontSize="medium"
-                />
+              // avatar={
+              //   <VideocamIcon
+              //     sx={{
+              //       color: webinar.is_live
+              //         ? "#e60000"
+              //         : // : theme.palette.whitescale.alpha50,
+              //           "#ffffffbf",
+              //     }}
+              //     fontSize="medium"
+              //   />
+              // }
+              title={
+                <Stack alignItems="flex-start">
+                  {isEditor ? (
+                    <button
+                      type="button"
+                      className={`live-icon${currentLive ? "" : " off"}`}
+                      style={{
+                        pointerEvents: liveToggleLoading ? "none" : "initial",
+                      }}
+                      onClick={handleLiveClick}
+                    >
+                      LIVE
+                    </button>
+                  ) : (
+                    <span className={`live-icon${currentLive ? "" : " off"}`}>
+                      LIVE
+                    </span>
+                  )}
+                  <Typography fontSize={subHeadingFontSize}>
+                    {webinar.topic}
+                  </Typography>
+                </Stack>
               }
-              title={webinar.topic}
-              subheader={`${dateToLocaleString(
-                webinar.start_time,
-                timezone,
-              )} - ${calculateDurationToString(
-                webinar.start_time,
-                webinar.duration,
-                timezone,
-              )}`}
+              subheader={
+                <Typography
+                  fontSize={smallFontSize}
+                  color="rgba(255, 255, 255, 0.68)"
+                >
+                  {`${dateToLocaleString(webinar.start_time, timezone)} - 
+                  ${calculateDurationToString(
+                    webinar.start_time,
+                    webinar.duration,
+                    timezone,
+                  )}`}
+                </Typography>
+              }
               titleTypographyProps={{
                 color: theme.palette.primary.contrastText,
                 textOverflow: "ellipsis",

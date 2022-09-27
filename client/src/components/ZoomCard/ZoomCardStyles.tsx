@@ -12,6 +12,31 @@ export const ZoomCardContainer = styled.div`
     width: 100%;
   }
 
+  .live-icon {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: white;
+    font-weight: 600;
+    background-color: red;
+    padding: 0 5px 0 7px;
+    border-radius: 7px;
+    text-align: center;
+    margin-bottom: 4px;
+    transition: opacity 0.3s;
+
+    &:hover {
+      opacity: 0.1;
+    }
+
+    &.off {
+      opacity: 0.1;
+      transition: opacity 0.3s;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
   @media (max-width: 768px) {
     width: 260px;
     margin-right: 0px;

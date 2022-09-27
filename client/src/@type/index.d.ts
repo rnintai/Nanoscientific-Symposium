@@ -267,6 +267,7 @@ declare namespace Webinar {
     topic: string;
     type: number;
     connected: boolean;
+    is_live: number;
     web_join_link?: string;
     app_join_link?: string;
   }

@@ -270,7 +270,6 @@ const LectureHall = () => {
                     key={webinar.id}
                     webinar={webinar}
                     timezone={selectedTimezone}
-                    isOnAir={false}
                     isMeeting={false}
                     setSuccessAlert={setAddRegistrantSuccess}
                     setFailedAlert={setAddRegistrantFailed}
@@ -390,7 +389,6 @@ const LectureHall = () => {
                     key={discussion.id}
                     webinar={discussion}
                     timezone={selectedTimezone}
-                    isOnAir={false}
                     isMeeting
                     setSuccessAlert={setAddRegistrantSuccess}
                     setFailedAlert={setAddRegistrantFailed}

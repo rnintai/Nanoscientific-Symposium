@@ -69,7 +69,7 @@ const zoomCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT webinar_id FROM webinar`;
+      const sql = `SELECT webinar_id, is_live FROM webinar`;
       const row = await connection.query(sql);
       const webinarIdList = row[0].map((w) => w.webinar_id);
 
@@ -96,6 +96,12 @@ const zoomCtrl = {
       }
 
       result = result.filter((w) => webinarIdList.indexOf(`${w.id}`) !== -1);
+      result = result.map((r, i) => {
+        return {
+          ...r,
+          is_live: row[0][i].is_live,
+        };
+      });
 
       res.status(200).json({
         success: true,
@@ -490,6 +496,24 @@ const zoomCtrl = {
       result,
       success: true,
     });
+  },
+
+  setLiveStatus: async (req, res) => {
+    const { nation, id, isLive } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `UPDATE webinar SET is_live=${isLive} WHERE webinar_id='${id}'`;
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(400).json({
+        err,
+      });
+    }
   },
 };
 

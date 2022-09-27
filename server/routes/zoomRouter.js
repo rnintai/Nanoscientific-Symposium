@@ -82,5 +82,6 @@ router
   .delete(zoomMiddle.getZoomToken, zoomCtrl.removeWebinar);
 
 router.get("/meeting/list", zoomMiddle.getZoomToken, zoomCtrl.getMeetingList);
+router.post("/webinar/live", zoomCtrl.setLiveStatus);
 
 module.exports = router;
