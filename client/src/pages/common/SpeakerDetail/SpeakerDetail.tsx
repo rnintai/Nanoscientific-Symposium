@@ -83,13 +83,17 @@ const SpeakerDetail = () => {
               <Typography
                 fontSize={subHeadingFontSize}
                 mb={2}
-                sx={{ display: "flex" }}
+                sx={{
+                  display: "flex",
+                  flexDirection: { mobile: "column", tablet: "row" },
+                }}
               >
                 <span
                   style={{
                     color: theme.palette.primary.main,
                     fontWeight: 600,
                     marginRight: "4px",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {speakerData.name}:{" "}
