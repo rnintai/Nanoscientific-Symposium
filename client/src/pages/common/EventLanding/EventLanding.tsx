@@ -60,23 +60,23 @@ const EventLanding = () => {
                   <img className="section-logo" src={logoURL} alt="logo" />
                   {teaserVideoURL && (
                     // eslint-disable-next-line jsx-a11y/media-has-caption
-                    <video
-                      className="teaser-video"
-                      src={teaserVideoURL}
+                    // <video
+                    //   className="teaser-video"
+                    //   src={teaserVideoURL}
+                    //   height="250"
+                    //   autoPlay
+                    //   muted
+                    //   loop
+                    //   playsInline
+                    //   controls
+                    //   controlsList="nodownload"
+                    // />
+                    <YoutubeEmbed
+                      embedId={teaserVideoEmbed}
+                      width="400"
                       height="250"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      controls
-                      controlsList="nodownload"
                     />
                   )}
-                  {/* <YoutubeEmbed
-                  embedId={teaserVideoEmbed}
-                  width="400"
-                  height="250"
-                /> */}
                 </Stack>
                 <Typography
                   textAlign="left"
