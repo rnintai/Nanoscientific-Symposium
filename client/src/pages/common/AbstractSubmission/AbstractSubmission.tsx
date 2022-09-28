@@ -22,6 +22,7 @@ import {
   smallFontSize,
   subHeadingFontSize,
 } from "utils/FontSize";
+import { globalData } from "utils/GlobalData";
 import { escapeQuotes } from "utils/String";
 import { AbstractSubmissionContainer } from "./AbstractSubmissionStyles";
 
@@ -49,77 +50,80 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   const [descriptionPreviewContent, setDescriptionPreviewContent] =
     useState<string>("");
   //
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
 
   const configStore = useConfigStore();
   const { configState } = configStore;
-
+  const { submitBtnText } = globalData.get(pathname);
   const navigate = useNavigate();
 
-  // const submitHandler = async () => {
-  //   setSubmitLoading(true);
-  //   const mktoForm =
-  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //     // @ts-ignore
-  //     window.MktoForms2.allForms()[
-  //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //       // @ts-ignore
-  //       window.MktoForms2.allForms().length - 1
-  //     ];
-  //   const formData = mktoForm.getValues();
-  //   const {
-  //     psAbstractTitle,
-  //     Salutation,
-  //     FirstName,
-  //     LastName,
-  //     Company,
-  //     Department,
-  //     Email,
-  //     Phone,
-  //     Country,
-  //     State,
-  //     psApplications,
-  //     psExistingAFMBrand,
-  //     psPresentationForm,
-  //   } = formData;
-  //   // 제출
-  //   mktoForm.submit().onSuccess(() => {
-  //     return false;
-  //   });
-  //   try {
-  //     // DB에 저장
-  //     const res = await axios.post("/api/abstract", {
-  //       nation: pathname,
-  //       abstract_title: psAbstractTitle,
-  //       salutation: Salutation,
-  //       first_name: FirstName,
-  //       last_name: LastName,
-  //       institution: Company,
-  //       department: Department,
-  //       email: Email,
-  //       phone: Phone,
-  //       country: Country,
-  //       state: State,
-  //       application: psApplications,
-  //       afm_model: psExistingAFMBrand,
-  //       presentation_form: psPresentationForm,
-  //       pdf_file_path: filePath.join(","),
-  //     });
+  const jpSubmitHandler = async () => {
+    if (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      !window.MktoForms2.allForms()[
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.MktoForms2.allForms().length - 1
+      ]?.validate()
+    ) {
+      //
+    } else {
+      setSubmitLoading(true);
+      const mktoForm =
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.MktoForms2.allForms()[
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          window.MktoForms2.allForms().length - 1
+        ];
+      const formData = mktoForm.getValues();
+      const {
+        FirstName,
+        LastName,
+        psJPkanaLastName,
+        psJPkanaFirstName,
+        Company,
+        Department,
+        Email,
+        Phone,
+        psAbstractTitle,
+        abstractDescription,
+      } = formData;
+      // 제출
+      mktoForm.submit().onSuccess(() => {
+        return false;
+      });
+      try {
+        // DB에 저장
+        const res = await axios.post("/api/abstract", {
+          nation: pathname,
+          abstract_title: psAbstractTitle,
+          first_name: FirstName,
+          last_name: LastName,
+          institution: Company,
+          department: Department,
+          email: Email,
+          phone: Phone,
+          presentation_form: "Poster",
+        });
 
-  //     // 메일 전송
-  //     const res2 = await axios.post("/api/mail/abstract", {
-  //       email: configState.alert_receive_email,
-  //       attachments: filePath,
-  //       nation: pathname,
-  //       formData,
-  //     });
+        // 메일 전송
+        const res2 = await axios.post("/api/mail/abstract", {
+          email: configState.alert_receive_email,
+          nation: pathname,
+          formData,
+        });
 
-  //     setSubmitSuccess(true);
-  //   } catch (err) {
-  //     alert(err);
-  //   } finally {
-  //     setSubmitLoading(false);
-  //   }
-  // };
+        setSubmitSuccess(true);
+      } catch (err) {
+        alert(err);
+      } finally {
+        setSubmitLoading(false);
+      }
+    }
+  };
 
   // description 가져오기
   const getDescription = async () => {
@@ -205,22 +209,26 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
           </Box>
         )}
         {!submitSuccess && <MarketoForm formId={formNo} />}
-        {!mktoLoading && !submitSuccess && (
+        {!mktoLoading && !submitSuccess && pathname !== "jp" && (
           <Stack justifyContent="center" alignItems="center">
             <S3MultiplePdfUpload
               uploadLoading={uploadLoading}
               setUploadLoading={setUploadLoading}
               setSubmitSuccess={setSubmitSuccess}
             />
-            {/* <NSSButton
+          </Stack>
+        )}
+        {!mktoLoading && !submitSuccess && pathname === "jp" && (
+          <Stack justifyContent="center" alignItems="center">
+            <NSSButton
               variant="gradient"
               className="registration-btn"
-              onClick={submitHandler}
+              onClick={jpSubmitHandler}
               disabled={uploadLoading}
               loading={submitLoading}
             >
-              Submit
-            </NSSButton> */}
+              {submitBtnText}
+            </NSSButton>
           </Stack>
         )}
         {submitSuccess && (
