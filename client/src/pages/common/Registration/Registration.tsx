@@ -79,8 +79,8 @@ const Registration = ({ formNo }: RegistrationProps) => {
         const check1 = document.querySelector("#LblpsmktOptin")?.parentElement;
         const check2 = document.querySelector("#LblpsOptin")?.parentElement;
 
-        check1?.classList.add("flex-reverse");
-        check2?.classList.add("flex-reverse");
+        // check1?.classList.add("flex-reverse");
+        // check2?.classList.add("flex-reverse");
 
         document
           .querySelector("#LblEmail")

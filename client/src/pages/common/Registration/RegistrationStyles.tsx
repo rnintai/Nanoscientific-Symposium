@@ -13,7 +13,7 @@ export const RegistrationContainer = styled.div`
   }
   .mktoForm {
     margin: 0 auto;
-    font-family: "Open Sans" !important;
+    font-family: "Open Sans", "Noto Sans JP" !important;
     max-width: 591px !important;
     width: initial !important;
 
@@ -127,7 +127,7 @@ export const RegistrationContainer = styled.div`
   }
   #LblpsmktOptin,
   #LblpsOptin {
-    max-width: 590px !important;
+    max-width: 580px !important;
     width: initial !important;
   }
 
