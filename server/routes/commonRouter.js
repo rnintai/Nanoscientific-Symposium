@@ -260,4 +260,9 @@ router
 
 router.route("/speakersAbstract").get(commonCtrl.getSpeakersAbstract);
 
+router
+  .route("/jp/location")
+  .get(commonCtrl.getJapanLocation)
+  .post(commonCtrl.updateJapanLocation);
+
 module.exports = router;
