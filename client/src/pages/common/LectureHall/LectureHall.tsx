@@ -124,6 +124,42 @@ const LectureHall = () => {
     }
   }, [lectureStage]);
 
+  const containerStyle = {
+    zIndex: 1,
+    mt: 2,
+    ml: {
+      // mobile: "auto",
+      // tablet: 8,
+    },
+    mr: {
+      // mobile: "auto",
+      tablet: 0,
+    },
+    flexDirection: {
+      mobile: "column",
+      tablet: "row",
+    },
+    alignItems: "center",
+    maxWidth: "960px",
+    maxHeight: "650px",
+    overflowY: "auto",
+    overflowX: "hidden",
+    // width: {
+    //   mobile: "330px",
+    //   tablet: "auto",
+    // },
+    flexWrap: {
+      mobile: "nowrap",
+      tablet: "wrap",
+    },
+    // justifyContent: { mobile: "flex-start", tablet: "center" },
+    position: "relative",
+    alignSelf: {
+      mobile: "initial",
+      tablet: "center",
+    },
+  };
+
   return (
     <VideoContainer className="body-fit">
       {/* {getWebinarLoading && <Loading />} */}
@@ -171,38 +207,7 @@ const LectureHall = () => {
           }}
         />
         {lectureStage === 1 && (
-          <Stack
-            sx={{
-              zIndex: 1,
-              mt: 2,
-              ml: {
-                // mobile: "auto",
-                // tablet: 8,
-              },
-              mr: {
-                // mobile: "auto",
-                tablet: 0,
-              },
-              flexDirection: {
-                mobile: "column",
-                tablet: "row",
-              },
-              alignItems: "center",
-              maxHeight: "650px",
-              overflowY: "auto",
-              overflowX: "hidden",
-              // width: {
-              //   mobile: "330px",
-              //   tablet: "auto",
-              // },
-              flexWrap: {
-                mobile: "nowrap",
-                tablet: "wrap",
-              },
-              justifyContent: { mobile: "flex-start", tablet: "center" },
-              position: "relative",
-            }}
-          >
+          <Stack sx={containerStyle}>
             {/* skeleton */}
             {getWebinarLoading && (
               <>
@@ -261,22 +266,19 @@ const LectureHall = () => {
             {!getWebinarLoading &&
               ((currentMenu && currentMenu.is_published === 1) ||
                 editorRole.includes(authState.role)) &&
-              webinarList.map(
-                (webinar) => (
-                  // !webinar.connected ? (
-                  //   <InvalidZoomCard id={webinar.id} />
-                  // ) : (
-                  <ZoomCard
-                    key={webinar.id}
-                    webinar={webinar}
-                    timezone={selectedTimezone}
-                    isMeeting={false}
-                    setSuccessAlert={setAddRegistrantSuccess}
-                    setFailedAlert={setAddRegistrantFailed}
-                  />
-                ),
-                // ),
-              )}
+              webinarList.map((webinar) => (
+                // !webinar.connected ? (
+                //   <InvalidZoomCard id={webinar.id} />
+                // ) :
+                <ZoomCard
+                  key={webinar.id}
+                  webinar={webinar}
+                  timezone={selectedTimezone}
+                  isMeeting={false}
+                  setSuccessAlert={setAddRegistrantSuccess}
+                  setFailedAlert={setAddRegistrantFailed}
+                />
+              ))}
             {!getWebinarLoading && isEditor && (
               <Stack
                 sx={{ width: "300px" }}
@@ -291,38 +293,7 @@ const LectureHall = () => {
           </Stack>
         )}
         {lectureStage === 2 && (
-          <Stack
-            sx={{
-              zIndex: 1,
-              mt: 2,
-              ml: {
-                // mobile: "auto",
-                // tablet: 8,
-              },
-              mr: {
-                // mobile: "auto",
-                tablet: 0,
-              },
-              flexDirection: {
-                mobile: "column",
-                tablet: "row",
-              },
-              alignItems: "center",
-              maxHeight: "650px",
-              overflowY: "auto",
-              overflowX: "hidden",
-              // width: {
-              //   mobile: "330px",
-              //   tablet: "auto",
-              // },
-              flexWrap: {
-                mobile: "nowrap",
-                tablet: "wrap",
-              },
-              justifyContent: { mobile: "flex-start", tablet: "center" },
-              position: "relative",
-            }}
-          >
+          <Stack sx={containerStyle}>
             {/* skeleton */}
             {getDiscussionLoading && (
               <>

@@ -444,16 +444,16 @@ const zoomCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     // try {
-    const sql = `SELECT meeting_id FROM discussion_table`;
+    const sql = `SELECT meeting_id, is_live FROM discussion_table`;
     const row = await connection.query(sql);
 
-    const meetingIdList = row[0].map((e) => e.meeting_id);
+    // const meetingIdList = row[0].map((e) => e.meeting_id);
 
     let result = [];
-    for (let mi of meetingIdList) {
+    for (let m of row[0]) {
       try {
         let response = await axios.get(
-          `https://api.zoom.us/v2/meetings/${mi}`,
+          `https://api.zoom.us/v2/meetings/${m.meeting_id}`,
           {
             headers: {
               Authorization: `Bearer ${res.locals.zoom_token}`,
@@ -483,6 +483,7 @@ const zoomCtrl = {
           timezone,
           topic,
           type,
+          is_live: m.is_live,
           connected: true,
         });
       } catch (err) {
@@ -499,12 +500,17 @@ const zoomCtrl = {
   },
 
   setLiveStatus: async (req, res) => {
-    const { nation, id, isLive } = req.body;
+    const { nation, id, isLive, isMeeting } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `UPDATE webinar SET is_live=${isLive} WHERE webinar_id='${id}'`;
+      let sql = "";
+      if (isMeeting) {
+        sql = `UPDATE discussion_table SET is_live=${isLive} WHERE meeting_id='${id}'`;
+      } else {
+        sql = `UPDATE webinar SET is_live=${isLive} WHERE webinar_id='${id}'`;
+      }
       await connection.query(sql);
       res.status(200).json({
         success: true,

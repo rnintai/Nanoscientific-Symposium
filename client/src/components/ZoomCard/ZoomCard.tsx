@@ -265,11 +265,14 @@ const ZoomCard = ({
   const handleLiveClick = async () => {
     try {
       setLiveToggleLoading(true);
+
       await axios.post("/api/zoom/webinar/live", {
         nation: pathname,
         id: webinar.id,
         isLive: currentLive === 1 ? 0 : 1,
+        isMeeting,
       });
+
       setCurrentLive(currentLive === 1 ? 0 : 1);
       // navigate(0);
     } catch (error) {
@@ -300,17 +303,6 @@ const ZoomCard = ({
             raised
           >
             <CardHeader
-              // avatar={
-              //   <VideocamIcon
-              //     sx={{
-              //       color: webinar.is_live
-              //         ? "#e60000"
-              //         : // : theme.palette.whitescale.alpha50,
-              //           "#ffffffbf",
-              //     }}
-              //     fontSize="medium"
-              //   />
-              // }
               title={
                 <Stack alignItems="flex-start">
                   {isEditor ? (
@@ -389,7 +381,7 @@ const ZoomCard = ({
                 JOIN via Zoom App
               </LoadingButton>
 
-              {isEditor && (
+              {isEditor && !isMeeting && (
                 <IconButton
                   sx={{
                     position: "absolute",

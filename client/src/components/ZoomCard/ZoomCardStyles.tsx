@@ -5,8 +5,7 @@ export const ZoomCardContainer = styled.div`
     display: none;
   }
   width: 450px;
-  margin-right: 20px;
-  margin-bottom: 20px;
+  margin: 0 10px 20px 10px;
   position: relative;
   .MuiCardHeader-content.css-1qbkelo-MuiCardHeader-content {
     width: 100%;
@@ -31,7 +30,7 @@ export const ZoomCardContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 260px;
+    width: 270px;
     margin-right: 0px;
   }
 `;
