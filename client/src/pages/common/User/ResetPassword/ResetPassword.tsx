@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Title from "components/Title/Title";
-import { Box, Stack, TextField, Typography } from "@mui/material";
+import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import NSSButton from "components/Button/NSSButton";
 import useInput from "hooks/useInput";
@@ -16,7 +16,7 @@ import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import Loading from "components/Loading/Loading";
 
-import { smallFontSize } from "utils/FontSize";
+import { smallFontSize, subHeadingFontSize } from "utils/FontSize";
 import {
   ResetPasswordContainer,
   OuterResetContainer,
@@ -32,6 +32,7 @@ const ResetPassword = () => {
   const authState = useAuthState();
   const pathname = usePageViews();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const {
     resetPasswordHeading,
@@ -45,6 +46,7 @@ const ResetPassword = () => {
     registrationStep1Label,
     registrationStep2Label,
     registrationStep3Label,
+    passwordSetDescription,
   } = globalData.get(pathname) as Common.globalDataType;
   const curPassword = useInput("");
   const password1 = useInput("");
@@ -213,6 +215,15 @@ const ResetPassword = () => {
                 : setPasswordHeading || "Set a Password"
             }
           />
+          {!isUserPasswordSet && passwordSetDescription && (
+            <Typography
+              sx={{ mb: 2, color: theme.palette.grey[600] }}
+              fontSize={smallFontSize}
+              fontWeight={600}
+            >
+              {passwordSetDescription}
+            </Typography>
+          )}
           <Box sx={inputBoxStyle}>
             {isUserPasswordSet && (
               <TextField

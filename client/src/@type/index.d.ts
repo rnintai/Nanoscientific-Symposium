@@ -177,6 +177,7 @@ declare namespace Common {
     adminBtnText?: string;
     signOutBtnText?: string;
     changePasswordBtnText?: string;
+    passwordSetDescription?: string;
 
     // registration 관련
     registrationStep1Label?: string;

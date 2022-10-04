@@ -197,6 +197,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot Password?",
       createAccountText: "参加登録はこちらから",
+      passwordSetDescription:
+        "本サイトをご利用になるにはIDとパスワードが必要です。IDはご入力いただきましたメールアドレスとなりますので、以下にてパスワードの設定をお願いいたします。",
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/jp/main-page-banner.jpg`,
