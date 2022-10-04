@@ -195,6 +195,7 @@ declare namespace Common {
     bannerLogoURL?: string;
     sponsor1LogoURL?: string;
     sponsor2LogoURL?: string;
+    sponsor3LogoURL?: string;
 
     // landing
     showLandingSection1?: boolean;
