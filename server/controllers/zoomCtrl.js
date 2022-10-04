@@ -69,9 +69,13 @@ const zoomCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT webinar_id, is_live FROM webinar`;
+      const sql = `SELECT * FROM webinar`;
       const row = await connection.query(sql);
-      const webinarIdList = row[0].map((w) => w.webinar_id);
+
+      const webinarList = row[0].filter((w) => !w.is_meeting);
+      const meetingList = row[0].filter((w) => w.is_meeting);
+
+      const webinarIdList = webinarList.map((e) => e.webinar_id);
 
       let result;
       let response = await axios.get(
@@ -102,6 +106,53 @@ const zoomCtrl = {
           is_live: row[0][i].is_live,
         };
       });
+
+      //
+      for (let m of meetingList) {
+        try {
+          let response = await axios.get(
+            `https://api.zoom.us/v2/meetings/${m.webinar_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${res.locals.zoom_token}`,
+              },
+            }
+          );
+          const {
+            uuid,
+            id,
+            host_id,
+            created_at,
+            duration,
+            join_url,
+            start_time,
+            timezone,
+            topic,
+            type,
+          } = response.data;
+          result.push({
+            uuid,
+            id,
+            host_id,
+            created_at,
+            duration,
+            join_url,
+            start_time,
+            timezone,
+            topic,
+            type,
+            is_live: m.is_live,
+            is_meeting: true,
+            connected: true,
+          });
+          result = result.sort(
+            (a, b) => new Date(a.start_time) - new Date(b.start_time)
+          );
+        } catch (err) {
+          result.push({ id: mi, connected: false });
+          continue;
+        }
+      }
 
       res.status(200).json({
         success: true,

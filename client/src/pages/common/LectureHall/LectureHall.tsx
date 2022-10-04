@@ -274,7 +274,7 @@ const LectureHall = () => {
                   key={webinar.id}
                   webinar={webinar}
                   timezone={selectedTimezone}
-                  isMeeting={false}
+                  isMeeting={!!webinar.is_meeting}
                   setSuccessAlert={setAddRegistrantSuccess}
                   setFailedAlert={setAddRegistrantFailed}
                 />
