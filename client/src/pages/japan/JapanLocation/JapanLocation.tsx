@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 import { Box } from "@mui/system";
 import axios from "axios";
 import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
@@ -29,13 +31,19 @@ const JapanLocation = () => {
     }
   };
   const applyHandler = async () => {
-    try {
-      const row = await axios.post("/api/page/common/jp/location", {
-        nation: pathname,
-        content: escapeQuotes(description),
-      });
-    } catch (error) {
-      console.log(error);
+    if (confirm("Apply Changes?")) {
+      try {
+        const row = await axios.post("/api/page/common/jp/location", {
+          nation: pathname,
+          content: escapeQuotes(description),
+        });
+        setDescription(description);
+        setInitialDescription(description);
+        setEdit(false);
+        setPreview(false);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -57,7 +65,7 @@ const JapanLocation = () => {
         setPreviewContent={setPreviewContent}
         applyHandler={applyHandler}
       >
-        {description || ""}
+        {initialDescription || ""}
       </LandingTextEditor>
     </Box>
   );
