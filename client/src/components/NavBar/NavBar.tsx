@@ -42,6 +42,7 @@ interface navProps {
   menuStateLoading: boolean;
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
+  markAnnouncementAlarm: boolean;
 }
 
 const NavBar = ({
@@ -51,6 +52,7 @@ const NavBar = ({
   setLogoutSuccess,
   setLogoutLoading,
   menuStateLoading,
+  markAnnouncementAlarm,
 }: navProps) => {
   // menu list
   const menuStore = useMenuStore();
@@ -295,6 +297,8 @@ const NavBar = ({
                       aria-controls={openUserMenu ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={openUserMenu ? "true" : undefined}
+                      isMoreverIcon
+                      markAnnouncementAlarm={markAnnouncementAlarm}
                     >
                       <MoreVertIcon />
                     </NSSButton>

@@ -368,14 +368,31 @@ const usersCtrl = {
     }
   },
 
-  announcementCacheUpdate: async (req, res) => {
-    const { nation, isAnnouncementCached, userEmail } = req.query;
-    const currentPool = getCurrentPool(nation);
+  updateAnnouncementCache: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `UPDATE user SET is_announcement_cached='${isAnnouncementCached}', is_password_set=1 WHERE email='${userEmail}'`;
-    } catch (err) {}
+      const sql = `UPDATE user SET is_announcement_cached=1 WHERE email='${req.body.email}'`;
+      await connection.query(sql);
+      connection.release();
+
+      res.status(200).json({
+        success: true,
+        result: true,
+        msg: "announcement 모두 읽음 업데이트 성공",
+      });
+    } catch (err) {
+      console.log(err);
+      connection.realse();
+
+      res.status(500).json({
+        success: false,
+        err,
+      });
+
+      return false;
+    }
   },
 };
 

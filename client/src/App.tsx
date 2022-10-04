@@ -65,6 +65,10 @@ const App = () => {
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
 
+  // 알람
+  const [markAnnouncementAlarm, setMarkAnnouncementAlarm] =
+    useState<boolean>(false);
+
   // mode
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
@@ -110,7 +114,23 @@ const App = () => {
       .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
       .then((res) => {
         if (res.data.success) {
-          console.log("캐쉬 완료");
+          if (res.data.result) {
+            axios
+              .post("/api/users/updateAnnouncementCache", {
+                email: authState.email,
+                nation: pathname,
+              })
+              .then((res) => {
+                if (res.data.success === true) {
+                  console.log(res.data.msg);
+                } else {
+                  console.log(res.data.msg);
+                }
+              });
+          } else {
+            // console.log("빨간색 표시");
+            setMarkAnnouncementAlarm(true);
+          }
         } else {
           console.log(res.data.msg);
         }
@@ -118,6 +138,16 @@ const App = () => {
       .catch((err) => {
         alert(err);
       });
+  };
+
+  const markUnreadAnnouncement = () => {
+    /*
+    1. user에 해당하는 announcement_read 데이터만 모두 가져온다.
+    2. 해당 데이터를 제외한 announcement 데이터는 안읽은 것이므로 이에 대해 빨간색으로 표시해준다.
+    3. 사실 한번만 가져와야할 것 같은데 이런식으로 하면 announcement 페이지에 들어갈때마다 작업해야할 것 같은 느낌적인 느낌..
+    */
+
+    return null;
   };
 
   const getBanner = async () => {
@@ -133,7 +163,7 @@ const App = () => {
       setBannerURL(banner.data.result);
     } else {
       // eu/ 의 경로 -> 단, 새로 고침할 때, 갱신이 안된다...?
-      console.log("poster-hall의 banner path를 DB에 추가해주세요~");
+      console.log("poster-hall의 banner path를 DB에 추가해주세요~"); // 원래 poster-hall의 banner path는 따로 정해져있지 않다.
       setBannerURL("");
     }
     setBannerLoading(false);
@@ -183,7 +213,9 @@ const App = () => {
                 calcAnnouncementCached();
               }
             } else {
-              // announcement 페이지 로직 설정 필요 👀
+              // announcement 페이지 로직 설정 필요 👀 > 어떤 글이 안 읽혔는지 연산 후 표시
+              console.log("in announcement page");
+              markUnreadAnnouncement();
             }
           }
           // 비밀번호 미설정 시 reset 시키기
@@ -307,7 +339,7 @@ const App = () => {
 
   useEffect(() => {
     if (loginSuccess && authState.isLogin) {
-      console.log("로그인하자마자 데이터 획득");
+      console.log("캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득");
       calcAnnouncementCached();
     }
   }, [loginSuccess]);
@@ -331,6 +363,7 @@ const App = () => {
               setLogoutSuccess={setLogoutSuccess}
               setLogoutLoading={setLogoutLoading}
               menuStateLoading={menuStateLoading}
+              markAnnouncementAlarm={markAnnouncementAlarm}
             />
           )}
         {!bannerLoading && bannerURL && (

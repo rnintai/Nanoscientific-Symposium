@@ -268,4 +268,6 @@ router.post("/passwordset/check", usersCtrl.checkPasswordSet);
  */
 router.post("/register", usersCtrl.register);
 
+router.post("/updateAnnouncementCache", usersCtrl.updateAnnouncementCache);
+
 module.exports = router;

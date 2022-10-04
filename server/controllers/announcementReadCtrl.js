@@ -9,26 +9,29 @@ const announcementReadCtrl = {
       const annoucementReadSQL = `SELECT user_id, announcement_id FROM announcement_read WHERE user_id=${id}`;
       const annoucementSQL = `SELECT id FROM announcement`;
 
-      const annoucenmentReadData = await connection.query(annoucementReadSQL);
+      const announcementReadData = await connection.query(annoucementReadSQL);
       const announcementData = await connection.query(annoucementSQL);
+      // console.log(announcementData[0], announcementReadData[0]);
       connection.release();
       if (
-        annoucenmentReadData[0].length !== 0 &&
+        // announcement는 있지만, 읽은 기록이 있는 경우
+        announcementReadData[0].length !== 0 &&
         announcementData[0].length !== 0
       ) {
         res.status(200).json({
           success: true,
           result:
             announcementData[0].filter((el) =>
-              annoucenmentReadData[0]
+              announcementReadData[0]
                 .map((rEl) => rEl.announcement_id)
                 .includes(el.id)
-            ).length < 1
+            ).length === announcementData[0].length
               ? true
               : false,
           msg: "성공",
         });
       } else {
+        // anouncement 데이터가 없거나 announcement 데이터는 있지만, 읽은 기록이 없는 경우
         res.status(200).json({
           success: true,
           msg: "annoucementRead 혹은 annoucement의 데이터가 존재하지 않습니다.",

@@ -4,6 +4,7 @@ import { useTheme } from "@mui/material";
 export const NSSButtonContainer = styled.button`
   transition: all 0.2s ease-in-out;
   padding: 15px 10px;
+  position: relative;
   font-weight: ${() => {
     const theme = useTheme();
     return theme.typography.fontWeightBold;
@@ -68,4 +69,14 @@ export const NSSButtonContainer = styled.button`
   .loading {
     padding: 5px;
   }
+`;
+
+export const AlarmMark = styled.div`
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: red;
 `;
