@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 const MarketoForm = (props: { formId: string }) => {
   const [isRemoved, setIsRemoved] = useState<boolean>(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timer>(null);
+
+  const navigate = useNavigate();
   let intervalCnt = 0;
 
   // 마케토폼 2개 렌더링 될 시 제거
@@ -16,6 +19,11 @@ const MarketoForm = (props: { formId: string }) => {
             styleIndex.push(idx);
           }
         });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (window.MktoForms2.allForms().length > 1) {
+        navigate(0);
+      }
       if (document.querySelectorAll(".mktoForm style").length > 1) {
         for (let i = 0; i < styleIndex[1]; i += 1) {
           document

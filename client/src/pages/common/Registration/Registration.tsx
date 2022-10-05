@@ -114,6 +114,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
         document
           .querySelector("input#Email")
           ?.addEventListener("change", handleChange);
+        console.log("done");
       },
     );
     return () => {
@@ -175,6 +176,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
         state: formData.State,
         nation,
       });
+      console.log("test");
 
       // marketo submit
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -294,7 +296,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
                     ]?.validate()
                   ) {
                     // 마케토 validator가 알려줌
-                    console.log("not validated");
+                    // console.log("not validated");
                   } else if (emailValid !== 1) {
                     setEmailNotValidAlert(true);
                     window.scrollTo({ top: 0, behavior: "smooth" });
