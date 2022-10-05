@@ -264,5 +264,6 @@ router.post("/passwordset/check", usersCtrl.checkPasswordSet);
  *
  */
 router.post("/register", usersCtrl.register);
+router.delete("/unregister", usersCtrl.unregister);
 
 module.exports = router;
