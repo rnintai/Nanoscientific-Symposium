@@ -66,7 +66,20 @@ const UserDetailForm = ({
     }
   };
 
-  console.log(selectedUser);
+  const handleDelete = async () => {
+    try {
+      await axios.delete("/api/users/unregister", {
+        params: {
+          nation: pathname,
+          id: selectedUser.id,
+        },
+      });
+      setOpenUserDetailForm(false);
+      getUsers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <CommonModal
@@ -76,6 +89,7 @@ const UserDetailForm = ({
       loading={submitLoading}
       onSubmit={handleSubmit}
       hideSaveButton={!isAdmin}
+      deleteHandler={handleDelete}
     >
       <UserDetailFormContainer>
         <ul>

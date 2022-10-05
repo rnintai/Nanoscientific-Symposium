@@ -15,12 +15,15 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import {
   Box,
+  Button,
   CircularProgress,
   IconButton,
   TableFooter,
   TablePagination,
+  TextField,
 } from "@mui/material";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
+import useInput from "hooks/useInput";
 import { AdminUsersContainer } from "./AdminUsersStyles";
 import UserDetailForm from "../Forms/UserDetailForm";
 import Loading from "../../../components/Loading/Loading";
@@ -128,6 +131,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const AdminUsers = () => {
   const pathname = usePageViews();
   const [users, setUsers] = useState<User.userType[]>([]);
+  const [usersQueryResult, setUsersQueryResult] =
+    useState<User.userType[]>(null);
+  const emailQuery = useInput("");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [openUserDetailForm, setOpenUserDetailForm] = useState<boolean>(false);
@@ -161,6 +167,23 @@ const AdminUsers = () => {
     setLoading(false);
   };
 
+  // Email로 filtering
+  const filterByEmail = (query: string) => {
+    setUsersQueryResult(
+      users.filter((u, i) => {
+        if (u.email) {
+          return u.email.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+        }
+        return null;
+      }),
+    );
+  };
+
+  const handleClickSearch = () => {
+    filterByEmail(emailQuery.value);
+    setPage(0);
+  };
+
   useEffect(() => {
     setLoading(true);
 
@@ -174,6 +197,26 @@ const AdminUsers = () => {
   return (
     <AdminUsersContainer>
       <AdminLayout title="Users">
+        <TextField
+          label="Search By Email"
+          variant="filled"
+          size="small"
+          sx={{ mb: 2, mr: 1 }}
+          onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+            if (e.key === "Enter") {
+              handleClickSearch();
+            }
+          }}
+          {...emailQuery}
+        />
+        <Button
+          variant="contained"
+          onClick={handleClickSearch}
+          size="small"
+          sx={{ mr: 1 }}
+        >
+          Search
+        </Button>
         <TableContainer component={Paper}>
           <Table aria-label="customized table">
             <TableHead>
@@ -186,12 +229,15 @@ const AdminUsers = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {(rowsPerPage > 0
-                ? users.slice(
+              {(usersQueryResult && rowsPerPage > 0
+                ? usersQueryResult.slice(
                     page * rowsPerPage,
                     page * rowsPerPage + rowsPerPage,
                   )
-                : users
+                : users.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage,
+                  )
               ).map((user) => (
                 <StyledTableRow
                   key={user.id}
@@ -220,7 +266,9 @@ const AdminUsers = () => {
                 <TablePagination
                   rowsPerPageOptions={[10, 25, { label: "All", value: -1 }]}
                   colSpan={3}
-                  count={users?.length as number}
+                  count={
+                    usersQueryResult ? usersQueryResult.length : users.length
+                  }
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
