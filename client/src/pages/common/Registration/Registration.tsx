@@ -57,6 +57,29 @@ const Registration = ({ formNo }: RegistrationProps) => {
     });
 
   useEffect(() => {
+    // validation & 중복체크
+    const handleChange = async (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (
+        target.value.indexOf("@") === -1 ||
+        target.value.lastIndexOf(".") <= target.value.indexOf("@")
+      ) {
+        setEmailValid(0);
+      } else {
+        try {
+          setEmailValidLoading(true);
+          const res = await axios.post("/api/users/checkemail", {
+            email: target.value,
+            nation,
+          });
+          setEmailValid(!res.data.result ? 1 : 0);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setEmailValidLoading(false);
+        }
+      }
+    };
     // const script = document.createElement("script");
     // document.body.appendChild(script);
     setMktoLoading(true);
@@ -85,34 +108,19 @@ const Registration = ({ formNo }: RegistrationProps) => {
         document
           .querySelector("#LblEmail")
           ?.parentElement?.appendChild(validationDiv);
-
-        // validation & 중복체크
         document
           .querySelector("input#Email")
-          ?.addEventListener("change", async (e: Event) => {
-            const target = e.target as HTMLInputElement;
-            if (
-              target.value.indexOf("@") === -1 ||
-              target.value.lastIndexOf(".") <= target.value.indexOf("@")
-            ) {
-              setEmailValid(0);
-            } else {
-              try {
-                setEmailValidLoading(true);
-                const res = await axios.post("/api/users/checkemail", {
-                  email: target.value,
-                  nation,
-                });
-                setEmailValid(!res.data.result ? 1 : 0);
-              } catch (err) {
-                console.log(err);
-              } finally {
-                setEmailValidLoading(false);
-              }
-            }
-          });
+          ?.removeEventListener("change", handleChange);
+        document
+          .querySelector("input#Email")
+          ?.addEventListener("change", handleChange);
       },
     );
+    return () => {
+      document
+        .querySelector("input#Email")
+        ?.removeEventListener("change", handleChange);
+    };
   }, []);
 
   useEffect(() => {
