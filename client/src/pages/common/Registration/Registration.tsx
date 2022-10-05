@@ -114,7 +114,6 @@ const Registration = ({ formNo }: RegistrationProps) => {
         document
           .querySelector("input#Email")
           ?.addEventListener("change", handleChange);
-        console.log("done");
       },
     );
     return () => {
