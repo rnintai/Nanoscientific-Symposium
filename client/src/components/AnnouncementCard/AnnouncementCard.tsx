@@ -1,8 +1,8 @@
 /* eslint-disable react/require-default-props */
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import usePageViews from "hooks/usePageViews";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { dateToLocaleString } from "utils/Date";
 import {
   smallFontSize,
@@ -24,16 +24,21 @@ const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
   const pathname = usePageViews();
   const theme = useTheme();
   const { viewsLabel } = globalData.get(pathname) as Common.globalDataType;
+  const searchParams = useSearchParams();
 
   const thumbnailImg = content.match(/(<img([\w\W]+?)>)/g);
   const thumbnailSrc = thumbnailImg
     ? thumbnailImg[0].match(/(src="([\w\W]+?)")/g)[0].split('"')[1]
     : "";
 
+  useEffect(() => {
+    searchParams[0].set("page", String(curPage));
+  }, []);
+
   return (
     <AnnouncementCardContainer>
       <Link
-        to={{ pathname: `${id}`, search: `?page=${curPage}` }}
+        to={{ pathname: `${id}`, search: `?${searchParams[0].toString()}` }}
         style={{ width: "100%", padding: 0 }}
       >
         <Stack
