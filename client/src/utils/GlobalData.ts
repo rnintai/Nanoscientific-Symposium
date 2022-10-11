@@ -174,7 +174,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2022 NanoScientific Symposium Japan | NSS Japan",
       fullDate: "2022年11月18日金曜日",
-      eventLocation: "東京大学 本郷キャンパス",
+      eventLocation: "東京大学 本郷キャンパス 工学部２号館",
       logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
       speakers: "講演者",
       programs: "プログラム",
