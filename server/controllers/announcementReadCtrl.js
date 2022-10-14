@@ -11,7 +11,7 @@ const announcementReadCtrl = {
 
       const announcementReadData = await connection.query(annoucementReadSQL);
       const announcementData = await connection.query(annoucementSQL);
-      // console.log(announcementData[0], announcementReadData[0]);
+      console.log(announcementData[0], announcementReadData[0]);
       connection.release();
       if (
         // announcement는 있지만, 읽은 기록이 있는 경우
@@ -28,6 +28,14 @@ const announcementReadCtrl = {
             ).length === announcementData[0].length
               ? true
               : false,
+          unread: announcementData[0]
+            .filter(
+              (el) =>
+                !announcementReadData[0]
+                  .map((rEl) => rEl.announcement_id)
+                  .includes(el.id)
+            )
+            .map((el) => el.id),
           msg: "성공",
         });
       } else {
