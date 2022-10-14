@@ -23,6 +23,7 @@ const EventLanding = () => {
     bannerLogoURL,
     sponsor1LogoURL,
     sponsor2LogoURL,
+    sponsor3LogoURL,
   } = globalData.get("common") as Common.globalDataType;
 
   const theme = useTheme();
@@ -60,23 +61,23 @@ const EventLanding = () => {
                   <img className="section-logo" src={logoURL} alt="logo" />
                   {teaserVideoURL && (
                     // eslint-disable-next-line jsx-a11y/media-has-caption
-                    <video
-                      className="teaser-video"
-                      src={teaserVideoURL}
+                    // <video
+                    //   className="teaser-video"
+                    //   src={teaserVideoURL}
+                    //   height="250"
+                    //   autoPlay
+                    //   muted
+                    //   loop
+                    //   playsInline
+                    //   controls
+                    //   controlsList="nodownload"
+                    // />
+                    <YoutubeEmbed
+                      embedId={teaserVideoEmbed}
+                      width="400"
                       height="250"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      controls
-                      controlsList="nodownload"
                     />
                   )}
-                  {/* <YoutubeEmbed
-                  embedId={teaserVideoEmbed}
-                  width="400"
-                  height="250"
-                /> */}
                 </Stack>
                 <Typography
                   textAlign="left"
@@ -153,7 +154,7 @@ const EventLanding = () => {
             rel="noreferrer"
             // className="hover-zoom"
           >
-            <img src={sponsor1LogoURL} alt="park logo" height="70" />
+            <img src={sponsor1LogoURL} alt="ns logo" height="70" />
           </a>
           <a
             href="https://parksystems.com"
@@ -162,6 +163,14 @@ const EventLanding = () => {
             // className="hover-zoom"
           >
             <img src={sponsor2LogoURL} alt="park logo" height="70" />
+          </a>
+          <a
+            href="https://www.nanotechnologyworld.org/"
+            target="_blank"
+            rel="noreferrer"
+            // className="hover-zoom"
+          >
+            <img src={sponsor3LogoURL} alt="nwa logo" height="110" />
           </a>
         </Stack>
       </LandingSection>

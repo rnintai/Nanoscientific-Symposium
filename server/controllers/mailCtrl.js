@@ -114,6 +114,7 @@ const mailCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     const {
       psAbstractTitle,
+      abstractDescription,
       Salutation,
       FirstName,
       LastName,
@@ -129,7 +130,7 @@ const mailCtrl = {
     } = formData;
 
     let attachmentArr = [];
-    if (attachments.length !== 0) {
+    if (attachments && attachments.length !== 0) {
       for (attachment of attachments) {
         attachmentArr.push({
           filename: attachment.name,

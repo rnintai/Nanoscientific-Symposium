@@ -17,6 +17,7 @@ import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDeta
 import PosterHall from "pages/common/PosterHall/PosterHall";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
 import ExhibitNanoScientific from "pages/common/Exhibit/ExhibitNanoScientific";
+import JapanLocation from "pages/japan/JapanLocation/JapanLocation";
 
 const pathname = "jp";
 const formNo = "1223";
@@ -97,5 +98,9 @@ export default [
   {
     path: `/${pathname}/abstract`,
     element: <AbstractSubmission formNo={abstractFormNo} />,
+  },
+  {
+    path: `/${pathname}/location`,
+    element: <JapanLocation />,
   },
 ];

@@ -390,8 +390,27 @@ const usersCtrl = {
         success: false,
         err,
       });
-
       return false;
+    }
+  },
+  unregister: async (req, res) => {
+    const { nation, id } = req.query;
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `DELETE FROM user WHERE id=${id}`;
+      await connection.query(sql);
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(400).json({
+        success: false,
+        err,
+      });
     }
   },
 };

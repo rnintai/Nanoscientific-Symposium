@@ -81,8 +81,22 @@ const commonCtrl = {
       console.log(err);
     }
   },
+  getSpeakersAbstract: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `SELECT * FROM speaker_abstract as S`;
+      const result = await connection.query(sql);
+      connection.release();
+      res.send(result[0]);
+    } catch (err) {
+      connection.release();
+      console.log(err);
+    }
+  },
   updateSpeakerList: async (req, res) => {
-    const { nation, list } = req.body;
+    const { nation, list, abstractlist } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -107,6 +121,13 @@ const commonCtrl = {
         has_abstract=${has_abstract}
         WHERE id=${id}
         `;
+        await connection.query(sql);
+        connection.release();
+      }
+
+      while (abstractlist.length > 0) {
+        const { id, speaker_id, belong, description } = abstractlist.shift();
+        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}' WHERE id=${id}`;
         await connection.query(sql);
         connection.release();
       }
@@ -291,6 +312,13 @@ const commonCtrl = {
   getBanner: async (req, res) => {
     const { nation, path } = req.query;
     const currentPool = getCurrentPool(nation);
+    if (!currentPool) {
+      res.status(200).json({
+        success: false,
+        msg: "no banner",
+      });
+      return;
+    }
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(
@@ -702,6 +730,54 @@ const commonCtrl = {
     try {
       const sql = `
       UPDATE abstract_submission_desc as a SET a.desc="${desc}" WHERE id=1
+      `;
+      await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
+  getJapanLocation: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      SELECT * FROM location_content
+      `;
+      const row = await connection.query(sql);
+
+      connection.release();
+      res.status(200).json({
+        success: true,
+        result: row[0][0].description,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+  updateJapanLocation: async (req, res) => {
+    const { nation, content } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      UPDATE location_content SET description='${content}'
+      WHERE id=1
       `;
       await connection.query(sql);
       connection.release();

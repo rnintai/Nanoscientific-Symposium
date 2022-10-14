@@ -47,7 +47,7 @@ const WebinarForm = ({ open, setOpen, ...rest }: WebinarFormProps) => {
       setIsChecked(true);
     } catch (err) {
       console.log(err);
-      alert("THe webinar is not exist.");
+      alert("The webinar is not exist.");
       setIsChecked(false);
     } finally {
       setCheckLoading(false);

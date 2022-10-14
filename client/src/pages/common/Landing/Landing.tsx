@@ -614,6 +614,23 @@ const Landing = () => {
                 </Link>
               </NSSButton>
             )}
+            {pathname === "jp" && (
+              <NSSButton
+                className="z1"
+                variant="gradient"
+                style={{ padding: "5px 20px", marginTop: "10px" }}
+                fontSize={mainFontSize}
+                fontWeight={theme.typography.fontWeightBold}
+                letterSpacing="1.2px"
+              >
+                <Link
+                  style={{ padding: 0, color: "white" }}
+                  to={`/${pathname}/abstract`}
+                >
+                  ポスターセッション申込はこちらから
+                </Link>
+              </NSSButton>
+            )}
             <Typography
               className="z1"
               textAlign="center"

@@ -66,13 +66,9 @@ router.get(
 
 router
   .route("/webinar/registrants/:webinarId")
+  .get(zoomMiddle.getZoomToken, zoomCtrl.getRegistrantLink)
   .post(zoomMiddle.getZoomToken, zoomCtrl.addRegistrant);
 
-router.get(
-  "/webinar/registrants/:webinarId",
-  zoomMiddle.getZoomToken,
-  zoomCtrl.getRegistrantLink
-);
 router.post(
   "/webinar/registrant/fetch",
   zoomMiddle.getZoomToken,
@@ -84,5 +80,8 @@ router
   .route("/webinar/:webinarId")
   .get(zoomMiddle.getZoomToken, zoomCtrl.getWebinar)
   .delete(zoomMiddle.getZoomToken, zoomCtrl.removeWebinar);
+
+router.get("/meeting/list", zoomMiddle.getZoomToken, zoomCtrl.getMeetingList);
+router.post("/webinar/live", zoomCtrl.setLiveStatus);
 
 module.exports = router;

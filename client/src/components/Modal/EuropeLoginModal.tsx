@@ -221,11 +221,6 @@ const EuropeLoginModal = ({
   const loginHandler = async (email: string, password: string) => {
     setLoading(true);
     try {
-      await axios.post(`/api/zoom/webinar/registrant/fetch`, {
-        email,
-        nation: pathname,
-      });
-
       const res = await axios.post(
         `/api/users/login`,
         {
@@ -246,6 +241,11 @@ const EuropeLoginModal = ({
         );
         setSuccess(true);
         setPasswordInputModalOpen(false);
+
+        await axios.post(`/api/zoom/webinar/registrant/fetch`, {
+          email,
+          nation: pathname,
+        });
       } else {
         setPasswordNotMatchAlert(true);
       }

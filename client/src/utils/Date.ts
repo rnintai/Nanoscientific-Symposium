@@ -119,11 +119,25 @@ export const getUserTimezoneDate = (startTime: string, timeZone: string) => {
 
   return new Date(newDateString);
 };
+export const getUserTimezoneString = (startTime: string, timeZone: string) => {
+  const newDateString = new Date(startTime).toLocaleString("sv-SE", {
+    timeZone,
+  });
+
+  return newDateString;
+};
 
 export const isDateValid = (d: Date | null) => {
   return d instanceof Date && !Number.isNaN(d.getTime());
 };
 
+export const isDateStringValid = (d: string | null) => {
+  return new Date(d) instanceof Date && !Number.isNaN(new Date(d).getTime());
+};
+
 export const jsTimeToTimeStamp = (d: string) => {
   return d.replace("T", " ").split(".")[0];
+};
+export const timeStampToJsTime = (d: string) => {
+  return `${d.replace(" ", "T")}+00:00`;
 };

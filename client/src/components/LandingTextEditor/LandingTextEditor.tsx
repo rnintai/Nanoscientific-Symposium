@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 /* eslint-disable react/require-default-props */
 import {
   Box,
@@ -53,7 +55,9 @@ const LandingTextEditor = ({
   const theme = useTheme();
 
   const resetHandler = () => {
-    setValue(initialValue);
+    if (confirm("Are you sure to reset changes?")) {
+      setValue(initialValue);
+    }
   };
 
   return (

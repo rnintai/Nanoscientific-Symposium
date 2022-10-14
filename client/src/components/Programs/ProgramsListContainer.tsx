@@ -37,9 +37,7 @@ export const StyledTimezoneSelect = styled(TimezoneSelect)`
   margin-right: 10px;
   color: black;
 
-  #react-select-3-listbox {
-    z-index: 3;
-  }
+  z-index: 3;
 `;
 
 export const SessionContainer = styled.div``;

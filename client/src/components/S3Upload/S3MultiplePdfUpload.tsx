@@ -10,7 +10,7 @@ import { Button, Fab, Stack, Typography, useTheme } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
 import { useLocation } from "react-router";
 import usePageViews from "hooks/usePageViews";
-import { S3_URL } from "utils/GlobalData";
+import { globalData, S3_URL } from "utils/GlobalData";
 import { Box } from "@mui/system";
 import { smallFontSize } from "utils/FontSize";
 import NSSButton from "components/Button/NSSButton";
@@ -66,6 +66,9 @@ const S3MultiplePdfUpload = ({
 
   const [fileList, setFileList] = useState<File[]>([]);
   const [filePathList, setFilePathList] = useState<FilePathType[]>([]);
+
+  const { submitBtnText, pdfUploadDescription, uploadBtnText } =
+    globalData.get(pathname);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -253,11 +256,11 @@ const S3MultiplePdfUpload = ({
                 width: "100%",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
+                // whiteSpace: "nowrap",
               }}
               color={theme.palette.grey.A400}
             >
-              Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)
+              {pdfUploadDescription}
             </Typography>
           </Stack>
           <input
@@ -286,7 +289,7 @@ const S3MultiplePdfUpload = ({
           >
             <Typography fontSize={smallFontSize}>
               {progress === -1 || progress === 100
-                ? "Upload File"
+                ? uploadBtnText
                 : `${progress}%`}
             </Typography>
           </Box>
@@ -320,7 +323,7 @@ const S3MultiplePdfUpload = ({
         disabled={uploadLoading}
         loading={submitLoading}
       >
-        Submit
+        {submitBtnText}
       </NSSButton>
     </>
   );

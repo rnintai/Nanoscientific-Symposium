@@ -26,6 +26,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 
 // utils
 import { dateToLocaleString, calculateDurationToString } from "utils/Date";
+import { subHeadingFontSize, smallFontSize } from "utils/FontSize";
 
 import CommonModal from "components/CommonModal/CommonModal";
 import useInput from "hooks/useInput";
@@ -42,7 +43,7 @@ import { ZoomCardContainer } from "./ZoomCardStyles";
 interface ZoomCardProps {
   webinar: Webinar.webinarType;
   timezone: string;
-  isOnAir: boolean;
+  isMeeting: boolean;
   setSuccessAlert: React.Dispatch<boolean>;
   setFailedAlert: React.Dispatch<boolean>;
 }
@@ -55,7 +56,7 @@ interface QuestionType {
 const ZoomCard = ({
   webinar,
   timezone,
-  isOnAir,
+  isMeeting,
   setSuccessAlert,
   setFailedAlert,
 }: ZoomCardProps) => {
@@ -75,18 +76,27 @@ const ZoomCard = ({
   // questions state
   const [questions, setQuestions] = useState<any>();
   // register 여부
-  const [isWebinarRegistered, setIsWebinarRegistered] =
-    useState<boolean>(false);
+  // const [isWebinarRegistered, setIsWebinarRegistered] = useState<-1 | 0 | 1>(
+  //   -1,
+  // );
   // 유저 별 join link
-  const [joinLink, setJoinLink] = useState<string>("");
+  const [appJoinLink, setAppJoinLink] = useState<string>("");
   const [webJoinLink, setWebJoinLink] = useState<string>("");
+
+  const [currentLive, setCurrentLive] = useState<number>(webinar.is_live);
+  const [liveToggleLoading, setLiveToggleLoading] = useState<boolean>(false);
+
+  const [isAppRegistering, setIsAppRegistering] = useState<boolean>(false);
+
   // loading
   const [getQuestionsLoading, setGetQuestionsLoading] =
     useState<boolean>(false);
   const [addRegistrantLoading, setAddRegistrantLoading] =
     useState<boolean>(false);
   const [getRegistrantLinkLoading, setGetRegistrantLinkLoading] =
-    useState<boolean>(true);
+    useState<boolean>(false);
+  const [openWebLinkLoading, setOpenWebLinkLoading] = useState<boolean>(false);
+  const [openAppLinkLoading, setOpenAppLinkLoading] = useState<boolean>(false);
 
   // form validation
   const isEmail1Empty = email1.value === "";
@@ -118,7 +128,6 @@ const ZoomCard = ({
           };
         });
         setQuestions(toBeUpdated);
-
         setOpenRegisterModal(true);
       })
       .catch((err) => {
@@ -143,7 +152,12 @@ const ZoomCard = ({
       .then(() => {
         setSuccessAlert(true);
         setOpenRegisterModal(false);
-        navigate(0);
+        // navigate(0);
+        if (isAppRegistering) {
+          handleOpenAppLink();
+        } else {
+          handleOpenWebLink();
+        }
       })
       .catch(() => {
         setFailedAlert(true);
@@ -164,25 +178,6 @@ const ZoomCard = ({
       } catch (error) {
         console.log(error);
       }
-    }
-  };
-
-  // get registrant list handler
-  const getRegistrantLink = async () => {
-    setGetRegistrantLinkLoading(true);
-    try {
-      const res = await axios.get(
-        `/api/zoom/webinar/registrants/${webinar.id}?email=${authState.email}&nation=${pathname}`,
-      );
-      setIsWebinarRegistered(!!res.data.result);
-      if (res.data.result) {
-        setJoinLink(res.data.result);
-        setWebJoinLink(res.data.result.replace("/w/", "/wc/join/"));
-      }
-    } catch (error) {
-      alert(error);
-    } finally {
-      setGetRegistrantLinkLoading(false);
     }
   };
 
@@ -208,8 +203,90 @@ const ZoomCard = ({
     return result;
   };
 
+  // web link open handler
+  const handleOpenWebLink = async () => {
+    if (webJoinLink === "") {
+      try {
+        setOpenWebLinkLoading(true);
+        const res = await axios.get(
+          `/api/zoom/webinar/registrants/${webinar.id}`,
+          {
+            params: { email: authState.email, nation: pathname },
+          },
+        );
+        if (res.data.result) {
+          setWebJoinLink(res.data.result.replace("/w/", "/wc/join/"));
+          setAppJoinLink(res.data.result);
+          window.open(res.data.result.replace("/w/", "/wc/join/"), "_blank");
+        } else {
+          setIsAppRegistering(false);
+          getQuestionsHandler();
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setOpenWebLinkLoading(false);
+      }
+    } else {
+      window.open(webJoinLink, "_blank");
+    }
+    // register 예외
+  };
+  // app link open handler
+  const handleOpenAppLink = async () => {
+    if (appJoinLink === "") {
+      try {
+        setOpenAppLinkLoading(true);
+        const res = await axios.get(
+          `/api/zoom/webinar/registrants/${webinar.id}`,
+          {
+            params: { email: authState.email, nation: pathname },
+          },
+        );
+        if (res.data.result) {
+          setWebJoinLink(res.data.result.replace("/w/", "/wc/join/"));
+          setAppJoinLink(res.data.result);
+          window.open(res.data.result, "_blank");
+        } else {
+          setIsAppRegistering(true);
+          getQuestionsHandler();
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setOpenAppLinkLoading(false);
+      }
+    } else {
+      window.open(appJoinLink, "_blank");
+    }
+    // register 예외
+  };
+
+  const handleLiveClick = async () => {
+    try {
+      setLiveToggleLoading(true);
+
+      await axios.post("/api/zoom/webinar/live", {
+        nation: pathname,
+        id: webinar.id,
+        isLive: currentLive === 1 ? 0 : 1,
+        isMeeting,
+      });
+
+      setCurrentLive(currentLive === 1 ? 0 : 1);
+      // navigate(0);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLiveToggleLoading(false);
+    }
+  };
+
   useEffect(() => {
-    getRegistrantLink();
+    if (isMeeting) {
+      setWebJoinLink(webinar.join_url.replace("/j/", "/wc/join/"));
+      setAppJoinLink(webinar.join_url);
+    }
   }, []);
 
   return (
@@ -226,25 +303,42 @@ const ZoomCard = ({
             raised
           >
             <CardHeader
-              avatar={
-                <VideocamIcon
-                  sx={{
-                    color: isOnAir
-                      ? "#e60000"
-                      : theme.palette.whitescale.alpha50,
-                  }}
-                  fontSize="medium"
-                />
+              title={
+                <Stack alignItems="flex-start">
+                  {isEditor ? (
+                    <button
+                      type="button"
+                      className={`live-icon${currentLive ? "" : " off"}`}
+                      style={{
+                        pointerEvents: liveToggleLoading ? "none" : "initial",
+                      }}
+                      onClick={handleLiveClick}
+                    >
+                      LIVE
+                    </button>
+                  ) : (
+                    <span className={`live-icon${currentLive ? "" : " off"}`}>
+                      LIVE
+                    </span>
+                  )}
+                  <Typography fontSize={subHeadingFontSize}>
+                    {webinar.topic}
+                  </Typography>
+                </Stack>
               }
-              title={webinar.topic}
-              subheader={`${dateToLocaleString(
-                webinar.start_time,
-                timezone,
-              )} - ${calculateDurationToString(
-                webinar.start_time,
-                webinar.duration,
-                timezone,
-              )}`}
+              subheader={
+                <Typography
+                  fontSize={smallFontSize}
+                  color="rgba(255, 255, 255, 0.68)"
+                >
+                  {`${dateToLocaleString(webinar.start_time, timezone)} - 
+                  ${calculateDurationToString(
+                    webinar.start_time,
+                    webinar.duration,
+                    timezone,
+                  )}`}
+                </Typography>
+              }
               titleTypographyProps={{
                 color: theme.palette.primary.contrastText,
                 textOverflow: "ellipsis",
@@ -265,43 +359,29 @@ const ZoomCard = ({
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
-                height: "52.5px",
+                flexDirection: { mobile: "column", tablet: "row" },
               }}
               disableSpacing
             >
-              {isWebinarRegistered ? (
-                <>
-                  <Button
-                    onClick={() => {
-                      window.open(webJoinLink, "_blank");
-                    }}
-                    variant="outlined"
-                    sx={{ marginBottom: { mobile: "5px", desktop: "0" } }}
-                    startIcon={<LanguageIcon />}
-                  >
-                    Join via Browser
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      window.open(joinLink, "_blank");
-                    }}
-                    variant="outlined"
-                    endIcon={<MeetingRoomIcon />}
-                  >
-                    JOIN via Zoom App
-                  </Button>
-                </>
-              ) : (
-                <LoadingButton
-                  onClick={getQuestionsHandler}
-                  variant="outlined"
-                  startIcon={<ContactPageRoundedIcon />}
-                  loading={getQuestionsLoading}
-                >
-                  Register
-                </LoadingButton>
-              )}
-              {isEditor && (
+              <LoadingButton
+                onClick={handleOpenWebLink}
+                variant="outlined"
+                sx={{ marginBottom: { mobile: "5px", desktop: "0" } }}
+                startIcon={<LanguageIcon />}
+                loading={openWebLinkLoading}
+              >
+                Join via Browser
+              </LoadingButton>
+              <LoadingButton
+                onClick={handleOpenAppLink}
+                variant="outlined"
+                endIcon={<MeetingRoomIcon />}
+                loading={openAppLinkLoading}
+              >
+                JOIN via Zoom App
+              </LoadingButton>
+
+              {isEditor && !isMeeting && (
                 <IconButton
                   sx={{
                     position: "absolute",

@@ -267,6 +267,7 @@ router.post("/passwordset/check", usersCtrl.checkPasswordSet);
  *
  */
 router.post("/register", usersCtrl.register);
+router.delete("/unregister", usersCtrl.unregister);
 
 router.post("/updateAnnouncementCache", usersCtrl.updateAnnouncementCache);
 

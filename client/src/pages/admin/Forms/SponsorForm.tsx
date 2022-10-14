@@ -218,20 +218,6 @@ const SponsorForm = ({
         setUploadLoading={setUploadLoading}
         uploadPath="sponsor"
       />
-      {edit && (
-        <LoadingButton
-          loading={deleteLoading || uploadLoading}
-          variant="contained"
-          color="error"
-          style={{
-            position: "absolute",
-            right: "22px",
-            top: "12px",
-          }}
-        >
-          Delete
-        </LoadingButton>
-      )}
     </CommonModal>
   );
 };

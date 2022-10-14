@@ -4,78 +4,173 @@ const jwt = require("jsonwebtoken");
 const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const zoomCtrl = {
+  // getWebinarList: async (req, res) => {
+  //   const { nation } = req.query;
+  //   const currentPool = getCurrentPool(nation);
+  //   const connection = await currentPool.getConnection(async (conn) => conn);
+
+  //   const sql = `SELECT webinar_id FROM webinar`;
+  //   const row = await connection.query(sql);
+
+  //   const webinarIdList = row[0].map((e) => e.webinar_id);
+
+  //   let result = [];
+  //   for (let wi of webinarIdList) {
+  //     try {
+  //       let response = await axios.get(
+  //         `https://api.zoom.us/v2/webinars/${wi}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${res.locals.zoom_token}`,
+  //           },
+  //         }
+  //       );
+  //       const {
+  //         uuid,
+  //         id,
+  //         host_id,
+  //         created_at,
+  //         duration,
+  //         join_url,
+  //         start_time,
+  //         timezone,
+  //         topic,
+  //         type,
+  //       } = response.data;
+  //       result.push({
+  //         uuid,
+  //         id,
+  //         host_id,
+  //         created_at,
+  //         duration,
+  //         join_url,
+  //         start_time,
+  //         timezone,
+  //         topic,
+  //         type,
+  //         connected: true,
+  //       });
+  //     } catch (err) {
+  //       result.push({ id: wi, connected: false });
+  //       continue;
+  //     }
+  //   }
+  //   connection.release();
+
+  //   res.status(200).json({
+  //     result,
+  //     success: true,
+  //   });
+  // },
+
   getWebinarList: async (req, res) => {
     const { nation } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-    // try {
-    const sql = `SELECT webinar_id FROM webinar`;
-    const row = await connection.query(sql);
 
-    const webinarIdList = row[0].map((e) => e.webinar_id);
+    try {
+      const sql = `SELECT * FROM webinar`;
+      const row = await connection.query(sql);
 
-    let result = [];
-    for (let wi of webinarIdList) {
-      try {
-        let response = await axios.get(
-          `https://api.zoom.us/v2/webinars/${wi}`,
+      const webinarList = row[0].filter((w) => !w.is_meeting);
+      const meetingList = row[0].filter((w) => w.is_meeting);
+
+      const webinarIdList = webinarList.map((e) => e.webinar_id);
+
+      let result;
+      let response = await axios.get(
+        `https://api.zoom.us/v2/users/${res.locals.zoom_email}/webinars`,
+        {
+          headers: {
+            Authorization: `Bearer ${res.locals.zoom_token}`,
+          },
+        }
+      );
+      result = response.data.webinars;
+      while (response.data.next_page_token !== "") {
+        response = await axios.get(
+          `https://api.zoom.us/v2/users/${res.locals.zoom_email}/webinars?next_page_token=${response.data.next_page_token}`,
           {
             headers: {
               Authorization: `Bearer ${res.locals.zoom_token}`,
             },
           }
         );
-        const {
-          uuid,
-          id,
-          host_id,
-          created_at,
-          duration,
-          join_url,
-          start_time,
-          timezone,
-          topic,
-          type,
-        } = response.data;
-        result.push({
-          uuid,
-          id,
-          host_id,
-          created_at,
-          duration,
-          join_url,
-          start_time,
-          timezone,
-          topic,
-          type,
-          connected: true,
-        });
-      } catch (err) {
-        result.push({ id: wi, connected: false });
-        continue;
+        result = [...result, ...response.data.webinars];
       }
+
+      result = result.filter((w) => webinarIdList.indexOf(`${w.id}`) !== -1);
+      result = result.map((r, i) => {
+        return {
+          ...r,
+          is_live: row[0][i].is_live,
+        };
+      });
+
+      //
+      for (let m of meetingList) {
+        try {
+          let response = await axios.get(
+            `https://api.zoom.us/v2/meetings/${m.webinar_id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${res.locals.zoom_token}`,
+              },
+            }
+          );
+          const {
+            uuid,
+            id,
+            host_id,
+            created_at,
+            duration,
+            join_url,
+            start_time,
+            timezone,
+            topic,
+            type,
+          } = response.data;
+          result.push({
+            uuid,
+            id,
+            host_id,
+            created_at,
+            duration,
+            join_url,
+            start_time,
+            timezone,
+            topic,
+            type,
+            is_live: m.is_live,
+            is_meeting: true,
+            connected: true,
+          });
+          result = result.sort(
+            (a, b) => new Date(a.start_time) - new Date(b.start_time)
+          );
+        } catch (err) {
+          result.push({ id: mi, connected: false });
+          continue;
+        }
+      }
+
+      res.status(200).json({
+        success: true,
+        result,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({
+        err,
+      });
     }
-    connection.release();
-
-    res.status(200).json({
-      result,
-      success: true,
-    });
-    // } catch (err) {
-    //   console.log(err);
-    //   connection.release();
-
-    //   res.status(400).json({
-    //     err,
-    //   });
-    // }
   },
 
   getWebinar: async (req, res) => {
     const { nation } = req.query;
     const { webinarId } = req.params;
     const currentPool = getCurrentPool(nation);
-    // const connection = await currentPool.getConnection(async (conn) => conn);
+
     try {
       let response = await axios.get(
         `https://api.zoom.us/v2/webinars/${webinarId}`,
@@ -150,35 +245,35 @@ const zoomCtrl = {
       });
     }
   },
-  addRegistrant: async (req, res) => {
-    const { questions } = req.body;
-    let newQuestions = {};
+  // addRegistrant: async (req, res) => {
+  //   const { questions } = req.body;
+  //   let newQuestions = {};
 
-    Object.entries(questions).forEach(
-      (question) => (newQuestions[question[0]] = question[1].value)
-    );
-    console.log(newQuestions);
+  //   Object.entries(questions).forEach(
+  //     (question) => (newQuestions[question[0]] = question[1].value)
+  //   );
+  //   console.log(newQuestions);
 
-    try {
-      const response = await axios.post(
-        `https://api.zoom.us/v2/webinars/${req.params.webinarId}/registrants`,
-        newQuestions,
-        {
-          headers: {
-            Authorization: `Bearer ${res.locals.zoom_token}`,
-          },
-        }
-      );
-      res.status(200).json({
-        result: response.data,
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(400).json({
-        err,
-      });
-    }
-  },
+  //   try {
+  //     const response = await axios.post(
+  //       `https://api.zoom.us/v2/webinars/${req.params.webinarId}/registrants`,
+  //       newQuestions,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${res.locals.zoom_token}`,
+  //         },
+  //       }
+  //     );
+  //     res.status(200).json({
+  //       result: response.data,
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //     res.status(400).json({
+  //       err,
+  //     });
+  //   }
+  // },
   addRegistrant: async (req, res) => {
     const { questions, nation } = req.body;
     const currentPool = getCurrentPool(nation);
@@ -260,7 +355,6 @@ const zoomCtrl = {
     }
   },
   fetchRegistrantId: async (req, res) => {
-    const { webinarId } = req.params;
     const { email, nation } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
@@ -395,6 +489,88 @@ const zoomCtrl = {
       });
     }
     connection.release();
+  },
+  getMeetingList: async (req, res) => {
+    const { nation } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    // try {
+    const sql = `SELECT meeting_id, is_live FROM discussion_table`;
+    const row = await connection.query(sql);
+
+    // const meetingIdList = row[0].map((e) => e.meeting_id);
+
+    let result = [];
+    for (let m of row[0]) {
+      try {
+        let response = await axios.get(
+          `https://api.zoom.us/v2/meetings/${m.meeting_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${res.locals.zoom_token}`,
+            },
+          }
+        );
+        const {
+          uuid,
+          id,
+          host_id,
+          created_at,
+          duration,
+          join_url,
+          start_time,
+          timezone,
+          topic,
+          type,
+        } = response.data;
+        result.push({
+          uuid,
+          id,
+          host_id,
+          created_at,
+          duration,
+          join_url,
+          start_time,
+          timezone,
+          topic,
+          type,
+          is_live: m.is_live,
+          connected: true,
+        });
+      } catch (err) {
+        result.push({ id: mi, connected: false });
+        continue;
+      }
+    }
+    connection.release();
+
+    res.status(200).json({
+      result,
+      success: true,
+    });
+  },
+
+  setLiveStatus: async (req, res) => {
+    const { nation, id, isLive, isMeeting } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql = "";
+      if (isMeeting) {
+        sql = `UPDATE discussion_table SET is_live=${isLive} WHERE meeting_id='${id}'`;
+      } else {
+        sql = `UPDATE webinar SET is_live=${isLive} WHERE webinar_id='${id}'`;
+      }
+      await connection.query(sql);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      res.status(400).json({
+        err,
+      });
+    }
   },
 };
 

@@ -50,6 +50,13 @@ declare namespace Speaker {
     rawDescription?: string;
   }
 
+  interface speakerAbstractType {
+    id: number;
+    speaker_id: number;
+    belong: string;
+    description: string;
+  }
+
   interface japanSpeakerType {
     id: number;
     name_en: string;
@@ -162,6 +169,7 @@ declare namespace Common {
     goPrevText?: string;
     submitBtnText?: string;
     registerBtnText?: string;
+    uploadBtnText?: string;
 
     // user 관련
     emailInputLabel?: string;
@@ -171,6 +179,7 @@ declare namespace Common {
     adminBtnText?: string;
     signOutBtnText?: string;
     changePasswordBtnText?: string;
+    passwordSetDescription?: string;
 
     // registration 관련
     registrationStep1Label?: string;
@@ -188,6 +197,7 @@ declare namespace Common {
     bannerLogoURL?: string;
     sponsor1LogoURL?: string;
     sponsor2LogoURL?: string;
+    sponsor3LogoURL?: string;
 
     // landing
     showLandingSection1?: boolean;
@@ -236,6 +246,9 @@ declare namespace Common {
 
     // announcement
     viewsLabel?: string;
+
+    // pdf uploader
+    pdfUploadDescription?: string;
   }
 
   interface MetaTagType {
@@ -258,6 +271,10 @@ declare namespace Webinar {
     topic: string;
     type: number;
     connected: boolean;
+    is_live: number;
+    is_meeting?: boolean;
+    web_join_link?: string;
+    app_join_link?: string;
   }
 }
 

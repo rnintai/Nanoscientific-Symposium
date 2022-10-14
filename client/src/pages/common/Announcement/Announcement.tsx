@@ -56,7 +56,7 @@ const Announcement = () => {
     searchParams[0].set("page", String(curPage));
     navigate({
       pathname: "",
-      search: `?page=${curPage}`,
+      search: `?${searchParams[0].toString()}`,
     });
   };
   const [curPage, setCurPage] = useState<number>(

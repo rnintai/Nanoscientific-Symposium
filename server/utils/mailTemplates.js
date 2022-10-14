@@ -113,6 +113,7 @@ module.exports = {
   abstractMailHTML: (formData) => {
     const {
       psAbstractTitle,
+      abstractDescription,
       Salutation,
       FirstName,
       LastName,
@@ -138,15 +139,26 @@ module.exports = {
             psPresentationForm ? psPresentationForm : "Poster"
           }</li>
           <li>Topic: ${psAbstractTitle}</li>
-          <li>Email Address: ${Email}</li>
-          <li>Name: ${Salutation} ${FirstName} ${LastName}</li>
+          ${
+            abstractDescription
+              ? `<li>Abstract Description: ${abstractDescription}</li>`
+              : ""
+          }
+          ${Email ? `<li>Email Address: ${Email}</li>` : ""} 
+          <li>Name: ${
+            Salutation ? Salutation : ""
+          } ${FirstName} ${LastName}</li>
           <li>Company/Organization: ${Company}</li>
           <li>Department: ${Department ? Department : "N/A"}</li>
           <li>Contact Number: ${Phone}</li>
-          <li>Country/Region: ${Country}</li>
-          <li>State/Province: ${State}</li>
-          <li>Application: ${psApplications}</li>
-          <li>Using AFM Model: ${psExistingAFMBrand}</li>
+          ${Country ? `<li>Country/Region: ${Country}</li>` : ""}
+          ${State ? `<li>State/Province: ${State}</li>` : ""}
+          ${psApplications ? `<li>Application: ${psApplications}</li>` : ""}
+          ${
+            psExistingAFMBrand
+              ? `<li>Using AFM Model: ${psExistingAFMBrand}</li>`
+              : ""
+          }
         </ul>
       </div>
       <div style="margin-top: 20px">

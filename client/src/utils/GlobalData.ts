@@ -45,7 +45,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       ],
       logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
       teaserVideoURL: `${S3_URL}/common/2022NSS_Teaser_v1.0_LQ.mp4`,
-      teaserVideoEmbed: "a",
+      teaserVideoEmbed: "R9vwS37g9SU",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
       eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
       eventLandingDesc: `
@@ -57,6 +57,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       `,
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
       sponsor2LogoURL: `${S3_URL}/common/Park_logo.svg`,
+      sponsor3LogoURL: `${S3_URL}/upload/china/sponsor/NWAlogo2022_1664861519562.PNG`,
 
       registrationBannerDesktopURL: `${S3_URL}/common/registration-banner-desktop.jpg`,
       registrationBannerMobileURL: `${S3_URL}/common/registration-banner-mobile.jpg`,
@@ -81,6 +82,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "Upload",
       submitBtnText: "SUBMIT",
       registerBtnText: "REGISTER",
       // user관련
@@ -108,6 +110,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
     },
   ],
   [
@@ -130,6 +136,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       registration: "등록",
       goNextText: "다음",
       goPrevText: "이전",
+      uploadBtnText: "Upload",
+      submitBtnText: "제출",
+
       // user관련
       emailInputLabel: "이메일 주소",
       passwordInputLabel: "비밀번호",
@@ -154,6 +163,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
     },
   ],
   [
@@ -161,7 +174,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2022 NanoScientific Symposium Japan | NSS Japan",
       fullDate: "2022年11月18日金曜日",
-      eventLocation: "東京大学 本郷キャンパス",
+      eventLocation: "東京大学 本郷キャンパス 工学部２号館",
       logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
       speakers: "講演者",
       programs: "プログラム",
@@ -177,11 +190,16 @@ export const globalData = new Map<string, Common.globalDataType>([
       registration: "参加登録はこちらから",
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "ポスターのアップロード",
+      submitBtnText: "提出",
+
       // user관련
       emailInputLabel: "Email address",
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot Password?",
       createAccountText: "参加登録はこちらから",
+      passwordSetDescription:
+        "本サイトをご利用になるにはIDとパスワードが必要です。IDはご入力いただきましたメールアドレスとなりますので、以下にてパスワードの設定をお願いいたします。",
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/jp/main-page-banner.jpg`,
@@ -199,6 +217,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "アップロード可能なファイル形式 (.pdf, .docx, .pptx) (ファイルサイズ最大 15MBまで)",
     },
   ],
   [
@@ -218,6 +240,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "Upload",
       submitBtnText: "SUBMIT",
       // user관련
       emailInputLabel: "Email Address",
@@ -242,6 +265,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
     },
   ],
   [
@@ -260,6 +287,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
+      uploadBtnText: "Upload",
       submitBtnText: "SUBMIT",
       // user관련
       emailInputLabel: "Email Address",
@@ -284,6 +312,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
       seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
 
       // speaker
       speakerBannerURL: `${S3_URL}/eu/speaker-banner.jpg`,

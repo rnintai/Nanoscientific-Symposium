@@ -4,8 +4,12 @@ import usePageViews from "hooks/usePageViews";
 import * as ReactQuill from "react-quill";
 import { S3_URL } from "utils/GlobalData";
 import ImageResize from "quill-image-resize";
+import htmlEditButton from "quill-html-edit-button";
 
-ReactQuill.Quill.register("modules/ImageResize", ImageResize);
+ReactQuill.Quill.register({
+  "modules/ImageResize": ImageResize,
+  "modules/htmlEditButton": htmlEditButton,
+});
 
 interface editorProps {
   value: string;
@@ -16,6 +20,10 @@ const QuillEditor = (props: editorProps) => {
   const { value, setValue } = props;
   const quillRef = useRef<ReactQuill>(); // 에디터 접근을 위한 ref
   const pathname = usePageViews();
+
+  // const htmlTextArea = document.createElement("textarea");
+  // const attrHtmlTextArea = document.createAttribute("quill__html");
+  // htmlTextArea.setAttributeNode(attrHtmlTextArea);
 
   const imageHandler = () => {
     // 1. 이미지를 저장할 input type=file DOM을 만든다.
@@ -99,6 +107,15 @@ const QuillEditor = (props: editorProps) => {
   // Size.whitelist = fontSizeArr;
   // ReactQuill.Quill.register(Size, true);
 
+  // const htmlHandler = () => {
+  //   const activeTextArea =
+  //     htmlTextArea.getAttribute("quill__html").indexOf("-active-") > -1;
+
+  //   if (activeTextArea) {
+  //     quillRef.pasteHTML(htmlTextArea.value);
+  //   }
+  // };
+
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -120,10 +137,22 @@ const QuillEditor = (props: editorProps) => {
         handlers: {
           // 이미지 처리는 우리가 직접 imageHandler라는 함수로 처리할 것이다.
           image: imageHandler,
+          // "code-block": htmlHandler,
         },
       },
       ImageResize: {
         parchment: ReactQuill.Quill.import("parchment"),
+      },
+      htmlEditButton: {
+        debug: true, // logging, default:false
+        msg: "Edit the content in HTML format", // Custom message to display in the editor, default: Edit HTML here, when you click "OK" the quill editor's contents will be replaced
+        okText: "Ok", // Text to display in the OK button, default: Ok,
+        cancelText: "Cancel", // Text to display in the cancel button, default: Cancel
+        buttonHTML: "&lt;&gt;", // Text to display in the toolbar button, default: <>
+        buttonTitle: "Show HTML source", // Text to display as the tooltip for the toolbar button, default: Show HTML source
+        syntax: false, // Show the HTML with syntax highlighting. Requires highlightjs on window.hljs (similar to Quill itself), default: false
+        prependSelector: "div#myelement", // a string used to select where you want to insert the overlayContainer, default: null (appends to body),
+        editorModules: {}, // The default mod
       },
     };
   }, []);
