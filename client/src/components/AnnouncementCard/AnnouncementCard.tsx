@@ -16,10 +16,15 @@ import { AnnouncementCardContainer } from "./AnnouncementCardStyles";
 
 interface announcementCardProps {
   announcement: Announcement.announcementType;
+  mark: boolean;
   curPage?: number;
 }
 
-const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
+const AnnouncementCard = ({
+  announcement,
+  mark,
+  curPage,
+}: announcementCardProps) => {
   const { id, title, content, hits, created } = announcement;
   const pathname = usePageViews();
   const theme = useTheme();
@@ -33,6 +38,7 @@ const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
 
   useEffect(() => {
     searchParams[0].set("page", String(curPage));
+    console.log(mark);
   }, []);
 
   return (

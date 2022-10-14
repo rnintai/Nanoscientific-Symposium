@@ -30,6 +30,9 @@ const Announcement = () => {
   const theme = useTheme();
   const [announcementList, setAnnouncementList] =
     useState<Announcement.announcementType[]>(null);
+  const [unreadAnnouncementList, setUnreadAnnouncementList] = useState<
+    number[]
+  >([]);
   const searchParams = useSearchParams();
   const navigate = useNavigate();
   const authState = useAuthState();
@@ -47,6 +50,26 @@ const Announcement = () => {
   const [getAnnouncementsLoading, setGetAnnouncementsLoading] =
     useState<boolean>(false);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+
+  const markUnreadAnnouncement = () => {
+    /*
+    1. user에 해당하는 announcement_read 데이터만 모두 가져온다.
+    2. 해당 데이터를 제외한 announcement 데이터는 안읽은 것이므로 이에 대해 빨간색으로 표시해준다.
+    3. 사실 한번만 가져와야할 것 같은데 이런식으로 하면 announcement 페이지에 들어갈때마다 작업해야할 것 같은 느낌적인 느낌..
+    */
+    axios
+      .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
+      .then((res) => {
+        if (res.data.success) {
+          setUnreadAnnouncementList(res.data.unread);
+        } else {
+          console.log(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   // 총 페이지
   const getPageQuery = () => {
@@ -106,6 +129,7 @@ const Announcement = () => {
   useEffect(() => {
     setPageQuery(curPage);
     getAnnouncements(curPage);
+    markUnreadAnnouncement();
   }, []);
 
   useEffect(() => {
@@ -144,6 +168,10 @@ const Announcement = () => {
                 announcement={a}
                 curPage={curPage}
                 key={`announcement-${a.id}`}
+                unreadList={unreadAnnouncementList}
+                {...(unreadAnnouncementList.includes(a.id)
+                  ? { mark: true }
+                  : { mark: false })}
               />
             ))}
         </Box>

@@ -140,16 +140,6 @@ const App = () => {
       });
   };
 
-  const markUnreadAnnouncement = () => {
-    /*
-    1. user에 해당하는 announcement_read 데이터만 모두 가져온다.
-    2. 해당 데이터를 제외한 announcement 데이터는 안읽은 것이므로 이에 대해 빨간색으로 표시해준다.
-    3. 사실 한번만 가져와야할 것 같은데 이런식으로 하면 announcement 페이지에 들어갈때마다 작업해야할 것 같은 느낌적인 느낌..
-    */
-
-    return null;
-  };
-
   const getBanner = async () => {
     setBannerLoading(true);
     const banner = await axios.get(
@@ -206,16 +196,16 @@ const App = () => {
             });
             // 로그인했을 때x 로그인 되어있을 때o, is_announcement_cached 판단 -> 로그인 시 어떤 페이지를 이동하든 여기를 거친다..
             // 새로고침할 때는 무조건 렌더링 2번?? 왜?? 거친다.
-            if (!window.location.pathname.includes("announcement")) {
-              if (isAnnouncementCached) {
-                console.log("캐시되어 있다.");
-              } else {
-                calcAnnouncementCached();
-              }
-            } else {
+            if (window.location.pathname.includes("announcement")) {
               // announcement 페이지 로직 설정 필요 👀 > 어떤 글이 안 읽혔는지 연산 후 표시
               console.log("in announcement page");
-              markUnreadAnnouncement();
+              // markUnreadAnnouncement(); > announcement.tsx에서 처리
+            }
+            // 페이지 이동 및 새로고침 할 때마다 검사
+            if (isAnnouncementCached) {
+              console.log("캐시되어 있다.");
+            } else {
+              calcAnnouncementCached();
             }
           }
           // 비밀번호 미설정 시 reset 시키기
