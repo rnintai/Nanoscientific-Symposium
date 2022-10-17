@@ -107,6 +107,26 @@ const Announcement = () => {
     }
   };
 
+  const initAnnouncementCache = () => {
+    try {
+      axios
+        .post("/api/users/updateAnnouncementCache", {
+          email: authState.email,
+          nation: pathname,
+          flag: false,
+        })
+        .then((res) => {
+          if (res.data.success === true) {
+            console.log(res.data.msg);
+          } else {
+            console.log(res.data.msg);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const submitHandler = async () => {
     try {
       setSubmitLoading(true);
@@ -119,6 +139,7 @@ const Announcement = () => {
         setOpenWriteModal(false);
         setOpenSuccessAlert(true);
         getAnnouncements(curPage);
+        initAnnouncementCache();
       }
     } catch (err) {
       alert(err);
@@ -129,7 +150,9 @@ const Announcement = () => {
   useEffect(() => {
     setPageQuery(curPage);
     getAnnouncements(curPage);
-    markUnreadAnnouncement();
+    if (authState.id) {
+      markUnreadAnnouncement();
+    }
   }, []);
 
   useEffect(() => {
@@ -166,12 +189,11 @@ const Announcement = () => {
             announcementList.map((a) => (
               <AnnouncementCard
                 announcement={a}
+                user_id={authState.id}
                 curPage={curPage}
                 key={`announcement-${a.id}`}
-                unreadList={unreadAnnouncementList}
-                {...(unreadAnnouncementList.includes(a.id)
-                  ? { mark: true }
-                  : { mark: false })}
+                unreadAnnouncementList={unreadAnnouncementList}
+                setUnreadAnnouncementList={setUnreadAnnouncementList}
               />
             ))}
         </Box>

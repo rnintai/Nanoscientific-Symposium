@@ -86,39 +86,18 @@ const App = () => {
 
   // banner
   const [bannerURL, setBannerURL] = useState<string>("");
-  // const [uploadLoading, setUploadLoading] = useState<boolean>(false);
-  // const [imagePath, setImagePath] = useState<string>("");
-
-  // const getBannerData = async () => {
-  //   setBannerLoading(true);
-
-  //   const banner = await axios.get(
-  //     `/api/page/common/banner?nation=${pathname}&path=${encodeURIComponent(
-  //       window.location.pathname
-  //         .replace(`/${pathname}`, "")
-  //         .replace(/\/+(\d)+/g, ""),
-  //     )}`,
-  //   );
-  //   if (banner.data.succss) {
-  //     if (banner.data.result.includes("announcement-banner")) {
-  //       console.log("user의 is_announcement_cached 필요 x");
-  //     } else {
-  //       console.log("user의 is_announcement_cached 필요 o");
-  //       calcAnouncementCached();
-  //     }
-  //   }
-  //   setBannerLoading(false);
-  // };
   const calcAnnouncementCached = () => {
     axios
       .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
       .then((res) => {
         if (res.data.success) {
           if (res.data.result) {
+            // 모두 읽었을 때,
             axios
               .post("/api/users/updateAnnouncementCache", {
                 email: authState.email,
                 nation: pathname,
+                flag: true,
               })
               .then((res) => {
                 if (res.data.success === true) {
@@ -127,8 +106,8 @@ const App = () => {
                   console.log(res.data.msg);
                 }
               });
-          } else {
-            // console.log("빨간색 표시");
+          } else if (!res.data.result) {
+            // 모두 읽지 않았거나 + 새로운 것이 생겼을 때, 붉은 표시
             setMarkAnnouncementAlarm(true);
           }
         } else {
@@ -202,6 +181,13 @@ const App = () => {
               // markUnreadAnnouncement(); > announcement.tsx에서 처리
             }
             // 페이지 이동 및 새로고침 할 때마다 검사
+            console.log(`isNewAnnouncement: ${isNewAnnouncement}`);
+            // getIsNewAnnouncement().then((res) => {
+            //   if (res.result) {
+            //     console.log("붉은색 ㄱ");
+            //     setMarkAnnouncementAlarm(true);
+            //   }
+            // });
             if (isAnnouncementCached) {
               console.log("캐시되어 있다.");
             } else {
@@ -265,6 +251,13 @@ const App = () => {
   const getConfig = async () => {
     const res = await axios.get(`/api/configuration?nation=${pathname}`);
     setConfigState(res.data.result);
+  };
+
+  const getIsNewAnnouncement = async () => {
+    const isNewData = await axios.get(
+      `/api/users/isNewData?nation=${pathname}&id=${authState.id}`,
+    );
+    return isNewData.data;
   };
 
   useEffect(() => {
@@ -331,6 +324,12 @@ const App = () => {
     if (loginSuccess && authState.isLogin) {
       console.log("캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득");
       calcAnnouncementCached();
+      getIsNewAnnouncement().then((res) => {
+        if (res.result) {
+          console.log("붉은색 ㄱ");
+          setMarkAnnouncementAlarm(true);
+        }
+      });
     }
   }, [loginSuccess]);
 

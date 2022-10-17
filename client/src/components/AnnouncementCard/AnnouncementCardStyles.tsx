@@ -1,5 +1,14 @@
 import styled from "styled-components";
-import { useTheme } from "@mui/material";
+import { useTheme, Typography, Box } from "@mui/material";
+
+export const RowContainer = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const ReadContainer = styled(Typography)`
+  color: red;
+`;
 
 export const AnnouncementCardContainer = styled.div`
   margin-bottom: 30px;

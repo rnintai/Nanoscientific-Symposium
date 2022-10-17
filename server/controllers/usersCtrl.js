@@ -373,14 +373,19 @@ const usersCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `UPDATE user SET is_announcement_cached=1 WHERE email='${req.body.email}'`;
+      let sql;
+      if (req.body.flag) {
+        sql = `UPDATE user SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${req.body.email}'`;
+      } else {
+        sql = `UPDATE user SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${req.body.email}'`;
+      }
       await connection.query(sql);
       connection.release();
 
       res.status(200).json({
         success: true,
         result: true,
-        msg: "announcement 모두 읽음 업데이트 성공",
+        msg: "announcement 캐시 업데이트 성공",
       });
     } catch (err) {
       console.log(err);
@@ -389,6 +394,37 @@ const usersCtrl = {
       res.status(500).json({
         success: false,
         err,
+        message: "announcement 캐시 업데이트 실패",
+      });
+      return false;
+    }
+  },
+
+  getDataIsNewAnnoucnement: async (req, res) => {
+    const { nation, id } = req.query;
+    // console.log(nation, id);
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `SELECT is_new_announcement FROM user WHERE id=${id}`;
+      const result = await connection.query(sql);
+      connection.release();
+      console.log(result[0]);
+      res.status(200).json({
+        success: true,
+        result: result[0][0].is_new_announcement,
+        msg: "is_new_announcement 데이터 획득",
+      });
+    } catch (err) {
+      console.log(err);
+      connection.release();
+
+      res.status(500).json({
+        success: false,
+        err,
+        message: "is_new_announcement 데이터 획득 실패",
       });
       return false;
     }

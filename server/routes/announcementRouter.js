@@ -2,7 +2,10 @@ const announcementCtrl = require("../controllers/announcementCtrl");
 const announcementReadCtrl = require("../controllers/announcementReadCtrl");
 const router = require("express").Router();
 
-router.route("/readlist").get(announcementReadCtrl.getPostByUserID);
+router
+  .route("/readlist")
+  .get(announcementReadCtrl.getPostByUserID)
+  .post(announcementReadCtrl.addReadPostInfo);
 
 router.route("/list").get(announcementCtrl.getPostList);
 router

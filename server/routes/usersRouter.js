@@ -270,5 +270,6 @@ router.post("/register", usersCtrl.register);
 router.delete("/unregister", usersCtrl.unregister);
 
 router.post("/updateAnnouncementCache", usersCtrl.updateAnnouncementCache);
+router.get("/isNewData", usersCtrl.getDataIsNewAnnoucnement);
 
 module.exports = router;

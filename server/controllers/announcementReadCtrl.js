@@ -11,7 +11,7 @@ const announcementReadCtrl = {
 
       const announcementReadData = await connection.query(annoucementReadSQL);
       const announcementData = await connection.query(annoucementSQL);
-      console.log(announcementData[0], announcementReadData[0]);
+      // console.log(announcementData[0], announcementReadData[0]);
       connection.release();
       if (
         // announcement는 있지만, 읽은 기록이 있는 경우
@@ -45,6 +45,27 @@ const announcementReadCtrl = {
           msg: "annoucementRead 혹은 annoucement의 데이터가 존재하지 않습니다.",
         });
       }
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        msg: err,
+      });
+    }
+  },
+  addReadPostInfo: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      let sql = `INSERT INTO announcement_read (user_id, announcement_id) VALUES ('${req.body.userId}', '${req.body.announcementId}')`;
+      await connection.query(sql);
+      connection.release();
+
+      res.status(200).json({
+        success: true,
+        msg: "성공",
+      });
     } catch (err) {
       connection.release();
       console.log(err);
