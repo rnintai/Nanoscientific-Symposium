@@ -70,7 +70,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2022 NanoScientific Symposium Asia | NSS Asia",
       fullDate: "November 25, 2022",
-      // eventLocation: "TBD",
+      eventLocation: "Marina Bay Sands, Singapore (Hybrid Event)",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
       programs: "PROGRAM",
