@@ -18,6 +18,7 @@ import QuillEditor from "components/QuillEditor/QuillEditor";
 import useInput from "hooks/useInput";
 import { editorRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
+import { useAlarmState, useAlarmDispatch } from "context/navBarMarkContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import ComingSoon from "components/ComingSoon/ComingSoon";
 import useMenuStore from "store/MenuStore";
@@ -36,6 +37,7 @@ const Announcement = () => {
   const searchParams = useSearchParams();
   const navigate = useNavigate();
   const authState = useAuthState();
+  const alarmDispatch = useAlarmDispatch();
   const isEditor = editorRole.includes(authState.role);
 
   // modal
@@ -55,7 +57,7 @@ const Announcement = () => {
     /*
     1. user에 해당하는 announcement_read 데이터만 모두 가져온다.
     2. 해당 데이터를 제외한 announcement 데이터는 안읽은 것이므로 이에 대해 빨간색으로 표시해준다.
-    3. 사실 한번만 가져와야할 것 같은데 이런식으로 하면 announcement 페이지에 들어갈때마다 작업해야할 것 같은 느낌적인 느낌..
+    3. 사실 한번만 가져와야할 것 같은데 이런식으로 하면 announcement 페이지에 들어갈때마다 작업해야할 것
     */
     axios
       .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
@@ -113,7 +115,7 @@ const Announcement = () => {
         .post("/api/users/updateAnnouncementCache", {
           email: authState.email,
           nation: pathname,
-          flag: false,
+          flag: "add",
         })
         .then((res) => {
           if (res.data.success === true) {
@@ -139,7 +141,9 @@ const Announcement = () => {
         setOpenWriteModal(false);
         setOpenSuccessAlert(true);
         getAnnouncements(curPage);
+        markUnreadAnnouncement();
         initAnnouncementCache();
+        alarmDispatch({ type: "ON" });
       }
     } catch (err) {
       alert(err);
@@ -189,7 +193,6 @@ const Announcement = () => {
             announcementList.map((a) => (
               <AnnouncementCard
                 announcement={a}
-                user_id={authState.id}
                 curPage={curPage}
                 key={`announcement-${a.id}`}
                 unreadAnnouncementList={unreadAnnouncementList}

@@ -5,6 +5,7 @@ import { useNavigate } from "hooks/useNavigateWithSearch";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import { useAlarmDispatch } from "context/navBarMarkContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
@@ -42,7 +43,7 @@ interface navProps {
   menuStateLoading: boolean;
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
-  markAnnouncementAlarm: boolean;
+  // markAnnouncementAlarm: boolean;
 }
 
 const NavBar = ({
@@ -52,8 +53,8 @@ const NavBar = ({
   setLogoutSuccess,
   setLogoutLoading,
   menuStateLoading,
-  markAnnouncementAlarm,
-}: navProps) => {
+}: // markAnnouncementAlarm,
+navProps) => {
   // menu list
   const menuStore = useMenuStore();
   const { menuList } = menuStore;
@@ -88,6 +89,7 @@ const NavBar = ({
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+  const alarmDispatch = useAlarmDispatch();
 
   // submenu refs
   const submenuRefs = useRef({});
@@ -101,6 +103,7 @@ const NavBar = ({
       })
       .then((res) => {
         if (res.data.success === true) {
+          alarmDispatch({ type: "OFF" });
           authDispatch({ type: "LOGOUT", authState });
           setLogoutSuccess(true);
         } else {
@@ -298,7 +301,7 @@ const NavBar = ({
                       aria-haspopup="true"
                       aria-expanded={openUserMenu ? "true" : undefined}
                       isMoreverIcon
-                      markAnnouncementAlarm={markAnnouncementAlarm}
+                      // markAnnouncementAlarm={markAnnouncementAlarm}
                     >
                       <MoreVertIcon />
                     </NSSButton>

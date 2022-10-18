@@ -9,6 +9,8 @@ import {
   subHeadingFontSize,
   xsmallFontSize,
 } from "utils/FontSize";
+import { useAuthState } from "context/AuthContext";
+import { useAlarmDispatch } from "context/navBarMarkContext";
 import { globalData } from "utils/GlobalData";
 import ImageIcon from "@mui/icons-material/Image";
 import InnerHTML from "dangerously-set-html-content";
@@ -24,7 +26,6 @@ interface announcementCardProps {
   announcement: Announcement.announcementType;
   unreadAnnouncementList: number[];
   setUnreadAnnouncementList: Dispatch<SetStateAction<number[]>>;
-  user_id: number;
   curPage?: number;
 }
 
@@ -32,7 +33,6 @@ const AnnouncementCard = ({
   announcement,
   unreadAnnouncementList,
   setUnreadAnnouncementList,
-  user_id,
   curPage,
 }: announcementCardProps) => {
   const { id, title, content, hits, created } = announcement;
@@ -40,14 +40,15 @@ const AnnouncementCard = ({
   const theme = useTheme();
   const { viewsLabel } = globalData.get(pathname) as Common.globalDataType;
   const searchParams = useSearchParams();
-
+  const authState = useAuthState();
+  const alarmDispatch = useAlarmDispatch();
   const thumbnailImg = content.match(/(<img([\w\W]+?)>)/g);
   const thumbnailSrc = thumbnailImg
     ? thumbnailImg[0].match(/(src="([\w\W]+?)")/g)[0].split('"')[1]
     : "";
 
   const isRead = (): boolean => {
-    if (!user_id) {
+    if (!authState.id) {
       return false;
     }
     return unreadAnnouncementList.includes(id);
@@ -58,7 +59,7 @@ const AnnouncementCard = ({
       // axios로 데이터 집어넣기..
       await axios.post(`/api/announcement/readlist`, {
         nation: pathname,
-        userId: user_id,
+        userId: authState.id,
         announcementId: id,
       });
 
@@ -81,8 +82,11 @@ const AnnouncementCard = ({
           to={{ pathname: `${id}`, search: `?${searchParams[0].toString()}` }}
           style={{ width: "100%", padding: 0 }}
           onClick={() => {
-            if (user_id) {
+            if (authState.id) {
               insertReadInfo();
+              if (!unreadAnnouncementList.length) {
+                alarmDispatch({ type: "OFF" });
+              }
             }
           }}
         >

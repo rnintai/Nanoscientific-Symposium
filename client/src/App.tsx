@@ -22,6 +22,7 @@ import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
+import { useAlarmDispatch } from "./context/navBarMarkContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -62,12 +63,9 @@ const App = () => {
   const themeObj = theme(themeState.darkMode);
   const jpThemeObj = jpTheme(themeState.darkMode);
   const themeDispatch = useThemeDispatch();
+  const alarmDispatch = useAlarmDispatch();
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
-
-  // 알람
-  const [markAnnouncementAlarm, setMarkAnnouncementAlarm] =
-    useState<boolean>(false);
 
   // mode
   useEffect(() => {
@@ -97,7 +95,7 @@ const App = () => {
               .post("/api/users/updateAnnouncementCache", {
                 email: authState.email,
                 nation: pathname,
-                flag: true,
+                flag: "cached",
               })
               .then((res) => {
                 if (res.data.success === true) {
@@ -106,9 +104,12 @@ const App = () => {
                   console.log(res.data.msg);
                 }
               });
+            if (!authState.isNewAnnouncement) {
+              alarmDispatch({ type: "OFF" });
+            }
           } else if (!res.data.result) {
             // 모두 읽지 않았거나 + 새로운 것이 생겼을 때, 붉은 표시
-            setMarkAnnouncementAlarm(true);
+            alarmDispatch({ type: "ON" });
           }
         } else {
           console.log(res.data.msg);
@@ -327,7 +328,8 @@ const App = () => {
       getIsNewAnnouncement().then((res) => {
         if (res.result) {
           console.log("붉은색 ㄱ");
-          setMarkAnnouncementAlarm(true);
+          // setMarkAnnouncementAlarm(true);
+          alarmDispatch({ type: "ON" });
         }
       });
     }
@@ -352,7 +354,7 @@ const App = () => {
               setLogoutSuccess={setLogoutSuccess}
               setLogoutLoading={setLogoutLoading}
               menuStateLoading={menuStateLoading}
-              markAnnouncementAlarm={markAnnouncementAlarm}
+              // markAnnouncementAlarm={markAnnouncementAlarm}
             />
           )}
         {!bannerLoading && bannerURL && (

@@ -374,10 +374,12 @@ const usersCtrl = {
 
     try {
       let sql;
-      if (req.body.flag) {
+      if (req.body.flag === "cached") {
         sql = `UPDATE user SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${req.body.email}'`;
-      } else {
+      } else if (req.body.flag === "add") {
         sql = `UPDATE user SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${req.body.email}'`;
+      } else if (req.body.flag === "delete") {
+        sql = `UPDATE user SET is_announcement_cached=0 WHERE email='${req.body.email}'`;
       }
       await connection.query(sql);
       connection.release();

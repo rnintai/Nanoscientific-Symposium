@@ -5,7 +5,8 @@ const router = require("express").Router();
 router
   .route("/readlist")
   .get(announcementReadCtrl.getPostByUserID)
-  .post(announcementReadCtrl.addReadPostInfo);
+  .post(announcementReadCtrl.addReadPostInfo)
+  .delete(announcementReadCtrl.deleteReadPostInfo);
 
 router.route("/list").get(announcementCtrl.getPostList);
 router

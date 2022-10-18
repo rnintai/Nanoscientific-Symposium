@@ -58,7 +58,7 @@ const announcementReadCtrl = {
     const currentPool = getCurrentPool(req.body.nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      let sql = `INSERT INTO announcement_read (user_id, announcement_id) VALUES ('${req.body.userId}', '${req.body.announcementId}')`;
+      let sql = `INSERT IGNORE INTO announcement_read (user_id, announcement_id) VALUES ('${req.body.userId}', '${req.body.announcementId}')`;
       await connection.query(sql);
       connection.release();
 
@@ -70,6 +70,28 @@ const announcementReadCtrl = {
       connection.release();
       console.log(err);
       res.status(500).json({
+        success: false,
+        msg: err,
+      });
+    }
+  },
+  deleteReadPostInfo: async (req, res) => {
+    const { nation, announcementId } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `DELETE FROM announcement_read WHERE announcement_id=${announcementId}`;
+      await connection.query(sql);
+      connection.release();
+
+      res.status(200).json({
+        success: true,
+        msg: "성공",
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(400).json({
         success: false,
         msg: err,
       });

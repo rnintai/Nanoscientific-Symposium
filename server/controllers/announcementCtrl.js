@@ -129,7 +129,6 @@ const announcementCtrl = {
 
       res.status(200).json({
         success: true,
-
         msg: "성공",
       });
     } catch (err) {

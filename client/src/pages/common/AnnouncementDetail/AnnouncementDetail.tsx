@@ -1,6 +1,7 @@
 import { Stack, TextField, Typography, useTheme } from "@mui/material";
 import axios from "axios";
 import { useAuthState } from "context/AuthContext";
+import { useAlarmDispatch } from "context/navBarMarkContext";
 import usePageViews from "hooks/usePageViews";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -30,6 +31,7 @@ const AnnouncementDetail = () => {
   const [currentAnnouncement, setCurrentAnnouncement] =
     useState<Announcement.announcementType>(null);
   const authState = useAuthState();
+  const alarmDispatch = useAlarmDispatch();
   const isEditor = editorRole.includes(authState.role);
 
   // inputs
@@ -80,8 +82,9 @@ const AnnouncementDetail = () => {
   };
   const deleteHandler = async () => {
     try {
-      const result = await axios.delete(
-        `/api/announcement/post?nation=${pathname}&id=${id}`,
+      await axios.delete(`/api/announcement/post?nation=${pathname}&id=${id}`);
+      await axios.delete(
+        `/api/announcement/readlist?nation=${pathname}&announcementId=${id}`,
       );
       alert("Announcement is sucessfully deleted.");
       navigate(`/${pathname}/announcement${search}`);

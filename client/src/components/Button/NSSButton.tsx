@@ -4,6 +4,7 @@ import Loading from "components/Loading/Loading";
 import React from "react";
 import { mainFontSize } from "utils/FontSize";
 import { NSSButtonContainer, AlarmMark } from "./NSSButtonStyles";
+import { useAlarmState } from "../../context/navBarMarkContext";
 
 interface NSSButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   children: JSX.Element | JSX.Element[] | string | string[];
@@ -14,7 +15,7 @@ interface NSSButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   fontWeight?: any;
   letterSpacing?: string;
   isMoreverIcon?: boolean;
-  markAnnouncementAlarm?: boolean;
+  // markAnnouncementAlarm?: boolean;
 }
 const NSSButton = (props: NSSButtonProps) => {
   const {
@@ -26,19 +27,21 @@ const NSSButton = (props: NSSButtonProps) => {
     fontWeight,
     letterSpacing,
     isMoreverIcon,
-    markAnnouncementAlarm,
+    // markAnnouncementAlarm,
     ...rest
   } = props;
   let className =
     rest.className !== undefined
       ? `${variant} ${rest.className}`
       : `${variant}`;
+
+  const alarmState = useAlarmState();
   className += disabled ? " disabled" : "";
   className += loading ? " disabled loading" : "";
   const theme = useTheme();
   return (
     <NSSButtonContainer type="button" {...rest} className={className}>
-      {isMoreverIcon && markAnnouncementAlarm ? <AlarmMark /> : null}
+      {isMoreverIcon && alarmState.alarm ? <AlarmMark /> : null}
       {loading ? (
         <CircularProgress className="loading" size="22px" />
       ) : (
