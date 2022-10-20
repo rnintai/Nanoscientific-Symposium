@@ -18,7 +18,11 @@ import QuillEditor from "components/QuillEditor/QuillEditor";
 import useInput from "hooks/useInput";
 import { editorRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
-import { useAlarmState, useAlarmDispatch } from "context/navBarMarkContext";
+import { useAlarmState, useAlarmDispatch } from "context/NavBarMarkContext";
+import {
+  useUnreadListState,
+  useUnreadListDispatch,
+} from "context/UnreadAnnouncementList";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import ComingSoon from "components/ComingSoon/ComingSoon";
 import useMenuStore from "store/MenuStore";
@@ -31,9 +35,8 @@ const Announcement = () => {
   const theme = useTheme();
   const [announcementList, setAnnouncementList] =
     useState<Announcement.announcementType[]>(null);
-  const [unreadAnnouncementList, setUnreadAnnouncementList] = useState<
-    number[]
-  >([]);
+  const unreadAnnouncementList = useUnreadListState();
+  const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const searchParams = useSearchParams();
   const navigate = useNavigate();
   const authState = useAuthState();
@@ -63,7 +66,11 @@ const Announcement = () => {
       .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
       .then((res) => {
         if (res.data.success) {
-          setUnreadAnnouncementList(res.data.unread);
+          console.log(res.data.unread);
+          unreadAnnouncementListDispatch({
+            type: "INSERT_ANNOUNCEMENT",
+            arr: res.data.unread,
+          });
         } else {
           console.log(res.data.msg);
         }
@@ -195,8 +202,6 @@ const Announcement = () => {
                 announcement={a}
                 curPage={curPage}
                 key={`announcement-${a.id}`}
-                unreadAnnouncementList={unreadAnnouncementList}
-                setUnreadAnnouncementList={setUnreadAnnouncementList}
               />
             ))}
         </Box>

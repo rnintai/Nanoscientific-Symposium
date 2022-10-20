@@ -5,7 +5,7 @@ import { useNavigate } from "hooks/useNavigateWithSearch";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
-import { useAlarmDispatch } from "context/navBarMarkContext";
+import { useAlarmDispatch } from "context/NavBarMarkContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";

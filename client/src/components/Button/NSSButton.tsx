@@ -4,7 +4,7 @@ import Loading from "components/Loading/Loading";
 import React from "react";
 import { mainFontSize } from "utils/FontSize";
 import { NSSButtonContainer, AlarmMark } from "./NSSButtonStyles";
-import { useAlarmState } from "../../context/navBarMarkContext";
+import { useAlarmState } from "../../context/NavBarMarkContext";
 
 interface NSSButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   children: JSX.Element | JSX.Element[] | string | string[];

@@ -22,7 +22,7 @@ import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
-import { useAlarmDispatch } from "./context/navBarMarkContext";
+import { useAlarmDispatch } from "./context/NavBarMarkContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -90,7 +90,9 @@ const App = () => {
       .then((res) => {
         if (res.data.success) {
           if (res.data.result) {
+            // 유저가 announcement를 읽었을 경우
             // 모두 읽었을 때,
+            console.log("모두 읽음");
             axios
               .post("/api/users/updateAnnouncementCache", {
                 email: authState.email,
@@ -108,6 +110,7 @@ const App = () => {
               alarmDispatch({ type: "OFF" });
             }
           } else if (!res.data.result) {
+            console.log("모두 읽지 않음");
             // 모두 읽지 않았거나 + 새로운 것이 생겼을 때, 붉은 표시
             alarmDispatch({ type: "ON" });
           }
@@ -179,16 +182,9 @@ const App = () => {
             if (window.location.pathname.includes("announcement")) {
               // announcement 페이지 로직 설정 필요 👀 > 어떤 글이 안 읽혔는지 연산 후 표시
               console.log("in announcement page");
-              // markUnreadAnnouncement(); > announcement.tsx에서 처리
             }
             // 페이지 이동 및 새로고침 할 때마다 검사
             console.log(`isNewAnnouncement: ${isNewAnnouncement}`);
-            // getIsNewAnnouncement().then((res) => {
-            //   if (res.result) {
-            //     console.log("붉은색 ㄱ");
-            //     setMarkAnnouncementAlarm(true);
-            //   }
-            // });
             if (isAnnouncementCached) {
               console.log("캐시되어 있다.");
             } else {
@@ -327,8 +323,6 @@ const App = () => {
       calcAnnouncementCached();
       getIsNewAnnouncement().then((res) => {
         if (res.result) {
-          console.log("붉은색 ㄱ");
-          // setMarkAnnouncementAlarm(true);
           alarmDispatch({ type: "ON" });
         }
       });
@@ -354,7 +348,6 @@ const App = () => {
               setLogoutSuccess={setLogoutSuccess}
               setLogoutLoading={setLogoutLoading}
               menuStateLoading={menuStateLoading}
-              // markAnnouncementAlarm={markAnnouncementAlarm}
             />
           )}
         {!bannerLoading && bannerURL && (

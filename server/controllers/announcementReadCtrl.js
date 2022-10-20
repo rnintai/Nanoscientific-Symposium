@@ -11,12 +11,13 @@ const announcementReadCtrl = {
 
       const announcementReadData = await connection.query(annoucementReadSQL);
       const announcementData = await connection.query(annoucementSQL);
-      // console.log(announcementData[0], announcementReadData[0]);
+      const readDataLen = announcementReadData[0].length;
+      const dataLen = announcementData[0].length;
       connection.release();
       if (
-        // announcement는 있으며 읽은 기록이 있는 경우
-        announcementReadData[0].length !== 0 &&
-        announcementData[0].length !== 0
+        // 읽을 것도 있으며 읽은 기록이 있는 경우
+        readDataLen !== 0 &&
+        dataLen !== 0
       ) {
         res.status(200).json({
           success: true,
@@ -25,7 +26,7 @@ const announcementReadCtrl = {
               announcementReadData[0]
                 .map((rEl) => rEl.announcement_id)
                 .includes(el.id)
-            ).length === announcementData[0].length
+            ).length === dataLen
               ? true
               : false,
           unread: announcementData[0]
@@ -38,10 +39,20 @@ const announcementReadCtrl = {
             .map((el) => el.id),
           msg: "성공",
         });
-      } else {
-        // anouncement 데이터가 없거나 announcement 데이터는 있지만, 읽은 기록이 없는 경우 -> front단에서 undefined를 처리
+      } else if (readDataLen === 0 && dataLen !== 0) {
+        // 읽을 것은 있지만 읽은 데이터가 없는 경우
         res.status(200).json({
           success: true,
+          result: false,
+          unread: announcementData[0].map((el) => el.id),
+          msg: "읽을 것은 있지만 읽은 데이터가 없는 경우",
+        });
+      } else if (dataLen === 0) {
+        // 읽을 것과 읽은 데이터 모두 없는 경우
+        res.status(200).json({
+          success: true,
+          result: false,
+          unread: announcementData[0].map((el) => el.id),
           msg: "annoucementRead 혹은 annoucement의 데이터가 존재하지 않습니다.",
         });
       }

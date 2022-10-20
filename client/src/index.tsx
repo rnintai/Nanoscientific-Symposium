@@ -4,7 +4,8 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
-import { AlarmProvider } from "./context/navBarMarkContext";
+import { AlarmProvider } from "./context/NavBarMarkContext";
+import { UnreadProvider } from "./context/UnreadAnnouncementList";
 import App from "./App";
 import "./css/reset.css";
 import "./css/quill.css";
@@ -24,9 +25,11 @@ ReactDOM.render(
   <BrowserRouter>
     <ThemeProvider>
       <AlarmProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <UnreadProvider>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </UnreadProvider>
       </AlarmProvider>
     </ThemeProvider>
   </BrowserRouter>,

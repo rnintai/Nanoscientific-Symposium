@@ -10,7 +10,11 @@ import {
   xsmallFontSize,
 } from "utils/FontSize";
 import { useAuthState } from "context/AuthContext";
-import { useAlarmDispatch } from "context/navBarMarkContext";
+import { useAlarmDispatch } from "context/NavBarMarkContext";
+import {
+  useUnreadListState,
+  useUnreadListDispatch,
+} from "context/UnreadAnnouncementList";
 import { globalData } from "utils/GlobalData";
 import ImageIcon from "@mui/icons-material/Image";
 import InnerHTML from "dangerously-set-html-content";
@@ -24,17 +28,10 @@ import {
 
 interface announcementCardProps {
   announcement: Announcement.announcementType;
-  unreadAnnouncementList: number[];
-  setUnreadAnnouncementList: Dispatch<SetStateAction<number[]>>;
   curPage?: number;
 }
 
-const AnnouncementCard = ({
-  announcement,
-  unreadAnnouncementList,
-  setUnreadAnnouncementList,
-  curPage,
-}: announcementCardProps) => {
+const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
   const { id, title, content, hits, created } = announcement;
   const pathname = usePageViews();
   const theme = useTheme();
@@ -42,6 +39,8 @@ const AnnouncementCard = ({
   const searchParams = useSearchParams();
   const authState = useAuthState();
   const alarmDispatch = useAlarmDispatch();
+  const unreadAnnouncementList = useUnreadListState();
+  const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const thumbnailImg = content.match(/(<img([\w\W]+?)>)/g);
   const thumbnailSrc = thumbnailImg
     ? thumbnailImg[0].match(/(src="([\w\W]+?)")/g)[0].split('"')[1]
@@ -62,10 +61,10 @@ const AnnouncementCard = ({
         userId: authState.id,
         announcementId: id,
       });
-
-      setUnreadAnnouncementList(
-        unreadAnnouncementList.filter((el) => el !== id),
-      );
+      unreadAnnouncementListDispatch({ type: "DELETE_ANNOUNCEMENT", id }); // 안읽은 announcementlist에서 읽은 것은 제거
+      // setUnreadAnnouncementList(
+      //   unreadAnnouncementList.filter((el) => el !== id),
+      // );
     } catch (err) {
       console.log(err);
     }

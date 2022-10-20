@@ -1,7 +1,8 @@
 import { Stack, TextField, Typography, useTheme } from "@mui/material";
 import axios from "axios";
 import { useAuthState } from "context/AuthContext";
-import { useAlarmDispatch } from "context/navBarMarkContext";
+import { useAlarmDispatch } from "context/NavBarMarkContext";
+import { useUnreadListDispatch } from "context/UnreadAnnouncementList";
 import usePageViews from "hooks/usePageViews";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -32,6 +33,7 @@ const AnnouncementDetail = () => {
     useState<Announcement.announcementType>(null);
   const authState = useAuthState();
   const alarmDispatch = useAlarmDispatch();
+  const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const isEditor = editorRole.includes(authState.role);
 
   // inputs
@@ -86,6 +88,10 @@ const AnnouncementDetail = () => {
       await axios.delete(
         `/api/announcement/readlist?nation=${pathname}&announcementId=${id}`,
       );
+      unreadAnnouncementListDispatch({
+        type: "Add_ANNOUNCEMENT",
+        id: Number(id),
+      }); // 다시 생각해보기
       alert("Announcement is sucessfully deleted.");
       navigate(`/${pathname}/announcement${search}`);
     } catch (err) {
