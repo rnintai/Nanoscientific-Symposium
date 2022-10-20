@@ -14,7 +14,7 @@ const announcementReadCtrl = {
       // console.log(announcementData[0], announcementReadData[0]);
       connection.release();
       if (
-        // announcement는 있지만, 읽은 기록이 있는 경우
+        // announcement는 있으며 읽은 기록이 있는 경우
         announcementReadData[0].length !== 0 &&
         announcementData[0].length !== 0
       ) {
@@ -39,7 +39,7 @@ const announcementReadCtrl = {
           msg: "성공",
         });
       } else {
-        // anouncement 데이터가 없거나 announcement 데이터는 있지만, 읽은 기록이 없는 경우
+        // anouncement 데이터가 없거나 announcement 데이터는 있지만, 읽은 기록이 없는 경우 -> front단에서 undefined를 처리
         res.status(200).json({
           success: true,
           msg: "annoucementRead 혹은 annoucement의 데이터가 존재하지 않습니다.",
