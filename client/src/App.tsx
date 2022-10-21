@@ -90,9 +90,7 @@ const App = () => {
       .then((res) => {
         if (res.data.success) {
           if (res.data.result) {
-            // 유저가 announcement를 읽었을 경우
-            // 모두 읽었을 때,
-            console.log("모두 읽음");
+            // 모두 읽었을 때,(유저가 announcement를 읽었을 경우)
             axios
               .post("/api/users/updateAnnouncementCache", {
                 email: authState.email,
@@ -110,8 +108,7 @@ const App = () => {
               alarmDispatch({ type: "OFF" });
             }
           } else if (!res.data.result) {
-            console.log("모두 읽지 않음");
-            // 모두 읽지 않았거나 + 새로운 것이 생겼을 때, 붉은 표시
+            // 모두 읽지 않음
             alarmDispatch({ type: "ON" });
           }
         } else {
@@ -202,6 +199,38 @@ const App = () => {
               ...authState,
             },
           });
+          console.log("LOGOUT");
+          const savedData = localStorage.getItem(
+            `readAnnouncementList_${pathname}`,
+          );
+          if (savedData !== null) {
+            const parsedData = JSON.parse(savedData);
+            if (
+              // cache되어 있다면 불필요한 계산 x
+              parsedData.isAnnouncementCached &&
+              pathname !== "" &&
+              pathname !== "home"
+            ) {
+              axios
+                .get(`/api/announcement/originlist?nation=${pathname}`)
+                .then((res) => {
+                  if (res.data.success) {
+                    if (parsedData.announcementList.length < res.data.result) {
+                      alarmDispatch({ type: "ON" });
+                    } else {
+                      alarmDispatch({ type: "OFF" });
+                    }
+                    localStorage.setItem(
+                      `readAnnouncementList_${pathname}`,
+                      JSON.stringify(parsedData),
+                    );
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
+          }
         }
       })
       .catch((err) => {
@@ -257,6 +286,28 @@ const App = () => {
     return isNewData.data;
   };
 
+  const setLocalStorage = () => {
+    const readAnnouncementObj = {
+      country: pathname,
+      announcementList: [],
+      isAnnouncementCached: 0,
+    };
+    if (!localStorage.getItem(`readAnnouncementList_${pathname}`)) {
+      // console.log(localStorage.getItem("readAnnouncementList"));
+      localStorage.setItem(
+        `readAnnouncementList_${pathname}`,
+        JSON.stringify(readAnnouncementObj),
+      );
+      const savedData = localStorage.getItem(
+        `readAnnouncementList_${pathname}`,
+      );
+      const parsedData = JSON.parse(savedData);
+      if (!parsedData.announcementList.length) {
+        alarmDispatch({ type: "ON" });
+      }
+    }
+  };
+
   useEffect(() => {
     if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);
@@ -270,6 +321,7 @@ const App = () => {
         })
         .finally(() => {
           setMenuStateLoading(false);
+          setLocalStorage();
         });
 
       getConfig();

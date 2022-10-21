@@ -46,11 +46,22 @@ const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
     ? thumbnailImg[0].match(/(src="([\w\W]+?)")/g)[0].split('"')[1]
     : "";
 
-  const isRead = (): boolean => {
+  const isUnread = (): boolean => {
+    // console.log(authState.isLogin, authState.id);
     if (!authState.id) {
-      return false;
+      // 비회원
+      const savedData = localStorage.getItem(
+        `readAnnouncementList_${pathname}`,
+      );
+      if (savedData !== null) {
+        const parsedData = JSON.parse(savedData);
+        return !parsedData.announcementList.includes(id);
+      }
+    } else {
+      return unreadAnnouncementList.includes(id);
     }
-    return unreadAnnouncementList.includes(id);
+
+    return true; // error 제거용
   };
 
   const insertReadInfo = async () => {
@@ -70,6 +81,42 @@ const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
     }
   };
 
+  const handleBeforeRenderDetails = () => {
+    if (authState.id) {
+      insertReadInfo();
+      if (!unreadAnnouncementList.length) {
+        alarmDispatch({ type: "OFF" });
+      }
+    } else {
+      axios
+        .get(`/api/announcement/originlist?nation=${pathname}`)
+        .then((res) => {
+          if (res.data.success) {
+            const savedData = localStorage.getItem(
+              `readAnnouncementList_${pathname}`,
+            );
+            if (savedData !== null) {
+              const parsedData = JSON.parse(savedData);
+              if (!parsedData.announcementList.includes(id)) {
+                parsedData.announcementList.push(id);
+              }
+              if (parsedData.announcementList.length === res.data.result) {
+                alarmDispatch({ type: "OFF" });
+                parsedData.isAnnouncementCached = 1;
+              }
+              localStorage.setItem(
+                `readAnnouncementList_${pathname}`,
+                JSON.stringify(parsedData),
+              );
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
   useEffect(() => {
     searchParams[0].set("page", String(curPage));
   }, []);
@@ -80,14 +127,7 @@ const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
         <Link
           to={{ pathname: `${id}`, search: `?${searchParams[0].toString()}` }}
           style={{ width: "100%", padding: 0 }}
-          onClick={() => {
-            if (authState.id) {
-              insertReadInfo();
-              if (!unreadAnnouncementList.length) {
-                alarmDispatch({ type: "OFF" });
-              }
-            }
-          }}
+          onClick={handleBeforeRenderDetails}
         >
           <Stack
             className="border-grey card-wrap"
@@ -144,7 +184,7 @@ const AnnouncementCard = ({ announcement, curPage }: announcementCardProps) => {
                 >
                   {hits} {viewsLabel || "views"}
                 </Typography>
-                {isRead() ? (
+                {isUnread() ? (
                   <ReadContainer fontSize={xsmallFontSize}>
                     unread
                   </ReadContainer>
