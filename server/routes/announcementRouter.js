@@ -9,6 +9,7 @@ router
   .delete(announcementReadCtrl.deleteReadPostInfo);
 
 router.route("/list").get(announcementCtrl.getPostList);
+router.route("/originlist").get(announcementCtrl.getPostAllListLength);
 router
   .route("/post")
   .get(announcementCtrl.getPostById)
