@@ -161,6 +161,7 @@ const Announcement = () => {
   useEffect(() => {
     setPageQuery(curPage);
     getAnnouncements(curPage);
+    console.log(authState, authState.id);
     if (authState.id) {
       markUnreadAnnouncement();
     }

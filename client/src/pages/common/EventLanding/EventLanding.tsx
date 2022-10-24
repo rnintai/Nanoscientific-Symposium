@@ -90,7 +90,10 @@ const EventLanding = () => {
                     },
                   }}
                 >
-                  <InnerHTML html={eventLandingDesc || ""} />
+                  {/* <InnerHTML html={eventLandingDesc || ""} /> */}
+                  <span
+                    dangerouslySetInnerHTML={{ __html: eventLandingDesc }}
+                  />
                 </Typography>
               </Stack>
 

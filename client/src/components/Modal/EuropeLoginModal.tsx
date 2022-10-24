@@ -337,7 +337,9 @@ const EuropeLoginModal = ({
       setTimeout(() => {
         const input = emailFocus.current?.children[1]
           .children[0] as HTMLInputElement;
-        input.focus();
+        if (input !== undefined) {
+          input.focus();
+        }
       }, 10);
     }
   }, [emailModalOpen]);
@@ -346,7 +348,9 @@ const EuropeLoginModal = ({
       setTimeout(() => {
         const input = passwordInputFocus.current?.children[1]
           .children[0] as HTMLInputElement;
-        input.focus();
+        if (input !== undefined) {
+          input.focus();
+        }
       }, 10);
     }
   }, [passwordInputModalOpen]);
@@ -355,7 +359,9 @@ const EuropeLoginModal = ({
       setTimeout(() => {
         const input = passwordSetFocus.current?.children[1]
           .children[0] as HTMLInputElement;
-        input.focus();
+        if (input !== undefined) {
+          input.focus();
+        }
       }, 10);
     }
   }, [passwordSetModalOpen]);

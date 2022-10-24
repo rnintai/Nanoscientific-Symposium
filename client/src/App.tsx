@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import EventLanding from "pages/common/EventLanding/EventLanding";
@@ -22,7 +22,8 @@ import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
-import { useAlarmDispatch } from "./context/NavBarMarkContext";
+import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
+import { useAlarmState, useAlarmDispatch } from "./context/NavBarMarkContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -52,6 +53,7 @@ const App = () => {
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
+  const alarmState = useAlarmState();
   const navigate = useNavigate();
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
@@ -64,6 +66,7 @@ const App = () => {
   const jpThemeObj = jpTheme(themeState.darkMode);
   const themeDispatch = useThemeDispatch();
   const alarmDispatch = useAlarmDispatch();
+  const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
 
@@ -104,9 +107,6 @@ const App = () => {
                   console.log(res.data.msg);
                 }
               });
-            if (!authState.isNewAnnouncement) {
-              alarmDispatch({ type: "OFF" });
-            }
           } else if (!res.data.result) {
             // 모두 읽지 않음
             alarmDispatch({ type: "ON" });
@@ -117,6 +117,13 @@ const App = () => {
       })
       .catch((err) => {
         alert(err);
+      })
+      .finally(() => {
+        if (authState.isNewAnnouncement) {
+          alarmDispatch({ type: "ON" });
+        } else {
+          alarmDispatch({ type: "OFF" });
+        }
       });
   };
 
@@ -129,12 +136,15 @@ const App = () => {
           .replace(/\/+(\d)+/g, ""),
       )}`,
     );
+    // console.log(banner.data);
     if (banner.data.success) {
       setBannerURL(banner.data.result);
     } else {
-      // eu/ 의 경로 -> 단, 새로 고침할 때, 갱신이 안된다...?
       console.log("poster-hall의 banner path를 DB에 추가해주세요~"); // 원래 poster-hall의 banner path는 따로 정해져있지 않다.
       setBannerURL("");
+    }
+    if (!authState.isLogin) {
+      setLocalStorage();
     }
     setBannerLoading(false);
   };
@@ -199,38 +209,37 @@ const App = () => {
               ...authState,
             },
           });
-          console.log("LOGOUT");
-          const savedData = localStorage.getItem(
-            `readAnnouncementList_${pathname}`,
-          );
-          if (savedData !== null) {
-            const parsedData = JSON.parse(savedData);
-            if (
-              // cache되어 있다면 불필요한 계산 x
-              parsedData.isAnnouncementCached &&
-              pathname !== "" &&
-              pathname !== "home"
-            ) {
-              axios
-                .get(`/api/announcement/originlist?nation=${pathname}`)
-                .then((res) => {
-                  if (res.data.success) {
-                    if (parsedData.announcementList.length < res.data.result) {
-                      alarmDispatch({ type: "ON" });
-                    } else {
-                      alarmDispatch({ type: "OFF" });
-                    }
-                    localStorage.setItem(
-                      `readAnnouncementList_${pathname}`,
-                      JSON.stringify(parsedData),
-                    );
-                  }
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }
-          }
+          // const savedData = localStorage.getItem(
+          //   `readAnnouncementList_${pathname}`,
+          // );
+          // if (savedData !== null) {
+          //   const parsedData = JSON.parse(savedData);
+          //   if (
+          //     // cache되어 있다면 불필요한 계산 x
+          //     parsedData.isAnnouncementCached &&
+          //     pathname !== "" &&
+          //     pathname !== "home"
+          //   ) {
+          //     axios
+          //       .get(`/api/announcement/originlist?nation=${pathname}`)
+          //       .then((res) => {
+          //         if (res.data.success) {
+          //           if (parsedData.announcementList.length < res.data.result) {
+          //             alarmDispatch({ type: "ON" });
+          //           } else {
+          //             alarmDispatch({ type: "OFF" });
+          //           }
+          //           localStorage.setItem(
+          //             `readAnnouncementList_${pathname}`,
+          //             JSON.stringify(parsedData),
+          //           );
+          //         }
+          //       })
+          //       .catch((err) => {
+          //         console.log(err);
+          //       });
+          //   }
+          // }
         }
       })
       .catch((err) => {
@@ -286,27 +295,68 @@ const App = () => {
     return isNewData.data;
   };
 
-  const setLocalStorage = () => {
-    const readAnnouncementObj = {
-      country: pathname,
-      announcementList: [],
-      isAnnouncementCached: 0,
-    };
+  const setLocalStorage = useCallback(() => {
+    console.log("setlocalstorage", pathname);
     if (!localStorage.getItem(`readAnnouncementList_${pathname}`)) {
-      // console.log(localStorage.getItem("readAnnouncementList"));
+      const readAnnouncementObj = {
+        country: pathname,
+        announcementList: [],
+        isAnnouncementCached: 0,
+      };
+
       localStorage.setItem(
         `readAnnouncementList_${pathname}`,
         JSON.stringify(readAnnouncementObj),
       );
+
+      // 먼저 해당 지역에 해당하는 공지사항이 있는지 확인
+      axios
+        .get(`/api/announcement/originlist?nation=${pathname}`)
+        .then((res) => {
+          if (res.data.success) {
+            if (typeof res.data.result === "number") {
+              alarmDispatch({ type: "ON" }); // 있으면 알람표시
+            } else {
+              alarmDispatch({ type: "OFF" });
+            }
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      // 또 다른 창으로 접속시 이미 공지사항 정보가 있을 것이므로
       const savedData = localStorage.getItem(
         `readAnnouncementList_${pathname}`,
       );
-      const parsedData = JSON.parse(savedData);
-      if (!parsedData.announcementList.length) {
-        alarmDispatch({ type: "ON" });
+      if (savedData !== null) {
+        const parsedData = JSON.parse(savedData);
+        if (
+          // cache되어 있다면 불필요한 계산 x
+          !parsedData.isAnnouncementCached
+        ) {
+          axios
+            .get(`/api/announcement/originlist?nation=${pathname}`)
+            .then((res) => {
+              if (res.data.success) {
+                if (parsedData.announcementList.length < res.data.result) {
+                  alarmDispatch({ type: "ON" });
+                } else {
+                  alarmDispatch({ type: "OFF" });
+                }
+                localStorage.setItem(
+                  `readAnnouncementList_${pathname}`,
+                  JSON.stringify(parsedData),
+                );
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
       }
     }
-  };
+  }, [pathname, alarmDispatch]);
 
   useEffect(() => {
     if (pathname !== "" && pathname !== "home") {
@@ -321,7 +371,6 @@ const App = () => {
         })
         .finally(() => {
           setMenuStateLoading(false);
-          setLocalStorage();
         });
 
       getConfig();
@@ -372,12 +421,33 @@ const App = () => {
   useEffect(() => {
     if (loginSuccess && authState.isLogin) {
       console.log("캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득");
+      // useeffect error x
+      if (window.location.pathname.includes("announcement")) {
+        axios
+          .get(
+            `/api/announcement/readlist?nation=${pathname}&id=${authState.id}`,
+          )
+          .then((res) => {
+            if (res.data.success) {
+              unreadAnnouncementListDispatch({
+                type: "INSERT_ANNOUNCEMENT",
+                arr: res.data.unread,
+              });
+            } else {
+              console.log(res.data.msg);
+            }
+          })
+          .catch((err) => {
+            alert(err);
+          });
+      }
+
       calcAnnouncementCached();
-      getIsNewAnnouncement().then((res) => {
-        if (res.result) {
-          alarmDispatch({ type: "ON" });
-        }
-      });
+      // getIsNewAnnouncement().then((res) => {
+      //   if (res.result) {
+      //     alarmDispatch({ type: "ON" });
+      //   }
+      // });
     }
   }, [loginSuccess]);
 
