@@ -91,7 +91,16 @@ const AnnouncementDetail = () => {
       unreadAnnouncementListDispatch({
         type: "Add_ANNOUNCEMENT",
         id: Number(id),
-      }); // 다시 생각해보기
+      });
+      const savedData = localStorage.getItem(
+        `readAnnouncementList_${pathname}`,
+      );
+      if (!savedData) {
+        if (savedData !== null) {
+          const parsedData = JSON.parse(savedData);
+          parsedData.isThereNewAnnouncement = 1; // 업데이트를 위함.
+        }
+      }
       alert("Announcement is sucessfully deleted.");
       navigate(`/${pathname}/announcement${search}`);
     } catch (err) {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import AnnouncementCard from "components/AnnouncementCard/AnnouncementCard";
 import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
@@ -22,6 +22,8 @@ import { useAlarmState, useAlarmDispatch } from "context/NavBarMarkContext";
 import {
   useUnreadListState,
   useUnreadListDispatch,
+  useFlagState,
+  useFlagDispatch,
 } from "context/UnreadAnnouncementList";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import ComingSoon from "components/ComingSoon/ComingSoon";
@@ -36,6 +38,8 @@ const Announcement = () => {
   const [announcementList, setAnnouncementList] =
     useState<Announcement.announcementType[]>(null);
   const unreadAnnouncementList = useUnreadListState();
+  const flagState = useFlagState();
+  const flagDispatch = useFlagDispatch();
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const searchParams = useSearchParams();
   const navigate = useNavigate();
@@ -55,7 +59,7 @@ const Announcement = () => {
   const [getAnnouncementsLoading, setGetAnnouncementsLoading] =
     useState<boolean>(false);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
-
+  const checkFlag = useRef(false);
   const markUnreadAnnouncement = () => {
     /*
     1. user에 해당하는 announcement_read 데이터만 모두 가져온다.
@@ -78,6 +82,39 @@ const Announcement = () => {
       .catch((err) => {
         alert(err);
       });
+  };
+
+  const checkAndRemoveAlarm = async () => {
+    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    if (!savedData) {
+      // 데이터가 없을 경우
+      return;
+    }
+    if (savedData !== null) {
+      const parsedData = JSON.parse(savedData);
+      if (parsedData.isThereNewAnnouncement) {
+        try {
+          const res = await axios.get(
+            `/api/announcement/originlist?nation=${pathname}`,
+          );
+          if (res.data.success) {
+            parsedData.announcementLength = res.data.result;
+          }
+        } catch (err) {
+          console.log("Error >>", err);
+        } finally {
+          parsedData.isThereNewAnnouncement = 0;
+        }
+      }
+
+      if (
+        parsedData.announcementList.length === parsedData.announcementLength
+      ) {
+        alarmDispatch({ type: "OFF" });
+        parsedData.isAnnouncementCached = 1;
+        console.log(`in annoucnment`);
+      }
+    }
   };
 
   // 총 페이지
@@ -136,6 +173,15 @@ const Announcement = () => {
     }
   };
 
+  const updateLocalStorage = () => {
+    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    if (!savedData) {
+      const parsedData = JSON.parse(savedData);
+      parsedData.isThereNewAnnouncement = 1;
+      parsedData.isAnnouncementCached = 0;
+    }
+  };
+
   const submitHandler = async () => {
     try {
       setSubmitLoading(true);
@@ -151,6 +197,7 @@ const Announcement = () => {
         markUnreadAnnouncement();
         initAnnouncementCache();
         alarmDispatch({ type: "ON" });
+        updateLocalStorage();
       }
     } catch (err) {
       alert(err);
@@ -161,9 +208,11 @@ const Announcement = () => {
   useEffect(() => {
     setPageQuery(curPage);
     getAnnouncements(curPage);
-    console.log(authState, authState.id);
     if (authState.id) {
       markUnreadAnnouncement();
+    } else {
+      // 다른 탭에서 열 경우 알람 표시 제거
+      checkAndRemoveAlarm();
     }
   }, []);
 
@@ -203,6 +252,7 @@ const Announcement = () => {
                 announcement={a}
                 curPage={curPage}
                 key={`announcement-${a.id}`}
+                ref={checkFlag}
               />
             ))}
         </Box>

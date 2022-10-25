@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { AuthProvider } from "./context/AuthContext";
 import { AlarmProvider } from "./context/NavBarMarkContext";
-import { UnreadProvider } from "./context/UnreadAnnouncementList";
+import { FlagProvider, UnreadProvider } from "./context/UnreadAnnouncementList";
 import App from "./App";
 import "./css/reset.css";
 import "./css/quill.css";
@@ -26,9 +26,11 @@ ReactDOM.render(
     <ThemeProvider>
       <AlarmProvider>
         <UnreadProvider>
-          <AuthProvider>
-            <App />
-          </AuthProvider>
+          <FlagProvider>
+            <AuthProvider>
+              <App />
+            </AuthProvider>
+          </FlagProvider>
         </UnreadProvider>
       </AlarmProvider>
     </ThemeProvider>

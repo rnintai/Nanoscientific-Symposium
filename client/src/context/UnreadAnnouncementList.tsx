@@ -52,3 +52,55 @@ export function useUnreadListDispatch() {
   if (!dispatch) throw new Error("Cannot find UnreadProvider");
   return dispatch;
 }
+
+// for flag
+type FlagState = {
+  value: boolean;
+};
+
+type FlagAction = { type: "FLAGUP" } | { type: "FLAGDOWN" };
+
+type FlagDispatch = Dispatch<FlagAction>;
+
+const FlagStateContext = createContext<FlagState | null>({ value: false });
+const FlagDispatchContext = createContext<FlagDispatch | null>(null);
+
+function flagReducer(state: FlagState, action: FlagAction): FlagState {
+  switch (action.type) {
+    case "FLAGUP":
+      return { value: true };
+    case "FLAGDOWN":
+      return { value: false };
+
+    default:
+      throw new Error("reducer: Unhandled Action");
+  }
+}
+
+// Provider
+export const FlagProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, dispatch] = useReducer(flagReducer, {
+    value: false,
+  });
+
+  return (
+    <FlagStateContext.Provider value={state}>
+      <FlagDispatchContext.Provider value={dispatch}>
+        {children}
+      </FlagDispatchContext.Provider>
+    </FlagStateContext.Provider>
+  );
+};
+
+// state 와 dispatch 를 쉽게 사용하기 위한 커스텀 Hooks
+export function useFlagState(): FlagState {
+  const state = useContext(FlagStateContext);
+  if (!state) throw new Error("Cannot find FlagProvider"); // 유효하지 않을땐 에러를 발생
+  return state;
+}
+
+export function useFlagDispatch() {
+  const dispatch = useContext(FlagDispatchContext);
+  if (!dispatch) throw new Error("Cannot find FlagProvider"); // 유효하지 않을땐 에러를 발생
+  return dispatch;
+}

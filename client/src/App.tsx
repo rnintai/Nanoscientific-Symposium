@@ -22,7 +22,10 @@ import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
-import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
+import {
+  useFlagState,
+  useUnreadListDispatch,
+} from "./context/UnreadAnnouncementList";
 import { useAlarmState, useAlarmDispatch } from "./context/NavBarMarkContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
@@ -69,7 +72,7 @@ const App = () => {
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
-
+  const flagState = useFlagState();
   // mode
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
@@ -209,37 +212,6 @@ const App = () => {
               ...authState,
             },
           });
-          // const savedData = localStorage.getItem(
-          //   `readAnnouncementList_${pathname}`,
-          // );
-          // if (savedData !== null) {
-          //   const parsedData = JSON.parse(savedData);
-          //   if (
-          //     // cache되어 있다면 불필요한 계산 x
-          //     parsedData.isAnnouncementCached &&
-          //     pathname !== "" &&
-          //     pathname !== "home"
-          //   ) {
-          //     axios
-          //       .get(`/api/announcement/originlist?nation=${pathname}`)
-          //       .then((res) => {
-          //         if (res.data.success) {
-          //           if (parsedData.announcementList.length < res.data.result) {
-          //             alarmDispatch({ type: "ON" });
-          //           } else {
-          //             alarmDispatch({ type: "OFF" });
-          //           }
-          //           localStorage.setItem(
-          //             `readAnnouncementList_${pathname}`,
-          //             JSON.stringify(parsedData),
-          //           );
-          //         }
-          //       })
-          //       .catch((err) => {
-          //         console.log(err);
-          //       });
-          //   }
-          // }
         }
       })
       .catch((err) => {
@@ -295,13 +267,16 @@ const App = () => {
     return isNewData.data;
   };
 
-  const setLocalStorage = useCallback(() => {
+  const setLocalStorage = useCallback(async () => {
     console.log("setlocalstorage", pathname);
-    if (!localStorage.getItem(`readAnnouncementList_${pathname}`)) {
+    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    if (!savedData) {
       const readAnnouncementObj = {
         country: pathname,
         announcementList: [],
+        announcementLength: 0,
         isAnnouncementCached: 0,
+        isThereNewAnnouncement: 1,
       };
 
       localStorage.setItem(
@@ -325,36 +300,39 @@ const App = () => {
           console.log(err);
         });
     } else {
-      // 또 다른 창으로 접속시 이미 공지사항 정보가 있을 것이므로
-      const savedData = localStorage.getItem(
-        `readAnnouncementList_${pathname}`,
-      );
-      if (savedData !== null) {
-        const parsedData = JSON.parse(savedData);
-        if (
-          // cache되어 있다면 불필요한 계산 x
-          !parsedData.isAnnouncementCached
-        ) {
-          axios
-            .get(`/api/announcement/originlist?nation=${pathname}`)
-            .then((res) => {
-              if (res.data.success) {
-                if (parsedData.announcementList.length < res.data.result) {
-                  alarmDispatch({ type: "ON" });
-                } else {
-                  alarmDispatch({ type: "OFF" });
-                }
-                localStorage.setItem(
-                  `readAnnouncementList_${pathname}`,
-                  JSON.stringify(parsedData),
-                );
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+      const parsedData = JSON.parse(savedData);
+      if (
+        // cache되어 있다면 불필요한 계산 x
+        !parsedData.isAnnouncementCached
+      ) {
+        if (parsedData.isThereNewAnnouncement) {
+          try {
+            const response = await axios.get(
+              `/api/announcement/originlist?nation=${pathname}`,
+            );
+            if (response.data.success) {
+              parsedData.announcementLength = response.data.result;
+            }
+          } catch (err) {
+            console.log("Error >>", err);
+          } finally {
+            parsedData.isThereNewAnnouncement = 0;
+          }
         }
+        if (
+          parsedData.announcementList.length < parsedData.announcementLength
+        ) {
+          alarmDispatch({ type: "ON" });
+        } else {
+          alarmDispatch({ type: "OFF" });
+        }
+
+        localStorage.setItem(
+          `readAnnouncementList_${pathname}`,
+          JSON.stringify(parsedData),
+        );
       }
+      console.log(`in App`);
     }
   }, [pathname, alarmDispatch]);
 
