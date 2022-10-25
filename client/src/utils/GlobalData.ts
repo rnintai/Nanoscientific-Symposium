@@ -32,7 +32,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
         {
           name: "NSS Korea",
-          date: "Nov 24, 2022",
+          date: "Nov 23, 2022",
           path: "kr",
           img: `${S3_URL}/kr/main-page-banner.jpg`,
         },
@@ -120,8 +120,8 @@ export const globalData = new Map<string, Common.globalDataType>([
     "kr",
     {
       fullName: "2022 NanoScientific Symposium Korea | NSS Korea",
-      fullDate: "November 24, 2022",
-      // eventLocation: "TBD",
+      fullDate: "2022년 11월 23일",
+      eventLocation: "대전컨벤션센터 컨퍼런스홀",
       logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
