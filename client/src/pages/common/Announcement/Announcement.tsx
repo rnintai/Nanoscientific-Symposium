@@ -17,14 +17,9 @@ import CommonModal from "components/CommonModal/CommonModal";
 import QuillEditor from "components/QuillEditor/QuillEditor";
 import useInput from "hooks/useInput";
 import { editorRole } from "utils/Roles";
-import { useAuthState } from "context/AuthContext";
-import { useAlarmState, useAlarmDispatch } from "context/NavBarMarkContext";
-import {
-  useUnreadListState,
-  useUnreadListDispatch,
-  useFlagState,
-  useFlagDispatch,
-} from "context/UnreadAnnouncementList";
+import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import { useAlarmDispatch } from "context/NavBarMarkContext";
+import { useUnreadListDispatch } from "context/UnreadAnnouncementList";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import ComingSoon from "components/ComingSoon/ComingSoon";
 import useMenuStore from "store/MenuStore";
@@ -37,13 +32,11 @@ const Announcement = () => {
   const theme = useTheme();
   const [announcementList, setAnnouncementList] =
     useState<Announcement.announcementType[]>(null);
-  const unreadAnnouncementList = useUnreadListState();
-  const flagState = useFlagState();
-  const flagDispatch = useFlagDispatch();
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const searchParams = useSearchParams();
   const navigate = useNavigate();
   const authState = useAuthState();
+  const authDispatch = useAuthDispatch();
   const alarmDispatch = useAlarmDispatch();
   const isEditor = editorRole.includes(authState.role);
 
@@ -66,6 +59,15 @@ const Announcement = () => {
     2. 해당 데이터를 제외한 announcement 데이터는 안읽은 것이므로 이에 대해 빨간색으로 표시해준다.
     3. 사실 한번만 가져와야할 것 같은데 이런식으로 하면 announcement 페이지에 들어갈때마다 작업해야할 것
     */
+    console.log(
+      "markUnreadAnnouncement in annoucnement.tsx",
+      authState.isAnnouncementCached,
+    );
+    if (authState.isAnnouncementCached) {
+      alarmDispatch({ type: "OFF" });
+    } else {
+      alarmDispatch({ type: "ON" });
+    }
     axios
       .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
       .then((res) => {
@@ -83,11 +85,11 @@ const Announcement = () => {
         alert(err);
       });
   };
-
+  /**  다른 탭에서 열 경우 알람 표시 제거 */
   const checkAndRemoveAlarm = async () => {
+    console.log("checkandremovealarm in announcement.tsx");
     const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
     if (!savedData) {
-      // 데이터가 없을 경우
       return;
     }
     if (savedData !== null) {
@@ -159,6 +161,7 @@ const Announcement = () => {
   };
 
   const initAnnouncementCache = () => {
+    authDispatch({ type: "NOTCACHEANNOUNCEMENT", authState: { ...authState } });
     try {
       axios
         .post("/api/users/updateAnnouncementCache", {
@@ -185,6 +188,7 @@ const Announcement = () => {
       parsedData.isThereNewAnnouncement = 1;
       parsedData.isAnnouncementCached = 0;
       parsedData.announcementLength += 1;
+      alarmDispatch({ type: "ON" });
       console.log(
         `parsedData.announcementLength > ${parsedData.announcementLength}`,
       );
@@ -209,7 +213,6 @@ const Announcement = () => {
         getAnnouncements(curPage);
         markUnreadAnnouncement();
         initAnnouncementCache();
-        alarmDispatch({ type: "ON" });
         updateLocalStorage();
       }
     } catch (err) {
@@ -224,7 +227,6 @@ const Announcement = () => {
     if (authState.id) {
       markUnreadAnnouncement();
     } else {
-      // 다른 탭에서 열 경우 알람 표시 제거
       checkAndRemoveAlarm();
     }
   }, []);

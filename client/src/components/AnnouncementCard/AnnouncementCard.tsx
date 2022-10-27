@@ -9,13 +9,11 @@ import {
   subHeadingFontSize,
   xsmallFontSize,
 } from "utils/FontSize";
-import { useAuthState } from "context/AuthContext";
+import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { useAlarmDispatch } from "context/NavBarMarkContext";
 import {
   useUnreadListState,
   useUnreadListDispatch,
-  useFlagState,
-  useFlagDispatch,
 } from "context/UnreadAnnouncementList";
 import { globalData } from "utils/GlobalData";
 import ImageIcon from "@mui/icons-material/Image";
@@ -44,11 +42,11 @@ const AnnouncementCard = forwardRef(
     const { viewsLabel } = globalData.get(pathname) as Common.globalDataType;
     const searchParams = useSearchParams();
     const authState = useAuthState();
+    const authDispatch = useAuthDispatch();
     const alarmDispatch = useAlarmDispatch();
     const unreadAnnouncementList = useUnreadListState();
     const unreadAnnouncementListDispatch = useUnreadListDispatch();
-    const flagState = useFlagState();
-    const flagDispatch = useFlagDispatch();
+
     const thumbnailImg = content.match(/(<img([\w\W]+?)>)/g);
     const thumbnailSrc = thumbnailImg
       ? thumbnailImg[0].match(/(src="([\w\W]+?)")/g)[0].split('"')[1]
@@ -74,16 +72,12 @@ const AnnouncementCard = forwardRef(
 
     const insertReadInfo = async () => {
       try {
-        // axios로 데이터 집어넣기..
         await axios.post(`/api/announcement/readlist`, {
           nation: pathname,
           userId: authState.id,
           announcementId: id,
         });
         unreadAnnouncementListDispatch({ type: "DELETE_ANNOUNCEMENT", id }); // 안읽은 announcementlist에서 읽은 것은 제거
-        // setUnreadAnnouncementList(
-        //   unreadAnnouncementList.filter((el) => el !== id),
-        // );
       } catch (err) {
         console.log(err);
       }
@@ -93,6 +87,10 @@ const AnnouncementCard = forwardRef(
       if (authState.id) {
         insertReadInfo();
         if (!unreadAnnouncementList.length) {
+          authDispatch({
+            type: "CACHEANNOUNCEMENT",
+            authState: { ...authState },
+          });
           alarmDispatch({ type: "OFF" });
         }
       } else {
@@ -124,7 +122,6 @@ const AnnouncementCard = forwardRef(
           ) {
             alarmDispatch({ type: "OFF" });
             parsedData.isAnnouncementCached = 1;
-            console.log(`${flagState.value} in card`);
           }
           localStorage.setItem(
             `readAnnouncementList_${pathname}`,

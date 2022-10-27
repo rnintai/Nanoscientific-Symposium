@@ -22,11 +22,8 @@ import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
-import {
-  useFlagState,
-  useUnreadListDispatch,
-} from "./context/UnreadAnnouncementList";
-import { useAlarmState, useAlarmDispatch } from "./context/NavBarMarkContext";
+import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
+import { useAlarmDispatch } from "./context/NavBarMarkContext";
 import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
@@ -56,7 +53,6 @@ const App = () => {
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
-  const alarmState = useAlarmState();
   const navigate = useNavigate();
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
@@ -72,7 +68,6 @@ const App = () => {
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
-  const flagState = useFlagState();
   // mode
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
@@ -97,6 +92,7 @@ const App = () => {
         if (res.data.success) {
           if (res.data.result) {
             // 모두 읽었을 때,(유저가 announcement를 읽었을 경우)
+            alarmDispatch({ type: "OFF" });
             axios
               .post("/api/users/updateAnnouncementCache", {
                 email: authState.email,
@@ -111,6 +107,7 @@ const App = () => {
                 }
               });
           } else if (!res.data.result) {
+            console.log(res.data.result, res.data.unread);
             // 모두 읽지 않음
             alarmDispatch({ type: "ON" });
           }
@@ -119,14 +116,7 @@ const App = () => {
         }
       })
       .catch((err) => {
-        alert(err);
-      })
-      .finally(() => {
-        if (authState.isNewAnnouncement) {
-          alarmDispatch({ type: "ON" });
-        } else {
-          alarmDispatch({ type: "OFF" });
-        }
+        console.log(err);
       });
   };
 
@@ -139,7 +129,6 @@ const App = () => {
           .replace(/\/+(\d)+/g, ""),
       )}`,
     );
-    // console.log(banner.data);
     if (banner.data.success) {
       setBannerURL(banner.data.result);
     } else {
@@ -152,15 +141,14 @@ const App = () => {
     setBannerLoading(false);
   };
 
-  //
   useEffect(() => {
-    //
     axios
       .post("/api/users/check", {
         accessToken: authState.accessToken,
         nation: pathname === "" ? "" : pathname,
       })
       .then((res) => {
+        /** 로그인 시, 페이지 이동 및 새로고침 할 때마다 검사 */
         if (res.data.success !== false) {
           const {
             accessToken,
@@ -187,18 +175,20 @@ const App = () => {
                 isAnnouncementCached,
               },
             });
-            // 로그인했을 때x 로그인 되어있을 때o, is_announcement_cached 판단 -> 로그인 시 어떤 페이지를 이동하든 여기를 거친다..
-            // 새로고침할 때는 무조건 렌더링 2번?? 왜?? 거친다.
-            if (window.location.pathname.includes("announcement")) {
-              // announcement 페이지 로직 설정 필요 👀 > 어떤 글이 안 읽혔는지 연산 후 표시
-              console.log("in announcement page");
-            }
-            // 페이지 이동 및 새로고침 할 때마다 검사
-            console.log(`isNewAnnouncement: ${isNewAnnouncement}`);
+            console.log(
+              "sNewAnnouncement",
+              isNewAnnouncement,
+              "isAnnouncementCached",
+              isAnnouncementCached,
+              "in App.tsx",
+            );
             if (isAnnouncementCached) {
-              console.log("캐시되어 있다.");
+              alarmDispatch({ type: "OFF" });
             } else {
               calcAnnouncementCached();
+            }
+            if (isNewAnnouncement) {
+              alarmDispatch({ type: "ON" });
             }
           }
           // 비밀번호 미설정 시 reset 시키기
@@ -260,15 +250,8 @@ const App = () => {
     setConfigState(res.data.result);
   };
 
-  const getIsNewAnnouncement = async () => {
-    const isNewData = await axios.get(
-      `/api/users/isNewData?nation=${pathname}&id=${authState.id}`,
-    );
-    return isNewData.data;
-  };
-
   const setLocalStorage = useCallback(async () => {
-    console.log("setlocalstorage", pathname, "in App");
+    console.log("setlocalstorage in App");
     const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
     if (!savedData) {
       const readAnnouncementObj = {
@@ -396,8 +379,8 @@ const App = () => {
 
   useEffect(() => {
     if (loginSuccess && authState.isLogin) {
-      console.log("캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득");
-      // useeffect error x
+      // 캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득
+      // useeffect memory error x
       if (window.location.pathname.includes("announcement")) {
         axios
           .get(
@@ -414,16 +397,11 @@ const App = () => {
             }
           })
           .catch((err) => {
-            alert(err);
+            console.log(err);
           });
       }
 
       calcAnnouncementCached();
-      // getIsNewAnnouncement().then((res) => {
-      //   if (res.result) {
-      //     alarmDispatch({ type: "ON" });
-      //   }
-      // });
     }
   }, [loginSuccess]);
 

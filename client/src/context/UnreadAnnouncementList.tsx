@@ -14,13 +14,13 @@ const UnreadDispatchContext = createContext<UnreadDispatch | null>(null);
 function reducer(state: State, action: Action): State {
   switch (action.type) {
     case "Add_ANNOUNCEMENT":
-      console.log(`UnreadAnnouncementList.tsx => ${action.id}`);
+      // console.log(`UnreadAnnouncementList.tsx => ${action.id}`);
       return state.concat(action.id);
     case "INSERT_ANNOUNCEMENT":
-      console.log(`UnreadAnnouncementList.tsx => ${action.arr}`);
+      // console.log(`UnreadAnnouncementList.tsx => ${action.arr}`);
       return action.arr;
     case "DELETE_ANNOUNCEMENT":
-      console.log(`UnreadAnnouncementList.tsx => ${action.id}`);
+      // console.log(`UnreadAnnouncementList.tsx => ${action.id}`);
       return state.filter(
         (UnReadAnnouncement) => UnReadAnnouncement !== action.id,
       );
@@ -53,7 +53,7 @@ export function useUnreadListDispatch() {
   return dispatch;
 }
 
-// for flag
+// for flag > not use
 type FlagState = {
   value: boolean;
 };
