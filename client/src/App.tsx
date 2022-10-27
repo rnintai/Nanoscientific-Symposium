@@ -268,7 +268,7 @@ const App = () => {
   };
 
   const setLocalStorage = useCallback(async () => {
-    console.log("setlocalstorage", pathname);
+    console.log("setlocalstorage", pathname, "in App");
     const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
     if (!savedData) {
       const readAnnouncementObj = {
@@ -326,13 +326,11 @@ const App = () => {
         } else {
           alarmDispatch({ type: "OFF" });
         }
-
-        localStorage.setItem(
-          `readAnnouncementList_${pathname}`,
-          JSON.stringify(parsedData),
-        );
       }
-      console.log(`in App`);
+      localStorage.setItem(
+        `readAnnouncementList_${pathname}`,
+        JSON.stringify(parsedData),
+      );
     }
   }, [pathname, alarmDispatch]);
 

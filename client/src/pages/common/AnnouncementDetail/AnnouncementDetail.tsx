@@ -95,11 +95,21 @@ const AnnouncementDetail = () => {
       const savedData = localStorage.getItem(
         `readAnnouncementList_${pathname}`,
       );
-      if (!savedData) {
-        if (savedData !== null) {
-          const parsedData = JSON.parse(savedData);
-          parsedData.isThereNewAnnouncement = 1; // 업데이트를 위함.
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        if (parsedData.announcementList.includes(id)) {
+          parsedData.announcementList.splice(
+            parsedData.announcementList.findIndex(id),
+            1,
+          );
         }
+        parsedData.isThereNewAnnouncement = 1; // 업데이트를 위함.
+        parsedData.announcementLength -= 1;
+
+        localStorage.setItem(
+          `readAnnouncementList_${pathname}`,
+          JSON.stringify(parsedData),
+        );
       }
       alert("Announcement is sucessfully deleted.");
       navigate(`/${pathname}/announcement${search}`);

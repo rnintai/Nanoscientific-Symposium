@@ -114,6 +114,11 @@ const Announcement = () => {
         parsedData.isAnnouncementCached = 1;
         console.log(`in annoucnment`);
       }
+
+      localStorage.setItem(
+        `readAnnouncementList_${pathname}`,
+        JSON.stringify(parsedData),
+      );
     }
   };
 
@@ -175,10 +180,18 @@ const Announcement = () => {
 
   const updateLocalStorage = () => {
     const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
-    if (!savedData) {
+    if (savedData) {
       const parsedData = JSON.parse(savedData);
       parsedData.isThereNewAnnouncement = 1;
       parsedData.isAnnouncementCached = 0;
+      parsedData.announcementLength += 1;
+      console.log(
+        `parsedData.announcementLength > ${parsedData.announcementLength}`,
+      );
+      localStorage.setItem(
+        `readAnnouncementList_${pathname}`,
+        JSON.stringify(parsedData),
+      );
     }
   };
 

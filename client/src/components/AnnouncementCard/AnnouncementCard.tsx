@@ -96,6 +96,7 @@ const AnnouncementCard = forwardRef(
           alarmDispatch({ type: "OFF" });
         }
       } else {
+        console.log("handleBeforeRenderDetails");
         const savedData = localStorage.getItem(
           `readAnnouncementList_${pathname}`,
         );
@@ -122,8 +123,8 @@ const AnnouncementCard = forwardRef(
             parsedData.announcementList.length === parsedData.announcementLength
           ) {
             alarmDispatch({ type: "OFF" });
-            console.log(`${flagState.value} in card`);
             parsedData.isAnnouncementCached = 1;
+            console.log(`${flagState.value} in card`);
           }
           localStorage.setItem(
             `readAnnouncementList_${pathname}`,
