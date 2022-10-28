@@ -54,25 +54,15 @@ const Announcement = () => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const checkFlag = useRef(false);
   const markUnreadAnnouncement = () => {
-    /*
-    1. user에 해당하는 announcement_read 데이터만 모두 가져온다.
-    2. 해당 데이터를 제외한 announcement 데이터는 안읽은 것이므로 이에 대해 빨간색으로 표시해준다.
-    3. 사실 한번만 가져와야할 것 같은데 이런식으로 하면 announcement 페이지에 들어갈때마다 작업해야할 것
-    */
-    console.log(
-      "markUnreadAnnouncement in annoucnement.tsx",
-      authState.isAnnouncementCached,
-    );
-    if (authState.isAnnouncementCached) {
-      alarmDispatch({ type: "OFF" });
-    } else {
-      alarmDispatch({ type: "ON" });
-    }
     axios
       .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
       .then((res) => {
         if (res.data.success) {
-          console.log(res.data.unread);
+          if (res.data.unread.length) {
+            alarmDispatch({ type: "ON" });
+          } else {
+            alarmDispatch({ type: "OFF" });
+          }
           unreadAnnouncementListDispatch({
             type: "INSERT_ANNOUNCEMENT",
             arr: res.data.unread,
@@ -87,7 +77,6 @@ const Announcement = () => {
   };
   /**  다른 탭에서 열 경우 알람 표시 제거 */
   const checkAndRemoveAlarm = async () => {
-    console.log("checkandremovealarm in announcement.tsx");
     const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
     if (!savedData) {
       return;
@@ -189,9 +178,6 @@ const Announcement = () => {
       parsedData.isAnnouncementCached = 0;
       parsedData.announcementLength += 1;
       alarmDispatch({ type: "ON" });
-      console.log(
-        `parsedData.announcementLength > ${parsedData.announcementLength}`,
-      );
       localStorage.setItem(
         `readAnnouncementList_${pathname}`,
         JSON.stringify(parsedData),
@@ -221,6 +207,8 @@ const Announcement = () => {
       setSubmitLoading(false);
     }
   };
+
+  // 두번 렌더링 됨...이유를 찾아보기
   useEffect(() => {
     setPageQuery(curPage);
     getAnnouncements(curPage);
@@ -229,11 +217,6 @@ const Announcement = () => {
     } else {
       checkAndRemoveAlarm();
     }
-  }, []);
-
-  useEffect(() => {
-    setPageQuery(curPage);
-    getAnnouncements(curPage);
   }, [curPage]);
 
   return (

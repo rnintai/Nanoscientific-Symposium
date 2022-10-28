@@ -73,10 +73,10 @@ export const NSSButtonContainer = styled.button`
 
 export const AlarmMark = styled.div`
   position: absolute;
-  top: 10px;
-  right: 9px;
-  width: 9px;
-  height: 9px;
+  top: 12px;
+  right: 10px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: red;
 `;

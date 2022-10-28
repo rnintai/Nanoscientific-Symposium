@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { useTheme } from "@mui/material";
+import styled, { css } from "styled-components";
+import { useTheme, MenuItem } from "@mui/material";
 
 export const NavBarContainer = styled.div`
   width: 100%;
@@ -300,4 +300,13 @@ export const NavBarContainer = styled.div`
       }
     }
   }
+`;
+
+export const AnnouncementMenuItemContainer = styled(MenuItem)`
+  ${(props) =>
+    props.color === "announcement" &&
+    css`
+      width: 10rem;
+      height: 10rem;
+    `}
 `;

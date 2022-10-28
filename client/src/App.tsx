@@ -135,9 +135,10 @@ const App = () => {
       console.log("poster-hall의 banner path를 DB에 추가해주세요~"); // 원래 poster-hall의 banner path는 따로 정해져있지 않다.
       setBannerURL("");
     }
-    if (!authState.isLogin) {
-      setLocalStorage();
-    }
+    // console.log(authState.isLogin, authState.id);
+    // if (!authState.isLogin) {
+    //   setLocalStorage();
+    // }
     setBannerLoading(false);
   };
 
@@ -196,6 +197,10 @@ const App = () => {
             navigate(`/${pathname}/user/reset-password`);
           }
         } else {
+          if (window.location.pathname !== "/") {
+            console.log("LOGOUT");
+            setLocalStorage();
+          }
           authDispatch({
             type: "LOGOUT",
             authState: {

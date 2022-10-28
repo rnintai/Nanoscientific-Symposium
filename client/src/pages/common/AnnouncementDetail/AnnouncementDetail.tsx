@@ -1,7 +1,6 @@
 import { Stack, TextField, Typography, useTheme } from "@mui/material";
 import axios from "axios";
 import { useAuthState } from "context/AuthContext";
-import { useAlarmDispatch } from "context/NavBarMarkContext";
 import { useUnreadListDispatch } from "context/UnreadAnnouncementList";
 import usePageViews from "hooks/usePageViews";
 import React, { FormEvent, useEffect, useState } from "react";
@@ -32,7 +31,6 @@ const AnnouncementDetail = () => {
   const [currentAnnouncement, setCurrentAnnouncement] =
     useState<Announcement.announcementType>(null);
   const authState = useAuthState();
-  const alarmDispatch = useAlarmDispatch();
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const isEditor = editorRole.includes(authState.role);
 
@@ -47,7 +45,6 @@ const AnnouncementDetail = () => {
   // alert
   const [openEditSuccessAlert, setOpenEditSuccessAlert] =
     useState<boolean>(false);
-
   // loading
 
   const { viewsLabel } = globalData.get(pathname) as Common.globalDataType;
@@ -83,6 +80,7 @@ const AnnouncementDetail = () => {
     }
   };
   const deleteHandler = async () => {
+    setOpenDeleteModal(false);
     try {
       await axios.delete(`/api/announcement/post?nation=${pathname}&id=${id}`);
       await axios.delete(
@@ -97,11 +95,12 @@ const AnnouncementDetail = () => {
       );
       if (savedData) {
         const parsedData = JSON.parse(savedData);
-        if (parsedData.announcementList.includes(id)) {
+        if (parsedData.announcementList.includes(+id)) {
           parsedData.announcementList.splice(
-            parsedData.announcementList.findIndex(id),
+            parsedData.announcementList.indexOf(id),
             1,
           );
+          console.log(parsedData.announcementList);
         }
         parsedData.isThereNewAnnouncement = 1; // 업데이트를 위함.
         parsedData.announcementLength -= 1;
@@ -111,7 +110,7 @@ const AnnouncementDetail = () => {
           JSON.stringify(parsedData),
         );
       }
-      alert("Announcement is sucessfully deleted.");
+      alert("Announcement is successsfully deleted.");
       navigate(`/${pathname}/announcement${search}`);
     } catch (err) {
       alert(err);

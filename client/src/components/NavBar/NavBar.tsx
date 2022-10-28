@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Link from "components/Link/LinkWithSearch";
 import { useNavigate } from "hooks/useNavigateWithSearch";
-import { NavBarContainer } from "components/NavBar/NavBarStyles";
+import {
+  NavBarContainer,
+  AnnouncementMenuItemContainer,
+} from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { useAlarmDispatch } from "context/NavBarMarkContext";
@@ -321,14 +324,17 @@ navProps) => {
                           .map((m) => {
                             if (m.show || editorRole.includes(authState.role)) {
                               return (
-                                <MenuItem key={`menu-${m.id}`}>
+                                <AnnouncementMenuItemContainer
+                                  key={`menu-${m.id}`}
+                                  name={m.name}
+                                >
                                   <Link
                                     to={pathname + m.path}
                                     onClick={handleMoreMenuClose}
                                   >
                                     {m.name}
                                   </Link>
-                                </MenuItem>
+                                </AnnouncementMenuItemContainer>
                               );
                             }
                             return null;
