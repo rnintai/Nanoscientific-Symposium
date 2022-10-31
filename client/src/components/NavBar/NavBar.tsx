@@ -177,7 +177,10 @@ const NavBar = ({
                       </MenuLink>
                     );
                   }
-                  if (menu.has_child && menu.show) {
+                  if (
+                    menu.has_child &&
+                    (menu.show || editorRole.includes(authState.role))
+                  ) {
                     return (
                       <Box
                         key={menu.name}
