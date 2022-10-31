@@ -177,7 +177,7 @@ const NavBar = ({
                       </MenuLink>
                     );
                   }
-                  if (menu.has_child) {
+                  if (menu.has_child && menu.show) {
                     return (
                       <Box
                         key={menu.name}
