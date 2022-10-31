@@ -22,7 +22,6 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import axios from "axios";
 import {
   RowContainer,
-  ReadContainer,
   AnnouncementCardContainer,
 } from "./AnnouncementCardStyles";
 
@@ -137,7 +136,7 @@ const AnnouncementCard = forwardRef(
 
     return (
       <StyledEngineProvider injectFirst>
-        <AnnouncementCardContainer>
+        <AnnouncementCardContainer unread={isUnread()}>
           <Link
             to={{ pathname: `${id}`, search: `?${searchParams[0].toString()}` }}
             style={{ width: "100%", padding: 0 }}
@@ -178,7 +177,11 @@ const AnnouncementCard = forwardRef(
                     "MMM DD YYYY",
                   )}
                 </Typography>
-                <Typography fontWeight={600} fontSize={subHeadingFontSize}>
+                <Typography
+                  fontWeight={600}
+                  fontSize={subHeadingFontSize}
+                  className="title-text"
+                >
                   {title}
                 </Typography>
                 <Typography
@@ -198,11 +201,6 @@ const AnnouncementCard = forwardRef(
                   >
                     {hits} {viewsLabel || "views"}
                   </Typography>
-                  {isUnread() ? (
-                    <ReadContainer fontSize={xsmallFontSize}>
-                      unread
-                    </ReadContainer>
-                  ) : null}
                 </RowContainer>
               </Stack>
             </Stack>

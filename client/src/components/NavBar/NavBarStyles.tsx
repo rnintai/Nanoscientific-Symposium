@@ -304,9 +304,18 @@ export const NavBarContainer = styled.div`
 
 export const AnnouncementMenuItemContainer = styled(MenuItem)`
   ${(props) =>
-    props.color === "announcement" &&
+    props.className.toLowerCase() === "announcement" &&
     css`
-      width: 10rem;
-      height: 10rem;
+      position: relative;
     `}
+`;
+
+export const AnnouncementAlarm = styled.div`
+  position: absolute;
+  top: 3px;
+  right: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: red;
 `;

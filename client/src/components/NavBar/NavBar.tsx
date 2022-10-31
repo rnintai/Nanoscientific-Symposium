@@ -5,10 +5,11 @@ import { useNavigate } from "hooks/useNavigateWithSearch";
 import {
   NavBarContainer,
   AnnouncementMenuItemContainer,
+  AnnouncementAlarm,
 } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
-import { useAlarmDispatch } from "context/NavBarMarkContext";
+import { useAlarmState, useAlarmDispatch } from "context/NavBarMarkContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
@@ -92,6 +93,7 @@ navProps) => {
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+  const alarmState = useAlarmState();
   const alarmDispatch = useAlarmDispatch();
 
   // submenu refs
@@ -324,17 +326,21 @@ navProps) => {
                           .map((m) => {
                             if (m.show || editorRole.includes(authState.role)) {
                               return (
-                                <AnnouncementMenuItemContainer
-                                  key={`menu-${m.id}`}
-                                  name={m.name}
+                                <Link
+                                  to={pathname + m.path}
+                                  onClick={handleMoreMenuClose}
                                 >
-                                  <Link
-                                    to={pathname + m.path}
-                                    onClick={handleMoreMenuClose}
+                                  <AnnouncementMenuItemContainer
+                                    key={`menu-${m.id}`}
+                                    className={m.name}
                                   >
+                                    {m.name.toLowerCase() === "announcement" &&
+                                    alarmState.alarm ? (
+                                      <AnnouncementAlarm />
+                                    ) : null}
                                     {m.name}
-                                  </Link>
-                                </AnnouncementMenuItemContainer>
+                                  </AnnouncementMenuItemContainer>
+                                </Link>
                               );
                             }
                             return null;
