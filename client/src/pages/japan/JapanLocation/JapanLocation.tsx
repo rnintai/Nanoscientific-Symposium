@@ -18,9 +18,10 @@ const JapanLocation = () => {
 
   const getDescHandler = async () => {
     try {
-      const res = await axios.get("/api/page/common/jp/location", {
+      const res = await axios.get("/api/page/common/editor", {
         params: {
           nation: pathname,
+          tableName: "location",
         },
       });
 
@@ -33,9 +34,10 @@ const JapanLocation = () => {
   const applyHandler = async () => {
     if (confirm("Apply Changes?")) {
       try {
-        const row = await axios.post("/api/page/common/jp/location", {
+        const row = await axios.post("/api/page/common/editor", {
           nation: pathname,
           content: escapeQuotes(description),
+          tableName: "location",
         });
         setDescription(description);
         setInitialDescription(description);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
@@ -9,7 +9,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
 import { theme, jpTheme } from "theme/themes";
 import PrivateRoute from "components/Route/PrivateRoute";
-import EuropeLoginModal from "components/Modal/EuropeLoginModal";
+import LoginModal from "components/Modal/LoginModal";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import NotFound from "pages/common/NotFound/NotFound";
 import useMenuStore from "store/MenuStore";
@@ -306,7 +306,7 @@ const App = () => {
           window.location.pathname.indexOf("admin") === -1 && <Footer />}
 
         {pathname !== "" && (
-          <EuropeLoginModal
+          <LoginModal
             setSuccess={setLoginSuccess}
             setFailed={setLoginFailed}
             emailModalOpen={emailModalOpen}

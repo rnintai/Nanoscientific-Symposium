@@ -39,6 +39,12 @@ export const AppContainer = styled.div`
         }};
       }
     }
+
+    &.link-default {
+      padding: 0;
+      color: #0563c1;
+      text-decoration: underline;
+    }
   }
 
   .hover-zoom {

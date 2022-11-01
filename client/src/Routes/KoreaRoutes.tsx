@@ -8,16 +8,18 @@ import Speakers from "pages/common/Speakers/Speakers";
 import KoreaAttend from "pages/korea/KoreaAttend/KoreaAttend";
 import LectureHall from "pages/common/LectureHall/LectureHall";
 import ForgotPassword from "pages/common/User/ForgotPassword/ForgotPassword";
-import Registration from "pages/common/Registration/Registration";
 import ResetPassword from "pages/common/User/ResetPassword/ResetPassword";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import PosterHall from "pages/common/PosterHall/PosterHall";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
+import RedirectRoute from "components/RedirectRoute/RedirectRoute";
+import RegisterInfo from "pages/korea/RegisterInfo/RegisterInfo";
+import KoreaRegistration from "pages/korea/KoreaRegistration/KoreaRegistration";
 
 const pathname = "kr";
-const formNo = "1239";
+const formNo = "1972";
 const abstractFormNo = "1897";
 
 export default [
@@ -25,10 +27,14 @@ export default [
     path: `/${pathname}`,
     element: <Landing key={`${pathname}-landing-section`} />,
   },
+  // {
+  //   path: `/${pathname}/lecture-hall`,
+  //   element: <LectureHall />,
+  //   isPrivate: true,
+  // },
   {
-    path: `/${pathname}/lecture-hall`,
-    element: <LectureHall />,
-    isPrivate: true,
+    path: `/${pathname}/register-info`,
+    element: <RegisterInfo />,
   },
   {
     path: `/${pathname}/exhibit/parksystems`,
@@ -56,7 +62,7 @@ export default [
   },
   {
     path: `/${pathname}/registration`,
-    element: <Registration formNo={formNo} />,
+    element: <KoreaRegistration formNo={formNo} />,
   },
   {
     path: `/${pathname}/user/reset-password`,
@@ -83,5 +89,23 @@ export default [
   {
     path: `/${pathname}/abstract`,
     element: <AbstractSubmission formNo={abstractFormNo} />,
+  },
+  {
+    path: `/${pathname}/event-info/venue`,
+    element: (
+      <RedirectRoute
+        path="https://dcckorea.or.kr/page.do?pageId=148&menuNo=58"
+        target="_blank"
+      />
+    ),
+  },
+  {
+    path: `/${pathname}/event-info/accomodation`,
+    element: (
+      <RedirectRoute
+        path="https://dcckorea.or.kr/page.do?pageId=153&menuNo=63"
+        target="_blank"
+      />
+    ),
   },
 ];
