@@ -286,6 +286,8 @@ const usersCtrl = {
       state,
       nation,
       isStudent,
+      participationType,
+      issueBill,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
@@ -293,32 +295,7 @@ const usersCtrl = {
 
     try {
       let sql;
-      if (nation !== "eu") {
-        sql = `INSERT INTO user(
-          title,
-          first_name,
-          last_name,
-          email,
-          password,
-          phone,
-          institute,
-          department,
-          country,
-          state)
-        VALUES(
-          '${title}',
-          '${firstName}',
-          '${lastName}',
-          '${email}',
-          '${hasher.HashPassword(null)}',
-          '${phone}',
-          '${institute}',
-          '${department}',
-          '${country}',
-          '${state}'
-        )
-        `;
-      } else {
+      if (nation === "eu") {
         sql = `INSERT INTO user(
           title,
           first_name,
@@ -341,6 +318,59 @@ const usersCtrl = {
           '${department}',
           '${country}',
           ${isStudent ? 1 : 0}
+        )
+        `;
+      } else if (nation === "kr") {
+        sql = `INSERT INTO user(
+          title,
+          first_name,
+          last_name,
+          email,
+          password,
+          phone,
+          institute,
+          department,
+          country,
+          participation_type,
+          issue_bill
+          )
+        VALUES(
+          '${title}',
+          '${firstName}',
+          '${lastName}',
+          '${email}',
+          '${hasher.HashPassword(null)}',
+          '${phone}',
+          '${institute}',
+          '${department}',
+          '${country}',
+          '${participationType}',
+          ${issueBill ? 1 : 0}
+        )
+        `;
+      } else {
+        sql = `INSERT INTO user(
+          title,
+          first_name,
+          last_name,
+          email,
+          password,
+          phone,
+          institute,
+          department,
+          country,
+          state)
+        VALUES(
+          '${title}',
+          '${firstName}',
+          '${lastName}',
+          '${email}',
+          '${hasher.HashPassword(null)}',
+          '${phone}',
+          '${institute}',
+          '${department}',
+          '${country}',
+          '${state}'
         )
         `;
       }
