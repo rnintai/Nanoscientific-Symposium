@@ -746,13 +746,13 @@ const commonCtrl = {
     }
   },
 
-  getJapanLocation: async (req, res) => {
-    const { nation } = req.query;
+  getEditorContent: async (req, res) => {
+    const { nation, tableName } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
-      SELECT * FROM location_content
+      SELECT * FROM ${tableName}_content
       `;
       const row = await connection.query(sql);
 
@@ -770,13 +770,13 @@ const commonCtrl = {
       });
     }
   },
-  updateJapanLocation: async (req, res) => {
-    const { nation, content } = req.body;
+  updateEditorContent: async (req, res) => {
+    const { nation, content, tableName } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
-      UPDATE location_content SET description='${content}'
+      UPDATE ${tableName}_content SET description='${content}'
       WHERE id=1
       `;
       await connection.query(sql);
