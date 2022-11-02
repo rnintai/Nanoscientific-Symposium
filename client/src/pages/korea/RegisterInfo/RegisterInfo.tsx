@@ -251,7 +251,8 @@ const RegisterInfo = () => {
       </Typography>
       <Typography fontSize={mainFontSize}>
         ▶카드결제 : 심포지엄 당일 현장에서 카드 결제 하실 수 있습니다. <br />
-        ▶계좌송금 : ㅇㅇ은행 ㅇㅇㅇㅇㅇㅇㅇㅇㅇ (계산서 발행가능)
+        ▶계좌송금 : 국민은행 468401-04-235214 사단법인 한국표면분석학회 (계산서
+        발행가능)
       </Typography>
       <Typography fontSize={mainFontSize} fontWeight={600}>
         계산서 발행 관련 연락처
