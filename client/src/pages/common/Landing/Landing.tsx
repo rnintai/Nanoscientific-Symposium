@@ -519,7 +519,7 @@ const Landing = () => {
     getLandingSection4();
     getLandingSection6();
     getLandingSection7();
-    if (pathname === "jp") {
+    if (pathname === "jp" || pathname === "kr") {
       getLandingSection8();
     }
   }, []);
