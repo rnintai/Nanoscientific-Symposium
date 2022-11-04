@@ -16,7 +16,7 @@ pipeline {
                     dir('client'){
                         sh '''
                         ls -al
-                        npm install --legacy-peer-deps
+                        npm install
                         echo "REACT_APP_S3_ACCESS_KEY=${REACT_APP_S3_ACCESS_KEY_EXT}\nREACT_APP_S3_SECRET_ACCESS_KEY=${REACT_APP_S3_SECRET_ACCESS_KEY_EXT}\nREACT_APP_PAYPAL_CLIENT_ID=${REACT_APP_PAYPAL_CLIENT_ID_EXT}" >> .env.production
                         CI=false npm run build
                         '''
@@ -39,7 +39,7 @@ pipeline {
                     dir('server'){
                      sh '''
                      ls -al
-                     npm install --legacy-peer-deps
+                     npm install
                      sudo cp -r . /home/ubuntu/server
                      '''
                     }
