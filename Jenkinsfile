@@ -39,7 +39,7 @@ pipeline {
                     dir('server'){
                      sh '''
                      ls -al
-                     npm install
+                     npm install --legacy-peer-deps
                      sudo cp -r . /home/ubuntu/server
                      '''
                     }
