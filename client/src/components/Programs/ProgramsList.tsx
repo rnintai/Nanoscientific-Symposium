@@ -10,6 +10,7 @@ import ComingSoon from "components/ComingSoon/ComingSoon";
 import useMenuStore from "store/MenuStore";
 import { editorRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
+import NSSButton from "components/Button/NSSButton";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -32,9 +33,7 @@ const ProgramsList = () => {
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
-  const { programBannerURL } = globalData.get(
-    "common",
-  ) as Common.globalDataType;
+  const { programFileLink } = globalData.get(pathname) as Common.globalDataType;
   const config = {
     params: {
       nation: pathname,
@@ -112,7 +111,7 @@ const ProgramsList = () => {
             return (
               <TableContainer
                 key={session.id}
-                sx={{ overflowX: "hidden", mb: 8 }}
+                sx={{ overflowX: "hidden", mb: 2 }}
               >
                 <ProgramTitle
                   title={session.session_title}
@@ -149,6 +148,17 @@ const ProgramsList = () => {
               </TableContainer>
             );
           })}
+        {programFileLink && (
+          <NSSButton
+            variant="gradient"
+            style={{ margin: "0 auto" }}
+            onClick={() => {
+              window.open(programFileLink, "_blank", "noopener noreferrer");
+            }}
+          >
+            전체 프로그램 다운로드
+          </NSSButton>
+        )}
       </Box>
     </ProgramsListContainer>
   );

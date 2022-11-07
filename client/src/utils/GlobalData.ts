@@ -159,6 +159,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       resetPasswordNewLabel: "New Password",
       resetPasswordNewConfirmLabel: "New Password Confirm",
 
+      // 프로그램
+      programFileLink:
+        "https://surfaceanalysis.kr/img/file/pdf/%ED%91%9C%EB%A9%B4%EB%B6%84%EC%84%9D%ED%95%99%EC%88%A0%EB%8C%80%ED%9A%8C-%EC%98%88%EB%B9%84%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8.pdf",
+
       // cookie
       cookieConsentText:
         "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
