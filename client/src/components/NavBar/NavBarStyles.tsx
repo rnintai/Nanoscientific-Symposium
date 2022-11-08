@@ -28,7 +28,7 @@ export const NavBarContainer = styled.div`
     transition: opacity 0.3s ease-in-out, visibility 0s linear 1s;
   }
   .nav-wrap {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     height: 100%;
     padding: 10px 0;

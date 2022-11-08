@@ -48,7 +48,7 @@ export default [
     element: <SpeakerDetail />,
   },
   {
-    path: `/${pathname}/lecture-hall`,
+    path: `/${pathname}/lecture-hall/live`,
     element: <LectureHall />,
     isPrivate: true,
   },
