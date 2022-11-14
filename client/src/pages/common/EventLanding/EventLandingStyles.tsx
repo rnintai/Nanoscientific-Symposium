@@ -12,6 +12,9 @@ export const EventLandingContainer = styled.div`
   .banner-section {
     height: 300px;
   }
+  .video-section {
+    padding-top: 70px;
+  }
 
   .body-container {
     max-width: 1920px;
@@ -27,6 +30,9 @@ export const EventLandingContainer = styled.div`
   @media screen and (max-width: 1024px) {
     .body-container {
       min-height: initial;
+    }
+    .video-section {
+      padding-top: 35px;
     }
     img.section-logo {
       max-width: 220px;

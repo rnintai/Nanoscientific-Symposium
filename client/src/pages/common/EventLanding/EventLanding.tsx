@@ -34,6 +34,40 @@ const EventLanding = () => {
         background={eventLandingMainBannerURL}
         fullWidth
       />
+
+      <Stack
+        className="video-section"
+        sx={{
+          width: "100%",
+          flexDirection: {
+            laptop: "row",
+            mobile: "column",
+          },
+        }}
+        alignItems={{
+          mobile: "center",
+          laptop: "center",
+        }}
+        justifyContent="center"
+      >
+        <img className="section-logo" src={logoURL} alt="logo" />
+        {teaserVideoURL && (
+          // eslint-disable-next-line jsx-a11y/media-has-caption
+          // <video
+          //   className="teaser-video"
+          //   src={teaserVideoURL}
+          //   height="250"
+          //   autoPlay
+          //   muted
+          //   loop
+          //   playsInline
+          //   controls
+          //   controlsList="nodownload"
+          // />
+          <YoutubeEmbed embedId={teaserVideoEmbed} width="400" height="250" />
+        )}
+      </Stack>
+
       <Box className="body-container">
         {teaserVideoEmbed && (
           <LandingSection fullWidth>
@@ -44,41 +78,6 @@ const EventLanding = () => {
                 spacing={4}
                 alignItems="center"
               >
-                <Stack
-                  sx={{
-                    width: "100%",
-                    flexDirection: {
-                      laptop: "row",
-                      mobile: "column",
-                    },
-                  }}
-                  alignItems={{
-                    mobile: "center",
-                    laptop: "center",
-                  }}
-                  justifyContent="center"
-                >
-                  <img className="section-logo" src={logoURL} alt="logo" />
-                  {teaserVideoURL && (
-                    // eslint-disable-next-line jsx-a11y/media-has-caption
-                    // <video
-                    //   className="teaser-video"
-                    //   src={teaserVideoURL}
-                    //   height="250"
-                    //   autoPlay
-                    //   muted
-                    //   loop
-                    //   playsInline
-                    //   controls
-                    //   controlsList="nodownload"
-                    // />
-                    <YoutubeEmbed
-                      embedId={teaserVideoEmbed}
-                      width="400"
-                      height="250"
-                    />
-                  )}
-                </Stack>
                 <Typography
                   textAlign="left"
                   mt={1}
