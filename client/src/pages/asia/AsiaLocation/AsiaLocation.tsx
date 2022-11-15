@@ -6,6 +6,7 @@ import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
 import { escapeQuotes } from "utils/String";
+import { AsiaLocationContainer } from "./AsiaLocationStyles";
 
 const AsiaLocation = () => {
   const pathname = usePageViews();
@@ -54,22 +55,24 @@ const AsiaLocation = () => {
   }, []);
 
   return (
-    <Box className="layout body-fit">
-      <LandingTextEditor
-        initialValue={initialDescription}
-        value={description}
-        setValue={setDescription}
-        edit={edit}
-        setEdit={setEdit}
-        preview={preview}
-        setPreview={setPreview}
-        previewContent={previewContent}
-        setPreviewContent={setPreviewContent}
-        applyHandler={applyHandler}
-      >
-        {initialDescription || ""}
-      </LandingTextEditor>
-    </Box>
+    <AsiaLocationContainer>
+      <Box className="layout body-fit">
+        <LandingTextEditor
+          initialValue={initialDescription}
+          value={description}
+          setValue={setDescription}
+          edit={edit}
+          setEdit={setEdit}
+          preview={preview}
+          setPreview={setPreview}
+          previewContent={previewContent}
+          setPreviewContent={setPreviewContent}
+          applyHandler={applyHandler}
+        >
+          {initialDescription || ""}
+        </LandingTextEditor>
+      </Box>
+    </AsiaLocationContainer>
   );
 };
 
