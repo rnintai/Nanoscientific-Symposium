@@ -13,6 +13,7 @@ import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import PosterHall from "pages/common/PosterHall/PosterHall";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
+import AsiaLocation from "pages/asia/AsiaLocation/AsiaLocation";
 
 const pathname = "asia";
 const formNo = "1247";
@@ -77,5 +78,9 @@ export default [
     path: `/${pathname}/poster-hall`,
     element: <PosterHall />,
     isPrivate: true,
+  },
+  {
+    path: `/${pathname}/location`,
+    element: <AsiaLocation />,
   },
 ];
