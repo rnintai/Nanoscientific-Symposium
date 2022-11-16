@@ -146,7 +146,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       createAccountText: "계정 등록",
       // landing
       showLandingSection1: true,
-      landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.jpg`,
+      landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.png`,
       landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
       landingSection1Desc: `
         NanoScientific Symposium Korea 등록하기
