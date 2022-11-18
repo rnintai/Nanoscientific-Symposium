@@ -20,6 +20,7 @@ import { S3_URL } from "utils/GlobalData";
 import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
+import CommonRoutes from "Routes/CommonRoutes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -275,7 +276,11 @@ const App = () => {
         )}
         <Routes>
           {/* common */}
-          <Route path="/" element={<EventLanding />} />
+          {/* <Route path="/" element={<EventLanding />} />
+          <Route path="/on-demand" element={<EventLanding />} /> */}
+          {CommonRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* asia */}
           {AsiaRoutes.map((route) => {
             return routeLoopHelper(route);

@@ -13,12 +13,18 @@ import {
 import NSSButton from "components/Button/NSSButton";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Colors } from "utils/Colors";
 import {
   headingFontSize,
   mainFontSize,
   subHeadingFontSize,
 } from "utils/FontSize";
+
+export const Colors = {
+  navy: "#002060",
+  red: "#C00000",
+  grey: "#F2F2F2",
+  yellow: "#FFE599",
+};
 
 const tableStyle = {
   width: "95%",

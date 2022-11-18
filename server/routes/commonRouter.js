@@ -265,4 +265,6 @@ router
   .get(commonCtrl.getEditorContent)
   .post(commonCtrl.updateEditorContent);
 
+router.route("/ondemand").get(commonCtrl.getOnDemandList);
+
 module.exports = router;

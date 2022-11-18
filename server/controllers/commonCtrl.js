@@ -793,6 +793,29 @@ const commonCtrl = {
       });
     }
   },
+
+  getOnDemandList: async (req, res) => {
+    const currentPool = getCurrentPool("common");
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      SELECT * FROM on_demand;
+      `;
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        result: row[0],
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
 };
 
 module.exports = commonCtrl;

@@ -31,7 +31,8 @@ const usePageViews = () => {
       break;
     }
     default: {
-      result = "";
+      result = "home";
+      // result = "";
     }
   }
   // 두번째 슬래시 나오는곳까지 자릅니다
