@@ -94,10 +94,16 @@ const PosterForm = (posterformProps: PosterFormProps) => {
         institution,
       } = currentSubmission;
       title.setValue(abstract_title);
-      author.setValue(`${salutation} ${first_name} ${last_name}`);
+      author.setValue(
+        `${
+          salutation !== "undefined" ? salutation : ""
+        }${first_name} ${last_name}`,
+      );
       affiliation.setValue(institution);
       if (pdf_file_path.indexOf(",upload") !== -1) {
         setFilePath(pdf_file_path.split(",upload")[0]);
+      } else if (pdf_file_path === "undefined") {
+        setFilePath("");
       } else {
         setFilePath(pdf_file_path);
       }
@@ -200,7 +206,9 @@ const PosterForm = (posterformProps: PosterFormProps) => {
                   nextHandler(s);
                 }}
               >
-                {s.abstract_title} ({s.salutation} {s.first_name} {s.last_name})
+                {s.abstract_title} (
+                {s.salutation !== "undefined" ? `${s.salutation} ` : ""}
+                {s.first_name} {s.last_name})
               </Box>
             ))}
             <Box
