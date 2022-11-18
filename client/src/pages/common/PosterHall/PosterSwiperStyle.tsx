@@ -65,7 +65,6 @@ export const PosterTitle = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  font-family: "Noto Serif", serif;
   font-weight: 700;
   text-align: center;
   vertical-align: center;
@@ -377,8 +376,6 @@ export const PosterContainer = styled.div`
   .swiper-button-next {
     color: #1d2088;
   }
-
-  font-family: "Noto Serif", serif;
 `;
 
 export const PosterPageOverlay = styled.div`
