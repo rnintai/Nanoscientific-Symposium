@@ -169,7 +169,14 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                           <DividedLine />
                           <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
                           <ImageContainer>
-                            <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                            <Photos
+                              src={
+                                poster.image.indexOf("http") !== -1
+                                  ? poster.image
+                                  : `${S3_URL}/${poster.image}`
+                              }
+                              alt={`pic ${idx + 1}`}
+                            />
                           </ImageContainer>
                         </PosterInner>
                         <PosterOverlay
@@ -195,7 +202,14 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                           <DividedLine />
                           <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
                           <ImageContainer>
-                            <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                            <Photos
+                              src={
+                                poster.image.indexOf("http") !== -1
+                                  ? poster.image
+                                  : `${S3_URL}/${poster.image}`
+                              }
+                              alt={`pic ${idx + 1}`}
+                            />
                           </ImageContainer>
                         </PosterInner>
                       </>
@@ -237,7 +251,14 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                         <DividedLine />
                         <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
                         <ImageContainer>
-                          <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                          <Photos
+                            src={
+                              poster.image.indexOf("http") !== -1
+                                ? poster.image
+                                : `${S3_URL}/${poster.image}`
+                            }
+                            alt={`pic ${idx + 1}`}
+                          />
                         </ImageContainer>
                       </PosterInner>
                     ) : (
@@ -249,7 +270,14 @@ const PosterSwiper = ({ posterState }: posterProps) => {
                         <DividedLine />
                         <PosterSubTitle>{poster.sub_title}</PosterSubTitle>
                         <ImageContainer>
-                          <Photos src={poster.image} alt={`pic ${idx + 1}`} />
+                          <Photos
+                            src={
+                              poster.image.indexOf("http") !== -1
+                                ? poster.image
+                                : `${S3_URL}/${poster.image}`
+                            }
+                            alt={`pic ${idx + 1}`}
+                          />
                         </ImageContainer>
                       </PosterInner>
                     )
