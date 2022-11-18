@@ -186,6 +186,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
     ":hover": {
       color: theme.palette.grey[800],
     },
+    textAlign: "left",
   };
 
   return (
