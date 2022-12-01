@@ -1,6 +1,6 @@
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import AnnouncementCard from "components/AnnouncementCard/AnnouncementCard";
 import { Box, IconButton, Stack, TextField, Typography } from "@mui/material";
@@ -17,7 +17,9 @@ import CommonModal from "components/CommonModal/CommonModal";
 import QuillEditor from "components/QuillEditor/QuillEditor";
 import useInput from "hooks/useInput";
 import { editorRole } from "utils/Roles";
-import { useAuthState } from "context/AuthContext";
+import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import { useAlarmDispatch } from "context/NavBarMarkContext";
+import { useUnreadListDispatch } from "context/UnreadAnnouncementList";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import ComingSoon from "components/ComingSoon/ComingSoon";
 import useMenuStore from "store/MenuStore";
@@ -30,9 +32,12 @@ const Announcement = () => {
   const theme = useTheme();
   const [announcementList, setAnnouncementList] =
     useState<Announcement.announcementType[]>(null);
+  const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const searchParams = useSearchParams();
   const navigate = useNavigate();
   const authState = useAuthState();
+  const authDispatch = useAuthDispatch();
+  const alarmDispatch = useAlarmDispatch();
   const isEditor = editorRole.includes(authState.role);
 
   // modal
@@ -47,6 +52,66 @@ const Announcement = () => {
   const [getAnnouncementsLoading, setGetAnnouncementsLoading] =
     useState<boolean>(false);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
+  const checkFlag = useRef(false);
+  const markUnreadAnnouncement = () => {
+    axios
+      .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
+      .then((res) => {
+        if (res.data.success) {
+          if (res.data.unread.length) {
+            alarmDispatch({ type: "ON" });
+          } else {
+            alarmDispatch({ type: "OFF" });
+          }
+          unreadAnnouncementListDispatch({
+            type: "INSERT_ANNOUNCEMENT",
+            arr: res.data.unread,
+          });
+        } else {
+          console.log(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+  /**  다른 탭에서 열 경우 알람 표시 제거 */
+  const checkAndRemoveAlarm = async () => {
+    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    if (!savedData) {
+      return;
+    }
+    if (savedData !== null) {
+      const parsedData = JSON.parse(savedData);
+      if (parsedData.isThereNewAnnouncement) {
+        try {
+          const res = await axios.get(
+            `/api/announcement/originlist?nation=${pathname}`,
+          );
+          if (res.data.success) {
+            parsedData.announcementLength = res.data.result;
+          }
+        } catch (err) {
+          console.log("Error >>", err);
+        } finally {
+          parsedData.isThereNewAnnouncement = 0;
+        }
+      }
+
+      if (
+        parsedData.announcementList.length === parsedData.announcementLength
+      ) {
+        alarmDispatch({ type: "OFF" });
+        parsedData.isAnnouncementCached = 1;
+        console.log(`in annoucnment`);
+      }
+
+      localStorage.setItem(
+        `readAnnouncementList_${pathname}`,
+        JSON.stringify(parsedData),
+      );
+    }
+  };
 
   // 총 페이지
   const getPageQuery = () => {
@@ -84,6 +149,42 @@ const Announcement = () => {
     }
   };
 
+  const initAnnouncementCache = () => {
+    authDispatch({ type: "NOTCACHEANNOUNCEMENT", authState: { ...authState } });
+    try {
+      axios
+        .post("/api/users/updateAnnouncementCache", {
+          email: authState.email,
+          nation: pathname,
+          flag: "add",
+        })
+        .then((res) => {
+          if (res.data.success === true) {
+            console.log(res.data.msg);
+          } else {
+            console.log(res.data.msg);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const updateLocalStorage = () => {
+    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    if (savedData) {
+      const parsedData = JSON.parse(savedData);
+      parsedData.isThereNewAnnouncement = 1;
+      parsedData.isAnnouncementCached = 0;
+      parsedData.announcementLength += 1;
+      alarmDispatch({ type: "ON" });
+      localStorage.setItem(
+        `readAnnouncementList_${pathname}`,
+        JSON.stringify(parsedData),
+      );
+    }
+  };
+
   const submitHandler = async () => {
     try {
       setSubmitLoading(true);
@@ -96,6 +197,9 @@ const Announcement = () => {
         setOpenWriteModal(false);
         setOpenSuccessAlert(true);
         getAnnouncements(curPage);
+        markUnreadAnnouncement();
+        initAnnouncementCache();
+        updateLocalStorage();
       }
     } catch (err) {
       alert(err);
@@ -103,14 +207,16 @@ const Announcement = () => {
       setSubmitLoading(false);
     }
   };
-  useEffect(() => {
-    setPageQuery(curPage);
-    getAnnouncements(curPage);
-  }, []);
 
+  // 두번 렌더링 됨...이유를 찾아보기
   useEffect(() => {
     setPageQuery(curPage);
     getAnnouncements(curPage);
+    if (authState.id) {
+      markUnreadAnnouncement();
+    } else {
+      checkAndRemoveAlarm();
+    }
   }, [curPage]);
 
   return (
@@ -144,6 +250,7 @@ const Announcement = () => {
                 announcement={a}
                 curPage={curPage}
                 key={`announcement-${a.id}`}
+                ref={checkFlag}
               />
             ))}
         </Box>

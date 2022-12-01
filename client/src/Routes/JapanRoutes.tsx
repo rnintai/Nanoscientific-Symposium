@@ -93,7 +93,6 @@ export default [
   {
     path: `/${pathname}/poster-hall`,
     element: <PosterHall />,
-    isPrivate: true,
   },
   {
     path: `/${pathname}/abstract`,

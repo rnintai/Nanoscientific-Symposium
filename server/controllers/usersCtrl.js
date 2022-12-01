@@ -35,10 +35,12 @@ const usersCtrl = {
       // refresh토큰 생성 및 db에 저장
       let refreshToken = issueRefreshToken(userEmail);
       const insertSql = `UPDATE user SET refresh_token='${refreshToken}' WHERE email='${userEmail}'`;
+      const getUserIdSql = `SELECT id FROM user WHERE email='${userEmail}'`;
       try {
         await connection.beginTransaction();
         await connection.query(insertSql);
-
+        // fetch user id data
+        const result = await connection.query(getUserIdSql);
         await connection.commit();
         connection.release();
 
@@ -55,6 +57,7 @@ const usersCtrl = {
           message: "login success",
           accessToken,
           role,
+          userId: result[0][0].id,
         });
       } catch (error) {
         await connection.rollback();
@@ -395,6 +398,69 @@ const usersCtrl = {
     }
   },
 
+  updateAnnouncementCache: async (req, res) => {
+    const currentPool = getCurrentPool(req.body.nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      let sql;
+      if (req.body.flag === "cached") {
+        sql = `UPDATE user SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${req.body.email}'`;
+      } else if (req.body.flag === "add") {
+        sql = `UPDATE user SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${req.body.email}'`;
+      } else if (req.body.flag === "delete") {
+        sql = `UPDATE user SET is_announcement_cached=0 WHERE email='${req.body.email}'`;
+      }
+      await connection.query(sql);
+      connection.release();
+
+      res.status(200).json({
+        success: true,
+        result: true,
+        msg: "announcement 캐시 업데이트 성공",
+      });
+    } catch (err) {
+      console.log(err);
+      connection.realse();
+
+      res.status(500).json({
+        success: false,
+        err,
+        message: "announcement 캐시 업데이트 실패",
+      });
+      return false;
+    }
+  },
+
+  getDataIsNewAnnoucnement: async (req, res) => {
+    const { nation, id } = req.query;
+    // console.log(nation, id);
+
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+
+    try {
+      const sql = `SELECT is_new_announcement FROM user WHERE id=${id}`;
+      const result = await connection.query(sql);
+      connection.release();
+      console.log(result[0]);
+      res.status(200).json({
+        success: true,
+        result: result[0][0].is_new_announcement,
+        msg: "is_new_announcement 데이터 획득",
+      });
+    } catch (err) {
+      console.log(err);
+      connection.release();
+
+      res.status(500).json({
+        success: false,
+        err,
+        message: "is_new_announcement 데이터 획득 실패",
+      });
+      return false;
+    }
+  },
   unregister: async (req, res) => {
     const { nation, id } = req.query;
 

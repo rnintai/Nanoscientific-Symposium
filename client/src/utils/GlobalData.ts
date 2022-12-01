@@ -78,7 +78,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "EXHIBIT HALL",
       // sponsors: "SPONSORS",
       home: "HOME",
-      registration: "REGISTRATION",
+      // registration: "REGISTRATION",
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
@@ -146,7 +146,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       createAccountText: "계정 등록",
       // landing
       showLandingSection1: true,
-      landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.jpg`,
+      landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.png`,
       landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
       landingSection1Desc: `
         NanoScientific Symposium Korea 등록하기
@@ -161,7 +161,7 @@ export const globalData = new Map<string, Common.globalDataType>([
 
       // 프로그램
       programFileLink:
-        "https://surfaceanalysis.kr/img/file/pdf/%ED%91%9C%EB%A9%B4%EB%B6%84%EC%84%9D%ED%95%99%EC%88%A0%EB%8C%80%ED%9A%8C-%EC%98%88%EB%B9%84%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8.pdf",
+        "https://surfaceanalysis.kr/img/file/pdf/2022%EB%85%84%EB%8F%84-%ED%91%9C%EB%A9%B4%EB%B6%84%EC%84%9D%ED%95%99%EC%88%A0%EB%8C%80%ED%9A%8C%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A2%8C%EC%9E%A5%ED%8F%AC%ED%95%A8-%EC%B5%9C%EC%A2%85.pdf",
 
       // cookie
       cookieConsentText:

@@ -232,7 +232,7 @@ const RegisterInfo = () => {
             <TableCell sx={bgGrey}>학생회원</TableCell>
             <TableCell>250,000원</TableCell>
             <TableCell>300,000원</TableCell>
-            <TableCell sx={bgYellow}>150,000원</TableCell>
+            <TableCell sx={bgYellow}>125,000원</TableCell>
           </TableRow>
           <TableRow>
             <TableCell sx={bgGrey} rowSpan={2}>
@@ -241,13 +241,13 @@ const RegisterInfo = () => {
             <TableCell sx={bgGrey}>일반</TableCell>
             <TableCell>500,000원</TableCell>
             <TableCell>550,000원</TableCell>
-            <TableCell sx={bgYellow}>275,000원</TableCell>
+            <TableCell sx={bgYellow}>250,000원</TableCell>
           </TableRow>
           <TableRow>
             <TableCell sx={bgGrey}>학생</TableCell>
             <TableCell>300,000원</TableCell>
             <TableCell>350,000원</TableCell>
-            <TableCell sx={bgYellow}>175,000원</TableCell>
+            <TableCell sx={bgYellow}>150,000원</TableCell>
           </TableRow>
         </TableBody>
       </Table>
