@@ -33,6 +33,7 @@ const OnDemand = () => {
 
   useEffect(() => {
     getOnDemandList();
+    setFilteredVideoList(videoList);
   }, []);
 
   useEffect(() => {
@@ -83,37 +84,28 @@ const OnDemand = () => {
   };
   // Filter들의 교집합
   const filterByAll = () => {
-    const idList = [
-      filteredByRegionList.map((v) => v.id),
-      filteredByYearList.map((v) => v.id),
-    ];
-    const intersectedIdList = idList.reduce((a, b) =>
-      a.filter((c) => b.includes(c)),
-    );
+    if (filteredByYearList.length === 0) {
+      setFilteredVideoList(filteredByRegionList);
+    } else if (filteredByRegionList.length === 0) {
+      setFilteredVideoList(filteredByYearList);
+    } else {
+      const idList = [
+        filteredByRegionList.map((v) => v.id),
+        filteredByYearList.map((v) => v.id),
+      ];
+      const intersectedIdList = idList.reduce((a, b) =>
+        a.filter((c) => b.includes(c)),
+      );
 
-    // const result = videoList.filter((v,i,org) => idList.map(i => ))
-    const result = [];
+      // const result = videoList.filter((v,i,org) => idList.map(i => ))
+      const result = [];
 
-    for (let i = 0; i < intersectedIdList.length; i += 1) {
-      result.push(...videoList.filter((v) => v.id === intersectedIdList[i]));
+      for (let i = 0; i < intersectedIdList.length; i += 1) {
+        result.push(...videoList.filter((v) => v.id === intersectedIdList[i]));
+      }
+
+      setFilteredVideoList(result);
     }
-
-    console.log(result);
-
-    // const intersectedVideoList = data.reduce((a, b) =>
-    //   a.filter((c) => b.includes(c)),
-    // );
-
-    // console.log(filteredByRegionList);
-    // console.log(filteredByYearList);
-
-    // console.log(
-    //   [...new Set(data.map((e) => JSON.stringify(e)))]
-    //     .map((e) => JSON.parse(e))
-    //     .sort((a, b) => a.id - b.id),
-    // );
-
-    // const result = intersectedIdList.map(i => videoList.)
   };
 
   // filter
@@ -155,11 +147,27 @@ const OnDemand = () => {
   };
 
   // 삭제 handler
-  const handleDeleteEachFilter = () => {
+  const handleDeleteEachFilter = (target: string) => {
     // filterList 에서 선택된 것 제거
+    let tmpFilterList = JSON.parse(JSON.stringify(filterList));
+    let tmpYearList = JSON.parse(JSON.stringify(selectedYear));
+    let tmpRegionList = JSON.parse(JSON.stringify(selectedRegion));
+
+    tmpFilterList = tmpFilterList.filter((f: string) => f !== target);
+    tmpYearList = tmpYearList.filter((f: string) => f !== target);
+    tmpRegionList = tmpRegionList.filter((f: string) => f !== target);
+
+    setFilterList(tmpFilterList);
+    setSelectedYear(tmpYearList);
+    setSelectedRegion(tmpRegionList);
+
+    document
+      .querySelector(`.tag.tag-${target.replace(/\s/g, "-")}`)
+      .classList.remove("active");
   };
   const handleClearFilter = () => {
     // filterList를 빈 리스트로 대체.
+    setFilterList([]);
   };
 
   return (
@@ -168,13 +176,25 @@ const OnDemand = () => {
         {/* control panel */}
         <Stack className="control-panel" sx={{ p: "8px 12px" }}>
           <Box className="selected-filters">
-            <Typography
-              fontSize={xsmallFontSize}
-              color={theme.palette.grey[600]}
-              mb="5px"
-            >
-              Selected Filters
-            </Typography>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography
+                fontSize={xsmallFontSize}
+                color={theme.palette.grey[600]}
+                mb="5px"
+              >
+                Selected Filters
+              </Typography>
+              <Typography
+                component="button"
+                className="clear-btn"
+                fontSize={xsmallFontSize}
+                color={theme.palette.grey[600]}
+                mb="5px"
+                onClick={handleClearFilter}
+              >
+                Clear
+              </Typography>
+            </Stack>
             {/* <Stack direction="row" flexWrap="wrap" minHeight="20px">
             {filterList.map((f) => (
               <Typography>{f}</Typography>
@@ -193,8 +213,10 @@ const OnDemand = () => {
                   <Typography
                     key={`selected-tag-${f}`}
                     className="tag selected"
-                    sx={{ cursor: "default !important" }}
-                    onClick={handleDeleteEachFilter}
+                    // sx={{ cursor: "default !important" }}
+                    onClick={() => {
+                      handleDeleteEachFilter(f);
+                    }}
                   >
                     {f} &times;
                   </Typography>
@@ -226,11 +248,7 @@ const OnDemand = () => {
         </Stack>
         {/* videos */}
         <Stack className="video-result" flexDirection="row" flexWrap="wrap">
-          {filteredByYearList.map((v, idx) => (
-            <ThumbnailCard key={`card-${v.id}`} video={v} />
-          ))}
-          <hr className="dashed" />
-          {filteredByRegionList.map((v, idx) => (
+          {filteredVideoList.map((v, idx) => (
             <ThumbnailCard key={`card-${v.id}`} video={v} />
           ))}
         </Stack>

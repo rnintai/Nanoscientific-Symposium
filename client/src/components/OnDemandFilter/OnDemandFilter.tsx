@@ -34,7 +34,7 @@ const OnDemandFilter = (props: OnDemandFilterProps) => {
             <Typography
               key={`filter-tag-${f}`}
               component="button"
-              className="tag"
+              className={`tag tag-${f.replace(/\s/g, "-")}`}
               onClick={(e) => {
                 handleClick(e, f);
               }}
