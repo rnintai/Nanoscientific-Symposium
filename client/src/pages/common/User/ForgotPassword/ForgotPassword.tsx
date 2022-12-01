@@ -55,7 +55,9 @@ const ForgotPassword = () => {
       setTimeout(() => {
         const input = passwordInputRef.current?.children[1]
           .children[0] as HTMLInputElement;
-        input.focus();
+        if (input !== undefined) {
+          input.focus();
+        }
       }, 10);
     }
   }, [isEmailVerified]);

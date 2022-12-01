@@ -1,7 +1,16 @@
 import styled from "styled-components";
-import { useTheme } from "@mui/material";
+import { useTheme, Box } from "@mui/material";
 
-export const AnnouncementCardContainer = styled.div`
+interface ContainerType {
+  unread: boolean;
+}
+
+export const RowContainer = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const AnnouncementCardContainer = styled.div<ContainerType>`
   margin-bottom: 30px;
 
   .card-wrap {
@@ -20,6 +29,12 @@ export const AnnouncementCardContainer = styled.div`
     }
   }
 
+  .title-text {
+    ${(props) => {
+      return props.unread ? null : `color: #ccc`;
+    }}
+  }
+
   .text-clamp {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -27,6 +42,14 @@ export const AnnouncementCardContainer = styled.div`
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 6;
     line-height: 1.5em;
+    p > span,
+    p > em,
+    p > strong,
+    p > a {
+      ${(props) => {
+        return props.unread ? null : `color: #ccc !important`;
+      }}
+    }
   }
 
   @media screen and (max-width: 768px) {
