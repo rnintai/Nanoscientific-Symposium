@@ -1,5 +1,17 @@
 export const MetaTag = new Map<string, Common.MetaTagType[]>([
   [
+    "",
+    [
+      {
+        path: "default",
+        description:
+          "NanoScientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.",
+        keywords:
+          "NanoScientific Symposium, NSS, Nanotech Conference, Nanotechnology, NanoScientific, Nanoscience, AFM, SPM",
+      },
+    ],
+  ],
+  [
     "home",
     [
       {
