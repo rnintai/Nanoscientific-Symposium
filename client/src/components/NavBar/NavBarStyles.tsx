@@ -314,8 +314,8 @@ export const AnnouncementAlarm = styled.div`
   position: absolute;
   top: 3px;
   right: 7px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50px;
   background: red;
 `;

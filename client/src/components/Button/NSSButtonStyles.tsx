@@ -75,8 +75,8 @@ export const AlarmMark = styled.div`
   position: absolute;
   top: 12px;
   right: 10px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50px;
   background: red;
 `;
