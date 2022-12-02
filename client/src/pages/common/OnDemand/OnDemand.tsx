@@ -17,18 +17,16 @@ const OnDemand = () => {
   >([]);
   const [videoListLoading, setVideoListLoading] = useState<boolean>(false);
 
-  const [filterList, setFilterList] = useState<string[]>([]);
+  const [filterList, setFilterList] = useState<Common.onDemandTagType[]>([]);
 
   const [yearList, setYearList] = useState<any[]>([]);
-  const [selectedYear, setSelectedYear] = useState<string[]>([]);
-  const [filteredByYearList, setFilteredByYearList] = useState<
-    Common.onDemandVideoType[]
-  >([]);
+  const [selectedYear, setSelectedYear] = useState<Common.onDemandTagType[]>(
+    [],
+  );
 
   const [regionList, setRegionList] = useState<any[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState<string[]>([]);
-  const [filteredByRegionList, setFilteredByRegionList] = useState<
-    Common.onDemandVideoType[]
+  const [selectedRegion, setSelectedRegion] = useState<
+    Common.onDemandTagType[]
   >([]);
 
   useEffect(() => {
@@ -37,16 +35,13 @@ const OnDemand = () => {
   }, []);
 
   useEffect(() => {
-    filterByYear();
-  }, [selectedYear]);
+    setSelectedYear(filterList.filter((f) => f.type === "year"));
+    setSelectedRegion(filterList.filter((f) => f.type === "region"));
+  }, [filterList]);
 
   useEffect(() => {
-    filterByRegion();
-  }, [selectedRegion]);
-
-  useEffect(() => {
-    filterByAll();
-  }, [filteredByRegionList, filteredByYearList]);
+    filterByTag();
+  }, [selectedYear, selectedRegion]);
 
   const getOnDemandList = async () => {
     try {
@@ -54,8 +49,19 @@ const OnDemand = () => {
       const res = await axios.get("/api/page/common/ondemand");
       setVideoList(res.data.result);
       setFilteredVideoList(res.data.result);
-      setYearList([...new Set(res.data.result.map((v) => v.year))]);
-      setRegionList([...new Set(res.data.result.map((v) => v.region))]);
+
+      const years = [...new Set(res.data.result.map((v: any) => v.year))];
+      setYearList(
+        years.map((e) => {
+          return { type: "year", value: e };
+        }),
+      );
+      const regions = [...new Set(res.data.result.map((v: any) => v.region))];
+      setRegionList(
+        regions.map((e) => {
+          return { type: "region", value: e };
+        }),
+      );
     } catch (error) {
       console.log(error);
     } finally {
@@ -63,111 +69,82 @@ const OnDemand = () => {
     }
   };
 
-  const filterByYear = () => {
+  const filterByTag = () => {
     let newVideoList = JSON.parse(JSON.stringify(videoList));
     if (selectedYear.length !== 0) {
       newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
-        return selectedYear.some((y) => v.year.indexOf(y) !== -1);
+        return selectedYear.some((y) => v.year.indexOf(y.value) !== -1);
       });
+      // setFilteredByYearList(newVideoList);
     }
-    setFilteredByYearList(newVideoList);
-  };
-
-  const filterByRegion = () => {
-    let newVideoList = JSON.parse(JSON.stringify(videoList));
     if (selectedRegion.length !== 0) {
       newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
-        return selectedRegion.some((y) => v.region.indexOf(y) !== -1);
+        return selectedRegion.some((y) => v.region.indexOf(y.value) !== -1);
       });
     }
-    setFilteredByRegionList(newVideoList);
-  };
-  // Filter들의 교집합
-  const filterByAll = () => {
-    if (filteredByYearList.length === 0) {
-      setFilteredVideoList(filteredByRegionList);
-    } else if (filteredByRegionList.length === 0) {
-      setFilteredVideoList(filteredByYearList);
-    } else {
-      const idList = [
-        filteredByRegionList.map((v) => v.id),
-        filteredByYearList.map((v) => v.id),
-      ];
-      const intersectedIdList = idList.reduce((a, b) =>
-        a.filter((c) => b.includes(c)),
-      );
-
-      // const result = videoList.filter((v,i,org) => idList.map(i => ))
-      const result = [];
-
-      for (let i = 0; i < intersectedIdList.length; i += 1) {
-        result.push(...videoList.filter((v) => v.id === intersectedIdList[i]));
-      }
-
-      setFilteredVideoList(result);
-    }
+    setFilteredVideoList(newVideoList);
   };
 
-  // filter
-  const handleClickYear = (
+  // const filterByAll = () => {
+  //   // const filteredByYearList = filterList.filter((f) => f.type === "year");
+  //   // const filteredByRegionList = filterList.filter((f) => f.type === "region");
+  //   if (filteredByYearList.length !== 0 && filteredByRegionList.length !== 0) {
+  //     const idList = [
+  //       filteredByRegionList.map((v) => v.id),
+  //       filteredByYearList.map((v) => v.id),
+  //     ];
+  //     const intersectedIdList = idList.reduce((a, b) =>
+  //       a.filter((c) => b.includes(c)),
+  //     );
+
+  //     // const result = videoList.filter((v,i,org) => idList.map(i => ))
+  //     const result = [];
+
+  //     for (let i = 0; i < intersectedIdList.length; i += 1) {
+  //       result.push(...videoList.filter((v) => v.id === intersectedIdList[i]));
+  //     }
+
+  //     setFilteredVideoList(result);
+  //   }
+  // };
+
+  const handleAddTag = (
     e: React.MouseEvent<HTMLButtonElement>,
-    y: string,
+    t: Common.onDemandTagType,
   ) => {
-    const newFilterList = JSON.parse(JSON.stringify(filterList));
-    const newYearList = JSON.parse(JSON.stringify(selectedYear));
-    if (selectedYear.indexOf(y) === -1) {
-      e.currentTarget.classList.add("active");
-      newYearList.push(y);
-      setSelectedYear(newYearList);
-      newFilterList.push(y);
-      setFilterList(newFilterList);
+    const tagRef = document.querySelector(
+      `.tag.tag-${t.value.replace(/\s/g, "-")}`,
+    );
+    let newFilterList = JSON.parse(JSON.stringify(filterList));
+    if (filterList.map((f) => f.value).indexOf(t.value) === -1) {
+      newFilterList.push(t);
+      tagRef.classList.add("active");
     } else {
-      e.currentTarget.classList.remove("active");
-      setSelectedYear(newYearList.filter((ny) => ny !== y));
-      setFilterList(newFilterList.filter((ny) => ny !== y));
+      newFilterList = newFilterList.filter((f) => f.value !== t.value);
+      tagRef.classList.remove("active");
     }
-  };
-  const handleClickRegion = (
-    e: React.MouseEvent<HTMLButtonElement>,
-    y: string,
-  ) => {
-    const newFilterList = JSON.parse(JSON.stringify(filterList));
-    const newRegionList = JSON.parse(JSON.stringify(selectedRegion));
-    if (selectedRegion.indexOf(y) === -1) {
-      e.currentTarget.classList.add("active");
-      newRegionList.push(y);
-      setSelectedRegion(newRegionList);
-      newFilterList.push(y);
-      setFilterList(newFilterList);
-    } else {
-      e.currentTarget.classList.remove("active");
-      setSelectedRegion(newRegionList.filter((ny) => ny !== y));
-      setFilterList(newFilterList.filter((ny) => ny !== y));
-    }
+    setFilterList(newFilterList);
   };
 
   // 삭제 handler
-  const handleDeleteEachFilter = (target: string) => {
+  const handleDeleteEachFilter = (target: Common.onDemandTagType) => {
     // filterList 에서 선택된 것 제거
     let tmpFilterList = JSON.parse(JSON.stringify(filterList));
-    let tmpYearList = JSON.parse(JSON.stringify(selectedYear));
-    let tmpRegionList = JSON.parse(JSON.stringify(selectedRegion));
 
-    tmpFilterList = tmpFilterList.filter((f: string) => f !== target);
-    tmpYearList = tmpYearList.filter((f: string) => f !== target);
-    tmpRegionList = tmpRegionList.filter((f: string) => f !== target);
-
+    tmpFilterList = tmpFilterList.filter((f) => f.value !== target.value);
     setFilterList(tmpFilterList);
-    setSelectedYear(tmpYearList);
-    setSelectedRegion(tmpRegionList);
 
     document
-      .querySelector(`.tag.tag-${target.replace(/\s/g, "-")}`)
+      .querySelector(`.tag.tag-${target.value.replace(/\s/g, "-")}`)
       .classList.remove("active");
   };
   const handleClearFilter = () => {
     // filterList를 빈 리스트로 대체.
     setFilterList([]);
+    // 모든 tag들의 active 클래스 제거
+    document.querySelectorAll(`.tag`).forEach((e) => {
+      e.classList.remove("active");
+    });
   };
 
   return (
@@ -195,11 +172,7 @@ const OnDemand = () => {
                 Clear
               </Typography>
             </Stack>
-            {/* <Stack direction="row" flexWrap="wrap" minHeight="20px">
-            {filterList.map((f) => (
-              <Typography>{f}</Typography>
-              ))}
-            </Stack> */}
+            {/* selected filter List */}
             <Box mb={1}>
               {filterList.length === 0 ? (
                 <Typography
@@ -211,14 +184,14 @@ const OnDemand = () => {
               ) : (
                 filterList.map((f) => (
                   <Typography
-                    key={`selected-tag-${f}`}
+                    key={`selected-tag-${f.value}`}
                     className="tag selected"
                     // sx={{ cursor: "default !important" }}
                     onClick={() => {
                       handleDeleteEachFilter(f);
                     }}
                   >
-                    {f} &times;
+                    {f.value} &times;
                   </Typography>
                 ))
               )}
@@ -236,14 +209,14 @@ const OnDemand = () => {
             label="Year"
             filterList={yearList}
             selectedFilter={selectedYear}
-            handleClick={handleClickYear}
+            handleClick={handleAddTag}
           />
           <hr className="dashed" />
           <OnDemandFilter
             label="Region"
             filterList={regionList}
             selectedFilter={selectedRegion}
-            handleClick={handleClickRegion}
+            handleClick={handleAddTag}
           />
         </Stack>
         {/* videos */}

@@ -11,14 +11,16 @@ import { OnDemandFilterContainer } from "./OnDemandFilterStyles";
 
 interface OnDemandFilterProps {
   label: string;
-  filterList: any[];
-  selectedFilter: string[];
-  handleClick: (e: React.MouseEvent<HTMLButtonElement>, y: string) => void;
+  filterList: Common.onDemandTagType[];
+  selectedFilter: Common.onDemandTagType[];
+  handleClick: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    y: Common.onDemandTagType,
+  ) => void;
 }
 
 const OnDemandFilter = (props: OnDemandFilterProps) => {
   const { label, filterList, selectedFilter, handleClick } = props;
-
   return (
     <OnDemandFilterContainer>
       <Accordion elevation={0}>
@@ -32,14 +34,14 @@ const OnDemandFilter = (props: OnDemandFilterProps) => {
         <AccordionDetails sx={{ padding: "0 0 10px 0" }}>
           {filterList.map((f) => (
             <Typography
-              key={`filter-tag-${f}`}
+              key={`filter-tag-${f.value}`}
               component="button"
-              className={`tag tag-${f.replace(/\s/g, "-")}`}
+              className={`tag tag-${f.value.replace(/\s/g, "-")}`}
               onClick={(e) => {
                 handleClick(e, f);
               }}
             >
-              {f}
+              {f.value}
             </Typography>
           ))}
         </AccordionDetails>

@@ -156,6 +156,11 @@ declare namespace Common {
     video: string;
   }
 
+  interface onDemandTagType {
+    type: "region" | "year";
+    value: string;
+  }
+
   interface globalDataType {
     fullName?: string;
     fullDate?: string;
