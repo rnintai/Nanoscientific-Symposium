@@ -622,7 +622,7 @@ const Landing = () => {
                 </Link>
               </NSSButton>
             )}
-            {pathname === "jp" && (
+            {/* {pathname === "jp" && (
               <NSSButton
                 className="z1"
                 variant="gradient"
@@ -638,7 +638,7 @@ const Landing = () => {
                   ポスターセッション申込はこちらから
                 </Link>
               </NSSButton>
-            )}
+            )} */}
             <Typography
               className="z1"
               textAlign="center"
