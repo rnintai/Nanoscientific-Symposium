@@ -29,6 +29,11 @@ const OnDemand = () => {
     Common.onDemandTagType[]
   >([]);
 
+  const [languageList, setLanguageList] = useState<any[]>([]);
+  const [selectedLanguage, setSelectedLanguage] = useState<
+    Common.onDemandTagType[]
+  >([]);
+
   useEffect(() => {
     getOnDemandList();
     setFilteredVideoList(videoList);
@@ -37,11 +42,12 @@ const OnDemand = () => {
   useEffect(() => {
     setSelectedYear(filterList.filter((f) => f.type === "year"));
     setSelectedRegion(filterList.filter((f) => f.type === "region"));
+    setSelectedLanguage(filterList.filter((f) => f.type === "language"));
   }, [filterList]);
 
   useEffect(() => {
     filterByTag();
-  }, [selectedYear, selectedRegion]);
+  }, [selectedYear, selectedRegion, selectedLanguage]);
 
   const getOnDemandList = async () => {
     try {
@@ -62,6 +68,14 @@ const OnDemand = () => {
           return { type: "region", value: e };
         }),
       );
+      const languages = [
+        ...new Set(res.data.result.map((v: any) => v.language)),
+      ];
+      setLanguageList(
+        languages.map((e) => {
+          return { type: "language", value: e };
+        }),
+      );
     } catch (error) {
       console.log(error);
     } finally {
@@ -75,11 +89,15 @@ const OnDemand = () => {
       newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
         return selectedYear.some((y) => v.year.indexOf(y.value) !== -1);
       });
-      // setFilteredByYearList(newVideoList);
     }
     if (selectedRegion.length !== 0) {
       newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
         return selectedRegion.some((y) => v.region.indexOf(y.value) !== -1);
+      });
+    }
+    if (selectedLanguage.length !== 0) {
+      newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
+        return selectedLanguage.some((y) => v.language.indexOf(y.value) !== -1);
       });
     }
     setFilteredVideoList(newVideoList);
@@ -173,7 +191,7 @@ const OnDemand = () => {
               </Typography>
             </Stack>
             {/* selected filter List */}
-            <Box mb={1}>
+            <Stack mb={1} direction="row" flexWrap="wrap">
               {filterList.length === 0 ? (
                 <Typography
                   color={theme.palette.grey[400]}
@@ -190,12 +208,13 @@ const OnDemand = () => {
                     onClick={() => {
                       handleDeleteEachFilter(f);
                     }}
+                    mb="10px"
                   >
                     {f.value} &times;
                   </Typography>
                 ))
               )}
-            </Box>
+            </Stack>
           </Box>
           <hr className="dashed" />
           <Typography
@@ -218,12 +237,35 @@ const OnDemand = () => {
             selectedFilter={selectedRegion}
             handleClick={handleAddTag}
           />
+          <hr className="dashed" />
+          <OnDemandFilter
+            label="Language"
+            filterList={languageList}
+            selectedFilter={selectedLanguage}
+            handleClick={handleAddTag}
+          />
         </Stack>
         {/* videos */}
-        <Stack className="video-result" flexDirection="row" flexWrap="wrap">
-          {filteredVideoList.map((v, idx) => (
-            <ThumbnailCard key={`card-${v.id}`} video={v} />
-          ))}
+        <Stack>
+          <Typography
+            fontSize={xsmallFontSize}
+            color={theme.palette.grey[600]}
+            textAlign="right"
+            mb={1}
+          >
+            {filteredVideoList.length} results
+          </Typography>
+          <Stack
+            className="video-result"
+            flexDirection="row"
+            flexWrap="wrap"
+            maxHeight="865px"
+            overflow="auto"
+          >
+            {filteredVideoList.map((v, idx) => (
+              <ThumbnailCard key={`card-${v.id}`} video={v} />
+            ))}
+          </Stack>
         </Stack>
       </Stack>
     </OnDemandContainer>

@@ -6,7 +6,7 @@ export const OnDemandContainer = styled.div`
 
   // control panel
   .control-panel {
-    min-width: 300px;
+    width: 300px;
     border-radius: 3px;
     border: 1px solid #ececec;
     align-self: baseline;

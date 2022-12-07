@@ -157,7 +157,7 @@ declare namespace Common {
   }
 
   interface onDemandTagType {
-    type: "region" | "year";
+    type: "region" | "year" | "language";
     value: string;
   }
 
