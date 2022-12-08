@@ -1,6 +1,7 @@
 import { Stack, TextField, Typography, useTheme } from "@mui/material";
 import axios from "axios";
 import { useAuthState } from "context/AuthContext";
+import { useUnreadListDispatch } from "context/UnreadAnnouncementList";
 import usePageViews from "hooks/usePageViews";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -30,6 +31,7 @@ const AnnouncementDetail = () => {
   const [currentAnnouncement, setCurrentAnnouncement] =
     useState<Announcement.announcementType>(null);
   const authState = useAuthState();
+  const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const isEditor = editorRole.includes(authState.role);
 
   // inputs
@@ -43,7 +45,6 @@ const AnnouncementDetail = () => {
   // alert
   const [openEditSuccessAlert, setOpenEditSuccessAlert] =
     useState<boolean>(false);
-
   // loading
 
   const { viewsLabel } = globalData.get(pathname) as Common.globalDataType;
@@ -79,11 +80,37 @@ const AnnouncementDetail = () => {
     }
   };
   const deleteHandler = async () => {
+    setOpenDeleteModal(false);
     try {
-      const result = await axios.delete(
-        `/api/announcement/post?nation=${pathname}&id=${id}`,
+      await axios.delete(`/api/announcement/post?nation=${pathname}&id=${id}`);
+      await axios.delete(
+        `/api/announcement/readlist?nation=${pathname}&announcementId=${id}`,
       );
-      alert("Announcement is sucessfully deleted.");
+      unreadAnnouncementListDispatch({
+        type: "Add_ANNOUNCEMENT",
+        id: Number(id),
+      });
+      const savedData = localStorage.getItem(
+        `readAnnouncementList_${pathname}`,
+      );
+      if (savedData) {
+        const parsedData = JSON.parse(savedData);
+        if (parsedData.announcementList.includes(+id)) {
+          parsedData.announcementList.splice(
+            parsedData.announcementList.indexOf(id),
+            1,
+          );
+          console.log(parsedData.announcementList);
+        }
+        parsedData.isThereNewAnnouncement = 1; // 업데이트를 위함.
+        parsedData.announcementLength -= 1;
+
+        localStorage.setItem(
+          `readAnnouncementList_${pathname}`,
+          JSON.stringify(parsedData),
+        );
+      }
+      alert("Announcement is successsfully deleted.");
       navigate(`/${pathname}/announcement${search}`);
     } catch (err) {
       alert(err);

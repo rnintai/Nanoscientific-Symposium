@@ -54,9 +54,12 @@ module.exports = {
 
     try {
       const sql = `SELECT 
+      id,
       email,
       role,
-      is_password_set
+      is_password_set,
+      is_new_announcement,
+      is_announcement_cached
       FROM user 
       WHERE email="${accessToken.email}"
       AND refresh_token="${req.cookies.refreshToken}"`;
@@ -72,9 +75,12 @@ module.exports = {
         });
         return;
       } else {
+        res.locals.id = result[0][0].id;
         res.locals.email = accessToken.email;
         res.locals.role = result[0][0].role;
         res.locals.is_password_set = result[0][0].is_password_set;
+        res.locals.is_new_announcement = result[0][0].is_new_announcement;
+        res.locals.is_announcement_cached = result[0][0].is_announcement_cached;
       }
       connection.release();
       next();

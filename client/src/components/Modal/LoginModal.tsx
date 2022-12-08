@@ -53,7 +53,7 @@ const TransitionLeft = React.forwardRef(function Transition(
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const LoginModal = ({
+const EuropeLoginModal = ({
   setSuccess,
   setFailed,
   setPasswordSetSuccessAlert,
@@ -205,7 +205,7 @@ const LoginModal = ({
   const state = useAuthState();
   const dispatch = useAuthDispatch();
 
-  const dispatchLogin = (e: string, r: string, t: string) =>
+  const dispatchLogin = (e: string, r: string, t: string, i: number) =>
     dispatch({
       type: "LOGIN",
       authState: {
@@ -214,6 +214,7 @@ const LoginModal = ({
         role: r,
         email: e,
         accessToken: t,
+        id: i,
       },
     });
 
@@ -232,7 +233,12 @@ const LoginModal = ({
         },
       );
       if (res.data.success === true) {
-        dispatchLogin(email, res.data.role, res.data.accessToken);
+        dispatchLogin(
+          email,
+          res.data.role,
+          res.data.accessToken,
+          res.data.userId,
+        );
         setSuccess(true);
         setPasswordInputModalOpen(false);
 
@@ -331,7 +337,9 @@ const LoginModal = ({
       setTimeout(() => {
         const input = emailFocus.current?.children[1]
           .children[0] as HTMLInputElement;
-        input.focus();
+        if (input !== undefined) {
+          input.focus();
+        }
       }, 10);
     }
   }, [emailModalOpen]);
@@ -340,7 +348,9 @@ const LoginModal = ({
       setTimeout(() => {
         const input = passwordInputFocus.current?.children[1]
           .children[0] as HTMLInputElement;
-        input.focus();
+        if (input !== undefined) {
+          input.focus();
+        }
       }, 10);
     }
   }, [passwordInputModalOpen]);
@@ -349,7 +359,9 @@ const LoginModal = ({
       setTimeout(() => {
         const input = passwordSetFocus.current?.children[1]
           .children[0] as HTMLInputElement;
-        input.focus();
+        if (input !== undefined) {
+          input.focus();
+        }
       }, 10);
     }
   }, [passwordSetModalOpen]);
@@ -425,11 +437,14 @@ const LoginModal = ({
             justifyContent="space-between"
             sx={{ width: "95%" }}
           >
+            {/* {pathname === "eu" ? ( */}
+
             <Link to={`${pathname}/registration`} onClick={closeAllModal}>
               <Typography fontSize={smallFontSize}>
                 {createAccountText}
               </Typography>
             </Link>
+
             <Link
               to={`${pathname}/user/forgot-password`}
               onClick={closeAllModal}
@@ -718,4 +733,4 @@ const LoginModal = ({
   );
 };
 
-export default LoginModal;
+export default EuropeLoginModal;

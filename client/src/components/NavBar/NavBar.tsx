@@ -2,9 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Link from "components/Link/LinkWithSearch";
 import { useNavigate } from "hooks/useNavigateWithSearch";
-import { NavBarContainer } from "components/NavBar/NavBarStyles";
+import {
+  NavBarContainer,
+  AnnouncementMenuItemContainer,
+  AnnouncementAlarm,
+} from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import { useAlarmState, useAlarmDispatch } from "context/NavBarMarkContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
@@ -42,6 +47,7 @@ interface navProps {
   menuStateLoading: boolean;
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
+  // markAnnouncementAlarm: boolean;
 }
 
 const NavBar = ({
@@ -51,7 +57,8 @@ const NavBar = ({
   setLogoutSuccess,
   setLogoutLoading,
   menuStateLoading,
-}: navProps) => {
+}: // markAnnouncementAlarm,
+navProps) => {
   // menu list
   const menuStore = useMenuStore();
   const { menuList } = menuStore;
@@ -86,6 +93,8 @@ const NavBar = ({
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
+  const alarmState = useAlarmState();
+  const alarmDispatch = useAlarmDispatch();
 
   // submenu refs
   const submenuRefs = useRef({});
@@ -99,6 +108,7 @@ const NavBar = ({
       })
       .then((res) => {
         if (res.data.success === true) {
+          alarmDispatch({ type: "OFF" });
           authDispatch({ type: "LOGOUT", authState });
           setLogoutSuccess(true);
         } else {
@@ -298,6 +308,8 @@ const NavBar = ({
                       aria-controls={openUserMenu ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={openUserMenu ? "true" : undefined}
+                      isMoreverIcon
+                      // markAnnouncementAlarm={markAnnouncementAlarm}
                     >
                       <MoreVertIcon />
                     </NSSButton>
@@ -317,14 +329,21 @@ const NavBar = ({
                           .map((m) => {
                             if (m.show || editorRole.includes(authState.role)) {
                               return (
-                                <MenuItem key={`menu-${m.id}`}>
-                                  <Link
-                                    to={pathname + m.path}
-                                    onClick={handleMoreMenuClose}
+                                <Link
+                                  to={pathname + m.path}
+                                  onClick={handleMoreMenuClose}
+                                >
+                                  <AnnouncementMenuItemContainer
+                                    key={`menu-${m.id}`}
+                                    className={m.name}
                                   >
+                                    {m.name.toLowerCase() === "announcement" &&
+                                    alarmState.alarm ? (
+                                      <AnnouncementAlarm />
+                                    ) : null}
                                     {m.name}
-                                  </Link>
-                                </MenuItem>
+                                  </AnnouncementMenuItemContainer>
+                                </Link>
                               );
                             }
                             return null;

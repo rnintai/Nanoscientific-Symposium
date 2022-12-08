@@ -137,6 +137,8 @@ module.exports = (env, argv) => {
         "/api": "http://localhost:5000",
       },
     },
+    // devtool: "eval-source-map",
+    // devtool: false,
     // uglify
     optimization: {
       minimize: true,
@@ -160,6 +162,10 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         "process.env": JSON.stringify(process.env),
       }),
+      // new webpack.EvalSourceMapDevToolPlugin({
+      //   // publicPath: "http://localhost:3000/",
+      //   // filename: "[file].map",
+      // }),
     ],
   };
 };

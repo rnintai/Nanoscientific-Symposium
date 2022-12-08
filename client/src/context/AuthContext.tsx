@@ -2,17 +2,22 @@ import React, { useReducer, useContext, createContext, Dispatch } from "react";
 
 type State = {
   isLogin: boolean;
+  id: number;
   email: string;
   role: string;
   accessToken: string;
   isLoading: boolean;
   isPasswordSet: boolean;
+  isNewAnnouncement: number;
+  isAnnouncementCached: number;
 };
 
 type Action =
   | { type: "LOGIN"; authState: State }
   | { type: "LOGOUT"; authState: State }
-  | { type: "FINISHLOADING"; authState: State };
+  | { type: "FINISHLOADING"; authState: State }
+  | { type: "CACHEANNOUNCEMENT"; authState: State }
+  | { type: "NOTCACHEANNOUNCEMENT"; authState: State };
 
 type AuthDispatch = Dispatch<Action>;
 
@@ -27,20 +32,26 @@ function reducer(state: State, action: Action): State {
       return {
         ...state,
         isLogin: true,
+        id: action.authState.id,
         role: action.authState.role,
         email: action.authState.email,
         accessToken: action.authState.accessToken,
         isPasswordSet: action.authState.isPasswordSet,
         isLoading: action.authState.isLoading,
+        isNewAnnouncement: action.authState.isNewAnnouncement,
+        isAnnouncementCached: action.authState.isAnnouncementCached,
       };
     case "LOGOUT":
       return {
         ...state,
         isLogin: false,
+        id: 0,
         email: "",
         role: "guest",
         accessToken: "",
         isLoading: false,
+        isNewAnnouncement: 1,
+        isAnnouncementCached: 0,
       };
 
     case "FINISHLOADING":
@@ -48,6 +59,17 @@ function reducer(state: State, action: Action): State {
         ...state,
         isLoading: false,
       };
+    case "CACHEANNOUNCEMENT":
+      return {
+        ...state,
+        isAnnouncementCached: 1,
+      };
+    case "NOTCACHEANNOUNCEMENT":
+      return {
+        ...state,
+        isAnnouncementCached: 0,
+      };
+
     default:
       throw new Error("reducer: Unhandled Action");
   }
@@ -57,11 +79,14 @@ function reducer(state: State, action: Action): State {
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, {
     isLogin: false,
+    id: 0,
     email: "",
     role: "guest",
     accessToken: "",
     isPasswordSet: false,
     isLoading: true,
+    isNewAnnouncement: 1,
+    isAnnouncementCached: 0,
   });
 
   return (

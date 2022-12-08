@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { useTheme } from "@mui/material";
+import styled, { css } from "styled-components";
+import { useTheme, MenuItem } from "@mui/material";
 
 export const NavBarContainer = styled.div`
   width: 100%;
@@ -300,4 +300,22 @@ export const NavBarContainer = styled.div`
       }
     }
   }
+`;
+
+export const AnnouncementMenuItemContainer = styled(MenuItem)`
+  ${(props) =>
+    props.className.toLowerCase() === "announcement" &&
+    css`
+      position: relative;
+    `}
+`;
+
+export const AnnouncementAlarm = styled.div`
+  position: absolute;
+  top: 3px;
+  right: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50px;
+  background: red;
 `;
