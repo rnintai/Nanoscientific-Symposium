@@ -89,7 +89,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       emailInputLabel: "Email Address",
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot your password?",
-      createAccountText: "Create an account",
+      // createAccountText: "Create an account",
       changePasswordBtnText: "Change Password",
       // landing
       showLandingSection1: true,
@@ -191,7 +191,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       archive: "アーカイブ",
 
       signInText: "ログイン",
-      registration: "参加登録はこちらから",
+      // registration: "参加登録はこちらから",
       goNextText: "NEXT",
       goPrevText: "PREV",
       uploadBtnText: "ポスターのアップロード",
@@ -201,7 +201,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       emailInputLabel: "Email address",
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot Password?",
-      createAccountText: "参加登録はこちらから",
+      // createAccountText: "参加登録はこちらから",
       passwordSetDescription:
         "本サイトをご利用になるにはIDとパスワードが必要です。IDはご入力いただきましたメールアドレスとなりますので、以下にてパスワードの設定をお願いいたします。",
       // landing

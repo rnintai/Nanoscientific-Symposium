@@ -24,10 +24,10 @@ export default [
     path: `/${pathname}`,
     element: <Landing key={`${pathname}-landing-section`} />,
   },
-  {
-    path: `/${pathname}/registration`,
-    element: <Registration formNo={formNo} />,
-  },
+  // {
+  //   path: `/${pathname}/registration`,
+  //   element: <Registration formNo={formNo} />,
+  // },
   {
     path: `/${pathname}/program`,
     element: <Programs />,
