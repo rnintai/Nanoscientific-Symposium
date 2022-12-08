@@ -3,6 +3,7 @@ import axios from "axios";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
+import NavBar2023 from "components/2023/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
 import { ThemeProvider } from "@mui/material/styles";
@@ -20,6 +21,7 @@ import { S3_URL } from "utils/GlobalData";
 import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
+import useCurrentYear from "hooks/useCurrentYear";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -48,6 +50,7 @@ const gaID = "G-BS77NX7Z9T";
 
 const App = () => {
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
@@ -256,6 +259,7 @@ const App = () => {
       <AppContainer>
         {pathname !== "home" &&
           pathname !== "" &&
+          currentYear === "2022" &&
           subpath.indexOf("admin") === -1 && (
             <NavBar
               checkLoading={authState.isLoading}
@@ -265,6 +269,15 @@ const App = () => {
               menuStateLoading={menuStateLoading}
             />
           )}
+        {currentYear === "2023" && (
+          <NavBar2023
+            checkLoading={authState.isLoading}
+            setEmailModalOpen={setEmailModalOpen}
+            setLogoutSuccess={setLogoutSuccess}
+            setLogoutLoading={setLogoutLoading}
+            menuStateLoading={menuStateLoading}
+          />
+        )}
         {!bannerLoading && bannerURL && (
           <LandingSection
             className="banner"
