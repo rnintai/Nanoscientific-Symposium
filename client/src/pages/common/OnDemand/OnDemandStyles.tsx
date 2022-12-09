@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material";
 
 export const OnDemandContainer = styled.div`
+  min-height: calc(100vh - 60px);
   padding: 80px 40px;
 
   // control panel

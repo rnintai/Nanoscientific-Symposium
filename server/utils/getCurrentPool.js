@@ -26,11 +26,11 @@ module.exports = {
       case "eu":
         currentPool = europePool;
         break;
-      case "common":
+      case "home":
         currentPool = commonPool;
         break;
       default:
-        currentPool = "";
+        currentPool = commonPool;
         break;
     }
     return currentPool;

@@ -1,9 +1,13 @@
 /* eslint-disable react/require-default-props */
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
+  Button,
   Card,
   CardContent,
   CardMedia,
+  Dialog,
+  DialogActions,
+  DialogContent,
   Skeleton,
   Stack,
   Typography,
@@ -16,19 +20,28 @@ import {
   xsmallFontSize,
 } from "utils/FontSize";
 import { Box } from "@mui/system";
-import { Link } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+import NSSButton from "components/Button/NSSButton";
+import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
+import { adminRole } from "utils/Roles";
+import { useAuthState } from "context/AuthContext";
+import EditOnDemandForm from "pages/admin/Forms/OnDemandForm";
 import { ThumbnailCardContainer } from "./ThumbnailCardStyles";
 
 interface ThumbnailCardProps {
   video: Common.onDemandVideoType;
+  getList: () => void;
 }
 
 const ThumbnailCard = (props: ThumbnailCardProps) => {
-  const { video } = props;
+  const { video, getList } = props;
   const theme = useTheme();
+  const authState = useAuthState();
 
   // state
-  const [isLoading, setIsLoading] = React.useState<boolean>(false); // 실제 화면에 보여지고 있는지 여부를 확인
+  const [isLoading, setIsLoading] = useState<boolean>(false); // 실제 화면에 보여지고 있는지 여부를 확인
+  const [openDetailModal, setOpenDetailModal] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
 
   // ref
   const imgRef = React.useRef<HTMLImageElement>(null); // 이미지 태그 요소
@@ -54,6 +67,8 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
     });
   };
 
+  const isAdmin = adminRole.includes(authState.role);
+
   // let startX;
   // let scrollLeft;
   // const dragSensitivity = 0.5;
@@ -78,6 +93,14 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
   //   dragFlag = false;
   // };
 
+  const detailClickHandler = () => {
+    setOpenDetailModal(true);
+  };
+
+  const editClickHandler = () => {
+    setOpenEditModal(true);
+  };
+
   return (
     <ThumbnailCardContainer>
       <Box sx={{ position: "relative" }}>
@@ -88,65 +111,65 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
           }}
           elevation={0}
         >
-          <CardMedia
-            component="img"
-            image={video.thumbnail}
-            ref={imgRef}
-            sx={{ cursor: "pointer" }}
-            className="hover-zoom"
+          <Box
+            className="content-wrap"
             onClick={() => {
               window.location.href = `/on-demand/${video.id}`;
             }}
-          />
-          <CardContent
-            className="desc"
-            sx={{ padding: "16px 0 0 0", pb: "0 !important" }}
           >
-            <Typography
-              component="a"
-              title={video.title}
-              className="ellipsis p0 hover-blue"
-              href={`/on-demand/${video.id}`}
-              target="_blank"
-              rel="noreferrer noopener"
-              fontSize={mainFontSize}
-              fontWeight={700}
+            <CardMedia
+              component="img"
+              image={video.thumbnail}
+              ref={imgRef}
+              // className="hover-zoom"
+            />
+            <CardContent
+              className="desc"
+              sx={{ padding: "16px 0 0 0", pb: "0 !important" }}
             >
-              {video.title}
-            </Typography>
-            {video.speaker_page ? (
               <Typography
-                component="a"
-                href={video.speaker_page}
-                target="_blank"
-                rel="noreferrer noopener"
-                className="p0 hover-blue"
+                component="span"
+                title={video.title}
+                className="ellipsis title"
+                fontSize={mainFontSize}
+                fontWeight={700}
+              >
+                {video.title}
+              </Typography>
+              {/* {video.speaker_page ? (
+                <Typography
+                  component="a"
+                  href={video.speaker_page}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="p0 hover-blue"
+                  fontSize={xsmallFontSize}
+                  fontWeight={500}
+                  color={theme.palette.grey[600]}
+                >
+                  {video.speaker}
+                </Typography>
+              ) : ( */}
+              <Typography
+                component="span"
+                className="p0"
                 fontSize={xsmallFontSize}
                 fontWeight={500}
                 color={theme.palette.grey[600]}
               >
                 {video.speaker}
               </Typography>
-            ) : (
+              {/* )} */}
               <Typography
-                className="p0 hover-blue"
+                component="span"
+                className="ellipsis affiliation"
+                title={video.affiliation}
                 fontSize={xsmallFontSize}
-                fontWeight={500}
-                color={theme.palette.grey[600]}
+                color={theme.palette.grey[500]}
               >
-                {video.speaker}
+                {video.affiliation}
               </Typography>
-            )}
-            <Typography
-              component="span"
-              className="ellipsis affiliation"
-              title={video.affiliation}
-              fontSize={xsmallFontSize}
-              color={theme.palette.grey[500]}
-            >
-              {video.affiliation}
-            </Typography>
-            {/* <Stack
+              {/* <Stack
               className="tag-container"
               component="div"
               flexDirection="row"
@@ -170,7 +193,28 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
                 </Typography>
               ))}
             </Stack> */}
-          </CardContent>
+            </CardContent>
+          </Box>
+
+          {isAdmin && (
+            <NSSButton
+              variant="gradient"
+              fontSize={xsmallFontSize}
+              style={{ position: "absolute" }}
+              startIcon={<EditIcon sx={{ fontSize: "0.9em" }} />}
+              onClick={editClickHandler}
+            >
+              Edit
+            </NSSButton>
+          )}
+          <NSSButton
+            variant="gradient"
+            fontSize={xsmallFontSize}
+            style={{ marginLeft: "auto" }}
+            onClick={detailClickHandler}
+          >
+            Detail
+          </NSSButton>
         </Card>
         <Card
           sx={{
@@ -189,6 +233,122 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
           </Box>
         </Card>
       </Box>
+      {/* modal */}
+      {openDetailModal && (
+        <Dialog
+          open={openDetailModal}
+          onClose={() => {
+            setOpenDetailModal(false);
+          }}
+          fullWidth
+          maxWidth="laptop"
+        >
+          <button
+            type="button"
+            style={{
+              position: "absolute",
+              right: "8px",
+              top: "0px",
+              fontSize: "1.6em",
+            }}
+            onClick={() => {
+              setOpenDetailModal(false);
+            }}
+          >
+            &times;
+          </button>
+          <DialogContent sx={{ padding: "45px 24px" }}>
+            <Stack>
+              <Stack direction="row">
+                <img src={video.thumbnail} alt={`thumb-${video.id}`} />
+                <Stack ml={1}>
+                  <Typography
+                    fontSize={smallFontSize}
+                    className="ellipsis"
+                    fontWeight={600}
+                  >
+                    {video.title}
+                  </Typography>
+                  <Typography
+                    fontSize={xsmallFontSize}
+                    color={theme.palette.grey[600]}
+                  >
+                    {video.speaker}
+                  </Typography>
+                  <Typography
+                    fontSize={xsmallFontSize}
+                    color={theme.palette.grey[600]}
+                    mb={1}
+                  >
+                    {video.affiliation}
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    width="40%"
+                    flexWrap="wrap"
+                  >
+                    <Typography
+                      fontSize={xsmallFontSize}
+                      color={theme.palette.grey[600]}
+                      width="45%"
+                    >
+                      Year: {video.year}
+                    </Typography>
+                    <Typography
+                      fontSize={xsmallFontSize}
+                      color={theme.palette.grey[600]}
+                      width="45%"
+                    >
+                      Region: {video.region}
+                    </Typography>
+                    <Typography
+                      fontSize={xsmallFontSize}
+                      color={theme.palette.grey[600]}
+                      width="45%"
+                    >
+                      Language: {video.language}
+                    </Typography>
+                    <Typography
+                      fontSize={xsmallFontSize}
+                      color={theme.palette.grey[600]}
+                      width="45%"
+                    >
+                      Application:
+                    </Typography>
+                  </Stack>
+                </Stack>
+              </Stack>
+            </Stack>
+            <hr style={{ borderStyle: "dashed", color: "#ececec" }} />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                window.location.href = `/on-demand/${video.id}`;
+              }}
+              sx={{
+                backgroundColor: "white",
+                "&:hover": {
+                  backgroundColor: "rgb(239 250 255)",
+                },
+              }}
+              startIcon={<OndemandVideoIcon />}
+            >
+              Watch a Video
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
+      {openEditModal && (
+        <EditOnDemandForm
+          open={openEditModal}
+          setOpen={setOpenEditModal}
+          selected={video}
+          getList={getList}
+        />
+      )}
     </ThumbnailCardContainer>
   );
 };

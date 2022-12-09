@@ -32,7 +32,7 @@ const usePageViews = () => {
     }
     default: {
       // result = "home";
-      result = "";
+      result = "common";
     }
   }
   // 두번째 슬래시 나오는곳까지 자릅니다

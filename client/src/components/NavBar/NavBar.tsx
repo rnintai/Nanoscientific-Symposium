@@ -128,6 +128,10 @@ navProps) => {
     setOpenMobileNav(!openMobileNav);
   };
 
+  useEffect(() => {
+    console.log(pathname);
+  }, []);
+
   const {
     logoURL,
     registration,
@@ -161,7 +165,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname}`}
+            to={`/${pathname === "common" ? "" : pathname}`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -182,7 +186,14 @@ navProps) => {
                     !menu.has_child
                   ) {
                     return (
-                      <MenuLink key={menu.name} to={`/${pathname}${menu.path}`}>
+                      <MenuLink
+                        key={menu.name}
+                        to={`${
+                          pathname === "common"
+                            ? `${menu.path}`
+                            : `/${pathname}${menu.path}`
+                        }`}
+                      >
                         {menu.name.toUpperCase()}
                       </MenuLink>
                     );

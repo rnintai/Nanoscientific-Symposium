@@ -183,7 +183,7 @@ const App = () => {
             );
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
-            } else {
+            } else if (pathname !== "common") {
               calcAnnouncementCached();
             }
             if (isNewAnnouncement) {
@@ -381,7 +381,7 @@ const App = () => {
   }, [bannerURL, window.location.href]);
 
   useEffect(() => {
-    if (loginSuccess && authState.isLogin) {
+    if (pathname !== "common" && loginSuccess && authState.isLogin) {
       // 캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득
       // useeffect memory error x
       if (window.location.pathname.includes("announcement")) {
@@ -419,7 +419,7 @@ const App = () => {
     <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
       <AppContainer>
         {pathname !== "home" &&
-          pathname !== "" &&
+          // pathname !== "" &&
           subpath.indexOf("admin") === -1 && (
             <NavBar
               checkLoading={authState.isLoading}

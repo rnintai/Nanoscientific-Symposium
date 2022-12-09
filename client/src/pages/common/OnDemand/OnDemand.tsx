@@ -103,29 +103,6 @@ const OnDemand = () => {
     setFilteredVideoList(newVideoList);
   };
 
-  // const filterByAll = () => {
-  //   // const filteredByYearList = filterList.filter((f) => f.type === "year");
-  //   // const filteredByRegionList = filterList.filter((f) => f.type === "region");
-  //   if (filteredByYearList.length !== 0 && filteredByRegionList.length !== 0) {
-  //     const idList = [
-  //       filteredByRegionList.map((v) => v.id),
-  //       filteredByYearList.map((v) => v.id),
-  //     ];
-  //     const intersectedIdList = idList.reduce((a, b) =>
-  //       a.filter((c) => b.includes(c)),
-  //     );
-
-  //     // const result = videoList.filter((v,i,org) => idList.map(i => ))
-  //     const result = [];
-
-  //     for (let i = 0; i < intersectedIdList.length; i += 1) {
-  //       result.push(...videoList.filter((v) => v.id === intersectedIdList[i]));
-  //     }
-
-  //     setFilteredVideoList(result);
-  //   }
-  // };
-
   const handleAddTag = (
     e: React.MouseEvent<HTMLButtonElement>,
     t: Common.onDemandTagType,
@@ -263,7 +240,11 @@ const OnDemand = () => {
             overflow="auto"
           >
             {filteredVideoList.map((v, idx) => (
-              <ThumbnailCard key={`card-${v.id}`} video={v} />
+              <ThumbnailCard
+                key={`card-${v.id}`}
+                video={v}
+                getList={getOnDemandList}
+              />
             ))}
           </Stack>
         </Stack>
