@@ -727,7 +727,7 @@ const Landing = () => {
               {/* admin view */}
             </LandingSection>
           )}
-
+          {/* section3 */}
           {landingList[1].show !== 0 && (
             <LandingSection fullWidth maxWidth="1920px">
               <Box ref={landingRefList[1]} />
@@ -771,7 +771,7 @@ const Landing = () => {
               </Box>
             </LandingSection>
           )}
-
+          {/* section4 */}
           {landingList[2].show !== 0 && (
             <LandingSection fullWidth maxWidth="1920px">
               <Box ref={landingRefList[2]} />

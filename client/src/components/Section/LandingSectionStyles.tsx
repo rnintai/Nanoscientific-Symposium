@@ -40,6 +40,9 @@ export const LandingSectionContainer = styled.div`
   .overlay.bluescale {
     background: #2ba4dd52;
   }
+  .overlay.greyscale {
+    background: #0000004d;
+  }
 `;
 
 // transition: background-color 0.2s ease-in-out;

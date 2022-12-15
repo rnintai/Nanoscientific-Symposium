@@ -225,9 +225,9 @@ const Landing2023 = () => {
   const getLandingList = async () => {
     try {
       setLandingListLoading(true);
-      const res = await axios.get(
-        `/api/page/common/landing?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/landing`, {
+        params: { nation: pathname, year: "2023" },
+      });
       setLandingList(res.data.result);
       setOriginalLandingList(res.data.result);
       setLanding2Title(res.data.result[0].title);
@@ -236,7 +236,7 @@ const Landing2023 = () => {
       setLanding5Title(res.data.result[3].title);
       setLanding6Title(res.data.result[4].title);
       setLanding7Title(res.data.result[5].title);
-      setLanding8Title(res.data.result[6].title);
+      // setLanding8Title(res.data.result[6].title);
     } catch (err) {
       console.log(err);
     } finally {
@@ -247,9 +247,9 @@ const Landing2023 = () => {
   // landing2 handler
   const getLandingSection2 = async () => {
     try {
-      const res = await axios.get(
-        `/api/page/common/landing/2?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/landing/2`, {
+        params: { nation: pathname, year: "2023" },
+      });
       setLanding2Desc(res.data.result[0].description);
       setLanding2DescCpy(res.data.result[0].description);
     } catch (err) {
@@ -262,6 +262,7 @@ const Landing2023 = () => {
         nation: pathname,
         title: escapeQuotes(landing2Title),
         description: escapeQuotes(landing2Desc),
+        year: "2023",
       });
       setLanding2Title(landing2Title);
       setLanding2Desc(landing2Desc);
@@ -273,9 +274,9 @@ const Landing2023 = () => {
   // landing3 handler
   const getLandingSection3 = async () => {
     try {
-      const res = await axios.get(
-        `/api/page/common/landing/3?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/landing/3`, {
+        params: { nation: pathname, year: "2023" },
+      });
       setLanding3Desc(res.data.result[0].description);
       setLanding3DescCpy(res.data.result[0].description);
     } catch (err) {
@@ -288,6 +289,7 @@ const Landing2023 = () => {
         nation: pathname,
         title: escapeQuotes(landing3Title),
         description: escapeQuotes(landing3Desc),
+        year: "2023",
       });
       setLanding3Title(landing3Title);
       setLanding3Desc(landing3Desc);
@@ -300,9 +302,9 @@ const Landing2023 = () => {
   const getLandingSection4 = async () => {
     setLandingLoading(true);
     try {
-      const result = await axios.get(
-        `/api/page/common/landing/4?nation=${pathname}`,
-      );
+      const result = await axios.get(`/api/page/common/landing/4`, {
+        params: { nation: pathname, year: "2023" },
+      });
       setLandingSection4List(result.data.result);
     } catch (err) {
       console.log(err);
@@ -316,6 +318,7 @@ const Landing2023 = () => {
       const result = await axios.post(`/api/page/common/landing/title/4`, {
         nation: pathname,
         title: escapeQuotes(landing4Title),
+        year: "2023",
       });
       setLanding4Title(landing4Title);
       setLanding4TitleEdit(false);
@@ -338,6 +341,7 @@ const Landing2023 = () => {
       const result = await axios.post(`/api/page/common/landing/title/5`, {
         nation: pathname,
         title: escapeQuotes(landing5Title),
+        year: "2023",
       });
       setLanding5Title(landing5Title);
       setLanding5TitleEdit(false);
@@ -349,6 +353,7 @@ const Landing2023 = () => {
       const result = await axios.post(`/api/page/common/landing/title/6`, {
         nation: pathname,
         title: escapeQuotes(landing6Title),
+        year: "2023",
       });
       setLanding6Title(landing6Title);
       setLanding6TitleEdit(false);
@@ -362,6 +367,7 @@ const Landing2023 = () => {
         nation: pathname,
         title: escapeQuotes(landing6Title),
         description: escapeQuotes(landing6Desc),
+        year: "2023",
       });
       setLanding6Title(landing6Title);
       setLanding6Desc(landing6Desc);
@@ -387,9 +393,9 @@ const Landing2023 = () => {
 
   const getKeynoteList = async () => {
     try {
-      const res = await axios.get(
-        `/api/page/common/speakers/keynote?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/speakers/keynote`, {
+        params: { nation: pathname, year: "2023" },
+      });
       setKeynoteSpeakers(res.data);
     } catch (err) {
       console.log(err);
@@ -402,6 +408,7 @@ const Landing2023 = () => {
       const result = await axios.post(`/api/page/common/landing/title/7`, {
         nation: pathname,
         title: escapeQuotes(landing7Title),
+        year: "2023",
       });
       setLanding7Title(landing7Title);
       setLanding7TitleEdit(false);
@@ -438,6 +445,7 @@ const Landing2023 = () => {
       const result = await axios.post(`/api/page/common/landing/title/8`, {
         nation: pathname,
         title: escapeQuotes(landing8Title),
+        year: "2023",
       });
       setLanding8Title(landing8Title);
       setLanding8TitleEdit(false);
@@ -539,7 +547,7 @@ const Landing2023 = () => {
           <BackgroundVectorWhite maxWidth="1920px">
             <div
               className="overlay secondary z0"
-              style={{ background: "#0000005e" }}
+              style={{ background: "rgb(0 0 0 / 30%)" }}
             />
             <Stack
               className="layout"
@@ -558,9 +566,10 @@ const Landing2023 = () => {
                 alt="logo"
                 style={{
                   maxWidth: "600px",
-                  height: "300px",
+                  height: "250px",
                   width: "100%",
                   minWidth: "200px",
+                  marginBottom: "40px",
                 }}
               />
               <Stack
@@ -658,7 +667,299 @@ const Landing2023 = () => {
             </Stack>
           </BackgroundVectorWhite>
         </LandingSection>
+        {!landingListLoading && landingList.length !== 0 && (
+          <BackgroundVectorColored maxWidth="1920px">
+            {landingList[0].show !== 0 && (
+              // <LandingSectionWithRef ref={landingRefList[0]} fullWidth>
+              <LandingSection fullWidth>
+                {/* client view */}
+                <Box ref={landingRefList[0]} />
+                <Stack
+                  className="layout"
+                  flexDirection={{
+                    mobile: "column-reverse",
+                    tablet: "row",
+                  }}
+                  maxWidth="1920px"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  spacing={{ mobile: 5, tablet: 0 }}
+                >
+                  <Stack
+                    flexDirection="column"
+                    width="100%"
+                    height="100%"
+                    sx={{
+                      mr: {
+                        mobile: 0,
+                        tablet: 5,
+                      },
+                    }}
+                  >
+                    <LandingTextEditor
+                      initialValue={landingList[0].title}
+                      value={landing2Title}
+                      setValue={setLanding2Title}
+                      edit={landing2TitleEdit}
+                      setEdit={setLanding2TitleEdit}
+                      preview={landing2TitlePreview}
+                      setPreview={setLanding2TitlePreview}
+                      previewContent={landing2TitlePreviewContent}
+                      setPreviewContent={setLanding2TitlePreviewContent}
+                      applyHandler={applyLanding2Content}
+                      sx={{
+                        mb: 3,
+                        fontSize: headingFontSize,
+                        fontWeight: theme.typography.fontWeightBold,
+                      }}
+                    >
+                      {landingList[0].title || ""}
+                    </LandingTextEditor>
+                    <LandingTextEditor
+                      initialValue={landing2DescCpy}
+                      value={landing2Desc}
+                      setValue={setLanding2Desc}
+                      edit={landing2DescEdit}
+                      setEdit={setLanding2DescEdit}
+                      preview={landing2DescPreview}
+                      setPreview={setLanding2DescPreview}
+                      previewContent={landing2DescPreviewContent}
+                      setPreviewContent={setLanding2DescPreviewContent}
+                      applyHandler={applyLanding2Content}
+                      sx={{
+                        fontSize: smallFontSize,
+                      }}
+                    >
+                      {landing2Desc || ""}
+                    </LandingTextEditor>
+                    {/* <LandingTitle title={landingList[0].title || ""} /> */}
+                    {/* <Box fontSize={mainFontSize}>
+                    <InnerHTML html={landing2Content || ""} />
+                  </Box> */}
+                  </Stack>
+                </Stack>
+                {/* admin view */}
+              </LandingSection>
+            )}
+            {landingList[1].show !== 0 && (
+              <LandingSection fullWidth maxWidth="1920px">
+                <Box ref={landingRefList[1]} />
+                <Box className="layout">
+                  <LandingTextEditor
+                    initialValue={landingList[1].title}
+                    value={landing3Title}
+                    setValue={setLanding3Title}
+                    edit={landing3TitleEdit}
+                    setEdit={setLanding3TitleEdit}
+                    preview={landing3TitlePreview}
+                    setPreview={setLanding3TitlePreview}
+                    previewContent={landing3TitlePreviewContent}
+                    setPreviewContent={setLanding3TitlePreviewContent}
+                    applyHandler={applyLanding3Content}
+                    sx={{
+                      mb: 3,
+                      fontSize: headingFontSize,
+                      fontWeight: theme.typography.fontWeightBold,
+                    }}
+                  >
+                    {landing3Title || ""}
+                  </LandingTextEditor>
+                  <LandingTextEditor
+                    initialValue={landing3DescCpy}
+                    value={landing3Desc}
+                    setValue={setLanding3Desc}
+                    edit={landing3DescEdit}
+                    setEdit={setLanding3DescEdit}
+                    preview={landing3DescPreview}
+                    setPreview={setLanding3DescPreview}
+                    previewContent={landing3DescPreviewContent}
+                    setPreviewContent={setLanding3DescPreviewContent}
+                    applyHandler={applyLanding3Content}
+                    sx={{
+                      fontSize: mainFontSize,
+                    }}
+                  >
+                    {landing3Desc || ""}
+                  </LandingTextEditor>
+                </Box>
+              </LandingSection>
+            )}
+            {/* section4 */}
+            {landingList[2].show !== 0 && (
+              <LandingSection fullWidth maxWidth="1920px">
+                <Box ref={landingRefList[2]} />
+                <Stack className="layout" direction="column">
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                  >
+                    <LandingTextEditor
+                      initialValue={landingList[2].title}
+                      value={landing4Title}
+                      setValue={setLanding4Title}
+                      edit={landing4TitleEdit}
+                      setEdit={setLanding4TitleEdit}
+                      preview={landing4TitlePreview}
+                      setPreview={setLanding4TitlePreview}
+                      previewContent={landing4TitlePreviewContent}
+                      setPreviewContent={setLanding4TitlePreviewContent}
+                      applyHandler={applyLanding4Title}
+                      sx={{
+                        mb: 3,
+                        fontSize: headingFontSize,
+                        fontWeight: theme.typography.fontWeightBold,
+                      }}
+                    >
+                      {landing4Title || ""}
+                    </LandingTextEditor>
+
+                    {isEditor && (
+                      <IconButton onClick={handleAddSection4}>
+                        <AddCircleOutlineIcon color="primary" />
+                      </IconButton>
+                    )}
+                  </Stack>
+                  <Stack
+                    direction={{ mobile: "column", laptop: "row" }}
+                    flexWrap="wrap"
+                    justifyContent="space-between"
+                    sx={{
+                      color: theme.palette.common.white,
+                    }}
+                  >
+                    {landingSection4List?.map((item) => (
+                      <Box
+                        component={isEditor ? "button" : "div"}
+                        className="gradient-box"
+                        sx={{
+                          width: {
+                            laptop:
+                              landingSection4List.length > 3
+                                ? "30%"
+                                : `calc(95% / ${landingSection4List.length})`,
+                            mobile: "100%",
+                          },
+                          textAlign: "inherit",
+                          textIndent: "inherit",
+                          p: 3,
+                          mb: { mobile: 5, laptop: 0 },
+                          li: {
+                            ml: 2,
+                          },
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                        key={`box-${item.id}`}
+                        onClick={() => {
+                          if (isEditor) {
+                            setSelectedSection4(item);
+                            setEditSection4(true);
+                            setOpenSection4Modal(true);
+                          }
+                        }}
+                      >
+                        {item.title && (
+                          <Typography fontWeight={600} sx={{ mb: 2 }}>
+                            {item.title}
+                          </Typography>
+                        )}
+                        <Typography fontSize={smallFontSize}>
+                          <InnerHTML html={item.description} />
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Stack>
+                </Stack>
+              </LandingSection>
+            )}
+            {/* Form */}
+            {openSection4Modal && (
+              <LandingSection4Form
+                open={openSection4Modal}
+                setOpen={setOpenSection4Modal}
+                edit={editSection4}
+                selectedSection={selectedSection4}
+                year="2023"
+              />
+            )}
+          </BackgroundVectorColored>
+        )}
       </Box>
+
+      {/* sticky menu */}
+      {isEditor && (
+        <Stack className="sticky-menu">
+          {landingList.map((l, i) => (
+            <Stack
+              key={`sticky-landing-${l.id}`}
+              direction="row"
+              justifyContent="space-between"
+            >
+              <Tooltip
+                title={l.title.replace(/<(\/)*\w+>/g, "")}
+                placement="left"
+              >
+                {l.show ? (
+                  <Typography
+                    component="button"
+                    onClick={() => {
+                      handleStickyMenuSectionClick(landingRefList[i]);
+                    }}
+                    sx={{ textDecoration: "underline" }}
+                  >
+                    Section {i + 1}
+                  </Typography>
+                ) : (
+                  <Typography>Section {i + 1}</Typography>
+                )}
+              </Tooltip>
+              <Switch
+                checked={l.show === 1}
+                onClick={() => {
+                  if (l.show === 1) {
+                    landingRefList[i].current.scrollIntoView({
+                      behavior: "smooth",
+                      block: "center",
+                    });
+                  }
+                  const landingListCpy = [...landingList];
+                  landingListCpy[i] = {
+                    ...l,
+                    show: l.show === 1 ? 0 : 1,
+                  };
+                  setLandingList(landingListCpy);
+                  if (l.show === 0) {
+                    setTimeout(() => {
+                      handleStickyMenuSectionClick(landingRefList[i]);
+                    }, 300);
+                  }
+                }}
+                disabled={stickyApplyLoading}
+                size="small"
+              />
+            </Stack>
+          ))}
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            sx={{ margin: "10px 0" }}
+          >
+            <Button size="small" onClick={handleStickyReset}>
+              reset
+            </Button>
+            <LoadingButton
+              variant="contained"
+              size="small"
+              onClick={handleStickyApply}
+              loading={stickyApplyLoading}
+            >
+              apply
+            </LoadingButton>
+          </Stack>
+        </Stack>
+      )}
+      {/*  */}
       {/* <CookieConsent
         style={{
           flexDirection: "column",

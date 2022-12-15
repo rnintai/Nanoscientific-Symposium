@@ -19,6 +19,7 @@ interface LandingSection4FormProps
   // refreshFunction: () => void;
   edit?: boolean;
   selectedSection?: Landing.landing4Type;
+  year?: string;
 }
 
 const LandingSection4Form = ({
@@ -26,6 +27,7 @@ const LandingSection4Form = ({
   setOpen,
   edit,
   selectedSection,
+  year,
   ...rest
 }: LandingSection4FormProps) => {
   const pathname = usePageViews();
@@ -48,12 +50,14 @@ const LandingSection4Form = ({
           nation: pathname,
           id: selectedSection.id,
           title: title.value,
+          year: year || null,
           description,
         });
       } else {
         await axios.post(`/api/page/common/landing/4`, {
           nation: pathname,
           title: title.value,
+          year: year || null,
           description,
         });
       }
