@@ -325,4 +325,55 @@ export const globalData = new Map<string, Common.globalDataType>([
       speakerBannerURL: `${S3_URL}/eu/speaker-banner.jpg`,
     },
   ],
+  [
+    "eu2023",
+    {
+      fullName: "2022 NanoScientific Forum Europe | NSFE",
+      fullDate: "September 13-15, 2023",
+      eventLocation: "ICFO - The Institute of Photonic Sciences, Barcelona",
+      logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
+      speakers: "Speakers",
+      programs: "PROGRAM",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      // sponsors: "SPONSORS",
+      home: "HOME",
+      // registration: "REGISTRATION",
+      // buttonText
+      goNextText: "NEXT",
+      goPrevText: "PREV",
+      uploadBtnText: "Upload",
+      submitBtnText: "SUBMIT",
+      // user관련
+      emailInputLabel: "Email Address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot your password?",
+      createAccountText: "Create an account",
+      changePasswordBtnText: "Change Password",
+      // landing
+      showLandingSection1: true,
+      landingSection1BackgroundURL: `${S3_URL}/eu/2023-europe-banner.png`,
+      landingSection1LogoURL: `${S3_URL}/eu/2023NSFE_logo.svg`,
+      landingSection1Desc: `Welcome to the virtual platform of
+      NanoScientific Forum Europe (NSFE)
+      `,
+      // resetPassword
+      resetPasswordHeading: "Change a Password",
+      resetPasswordCurrentLabel: "Current Password",
+      resetPasswordNewLabel: "New Password",
+      resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+
+      // speaker
+      speakerBannerURL: `${S3_URL}/eu/speaker-banner.jpg`,
+    },
+  ],
 ]);

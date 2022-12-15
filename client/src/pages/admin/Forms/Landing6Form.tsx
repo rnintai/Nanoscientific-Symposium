@@ -11,12 +11,14 @@ interface Landing6FormProps extends React.ComponentPropsWithoutRef<"div"> {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   selected?: Landing.landing6Type;
+  year?: string;
 }
 
 const Landing6Form = ({
   open,
   setOpen,
   selected,
+  year,
   ...rest
 }: Landing6FormProps) => {
   const pathname = usePageViews();
@@ -31,6 +33,7 @@ const Landing6Form = ({
         nation: pathname,
         url: url.value,
         buttonText: buttonText.value,
+        year,
       });
       setOpen(false);
       navigate(0);

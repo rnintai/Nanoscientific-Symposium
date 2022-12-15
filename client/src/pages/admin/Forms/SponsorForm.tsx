@@ -28,6 +28,7 @@ interface SponsorFormProps extends React.ComponentPropsWithoutRef<"div"> {
   setPreviewSponsorList: React.Dispatch<
     React.SetStateAction<Landing.landing7Type[]>
   >;
+  year?: string;
 }
 
 const SponsorForm = ({
@@ -39,6 +40,7 @@ const SponsorForm = ({
   sponsorList,
   setIsSponsorPreview,
   setPreviewSponsorList,
+  year,
   ...rest
 }: SponsorFormProps) => {
   const pathname = usePageViews();
@@ -77,6 +79,7 @@ const SponsorForm = ({
           url: sponsorURL.value,
           imagePath: sponsorImagePath,
           height: sponsorHeight,
+          year,
         });
       }
       setOpen(false);

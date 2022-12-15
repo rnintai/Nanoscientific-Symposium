@@ -552,13 +552,14 @@ const commonCtrl = {
     }
   },
   setLanding6Content: async (req, res) => {
-    const { nation, title, description } = req.body;
+    const { nation, title, description, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `UPDATE landing_section_6 SET 
       description='${description}'
-      WHERE id=1`;
+      WHERE nss_year${year ? `=${year}` : " IS NULL"};
+      `;
       await connection.query(sql);
       connection.release();
 
@@ -574,14 +575,15 @@ const commonCtrl = {
     }
   },
   setLanding6Button: async (req, res) => {
-    const { nation, url, buttonText } = req.body;
+    const { nation, url, buttonText, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `UPDATE landing_section_6 SET 
       url='${url}',
       button_text='${buttonText}'
-      WHERE id=1`;
+      WHERE nss_year${year ? `=${year}` : " IS NULL"}
+      `;
       await connection.query(sql);
       connection.release();
 
@@ -662,14 +664,16 @@ const commonCtrl = {
   },
 
   addSponsor: async (req, res) => {
-    const { nation, name, url, imagePath, height, sectionNo } = req.body;
+    const { nation, name, url, imagePath, height, sectionNo, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `INSERT INTO landing_section_${sectionNo}
-      (name, url, image_path, height)
+      (name, url, image_path, height, nss_year)
       VALUES
-      ('${name}','${url}','${imagePath}', ${height ? height : 0})
+      ('${name}','${url}','${imagePath}', ${height ? height : 0}, ${
+        year ? year : null
+      })
       `;
       const row = await connection.query(sql);
       connection.release();
