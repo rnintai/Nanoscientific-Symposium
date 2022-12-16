@@ -354,9 +354,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/eu/2023-europe-banner.png`,
       landingSection1LogoURL: `${S3_URL}/eu/2023NSFE_logo.svg`,
-      landingSection1Desc: `Welcome to the virtual platform of
-      NanoScientific Forum Europe (NSFE)
-      `,
+      // landingSection1Desc: `Welcome to the virtual platform of
+      // NanoScientific Forum Europe (NSFE)
+      // `,
       // resetPassword
       resetPasswordHeading: "Change a Password",
       resetPasswordCurrentLabel: "Current Password",
