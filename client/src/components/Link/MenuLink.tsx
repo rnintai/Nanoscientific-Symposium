@@ -18,6 +18,7 @@ const MenuLink = (props: MenuLinkProps) => {
   const [active, setActive] = useState<string>("");
   const pathname = usePageViews();
   const subpath = useSubPath();
+  const classString = rest.className;
 
   const theme = useTheme();
   useEffect(() => {
@@ -28,7 +29,7 @@ const MenuLink = (props: MenuLinkProps) => {
     }
   }, [pathname, subpath]);
   return (
-    <MenuLinkContainer>
+    <MenuLinkContainer className={classString}>
       <Link to={to} {...rest} className={active}>
         <Typography
           fontWeight={theme.typography.fontWeightBold}

@@ -170,7 +170,11 @@ const NavBar = ({
                     !menu.has_child
                   ) {
                     return (
-                      <MenuLink key={menu.name} to={`/${pathname}${menu.path}`}>
+                      <MenuLink
+                        key={menu.name}
+                        to={`/${pathname}${menu.path}`}
+                        className={menu.show === 0 && "op5"}
+                      >
                         {menu.name.toUpperCase()}
                       </MenuLink>
                     );
