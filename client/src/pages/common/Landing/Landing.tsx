@@ -58,9 +58,16 @@ interface LandingSectionProps extends React.ComponentPropsWithRef<"div"> {
   fullWidth?: boolean;
   background?: string;
 }
+interface LandingProps {
+  nssYear?: string;
+}
 
-const Landing = () => {
+const Landing = (props: LandingProps) => {
+  const { nssYear } = props;
+
   const pathname = usePageViews();
+  const nssType = `${pathname}${nssYear !== undefined ? nssYear : ""}`;
+
   const theme = useTheme();
   const authState = useAuthState();
   const isEditor = editorRole.includes(authState.role);
@@ -83,7 +90,7 @@ const Landing = () => {
     landingSection1Desc,
     landingSection1LogoURL,
     landingSection1BackgroundURL,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   const navigate = useNavigate();
 
@@ -225,9 +232,12 @@ const Landing = () => {
   const getLandingList = async () => {
     try {
       setLandingListLoading(true);
-      const res = await axios.get(
-        `/api/page/common/landing?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/landing`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setLandingList(res.data.result);
       setOriginalLandingList(res.data.result);
       setLanding2Title(res.data.result[0].title);
@@ -247,9 +257,12 @@ const Landing = () => {
   // landing2 handler
   const getLandingSection2 = async () => {
     try {
-      const res = await axios.get(
-        `/api/page/common/landing/2?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/landing/2`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setLanding2Desc(res.data.result[0].description);
       setLanding2DescCpy(res.data.result[0].description);
     } catch (err) {
@@ -262,6 +275,7 @@ const Landing = () => {
         nation: pathname,
         title: escapeQuotes(landing2Title),
         description: escapeQuotes(landing2Desc),
+        year: nssYear,
       });
       setLanding2Title(landing2Title);
       setLanding2Desc(landing2Desc);
@@ -273,9 +287,12 @@ const Landing = () => {
   // landing3 handler
   const getLandingSection3 = async () => {
     try {
-      const res = await axios.get(
-        `/api/page/common/landing/3?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/landing/3`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setLanding3Desc(res.data.result[0].description);
       setLanding3DescCpy(res.data.result[0].description);
     } catch (err) {
@@ -288,6 +305,7 @@ const Landing = () => {
         nation: pathname,
         title: escapeQuotes(landing3Title),
         description: escapeQuotes(landing3Desc),
+        year: nssYear,
       });
       setLanding3Title(landing3Title);
       setLanding3Desc(landing3Desc);
@@ -300,9 +318,12 @@ const Landing = () => {
   const getLandingSection4 = async () => {
     setLandingLoading(true);
     try {
-      const result = await axios.get(
-        `/api/page/common/landing/4?nation=${pathname}`,
-      );
+      const result = await axios.get(`/api/page/common/landing/4`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setLandingSection4List(result.data.result);
     } catch (err) {
       console.log(err);
@@ -316,6 +337,7 @@ const Landing = () => {
       const result = await axios.post(`/api/page/common/landing/title/4`, {
         nation: pathname,
         title: escapeQuotes(landing4Title),
+        year: nssYear,
       });
       setLanding4Title(landing4Title);
       setLanding4TitleEdit(false);
@@ -338,6 +360,7 @@ const Landing = () => {
       const result = await axios.post(`/api/page/common/landing/title/5`, {
         nation: pathname,
         title: escapeQuotes(landing5Title),
+        year: nssYear,
       });
       setLanding5Title(landing5Title);
       setLanding5TitleEdit(false);
@@ -349,6 +372,7 @@ const Landing = () => {
       const result = await axios.post(`/api/page/common/landing/title/6`, {
         nation: pathname,
         title: escapeQuotes(landing6Title),
+        year: nssYear,
       });
       setLanding6Title(landing6Title);
       setLanding6TitleEdit(false);
@@ -362,6 +386,7 @@ const Landing = () => {
         nation: pathname,
         title: escapeQuotes(landing6Title),
         description: escapeQuotes(landing6Desc),
+        year: nssYear,
       });
       setLanding6Title(landing6Title);
       setLanding6Desc(landing6Desc);
@@ -372,9 +397,12 @@ const Landing = () => {
   const getLandingSection6 = async () => {
     setLandingLoading(true);
     try {
-      const result = await axios.get(
-        `/api/page/common/landing/6?nation=${pathname}`,
-      );
+      const result = await axios.get(`/api/page/common/landing/6`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setLanding6Content(result.data.result[0]);
       setLanding6Desc(result.data.result[0].description);
       setLanding6DescCpy(result.data.result[0].description);
@@ -387,9 +415,12 @@ const Landing = () => {
 
   const getKeynoteList = async () => {
     try {
-      const res = await axios.get(
-        `/api/page/common/speakers/keynote?nation=${pathname}`,
-      );
+      const res = await axios.get(`/api/page/common/speakers/keynote`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setKeynoteSpeakers(res.data);
     } catch (err) {
       console.log(err);
@@ -402,6 +433,7 @@ const Landing = () => {
       const result = await axios.post(`/api/page/common/landing/title/7`, {
         nation: pathname,
         title: escapeQuotes(landing7Title),
+        year: nssYear,
       });
       setLanding7Title(landing7Title);
       setLanding7TitleEdit(false);
@@ -409,9 +441,12 @@ const Landing = () => {
   };
   const getLandingSection7 = async () => {
     try {
-      const result = await axios.get(
-        `/api/page/common/landing/7?nation=${pathname}`,
-      );
+      const result = await axios.get(`/api/page/common/landing/7`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setLandingSection7Sponsors(result.data.result);
     } catch (err) {
       console.log(err);
@@ -438,6 +473,7 @@ const Landing = () => {
       const result = await axios.post(`/api/page/common/landing/title/8`, {
         nation: pathname,
         title: escapeQuotes(landing8Title),
+        year: nssYear,
       });
       setLanding8Title(landing8Title);
       setLanding8TitleEdit(false);
@@ -445,9 +481,12 @@ const Landing = () => {
   };
   const getLandingSection8 = async () => {
     try {
-      const result = await axios.get(
-        `/api/page/common/landing/8?nation=${pathname}`,
-      );
+      const result = await axios.get(`/api/page/common/landing/8`, {
+        params: {
+          nation: pathname,
+          year: nssYear,
+        },
+      });
       setLandingSection8Sponsors(result.data.result);
     } catch (err) {
       console.log(err);
@@ -519,7 +558,7 @@ const Landing = () => {
     getLandingSection4();
     getLandingSection6();
     getLandingSection7();
-    if (pathname === "jp" || pathname === "kr") {
+    if (pathname === "jp" || pathname === "kr" || pathname === "eu") {
       getLandingSection8();
     }
   }, []);
@@ -536,7 +575,11 @@ const Landing = () => {
         className="section1"
       >
         <BackgroundVectorWhite maxWidth="1920px">
-          <div className="overlay secondary z0" />
+          {nssType === "eu2023" ? (
+            <div className="overlay greyscale z0" />
+          ) : (
+            <div className="overlay secondary z0" />
+          )}
           <Stack
             className="layout"
             direction="column"
@@ -554,12 +597,14 @@ const Landing = () => {
               alt="logo"
               style={{
                 maxWidth: "600px",
-                height: "300px",
+                height: nssYear === "2023" ? "250px" : "300px",
+                marginBottom: nssYear === "2023" ? "40px" : "0",
                 width: "100%",
                 minWidth: "200px",
               }}
             />
             <Stack
+              className="z1"
               sx={{
                 flexDirection: {
                   mobile: "column",
@@ -618,7 +663,7 @@ const Landing = () => {
                       : `/${pathname}/registration`
                   }
                 >
-                  {registration}
+                  {registration || ""}
                 </Link>
               </NSSButton>
             )}
@@ -727,7 +772,7 @@ const Landing = () => {
               {/* admin view */}
             </LandingSection>
           )}
-
+          {/* section3 */}
           {landingList[1].show !== 0 && (
             <LandingSection fullWidth maxWidth="1920px">
               <Box ref={landingRefList[1]} />
@@ -771,7 +816,7 @@ const Landing = () => {
               </Box>
             </LandingSection>
           )}
-
+          {/* section4 */}
           {landingList[2].show !== 0 && (
             <LandingSection fullWidth maxWidth="1920px">
               <Box ref={landingRefList[2]} />
@@ -867,6 +912,7 @@ const Landing = () => {
               setOpen={setOpenSection4Modal}
               edit={editSection4}
               selectedSection={selectedSection4}
+              year={nssYear}
             />
           )}
           {/* </BackgroundVectorColored> */}
@@ -1335,10 +1381,10 @@ const Landing = () => {
                         }}
                         sx={{ textDecoration: "underline" }}
                       >
-                        Section {l.id}
+                        Section {i + 1}
                       </Typography>
                     ) : (
-                      <Typography>Section {l.id}</Typography>
+                      <Typography>Section {i + 1}</Typography>
                     )}
                   </Tooltip>
                   <Switch
@@ -1399,6 +1445,7 @@ const Landing = () => {
               sponsorList={landingSection7Sponsors}
               setIsSponsorPreview={setIsSponsorPreview}
               setPreviewSponsorList={setPreviewSponsorList}
+              year={nssYear}
             />
           )}
           {(openSponsorModal2 || isSponsor2Preview) && (
@@ -1413,6 +1460,7 @@ const Landing = () => {
               sponsorList={landingSection8Sponsors}
               setIsSponsorPreview={setIsSponsor2Preview}
               setPreviewSponsorList={setPreviewSponsor2List}
+              year={nssYear}
             />
           )}
           {openLanding6Modal && (
@@ -1420,6 +1468,7 @@ const Landing = () => {
               open={openLanding6Modal}
               setOpen={setOpenLanding6Modal}
               selected={landing6Content}
+              year={nssYear}
             />
           )}
         </BackgroundVectorColored>

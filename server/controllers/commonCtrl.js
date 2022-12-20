@@ -367,12 +367,14 @@ const commonCtrl = {
     }
   },
   getLandingSectionList: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
-      SELECT * FROM landing_section;
+      SELECT * FROM landing_section${
+        year ? ` WHERE nss_year="${year}"` : ` WHERE nss_year IS NULL`
+      };
       `;
       const row = await connection.query(sql);
       connection.release();
@@ -418,7 +420,7 @@ const commonCtrl = {
     }
   },
   setLandingTitle: async (req, res) => {
-    const { nation, title } = req.body;
+    const { nation, title, year } = req.body;
     const { id } = req.params;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
@@ -445,13 +447,15 @@ const commonCtrl = {
     }
   },
   getLandingContent: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const { id } = req.params;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
-      SELECT * FROM landing_section_${id};
+      SELECT * FROM landing_section_${id}${
+        year ? ` WHERE nss_year="${year}"` : ` WHERE nss_year IS NULL`
+      };
       `;
       const row = await connection.query(sql);
       connection.release();
@@ -468,19 +472,31 @@ const commonCtrl = {
     }
   },
   setLanding2Content: async (req, res) => {
-    const { nation, title, description } = req.body;
+    const { nation, title, description, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    let queryId;
+    switch (year) {
+      case "2023": {
+        queryId = 8;
+        break;
+      }
+      default: {
+        queryId = 1;
+      }
+    }
     try {
       const sql = `UPDATE landing_section_2 SET 
       description='${description}'
-      WHERE id=1`;
+      WHERE nss_year${year ? `=${year}` : ` IS NULL`}
+      `;
       await connection.query(sql);
       connection.release();
 
       const sql2 = `UPDATE landing_section SET 
       title='${title}'
-      WHERE id=2`;
+      WHERE id=${queryId}
+      `;
       await connection.query(sql2);
       connection.release();
 
@@ -496,19 +512,31 @@ const commonCtrl = {
     }
   },
   setLanding3Content: async (req, res) => {
-    const { nation, title, description } = req.body;
+    const { nation, title, description, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    let queryId;
+    switch (year) {
+      case "2023": {
+        queryId = 9;
+        break;
+      }
+      default: {
+        queryId = 3;
+      }
+    }
     try {
       const sql = `UPDATE landing_section_3 SET 
       description='${description}'
-      WHERE id=1`;
+      WHERE nss_year${year ? `=${year}` : ` IS NULL`}
+      `;
       await connection.query(sql);
       connection.release();
 
       const sql2 = `UPDATE landing_section SET 
       title='${title}'
-      WHERE id=3`;
+      WHERE id=${queryId}
+      `;
       await connection.query(sql2);
       connection.release();
 
@@ -524,13 +552,14 @@ const commonCtrl = {
     }
   },
   setLanding6Content: async (req, res) => {
-    const { nation, title, description } = req.body;
+    const { nation, title, description, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `UPDATE landing_section_6 SET 
       description='${description}'
-      WHERE id=1`;
+      WHERE nss_year${year ? `=${year}` : " IS NULL"};
+      `;
       await connection.query(sql);
       connection.release();
 
@@ -546,14 +575,15 @@ const commonCtrl = {
     }
   },
   setLanding6Button: async (req, res) => {
-    const { nation, url, buttonText } = req.body;
+    const { nation, url, buttonText, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `UPDATE landing_section_6 SET 
       url='${url}',
       button_text='${buttonText}'
-      WHERE id=1`;
+      WHERE nss_year${year ? `=${year}` : " IS NULL"}
+      `;
       await connection.query(sql);
       connection.release();
 
@@ -569,12 +599,14 @@ const commonCtrl = {
     }
   },
   setLanding4Content: async (req, res) => {
-    const { nation, title, description } = req.body;
+    const { nation, title, description, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `INSERT INTO landing_section_4 (title,description) VALUES 
-      ('${title}','${description}')`;
+      const sql = `INSERT INTO landing_section_4 (title,description${
+        year ? ",nss_year" : ""
+      }) VALUES 
+      ('${title}','${description}'${year ? `,${year}` : ""})`;
       await connection.query(sql);
       connection.release();
 
@@ -632,14 +664,16 @@ const commonCtrl = {
   },
 
   addSponsor: async (req, res) => {
-    const { nation, name, url, imagePath, height, sectionNo } = req.body;
+    const { nation, name, url, imagePath, height, sectionNo, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `INSERT INTO landing_section_${sectionNo}
-      (name, url, image_path, height)
+      (name, url, image_path, height, nss_year)
       VALUES
-      ('${name}','${url}','${imagePath}', ${height ? height : 0})
+      ('${name}','${url}','${imagePath}', ${height ? height : 0}, ${
+        year ? year : null
+      })
       `;
       const row = await connection.query(sql);
       connection.release();

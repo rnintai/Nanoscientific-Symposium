@@ -13,6 +13,7 @@ import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
 import PosterHall from "pages/common/PosterHall/PosterHall";
+// import Landing2023 from "pages/2023/Landing/Landing2023";
 
 const pathname = "eu";
 const formNo = "1149";
@@ -85,5 +86,9 @@ export default [
     path: `/${pathname}/poster-hall`,
     element: <PosterHall />,
     isPrivate: true,
+  },
+  {
+    path: `/${pathname}/2023`,
+    element: <Landing key={`${pathname}-landing-2023`} nssYear="2023" />,
   },
 ];

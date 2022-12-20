@@ -2,14 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Link from "components/Link/LinkWithSearch";
 import { useNavigate } from "hooks/useNavigateWithSearch";
-import {
-  NavBarContainer,
-  AnnouncementMenuItemContainer,
-  AnnouncementAlarm,
-} from "components/NavBar/NavBarStyles";
+import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
-import { useAlarmState, useAlarmDispatch } from "context/NavBarMarkContext";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
@@ -36,8 +31,6 @@ import PublicIcon from "@mui/icons-material/Public";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useMenuStore from "store/MenuStore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import LoginModal from "../Modal/LoginModal";
-import MobileNavBar from "./MobileNavBar";
 
 interface navProps {
   checkLoading: boolean;
@@ -47,7 +40,6 @@ interface navProps {
   menuStateLoading: boolean;
   // eslint-disable-next-line react/require-default-props
   hideMenu?: boolean;
-  // markAnnouncementAlarm: boolean;
 }
 
 const NavBar = ({
@@ -57,8 +49,7 @@ const NavBar = ({
   setLogoutSuccess,
   setLogoutLoading,
   menuStateLoading,
-}: // markAnnouncementAlarm,
-navProps) => {
+}: navProps) => {
   // menu list
   const menuStore = useMenuStore();
   const { menuList } = menuStore;
@@ -93,8 +84,6 @@ navProps) => {
 
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
-  const alarmState = useAlarmState();
-  const alarmDispatch = useAlarmDispatch();
 
   // submenu refs
   const submenuRefs = useRef({});
@@ -108,7 +97,6 @@ navProps) => {
       })
       .then((res) => {
         if (res.data.success === true) {
-          alarmDispatch({ type: "OFF" });
           authDispatch({ type: "LOGOUT", authState });
           setLogoutSuccess(true);
         } else {
@@ -127,10 +115,6 @@ navProps) => {
   const toggleMobileNav = () => {
     setOpenMobileNav(!openMobileNav);
   };
-
-  useEffect(() => {
-    console.log(pathname);
-  }, []);
 
   const {
     logoURL,
@@ -165,7 +149,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname === "common" ? "" : pathname}`}
+            to={`/${pathname}`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -316,8 +300,6 @@ navProps) => {
                       aria-controls={openUserMenu ? "basic-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={openUserMenu ? "true" : undefined}
-                      isMoreverIcon
-                      // markAnnouncementAlarm={markAnnouncementAlarm}
                     >
                       <MoreVertIcon />
                     </NSSButton>
@@ -337,21 +319,14 @@ navProps) => {
                           .map((m) => {
                             if (m.show || editorRole.includes(authState.role)) {
                               return (
-                                <Link
-                                  to={pathname + m.path}
-                                  onClick={handleMoreMenuClose}
-                                >
-                                  <AnnouncementMenuItemContainer
-                                    key={`menu-${m.id}`}
-                                    className={m.name}
+                                <MenuItem key={`menu-${m.id}`}>
+                                  <Link
+                                    to={pathname + m.path}
+                                    onClick={handleMoreMenuClose}
                                   >
-                                    {m.name.toLowerCase() === "announcement" &&
-                                    alarmState.alarm ? (
-                                      <AnnouncementAlarm />
-                                    ) : null}
                                     {m.name}
-                                  </AnnouncementMenuItemContainer>
-                                </Link>
+                                  </Link>
+                                </MenuItem>
                               );
                             }
                             return null;
