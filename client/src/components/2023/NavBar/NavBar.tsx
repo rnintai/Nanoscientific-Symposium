@@ -42,7 +42,7 @@ interface navProps {
   hideMenu?: boolean;
 }
 
-const NavBar = ({
+const NavBar2023 = ({
   checkLoading,
   hideMenu,
   setEmailModalOpen,
@@ -127,7 +127,7 @@ const NavBar = ({
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
-      <NSSButton
+      {/* <NSSButton
         variant="icon"
         className="return-main-btn"
         style={{ position: "absolute", padding: "8px 8px 8px 0" }}
@@ -137,7 +137,7 @@ const NavBar = ({
       >
         <ChevronLeftIcon />
         <PublicIcon sx={{ marginLeft: "-4px" }} />
-      </NSSButton>
+      </NSSButton> */}
       {!menuStateLoading && (
         <Stack
           direction="row"
@@ -149,7 +149,7 @@ const NavBar = ({
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname}`}
+            to={`/${pathname}/2023`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -161,7 +161,7 @@ const NavBar = ({
               alignSelf="flex-end"
               className="menu-item-wrap"
             >
-              {!menuStateLoading &&
+              {/* {!menuStateLoading &&
                 menuList.map((menu) => {
                   if (
                     (menu.show || editorRole.includes(authState.role)) &&
@@ -285,8 +285,8 @@ const NavBar = ({
                     );
                   }
                   return null;
-                })}
-              <div className="user-menu-wrap">
+                })} */}
+              {/* <div className="user-menu-wrap">
                 {(menuList.filter((m) => !m.is_main && m.show).length !== 0 ||
                   (editorRole.includes(authState.role) &&
                     menuList.filter((m) => !m.is_main).length !== 0)) && (
@@ -395,7 +395,7 @@ const NavBar = ({
                     </Menu>
                   </>
                 )}
-              </div>
+              </div> */}
             </Stack>
           </div>
         </Stack>
@@ -414,4 +414,4 @@ const NavBar = ({
   );
 };
 
-export default NavBar;
+export default NavBar2023;
