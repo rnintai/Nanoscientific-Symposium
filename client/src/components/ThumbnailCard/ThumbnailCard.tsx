@@ -25,23 +25,28 @@ import NSSButton from "components/Button/NSSButton";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import { adminRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
-import EditOnDemandForm from "pages/admin/Forms/OnDemandForm";
+import OnDemandForm from "pages/admin/Forms/OnDemandForm";
+import InnerHTML from "dangerously-set-html-content";
 import { ThumbnailCardContainer } from "./ThumbnailCardStyles";
 
 interface ThumbnailCardProps {
   video: Common.onDemandVideoType;
   getList: () => void;
+  setSelected: React.Dispatch<React.SetStateAction<Common.onDemandVideoType>>;
+  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  edit: boolean;
+  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ThumbnailCard = (props: ThumbnailCardProps) => {
-  const { video, getList } = props;
+  const { video, getList, setSelected, setOpenModal, edit, setEdit } = props;
   const theme = useTheme();
   const authState = useAuthState();
 
   // state
   const [isLoading, setIsLoading] = useState<boolean>(false); // 실제 화면에 보여지고 있는지 여부를 확인
   const [openDetailModal, setOpenDetailModal] = useState<boolean>(false);
-  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+  // const [openEditModal, setOpenEditModal] = useState<boolean>(false);
 
   // ref
   const imgRef = React.useRef<HTMLImageElement>(null); // 이미지 태그 요소
@@ -98,7 +103,9 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
   };
 
   const editClickHandler = () => {
-    setOpenEditModal(true);
+    setSelected(video);
+    setEdit(true);
+    setOpenModal(true);
   };
 
   return (
@@ -285,7 +292,9 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
                   <Stack
                     direction="row"
                     justifyContent="space-between"
-                    width="40%"
+                    // width="40%"
+                    // minWidth="330px"
+                    maxWidth="370px"
                     flexWrap="wrap"
                   >
                     <Typography
@@ -314,13 +323,21 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
                       color={theme.palette.grey[600]}
                       width="45%"
                     >
-                      Application:
+                      Application: {video.application}
                     </Typography>
                   </Stack>
                 </Stack>
               </Stack>
             </Stack>
             <hr style={{ borderStyle: "dashed", color: "#ececec" }} />
+            <Typography
+              className="editor-content"
+              fontSize={smallFontSize}
+              lineHeight={1.7}
+              color={theme.palette.grey[600]}
+            >
+              <InnerHTML html={video.abstract_desc} />
+            </Typography>
           </DialogContent>
           <DialogActions>
             <Button
@@ -341,14 +358,15 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
           </DialogActions>
         </Dialog>
       )}
-      {openEditModal && (
-        <EditOnDemandForm
+      {/* {openEditModal && (
+        <OnDemandForm
           open={openEditModal}
           setOpen={setOpenEditModal}
+          edit
           selected={video}
           getList={getList}
         />
-      )}
+      )} */}
     </ThumbnailCardContainer>
   );
 };

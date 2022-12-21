@@ -154,10 +154,12 @@ declare namespace Common {
     affiliation: string;
     thumbnail?: string;
     video: string;
+    application?: string;
+    abstract_desc?: string;
   }
 
   interface onDemandTagType {
-    type: "region" | "year" | "language";
+    type: "region" | "year" | "language" | "application";
     value: string;
   }
 

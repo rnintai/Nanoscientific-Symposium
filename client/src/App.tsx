@@ -186,7 +186,7 @@ const App = () => {
             );
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
-            } else if (pathname !== "common") {
+            } else if (pathname !== "common" && pathname !== "home") {
               calcAnnouncementCached();
             }
             if (isNewAnnouncement) {
@@ -384,7 +384,12 @@ const App = () => {
   }, [bannerURL, window.location.href]);
 
   useEffect(() => {
-    if (pathname !== "common" && loginSuccess && authState.isLogin) {
+    if (
+      pathname !== "common" &&
+      pathname !== "home" &&
+      loginSuccess &&
+      authState.isLogin
+    ) {
       // 캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득
       // useeffect memory error x
       if (window.location.pathname.includes("announcement")) {

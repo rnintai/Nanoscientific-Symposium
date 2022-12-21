@@ -1,4 +1,4 @@
-import { Button, Stack, Typography, useTheme } from "@mui/material";
+import { Button, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
@@ -6,10 +6,17 @@ import React, { useEffect, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
 import { smallFontSize, xsmallFontSize } from "utils/FontSize";
+import { adminRole } from "utils/Roles";
+import { useAuthState } from "context/AuthContext";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import NSSButton from "components/Button/NSSButton";
+import OnDemandForm from "pages/admin/Forms/OnDemandForm";
 import { OnDemandContainer } from "./OnDemandStyles";
 
 const OnDemand = () => {
   const theme = useTheme();
+  const authState = useAuthState();
+  const isAdmin = adminRole.includes(authState.role);
 
   const [videoList, setVideoList] = useState<Common.onDemandVideoType[]>([]);
   const [filteredVideoList, setFilteredVideoList] = useState<
@@ -34,6 +41,17 @@ const OnDemand = () => {
     Common.onDemandTagType[]
   >([]);
 
+  const [applicationList, setApplicationList] = useState<any[]>([]);
+  const [selectedApplication, setSelectedApplication] = useState<
+    Common.onDemandTagType[]
+  >([]);
+
+  // admin state
+  const [edit, setEdit] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+  const [selectedVideo, setSelectedVideo] =
+    useState<Common.onDemandVideoType>(null);
+
   useEffect(() => {
     getOnDemandList();
     setFilteredVideoList(videoList);
@@ -43,16 +61,17 @@ const OnDemand = () => {
     setSelectedYear(filterList.filter((f) => f.type === "year"));
     setSelectedRegion(filterList.filter((f) => f.type === "region"));
     setSelectedLanguage(filterList.filter((f) => f.type === "language"));
+    setSelectedApplication(filterList.filter((f) => f.type === "application"));
   }, [filterList]);
 
   useEffect(() => {
     filterByTag();
-  }, [selectedYear, selectedRegion, selectedLanguage]);
+  }, [selectedYear, selectedRegion, selectedLanguage, selectedApplication]);
 
   const getOnDemandList = async () => {
     try {
       setVideoListLoading(true);
-      const res = await axios.get("/api/page/common/ondemand");
+      const res = await axios.get("/api/ondemand");
       setVideoList(res.data.result);
       setFilteredVideoList(res.data.result);
 
@@ -74,6 +93,18 @@ const OnDemand = () => {
       setLanguageList(
         languages.map((e) => {
           return { type: "language", value: e };
+        }),
+      );
+      const applications = [
+        ...new Set(
+          res.data.result
+            .filter((v: any) => v.application !== null)
+            .map((v: any) => v.application),
+        ),
+      ];
+      setApplicationList(
+        applications.map((e) => {
+          return { type: "application", value: e };
         }),
       );
     } catch (error) {
@@ -98,6 +129,14 @@ const OnDemand = () => {
     if (selectedLanguage.length !== 0) {
       newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
         return selectedLanguage.some((y) => v.language.indexOf(y.value) !== -1);
+      });
+    }
+    if (selectedApplication.length !== 0) {
+      newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
+        return selectedApplication.some((y) => {
+          if (v.application) return v.application.indexOf(y.value) !== -1;
+          return false;
+        });
       });
     }
     setFilteredVideoList(newVideoList);
@@ -140,6 +179,13 @@ const OnDemand = () => {
     document.querySelectorAll(`.tag`).forEach((e) => {
       e.classList.remove("active");
     });
+  };
+
+  // admin
+  // ondemand video 추가 버튼 handler
+  const addVideoHandler = () => {
+    setEdit(false);
+    setOpenEditModal(true);
   };
 
   return (
@@ -221,6 +267,13 @@ const OnDemand = () => {
             selectedFilter={selectedLanguage}
             handleClick={handleAddTag}
           />
+          <hr className="dashed" />
+          <OnDemandFilter
+            label="Application"
+            filterList={applicationList}
+            selectedFilter={selectedApplication}
+            handleClick={handleAddTag}
+          />
         </Stack>
         {/* videos */}
         <Stack>
@@ -244,11 +297,36 @@ const OnDemand = () => {
                 key={`card-${v.id}`}
                 video={v}
                 getList={getOnDemandList}
+                setSelected={setSelectedVideo}
+                setOpenModal={setOpenEditModal}
+                edit={edit}
+                setEdit={setEdit}
               />
             ))}
+            {isAdmin && (
+              <Box
+                width="270px"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <NSSButton variant="icon" onClick={addVideoHandler}>
+                  <AddCircleOutlineIcon />
+                </NSSButton>
+              </Box>
+            )}
           </Stack>
         </Stack>
       </Stack>
+      {openEditModal && (
+        <OnDemandForm
+          open={openEditModal}
+          setOpen={setOpenEditModal}
+          edit={edit}
+          selected={selectedVideo}
+          getList={getOnDemandList}
+        />
+      )}
     </OnDemandContainer>
   );
 };
