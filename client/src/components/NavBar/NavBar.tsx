@@ -128,10 +128,6 @@ navProps) => {
     setOpenMobileNav(!openMobileNav);
   };
 
-  useEffect(() => {
-    console.log(pathname);
-  }, []);
-
   const {
     logoURL,
     registration,
@@ -188,7 +184,9 @@ navProps) => {
                     return (
                       <MenuLink
                         key={menu.name}
-                        to={`/${pathname}${menu.path}`}
+                        to={`${pathname === "common" ? "" : `/${pathname}`}${
+                          menu.path
+                        }`}
                         className={menu.show === 0 && "op5"}
                       >
                         {menu.name.toUpperCase()}

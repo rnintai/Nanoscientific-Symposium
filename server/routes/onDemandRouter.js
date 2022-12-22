@@ -7,4 +7,6 @@ router
   .post(onDemandCtrl.editOnDemandList)
   .delete(onDemandCtrl.deleteOnDemandList);
 
+router.route("/:id").get(onDemandCtrl.getOnDemandVideo);
+
 module.exports = router;

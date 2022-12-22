@@ -23,6 +23,29 @@ const onDemandCtrl = {
       });
     }
   },
+  getOnDemandVideo: async (req, res) => {
+    const { id } = req.params;
+    const currentPool = getCurrentPool("common");
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      SELECT * FROM on_demand WHERE id=${id};
+      `;
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        result: row[0],
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
   editOnDemandList: async (req, res) => {
     const currentPool = getCurrentPool("common");
     const connection = await currentPool.getConnection(async (conn) => conn);
