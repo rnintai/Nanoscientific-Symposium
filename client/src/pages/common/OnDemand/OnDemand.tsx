@@ -1,4 +1,11 @@
-import { Button, IconButton, Stack, Typography, useTheme } from "@mui/material";
+import {
+  Button,
+  Grid,
+  IconButton,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
@@ -190,7 +197,11 @@ const OnDemand = () => {
 
   return (
     <OnDemandContainer>
-      <Stack flexDirection="row" justifyContent="center">
+      <Stack
+        className="on-demand-wrap"
+        flexDirection="row"
+        justifyContent="center"
+      >
         {/* control panel */}
         <Stack className="control-panel" sx={{ p: "8px 12px" }}>
           <Box className="selected-filters">
@@ -247,51 +258,47 @@ const OnDemand = () => {
           >
             Filters
           </Typography>
-          <OnDemandFilter
-            label="Year"
-            filterList={yearList}
-            selectedFilter={selectedYear}
-            handleClick={handleAddTag}
-          />
-          <hr className="dashed" />
-          <OnDemandFilter
-            label="Region"
-            filterList={regionList}
-            selectedFilter={selectedRegion}
-            handleClick={handleAddTag}
-          />
-          <hr className="dashed" />
-          <OnDemandFilter
-            label="Language"
-            filterList={languageList}
-            selectedFilter={selectedLanguage}
-            handleClick={handleAddTag}
-          />
-          <hr className="dashed" />
-          <OnDemandFilter
-            label="Application"
-            filterList={applicationList}
-            selectedFilter={selectedApplication}
-            handleClick={handleAddTag}
-          />
+          <Stack className="filter-wrap">
+            <OnDemandFilter
+              label="Year"
+              filterList={yearList}
+              selectedFilter={selectedYear}
+              handleClick={handleAddTag}
+            />
+            <hr className="dashed" />
+            <OnDemandFilter
+              label="Region"
+              filterList={regionList}
+              selectedFilter={selectedRegion}
+              handleClick={handleAddTag}
+            />
+            <hr className="dashed" />
+            <OnDemandFilter
+              label="Language"
+              filterList={languageList}
+              selectedFilter={selectedLanguage}
+              handleClick={handleAddTag}
+            />
+            <hr className="dashed" />
+            <OnDemandFilter
+              label="Application"
+              filterList={applicationList}
+              selectedFilter={selectedApplication}
+              handleClick={handleAddTag}
+            />
+          </Stack>
         </Stack>
         {/* videos */}
-        <Stack>
+        <Stack alignItems="center">
           <Typography
             fontSize={xsmallFontSize}
             color={theme.palette.grey[600]}
-            textAlign="right"
+            className="result-total-text"
             mb={1}
           >
             {filteredVideoList.length} results
           </Typography>
-          <Stack
-            className="video-result"
-            flexDirection="row"
-            flexWrap="wrap"
-            maxHeight="865px"
-            overflow="auto"
-          >
+          <Grid className="video-result" maxHeight="865px" overflow="auto">
             {filteredVideoList.map((v, idx) => (
               <ThumbnailCard
                 key={`card-${v.id}`}
@@ -305,7 +312,7 @@ const OnDemand = () => {
             ))}
             {isAdmin && (
               <Box
-                width="270px"
+                // width="270px"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
@@ -315,7 +322,7 @@ const OnDemand = () => {
                 </NSSButton>
               </Box>
             )}
-          </Stack>
+          </Grid>
         </Stack>
       </Stack>
       {openEditModal && (

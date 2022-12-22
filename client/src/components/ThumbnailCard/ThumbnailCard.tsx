@@ -109,7 +109,7 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
   };
 
   return (
-    <ThumbnailCardContainer>
+    <ThumbnailCardContainer className="grid-item">
       <Box sx={{ position: "relative" }}>
         <Card
           sx={{
@@ -265,67 +265,65 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
             &times;
           </button>
           <DialogContent sx={{ padding: "45px 24px" }}>
-            <Stack>
-              <Stack direction="row">
-                <img src={video.thumbnail} alt={`thumb-${video.id}`} />
-                <Stack ml={1}>
+            <Stack direction="row" className="detail-info-box">
+              <img src={video.thumbnail} alt={`thumb-${video.id}`} />
+              <Stack ml={1}>
+                <Typography
+                  fontSize={smallFontSize}
+                  className="ellipsis"
+                  fontWeight={600}
+                >
+                  {video.title}
+                </Typography>
+                <Typography
+                  fontSize={xsmallFontSize}
+                  color={theme.palette.grey[600]}
+                >
+                  {video.speaker}
+                </Typography>
+                <Typography
+                  fontSize={xsmallFontSize}
+                  color={theme.palette.grey[600]}
+                  mb={1}
+                >
+                  {video.affiliation}
+                </Typography>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  // width="40%"
+                  // minWidth="330px"
+                  maxWidth="370px"
+                  flexWrap="wrap"
+                >
                   <Typography
-                    fontSize={smallFontSize}
-                    className="ellipsis"
-                    fontWeight={600}
+                    fontSize={xsmallFontSize}
+                    color={theme.palette.grey[600]}
+                    width="45%"
                   >
-                    {video.title}
+                    Year: {video.year}
                   </Typography>
                   <Typography
                     fontSize={xsmallFontSize}
                     color={theme.palette.grey[600]}
+                    width="45%"
                   >
-                    {video.speaker}
+                    Region: {video.region}
                   </Typography>
                   <Typography
                     fontSize={xsmallFontSize}
                     color={theme.palette.grey[600]}
-                    mb={1}
+                    width="45%"
                   >
-                    {video.affiliation}
+                    Language: {video.language}
                   </Typography>
-                  <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    // width="40%"
-                    // minWidth="330px"
-                    maxWidth="370px"
-                    flexWrap="wrap"
+                  <Typography
+                    fontSize={xsmallFontSize}
+                    color={theme.palette.grey[600]}
+                    width="45%"
                   >
-                    <Typography
-                      fontSize={xsmallFontSize}
-                      color={theme.palette.grey[600]}
-                      width="45%"
-                    >
-                      Year: {video.year}
-                    </Typography>
-                    <Typography
-                      fontSize={xsmallFontSize}
-                      color={theme.palette.grey[600]}
-                      width="45%"
-                    >
-                      Region: {video.region}
-                    </Typography>
-                    <Typography
-                      fontSize={xsmallFontSize}
-                      color={theme.palette.grey[600]}
-                      width="45%"
-                    >
-                      Language: {video.language}
-                    </Typography>
-                    <Typography
-                      fontSize={xsmallFontSize}
-                      color={theme.palette.grey[600]}
-                      width="45%"
-                    >
-                      Application: {video.application}
-                    </Typography>
-                  </Stack>
+                    Application: {video.application}
+                  </Typography>
                 </Stack>
               </Stack>
             </Stack>

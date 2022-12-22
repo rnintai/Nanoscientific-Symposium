@@ -7,7 +7,7 @@ export const OnDemandContainer = styled.div`
 
   // control panel
   .control-panel {
-    width: 300px;
+    min-width: 250px;
     border-radius: 3px;
     border: 1px solid #ececec;
     align-self: baseline;
@@ -46,7 +46,53 @@ export const OnDemandContainer = styled.div`
     }
   }
 
+  .result-total-text {
+    align-self: flex-end;
+  }
+
   .video-result {
-    width: 1000px;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, auto));
+    grid-gap: 20px;
+  }
+
+  @media screen and (max-width: 1350px) {
+    .on-demand-wrap {
+      flex-direction: column;
+    }
+    .control-panel {
+      margin: 0;
+      margin-bottom: 60px;
+      align-self: center;
+      .filter-wrap {
+        flex-direction: row;
+        flex-wrap: wrap;
+        .on-demand-filter {
+          max-width: 150px;
+          &:not(:last-child) {
+            margin-right: 10px;
+          }
+
+          .tag {
+            &:not(:last-child) {
+              margin-bottom: 5px;
+            }
+          }
+        }
+        hr.dashed {
+          display: none;
+        }
+      }
+    }
+    .video-result {
+      max-width: 100%;
+      grid-template-columns: repeat(auto-fit, minmax(180px, auto));
+    }
+  }
+  @media screen and (max-width: 499px) {
+    .video-result {
+      // justify-content: center;
+    }
   }
 `;

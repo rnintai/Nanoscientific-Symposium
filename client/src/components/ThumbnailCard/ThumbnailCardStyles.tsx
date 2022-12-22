@@ -2,9 +2,8 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material";
 
 export const ThumbnailCardContainer = styled.div`
-  // min-width: 270px;
-  width: 270px;
-  margin-right: 30px;
+  // width: 270px;
+  // margin-right: 30px;
   background-color: white;
   .noselect {
     -webkit-touch-callout: none;
@@ -52,5 +51,16 @@ export const ThumbnailCardContainer = styled.div`
 
   .affiliation {
     min-height: 36px;
+  }
+
+  @media screen and (max-width: 1350px) {
+    // width: 180px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .detail-info-box {
+      flex-direction: column;
+      position: absolute;
+    }
   }
 `;

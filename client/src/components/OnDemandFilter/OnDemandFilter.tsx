@@ -23,7 +23,7 @@ interface OnDemandFilterProps {
 const OnDemandFilter = (props: OnDemandFilterProps) => {
   const { label, filterList, selectedFilter, handleClick } = props;
   return (
-    <OnDemandFilterContainer>
+    <OnDemandFilterContainer className="on-demand-filter">
       <Accordion elevation={0}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
