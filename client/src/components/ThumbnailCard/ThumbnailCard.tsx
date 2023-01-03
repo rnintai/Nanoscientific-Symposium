@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Button,
   Card,
@@ -44,59 +44,35 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
   const authState = useAuthState();
 
   // state
-  const [isLoading, setIsLoading] = useState<boolean>(false); // 실제 화면에 보여지고 있는지 여부를 확인
+  const [isLoaded, setIsLoaded] = useState<boolean>(false); // 실제 화면에 보여지고 있는지 여부를 확인
   const [openDetailModal, setOpenDetailModal] = useState<boolean>(false);
   // const [openEditModal, setOpenEditModal] = useState<boolean>(false);
 
-  // ref
-  const imgRef = React.useRef<HTMLImageElement>(null); // 이미지 태그 요소
-  const observer = React.useRef<IntersectionObserver>(); // IntersectionObserver 변수
+  // // ref
+  // const imgRef = useRef<HTMLImageElement>(null); // 이미지 태그 요소
+  // const observer = useRef<IntersectionObserver>(); // IntersectionObserver 변수
 
-  // useEffect
-  React.useEffect(() => {
-    observer.current = new IntersectionObserver(intersectionOberserver); // 인스턴스 생성
-    observer.current.observe(imgRef.current); // 이미지 태그 관찰 시작
-  }, []);
+  // // useEffect
+  // useEffect(() => {
+  //   observer.current = new IntersectionObserver(intersectionOberserver); // 인스턴스 생성
+  //   observer.current.observe(imgRef.current); // 이미지 태그 관찰 시작
+  // }, []);
 
-  // IntersectionObserver 설정
-  const intersectionOberserver = (
-    entries: IntersectionObserverEntry[],
-    io: IntersectionObserver,
-  ) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        // 관찰되고 있는 entry가 보여지게 된 다면
-        io.unobserve(entry.target); // 관찰 종료
-        setIsLoading(true); // 로딩 체크
-      }
-    });
-  };
+  // // IntersectionObserver 설정
+  // const intersectionOberserver = (
+  //   entries: IntersectionObserverEntry[],
+  //   io: IntersectionObserver,
+  // ) => {
+  //   entries.forEach((entry) => {
+  //     if (entry.isIntersecting) {
+  //       // 관찰되고 있는 entry가 보여지게 된 다면
+  //       io.unobserve(entry.target); // 관찰 종료
+  //       setIsLoaded(true); // 로딩 체크
+  //     }
+  //   });
+  // };
 
   const isAdmin = adminRole.includes(authState.role);
-
-  // let startX;
-  // let scrollLeft;
-  // const dragSensitivity = 0.5;
-  // let dragFlag = false;
-
-  // const handleDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
-  //   const slider = event.currentTarget;
-  //   startX = event.pageX - slider.offsetLeft;
-
-  //   scrollLeft = slider.scrollLeft;
-  //   dragFlag = true;
-  // };
-  // const handleDrag = (event: React.MouseEvent<HTMLDivElement>) => {
-  //   if (dragFlag) {
-  //     const slider = event.currentTarget;
-  //     const x = event.pageX - slider.offsetLeft;
-  //     const walk = (x - startX) * dragSensitivity;
-  //     slider.scrollLeft = scrollLeft - walk;
-  //   }
-  // };
-  // const handleDragEnd = (event: React.MouseEvent<HTMLDivElement>) => {
-  //   dragFlag = false;
-  // };
 
   const detailClickHandler = () => {
     setOpenDetailModal(true);
@@ -112,10 +88,11 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
     <ThumbnailCardContainer className="grid-item">
       <Box sx={{ position: "relative" }}>
         <Card
-          sx={{
-            mb: 3,
-            visibility: isLoading ? "visible" : "hidden",
-          }}
+          sx={
+            {
+              // visibility: isLoaded ? "visible" : "hidden",
+            }
+          }
           elevation={0}
         >
           <Box
@@ -127,8 +104,7 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
             <CardMedia
               component="img"
               image={video.thumbnail}
-              ref={imgRef}
-              // className="hover-zoom"
+              // ref={imgRef}
             />
             <CardContent
               className="desc"
@@ -143,20 +119,6 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
               >
                 {video.title}
               </Typography>
-              {/* {video.speaker_page ? (
-                <Typography
-                  component="a"
-                  href={video.speaker_page}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="p0 hover-blue"
-                  fontSize={xsmallFontSize}
-                  fontWeight={500}
-                  color={theme.palette.grey[600]}
-                >
-                  {video.speaker}
-                </Typography>
-              ) : ( */}
               <Typography
                 component="span"
                 className="p0"
@@ -166,7 +128,6 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
               >
                 {video.speaker}
               </Typography>
-              {/* )} */}
               <Typography
                 component="span"
                 className="ellipsis affiliation"
@@ -176,30 +137,6 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
               >
                 {video.affiliation}
               </Typography>
-              {/* <Stack
-              className="tag-container"
-              component="div"
-              flexDirection="row"
-              sx={{ mt: "4px" }}
-              onMouseDown={handleDragStart}
-              onMouseMove={handleDrag}
-              onMouseUp={handleDragEnd}
-              onMouseLeave={handleDragEnd}
-            >
-              {video.tag.map((t) => (
-                <Typography
-                  className="tag noselect"
-                  component="div"
-                  fontSize={xsmallFontSize}
-                  color={theme.palette.grey[600]}
-                  onClick={() => {
-                    handleClickTag(t);
-                  }}
-                >
-                  {t}
-                </Typography>
-              ))}
-            </Stack> */}
             </CardContent>
           </Box>
 
@@ -229,7 +166,8 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
             top: 0,
             width: "100%",
             mb: 2,
-            display: isLoading ? "none" : "flex",
+            // display: isLoaded ? "none" : "flex",
+            display: "none",
           }}
           elevation={0}
         >
