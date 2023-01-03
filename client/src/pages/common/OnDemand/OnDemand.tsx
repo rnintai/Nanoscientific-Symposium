@@ -9,7 +9,7 @@ import {
 import { Box } from "@mui/system";
 import axios from "axios";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
 import { smallFontSize, xsmallFontSize } from "utils/FontSize";
@@ -18,12 +18,19 @@ import { useAuthState } from "context/AuthContext";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import NSSButton from "components/Button/NSSButton";
 import OnDemandForm from "pages/admin/Forms/OnDemandForm";
+import useQuery from "hooks/useQuery";
 import { OnDemandContainer } from "./OnDemandStyles";
+
+const itemPerPage = 6;
 
 const OnDemand = () => {
   const theme = useTheme();
   const authState = useAuthState();
   const isAdmin = adminRole.includes(authState.role);
+
+  // 현재 페이지
+  const query = useQuery();
+  const page = query.get("page") ? query.get("page") : 1;
 
   const [videoList, setVideoList] = useState<Common.onDemandVideoType[]>([]);
   const [filteredVideoList, setFilteredVideoList] = useState<
@@ -78,7 +85,12 @@ const OnDemand = () => {
   const getOnDemandList = async () => {
     try {
       setVideoListLoading(true);
-      const res = await axios.get("/api/ondemand");
+      const res = await axios.get("/api/ondemand", {
+        params: {
+          page,
+          itemPerPage,
+        },
+      });
       setVideoList(res.data.result);
       setFilteredVideoList(res.data.result);
 
@@ -298,7 +310,7 @@ const OnDemand = () => {
           >
             {filteredVideoList.length} results
           </Typography>
-          <Grid className="video-result" maxHeight="865px" overflow="auto">
+          <Grid className="video-result" maxHeight="660px" overflow="auto">
             {filteredVideoList.map((v, idx) => (
               <ThumbnailCard
                 key={`card-${v.id}`}

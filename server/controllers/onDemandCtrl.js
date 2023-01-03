@@ -3,10 +3,11 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 const onDemandCtrl = {
   getOnDemandList: async (req, res) => {
     const currentPool = getCurrentPool("common");
+    const { page, itemPerPage } = req.query;
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
-      SELECT * FROM on_demand;
+      SELECT * FROM on_demand LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
       `;
       const row = await connection.query(sql);
       connection.release();
