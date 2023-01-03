@@ -6,13 +6,20 @@ const onDemandCtrl = {
     const { page, itemPerPage } = req.query;
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
+      // 현재 페이지에 맞는 결과
       const sql = `
       SELECT * FROM on_demand LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
       `;
       const row = await connection.query(sql);
+      // 총 item 개수
+      const sql2 = `
+      SELECT COUNT(*) as count FROM on_demand;
+      `;
+      const row2 = await connection.query(sql2);
       connection.release();
       res.status(200).json({
         result: row[0],
+        totalCount: row2[0][0].count,
         success: true,
       });
     } catch (err) {
