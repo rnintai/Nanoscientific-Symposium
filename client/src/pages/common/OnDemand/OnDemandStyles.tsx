@@ -51,9 +51,9 @@ export const OnDemandContainer = styled.div`
   }
 
   .video-result {
-    max-width: 1000px;
+    width: 1000px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, auto));
+    grid-template-columns: repeat(auto-fit, minmax(270px, 315px));
     grid-gap: 20px;
   }
 
