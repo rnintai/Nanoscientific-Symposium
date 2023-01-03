@@ -22,6 +22,7 @@ import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import useCurrentYear from "hooks/useCurrentYear";
+import CommonRoutes from "Routes/CommonRoutes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
@@ -185,7 +186,7 @@ const App = () => {
             );
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
-            } else {
+            } else if (pathname !== "common" && pathname !== "home") {
               calcAnnouncementCached();
             }
             if (isNewAnnouncement) {
@@ -383,7 +384,12 @@ const App = () => {
   }, [bannerURL, window.location.href]);
 
   useEffect(() => {
-    if (loginSuccess && authState.isLogin) {
+    if (
+      pathname !== "common" &&
+      pathname !== "home" &&
+      loginSuccess &&
+      authState.isLogin
+    ) {
       // 캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득
       // useeffect memory error x
       if (window.location.pathname.includes("announcement")) {
@@ -421,7 +427,7 @@ const App = () => {
     <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
       <AppContainer>
         {pathname !== "home" &&
-          pathname !== "" &&
+          // pathname !== "" &&
           currentYear === "2022" &&
           subpath.indexOf("admin") === -1 && (
             <NavBar
@@ -451,7 +457,11 @@ const App = () => {
         )}
         <Routes>
           {/* common */}
-          <Route path="/" element={<EventLanding />} />
+          {/* <Route path="/" element={<EventLanding />} />
+          <Route path="/on-demand" element={<EventLanding />} /> */}
+          {CommonRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* asia */}
           {AsiaRoutes.map((route) => {
             return routeLoopHelper(route);

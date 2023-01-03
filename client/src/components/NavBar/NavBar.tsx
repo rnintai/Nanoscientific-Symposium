@@ -161,7 +161,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname}`}
+            to={`/${pathname === "common" ? "" : pathname}`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -184,7 +184,9 @@ navProps) => {
                     return (
                       <MenuLink
                         key={menu.name}
-                        to={`/${pathname}${menu.path}`}
+                        to={`${pathname === "common" ? "" : `/${pathname}`}${
+                          menu.path
+                        }`}
                         className={menu.show === 0 && "op5"}
                       >
                         {menu.name.toUpperCase()}

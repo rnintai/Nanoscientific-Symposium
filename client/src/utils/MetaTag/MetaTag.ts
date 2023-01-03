@@ -1,6 +1,6 @@
 export const MetaTag = new Map<string, Common.MetaTagType[]>([
   [
-    "",
+    "common",
     [
       {
         path: "default",

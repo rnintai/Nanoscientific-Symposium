@@ -1,7 +1,12 @@
 export const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
 export const globalData = new Map<string, Common.globalDataType>([
-  ["home", {}],
+  [
+    "home",
+    {
+      logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
+    },
+  ],
   [
     "common",
     {
@@ -63,6 +68,18 @@ export const globalData = new Map<string, Common.globalDataType>([
       registrationBannerMobileURL: `${S3_URL}/common/registration-banner-mobile.jpg`,
       speakerBannerURL: `${S3_URL}/common/speakers-banner.jpg`,
       programBannerURL: `${S3_URL}/common/program-banner.jpg`,
+      // buttonText
+      goNextText: "NEXT",
+      goPrevText: "PREV",
+      uploadBtnText: "Upload",
+      submitBtnText: "SUBMIT",
+      // user관련
+      emailInputLabel: "Email Address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot your password?",
+      createAccountText: "Create an account",
+      changePasswordBtnText: "Change Password",
+      // landing
     },
   ],
   [

@@ -538,7 +538,7 @@ const zoomCtrl = {
           connected: true,
         });
       } catch (err) {
-        result.push({ id: mi, connected: false });
+        result.push({ id: m.meeting_id, connected: false });
         continue;
       }
     }
