@@ -5,7 +5,10 @@ import {
   Stack,
   Typography,
   useTheme,
+  // Pagination
 } from "@mui/material";
+import Pagination from "react-js-pagination";
+// npm install react-js-pagination
 import { Box } from "@mui/system";
 import axios from "axios";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
@@ -30,12 +33,12 @@ const OnDemand = () => {
 
   // 현재 페이지
   const query = useQuery();
-  const page = query.get("page") ? query.get("page") : 1;
-
+  const [page, setPage] = useState(query.get("page") ? query.get("page") : 1); // useState 적용
   const [videoList, setVideoList] = useState<Common.onDemandVideoType[]>([]);
   const [filteredVideoList, setFilteredVideoList] = useState<
     Common.onDemandVideoType[]
   >([]);
+  const [totalCount, setTotalCount] = useState(1);
   const [videoListLoading, setVideoListLoading] = useState<boolean>(false);
 
   const [filterList, setFilterList] = useState<Common.onDemandTagType[]>([]);
@@ -69,7 +72,7 @@ const OnDemand = () => {
   useEffect(() => {
     getOnDemandList();
     setFilteredVideoList(videoList);
-  }, []);
+  }, [page]); // 페이지 변화 감지후 리스트 변경
 
   useEffect(() => {
     setSelectedYear(filterList.filter((f) => f.type === "year"));
@@ -92,6 +95,8 @@ const OnDemand = () => {
         },
       });
       setVideoList(res.data.result);
+      console.log(res.data);
+      setTotalCount(res.data.totalCount);
       setFilteredVideoList(res.data.result);
 
       const years = [...new Set(res.data.result.map((v: any) => v.year))];
@@ -205,6 +210,11 @@ const OnDemand = () => {
   const addVideoHandler = () => {
     setEdit(false);
     setOpenEditModal(true);
+  };
+
+  // 페이지 변경
+  const handlePageChange = (page) => {
+    setPage(page);
   };
 
   return (
@@ -335,6 +345,16 @@ const OnDemand = () => {
               </Box>
             )}
           </Grid>
+
+          <Pagination
+            activePage={page}
+            itemsCountPerPage={itemPerPage}
+            totalItemsCount={totalCount}
+            pageRangeDisplayed={2}
+            prevPageText="‹"
+            nextPageText="›"
+            onChange={handlePageChange}
+          />
         </Stack>
       </Stack>
       {openEditModal && (
