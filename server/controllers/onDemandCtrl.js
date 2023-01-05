@@ -16,9 +16,14 @@ const onDemandCtrl = {
       SELECT COUNT(*) as count FROM on_demand;
       `;
       const row2 = await connection.query(sql2);
-      connection.release();
+
       res.status(200).json({
-        result: row[0],
+        result: row[0].map((video) => {
+          if (video.application) {
+            return { ...video, application: video.application.split(",") };
+          }
+          return video;
+        }),
         totalCount: row2[0][0].count,
         success: true,
       });

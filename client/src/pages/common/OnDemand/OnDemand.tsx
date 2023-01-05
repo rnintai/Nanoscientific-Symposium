@@ -13,8 +13,6 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
 import React, { useEffect, useMemo, useState } from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
 import { smallFontSize, xsmallFontSize } from "utils/FontSize";
 import { adminRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
@@ -22,6 +20,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import NSSButton from "components/Button/NSSButton";
 import OnDemandForm from "pages/admin/Forms/OnDemandForm";
 import useQuery from "hooks/useQuery";
+import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
 import { OnDemandContainer } from "./OnDemandStyles";
 
 const itemPerPage = 6;
@@ -95,7 +94,6 @@ const OnDemand = () => {
         },
       });
       setVideoList(res.data.result);
-      console.log(res.data);
       setTotalCount(res.data.totalCount);
       setFilteredVideoList(res.data.result);
 
@@ -119,15 +117,20 @@ const OnDemand = () => {
           return { type: "language", value: e };
         }),
       );
-      const applications = [
-        ...new Set(
-          res.data.result
-            .filter((v: any) => v.application !== null)
-            .map((v: any) => v.application),
-        ),
-      ];
+
+      let applications = [];
+
+      res.data.result
+        .filter((v: any) => v.application !== null)
+        .map((v: any) => v.application)
+        .forEach((el) => {
+          applications.push(...el);
+        });
+
+      applications = [...new Set(applications)];
+
       setApplicationList(
-        applications.map((e) => {
+        applications.map((e: string) => {
           return { type: "application", value: e };
         }),
       );
@@ -192,9 +195,9 @@ const OnDemand = () => {
     tmpFilterList = tmpFilterList.filter((f) => f.value !== target.value);
     setFilterList(tmpFilterList);
 
-    document
-      .querySelector(`.tag.tag-${target.value.replace(/\s/g, "-")}`)
-      .classList.remove("active");
+    // document
+    //   .querySelector(`.tag.tag-${target.value.replace(/\s/g, "-")}`)
+    //   .classList.remove("active");
   };
   const handleClearFilter = () => {
     // filterList를 빈 리스트로 대체.

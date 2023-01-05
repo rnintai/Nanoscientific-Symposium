@@ -154,7 +154,7 @@ declare namespace Common {
     affiliation: string;
     thumbnail?: string;
     video: string;
-    application?: string;
+    application?: string[];
     abstract_desc?: string;
   }
 
