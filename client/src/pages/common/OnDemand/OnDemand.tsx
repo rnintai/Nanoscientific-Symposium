@@ -252,9 +252,9 @@ const OnDemand = () => {
     tmpFilterList = tmpFilterList.filter((f) => f.value !== target.value);
     setFilterList(tmpFilterList);
 
-    // document
-    //   .querySelector(`.tag.tag-${target.value.replace(/\s/g, "-")}`)
-    //   .classList.remove("active");
+    document
+      .querySelector(`.tag.tag-${target.value.replace(/\s/g, "-")}`)
+      .classList.remove("active");
   };
   const handleClearFilter = () => {
     // filterList를 빈 리스트로 대체.
