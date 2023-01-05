@@ -8,5 +8,6 @@ router
   .delete(onDemandCtrl.deleteOnDemandList);
 
 router.route("/:id").get(onDemandCtrl.getOnDemandVideo);
+router.route("/filter/list").get(onDemandCtrl.getOnDemandAllFilter);
 
 module.exports = router;
