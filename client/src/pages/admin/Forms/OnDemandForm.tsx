@@ -1,13 +1,6 @@
-import React, {
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  FormEvent,
-} from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import CommonModal from "components/CommonModal/CommonModal";
 import styled from "styled-components";
-import Divider from "@mui/material/Divider";
 import {
   Rating,
   Select,
@@ -17,6 +10,7 @@ import {
   Stack,
   FormControl,
   InputLabel,
+  SelectChangeEvent,
 } from "@mui/material";
 import useSelect from "hooks/useSelect";
 import axios from "axios";
@@ -86,7 +80,9 @@ const OnDemandForm = ({
   const year = useInput(edit ? selected.year : "");
   const language = useInput(edit ? selected.language : "");
   const video = useInput(edit ? selected.video : "");
-  const application = useSelect(edit ? selected.application : "");
+  const [application, setApplication] = useState<string[]>(
+    edit && selected.application ? selected.application : [],
+  );
   const [abstractDesc, setAbstractDesc] = useState<string>(
     edit ? selected.abstract_desc : "",
   );
@@ -99,10 +95,10 @@ const OnDemandForm = ({
         title: title.value,
         speaker: speaker.value,
         affiliation: affiliation.value,
-        abstractDesc: escapeQuotes(abstractDesc),
+        abstractDesc: abstractDesc ? escapeQuotes(abstractDesc) : null,
         region: region.value,
         year: year.value,
-        application: application.value,
+        application,
         language: language.value,
         thumbnail,
         video: video.value,
@@ -224,8 +220,18 @@ const OnDemandForm = ({
         <Select
           label="Application"
           placeholder="Please Select"
-          {...application}
+          multiple
+          value={application}
+          onChange={(event: SelectChangeEvent<string[]>) => {
+            const {
+              target: { value },
+            } = event;
+            setApplication(
+              typeof value === "string" ? value.split(",") : value,
+            );
+          }}
         >
+          <MenuItem value="">Semiconductor</MenuItem>
           <MenuItem value="Semiconductor">Semiconductor</MenuItem>
           <MenuItem value="Metrology">Metrology</MenuItem>
           <MenuItem value="Electro magnetic">Electro magnetic</MenuItem>

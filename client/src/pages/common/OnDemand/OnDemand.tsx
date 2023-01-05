@@ -13,8 +13,6 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
 import React, { useEffect, useMemo, useState } from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
 import { smallFontSize, xsmallFontSize } from "utils/FontSize";
 import { adminRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
@@ -22,7 +20,8 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import NSSButton from "components/Button/NSSButton";
 import OnDemandForm from "pages/admin/Forms/OnDemandForm";
 import useQuery from "hooks/useQuery";
-import { OnDemandTestContainer } from "./OnDemandTestStyles";
+import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
+import { OnDemandContainer } from "./OnDemandStyles";
 
 const itemPerPage = 6;
 
@@ -137,42 +136,46 @@ const OnDemandTest = () => {
         },
       });
       setVideoList(res.data.result);
-      console.log(res.data);
       setTotalCount(res.data.totalCount);
       setFilteredVideoList(res.data.result);
 
-      // const years = [...new Set(res.data.result.map((v: any) => v.year))];
-      // setYearList(
-      //   years.map((e) => {
-      //     return { type: "year", value: e };
-      //   }),
-      // );
-      // const regions = [...new Set(res.data.result.map((v: any) => v.region))];
-      // setRegionList(
-      //   regions.map((e) => {
-      //     return { type: "region", value: e };
-      //   }),
-      // );
-      // const languages = [
-      //   ...new Set(res.data.result.map((v: any) => v.language)),
-      // ];
-      // setLanguageList(
-      //   languages.map((e) => {
-      //     return { type: "language", value: e };
-      //   }),
-      // );
-      // const applications = [
-      //   ...new Set(
-      //     res.data.result
-      //       .filter((v: any) => v.application !== null)
-      //       .map((v: any) => v.application),
-      //   ),
-      // ];
-      // setApplicationList(
-      //   applications.map((e) => {
-      //     return { type: "application", value: e };
-      //   }),
-      // );
+      const years = [...new Set(res.data.result.map((v: any) => v.year))];
+      setYearList(
+        years.map((e) => {
+          return { type: "year", value: e };
+        }),
+      );
+      const regions = [...new Set(res.data.result.map((v: any) => v.region))];
+      setRegionList(
+        regions.map((e) => {
+          return { type: "region", value: e };
+        }),
+      );
+      const languages = [
+        ...new Set(res.data.result.map((v: any) => v.language)),
+      ];
+      setLanguageList(
+        languages.map((e) => {
+          return { type: "language", value: e };
+        }),
+      );
+
+      let applications = [];
+
+      res.data.result
+        .filter((v: any) => v.application !== null)
+        .map((v: any) => v.application)
+        .forEach((el) => {
+          applications.push(...el);
+        });
+
+      applications = [...new Set(applications)];
+
+      setApplicationList(
+        applications.map((e: string) => {
+          return { type: "application", value: e };
+        }),
+      );
     } catch (error) {
       console.log(error);
     } finally {
@@ -234,9 +237,9 @@ const OnDemandTest = () => {
     tmpFilterList = tmpFilterList.filter((f) => f.value !== target.value);
     setFilterList(tmpFilterList);
 
-    document
-      .querySelector(`.tag.tag-${target.value.replace(/\s/g, "-")}`)
-      .classList.remove("active");
+    // document
+    //   .querySelector(`.tag.tag-${target.value.replace(/\s/g, "-")}`)
+    //   .classList.remove("active");
   };
   const handleClearFilter = () => {
     // filterList를 빈 리스트로 대체.
@@ -260,7 +263,7 @@ const OnDemandTest = () => {
   };
 
   return (
-    <OnDemandTestContainer>
+    <OnDemandContainer>
       <Stack
         className="on-demand-wrap"
         flexDirection="row"
@@ -408,7 +411,7 @@ const OnDemandTest = () => {
           getList={getOnDemandList}
         />
       )}
-    </OnDemandTestContainer>
+    </OnDemandContainer>
   );
 };
 

@@ -260,7 +260,7 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
                     color={theme.palette.grey[600]}
                     width="45%"
                   >
-                    Application: {video.application}
+                    Application: {video.application.join(", ")}
                   </Typography>
                 </Stack>
               </Stack>
