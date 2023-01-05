@@ -11,7 +11,6 @@ import Pagination from "react-js-pagination";
 // npm install react-js-pagination
 import { Box } from "@mui/system";
 import axios from "axios";
-import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
 import React, { useEffect, useMemo, useState } from "react";
 import { smallFontSize, xsmallFontSize } from "utils/FontSize";
 import { adminRole } from "utils/Roles";
@@ -21,11 +20,12 @@ import NSSButton from "components/Button/NSSButton";
 import OnDemandForm from "pages/admin/Forms/OnDemandForm";
 import useQuery from "hooks/useQuery";
 import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
+import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
 import { OnDemandContainer } from "./OnDemandStyles";
 
 const itemPerPage = 6;
 
-const OnDemandTest = () => {
+const OnDemand = () => {
   const theme = useTheme();
   const authState = useAuthState();
   const isAdmin = adminRole.includes(authState.role);
@@ -82,7 +82,7 @@ const OnDemandTest = () => {
     useState<Common.onDemandVideoType>(null);
 
   useEffect(() => {
-    getOnDemandList();
+    // getOnDemandList();
     setFilteredVideoList(videoList);
   }, [page]); // 페이지 변화 감지후 리스트 변경
   useEffect(() => {
@@ -116,11 +116,26 @@ const OnDemandTest = () => {
   const getOnDemandAllFilter = async () => {
     try {
       const res = await axios.get("/api/ondemand/filter/list");
-      console.log(res.data);
-      setYearList(res.data.year);
-      setRegionList(res.data.region);
-      setLanguageList(res.data.language);
-      setApplicationList(res.data.application);
+      setYearList(
+        res.data.year.map((v) => {
+          return { type: "year", value: v };
+        }),
+      );
+      setRegionList(
+        res.data.region.map((v) => {
+          return { type: "region", value: v };
+        }),
+      );
+      setLanguageList(
+        res.data.language.map((v) => {
+          return { type: "language", value: v };
+        }),
+      );
+      setApplicationList(
+        res.data.application.map((v) => {
+          return { type: "application", value: v };
+        }),
+      );
       setAllFilter(res.data.result);
     } catch (error) {
       console.log(error);
@@ -415,4 +430,4 @@ const OnDemandTest = () => {
   );
 };
 
-export default OnDemandTest;
+export default OnDemand;
