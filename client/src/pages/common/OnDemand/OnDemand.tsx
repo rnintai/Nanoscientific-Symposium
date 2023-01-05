@@ -22,11 +22,11 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import NSSButton from "components/Button/NSSButton";
 import OnDemandForm from "pages/admin/Forms/OnDemandForm";
 import useQuery from "hooks/useQuery";
-import { OnDemandContainer } from "./OnDemandStyles";
+import { OnDemandTestContainer } from "./OnDemandTestStyles";
 
 const itemPerPage = 6;
 
-const OnDemand = () => {
+const OnDemandTest = () => {
   const theme = useTheme();
   const authState = useAuthState();
   const isAdmin = adminRole.includes(authState.role);
@@ -34,6 +34,19 @@ const OnDemand = () => {
   // 현재 페이지
   const query = useQuery();
   const [page, setPage] = useState(query.get("page") ? query.get("page") : 1); // useState 적용
+  const [yearString, setYearString] = useState(""); // useState 적용
+  const [regionString, setRegionString] = useState("");
+  const [languageString, setLanguageString] = useState(""); // useState 적용
+  const [applicationString, setApplicationString] = useState("");
+
+  const filterValue = {
+    year: [],
+    region: [],
+    language: [],
+    application: [],
+  };
+
+  const [allFilter, setAllFilter] = useState([]);
   const [videoList, setVideoList] = useState<Common.onDemandVideoType[]>([]);
   const [filteredVideoList, setFilteredVideoList] = useState<
     Common.onDemandVideoType[]
@@ -73,7 +86,6 @@ const OnDemand = () => {
     getOnDemandList();
     setFilteredVideoList(videoList);
   }, [page]); // 페이지 변화 감지후 리스트 변경
-
   useEffect(() => {
     setSelectedYear(filterList.filter((f) => f.type === "year"));
     setSelectedRegion(filterList.filter((f) => f.type === "region"));
@@ -85,6 +97,36 @@ const OnDemand = () => {
     filterByTag();
   }, [selectedYear, selectedRegion, selectedLanguage, selectedApplication]);
 
+  useEffect(() => {
+    getOnDemandAllFilter();
+  }, []);
+
+  // const parseValue = () => {
+  //   filterList.map((m) => {
+  //     if (m.type === "year") filterValue.year.push(m.value);
+  //     if (m.type === "language") filterValue.language.push(m.value);
+  //     if (m.type === "region") filterValue.region.push(m.value);
+  //     if (m.type === "application") filterValue.application.push(m.value);
+  //     return filterValue;
+  //   });
+  //   setYearString(filterValue.year.join());
+  //   setRegionString(filterValue.region.join());
+  //   setLanguageString(filterValue.language.join());
+  //   setApplicationString(filterValue.application.join());
+  // };
+  const getOnDemandAllFilter = async () => {
+    try {
+      const res = await axios.get("/api/ondemand/filter/list");
+      console.log(res.data);
+      setYearList(res.data.year);
+      setRegionList(res.data.region);
+      setLanguageList(res.data.language);
+      setApplicationList(res.data.application);
+      setAllFilter(res.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getOnDemandList = async () => {
     try {
       setVideoListLoading(true);
@@ -99,38 +141,38 @@ const OnDemand = () => {
       setTotalCount(res.data.totalCount);
       setFilteredVideoList(res.data.result);
 
-      const years = [...new Set(res.data.result.map((v: any) => v.year))];
-      setYearList(
-        years.map((e) => {
-          return { type: "year", value: e };
-        }),
-      );
-      const regions = [...new Set(res.data.result.map((v: any) => v.region))];
-      setRegionList(
-        regions.map((e) => {
-          return { type: "region", value: e };
-        }),
-      );
-      const languages = [
-        ...new Set(res.data.result.map((v: any) => v.language)),
-      ];
-      setLanguageList(
-        languages.map((e) => {
-          return { type: "language", value: e };
-        }),
-      );
-      const applications = [
-        ...new Set(
-          res.data.result
-            .filter((v: any) => v.application !== null)
-            .map((v: any) => v.application),
-        ),
-      ];
-      setApplicationList(
-        applications.map((e) => {
-          return { type: "application", value: e };
-        }),
-      );
+      // const years = [...new Set(res.data.result.map((v: any) => v.year))];
+      // setYearList(
+      //   years.map((e) => {
+      //     return { type: "year", value: e };
+      //   }),
+      // );
+      // const regions = [...new Set(res.data.result.map((v: any) => v.region))];
+      // setRegionList(
+      //   regions.map((e) => {
+      //     return { type: "region", value: e };
+      //   }),
+      // );
+      // const languages = [
+      //   ...new Set(res.data.result.map((v: any) => v.language)),
+      // ];
+      // setLanguageList(
+      //   languages.map((e) => {
+      //     return { type: "language", value: e };
+      //   }),
+      // );
+      // const applications = [
+      //   ...new Set(
+      //     res.data.result
+      //       .filter((v: any) => v.application !== null)
+      //       .map((v: any) => v.application),
+      //   ),
+      // ];
+      // setApplicationList(
+      //   applications.map((e) => {
+      //     return { type: "application", value: e };
+      //   }),
+      // );
     } catch (error) {
       console.log(error);
     } finally {
@@ -218,7 +260,7 @@ const OnDemand = () => {
   };
 
   return (
-    <OnDemandContainer>
+    <OnDemandTestContainer>
       <Stack
         className="on-demand-wrap"
         flexDirection="row"
@@ -366,8 +408,8 @@ const OnDemand = () => {
           getList={getOnDemandList}
         />
       )}
-    </OnDemandContainer>
+    </OnDemandTestContainer>
   );
 };
 
-export default OnDemand;
+export default OnDemandTest;

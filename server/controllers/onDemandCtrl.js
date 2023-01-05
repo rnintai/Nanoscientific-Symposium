@@ -31,6 +31,39 @@ const onDemandCtrl = {
       });
     }
   },
+  getOnDemandAllFilter : async(req,res) => {
+    const currentPool = getCurrentPool("common"); 
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      // 전체 필터 리스트
+      const sql = `
+      select group_concat(distinct year) as yearFilter, 
+      group_concat(distinct region) as regionFilter,
+      group_concat(distinct language) as languageFilter,
+      group_concat(distinct application) as applicationFilter
+      from on_demand
+      where not (year is NULL and region is NULL and language is NULL and application is NULL)
+      `;
+      const row = await connection.query(sql)
+      connection.release();
+      res.status(200).json({
+        result: row[0],
+        year : row[0][0].yearFilter.split(","),
+        region : row[0][0].regionFilter.split(","),
+        language : row[0][0].languageFilter.split(","),
+        application : [...new Set (row[0][0].applicationFilter.split(","))] ,
+        success: true,
+      });
+    }catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
   getOnDemandVideo: async (req, res) => {
     const { id } = req.params;
     const currentPool = getCurrentPool("common");
@@ -54,6 +87,7 @@ const onDemandCtrl = {
       });
     }
   },
+
   editOnDemandList: async (req, res) => {
     const currentPool = getCurrentPool("common");
     const connection = await currentPool.getConnection(async (conn) => conn);
