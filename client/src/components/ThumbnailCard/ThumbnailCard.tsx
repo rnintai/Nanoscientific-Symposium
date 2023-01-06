@@ -65,13 +65,12 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
   // ) => {
   //   entries.forEach((entry) => {
   //     if (entry.isIntersecting) {
-  //       // 관찰되고 있는 entry가 보여지게 된 다면
+  //       // 관찰되고 있는 entry가 보여s지게 된 다면
   //       io.unobserve(entry.target); // 관찰 종료
   //       setIsLoaded(true); // 로딩 체크
   //     }
   //   });
   // };
-  console.log(video);
 
   const isAdmin = adminRole.includes(authState.role);
 

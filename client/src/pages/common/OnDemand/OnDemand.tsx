@@ -124,7 +124,6 @@ const OnDemand = () => {
 
   useEffect(() => {
     getOndemandPageList();
-    console.log(selectedYear);
   }, [
     page,
     isFiltered,
@@ -187,7 +186,6 @@ const OnDemand = () => {
       });
       setVideoList(res.data.result);
       setTotalCount(res.data.totalCount);
-      console.log(res.data.result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -284,7 +282,6 @@ const OnDemand = () => {
     const tagRef = document.querySelector(
       `.tag.tag-${t.type}-${t.value.replace(/\s/g, "-")}`,
     );
-    console.log(`.tag.tag-${t.type}-${t.value.replace(/\s/g, "-")}`);
     let newFilterList = JSON.parse(JSON.stringify(filterList));
     if (filterList.map((f) => f.value).indexOf(t.value) === -1) {
       newFilterList.push(t);
