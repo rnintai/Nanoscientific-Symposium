@@ -47,7 +47,7 @@ const OnDemand = () => {
   const [filteredVideoList, setFilteredVideoList] = useState<
     Common.onDemandVideoType[]
   >([]);
-  // const [totalCount, setTotalCount] = useState(1);
+  const [totalCount, setTotalCount] = useState(1);
   const [videoListLoading, setVideoListLoading] = useState<boolean>(false);
 
   const [filterList, setFilterList] = useState<Common.onDemandTagType[]>([]);
@@ -186,6 +186,7 @@ const OnDemand = () => {
         },
       });
       setVideoList(res.data.result);
+      setTotalCount(res.data.totalCount);
       console.log(res.data.result);
     } catch (error) {
       console.log(error);
@@ -204,7 +205,6 @@ const OnDemand = () => {
       });
       // setVideoList(res.data.result);
       // setFilteredVideoList(res.data.result);
-
       const years = [...new Set(res.data.result.map((v: any) => v.year))];
       setYearList(
         years.map((e) => {
@@ -434,7 +434,7 @@ const OnDemand = () => {
             className="result-total-text"
             mb={1}
           >
-            {videoList.length} results
+            {totalCount} results
           </Typography>
           <Grid className="video-result" maxHeight="660px" overflow="auto">
             {videoList.map((v, idx) => (
@@ -477,7 +477,7 @@ const OnDemand = () => {
           <Pagination
             activePage={page}
             itemsCountPerPage={itemPerPage}
-            totalItemsCount={videoList.length}
+            totalItemsCount={totalCount}
             pageRangeDisplayed={2}
             prevPageText="‹"
             nextPageText="›"
