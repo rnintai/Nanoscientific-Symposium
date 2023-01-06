@@ -35,9 +35,9 @@ const OnDemandFilter = (props: OnDemandFilterProps) => {
         <AccordionDetails sx={{ padding: "0 0 10px 0" }}>
           {filterList.map((f) => (
             <Typography
-              key={`filter-tag-${f.value}`}
+              key={`filter-tag-${f.type}-${f.value}`}
               component="button"
-              className={`tag tag-${f.value.replace(/\s/g, "-")}`}
+              className={`tag tag-${f.type}-${f.value.replace(/\s/g, "-")}`}
               fontSize={smallFontSize}
               onClick={(e) => {
                 handleClick(e, f);

@@ -71,6 +71,7 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
   //     }
   //   });
   // };
+  console.log(video);
 
   const isAdmin = adminRole.includes(authState.role);
 
@@ -260,7 +261,8 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
                     color={theme.palette.grey[600]}
                     width="45%"
                   >
-                    Application: {video.application.join(", ")}
+                    Application:{" "}
+                    {video.application ? video.application.join(", ") : ""}
                   </Typography>
                 </Stack>
               </Stack>
