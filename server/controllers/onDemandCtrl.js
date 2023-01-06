@@ -57,9 +57,55 @@ const onDemandCtrl = {
         region : row[0][0].regionFilter.split(","),
         language : row[0][0].languageFilter.split(","),
         application : [...new Set (row[0][0].applicationFilter.split(","))] ,
+        
         success: true,
       });
     }catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+  getOnDemandPageVideo: async (req, res) => {
+    const currentPool = getCurrentPool("common");
+    const { page, itemPerPage, isFiltered, selectedYear,selectedRegion,selectedLanguage, selectedApplication } = req.query;
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      let sql;
+
+      if(isFiltered  == false){
+        sql = `SELECT * FROM on_demand LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};`
+      }
+      else {
+        sql = `SELECT *  FROM on_demand WHERE
+        ${ selectedYear ? `year in (${selectedYear}) ` : `IFNULL(year, '') LIKE '%'` }
+        and ${ selectedRegion  ? `region in (${selectedRegion}) ` : `IFNULL(region, '') LIKE '%'` }
+        and  ${ selectedLanguage  ? `language in (${selectedLanguage}) ` : `IFNULL(language, '') LIKE '%'` }
+        and ${selectedApplication  ? `application in (${selectedApplication}) ` : `IFNULL(application, '') LIKE '%'` } ORDER BY year DESC, region
+        LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
+      `
+      }
+      sql2 = `
+      SELECT count(*) as count FROM on_demand WHERE
+        ${ selectedYear ? `year in (${selectedYear}) ` : `IFNULL(year, '') LIKE '%'` }
+        and ${ selectedRegion  ? `region in (${selectedRegion}) ` : `IFNULL(region, '') LIKE '%'` }
+        and  ${ selectedLanguage  ? `language in (${selectedLanguage}) ` : `IFNULL(language, '') LIKE '%'` }
+        and ${selectedApplication  ? `application in (${selectedApplication}) ` : `IFNULL(application, '') LIKE '%'` } 
+      `
+      console.log(sql);
+      const row = await connection.query(sql);
+      const row2 = await connection.query(sql2);
+      const result = row[0].map(arr => {return {...arr, application: arr.application ? arr.application.split(",") : []}})
+      res.status(200).json({
+        result,
+        totalCount: row2[0][0].count,
+        success: true,
+    
+        });
+    } catch (err) {
       connection.release();
       console.log(err);
       res.status(500).json({
