@@ -199,7 +199,12 @@ const onDemandCtrl = {
       video,
       application,
     } = req.body;
-
+    // null 처리
+    const refinedAffiliation = affiliation === "" ? "NULL" : affiliation;
+    const refinedApplication =
+      application.length === 0 ? "NULL" : `'${application}'`;
+    const refinedAbstractDesc =
+      abstractDesc.length === 0 ? "NULL" : `'${abstractDesc}'`;
     try {
       let sql;
       if (id) {
@@ -207,14 +212,14 @@ const onDemandCtrl = {
           UPDATE on_demand SET 
             title='${title}',
             speaker='${speaker}',
-            affiliation='${affiliation}',
-            abstract_desc='${abstractDesc}',
+            affiliation=${refinedAffiliation},
+            abstract_desc=${refinedAbstractDesc},
             region='${region}',
             year='${year}',
             language='${language}',
             thumbnail='${thumbnail}',
             video='${video}',
-            application='${application}'
+            application=${refinedApplication}
           WHERE id=${id};
         `;
       } else {
@@ -233,14 +238,14 @@ const onDemandCtrl = {
         ) VALUES (
           '${title}',
           '${speaker}',
-          '${affiliation}',
-          '${abstractDesc}',
+          ${refinedAffiliation},
+          ${refinedAbstractDesc},
           '${region}',
           '${year}',
           '${language}',
           '${thumbnail}',
           '${video}',
-          '${application}'
+          ${refinedApplication}
         );
         `;
       }
