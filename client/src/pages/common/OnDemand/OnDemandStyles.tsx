@@ -7,7 +7,7 @@ export const OnDemandContainer = styled.div`
 
   // control panel
   .control-panel {
-    min-width: 250px;
+    width: 300px;
     border-radius: 3px;
     border: 1px solid #ececec;
     align-self: baseline;
@@ -27,10 +27,14 @@ export const OnDemandContainer = styled.div`
       background-color: #21ade5bf;
       color: white;
       white-space: nowrap;
-      margin-right: 5px;
+      margin-bottom: 5px;
       opacity: 0.6;
       display: inline-block;
       transition: all 0.2s ease-in-out;
+
+      &:not(:last-child) {
+        margin-right: 5px;
+      }
 
       &.selected {
         opacity: 1;
@@ -62,6 +66,7 @@ export const OnDemandContainer = styled.div`
       flex-direction: column;
     }
     .control-panel {
+      width: 100%;
       margin: 0;
       margin-bottom: 60px;
       align-self: center;
@@ -69,11 +74,7 @@ export const OnDemandContainer = styled.div`
         flex-direction: row;
         flex-wrap: wrap;
         .on-demand-filter {
-          max-width: 150px;
-          &:not(:last-child) {
-            margin-right: 10px;
-          }
-
+          width: 100%;
           .tag {
             &:not(:last-child) {
               margin-bottom: 5px;
