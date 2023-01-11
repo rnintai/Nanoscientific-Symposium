@@ -31,23 +31,16 @@ interface OnDemandFormProps {
   getList: () => void;
 }
 
-const OnDemandFormContainer = styled.div`
-  li {
-    margin: 5px 0;
-    list-style: none;
-    display: flex;
-    align-items: center;
-
-    h3 {
-      display: inline;
-      margin-bottom: 0px;
-    }
-
-    & > span {
-      margin-left: 10px;
-    }
-  }
-`;
+const applicationList = [
+  "Semiconductor",
+  "Metrology",
+  "Electro magnetic",
+  "Nano mechanical",
+  "Electrochemistry",
+  "Photonics",
+  "Life science",
+  "Lithography",
+];
 
 const OnDemandForm = ({
   open,
@@ -231,15 +224,9 @@ const OnDemandForm = ({
             );
           }}
         >
-          <MenuItem value="">Semiconductor</MenuItem>
-          <MenuItem value="Semiconductor">Semiconductor</MenuItem>
-          <MenuItem value="Metrology">Metrology</MenuItem>
-          <MenuItem value="Electro magnetic">Electro magnetic</MenuItem>
-          <MenuItem value="Nano mechanical">Nano mechanical</MenuItem>
-          <MenuItem value="Electrochemistry">Electrochemistry</MenuItem>
-          <MenuItem value="Photonics">Photonics</MenuItem>
-          <MenuItem value="Life science">Life science</MenuItem>
-          <MenuItem value="Lithography">Lithography</MenuItem>
+          {applicationList.map((el) => (
+            <MenuItem value={el}>{el}</MenuItem>
+          ))}
         </Select>
       </FormControl>
 
