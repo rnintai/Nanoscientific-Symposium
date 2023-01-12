@@ -36,8 +36,8 @@ const onDemandCtrl = {
       });
     }
   },
-  getOnDemandAllFilter: async (req, res) => {
-    const currentPool = getCurrentPool("common");
+  getOnDemandAllFilter : async(req,res) => {
+    const currentPool = getCurrentPool("common"); 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       // 전체 필터 리스트
@@ -49,18 +49,18 @@ const onDemandCtrl = {
       from on_demand
       where not (year is NULL and region is NULL and language is NULL and application is NULL)
       `;
-      const row = await connection.query(sql);
+      const row = await connection.query(sql)
       connection.release();
       res.status(200).json({
         result: row[0],
-        year: row[0][0].yearFilter.split(","),
-        region: row[0][0].regionFilter.split(","),
-        language: row[0][0].languageFilter.split(","),
-        application: [...new Set(row[0][0].applicationFilter.split(","))],
-
+        year : row[0][0].yearFilter.split(","),
+        region : row[0][0].regionFilter.split(","),
+        language : row[0][0].languageFilter.split(","),
+        application : [...new Set (row[0][0].applicationFilter.split(","))] ,
+        
         success: true,
       });
-    } catch (err) {
+    }catch (err) {
       connection.release();
       console.log(err);
       res.status(500).json({
@@ -69,86 +69,45 @@ const onDemandCtrl = {
       });
     }
   },
+
   getOnDemandPageVideo: async (req, res) => {
     const currentPool = getCurrentPool("common");
-    const {
-      page,
-      itemPerPage,
-      isFiltered,
-      selectedYear,
-      selectedRegion,
-      selectedLanguage,
-      selectedApplication,
-    } = req.query;
+    const { page, itemPerPage, year,region,language, application } = req.query;
     const connection = await currentPool.getConnection(async (conn) => conn);
+
     try {
       let sql;
+      if(!page && !itemPerPage && !year&& !region && !language && !application) sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT 0,6;`
 
-      if (isFiltered == false) {
-        sql = `SELECT * FROM on_demand LIMIT ${
-          (page - 1) * itemPerPage
-        }, ${itemPerPage};`;
-      } else {
+      else if( page && itemPerPage && !year&& !region && !language && !application){
+        sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};`
+      }
+      else {
         sql = `SELECT *  FROM on_demand WHERE
-        ${
-          selectedYear
-            ? `year in (${selectedYear}) `
-            : `IFNULL(year, '') LIKE '%'`
-        }
-        and ${
-          selectedRegion
-            ? `region in (${selectedRegion}) `
-            : `IFNULL(region, '') LIKE '%'`
-        }
-        and  ${
-          selectedLanguage
-            ? `language in (${selectedLanguage}) `
-            : `IFNULL(language, '') LIKE '%'`
-        }
-        and ${
-          selectedApplication
-            ? `application in (${selectedApplication}) `
-            : `IFNULL(application, '') LIKE '%'`
-        } ORDER BY year DESC, region
+        ${ year ? `year in (${year.split(",").map((m) => { return `"${m}"` }).join(",")}) ` : `IFNULL(year, '') LIKE '%'` }
+        and ${ region  ? `region in (${region.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(region, '') LIKE '%'` }
+        and  ${ language  ? `language in (${language.split(",").map((m) => { return `"${m}"` }).join(",")}) ` : `IFNULL(language, '') LIKE '%'` }
+        and ${application  ? `application in (${application.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(application, '') LIKE '%'` } ORDER BY year DESC, region
         LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
-      `;
+      `
       }
       sql2 = `
       SELECT count(*) as count FROM on_demand WHERE
-        ${
-          selectedYear
-            ? `year in (${selectedYear}) `
-            : `IFNULL(year, '') LIKE '%'`
-        }
-        and ${
-          selectedRegion
-            ? `region in (${selectedRegion}) `
-            : `IFNULL(region, '') LIKE '%'`
-        }
-        and  ${
-          selectedLanguage
-            ? `language in (${selectedLanguage}) `
-            : `IFNULL(language, '') LIKE '%'`
-        }
-        and ${
-          selectedApplication
-            ? `application in (${selectedApplication}) `
-            : `IFNULL(application, '') LIKE '%'`
-        } 
-      `;
+        ${ year ? `year in (${year.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(year, '') LIKE '%'` }
+        and ${ region  ? `region in (${region.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(region, '') LIKE '%'` }
+        and  ${ language  ? `language in (${language.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(language, '') LIKE '%'` }
+        and ${application  ? `application in (${application.split(",").map((m) => { return `"${m}"` }).join(",")}) ` : `IFNULL(application, '') LIKE '%'` } 
+      `
+      console.log(sql);
       const row = await connection.query(sql);
       const row2 = await connection.query(sql2);
-      const result = row[0].map((arr) => {
-        return {
-          ...arr,
-          application: arr.application ? arr.application.split(",") : [],
-        };
-      });
+      const result = row[0].map(arr => {return {...arr, application: arr.application ? arr.application.split(",") : []}})
       res.status(200).json({
         result,
         totalCount: row2[0][0].count,
         success: true,
-      });
+    
+        });
     } catch (err) {
       connection.release();
       console.log(err);
@@ -158,6 +117,8 @@ const onDemandCtrl = {
       });
     }
   },
+
+  
 
   getOnDemandVideo: async (req, res) => {
     const { id } = req.params;
@@ -199,12 +160,7 @@ const onDemandCtrl = {
       video,
       application,
     } = req.body;
-    // null 처리
-    const refinedAffiliation = affiliation === "" ? "NULL" : affiliation;
-    const refinedApplication =
-      application.length === 0 ? "NULL" : `'${application}'`;
-    const refinedAbstractDesc =
-      abstractDesc.length === 0 ? "NULL" : `'${abstractDesc}'`;
+
     try {
       let sql;
       if (id) {
@@ -212,14 +168,14 @@ const onDemandCtrl = {
           UPDATE on_demand SET 
             title='${title}',
             speaker='${speaker}',
-            affiliation=${refinedAffiliation},
-            abstract_desc=${refinedAbstractDesc},
+            affiliation='${affiliation}',
+            abstract_desc='${abstractDesc}',
             region='${region}',
             year='${year}',
             language='${language}',
             thumbnail='${thumbnail}',
             video='${video}',
-            application=${refinedApplication}
+            application='${application}'
           WHERE id=${id};
         `;
       } else {
@@ -238,14 +194,14 @@ const onDemandCtrl = {
         ) VALUES (
           '${title}',
           '${speaker}',
-          ${refinedAffiliation},
-          ${refinedAbstractDesc},
+          '${affiliation}',
+          '${abstractDesc}',
           '${region}',
           '${year}',
           '${language}',
           '${thumbnail}',
           '${video}',
-          ${refinedApplication}
+          '${application}'
         );
         `;
       }

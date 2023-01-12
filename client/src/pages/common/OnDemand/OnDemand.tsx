@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-restricted-globals */
 import {
   Button,
   Grid,
@@ -12,6 +14,7 @@ import Pagination from "react-js-pagination";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { smallFontSize, xsmallFontSize } from "utils/FontSize";
 import { adminRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
@@ -29,52 +32,28 @@ const OnDemand = () => {
   const theme = useTheme();
   const authState = useAuthState();
   const isAdmin = adminRole.includes(authState.role);
+  const navigate = useNavigate();
+  const { search } = useLocation();
 
   // 현재 페이지
   const query = useQuery();
-  const [page, setPage] = useState(query.get("page") ? query.get("page") : 1); // useState 적용
-  const [isFiltered, setIsFilterd] = useState(false);
 
-  const filterValue = {
-    year: [],
-    region: [],
-    language: [],
-    application: [],
-  };
-
+  const [page, setPage] = useState(1); // useState 적용
   const [allFilter, setAllFilter] = useState([]);
   const [videoList, setVideoList] = useState<Common.onDemandVideoType[]>([]);
-  const [filteredVideoList, setFilteredVideoList] = useState<
-    Common.onDemandVideoType[]
-  >([]);
+
   const [totalCount, setTotalCount] = useState(1);
   const [videoListLoading, setVideoListLoading] = useState<boolean>(false);
 
   const [filterList, setFilterList] = useState<Common.onDemandTagType[]>([]);
 
   const [yearList, setYearList] = useState<any[]>([]);
-  const [selectedYear, setSelectedYear] = useState("");
-  // const [selectedYear, setSelectedYear] = useState<Common.onDemandTagType[]>(
-  //   [],
-  // );
 
   const [regionList, setRegionList] = useState<any[]>([]);
-  const [selectedRegion, setSelectedRegion] = useState("");
-  // const [selectedRegion, setSelectedRegion] = useState<
-  //   Common.onDemandTagType[]
-  // >([]);
 
   const [languageList, setLanguageList] = useState<any[]>([]);
-  const [selectedLanguage, setSelectedLanguage] = useState("");
-  // const [selectedLanguage, setSelectedLanguage] = useState<
-  //   Common.onDemandTagType[]
-  // >([]);
 
   const [applicationList, setApplicationList] = useState<any[]>([]);
-  const [selectedApplication, setSelectedApplication] = useState("");
-  // const [selectedApplication, setSelectedApplication] = useState<
-  //   Common.onDemandTagType[]
-  // >([]);
 
   // admin state
   const [edit, setEdit] = useState<boolean>(false);
@@ -83,64 +62,26 @@ const OnDemand = () => {
     useState<Common.onDemandVideoType>(null);
 
   useEffect(() => {
-    // getOnDemandList();
-    // setFilteredVideoList(videoList);
-    // getOndemandPageList();
-  }, [page]); // 페이지 변화 감지후 리스트 변경
-  useEffect(() => {
-    // setSelectedYear(filterList.filter((f) => f.type === "year"));
-    // setSelectedRegion(filterList.filter((f) => f.type === "region"));
-    // setSelectedLanguage(filterList.filter((f) => f.type === "language"));
-    // setSelectedApplication(filterList.filter((f) => f.type === "application"));
-    setSelectedYear(
-      ArrayToString(
-        filterList.filter((f) => f.type === "year").map((m) => `"${m.value}"`),
-      ),
-    );
-    setSelectedRegion(
-      ArrayToString(
-        filterList
-          .filter((f) => f.type === "region")
-          .map((m) => `"${m.value}"`),
-      ),
-    );
-    setSelectedLanguage(
-      ArrayToString(
-        filterList
-          .filter((f) => f.type === "language")
-          .map((m) => `"${m.value}"`),
-      ),
-    );
-    setSelectedApplication(
-      ArrayToString(
-        filterList
-          .filter((f) => f.type === "application")
-          .map((m) => `"${m.value}"`),
-      ),
-    );
-    if (filterList.length > 0) setIsFilterd(true);
-    else setIsFilterd(false);
-  }, [filterList]);
-
-  useEffect(() => {
-    getOndemandPageList();
-  }, [
-    page,
-    isFiltered,
-    selectedYear,
-    selectedRegion,
-    selectedLanguage,
-    selectedApplication,
-  ]);
+    let mounted = true; // 마운트 여부 체크
+    if (mounted) {
+      // mounted 상태일때
+      setPage(Number(query.get("page")) ? Number(query.get("page")) : 1);
+      getOnDemandAllFilter();
+    }
+    return (): void => {
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     getOnDemandAllFilter();
     getOndemandPageList();
-  }, []);
+    setPage(Number(query.get("page")) ? Number(query.get("page")) : 1);
+  }, [search]);
 
-  const ArrayToString = (target: any[]) => {
-    return target.join(",");
-  };
+  useEffect(() => {
+    handleActive();
+  }, [allFilter]);
 
   const getOnDemandAllFilter = async () => {
     try {
@@ -170,76 +111,13 @@ const OnDemand = () => {
       console.log(error);
     }
   };
+
   const getOndemandPageList = async () => {
     try {
-      // setVideoListLoading(true);
-      const res = await axios.get("/api/ondemand/page/list", {
-        params: {
-          page,
-          itemPerPage,
-          isFiltered,
-          selectedYear,
-          selectedRegion,
-          selectedLanguage,
-          selectedApplication,
-        },
-      });
+      setVideoListLoading(true);
+      const res = await axios.get(`/api/ondemand/page/list${search}`);
       setVideoList(res.data.result);
       setTotalCount(res.data.totalCount);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      // setVideoListLoading(false);
-    }
-  };
-  const getOnDemandList = async () => {
-    try {
-      setVideoListLoading(true);
-      const res = await axios.get("/api/ondemand", {
-        params: {
-          page,
-          itemPerPage,
-        },
-      });
-      // setVideoList(res.data.result);
-      // setFilteredVideoList(res.data.result);
-      const years = [...new Set(res.data.result.map((v: any) => v.year))];
-      setYearList(
-        years.map((e) => {
-          return { type: "year", value: e };
-        }),
-      );
-      const regions = [...new Set(res.data.result.map((v: any) => v.region))];
-      setRegionList(
-        regions.map((e) => {
-          return { type: "region", value: e };
-        }),
-      );
-      const languages = [
-        ...new Set(res.data.result.map((v: any) => v.language)),
-      ];
-      setLanguageList(
-        languages.map((e) => {
-          return { type: "language", value: e };
-        }),
-      );
-
-      let applications = [];
-
-      res.data.result
-        .filter((v: any) => v.application !== null)
-        .map((v: any) => v.application)
-        .forEach((el) => {
-          applications.push(...el);
-        });
-
-      applications = [...new Set(applications)];
-
-      setApplicationList(
-        applications.map((e: string) => {
-          return { type: "application", value: e };
-        }),
-      );
     } catch (error) {
       console.log(error);
     } finally {
@@ -247,73 +125,82 @@ const OnDemand = () => {
     }
   };
 
-  // const filterByTag = () => {
-  //   let newVideoList = JSON.parse(JSON.stringify(videoList));
-  //   if (selectedYear.length !== 0) {
-  //     newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
-  //       return selectedYear.some((y) => v.year.indexOf(y.value) !== -1);
-  //     });
-  //   }
-  //   if (selectedRegion.length !== 0) {
-  //     newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
-  //       return selectedRegion.some((y) => v.region.indexOf(y.value) !== -1);
-  //     });
-  //   }
-  //   if (selectedLanguage.length !== 0) {
-  //     newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
-  //       return selectedLanguage.some((y) => v.language.indexOf(y.value) !== -1);
-  //     });
-  //   }
-  //   if (selectedApplication.length !== 0) {
-  //     newVideoList = newVideoList.filter((v: Common.onDemandVideoType) => {
-  //       return selectedApplication.some((y) => {
-  //         if (v.application) return v.application.indexOf(y.value) !== -1;
-  //         return false;
-  //       });
-  //     });
-  //   }
-  //   setFilteredVideoList(newVideoList);
-  // };
+  // queryString에서 현재 필터값 추출
+  const handleActive = () => {
+    const newFilterList = [];
+    if (query.get("year")) {
+      query
+        .get("year")
+        .split(",")
+        .map((m) => {
+          newFilterList.push({ type: "year", value: m });
+        });
+    }
+    if (query.get("region")) {
+      query
+        .get("region")
+        .split(",")
+        .map((m) => newFilterList.push({ type: "region", value: m }));
+    }
+    if (query.get("language")) {
+      query
+        .get("language")
+        .split(",")
+        .map((m) => newFilterList.push({ type: "language", value: m }));
+    }
+    if (query.get("application")) {
+      query
+        .get("application")
+        .split(",")
+        .map((m) => newFilterList.push({ type: "application", value: m }));
+    }
+    // 일단 태그에 active 모두 삭제 => 초기화
+    document.querySelectorAll(`.tag`).forEach((e) => {
+      e.classList.remove("active");
+    });
+    if (newFilterList) {
+      newFilterList.map((m) => {
+        return handleAddFilter(null, m);
+      });
+    }
+    setFilterList(newFilterList);
+  };
 
+  // filterValue에 현재 눌린값 넣어준후 바로 쿼리에 set 후 navigate하는 메소드
   const handleAddTag = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    t: Common.onDemandTagType,
+  ) => {
+    let newFilterValue = [];
+    newFilterValue = query.get(`${t.type}`)
+      ? query.get(`${t.type}`).split(",")
+      : [];
+    if (newFilterValue.indexOf(`${t.value}`) === -1)
+      newFilterValue.push(`${t.value}`);
+    else newFilterValue.splice(newFilterValue.indexOf(`${t.value}`), 1);
+    query.set(`${t.type}`, newFilterValue.join(","));
+    query.set("page", String(page));
+    query.set("itemPerPage", String(itemPerPage));
+
+    navigate(`?${query.toString()}`);
+  };
+
+  const handleAddFilter = (
     e: React.MouseEvent<HTMLButtonElement>,
     t: Common.onDemandTagType,
   ) => {
     const tagRef = document.querySelector(
       `.tag.tag-${t.type}-${t.value.replace(/\s/g, "-")}`,
     );
-    let newFilterList = JSON.parse(JSON.stringify(filterList));
-    if (filterList.map((f) => f.value).indexOf(t.value) === -1) {
-      newFilterList.push(t);
+    if (tagRef !== null) {
       tagRef.classList.add("active");
-    } else {
-      newFilterList = newFilterList.filter((f) => f.value !== t.value);
-      tagRef.classList.remove("active");
     }
-    setFilterList(newFilterList);
   };
 
-  // 삭제 handler
-  const handleDeleteEachFilter = (target: Common.onDemandTagType) => {
-    // filterList 에서 선택된 것 제거
-    let tmpFilterList = JSON.parse(JSON.stringify(filterList));
-
-    tmpFilterList = tmpFilterList.filter((f) => f.value !== target.value);
-    setFilterList(tmpFilterList);
-
-    document
-      .querySelector(
-        `.tag.tag-${target.type}-${target.value.replace(/\s/g, "-")}`,
-      )
-      .classList.remove("active");
-  };
   const handleClearFilter = () => {
     // filterList를 빈 리스트로 대체.
     setFilterList([]);
-    // 모든 tag들의 active 클래스 제거
-    document.querySelectorAll(`.tag`).forEach((e) => {
-      e.classList.remove("active");
-    });
+    navigate("");
   };
 
   // admin
@@ -325,7 +212,9 @@ const OnDemand = () => {
 
   // 페이지 변경
   const handlePageChange = (page) => {
-    setPage(page);
+    query.set("page", page);
+    query.set("itemPerPage", String(itemPerPage));
+    navigate(`?${query.toString()}`);
   };
 
   return (
@@ -373,7 +262,7 @@ const OnDemand = () => {
                     className="tag selected"
                     // sx={{ cursor: "default !important" }}
                     onClick={() => {
-                      handleDeleteEachFilter(f);
+                      handleAddTag(null, f);
                     }}
                     mb="10px"
                   >
@@ -488,7 +377,7 @@ const OnDemand = () => {
           setOpen={setOpenEditModal}
           edit={edit}
           selected={selectedVideo}
-          getList={getOnDemandList}
+          getList={getOndemandPageList}
         />
       )}
     </OnDemandContainer>
