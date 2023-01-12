@@ -450,16 +450,14 @@ const App = () => {
             menuStateLoading={menuStateLoading}
           />
         )}
-        {
-          // !bannerLoading &&
-          // bannerURL &&
+        {!bannerLoading && bannerURL && (
           <LandingSection
             className="banner"
-            background={!bannerLoading ? `${S3_URL}/${bannerURL}` : "none"}
+            background={`${S3_URL}/${bannerURL}`}
             maxWidth="1920px"
             fullWidth
           />
-        }
+        )}
         <Routes>
           {/* common */}
           {/* <Route path="/" element={<EventLanding />} />
