@@ -416,7 +416,10 @@ const App = () => {
     }
   }, [loginSuccess]);
 
-  if (authState.isLoading || bannerLoading)
+  if (
+    authState.isLoading
+    // || bannerLoading
+  )
     return (
       <ThemeProvider theme={themeObj}>
         <Loading />
@@ -447,14 +450,16 @@ const App = () => {
             menuStateLoading={menuStateLoading}
           />
         )}
-        {!bannerLoading && bannerURL && (
+        {
+          // !bannerLoading &&
+          // bannerURL &&
           <LandingSection
             className="banner"
-            background={`${S3_URL}/${bannerURL}`}
+            background={!bannerLoading ? `${S3_URL}/${bannerURL}` : "none"}
             maxWidth="1920px"
             fullWidth
           />
-        )}
+        }
         <Routes>
           {/* common */}
           {/* <Route path="/" element={<EventLanding />} />
