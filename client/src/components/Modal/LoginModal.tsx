@@ -21,6 +21,7 @@ import Timer from "components/Timer/Timer";
 import { globalData } from "utils/GlobalData";
 import useInput from "hooks/useInput";
 import { smallFontSize } from "utils/FontSize";
+import useNSSType from "hooks/useNSSType";
 import usePageViews from "../../hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
@@ -95,6 +96,7 @@ const EuropeLoginModal = ({
 
   //
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const email = useInput("");
   const password = useInput("");
   const password1 = useInput("");
@@ -116,7 +118,7 @@ const EuropeLoginModal = ({
     createAccountText,
     goNextText,
     goPrevText,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   const handleOpen = (setOpen: (val: boolean) => void) => {
     setOpen(true);
