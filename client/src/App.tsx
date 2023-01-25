@@ -110,7 +110,7 @@ const App = () => {
                 }
               });
           } else if (!res.data.result) {
-            console.log(res.data.result, res.data.unread);
+            // console.log(res.data.result, res.data.unread);
             // 모두 읽지 않음
             alarmDispatch({ type: "ON" });
           }
@@ -176,13 +176,13 @@ const App = () => {
                 isAnnouncementCached,
               },
             });
-            console.log(
-              "sNewAnnouncement",
-              isNewAnnouncement,
-              "isAnnouncementCached",
-              isAnnouncementCached,
-              "in App.tsx",
-            );
+            // console.log(
+            //   "sNewAnnouncement",
+            //   isNewAnnouncement,
+            //   "isAnnouncementCached",
+            //   isAnnouncementCached,
+            //   "in App.tsx",
+            // );
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
             } else {
