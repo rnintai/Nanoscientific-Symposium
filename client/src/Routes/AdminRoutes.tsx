@@ -17,61 +17,61 @@ const routes = [];
 
 nationList.forEach((n) =>
   yearList.forEach((y) => {
-    const nationYearString = `/${n}${y === "" ? "" : `/${y}`}`;
+    const nationYearString = `/${n}${y === "" ? "" : `/${y}`}/admin`;
     routes.push(
       ...[
         {
-          path: `${nationYearString}/admin`,
+          path: `${nationYearString}`,
           element: (
-            <AdminRoute key={`${nationYearString}/admin`}>
+            <AdminRoute key={`${nationYearString}`}>
               <Admin />
             </AdminRoute>
           ),
         },
         {
-          path: `${nationYearString}/admin/program`,
+          path: `${nationYearString}/program`,
           element: (
-            <AdminRoute key={`${nationYearString}/admin/program`}>
+            <AdminRoute key={`${nationYearString}/program`}>
               <AdminPrograms />
             </AdminRoute>
           ),
         },
         {
-          path: `${nationYearString}/admin/speakers`,
+          path: `${nationYearString}/speakers`,
           element: (
-            <AdminRoute key={`${nationYearString}/admin/speakers`}>
+            <AdminRoute key={`${nationYearString}/speakers`}>
               <AdminSpeakers />
             </AdminRoute>
           ),
         },
         {
-          path: `${nationYearString}/admin/users`,
+          path: `${nationYearString}/users`,
           element: (
-            <AdminRoute key={`${nationYearString}/admin/users`}>
+            <AdminRoute key={`${nationYearString}/users`}>
               <AdminUsers />
             </AdminRoute>
           ),
         },
         {
-          path: `${nationYearString}/admin/menus`,
+          path: `${nationYearString}/menus`,
           element: (
-            <AdminRoute key={`${nationYearString}/admin/menus`}>
+            <AdminRoute key={`${nationYearString}/menus`}>
               <AdminMenus />
             </AdminRoute>
           ),
         },
         {
-          path: `${nationYearString}/admin/poster`,
+          path: `${nationYearString}/poster`,
           element: (
-            <AdminRoute key={`${nationYearString}/admin/poster`}>
+            <AdminRoute key={`${nationYearString}/poster`}>
               <AdminPosters />
             </AdminRoute>
           ),
         },
         {
-          path: `${nationYearString}/admin/config`,
+          path: `${nationYearString}/config`,
           element: (
-            <AdminRoute key={`${nationYearString}/admin/config`}>
+            <AdminRoute key={`${nationYearString}/config`}>
               <AdminConfig />
             </AdminRoute>
           ),
