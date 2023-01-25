@@ -326,7 +326,12 @@ const App = () => {
     if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);
       axios
-        .get(`/api/menu/list?nation=${pathname}`)
+        .get(`/api/menu/list`, {
+          params: {
+            nation: pathname,
+            year: currentYear,
+          },
+        })
         .then((res) => {
           setMenuList(res.data.result);
         })
@@ -422,7 +427,7 @@ const App = () => {
       <AppContainer>
         {pathname !== "home" &&
           pathname !== "" &&
-          currentYear === "2022" &&
+          // currentYear === "2022" &&
           subpath.indexOf("admin") === -1 && (
             <NavBar
               checkLoading={authState.isLoading}
@@ -432,7 +437,7 @@ const App = () => {
               menuStateLoading={menuStateLoading}
             />
           )}
-        {currentYear === "2023" && (
+        {/* {currentYear === "2023" && (
           <NavBar2023
             checkLoading={authState.isLoading}
             setEmailModalOpen={setEmailModalOpen}
@@ -440,7 +445,7 @@ const App = () => {
             setLogoutLoading={setLogoutLoading}
             menuStateLoading={menuStateLoading}
           />
-        )}
+        )} */}
         {!bannerLoading && bannerURL && (
           <LandingSection
             className="banner"

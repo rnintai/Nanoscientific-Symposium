@@ -3,12 +3,16 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 const menuCtrl = {
   getMenuList: async (req, res) => {
     const { nation } = req.query;
+    const {year} = req.query;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM menu`;
-
+      let sql;
+      if(year!="2022") {
+        sql =  `SELECT * FROM menu WHERE YEAR=${year}`;
+      }
+      else if(year=="2022") sql = `SELECT * FROM menu WHERE YEAR IS NULL;`;
       const row = await connection.query(sql);
       connection.release();
 
