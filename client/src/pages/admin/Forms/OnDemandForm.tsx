@@ -1,8 +1,14 @@
-import React, { useState, Dispatch, SetStateAction } from "react";
+/* eslint-disable no-alert */
+import React, {
+  useState,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+} from "react";
 import CommonModal from "components/CommonModal/CommonModal";
 import styled from "styled-components";
 import {
-  Rating,
   Select,
   MenuItem,
   Typography,
@@ -11,6 +17,11 @@ import {
   FormControl,
   InputLabel,
   SelectChangeEvent,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  List,
+  ListSubheader,
 } from "@mui/material";
 import useSelect from "hooks/useSelect";
 import axios from "axios";
@@ -22,6 +33,8 @@ import useInput from "hooks/useInput";
 import S3Upload from "components/S3Upload/S3Upload";
 import QuillEditor from "components/QuillEditor/QuillEditor";
 import { escapeQuotes } from "utils/String";
+import NSSButton from "components/Button/NSSButton";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 interface OnDemandFormProps {
   open: boolean;
@@ -31,16 +44,16 @@ interface OnDemandFormProps {
   getList: () => void;
 }
 
-const applicationList = [
-  "Semiconductor",
-  "Metrology",
-  "Electro magnetic",
-  "Nano mechanical",
-  "Electrochemistry",
-  "Photonics",
-  "Life science",
-  "Lithography",
-];
+// const applicationList = [
+//   "Semiconductor",
+//   "Metrology",
+//   "Electromagnetic",
+//   "Nanomechanical",
+//   "Electrochemistry",
+//   "Photonics",
+//   "Lifescience",
+//   "Lithography",
+// ];
 
 const OnDemandForm = ({
   open,
@@ -52,12 +65,17 @@ const OnDemandForm = ({
   const pathname = usePageViews();
   const authState = useAuthState();
   const isAdmin = adminRole.includes(authState.role);
+  const applicationInput = useRef<any>(null);
 
+  const [applicationList, setApplicationList] = useState([]);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [submitSuccessAlert, setSubmitSuccessAlert] = useState<boolean>(false);
 
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+  const [openEditApplication, setOpenEditApplication] =
+    useState<boolean>(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const [thumbnail, setThumbnail] = useState<string>(
     edit ? selected.thumbnail : "",
@@ -79,6 +97,13 @@ const OnDemandForm = ({
   const [abstractDesc, setAbstractDesc] = useState<string>(
     edit ? selected.abstract_desc : "",
   );
+
+  const [selectedApplication, setSelectedApplication] = useState("");
+  const [AddApplication, setAddApplication] = useState("");
+
+  useEffect(() => {
+    getApplicationList();
+  }, []);
 
   const handleSubmit = async () => {
     try {
@@ -121,6 +146,88 @@ const OnDemandForm = ({
       setDeleteLoading(false);
     }
   };
+
+  const getApplicationList = async () => {
+    try {
+      const res = await axios.get("/api/ondemand/application/list");
+      setApplicationList(res.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteApplicationList = async () => {
+    try {
+      alert(`[${selectedApplication}] deleted`);
+      await axios.delete("/api/ondemand/application/list", {
+        params: { id: selectedIndex },
+      });
+      getApplicationList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const CloseAppModal = async () => {
+    setOpenEditApplication(false);
+  };
+
+  const editApplicationHandler = () => {
+    setOpenEditApplication(true);
+  };
+
+  const PostApplication = async () => {
+    if (
+      applicationList.findIndex((el) => el.application === AddApplication) ===
+      -1
+    ) {
+      try {
+        alert(`[${AddApplication}] added`);
+        await axios.post("/api/ondemand/application/list", {
+          application: `"${AddApplication}"`,
+        });
+        getApplicationList();
+        applicationInput.current.value = "";
+        setAddApplication("");
+      } catch (error) {
+        console.log(error);
+      }
+    } else
+      alert(
+        `[${AddApplication}] already exists. \nplease enter another application name!`,
+      );
+  };
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    id: number,
+    application: string,
+  ) => {
+    if (selectedIndex !== id) {
+      setSelectedIndex(id);
+      setSelectedApplication(application);
+    } else {
+      setSelectedIndex(-1);
+      setSelectedApplication("");
+    }
+  };
+
+  // const AppCompononetHandler = (isAppEdit: boolean, t: string) => {
+  //   if (isAppEdit) {
+  //     <TextField
+  //       margin="dense"
+  //       fullWidth
+  //       variant="filled"
+  //       required
+  //       size="small"
+  //       sx={{ width: "48%", marginBottom: "15px" }}
+  //       defaultValue={t}
+  //     />;
+
+  //   } else {
+
+  //   }
+
+  // };
 
   return (
     <CommonModal
@@ -208,27 +315,38 @@ const OnDemandForm = ({
           {...video}
         />
       </Stack>
-      <FormControl variant="filled" sx={{ width: "48%" }}>
-        <InputLabel>Application</InputLabel>
-        <Select
-          label="Application"
-          placeholder="Please Select"
-          multiple
-          value={application}
-          onChange={(event: SelectChangeEvent<string[]>) => {
-            const {
-              target: { value },
-            } = event;
-            setApplication(
-              typeof value === "string" ? value.split(",") : value,
-            );
+      <Stack direction="row" justifyContent="flex-start">
+        <FormControl variant="filled" sx={{ width: "48%" }}>
+          <InputLabel>Application</InputLabel>
+          <Select
+            label="Application"
+            placeholder="Please Select"
+            multiple
+            value={application}
+            onChange={(event: SelectChangeEvent<string[]>) => {
+              const {
+                target: { value },
+              } = event;
+              setApplication(
+                typeof value === "string" ? value.split(",") : value,
+              );
+            }}
+          >
+            {applicationList.map((el) => (
+              <MenuItem value={el.application}>{el.application}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <NSSButton
+          variant="gradient"
+          onClick={() => {
+            editApplicationHandler();
           }}
+          style={{ margin: "auto 0 auto 0" }}
         >
-          {applicationList.map((el) => (
-            <MenuItem value={el}>{el}</MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          Edit
+        </NSSButton>
+      </Stack>
 
       <S3Upload
         setImagePath={setThumbnail}
@@ -248,6 +366,88 @@ const OnDemandForm = ({
         severity="success"
         content="Successfully Saved."
       />
+
+      {openEditApplication && (
+        <CommonModal
+          open={openEditApplication}
+          setOpen={setOpenEditApplication}
+          title="Edit Application"
+          onCloseCallback={CloseAppModal}
+          IsCustomWidth
+        >
+          <Stack direction="column" justifyContent="center" alignItems="center">
+            <Stack direction="row" justifyContent="center" alignItems="center">
+              <TextField
+                required
+                variant="outlined"
+                size="small"
+                onChange={(e) => setAddApplication(e.target.value)}
+                inputRef={applicationInput}
+              />
+              <NSSButton
+                variant="gradient"
+                style={{
+                  margin: "5px",
+                  opacity: AddApplication ? "1" : "0.5",
+                  pointerEvents: AddApplication ? "auto" : "none",
+                }}
+                onClick={() => {
+                  PostApplication();
+                }}
+              >
+                add
+              </NSSButton>
+            </Stack>
+
+            <Stack
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ margin: "0 30px 0 30px" }}
+            >
+              <List
+                sx={{
+                  width: "100%",
+                  overflow: "auto",
+                  maxHeight: 400,
+                  margin: "10px",
+                  border: "1px solid",
+                  padding: "0",
+                }}
+              >
+                {applicationList.map((el, idx) => (
+                  <ListItem
+                    key={el.id}
+                    disablePadding
+                    sx={{
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <ListItemButton
+                      selected={selectedIndex === el.id}
+                      onClick={(e) =>
+                        handleListItemClick(e, el.id, el.application)
+                      }
+                    >
+                      <ListItemText primary={`${idx + 1}. ${el.application}`} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+              <NSSButton
+                variant="gradient"
+                onClick={deleteApplicationList}
+                style={{
+                  opacity: selectedIndex !== -1 ? "1" : "0.5",
+                  pointerEvents: selectedIndex !== -1 ? "auto" : "none",
+                }}
+              >
+                delete
+              </NSSButton>
+            </Stack>
+          </Stack>
+        </CommonModal>
+      )}
     </CommonModal>
   );
 };

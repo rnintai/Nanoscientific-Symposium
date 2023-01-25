@@ -10,5 +10,9 @@ router
 router.route("/:id").get(onDemandCtrl.getOnDemandVideo);
 router.route("/filter/list").get(onDemandCtrl.getOnDemandAllFilter);
 router.route("/page/list").get(onDemandCtrl.getOnDemandPageVideo);
+router.route("/application/list")
+.get(onDemandCtrl.getOnDemandApplication)
+.delete(onDemandCtrl.deleteOnDemandApplication)
+.post(onDemandCtrl.editOnDemandApplication)
 
 module.exports = router;

@@ -69,6 +69,81 @@ const onDemandCtrl = {
       });
     }
   },
+<<<<<<< Updated upstream
+=======
+  // getOnDemandPageVideo: async (req, res) => {
+  //   const currentPool = getCurrentPool("common");
+  //   const { page, itemPerPage, isFiltered, selectedYear,selectedRegion,selectedLanguage, selectedApplication } = req.query;
+  //   const connection = await currentPool.getConnection(async (conn) => conn);
+  //   try {
+  //     let sql;
+
+  //     if(isFiltered  == false){
+  //       sql = `SELECT * FROM on_demand LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};`
+  //     }
+  //     else {
+  //       sql = `SELECT *  FROM on_demand WHERE
+  //       ${ selectedYear ? `year in (${selectedYear}) ` : `IFNULL(year, '') LIKE '%'` }
+  //       and ${ selectedRegion  ? `region in (${selectedRegion}) ` : `IFNULL(region, '') LIKE '%'` }
+  //       and  ${ selectedLanguage  ? `language in (${selectedLanguage}) ` : `IFNULL(language, '') LIKE '%'` }
+  //       and ${selectedApplication  ? `application in (${selectedApplication}) ` : `IFNULL(application, '') LIKE '%'` } ORDER BY year DESC, region
+  //       LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
+  //     `
+  //     }
+  //     sql2 = `
+  //     SELECT count(*) as count FROM on_demand WHERE
+  //       ${ selectedYear ? `year in (${selectedYear}) ` : `IFNULL(year, '') LIKE '%'` }
+  //       and ${ selectedRegion  ? `region in (${selectedRegion}) ` : `IFNULL(region, '') LIKE '%'` }
+  //       and  ${ selectedLanguage  ? `language in (${selectedLanguage}) ` : `IFNULL(language, '') LIKE '%'` }
+  //       and ${selectedApplication  ? `application in (${selectedApplication}) ` : `IFNULL(application, '') LIKE '%'` } 
+  //     `
+  //     console.log(sql);
+  //     const row = await connection.query(sql);
+  //     const row2 = await connection.query(sql2);
+  //     const result = row[0].map(arr => {return {...arr, application: arr.application ? arr.application.split(",") : []}})
+  //     res.status(200).json({
+  //       result,
+  //       totalCount: row2[0][0].count,
+  //       success: true,
+    
+  //       });
+  //   } catch (err) {
+  //     connection.release();
+  //     console.log(err);
+  //     res.status(500).json({
+  //       success: false,
+  //       err,
+  //     });
+  //   }
+  // },
+
+  // getOnDemandFirstVideo: async (req, res) => {
+  //   const currentPool = getCurrentPool("common");
+  //   const { page, itemPerPage } = req.query;
+  //   const connection = await currentPool.getConnection(async (conn) => conn);
+  //   try {
+  //     const sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};`
+  
+  //     console.log(sql);
+  //     const row = await connection.query(sql);
+      
+  //     const result = row[0].map(arr => {return {...arr, application: arr.application ? arr.application.split(",") : []}})
+  //     res.status(200).json({
+  //       result,
+  //       success: true,
+    
+  //       });
+  //   } catch (err) {
+  //     connection.release();
+  //     console.log(err);
+  //     res.status(500).json({
+  //       success: false,
+  //       err,
+  //     });
+  //   }
+  // },
+
+>>>>>>> Stashed changes
 
   getOnDemandPageVideo: async (req, res) => {
     const currentPool = getCurrentPool("common");
@@ -79,15 +154,25 @@ const onDemandCtrl = {
       let sql;
       if(!page && !itemPerPage && !year&& !region && !language && !application) sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT 0,6;`
 
+<<<<<<< Updated upstream
+      // else if( page && itemPerPage && !year&& !region && !language && !application){
+      //   sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};`
+      // }
+=======
       else if( page && itemPerPage && !year&& !region && !language && !application){
         sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};`
       }
+>>>>>>> Stashed changes
       else {
         sql = `SELECT *  FROM on_demand WHERE
         ${ year ? `year in (${year.split(",").map((m) => { return `"${m}"` }).join(",")}) ` : `IFNULL(year, '') LIKE '%'` }
         and ${ region  ? `region in (${region.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(region, '') LIKE '%'` }
         and  ${ language  ? `language in (${language.split(",").map((m) => { return `"${m}"` }).join(",")}) ` : `IFNULL(language, '') LIKE '%'` }
+<<<<<<< Updated upstream
+        and ${application  ? `${application.split(",").map((m) =>  { return `application LIKE "%${m}%"` }).join(" or ")} ` : `IFNULL(application, '') LIKE '%'` } ORDER BY year DESC, region
+=======
         and ${application  ? `application in (${application.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(application, '') LIKE '%'` } ORDER BY year DESC, region
+>>>>>>> Stashed changes
         LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
       `
       }
@@ -96,7 +181,11 @@ const onDemandCtrl = {
         ${ year ? `year in (${year.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(year, '') LIKE '%'` }
         and ${ region  ? `region in (${region.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(region, '') LIKE '%'` }
         and  ${ language  ? `language in (${language.split(",").map((m) =>  { return `"${m}"` }).join(",")}) ` : `IFNULL(language, '') LIKE '%'` }
+<<<<<<< Updated upstream
+        and ${application  ? `${application.split(",").map((m) =>  { return `application LIKE "%${m}%"` }).join(" or ")} `  : `IFNULL(application, '') LIKE '%'` } 
+=======
         and ${application  ? `application in (${application.split(",").map((m) => { return `"${m}"` }).join(",")}) ` : `IFNULL(application, '') LIKE '%'` } 
+>>>>>>> Stashed changes
       `
       console.log(sql);
       const row = await connection.query(sql);
@@ -203,7 +292,7 @@ const onDemandCtrl = {
           '${video}',
           '${application}'
         );
-        `;
+        `; 
       }
 
       const row = await connection.query(sql);
@@ -245,6 +334,79 @@ const onDemandCtrl = {
       });
     }
   },
+
+  getOnDemandApplication: async (req, res) => {
+    const currentPool = getCurrentPool("common");
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+      SELECT * FROM on_demand_application;
+      `;
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        result: row[0],
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+  deleteOnDemandApplication : async (req,res) => {
+    const currentPool = getCurrentPool("common");
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    const { id } = req.query;
+    try {
+      const sql = `
+      DELETE FROM on_demand_application WHERE id=${id}
+      `;
+      console.log(sql)
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        result: row[0],
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
+  editOnDemandApplication : async (req,res) => {
+    const currentPool = getCurrentPool("common");
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    const { application } = req.body;
+    try {
+      const sql = `INSERT INTO on_demand_application (application) VALUES(${application});`
+      console.log(sql)
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        result: row[0],
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+  
 };
+
+
 
 module.exports = onDemandCtrl;
