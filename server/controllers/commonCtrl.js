@@ -64,8 +64,7 @@ const commonCtrl = {
     }
   },
   getSpeakers: async (req, res) => {
-    const { nation } = req.query;
-    const {year} = req.query;
+    const { nation,year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -256,8 +255,7 @@ const commonCtrl = {
   },
 
   getKeynoteSpeakers: async (req, res) => {
-    const { nation } = req.query;
-    const {year} = req.query;
+    const { nation,year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -746,12 +744,14 @@ const commonCtrl = {
   },
 
   getAbstractDesc: async (req, res) => {
-    const { nation } = req.query;
+    const { nation,year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
-      SELECT * FROM abstract_submission_desc;
+      SELECT * FROM abstract_submission_desc${
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+      };
       `;
       const row = await connection.query(sql);
       connection.release();
@@ -768,12 +768,20 @@ const commonCtrl = {
     }
   },
   setAbstractDesc: async (req, res) => {
-    const { nation, desc } = req.body;
+    const { nation, desc,year,id} = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+   
     try {
-      const sql = `
-      UPDATE abstract_submission_desc as a SET a.desc="${desc}" WHERE id=1
+      let sql;
+      console.log(id)
+      if(id){
+        sql = `UPDATE abstract_submission_desc as a SET a.desc="${desc}"${
+          year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        };`;
+      }
+      else  sql = `
+      INSERT INTO abstract_submission_desc (${'`desc`'},year) VALUES ('${desc}', '${year}');
       `;
       await connection.query(sql);
       connection.release();

@@ -14,6 +14,7 @@ import usePageViews from "hooks/usePageViews";
 import { globalData, S3_URL } from "utils/GlobalData";
 import { Box } from "@mui/system";
 import { smallFontSize } from "utils/FontSize";
+import useCurrentYear from "hooks/useCurrentYear";
 import NSSButton from "components/Button/NSSButton";
 import axios from "axios";
 import useConfigStore from "store/ConfigStore";
@@ -55,6 +56,7 @@ const S3MultiplePdfUpload = ({
   const [progress, setProgress] = useState<number>(-1);
   const theme = useTheme();
   const nssType = useNSSType();
+  const currentYear = useCurrentYear();
 
   const configStore = useConfigStore();
   const { configState } = configStore;
@@ -177,6 +179,7 @@ const S3MultiplePdfUpload = ({
           afm_model: psExistingAFMBrand,
           presentation_form: psPresentationForm,
           pdf_file_path: filePathList.map((f) => f.path).join(","),
+          year: currentYear,
         });
 
         // 메일 전송

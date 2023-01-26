@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Link from "components/Link/LinkWithSearch";
-import { useNavigate } from "hooks/useNavigateWithSearch";
+import { useNavigate } from "react-router";
 import {
   NavBarContainer,
   AnnouncementMenuItemContainer,

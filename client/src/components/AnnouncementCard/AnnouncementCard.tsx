@@ -21,6 +21,7 @@ import InnerHTML from "dangerously-set-html-content";
 import { StyledEngineProvider } from "@mui/material/styles";
 import axios from "axios";
 import useNSSType from "hooks/useNSSType";
+import useCurrentYear from "hooks/useCurrentYear";
 import {
   RowContainer,
   AnnouncementCardContainer,
@@ -47,6 +48,7 @@ const AnnouncementCard = forwardRef(
     const alarmDispatch = useAlarmDispatch();
     const unreadAnnouncementList = useUnreadListState();
     const unreadAnnouncementListDispatch = useUnreadListDispatch();
+    const currentYear = useCurrentYear();
 
     const thumbnailImg = content.match(/(<img([\w\W]+?)>)/g);
     const thumbnailSrc = thumbnailImg
@@ -58,7 +60,7 @@ const AnnouncementCard = forwardRef(
       if (!authState.id) {
         // 비회원
         const savedData = localStorage.getItem(
-          `readAnnouncementList_${pathname}`,
+          `readAnnouncementList_${pathname}${currentYear}`,
         );
         if (savedData !== null) {
           const parsedData = JSON.parse(savedData);
@@ -77,6 +79,7 @@ const AnnouncementCard = forwardRef(
           nation: pathname,
           userId: authState.id,
           announcementId: id,
+          year: currentYear,
         });
         unreadAnnouncementListDispatch({ type: "DELETE_ANNOUNCEMENT", id }); // 안읽은 announcementlist에서 읽은 것은 제거
       } catch (err) {
@@ -97,7 +100,7 @@ const AnnouncementCard = forwardRef(
       } else {
         console.log("handleBeforeRenderDetails");
         const savedData = localStorage.getItem(
-          `readAnnouncementList_${pathname}`,
+          `readAnnouncementList_${pathname}${currentYear}`,
         );
         if (savedData !== null) {
           const parsedData = JSON.parse(savedData);
@@ -107,7 +110,7 @@ const AnnouncementCard = forwardRef(
           if (parsedData.isThereNewAnnouncement) {
             try {
               const res = await axios.get(
-                `/api/announcement/originlist?nation=${pathname}`,
+                `/api/announcement/originlist?nation=${pathname}&year=${currentYear}`,
               );
               if (res.data.success) {
                 parsedData.announcementLength = res.data.result;
@@ -125,7 +128,7 @@ const AnnouncementCard = forwardRef(
             parsedData.isAnnouncementCached = 1;
           }
           localStorage.setItem(
-            `readAnnouncementList_${pathname}`,
+            `readAnnouncementList_${pathname}${currentYear}`,
             JSON.stringify(parsedData),
           );
         }

@@ -21,6 +21,7 @@ import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import { useAlarmDispatch } from "context/NavBarMarkContext";
 import { useUnreadListDispatch } from "context/UnreadAnnouncementList";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import useCurrentYear from "hooks/useCurrentYear";
 import ComingSoon from "components/ComingSoon/ComingSoon";
 import useMenuStore from "store/MenuStore";
 import { escapeQuotes } from "utils/String";
@@ -35,6 +36,7 @@ const Announcement = () => {
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const searchParams = useSearchParams();
   const navigate = useNavigate();
+  const currentYear = useCurrentYear();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const alarmDispatch = useAlarmDispatch();
@@ -55,7 +57,9 @@ const Announcement = () => {
   const checkFlag = useRef(false);
   const markUnreadAnnouncement = () => {
     axios
-      .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
+      .get(
+        `/api/announcement/readlist?nation=${pathname}&id=${authState.id}&year=${currentYear}`,
+      )
       .then((res) => {
         if (res.data.success) {
           if (res.data.unread.length) {
@@ -77,7 +81,9 @@ const Announcement = () => {
   };
   /**  다른 탭에서 열 경우 알람 표시 제거 */
   const checkAndRemoveAlarm = async () => {
-    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    const savedData = localStorage.getItem(
+      `readAnnouncementList_${pathname}${currentYear}`,
+    );
     if (!savedData) {
       return;
     }
@@ -86,7 +92,7 @@ const Announcement = () => {
       if (parsedData.isThereNewAnnouncement) {
         try {
           const res = await axios.get(
-            `/api/announcement/originlist?nation=${pathname}`,
+            `/api/announcement/originlist?nation=${pathname}&year=${currentYear}`,
           );
           if (res.data.success) {
             parsedData.announcementLength = res.data.result;
@@ -107,7 +113,7 @@ const Announcement = () => {
       }
 
       localStorage.setItem(
-        `readAnnouncementList_${pathname}`,
+        `readAnnouncementList_${pathname}${currentYear}`,
         JSON.stringify(parsedData),
       );
     }
@@ -119,10 +125,13 @@ const Announcement = () => {
   };
   const setPageQuery = (curPage: number) => {
     searchParams[0].set("page", String(curPage));
-    navigate({
-      pathname: "",
-      search: `?${searchParams[0].toString()}`,
-    });
+    navigate(
+      {
+        pathname: "",
+        search: `?${searchParams[0].toString()}`,
+      },
+      { replace: true },
+    );
   };
   const [curPage, setCurPage] = useState<number>(
     getPageQuery() ? getPageQuery() : 1,
@@ -134,7 +143,7 @@ const Announcement = () => {
     try {
       setGetAnnouncementsLoading(true);
       const result = await axios.get(
-        `/api/announcement/list?nation=${pathname}&page=${curPage}`,
+        `/api/announcement/list?nation=${pathname}&page=${curPage}&year=${currentYear}`,
       );
       setAnnouncementList(result.data.result);
       setTotalPage(
@@ -171,7 +180,9 @@ const Announcement = () => {
   };
 
   const updateLocalStorage = () => {
-    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    const savedData = localStorage.getItem(
+      `readAnnouncementList_${pathname}${currentYear}`,
+    );
     if (savedData) {
       const parsedData = JSON.parse(savedData);
       parsedData.isThereNewAnnouncement = 1;
@@ -179,7 +190,7 @@ const Announcement = () => {
       parsedData.announcementLength += 1;
       alarmDispatch({ type: "ON" });
       localStorage.setItem(
-        `readAnnouncementList_${pathname}`,
+        `readAnnouncementList_${pathname}${currentYear}`,
         JSON.stringify(parsedData),
       );
     }
@@ -192,6 +203,7 @@ const Announcement = () => {
         nation: pathname,
         title: title.value,
         content: escapeQuotes(content),
+        year: currentYear,
       });
       if (result.data.success) {
         setOpenWriteModal(false);

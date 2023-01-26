@@ -2,8 +2,7 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const menuCtrl = {
   getMenuList: async (req, res) => {
-    const { nation } = req.query;
-    const {year} = req.query;
+    const { nation,year } = req.query;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);

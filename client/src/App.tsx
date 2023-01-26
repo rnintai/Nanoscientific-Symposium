@@ -92,7 +92,9 @@ const App = () => {
   const [bannerURL, setBannerURL] = useState<string>("");
   const calcAnnouncementCached = () => {
     axios
-      .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
+      .get(
+        `/api/announcement/readlist?nation=${pathname}&id=${authState.id}&year=${currentYear}`,
+      )
       .then((res) => {
         if (res.data.success) {
           if (res.data.result) {
@@ -259,7 +261,9 @@ const App = () => {
 
   const setLocalStorage = useCallback(async () => {
     console.log("setlocalstorage in App");
-    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    const savedData = localStorage.getItem(
+      `readAnnouncementList_${pathname}${currentYear}`,
+    );
     if (!savedData) {
       const readAnnouncementObj = {
         country: pathname,
@@ -270,13 +274,15 @@ const App = () => {
       };
 
       localStorage.setItem(
-        `readAnnouncementList_${pathname}`,
+        `readAnnouncementList_${pathname}${currentYear}`,
         JSON.stringify(readAnnouncementObj),
       );
 
       // 먼저 해당 지역에 해당하는 공지사항이 있는지 확인
       axios
-        .get(`/api/announcement/originlist?nation=${pathname}`)
+        .get(
+          `/api/announcement/originlist?nation=${pathname}&year=${currentYear}`,
+        )
         .then((res) => {
           if (res.data.success) {
             if (typeof res.data.result === "number") {
@@ -298,7 +304,7 @@ const App = () => {
         if (parsedData.isThereNewAnnouncement) {
           try {
             const response = await axios.get(
-              `/api/announcement/originlist?nation=${pathname}`,
+              `/api/announcement/originlist?nation=${pathname}&year=${currentYear}`,
             );
             if (response.data.success) {
               parsedData.announcementLength = response.data.result;
@@ -318,7 +324,7 @@ const App = () => {
         }
       }
       localStorage.setItem(
-        `readAnnouncementList_${pathname}`,
+        `readAnnouncementList_${pathname}${currentYear}`,
         JSON.stringify(parsedData),
       );
     }
@@ -396,7 +402,7 @@ const App = () => {
       if (window.location.pathname.includes("announcement")) {
         axios
           .get(
-            `/api/announcement/readlist?nation=${pathname}&id=${authState.id}`,
+            `/api/announcement/readlist?nation=${pathname}&id=${authState.id}&year=${currentYear}`,
           )
           .then((res) => {
             if (res.data.success) {

@@ -13,6 +13,7 @@ import {
   subHeadingFontSize,
   xsmallFontSize,
 } from "utils/FontSize";
+import useCurrentYear from "hooks/useCurrentYear";
 import { globalData } from "utils/GlobalData";
 import { editorRole } from "utils/Roles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -28,6 +29,7 @@ const AnnouncementDetail = () => {
   const { search } = useLocation();
   const pathname = usePageViews();
   const nssType = useNSSType();
+  const currentYear = useCurrentYear();
   const theme = useTheme();
   const navigate = useNavigate();
   const [currentAnnouncement, setCurrentAnnouncement] =
@@ -50,13 +52,14 @@ const AnnouncementDetail = () => {
   // loading
 
   const { viewsLabel } = globalData.get(nssType) as Common.globalDataType;
+  const [mounted, setMounted] = useState(false);
 
   const getAnnouncementDetail = async () => {
     try {
       const result = await axios.get(
         `/api/announcement/post?nation=${pathname}&id=${id}&admin=${
           isEditor ? 1 : 0
-        }`,
+        }&year=${currentYear}`,
       );
       setCurrentAnnouncement(result.data.result);
       setTitle(result.data.result.title);
@@ -73,6 +76,7 @@ const AnnouncementDetail = () => {
         id: currentAnnouncement.id,
         title,
         content,
+        year: currentYear,
       });
       getAnnouncementDetail();
       setOpenEditSuccessAlert(true);
@@ -84,16 +88,18 @@ const AnnouncementDetail = () => {
   const deleteHandler = async () => {
     setOpenDeleteModal(false);
     try {
-      await axios.delete(`/api/announcement/post?nation=${pathname}&id=${id}`);
       await axios.delete(
-        `/api/announcement/readlist?nation=${pathname}&announcementId=${id}`,
+        `/api/announcement/post?nation=${pathname}&id=${id}&year=${currentYear}`,
+      );
+      await axios.delete(
+        `/api/announcement/readlist?nation=${pathname}&announcementId=${id}&year=${currentYear}`,
       );
       unreadAnnouncementListDispatch({
         type: "Add_ANNOUNCEMENT",
         id: Number(id),
       });
       const savedData = localStorage.getItem(
-        `readAnnouncementList_${pathname}`,
+        `readAnnouncementList_${pathname}${currentYear}`,
       );
       if (savedData) {
         const parsedData = JSON.parse(savedData);
@@ -108,20 +114,28 @@ const AnnouncementDetail = () => {
         parsedData.announcementLength -= 1;
 
         localStorage.setItem(
-          `readAnnouncementList_${pathname}`,
+          `readAnnouncementList_${pathname}${currentYear}`,
           JSON.stringify(parsedData),
         );
       }
       alert("Announcement is successsfully deleted.");
-      navigate(`/${pathname}/announcement${search}`);
+      navigate(`/${pathname}/${currentYear}/announcement${search}`);
     } catch (err) {
       alert(err);
     }
   };
 
   useEffect(() => {
-    getAnnouncementDetail();
+    setMounted(true);
   }, []);
+
+  // 중복 호출 방지
+  useEffect(() => {
+    if (mounted) {
+      getAnnouncementDetail();
+    }
+  }, [mounted]);
+
   return (
     <AnnouncementDetailContainer className="layout body-fit">
       <Stack
@@ -130,7 +144,10 @@ const AnnouncementDetail = () => {
         alignItems="center"
         sx={{ mb: 2 }}
       >
-        <Link to={`/${pathname}/announcement${search}`} className="p0">
+        <Link
+          to={`/${pathname}/${currentYear}/announcement${search}`}
+          className="p0"
+        >
           <ArrowBackIcon className="btn-alpha" />
         </Link>
         {isEditor && (
