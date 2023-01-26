@@ -137,7 +137,6 @@ const App = () => {
     if (banner.data.success) {
       setBannerURL(banner.data.result);
     } else {
-      console.log("poster-hall의 banner path를 DB에 추가해주세요~"); // 원래 poster-hall의 banner path는 따로 정해져있지 않다.
       setBannerURL("");
     }
 
