@@ -8,6 +8,7 @@ import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
 import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
+import useNSSType from "hooks/useNSSType";
 import { theme, jpTheme } from "theme/themes";
 import PrivateRoute from "components/Route/PrivateRoute";
 import LoginModal from "components/Modal/LoginModal";
@@ -52,6 +53,7 @@ const gaID = "G-BS77NX7Z9T";
 
 const App = () => {
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const currentYear = useCurrentYear();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
@@ -220,7 +222,7 @@ const App = () => {
     //
   }, [authState.isLoading, pathname, subpath]);
   useEffect(() => {
-    setDocumentTitle(useSeoTitle(pathname));
+    setDocumentTitle(useSeoTitle(pathname, nssType));
 
     // 스크롤 to top
     window.scrollTo(0, 0);

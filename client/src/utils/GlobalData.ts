@@ -66,7 +66,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "asia",
+    "asia2022",
     {
       fullName: "2022 NanoScientific Symposium Asia | NSS Asia",
       fullDate: "November 25, 2022",
@@ -117,7 +117,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "kr",
+    "kr2022",
     {
       fullName: "2022 NanoScientific Symposium Korea | NSS Korea",
       fullDate: "2022년 11월 23일",
@@ -174,7 +174,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "jp",
+    "jp2022",
     {
       fullName: "2022 NanoScientific Symposium Japan | NSS Japan",
       fullDate: "2022年11月18日金曜日",
@@ -228,7 +228,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "americas",
+    "americas2022",
     {
       fullName: "2022 NanoScientific Symposium Americas | NSS Americas",
       fullDate: "September 29, 2022",
@@ -276,7 +276,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
-    "eu",
+    "eu2022",
     {
       fullName: "2022 NanoScientific Forum Europe | NSFE",
       fullDate: "October 6-7, 2022",
@@ -328,7 +328,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu2023",
     {
-      fullName: "2022 NanoScientific Forum Europe | NSFE",
+      fullName: "2023 NanoScientific Forum Europe | NSFE",
       fullDate: "September 13-15, 2023",
       eventLocation: "ICFO - The Institute of Photonic Sciences, Barcelona",
       logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,

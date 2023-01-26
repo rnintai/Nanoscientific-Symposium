@@ -11,6 +11,7 @@ import useMenuStore from "store/MenuStore";
 import { editorRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
 import NSSButton from "components/Button/NSSButton";
+import useNSSType from "hooks/useNSSType";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -21,6 +22,7 @@ import ProgramTitle from "./ProgramTitle/ProgramTitle";
 
 const ProgramsList = () => {
   const { currentMenu } = useMenuStore();
+  const nssType = useNSSType();
   const authState = useAuthState();
   const pathname = usePageViews();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
@@ -33,7 +35,7 @@ const ProgramsList = () => {
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
-  const { programFileLink } = globalData.get(pathname) as Common.globalDataType;
+  const { programFileLink } = globalData.get(nssType) as Common.globalDataType;
   const config = {
     params: {
       nation: pathname,

@@ -65,13 +65,15 @@ const commonCtrl = {
   },
   getSpeakers: async (req, res) => {
     const { nation } = req.query;
+    const {year} = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
+
       const sql = `
-      SELECT 
-      *
-      FROM speakers as S
+      SELECT * FROM speakers as S${
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+      };
       `;
       const result = await connection.query(sql);
       connection.release();
@@ -111,6 +113,7 @@ const commonCtrl = {
           keynote,
           has_abstract,
           description,
+          year,
         } = list.shift();
         const sql = `UPDATE speakers SET
         name='${name}',
@@ -118,7 +121,8 @@ const commonCtrl = {
         image_path='${image_path}',
         keynote=${keynote},
         description='${description}', 
-        has_abstract=${has_abstract}
+        has_abstract=${has_abstract},
+        year=${year},
         WHERE id=${id}
         `;
         await connection.query(sql);
@@ -253,10 +257,16 @@ const commonCtrl = {
 
   getKeynoteSpeakers: async (req, res) => {
     const { nation } = req.query;
+    const {year} = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM speakers WHERE keynote=1`;
+
+      const sql = `
+      SELECT * FROM speakers${
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+      } and keynote=1;
+      `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -373,7 +383,7 @@ const commonCtrl = {
     try {
       const sql = `
       SELECT * FROM landing_section${
-        year ? ` WHERE nss_year="${year}"` : ` WHERE nss_year IS NULL`
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
@@ -454,7 +464,7 @@ const commonCtrl = {
     try {
       const sql = `
       SELECT * FROM landing_section_${id}${
-        year ? ` WHERE nss_year="${year}"` : ` WHERE nss_year IS NULL`
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
@@ -488,7 +498,7 @@ const commonCtrl = {
     try {
       const sql = `UPDATE landing_section_2 SET 
       description='${description}'
-      WHERE nss_year${year ? `=${year}` : ` IS NULL`}
+      WHERE year${year ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql);
       connection.release();
@@ -528,7 +538,7 @@ const commonCtrl = {
     try {
       const sql = `UPDATE landing_section_3 SET 
       description='${description}'
-      WHERE nss_year${year ? `=${year}` : ` IS NULL`}
+      WHERE year${year ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql);
       connection.release();
@@ -558,7 +568,7 @@ const commonCtrl = {
     try {
       const sql = `UPDATE landing_section_6 SET 
       description='${description}'
-      WHERE nss_year${year ? `=${year}` : " IS NULL"};
+      WHERE year${year ? `=${year}` : " IS NULL"};
       `;
       await connection.query(sql);
       connection.release();
@@ -582,7 +592,7 @@ const commonCtrl = {
       const sql = `UPDATE landing_section_6 SET 
       url='${url}',
       button_text='${buttonText}'
-      WHERE nss_year${year ? `=${year}` : " IS NULL"}
+      WHERE year${year ? `=${year}` : " IS NULL"}
       `;
       await connection.query(sql);
       connection.release();
@@ -604,7 +614,7 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `INSERT INTO landing_section_4 (title,description${
-        year ? ",nss_year" : ""
+        year ? ",year" : ""
       }) VALUES 
       ('${title}','${description}'${year ? `,${year}` : ""})`;
       await connection.query(sql);
@@ -669,7 +679,7 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `INSERT INTO landing_section_${sectionNo}
-      (name, url, image_path, height, nss_year)
+      (name, url, image_path, height, year)
       VALUES
       ('${name}','${url}','${imagePath}', ${height ? height : 0}, ${
         year ? year : null

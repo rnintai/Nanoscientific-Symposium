@@ -403,6 +403,7 @@ const adminCtrl = {
       abstractBelong,
       abstractDesc,
       hasAbstract,
+      year,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
@@ -410,8 +411,8 @@ const adminCtrl = {
 
     try {
       const sql = `INSERT INTO speakers
-      (name,belong,image_path,status,keynote,description,has_abstract)
-      VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}', ${hasAbstract})`;
+      (name,belong,image_path,status,keynote,description,has_abstract,year)
+      VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}', ${hasAbstract}, ${year})`;
       const data = await connection.query(sql);
       connection.release();
 
@@ -440,6 +441,7 @@ const adminCtrl = {
       abstractBelong,
       abstractDesc,
       hasAbstract,
+      year
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
@@ -451,7 +453,8 @@ const adminCtrl = {
       image_path='${imagePath}',
       keynote=${keynote},
       description='${description}', 
-      has_abstract=${hasAbstract}
+      has_abstract=${hasAbstract},
+      year=${year}
       WHERE id=${id}
       `;
 

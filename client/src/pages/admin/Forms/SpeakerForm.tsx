@@ -15,6 +15,7 @@ import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
 import { subHeadingFontSize } from "utils/FontSize";
 import QuillEditor from "components/QuillEditor/QuillEditor";
+import useCurrentYear from "hooks/useCurrentYear";
 import { escapeQuotes } from "utils/String";
 
 interface SpeakerFormProps {
@@ -40,6 +41,7 @@ const SpeakerForm = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
+  const currentYear = useCurrentYear();
 
   const [keynoteCheck, setKeynoteCheck] = useState<boolean>(
     edit ? selectedSpeaker.keynote === 1 : false,
@@ -99,6 +101,7 @@ const SpeakerForm = ({
         abstractBelong: escapeQuotes(abstractBelong),
         abstractDesc: escapeQuotes(abstractDesc),
         hasAbstract: hasAbstractCheck,
+        year: currentYear,
       });
     } else {
       // 새롭게 생성하는 경우 즉, ADD SPEAKER 를 클릭한경우
@@ -112,6 +115,7 @@ const SpeakerForm = ({
         abstractBelong: escapeQuotes(abstractBelong),
         abstractDesc: escapeQuotes(abstractDesc),
         hasAbstract: hasAbstractCheck,
+        year: currentYear,
       });
     }
 

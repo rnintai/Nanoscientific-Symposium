@@ -5,6 +5,8 @@ import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import NSSButton from "components/Button/NSSButton";
 import useInput from "hooks/useInput";
+import useNSSType from "hooks/useNSSType";
+
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
@@ -31,6 +33,7 @@ const inputBoxStyle = {
 const ResetPassword = () => {
   const authState = useAuthState();
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const navigate = useNavigate();
   const theme = useTheme();
 
@@ -47,7 +50,7 @@ const ResetPassword = () => {
     registrationStep2Label,
     registrationStep3Label,
     passwordSetDescription,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
   const curPassword = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");

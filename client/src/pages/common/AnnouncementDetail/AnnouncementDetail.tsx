@@ -6,6 +6,7 @@ import usePageViews from "hooks/usePageViews";
 import React, { FormEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { dateToLocaleString, jsTimeToTimeStamp } from "utils/Date";
+import useNSSType from "hooks/useNSSType";
 import {
   headingFontSize,
   smallFontSize,
@@ -26,6 +27,7 @@ const AnnouncementDetail = () => {
   const { id } = useParams();
   const { search } = useLocation();
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const theme = useTheme();
   const navigate = useNavigate();
   const [currentAnnouncement, setCurrentAnnouncement] =
@@ -47,7 +49,7 @@ const AnnouncementDetail = () => {
     useState<boolean>(false);
   // loading
 
-  const { viewsLabel } = globalData.get(pathname) as Common.globalDataType;
+  const { viewsLabel } = globalData.get(nssType) as Common.globalDataType;
 
   const getAnnouncementDetail = async () => {
     try {

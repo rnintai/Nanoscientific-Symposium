@@ -15,6 +15,7 @@ import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
+import useNSSType from "hooks/useNSSType";
 import {
   IconButton,
   Menu,
@@ -36,6 +37,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useMenuStore from "store/MenuStore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import useCurrentYear from "hooks/useCurrentYear";
 import LoginModal from "../Modal/LoginModal";
 import MobileNavBar from "./MobileNavBar";
 
@@ -87,6 +89,7 @@ navProps) => {
   const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
 
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const subpath = useSubPath();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -95,6 +98,7 @@ navProps) => {
   const authDispatch = useAuthDispatch();
   const alarmState = useAlarmState();
   const alarmDispatch = useAlarmDispatch();
+  const currentYear = useCurrentYear();
 
   // submenu refs
   const submenuRefs = useRef({});
@@ -135,7 +139,7 @@ navProps) => {
     adminBtnText,
     signOutBtnText,
     changePasswordBtnText,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
@@ -161,7 +165,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname}`}
+            to={`/${pathname}/${currentYear}`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -184,7 +188,7 @@ navProps) => {
                     return (
                       <MenuLink
                         key={menu.name}
-                        to={`/${pathname}${menu.path}`}
+                        to={`/${pathname}/${currentYear}${menu.path}`}
                         className={menu.show === 0 && "op5"}
                       >
                         {menu.name.toUpperCase()}
@@ -277,7 +281,7 @@ navProps) => {
                                     >
                                       <Link
                                         key={m.name}
-                                        to={`/${pathname}${m.path}`}
+                                        to={`/${pathname}/${currentYear}${m.path}`}
                                       >
                                         <Typography
                                           fontSize={smallFontSize}
@@ -334,7 +338,7 @@ navProps) => {
                             if (m.show || editorRole.includes(authState.role)) {
                               return (
                                 <Link
-                                  to={pathname + m.path}
+                                  to={`${pathname}/${currentYear}${m.path}`}
                                   onClick={handleMoreMenuClose}
                                 >
                                   <AnnouncementMenuItemContainer
@@ -385,7 +389,7 @@ navProps) => {
                           {editorRole.includes(authState.role) && (
                             <MenuItem>
                               <Link
-                                to={`${pathname}/admin`}
+                                to={`${pathname}/${currentYear}/admin`}
                                 target="_blank"
                                 style={{
                                   padding: 0,

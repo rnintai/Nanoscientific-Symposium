@@ -7,6 +7,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import useNSSType from "hooks/useNSSType";
 import axios from "axios";
 import NSSButton from "components/Button/NSSButton";
 import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
@@ -33,6 +34,7 @@ interface abstractProps {
 const AbstractSubmission = ({ formNo }: abstractProps) => {
   const theme = useTheme();
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
 
   const mktoRef = useRef<HTMLFormElement>();
@@ -54,7 +56,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
 
   const configStore = useConfigStore();
   const { configState } = configStore;
-  const { submitBtnText } = globalData.get(pathname);
+  const { submitBtnText } = globalData.get(nssType);
   const navigate = useNavigate();
 
   const jpSubmitHandler = async () => {
