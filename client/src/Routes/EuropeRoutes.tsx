@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React from "react";
 import Landing from "pages/common/Landing/Landing";
 import EuropeRegistration from "pages/europe/EuropeRegistration/EuropeRegistration";
@@ -15,80 +16,89 @@ import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmissi
 import PosterHall from "pages/common/PosterHall/PosterHall";
 // import Landing2023 from "pages/2023/Landing/Landing2023";
 
-const pathname = "eu";
 const formNo = "1149";
 const abstractFormNo = "1666";
+const yearList = ["", "2022", "2023"];
+const euRoutes = [];
 
-export default [
-  {
-    path: `/${pathname}`,
-    element: <Landing key={`${pathname}-landing-section`} />,
-  },
-  {
-    path: `/${pathname}/registration`,
-    element: <EuropeRegistration init isStudent={false} />,
-  },
-  {
-    path: `/${pathname}/registration/student`,
-    element: <EuropeRegistration isStudent />,
-  },
-  {
-    path: `/${pathname}/registration/postdoc`,
-    element: <EuropeRegistration isStudent={false} />,
-  },
-  {
-    path: `/${pathname}/program`,
-    element: <Programs />,
-  },
-  {
-    path: `/${pathname}/speakers`,
-    element: <Speakers />,
-  },
-  {
-    path: `/${pathname}/speakers/:id`,
-    element: <SpeakerDetail />,
-  },
-  {
-    path: `/${pathname}/lecture-hall`,
-    element: <LectureHall />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/exhibit/parksystems`,
-    element: <ExhibitParkSystems />,
-  },
-  {
-    path: `/${pathname}/exhibit/nanoscientific`,
-    element: <ExhibitNanoScientific />,
-  },
-  {
-    path: `/${pathname}/user/reset-password`,
-    element: <ResetPassword />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/user/forgot-password`,
-    element: <ForgotPassword />,
-  },
-  {
-    path: `/${pathname}/announcement`,
-    element: <Announcement />,
-  },
-  {
-    path: `/${pathname}/announcement/:id`,
-    element: <AnnouncementDetail />,
-  },
-  {
-    path: `/${pathname}/abstract`,
-    element: <AbstractSubmission formNo={abstractFormNo} />,
-  },
-  {
-    path: `/${pathname}/poster-hall`,
-    element: <PosterHall />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/2023`,
-    element: <Landing key={`${pathname}-landing-2023`} nssYear="2023" />,
-  },
-];
+yearList.map((y) => {
+  const pathname = `eu${y === "" ? "" : `/${y}`}`;
+
+  euRoutes.push(
+    ...[
+      {
+        path: `/${pathname}`,
+        element: <Landing key={`${pathname}-landing-section`} />,
+      },
+      {
+        path: `/${pathname}/registration`,
+        element: <EuropeRegistration init isStudent={false} />,
+      },
+      {
+        path: `/${pathname}/registration/student`,
+        element: <EuropeRegistration isStudent />,
+      },
+      {
+        path: `/${pathname}/registration/postdoc`,
+        element: <EuropeRegistration isStudent={false} />,
+      },
+      {
+        path: `/${pathname}/program`,
+        element: <Programs />,
+      },
+      {
+        path: `/${pathname}/speakers`,
+        element: <Speakers />,
+      },
+      {
+        path: `/${pathname}/speakers/:id`,
+        element: <SpeakerDetail />,
+      },
+      {
+        path: `/${pathname}/lecture-hall`,
+        element: <LectureHall />,
+        isPrivate: true,
+      },
+      {
+        path: `/${pathname}/exhibit/parksystems`,
+        element: <ExhibitParkSystems />,
+      },
+      {
+        path: `/${pathname}/exhibit/nanoscientific`,
+        element: <ExhibitNanoScientific />,
+      },
+      {
+        path: `/${pathname}/user/reset-password`,
+        element: <ResetPassword />,
+        isPrivate: true,
+      },
+      {
+        path: `/${pathname}/user/forgot-password`,
+        element: <ForgotPassword />,
+      },
+      {
+        path: `/${pathname}/announcement`,
+        element: <Announcement />,
+      },
+      {
+        path: `/${pathname}/announcement/:id`,
+        element: <AnnouncementDetail />,
+      },
+      {
+        path: `/${pathname}/abstract`,
+        element: <AbstractSubmission formNo={abstractFormNo} />,
+      },
+      {
+        path: `/${pathname}/poster-hall`,
+        element: <PosterHall />,
+        isPrivate: true,
+      },
+      // {
+      //   path: `/${pathname}/2023`,
+      //   element: <Landing key={`${pathname}-landing-2023`} />,
+      // },
+    ],
+  );
+});
+
+export default euRoutes;

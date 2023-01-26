@@ -20,6 +20,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import InnerHTML from "dangerously-set-html-content";
 import { StyledEngineProvider } from "@mui/material/styles";
 import axios from "axios";
+import useNSSType from "hooks/useNSSType";
 import {
   RowContainer,
   AnnouncementCardContainer,
@@ -37,8 +38,9 @@ const AnnouncementCard = forwardRef(
   ) => {
     const { id, title, content, hits, created } = announcement;
     const pathname = usePageViews();
+    const nssType = useNSSType();
     const theme = useTheme();
-    const { viewsLabel } = globalData.get(pathname) as Common.globalDataType;
+    const { viewsLabel } = globalData.get(nssType) as Common.globalDataType;
     const searchParams = useSearchParams();
     const authState = useAuthState();
     const authDispatch = useAuthDispatch();

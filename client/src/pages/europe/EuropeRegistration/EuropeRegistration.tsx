@@ -15,6 +15,7 @@ import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import useNSSType from "hooks/useNSSType";
 import {
   smallFontSize,
   headingFontSize,
@@ -32,6 +33,7 @@ interface props {
 
 const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
   const pathname = usePageViews();
+  const nssType = useNSSType();
 
   // stage
   // const [stage, setStage] = useState<number>(1);
@@ -59,7 +61,7 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
     registrationStep1Label,
     registrationStep2Label,
     registrationStep3Label,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   // alert
   const [emailNotValidAlert, setEmailNotValidAlert] = useState<boolean>(false);

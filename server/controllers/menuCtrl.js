@@ -8,11 +8,11 @@ const menuCtrl = {
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      let sql;
-      if(year!="2022") {
-        sql =  `SELECT * FROM menu WHERE YEAR=${year}`;
-      }
-      else if(year=="2022") sql = `SELECT * FROM menu WHERE YEAR IS NULL;`;
+      const sql = `
+      SELECT * FROM menu${
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+      };
+      `;
       const row = await connection.query(sql);
       connection.release();
 

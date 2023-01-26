@@ -65,13 +65,16 @@ const commonCtrl = {
   },
   getSpeakers: async (req, res) => {
     const { nation } = req.query;
+    const { year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
-      SELECT 
-      *
-      FROM speakers as S
+      SELECT * FROM speakers as S${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      };
       `;
       const result = await connection.query(sql);
       connection.release();
@@ -111,6 +114,7 @@ const commonCtrl = {
           keynote,
           has_abstract,
           description,
+          year,
         } = list.shift();
         const sql = `UPDATE speakers SET
         name='${name}',
@@ -118,7 +122,8 @@ const commonCtrl = {
         image_path='${image_path}',
         keynote=${keynote},
         description='${description}', 
-        has_abstract=${has_abstract}
+        has_abstract=${has_abstract},
+        year=${year},
         WHERE id=${id}
         `;
         await connection.query(sql);
@@ -253,10 +258,17 @@ const commonCtrl = {
 
   getKeynoteSpeakers: async (req, res) => {
     const { nation } = req.query;
+    const { year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM speakers WHERE keynote=1`;
+      const sql = `
+      SELECT * FROM speakers${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      } and keynote=1;
+      `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -373,7 +385,9 @@ const commonCtrl = {
     try {
       const sql = `
       SELECT * FROM landing_section${
-        year ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
@@ -454,7 +468,9 @@ const commonCtrl = {
     try {
       const sql = `
       SELECT * FROM landing_section_${id}${
-        year ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);

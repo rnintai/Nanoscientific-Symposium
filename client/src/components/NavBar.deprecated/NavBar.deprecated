@@ -107,7 +107,7 @@ const NavBar = ({
     greeting,
     attend,
     symposium,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
   return (
     <NavBarContainer>
       <nav className={`nav-wrap${isMobile ? " mobile-menu-on" : ""}`}>

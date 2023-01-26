@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React from "react";
 import Landing from "pages/common/Landing/Landing";
 import PrivateRoute from "components/Route/PrivateRoute";
@@ -16,72 +17,79 @@ import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 import PosterHall from "pages/common/PosterHall/PosterHall";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
 
-const pathname = "americas";
 const formNo = "1184";
 const abstractFormNo = "1899";
+const yearList = ["", "2022", "2023"];
+const usRoutes = [];
 
-export default [
-  {
-    path: `/${pathname}`,
-    element: <Landing key="americas-landing-section" />,
-  },
-  {
-    path: `/${pathname}/speakers`,
-    element: <Speakers />,
-  },
-  {
-    path: `/${pathname}/speakers/:id`,
-    element: <SpeakerDetail />,
-  },
-  {
-    path: `/${pathname}/program`,
-    element: <Programs />,
-  },
-  {
-    path: `/${pathname}/lecture-hall`,
-    element: <LectureHall />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/exhibit/parksystems`,
-    element: <ExhibitParkSystems />,
-  },
-  {
-    path: `/${pathname}/exhibit/nanoscientific`,
-    element: <ExhibitNanoScientific />,
-  },
-  {
-    path: `/${pathname}/registration`,
-    element: <Registration formNo={formNo} />,
-  },
-  {
-    path: `/${pathname}/sponsors`,
-    element: <Sponsors />,
-  },
-  {
-    path: `/${pathname}/user/reset-password`,
-    element: <ResetPassword />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/user/forgot-password`,
-    element: <ForgotPassword />,
-  },
-  {
-    path: `/${pathname}/announcement`,
-    element: <Announcement />,
-  },
-  {
-    path: `/${pathname}/announcement/:id`,
-    element: <AnnouncementDetail />,
-  },
-  {
-    path: `/${pathname}/poster-hall`,
-    element: <PosterHall />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/abstract`,
-    element: <AbstractSubmission formNo={abstractFormNo} />,
-  },
-];
+yearList.map((y) => {
+  const pathname = `americas${y === "" ? "" : `/${y}`}`;
+  usRoutes.push(
+    ...[
+      {
+        path: `/${pathname}`,
+        element: <Landing key="americas-landing-section" />,
+      },
+      {
+        path: `/${pathname}/speakers`,
+        element: <Speakers />,
+      },
+      {
+        path: `/${pathname}/speakers/:id`,
+        element: <SpeakerDetail />,
+      },
+      {
+        path: `/${pathname}/program`,
+        element: <Programs />,
+      },
+      {
+        path: `/${pathname}/lecture-hall`,
+        element: <LectureHall />,
+        isPrivate: true,
+      },
+      {
+        path: `/${pathname}/exhibit/parksystems`,
+        element: <ExhibitParkSystems />,
+      },
+      {
+        path: `/${pathname}/exhibit/nanoscientific`,
+        element: <ExhibitNanoScientific />,
+      },
+      {
+        path: `/${pathname}/registration`,
+        element: <Registration formNo={formNo} />,
+      },
+      {
+        path: `/${pathname}/sponsors`,
+        element: <Sponsors />,
+      },
+      {
+        path: `/${pathname}/user/reset-password`,
+        element: <ResetPassword />,
+        isPrivate: true,
+      },
+      {
+        path: `/${pathname}/user/forgot-password`,
+        element: <ForgotPassword />,
+      },
+      {
+        path: `/${pathname}/announcement`,
+        element: <Announcement />,
+      },
+      {
+        path: `/${pathname}/announcement/:id`,
+        element: <AnnouncementDetail />,
+      },
+      {
+        path: `/${pathname}/poster-hall`,
+        element: <PosterHall />,
+        isPrivate: true,
+      },
+      {
+        path: `/${pathname}/abstract`,
+        element: <AbstractSubmission formNo={abstractFormNo} />,
+      },
+    ],
+  );
+});
+export default usRoutes;

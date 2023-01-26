@@ -16,6 +16,7 @@ import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import MenuIcon from "@mui/icons-material/Menu";
 import PhotoIcon from "@mui/icons-material/Photo";
 import SettingsIcon from "@mui/icons-material/Settings";
+import useCurrentYear from "hooks/useCurrentYear";
 import { adminRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
 
@@ -24,40 +25,41 @@ const drawerWidth = 240;
 const AdminNavBar = () => {
   const pathname = usePageViews();
   const authState = useAuthState();
+  const currentYear = useCurrentYear();
   const menus = [
     {
       title: "Programs",
-      link: `/${pathname}/admin/program`,
+      link: `/${pathname}/${currentYear}/admin/program`,
       icon: <EventNoteTwoToneIcon />,
       adminOnly: false,
     },
     {
       title: "Speakers",
-      link: `/${pathname}/admin/speakers`,
+      link: `/${pathname}/${currentYear}/admin/speakers`,
       icon: <CampaignTwoToneIcon />,
       adminOnly: false,
     },
     {
       title: "Posters",
-      link: `/${pathname}/admin/poster`,
+      link: `/${pathname}/${currentYear}/admin/poster`,
       icon: <PhotoIcon />,
       adminOnly: false,
     },
     {
       title: "Users",
-      link: `/${pathname}/admin/users`,
+      link: `/${pathname}/${currentYear}/admin/users`,
       icon: <PeopleAltTwoToneIcon />,
       adminOnly: false,
     },
     {
       title: "Menus",
-      link: `/${pathname}/admin/menus`,
+      link: `/${pathname}/${currentYear}/admin/menus`,
       icon: <MenuIcon />,
       adminOnly: false,
     },
     {
       title: "Configuration",
-      link: `/${pathname}/admin/config`,
+      link: `/${pathname}/${currentYear}/admin/config`,
       icon: <SettingsIcon />,
       adminOnly: false,
     },
@@ -99,7 +101,7 @@ const AdminNavBar = () => {
       </List>
       <Divider />
       <List>
-        <Link to={`/${pathname}`}>
+        <Link to={`/${pathname}/${currentYear}`}>
           <ListItem button>
             <ListItemIcon>
               <LogoutTwoToneIcon />
