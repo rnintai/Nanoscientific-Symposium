@@ -64,14 +64,16 @@ const commonCtrl = {
     }
   },
   getSpeakers: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation } = req.query;
+    const { year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-
       const sql = `
       SELECT * FROM speakers as S${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const result = await connection.query(sql);
@@ -255,14 +257,16 @@ const commonCtrl = {
   },
 
   getKeynoteSpeakers: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation } = req.query;
+    const {year} = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-
       const sql = `
       SELECT * FROM speakers${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       } and keynote=1;
       `;
       const result = await connection.query(sql);
@@ -381,7 +385,9 @@ const commonCtrl = {
     try {
       const sql = `
       SELECT * FROM landing_section${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
@@ -462,7 +468,9 @@ const commonCtrl = {
     try {
       const sql = `
       SELECT * FROM landing_section_${id}${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
