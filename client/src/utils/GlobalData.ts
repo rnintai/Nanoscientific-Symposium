@@ -278,7 +278,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu2022",
     {
-      fullName: "2022 NanoScientific Forum Europe | NSFE",
+      fullName: "2022 NanoScientific Forum Europe | NSF Europe",
       fullDate: "October 6-7, 2022",
       logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
       speakers: "Speakers",
