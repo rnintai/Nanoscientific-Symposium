@@ -1,20 +1,28 @@
 import { useLocation } from "react-router";
 
+export const yearList = ["2022", "2023"];
+export const defaultYear = "2022";
+
 const useCurrentYear = () => {
   const { pathname } = useLocation();
 
   const year = pathname.split("/")[2];
 
   let result = "";
-  switch (year) {
-    case "2023": {
-      result = year;
-      break;
-    }
-    default: {
-      result = "2022";
-    }
+  if (yearList.includes(year)) {
+    result = year;
+  } else {
+    result = defaultYear;
   }
+  // switch (year) {
+  //   case "2023": {
+  //     result = year;
+  //     break;
+  //   }
+  //   default: {
+  //     result = defaultYear;
+  //   }
+  // }
 
   // 두번째 슬래시 나오는곳까지 자릅니다
   return result;

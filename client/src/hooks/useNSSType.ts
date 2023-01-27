@@ -1,4 +1,4 @@
-import useCurrentYear from "./useCurrentYear";
+import useCurrentYear, { defaultYear } from "./useCurrentYear";
 import usePageViews from "./usePageViews";
 
 const useNSSType = () => {
@@ -7,7 +7,7 @@ const useNSSType = () => {
 
   return pathname === "home"
     ? "home"
-    : `${pathname}${year !== undefined ? year : ""}`;
+    : `${pathname}${year !== undefined ? year : defaultYear}`;
 };
 
 export default useNSSType;

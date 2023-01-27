@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
+import { useNavigate as useNavigateWithSearch } from "hooks/useNavigateWithSearch";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import NavBar2023 from "components/2023/NavBar/NavBar";
@@ -22,7 +23,7 @@ import { S3_URL } from "utils/GlobalData";
 import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
-import useCurrentYear from "hooks/useCurrentYear";
+import useCurrentYear, { defaultYear, yearList } from "hooks/useCurrentYear";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
@@ -50,15 +51,18 @@ declare global {
 }
 
 const gaID = "G-BS77NX7Z9T";
+// 주소에 연도 비포함 시 redirect시킬 연도
 
 const App = () => {
   const pathname = usePageViews();
   const nssType = useNSSType();
+
   const currentYear = useCurrentYear();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
   const navigate = useNavigate();
+  const navigateWithSearch = useNavigateWithSearch();
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -77,6 +81,20 @@ const App = () => {
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
   }, []);
+  // url에 year가 없으면 추가해주기
+  const checkYearAndRedirect = () => {
+    if (
+      pathname !== "home" &&
+      pathname !== "" &&
+      !yearList.includes(window.location.pathname.split("/")[2])
+    ) {
+      const addressWithYear = window.location.href.replace(
+        pathname,
+        `${pathname}/${defaultYear}`,
+      );
+      window.location.replace(addressWithYear);
+    }
+  };
 
   // 로그인 모달 state
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
@@ -223,12 +241,11 @@ const App = () => {
     //
   }, [authState.isLoading, pathname, subpath]);
   useEffect(() => {
-    setDocumentTitle(useSeoTitle(pathname, nssType));
-
+    checkYearAndRedirect();
+    setDocumentTitle(useSeoTitle(pathname, currentYear, nssType));
     // 스크롤 to top
     window.scrollTo(0, 0);
   }, [pathname, subpath, window.location.search]);
-
   // 로그아웃
 
   const routeLoopHelper = (route: routeType, isPrivate?: boolean) => {
@@ -434,7 +451,6 @@ const App = () => {
       <AppContainer>
         {pathname !== "home" &&
           pathname !== "" &&
-          // currentYear === "2022" &&
           subpath.indexOf("admin") === -1 && (
             <NavBar
               checkLoading={authState.isLoading}
@@ -444,15 +460,6 @@ const App = () => {
               menuStateLoading={menuStateLoading}
             />
           )}
-        {/* {currentYear === "2023" && (
-          <NavBar2023
-            checkLoading={authState.isLoading}
-            setEmailModalOpen={setEmailModalOpen}
-            setLogoutSuccess={setLogoutSuccess}
-            setLogoutLoading={setLogoutLoading}
-            menuStateLoading={menuStateLoading}
-          />
-        )} */}
         {!bannerLoading && bannerURL && (
           <LandingSection
             className="banner"
