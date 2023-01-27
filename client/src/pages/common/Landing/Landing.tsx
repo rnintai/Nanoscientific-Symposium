@@ -577,11 +577,11 @@ const Landing = () => {
         className="section1"
       >
         <BackgroundVectorWhite maxWidth="1920px">
-          {/* {nssType === "eu2023" ? (
+          {nssType === "eu2023" ? (
             <div className="overlay greyscale z0" />
           ) : (
             <div className="overlay secondary z0" />
-          )} */}
+          )}
           <Stack
             className="layout"
             direction="column"
