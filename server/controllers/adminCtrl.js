@@ -412,12 +412,12 @@ const adminCtrl = {
     try {
       const sql = `INSERT INTO speakers
       (name,belong,image_path,status,keynote,description,has_abstract,year)
-      VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}', ${hasAbstract}, ${year})`;
+      VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}', ${hasAbstract}, ${year && year !== "2022" ? `'${year}'` : null})`;
       const data = await connection.query(sql);
       connection.release();
 
-      const sql2 = `INSERT INTO speaker_abstract(speaker_id,belong,description)
-          VALUES(${data[0].insertId},'${abstractBelong}','${abstractDesc}')`;
+      const sql2 = `INSERT INTO speaker_abstract(speaker_id,belong,description,year)
+          VALUES(${data[0].insertId},'${abstractBelong}','${abstractDesc}',${year && year !== "2022" ? `'${year}'` : null})`;
       await connection.query(sql2);
       connection.release();
 
@@ -454,7 +454,7 @@ const adminCtrl = {
       keynote=${keynote},
       description='${description}', 
       has_abstract=${hasAbstract},
-      year=${year}
+      year=${year && year !== "2022" ? `'${year}'` : null }
       WHERE id=${id}
       `;
 
@@ -464,17 +464,21 @@ const adminCtrl = {
       const sql2 = `INSERT INTO speaker_abstract (
         speaker_id,
         belong,
-        description
+        description,
+        year
         ) VALUES (
           ${id},
           '${abstractBelong}',
-          '${abstractDesc}'
+          '${abstractDesc}',
+          ${year && year !== "2022" ?`'${year}'` : null}
         )
         ON DUPLICATE KEY UPDATE
           belong='${abstractBelong}',
-          description='${abstractDesc}'
+          description='${abstractDesc}',
+          year=${year && year !== "2022" ? `'${year}'` : null}
         `;
 
+      
       await connection.query(sql2);
       connection.release();
 

@@ -85,12 +85,13 @@ const commonCtrl = {
     }
   },
   getSpeakersAbstract: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM speaker_abstract as S`;
+      const sql = `SELECT * FROM speaker_abstract as S WHERE year${year&&year!=="2022" ? `=${year}` : ` IS NULL`};`;
       const result = await connection.query(sql);
+      console.log(sql)
       connection.release();
       res.send(result[0]);
     } catch (err) {
@@ -99,7 +100,7 @@ const commonCtrl = {
     }
   },
   updateSpeakerList: async (req, res) => {
-    const { nation, list, abstractlist } = req.body;
+    const { nation, list, abstractlist,year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -132,7 +133,8 @@ const commonCtrl = {
 
       while (abstractlist.length > 0) {
         const { id, speaker_id, belong, description } = abstractlist.shift();
-        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}' WHERE id=${id}`;
+        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}', year='${year && year !== "2022" ? year : null}' WHERE id=${id}
+        };`;
         await connection.query(sql);
         connection.release();
       }
