@@ -15,6 +15,7 @@ import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import { smallFontSize } from "utils/FontSize";
 import MarketoForm from "components/MarketoForm/MarketoForm";
+import useNSSType from "hooks/useNSSType";
 import { RegistrationContainer, MktoFormContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {
@@ -36,13 +37,6 @@ const Registration = ({ formNo }: RegistrationProps) => {
 
   // alert
   const [emailNotValidAlert, setEmailNotValidAlert] = useState<boolean>(false);
-
-  // seo
-  const {
-    registrationStep1Label,
-    registrationStep2Label,
-    registrationStep3Label,
-  } = globalData.get(nation) as Common.globalDataType;
 
   const dispatchLogin = (e: string, r: string, t: string) =>
     dispatch({
@@ -145,9 +139,15 @@ const Registration = ({ formNo }: RegistrationProps) => {
   }, [emailValid, emailValidLoading]);
 
   const pathname = usePageViews();
-  const { goNextText, logoURL } = globalData.get(
-    pathname,
-  ) as Common.globalDataType;
+  const nssType = useNSSType();
+
+  const {
+    goNextText,
+    logoURL,
+    registrationStep1Label,
+    registrationStep2Label,
+    registrationStep3Label,
+  } = globalData.get(nssType) as Common.globalDataType;
   const theme = useTheme();
 
   const submitHandler = async () => {
