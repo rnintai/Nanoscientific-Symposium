@@ -3,15 +3,12 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const adminCtrl = {
   addSession: async (req, res) => {
-    const { nation, title, date } = req.body;
+    const { nation, title, date,year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO program_sessions(session_title,date) VALUES('${title}','${date.substr(
-        0,
-        10
-      )}')`;
+      const sql = `INSERT INTO program_sessions(session_title,date,year) VALUES('${title}','${date.substr(0,10)}', ${year && year !== "2022" ?`'${year}'` : null})`;
 
       const result = await connection.query(sql);
       res.status(200).json({
@@ -24,15 +21,12 @@ const adminCtrl = {
     }
   },
   modifySession: async (req, res) => {
-    const { nation, title, date, id, status } = req.body;
+    const { nation, title, date, id, status} = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `UPDATE program_sessions SET session_title='${title}',date='${date.substr(
-        0,
-        10
-      )}', status=${status} WHERE id=${id}`;
+      const sql = `UPDATE program_sessions SET session_title='${title}',date='${date.substr(0,10)}', status=${status} WHERE id=${id}`;
 
       const result = await connection.query(sql);
       res.status(200).json({
@@ -89,19 +83,23 @@ const adminCtrl = {
       startTime,
       endTime,
       emphasize,
+      year,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description, emphasize) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}', ${emphasize})`;
+      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description, emphasize,year) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}', ${emphasize},
+      ${year && year !== "2022" ?`'${year}'` : null})`;
 
       const sqlResult = await connection.query(sql);
       // console.log(sqlResult[0]);
 
       try {
-        const adjustSql = `UPDATE programs SET next_id=${sqlResult[0].insertId} WHERE id!=${sqlResult[0].insertId} AND session=${session} AND next_id IS NULL`;
+        const adjustSql = `UPDATE programs SET next_id=${sqlResult[0].insertId} WHERE id!=${sqlResult[0].insertId} AND session=${session} AND next_id IS NULL AND${
+          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+        };`;
         const adjustSqlResult = await connection.query(adjustSql);
         // console.log(adjustSqlResult);
         res.status(200).json({
@@ -199,14 +197,14 @@ const adminCtrl = {
 
   // agenda
   addAgenda: async (req, res) => {
-    const { nation, program_id, title, speakers, session_id } = req.body;
+    const { nation, program_id, title, speakers, session_id, year } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO program_agenda(session_id,program_id,title,speakers) 
-      VALUES(${session_id},${program_id},'${title}','${speakers}')`;
+      const sql = `INSERT INTO program_agenda(session_id,program_id,title,speakers, year) 
+      VALUES(${session_id},${program_id},'${title}','${speakers}', ${year && year !== "2022" ?`'${year}'` : null})`;
 
       const sqlResult = await connection.query(sql);
 
@@ -215,7 +213,11 @@ const adminCtrl = {
         next_id=${sqlResult[0].insertId} 
         WHERE 
         id!=${sqlResult[0].insertId} 
-        AND program_id=${program_id} 
+        AND program_id=${program_id}
+        AND ${
+          year && year !== "2022"
+            ? ` year="${year}"`
+            : ` year IS NULL`}
         AND next_id=99999`;
         const adjustSqlResult = await connection.query(adjustSql);
         res.status(200).json({
@@ -241,12 +243,15 @@ const adminCtrl = {
     }
   },
   modifyAgenda: async (req, res) => {
-    const { nation, title, id, program_id, speakers, session_id } = req.body;
+    const { nation, title, id, program_id, speakers, session_id, year } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE program_agenda SET session_id=${session_id},program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id}`;
+      const sql = `UPDATE program_agenda SET session_id=${session_id},program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id} and${
+        year && year !== "2022"
+          ? ` year="${year}"`
+          : ` year IS NULL`} `;
 
       await connection.query(sql);
       res.status(200).json({
@@ -265,21 +270,30 @@ const adminCtrl = {
   },
 
   deleteAgenda: async (req, res) => {
-    const nation = req.query.nation;
+    const {nation, year} = req.query;
     const id = req.params.id;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql = `SELECT * FROM program_agenda WHERE id=${id}`;
+      let sql = `SELECT * FROM program_agenda WHERE id=${id} and${
+        year && year !== "2022"
+          ? ` year="${year}"`
+          : ` year IS NULL`}`;
 
       const selectResult = await connection.query(sql);
       const nextId = selectResult[0][0].next_id;
 
-      sql = `DELETE FROM program_agenda WHERE id=${id}`;
+      sql = `DELETE FROM program_agenda WHERE id=${id} and${
+        year && year !== "2022"
+          ? ` year="${year}"`
+          : ` year IS NULL`} `;
       await connection.query(sql);
 
-      sql = `UPDATE program_agenda SET next_id=${nextId} WHERE next_id=${id}`;
+      sql = `UPDATE program_agenda SET next_id=${nextId} WHERE next_id=${id} and${
+        year && year !== "2022"
+          ? ` year="${year}"`
+          : ` year IS NULL`}`;
       await connection.query(sql);
 
       res.status(200).json({
@@ -297,13 +311,16 @@ const adminCtrl = {
   },
 
   reorderAgenda: async (req, res) => {
-    const { agendaList, nation } = req.body;
+    const { agendaList, nation, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
       for (const agenda of agendaList) {
-        const sql = `UPDATE program_agenda SET next_id=${agenda.next_id} WHERE id=${agenda.id}`;
+        const sql = `UPDATE program_agenda SET next_id=${agenda.next_id} WHERE id=${agenda.id} and${
+          year && year !== "2022"
+            ? ` year="${year}"`
+            : ` year IS NULL`}`;
         await connection.query(sql);
       }
       res.status(200).json({
@@ -321,13 +338,13 @@ const adminCtrl = {
   },
 
   getHideProgram: async (req, res) => {
-    const { nation } = req.query;
+    const { nation,year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM programs WHERE status=0`;
+      const sql = `SELECT * FROM programs WHERE status=0 and${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`};`;
       const result = await connection.query(sql);
       res.send(result[0]);
       connection.release();
@@ -337,13 +354,13 @@ const adminCtrl = {
   },
 
   getHideSession: async (req, res) => {
-    const { nation } = req.query;
+    const { nation,year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM program_sessions WHERE status=0`;
+      const sql = `SELECT * FROM program_sessions WHERE status=0 and${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`};`;
       const result = await connection.query(sql);
       res.send(result[0]);
       connection.release();
@@ -537,13 +554,13 @@ const adminCtrl = {
   },
 
   getHideSpeaker: async (req, res) => {
-    const { nation } = req.query;
+    const { nation,year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM speakers WHERE status=0`;
+      const sql = `SELECT * FROM speakers WHERE status=0 and${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`};`;
       const result = await connection.query(sql);
       res.send(result[0]);
       connection.release();

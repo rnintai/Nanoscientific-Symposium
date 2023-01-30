@@ -24,6 +24,7 @@ import dayjs, { Dayjs } from "dayjs";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import {
   getUserTimezoneDate,
   getUserTimezoneString,
@@ -73,6 +74,7 @@ const ProgramForm = ({
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
 
   const programSubmitHandler = async () => {
     if (
@@ -103,6 +105,7 @@ const ProgramForm = ({
         endTime: getUserTimezoneString(endTime, "utc"),
         session: selectedSession,
         emphasize: emphasizeCheck,
+        year: currentYear,
       });
     } else {
       data = await axios.post("/api/admin/program", {
@@ -120,6 +123,7 @@ const ProgramForm = ({
         startTime: getUserTimezoneString(startTime, "utc"),
         endTime: getUserTimezoneString(endTime, "utc"),
         emphasize: emphasizeCheck ? 1 : 0,
+        year: currentYear,
       });
     }
 

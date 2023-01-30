@@ -10,6 +10,7 @@ import axios from "axios";
 import { Checkbox, DialogContentText, FormControlLabel } from "@mui/material";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import { ProgramHideFormContentContainer } from "./ProgramHideFormStyles";
 
 interface SpeakerHideFormProps {
@@ -30,9 +31,11 @@ const SpeakerHideForm = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [hideSpeakers, setHideSpeakers] = useState<Speaker.speakerType[]>();
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
   const config = {
     params: {
       nation: pathname,
+      currentYear,
     },
   };
   useEffect(() => {

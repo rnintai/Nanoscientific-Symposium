@@ -12,6 +12,7 @@ import { editorRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
 import NSSButton from "components/Button/NSSButton";
 import useNSSType from "hooks/useNSSType";
+import useCurrentYear from "hooks/useCurrentYear";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -25,6 +26,7 @@ const ProgramsList = () => {
   const nssType = useNSSType();
   const authState = useAuthState();
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [programAgenda, setProgramAgenda] = useState<
     Program.programAgendaType[]
@@ -39,6 +41,7 @@ const ProgramsList = () => {
   const config = {
     params: {
       nation: pathname,
+      year: currentYear,
     },
   };
   useEffect(() => {
