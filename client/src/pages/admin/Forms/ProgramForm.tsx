@@ -283,6 +283,7 @@ const ProgramForm = ({
           value={getUserTimezoneDate(startTime, selectedTimezone)}
           inputFormat="YYYY/MM/DD hh:mm a"
           onChange={(newValue: Dayjs) => {
+            if (!newValue) return;
             setStartTime(
               newValue.toDate().toLocaleString("sv-SE") +
                 selectedTimeZoneOffset,
@@ -296,6 +297,7 @@ const ProgramForm = ({
           inputFormat="YYYY/MM/DD hh:mm a"
           value={getUserTimezoneDate(endTime, selectedTimezone)}
           onChange={(newValue: Dayjs) => {
+            if (!newValue) return;
             setEndTime(
               newValue.toDate().toLocaleString("sv-SE") +
                 selectedTimeZoneOffset,
