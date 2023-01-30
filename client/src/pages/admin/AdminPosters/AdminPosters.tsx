@@ -11,6 +11,7 @@ import axios from "axios";
 import AdminLayout from "components/AdminLayout/AdminLayout";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import React, { useEffect, useState } from "react";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
@@ -28,6 +29,7 @@ interface adminPosterType extends Poster.posterType {
 const AdminPosters = () => {
   const pathname = usePageViews();
   const theme = useTheme();
+  const currentYear = useCurrentYear();
 
   //
   const [stage, setStage] = useState<PosterStageType>(0);
@@ -61,7 +63,9 @@ const AdminPosters = () => {
   const getPosterList = async () => {
     try {
       setGetPosterListLoading(true);
-      const res = await axios.get(`/api/page/common/poster?nation=${pathname}`);
+      const res = await axios.get(
+        `/api/page/common/poster?nation=${pathname}&year=${currentYear}`,
+      );
       const posterList = res.data;
       setPosterList(posterList);
       setOriginalPosterList(posterList);

@@ -11,6 +11,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { getUserTimezoneDate, isDateValid } from "utils/Date";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import { escapeQuotes } from "utils/String";
 import { useAuthState } from "../../../context/AuthContext";
 
@@ -51,6 +52,7 @@ const SessionForm = ({
   );
 
   const title = useInput(edit ? selectedSession.session_title : "");
+  const currentYear = useCurrentYear();
 
   const sessionSubmitHandler = async () => {
     if (title.value === "" || !date.isValid()) {
@@ -68,6 +70,7 @@ const SessionForm = ({
         title: escapeQuotes(title.value),
         status: status === "show" ? 1 : 0,
         date,
+        year: currentYear,
       });
     } else {
       // 추가 모달이라면 post 호출
@@ -75,6 +78,7 @@ const SessionForm = ({
         nation: pathname,
         title: escapeQuotes(title.value),
         date,
+        year: currentYear,
       });
     }
     if (data.data.success) {

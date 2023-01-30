@@ -122,6 +122,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
           author: author.value,
           previewURL,
           filePath,
+          year: currentYear,
         }
       : {
           nation: pathname,
@@ -130,6 +131,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
           author: author.value,
           previewURL,
           filePath,
+          year: currentYear,
         };
     try {
       setUploadLoading(true);

@@ -14,6 +14,7 @@ import ProgramForm from "pages/admin/Forms/ProgramForm";
 import ProgramHideForm from "pages/admin/Forms/ProgramHideForm";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import { Table, TableContainer, TableBody } from "@mui/material";
 import { AdminProgramsContainer } from "./AdminProgramsStyles";
 import AgendaForm from "../Forms/AgendaForm";
@@ -21,6 +22,7 @@ import AgendaForm from "../Forms/AgendaForm";
 const AdminPrograms = () => {
   const authState = useAuthState();
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
 
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
@@ -75,6 +77,7 @@ const AdminPrograms = () => {
   const config = {
     params: {
       nation: pathname,
+      year: currentYear,
     },
   };
   // alert

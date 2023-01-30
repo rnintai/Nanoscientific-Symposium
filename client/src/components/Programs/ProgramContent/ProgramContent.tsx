@@ -17,6 +17,7 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import { mainFontSize } from "utils/FontSize";
 
 interface ProgramContentProps extends Program.programType {
@@ -54,6 +55,7 @@ const ProgramContent = ({
 }: ProgramContentProps) => {
   const theme = useTheme();
   const nation = usePageViews();
+  const currentYear = useCurrentYear();
 
   // 아젠다 edit 여부 포함된 리스트
 
@@ -131,6 +133,7 @@ const ProgramContent = ({
       .post("/api/admin/program/agenda/reorder", {
         agendaList,
         nation,
+        currentYear,
       })
       .catch((err) => console.log(err))
       .finally(() => {
