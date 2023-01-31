@@ -21,6 +21,7 @@ import { useAuthState } from "context/AuthContext";
 import { useNavigate } from "react-router";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import useMenuStore from "store/MenuStore";
+import useCurrentYear from "hooks/useCurrentYear";
 import WebinarForm from "pages/admin/Forms/WebinarForm";
 import InvalidZoomCard from "components/ZoomCard/InvalidZoomCard";
 import NSSButton from "components/Button/NSSButton";
@@ -30,6 +31,7 @@ const LectureHall = () => {
   const authState = useAuthState();
   const { currentMenu } = useMenuStore();
   const navigate = useNavigate();
+  const currentYear = useCurrentYear();
 
   const isEditor = editorRole.includes(authState.role);
 
@@ -70,7 +72,7 @@ const LectureHall = () => {
   const getWebinars = async () => {
     setGetWebinarLoading(true);
     axios
-      .get(`/api/zoom/webinar/list?nation=${pathname}`)
+      .get(`/api/zoom/webinar/list?nation=${pathname}&year=${currentYear}`)
       .then(async (res) => {
         setWebinarList(res.data.result);
       })

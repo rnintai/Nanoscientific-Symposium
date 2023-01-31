@@ -24,6 +24,7 @@ import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import useCurrentYear, { defaultYear, yearList } from "hooks/useCurrentYear";
+import { useYearList } from "utils/useYear";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
@@ -123,6 +124,7 @@ const App = () => {
                 email: authState.email,
                 nation: pathname,
                 flag: "cached",
+                year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
               })
               .then((res) => {
                 if (res.data.success === true) {
@@ -148,7 +150,7 @@ const App = () => {
   const getBanner = async () => {
     setBannerLoading(true);
     const banner = await axios.get(
-      `/api/page/common/banner?nation=${pathname}&path=${encodeURIComponent(
+      `/api/page/common/banner?nation=${pathname}&year=${currentYear}&path=${encodeURIComponent(
         window.location.pathname
           .replace(`/${pathname}`, "")
           .replace(/\/+(\d)+/g, ""),
@@ -168,6 +170,7 @@ const App = () => {
       .post("/api/users/check", {
         accessToken: authState.accessToken,
         nation: pathname === "" ? "" : pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         /** 로그인 시, 페이지 이동 및 새로고침 할 때마다 검사 */

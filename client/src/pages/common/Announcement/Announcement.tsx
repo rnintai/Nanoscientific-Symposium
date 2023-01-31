@@ -166,6 +166,7 @@ const Announcement = () => {
           email: authState.email,
           nation: pathname,
           flag: "add",
+          year: currentYear,
         })
         .then((res) => {
           if (res.data.success === true) {

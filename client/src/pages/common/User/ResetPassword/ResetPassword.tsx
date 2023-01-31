@@ -11,6 +11,8 @@ import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
 import { useNavigate } from "react-router";
+import useCurrentYear from "hooks/useCurrentYear";
+import { useYearList } from "utils/useYear";
 import { globalData } from "utils/GlobalData";
 import LandingSection from "components/Section/LandingSection";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
@@ -36,6 +38,7 @@ const ResetPassword = () => {
   const nssType = useNSSType();
   const navigate = useNavigate();
   const theme = useTheme();
+  const currentYear = useCurrentYear();
 
   const {
     resetPasswordHeading,
@@ -95,6 +98,7 @@ const ResetPassword = () => {
         curPassword: isUserPasswordSet ? curPassword.value : null,
         newPassword: password1.value,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         if (res.data.success) {
@@ -144,6 +148,7 @@ const ResetPassword = () => {
       .post("/api/users/passwordset/check", {
         nation: pathname,
         email: authState.email,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         setIsUserPasswordSet(res.data.result);
