@@ -3,8 +3,12 @@ const {
   verifyToken,
   issueAccessToken,
   issueRefreshToken,
+  issueAccessTokenByYear,
+  issueRefreshTokenByYear,
   compareRefreshToken,
 } = require("../utils/jwt");
+
+const useYearList = ["eu"]
 
 module.exports = {
   checkToken: async (req, res, next) => {
@@ -15,6 +19,7 @@ module.exports = {
       });
       return;
     }
+  
     const accessToken = verifyToken(req.body.accessToken);
     const refreshToken = verifyToken(req.cookies.refreshToken);
 
@@ -26,7 +31,11 @@ module.exports = {
           .json({ success: false, code: "T40", message: "token is expired" });
       } else {
         // case 2: access 만료, refresh 살아있음 -> access 재발급
-        let newAccessToken = issueAccessToken(refreshToken.email);
+        let newAccessToken;
+        if(useYearList.indexOf(req.body.nation) === -1) {
+          newAccessToken = issueAccessToken(refreshToken.email);
+        }
+        else newAccessToken = issueAccessTokenByYear(refreshToken.email,refreshToken.year);
         // 다음 미들웨어에서 접근하기 위한 전역 변수로 지정
         res.locals.accessToken = newAccessToken;
         next();
@@ -34,7 +43,12 @@ module.exports = {
     } else {
       if (refreshToken === null) {
         // case 3: access 살아있음, refresh 만료 -> refresh 재발급
-        let newRefreshToken = issueRefreshToken(accessToken.email);
+        let newRefreshToken;
+        if(useYearList.indexOf(req.body.nation) === -1) {
+          newRefreshToken = issueRefreshToken(accessToken.email);
+        }
+        else newRefreshToken = issueRefreshTokenByYear(accessToken.email,accessToken.year);
+        // let newRefreshToken = issueRefreshToken(accessToken.email);
         res.cookie("refreshToken", newRefreshToken, {
           httpOnly: true,
         });
@@ -50,10 +64,23 @@ module.exports = {
   readUser: async (req, res, next) => {
     const accessToken = verifyToken(res.locals.accessToken);
     const currentPool = getCurrentPool(req.body.nation);
+    const year = req.body.year;
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT 
+      let sql;
+      if(useYearList.indexOf(req.body.nation) === -1){ // useYearList에 없는 경우
+        sql = `SELECT 
+        id,
+        email,
+        role,
+        is_password_set,
+        is_new_announcement,
+        is_announcement_cached
+        FROM user 
+        WHERE email="${accessToken.email}"
+        AND refresh_token="${req.cookies.refreshToken}";`
+      } else sql = `SELECT 
       id,
       email,
       role,
@@ -62,10 +89,10 @@ module.exports = {
       is_announcement_cached
       FROM user 
       WHERE email="${accessToken.email}"
-      AND refresh_token="${req.cookies.refreshToken}"`;
+      AND refresh_token="${req.cookies.refreshToken}"
+      AND${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`};`;
 
       const result = await connection.query(sql);
-
       if (result[0].length === 0) {
         // refresh token에 해당하는 유저가 없을 때
         res.status(200).json({

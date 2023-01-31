@@ -30,6 +30,7 @@ import {
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
+import { useYearList } from "utils/useYear";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { mainFontSize, smallFontSize } from "utils/FontSize";
@@ -109,6 +110,7 @@ navProps) => {
       .post("/api/users/logout", {
         email,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         if (res.data.success === true) {

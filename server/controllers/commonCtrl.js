@@ -333,7 +333,7 @@ const commonCtrl = {
   },
 
   getBanner: async (req, res) => {
-    const { nation, path } = req.query;
+    const { nation,year, path } = req.query;
     const currentPool = getCurrentPool(nation);
     if (!currentPool) {
       res.status(200).json({
@@ -344,9 +344,8 @@ const commonCtrl = {
     }
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(
-        path
-      )}'`;
+      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
+      ` year="${year}"`: ` year IS NULL`}`;
       const row = await connection.query(sql);
       connection.release();
       if (row[0].length === 0) {
@@ -369,13 +368,12 @@ const commonCtrl = {
     }
   },
   setBanner: async (req, res) => {
-    const { nation, path, imagePath } = req.body;
+    const { nation, path, imagePath, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(
-        path
-      )}'`;
+      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
+      ` year="${year}"`: ` year IS NULL`}`
       await connection.query(sql);
       connection.release();
       res.status(200).json({

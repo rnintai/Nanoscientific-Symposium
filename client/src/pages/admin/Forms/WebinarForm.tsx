@@ -7,6 +7,7 @@ import S3Upload from "components/S3Upload/S3Upload";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import { useNavigate } from "react-router";
 import useAdminStore from "store/AdminStore";
 
@@ -18,6 +19,7 @@ const WebinarForm = ({ open, setOpen, ...rest }: WebinarFormProps) => {
   const webinarId = useInput("");
   const navigate = useNavigate();
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [checkLoading, setCheckLoading] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -25,9 +27,12 @@ const WebinarForm = ({ open, setOpen, ...rest }: WebinarFormProps) => {
   const handleSubmit = async () => {
     try {
       setSubmitLoading(true);
-      await axios.post(`/api/zoom/webinar?nation=${pathname}`, {
-        webinarId: webinarId.value,
-      });
+      await axios.post(
+        `/api/zoom/webinar?nation=${pathname}&year=${currentYear}`,
+        {
+          webinarId: webinarId.value,
+        },
+      );
       setOpen(false);
       navigate(0);
     } catch (err) {
@@ -41,7 +46,7 @@ const WebinarForm = ({ open, setOpen, ...rest }: WebinarFormProps) => {
     try {
       setCheckLoading(true);
       const res = await axios.get(
-        `/api/zoom/webinar/${webinarId.value}?nation=${pathname}`,
+        `/api/zoom/webinar/${webinarId.value}?nation=${pathname}&year=${currentYear}`,
       );
       alert("The webinar has successfully checked. Press 'Apply'");
       setIsChecked(true);
