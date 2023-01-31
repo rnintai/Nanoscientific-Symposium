@@ -374,6 +374,10 @@ export const globalData = new Map<string, Common.globalDataType>([
 
       // speaker
       speakerBannerURL: `${S3_URL}/eu/speaker-banner.jpg`,
+
+      //
+      registrationTitle: "Registration",
+      registrationDesc: "",
     },
   ],
 ]);

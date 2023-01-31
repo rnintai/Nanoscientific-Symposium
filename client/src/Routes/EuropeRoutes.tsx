@@ -14,6 +14,7 @@ import Announcement from "pages/common/Announcement/Announcement";
 import AnnouncementDetail from "pages/common/AnnouncementDetail/AnnouncementDetail";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
 import PosterHall from "pages/common/PosterHall/PosterHall";
+import EuropeRegistration2023 from "pages/europe/EuropeRegistration/EuropeRegistration2023";
 // import Landing2023 from "pages/2023/Landing/Landing2023";
 
 const formNo = "1149";
@@ -29,18 +30,6 @@ yearList.map((y) => {
       {
         path: `/${pathname}`,
         element: <Landing key={`${pathname}-landing-section`} />,
-      },
-      {
-        path: `/${pathname}/registration`,
-        element: <EuropeRegistration init isStudent={false} />,
-      },
-      {
-        path: `/${pathname}/registration/student`,
-        element: <EuropeRegistration isStudent />,
-      },
-      {
-        path: `/${pathname}/registration/postdoc`,
-        element: <EuropeRegistration isStudent={false} />,
       },
       {
         path: `/${pathname}/program`,
@@ -100,5 +89,34 @@ yearList.map((y) => {
     ],
   );
 });
+
+euRoutes.push(
+  ...[
+    {
+      path: `/eu/2022/registration`,
+      element: <EuropeRegistration init isStudent={false} />,
+    },
+    {
+      path: `/eu/2022/registration/student`,
+      element: <EuropeRegistration isStudent />,
+    },
+    {
+      path: `/eu/2022/registration/postdoc`,
+      element: <EuropeRegistration isStudent={false} />,
+    },
+    {
+      path: `/eu/2023/registration`,
+      element: <EuropeRegistration2023 init isStudent={false} />,
+    },
+    {
+      path: `/eu/2023/registration/student`,
+      element: <EuropeRegistration2023 isStudent />,
+    },
+    {
+      path: `/eu/2023/registration/postdoc`,
+      element: <EuropeRegistration2023 isStudent={false} />,
+    },
+  ],
+);
 
 export default euRoutes;
