@@ -21,18 +21,6 @@ module.exports = {
     });
   },
 
-   // 연도 구분해야 할 때 사용
-   issueAccessTokenByYear: (email,year) => {
-    return jwt.sign({ email,year }, process.env.JWT_SECRET, {
-      expiresIn: "10m",
-    });
-  },
-  issueRefreshTokenByYear: (email,year) => {
-    return jwt.sign({ email,year }, process.env.JWT_SECRET, {
-      expiresIn: "14d",
-    });
-  },
-
   issueZoomToken: (apiKey, apiSecret) => {
     const payload = {
       iss: apiKey,

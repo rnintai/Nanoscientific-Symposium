@@ -149,7 +149,7 @@ const zoomCtrl = {
             (a, b) => new Date(a.start_time) - new Date(b.start_time)
           );
         } catch (err) {
-          result.push({ id: mi, connected: false });
+          result.push({ id: m.id, connected: false });
           continue;
         }
       }
@@ -538,7 +538,7 @@ const zoomCtrl = {
           connected: true,
         });
       } catch (err) {
-        result.push({ id: mi, connected: false });
+        result.push({ id: m.id, connected: false });
         continue;
       }
     }
