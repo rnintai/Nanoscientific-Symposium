@@ -31,11 +31,7 @@ module.exports = {
           .json({ success: false, code: "T40", message: "token is expired" });
       } else {
         // case 2: access 만료, refresh 살아있음 -> access 재발급
-        let newAccessToken;
-        if(useYearList.indexOf(req.body.nation) === -1) {
-          newAccessToken = issueAccessToken(refreshToken.email);
-        }
-        else newAccessToken = issueAccessTokenByYear(refreshToken.email,refreshToken.year);
+        let newAccessToken = issueAccessToken(refreshToken.email);
         // 다음 미들웨어에서 접근하기 위한 전역 변수로 지정
         res.locals.accessToken = newAccessToken;
         next();
@@ -43,12 +39,7 @@ module.exports = {
     } else {
       if (refreshToken === null) {
         // case 3: access 살아있음, refresh 만료 -> refresh 재발급
-        let newRefreshToken;
-        if(useYearList.indexOf(req.body.nation) === -1) {
-          newRefreshToken = issueRefreshToken(accessToken.email);
-        }
-        else newRefreshToken = issueRefreshTokenByYear(accessToken.email,accessToken.year);
-        // let newRefreshToken = issueRefreshToken(accessToken.email);
+        let newRefreshToken = issueRefreshToken(accessToken.email);
         res.cookie("refreshToken", newRefreshToken, {
           httpOnly: true,
         });
@@ -87,10 +78,9 @@ module.exports = {
       is_password_set,
       is_new_announcement,
       is_announcement_cached
-      FROM user 
+      FROM ${year && year !== "2022" ? `user_${year}` : `user`}
       WHERE email="${accessToken.email}"
-      AND refresh_token="${req.cookies.refreshToken}"
-      AND${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`};`;
+      AND refresh_token="${req.cookies.refreshToken}"`;
 
       const result = await connection.query(sql);
       if (result[0].length === 0) {
