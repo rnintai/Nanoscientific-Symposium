@@ -52,7 +52,6 @@ declare global {
 }
 
 const gaID = "G-BS77NX7Z9T";
-// 주소에 연도 비포함 시 redirect시킬 연도
 
 const App = () => {
   const pathname = usePageViews();
@@ -266,7 +265,7 @@ const App = () => {
   const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
   // const [menuList, setMenuList] = useState<Common.menuType[]>(null);
   const menuStore = useMenuStore();
-  const { menuList, currentMenu, setMenuList, setCurrentMenuState } = menuStore;
+  const { menuList, currentMenu, setMenuList, setCurrentMenu } = menuStore;
   const [documentTitle, setDocumentTitle] = useState<string>();
 
   // config state
@@ -374,7 +373,7 @@ const App = () => {
   }, [pathname]);
 
   useEffect(() => {
-    setCurrentMenuState(window.location.pathname);
+    setCurrentMenu(window.location.pathname);
     // ga
     const { title } = window.document;
     const { href } = window.location;

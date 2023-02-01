@@ -117,7 +117,115 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
+    "asia2023",
+    {
+      fullName: "2023 NanoScientific Symposium Asia | NSS Asia",
+      fullDate: "November 25, 2022",
+      eventLocation: "Marina Bay Sands, Singapore (Hybrid Event)",
+      logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
+      speakers: "Speakers",
+      programs: "PROGRAM",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      // sponsors: "SPONSORS",
+      home: "HOME",
+      // registration: "REGISTRATION",
+      // buttonText
+      goNextText: "NEXT",
+      goPrevText: "PREV",
+      uploadBtnText: "Upload",
+      submitBtnText: "SUBMIT",
+      registerBtnText: "REGISTER",
+      // user관련
+      emailInputLabel: "Email Address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot your password?",
+      // createAccountText: "Create an account",
+      changePasswordBtnText: "Change Password",
+      // landing
+      showLandingSection1: true,
+      landingSection1BackgroundURL: `${S3_URL}/asia/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/asia/logo-type-1b.svg`,
+      landingSection1Desc:
+        "Join us for the 4th edition of the NanoScientific Symposium Asia 2022 to be held on November 25, 2022.",
+
+      // resetPassword
+      resetPasswordHeading: "Change a Password",
+      resetPasswordCurrentLabel: "Current Password",
+      resetPasswordNewLabel: "New Password",
+      resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // registration
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+    },
+  ],
+  [
     "kr2022",
+    {
+      fullName: "2022 NanoScientific Symposium Korea | NSS Korea",
+      fullDate: "2022년 11월 23일",
+      eventLocation: "대전컨벤션센터 컨퍼런스홀",
+      logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
+      speakers: "초청연사",
+      symposium: "심포지엄 안내",
+      programs: "프로그램",
+      lectureHall: "온라인 강연장",
+      exhibitHall: "전시부스 ",
+      // sponsors: "협찬사",
+      home: "홈",
+
+      // sign in 관련
+      signInText: "로그인",
+      registration: "등록",
+      goNextText: "다음",
+      goPrevText: "이전",
+      uploadBtnText: "Upload",
+      submitBtnText: "제출",
+
+      // user관련
+      emailInputLabel: "이메일 주소",
+      passwordInputLabel: "비밀번호",
+      forgotPasswordText: "비밀번호 찾기",
+      createAccountText: "계정 등록",
+      // landing
+      showLandingSection1: true,
+      landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.png`,
+      landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
+      landingSection1Desc: `
+        NanoScientific Symposium Korea 등록하기
+        <br/><br/>
+        국내 원자현미경 전문 심포지엄 NanoScientific Symposium Korea (NSS Korea) 등록을 위해 '등록(registration)' 을 클릭해주세요.
+        `,
+      // resetPassword
+      resetPasswordHeading: "Change a Password",
+      resetPasswordCurrentLabel: "Current Password",
+      resetPasswordNewLabel: "New Password",
+      resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // 프로그램
+      programFileLink:
+        "https://surfaceanalysis.kr/img/file/pdf/2022%EB%85%84%EB%8F%84-%ED%91%9C%EB%A9%B4%EB%B6%84%EC%84%9D%ED%95%99%EC%88%A0%EB%8C%80%ED%9A%8C%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-%EC%A2%8C%EC%9E%A5%ED%8F%AC%ED%95%A8-%EC%B5%9C%EC%A2%85.pdf",
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+    },
+  ],
+  [
+    "kr2023",
     {
       fullName: "2022 NanoScientific Symposium Korea | NSS Korea",
       fullDate: "2022년 11월 23일",
@@ -228,7 +336,109 @@ export const globalData = new Map<string, Common.globalDataType>([
     },
   ],
   [
+    "jp2023",
+    {
+      fullName: "2022 NanoScientific Symposium Japan | NSS Japan",
+      fullDate: "2022年11月18日金曜日",
+      eventLocation: "東京大学 本郷キャンパス 工学部２号館",
+      logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
+      speakers: "講演者",
+      programs: "プログラム",
+      lectureHall: "Web講演会",
+      exhibitHall: "展示会",
+      // sponsors: "スポンサー",
+      home: "ホーム",
+      greeting: "ごあいさつ",
+      attend: "参加手順",
+      archive: "アーカイブ",
+
+      signInText: "ログイン",
+      // registration: "参加登録はこちらから",
+      goNextText: "NEXT",
+      goPrevText: "PREV",
+      uploadBtnText: "ポスターのアップロード",
+      submitBtnText: "提出",
+
+      // user관련
+      emailInputLabel: "Email address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot Password?",
+      // createAccountText: "参加登録はこちらから",
+      passwordSetDescription:
+        "本サイトをご利用になるにはIDとパスワードが必要です。IDはご入力いただきましたメールアドレスとなりますので、以下にてパスワードの設定をお願いいたします。",
+      // landing
+      showLandingSection1: true,
+      landingSection1BackgroundURL: `${S3_URL}/jp/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/jp/logo-type-1b.svg`,
+      landingSection1Desc: `
+        ナノテクノロジーとSPMに特化したナノ科学シンポジウム 2022 参加登録受付中！
+        `,
+      // resetPassword
+      resetPasswordHeading: "Change a Password",
+      resetPasswordCurrentLabel: "Current Password",
+      resetPasswordNewLabel: "New Password",
+      resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "アップロード可能なファイル形式 (.pdf, .docx, .pptx) (ファイルサイズ最大 15MBまで)",
+    },
+  ],
+  [
     "americas2022",
+    {
+      fullName: "2022 NanoScientific Symposium Americas | NSS Americas",
+      fullDate: "September 29, 2022",
+      // eventLocation: "TBD",
+      logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
+      speakers: "Speakers",
+      programs: "PROGRAM",
+      lectureHall: "LECTURE HALL",
+      exhibitHall: "EXHIBIT HALL",
+      // sponsors: "SPONSORS",
+      home: "HOME",
+      registration: "REGISTRATION",
+      // buttonText
+      goNextText: "NEXT",
+      goPrevText: "PREV",
+      uploadBtnText: "Upload",
+      submitBtnText: "SUBMIT",
+      // user관련
+      emailInputLabel: "Email Address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot your password?",
+      createAccountText: "Create an account",
+      changePasswordBtnText: "Change Password",
+      // landing
+      showLandingSection1: true,
+      landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
+      landingSection1LogoURL: `${S3_URL}/us/logo-type-1b.svg`,
+      landingSection1Desc:
+        "Join the 2022 NanoScientific Symposium Americas (NSS Americas)- Connecting the Nanomaterials Community.",
+
+      // resetPassword
+      resetPasswordHeading: "Change a Password",
+      resetPasswordCurrentLabel: "Current Password",
+      resetPasswordNewLabel: "New Password",
+      resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+    },
+  ],
+  [
+    "americas2023",
     {
       fullName: "2022 NanoScientific Symposium Americas | NSS Americas",
       fullDate: "September 29, 2022",

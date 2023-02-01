@@ -180,6 +180,7 @@ navProps) => {
               className="menu-item-wrap"
             >
               {!menuStateLoading &&
+                menuList &&
                 menuList.map((menu) => {
                   if (
                     (menu.show || editorRole.includes(authState.role)) &&
@@ -305,63 +306,67 @@ navProps) => {
                   return null;
                 })}
               <div className="user-menu-wrap">
-                {(menuList.filter((m) => !m.is_main && m.show).length !== 0 ||
-                  (editorRole.includes(authState.role) &&
-                    menuList.filter((m) => !m.is_main).length !== 0)) && (
-                  <>
-                    <NSSButton
-                      id="basic-button"
-                      className="user-menu"
-                      type="button"
-                      variant="icon"
-                      onClick={handleMoreMenuClick}
-                      aria-controls={openUserMenu ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={openUserMenu ? "true" : undefined}
-                      isMoreverIcon
-                      // markAnnouncementAlarm={markAnnouncementAlarm}
-                    >
-                      <MoreVertIcon />
-                    </NSSButton>
-                    <Menu
-                      id="basic-menu"
-                      open={openMoreMenu}
-                      onClose={handleMoreMenuClose}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                      }}
-                      anchorEl={moreMenuanchorEl}
-                      disableScrollLock
-                    >
-                      <MenuList dense>
-                        {menuList
-                          .filter((m) => !m.is_main)
-                          .map((m) => {
-                            if (m.show || editorRole.includes(authState.role)) {
-                              return (
-                                <Link
-                                  to={`${pathname}/${currentYear}${m.path}`}
-                                  onClick={handleMoreMenuClose}
-                                >
-                                  <AnnouncementMenuItemContainer
-                                    key={`menu-${m.id}`}
-                                    className={m.name}
+                {menuList &&
+                  (menuList.filter((m) => !m.is_main && m.show).length !== 0 ||
+                    (editorRole.includes(authState.role) &&
+                      menuList.filter((m) => !m.is_main).length !== 0)) && (
+                    <>
+                      <NSSButton
+                        id="basic-button"
+                        className="user-menu"
+                        type="button"
+                        variant="icon"
+                        onClick={handleMoreMenuClick}
+                        aria-controls={openUserMenu ? "basic-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openUserMenu ? "true" : undefined}
+                        isMoreverIcon
+                        // markAnnouncementAlarm={markAnnouncementAlarm}
+                      >
+                        <MoreVertIcon />
+                      </NSSButton>
+                      <Menu
+                        id="basic-menu"
+                        open={openMoreMenu}
+                        onClose={handleMoreMenuClose}
+                        MenuListProps={{
+                          "aria-labelledby": "basic-button",
+                        }}
+                        anchorEl={moreMenuanchorEl}
+                        disableScrollLock
+                      >
+                        <MenuList dense>
+                          {menuList
+                            .filter((m) => !m.is_main)
+                            .map((m) => {
+                              if (
+                                m.show ||
+                                editorRole.includes(authState.role)
+                              ) {
+                                return (
+                                  <Link
+                                    to={`${pathname}/${currentYear}${m.path}`}
+                                    onClick={handleMoreMenuClose}
                                   >
-                                    {m.name.toLowerCase() === "announcement" &&
-                                    alarmState.alarm ? (
-                                      <AnnouncementAlarm />
-                                    ) : null}
-                                    {m.name}
-                                  </AnnouncementMenuItemContainer>
-                                </Link>
-                              );
-                            }
-                            return null;
-                          })}
-                      </MenuList>
-                    </Menu>
-                  </>
-                )}
+                                    <AnnouncementMenuItemContainer
+                                      key={`menu-${m.id}`}
+                                      className={m.name}
+                                    >
+                                      {m.name.toLowerCase() ===
+                                        "announcement" && alarmState.alarm ? (
+                                        <AnnouncementAlarm />
+                                      ) : null}
+                                      {m.name}
+                                    </AnnouncementMenuItemContainer>
+                                  </Link>
+                                );
+                              }
+                              return null;
+                            })}
+                        </MenuList>
+                      </Menu>
+                    </>
+                  )}
                 {(pathname !== "kr" || editorRole.includes(authState.role)) && (
                   <>
                     <NSSButton
