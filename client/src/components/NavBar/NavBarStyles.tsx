@@ -2,6 +2,9 @@ import styled, { css } from "styled-components";
 import { useTheme, MenuItem } from "@mui/material";
 
 export const NavBarContainer = styled.div`
+  .op5 {
+    opacity: .5;
+  }
   width: 100%;
   height: 110px;
   border-bottom: ${() => {
