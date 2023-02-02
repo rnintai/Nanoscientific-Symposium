@@ -2,9 +2,6 @@ import styled from "styled-components";
 import { useTheme } from "@mui/material";
 
 export const MenuLinkContainer = styled.div`
-  &.op5 {
-    opacity: 0.5;
-  }
   display: flex;
   align-items: center;
   justify-content: center;

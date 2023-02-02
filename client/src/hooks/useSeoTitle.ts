@@ -4,7 +4,7 @@ import useCurrentYear from "./useCurrentYear";
 import useNSSType from "./useNSSType";
 import usePageViews from "./usePageViews";
 
-const useSeoTitle = (pathname: string, nssType: string) => {
+const useSeoTitle = (pathname: string, year: string, nssType: string) => {
   let fullName;
 
   switch (pathname) {
@@ -17,7 +17,7 @@ const useSeoTitle = (pathname: string, nssType: string) => {
       break;
     }
     default: {
-      fullName = "2022 NanoScientific";
+      fullName = `${year} NANOscientific`;
     }
   }
 

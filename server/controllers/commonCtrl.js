@@ -21,11 +21,14 @@ const commonCtrl = {
     res.sendFile(path.join(__dirname, "..", "public/common/maintenance.html"));
   },
   getPrograms: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM programs WHERE status=1 ORDER BY start_time `;
+      const sql = `SELECT * FROM programs WHERE status=1 and${
+        year && year !== "2022"
+          ? ` year="${year}"`
+          : ` year IS NULL`} ORDER BY start_time `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -35,11 +38,14 @@ const commonCtrl = {
     }
   },
   getAgenda: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM program_agenda ORDER BY program_id,next_id`;
+      const sql = `SELECT * FROM program_agenda where${
+        year && year !== "2022"
+          ? ` year="${year}"`
+          : ` year IS NULL`} ORDER BY program_id,next_id`;
       const result = await connection.query(sql);
       connection.release();
       res.status(200).json({ success: 1, data: result[0] });
@@ -50,11 +56,14 @@ const commonCtrl = {
     }
   },
   getSessions: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM program_sessions WHERE status=1 ORDER BY date `;
+      const sql = `SELECT * FROM program_sessions WHERE status=1 and${
+        year && year !== "2022"
+          ? ` year="${year}"`
+          : ` year IS NULL`} ORDER BY date `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -64,8 +73,7 @@ const commonCtrl = {
     }
   },
   getSpeakers: async (req, res) => {
-    const { nation } = req.query;
-    const { year } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -85,12 +93,13 @@ const commonCtrl = {
     }
   },
   getSpeakersAbstract: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM speaker_abstract as S`;
+      const sql = `SELECT * FROM speaker_abstract as S WHERE year${year&&year!=="2022" ? `=${year}` : ` IS NULL`};`;
       const result = await connection.query(sql);
+      console.log(sql)
       connection.release();
       res.send(result[0]);
     } catch (err) {
@@ -99,7 +108,7 @@ const commonCtrl = {
     }
   },
   updateSpeakerList: async (req, res) => {
-    const { nation, list, abstractlist } = req.body;
+    const { nation, list, abstractlist,year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -132,7 +141,8 @@ const commonCtrl = {
 
       while (abstractlist.length > 0) {
         const { id, speaker_id, belong, description } = abstractlist.shift();
-        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}' WHERE id=${id}`;
+        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}', year='${year && year !== "2022" ? year : null}' WHERE id=${id}
+        };`;
         await connection.query(sql);
         connection.release();
       }
@@ -149,12 +159,14 @@ const commonCtrl = {
     }
   },
   getPosters: async (req, res) => {
-    const { nation } = req.query;
+    const { nation,year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM poster`;
+      const sql = `SELECT * FROM poster where${
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      }; `;
       const result = await connection.query(sql);
       connection.release();
 
@@ -166,7 +178,7 @@ const commonCtrl = {
   },
   // poster add
   addPoster: async (req, res) => {
-    const { nation, id, title, affiliation, author, previewURL, filePath } =
+    const { nation, id, title, affiliation, author, previewURL, filePath, year } =
       req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
@@ -174,8 +186,8 @@ const commonCtrl = {
     try {
       let sql = "";
       if (id === undefined) {
-        sql = `INSERT INTO poster (title,sub_title,author,image,attachment) VALUES 
-        ('${title}','${affiliation}','${author}','${previewURL}','${filePath}')`;
+        sql = `INSERT INTO poster (title,sub_title,author,image,attachment, year) VALUES 
+        ('${title}','${affiliation}','${author}','${previewURL}','${filePath}', ${year && year !== "2022" ?`'${year}'` : null})`;
       } else {
         sql = `UPDATE poster SET 
         title='${title}',
@@ -257,8 +269,7 @@ const commonCtrl = {
   },
 
   getKeynoteSpeakers: async (req, res) => {
-    const { nation } = req.query;
-    const {year} = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -291,7 +302,7 @@ const commonCtrl = {
         S.description as title,
         SA.belong,
         SA.description
-      FROM speakers as S 
+      FROM speakers as S
       INNER JOIN speaker_abstract as SA 
         ON S.id=SA.speaker_id WHERE S.id=${id}
       `;
@@ -322,7 +333,7 @@ const commonCtrl = {
   },
 
   getBanner: async (req, res) => {
-    const { nation, path } = req.query;
+    const { nation,year, path } = req.query;
     const currentPool = getCurrentPool(nation);
     if (!currentPool) {
       res.status(200).json({
@@ -333,9 +344,8 @@ const commonCtrl = {
     }
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(
-        path
-      )}'`;
+      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
+      ` year="${year}"`: ` year IS NULL`}`;
       const row = await connection.query(sql);
       connection.release();
       if (row[0].length === 0) {
@@ -358,13 +368,12 @@ const commonCtrl = {
     }
   },
   setBanner: async (req, res) => {
-    const { nation, path, imagePath } = req.body;
+    const { nation, path, imagePath, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(
-        path
-      )}'`;
+      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
+      ` year="${year}"`: ` year IS NULL`}`
       await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -443,7 +452,11 @@ const commonCtrl = {
       const sql = `
         UPDATE landing_section SET 
         landing_section.title='${title}'
-        WHERE id=${id}
+        WHERE id=${id} and${
+          year && year !== "2022"
+            ? ` year="${year}"`
+            : ` year IS NULL`
+        }
         `;
       await connection.query(sql);
       connection.release();
