@@ -400,8 +400,6 @@ const usersCtrl = {
           ${isStudent ? 1 : 0}
         )
         `;
-
-        console.log(sql);
       } else if (nation === "kr") {
         sql = `INSERT INTO user(
           title,
