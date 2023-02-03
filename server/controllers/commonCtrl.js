@@ -27,9 +27,8 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `SELECT * FROM programs WHERE status=1 and${
-        year && year !== "2022"
-          ? ` year="${year}"`
-          : ` year IS NULL`} ORDER BY start_time `;
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      } ORDER BY start_time `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -44,9 +43,8 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `SELECT * FROM program_agenda where${
-        year && year !== "2022"
-          ? ` year="${year}"`
-          : ` year IS NULL`} ORDER BY program_id,next_id`;
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      } ORDER BY program_id,next_id`;
       const result = await connection.query(sql);
       connection.release();
       res.status(200).json({ success: 1, data: result[0] });
@@ -62,9 +60,8 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `SELECT * FROM program_sessions WHERE status=1 and${
-        year && year !== "2022"
-          ? ` year="${year}"`
-          : ` year IS NULL`} ORDER BY date `;
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      } ORDER BY date `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -98,9 +95,10 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM speaker_abstract as S WHERE year${year&&year!=="2022" ? `=${year}` : ` IS NULL`};`;
+      const sql = `SELECT * FROM speaker_abstract as S WHERE year${
+        year && year !== "2022" ? `=${year}` : ` IS NULL`
+      };`;
       const result = await connection.query(sql);
-      console.log(sql)
       connection.release();
       res.send(result[0]);
     } catch (err) {
@@ -109,7 +107,7 @@ const commonCtrl = {
     }
   },
   updateSpeakerList: async (req, res) => {
-    const { nation, list, abstractlist,year } = req.body;
+    const { nation, list, abstractlist, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -142,7 +140,9 @@ const commonCtrl = {
 
       while (abstractlist.length > 0) {
         const { id, speaker_id, belong, description } = abstractlist.shift();
-        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}', year='${year && year !== "2022" ? year : null}' WHERE id=${id}
+        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}', year='${
+          year && year !== "2022" ? year : null
+        }' WHERE id=${id}
         };`;
         await connection.query(sql);
         connection.release();
@@ -160,7 +160,7 @@ const commonCtrl = {
     }
   },
   getPosters: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -179,8 +179,16 @@ const commonCtrl = {
   },
   // poster add
   addPoster: async (req, res) => {
-    const { nation, id, title, affiliation, author, previewURL, filePath, year } =
-      req.body;
+    const {
+      nation,
+      id,
+      title,
+      affiliation,
+      author,
+      previewURL,
+      filePath,
+      year,
+    } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -188,7 +196,9 @@ const commonCtrl = {
       let sql = "";
       if (id === undefined) {
         sql = `INSERT INTO poster (title,sub_title,author,image,attachment, year) VALUES 
-        ('${title}','${affiliation}','${author}','${previewURL}','${filePath}', ${year && year !== "2022" ?`'${year}'` : null})`;
+        ('${title}','${affiliation}','${author}','${previewURL}','${filePath}', ${
+          year && year !== "2022" ? `'${year}'` : null
+        })`;
       } else {
         sql = `UPDATE poster SET 
         title='${title}',
@@ -296,8 +306,8 @@ const commonCtrl = {
 
     try {
       let sql;
-      if(nation === "china"){
-        sql =   `SELECT 
+      if (nation === "china") {
+        sql = `SELECT 
         S.id, 
         S.name,
         S.name_en,
@@ -312,8 +322,7 @@ const commonCtrl = {
       INNER JOIN speaker_abstract as SA 
         ON S.id=SA.speaker_id WHERE S.id=${id}
       `;
-      }
-      else {
+      } else {
         sql = `
       SELECT 
         S.id, 
@@ -354,7 +363,7 @@ const commonCtrl = {
   },
 
   getBanner: async (req, res) => {
-    const { nation,year, path } = req.query;
+    const { nation, year, path } = req.query;
     const currentPool = getCurrentPool(nation);
     if (!currentPool) {
       res.status(200).json({
@@ -365,8 +374,9 @@ const commonCtrl = {
     }
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
-      ` year="${year}"`: ` year IS NULL`}`;
+      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(
+        path
+      )}' and${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`}`;
       const row = await connection.query(sql);
       connection.release();
       if (row[0].length === 0) {
@@ -393,8 +403,9 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
-      ` year="${year}"`: ` year IS NULL`}`
+      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(
+        path
+      )}' and${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`}`;
       await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -409,12 +420,12 @@ const commonCtrl = {
     }
   },
   getLandingSectionList: async (req, res) => {
-    const { nation, year,language } = req.query;
+    const { nation, year, language } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       let sql;
-      if(nation == "china"){
+      if (nation === "china") {
         sql = `
         SELECT
         id,
@@ -426,9 +437,8 @@ const commonCtrl = {
             : ` WHERE year IS NULL`
         };
         `;
-      }
-      else {
-        sql =  `
+      } else {
+        sql = `
         SELECT * FROM landing_section${
           year && year !== "2022"
             ? ` WHERE year="${year}"`
@@ -480,31 +490,29 @@ const commonCtrl = {
     }
   },
   setLandingTitle: async (req, res) => {
-    const { nation, title, year,language} = req.body;
+    const { nation, title, year, language } = req.body;
     const { id } = req.params;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
       let sql;
-      if(nation == "china"){
+      if (nation === "china") {
         sql = `
         UPDATE landing_section SET 
-        landing_section.${language === "china" ? "title" : "title_en"}='${title}'
+        landing_section.${
+          language === "china" ? "title" : "title_en"
+        }='${title}'
         WHERE id=${id} and${
-          year && year !== "2022"
-            ? ` year="${year}"`
-            : ` year IS NULL`
+          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
         }
         `;
-      }
-      else sql = `
+      } else
+        sql = `
         UPDATE landing_section SET 
         landing_section.title='${title}'
         WHERE id=${id} and${
-          year && year !== "2022"
-            ? ` year="${year}"`
-            : ` year IS NULL`
+          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
         }
         `;
       await connection.query(sql);
@@ -523,17 +531,29 @@ const commonCtrl = {
     }
   },
   getLandingContent: async (req, res) => {
-    const { nation, year } = req.query;
+    const { nation, year, language } = req.query;
     const { id } = req.params;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `
+      let sql;
+      if (nation === "china" && id !== "4" && id !== "7" && id !== "6") {
+        sql = `
+        SELECT ${
+          language === "china" ? "description" : "description_en"
+        } as description, id,year FROM landing_section_${id}${
+          year && year !== "2022"
+            ? ` WHERE year="${year}"`
+            : ` WHERE year IS NULL`
+        };
+        `;
+      } else
+        sql = `
       SELECT * FROM landing_section_${id}${
-        year && year !== "2022"
-          ? ` WHERE year="${year}"`
-          : ` WHERE year IS NULL`
-      };
+          year && year !== "2022"
+            ? ` WHERE year="${year}"`
+            : ` WHERE year IS NULL`
+        };
       `;
       const row = await connection.query(sql);
       connection.release();
@@ -575,7 +595,7 @@ const commonCtrl = {
     }
   },
   setLanding2Content: async (req, res) => {
-    const { nation, title, description, year,language } = req.body;
+    const { nation, title, description, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     let queryId;
@@ -590,26 +610,27 @@ const commonCtrl = {
     }
     try {
       let sql;
-      if(nation == "china") {
+      if (nation === "china") {
         sql = `UPDATE landing_section_2 SET 
-        ${language === "china" ? "description" : "description_en"}='${description}'
-        WHERE id=1 and year${year&&year!="2022" ? `=${year}` : ` IS NULL`}`;
-      }
-      else sql = `UPDATE landing_section_2 SET 
+        ${
+          language === "china" ? "description" : "description_en"
+        }='${description}'
+        WHERE id=1 and year${year && year != "2022" ? `=${year}` : ` IS NULL`}`;
+      } else
+        sql = `UPDATE landing_section_2 SET 
       description='${description}'
-      WHERE id = 1 and year${year&&year!="2022" ? `=${year}` : ` IS NULL`}
+      WHERE id = 1 and year${year && year != "2022" ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql);
       connection.release();
 
       let sql2;
-      if(nation=="china"){
+      if (nation === "china") {
         `UPDATE landing_section SET 
     ${language === "china" ? "title" : "title_en"}='${title}'
     WHERE id=${queryId}`;
-      }
-      else
-      sql2 = `UPDATE landing_section SET 
+      } else
+        sql2 = `UPDATE landing_section SET 
       title='${title}'
       WHERE id=${queryId}
       `;
@@ -628,24 +649,25 @@ const commonCtrl = {
     }
   },
   getLanding3Content: async (req, res) => {
-    const { nation, language,year } = req.query;
+    const { nation, language, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       let sql;
-      if(nation == "china"){
+      if (nation === "china") {
         sql = `
     SELECT ${
       language === "china" ? "description" : "description_en"
     } as description
     FROM landing_section_3
-    where year${year&&year!="2022" ? `=${year}` : ` IS NULL`};
+    where year${year && year != "2022" ? `=${year}` : ` IS NULL`};
     `;
-      }
-      else sql  = `SELECT description
+      } else
+        sql = `SELECT description
       FROM landing_section_3
-      where year${year&&year!="2022" ? `=${year}` : ` IS NULL`};
+      where year${year && year != "2022" ? `=${year}` : ` IS NULL`};
       `;
+      console.log(sql);
       const row = await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -661,7 +683,7 @@ const commonCtrl = {
     }
   },
   setLanding3Content: async (req, res) => {
-    const { nation, title, description, year,language } = req.body;
+    const { nation, title, description, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     let queryId;
@@ -676,24 +698,26 @@ const commonCtrl = {
     }
     try {
       let sql;
-      if(nation == "china"){
-        sql =  `UPDATE landing_section_3 SET 
-        ${language === "china" ? "description" : "description_en"}='${description}'
-        WHERE year${year&&year!="2022" ? `=${year}` : ` IS NULL`}`;
-      }
-      else sql = `UPDATE landing_section_3 SET 
+      if (nation === "china") {
+        sql = `UPDATE landing_section_3 SET 
+        ${
+          language === "china" ? "description" : "description_en"
+        }='${description}'
+        WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`}`;
+      } else
+        sql = `UPDATE landing_section_3 SET 
       description='${description}'
-      WHERE year${year&&year!="2022" ? `=${year}` : ` IS NULL`}
+      WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql);
       connection.release();
       let sql2;
-      if(nation == "china") {
-        sql2=  `UPDATE landing_section SET 
+      if (nation === "china") {
+        sql2 = `UPDATE landing_section SET 
         ${language === "china" ? "title" : "title_en"}='${title}'
       WHERE id=${queryId}`;
-      }
-      else sql2 = `UPDATE landing_section SET 
+      } else
+        sql2 = `UPDATE landing_section SET 
       title='${title}'
       WHERE id=${queryId}
       `;
@@ -712,31 +736,30 @@ const commonCtrl = {
     }
   },
   getLanding6Content: async (req, res) => {
-    const { nation, language,year } = req.query;
+    const { nation, language, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     const langSfx = language === "china" ? "" : "_en";
     try {
       let sql;
-      if(nation == "china"){
-        sql =  `
+      if (nation === "china") {
+        sql = `
         SELECT 
         description${langSfx} as description,
         url,
         button_text${langSfx} as button_text
         FROM landing_section_6
-        WHERE year${year&&year!="2022" ? `=${year}` : ` IS NULL`}
+        WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`}
         `;
-      }
-      else  sql = `
+      } else
+        sql = `
     SELECT 
-    description${langSfx} as description,
+    description,
     url,
-    button_text${langSfx} as button_text
+    button_text,
     FROM landing_section_6;
     WHERE year${year ? `=${year}` : ` IS NULL`}
     `;
-    console.log(sql)
       const row = await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -752,18 +775,18 @@ const commonCtrl = {
     }
   },
   setLanding6Content: async (req, res) => {
-    const { nation, title, description, year,language } = req.body;
+    const { nation, title, description, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     const langSfx = language === "china" ? "" : "_en";
     try {
       let sql;
-      if(nation == "china"){
+      if (nation === "china") {
         `UPDATE landing_section_6 SET 
     description${langSfx}='${description}'
     WHERE id=1 and year${year ? `=${year}` : " IS NULL"}`;
-      }
-      else sql = `UPDATE landing_section_6 SET 
+      } else
+        sql = `UPDATE landing_section_6 SET 
       description='${description}'
       WHERE year${year ? `=${year}` : " IS NULL"};
       `;
@@ -782,19 +805,19 @@ const commonCtrl = {
     }
   },
   setLanding6Button: async (req, res) => {
-    const { nation, url, buttonText, year ,language} = req.body;
+    const { nation, url, buttonText, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     const langSfx = language === "china" ? "" : "_en";
     try {
       let sql;
-      if(nation == "china") {
-        sql =  `UPDATE landing_section_6 SET 
+      if (nation === "china") {
+        sql = `UPDATE landing_section_6 SET 
         url='${url}',
         button_text${langSfx}='${buttonText}'
-        WHERE year${year ? `=${year}` : " IS NULL"}`
-      }
-      else  sql = `UPDATE landing_section_6 SET 
+        WHERE year${year ? `=${year}` : " IS NULL"}`;
+      } else
+        sql = `UPDATE landing_section_6 SET 
       url='${url}',
       button_text='${buttonText}'
       WHERE year${year ? `=${year}` : " IS NULL"}
@@ -951,13 +974,15 @@ const commonCtrl = {
   },
 
   getAbstractDesc: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
       SELECT * FROM abstract_submission_desc${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
@@ -975,20 +1000,22 @@ const commonCtrl = {
     }
   },
   setAbstractDesc: async (req, res) => {
-    const { nation, desc,year,id} = req.body;
+    const { nation, desc, year, id } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-   
+
     try {
       let sql;
-      console.log(id)
-      if(id){
+      console.log(id);
+      if (id) {
         sql = `UPDATE abstract_submission_desc as a SET a.desc="${desc}"${
-          year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+          year && year !== "2022"
+            ? ` WHERE year="${year}"`
+            : ` WHERE year IS NULL`
         };`;
-      }
-      else  sql = `
-      INSERT INTO abstract_submission_desc (${'`desc`'},year) VALUES ('${desc}', '${year}');
+      } else
+        sql = `
+      INSERT INTO abstract_submission_desc (${"`desc`"},year) VALUES ('${desc}', '${year}');
       `;
       await connection.query(sql);
       connection.release();

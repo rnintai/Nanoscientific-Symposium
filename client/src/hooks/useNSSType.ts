@@ -6,17 +6,9 @@ const useNSSType = () => {
   const pathname = usePageViews();
   const year = useCurrentYear();
   const { currentLanguage} = useAdminStore();
-  
 
-  switch(pathname){
-    case "home":
-      return "home"
-    case "china":
-      return  `${pathname}${year !== undefined ? year : ""}_${currentLanguage}`;
-    default:
-      return `${pathname}${year !== undefined ? year : defaultYear}`;
-  }
-
+  if(pathname === "home") return "home";
+  return pathname === "china" ? `${pathname}${year !== undefined ? year : ""}_${currentLanguage}` : `${pathname}${year !== undefined ? year : defaultYear}`;
   // return pathname === "home"
   //   ? "home"
   //   : 

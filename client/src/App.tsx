@@ -363,7 +363,7 @@ const App = () => {
           params: {
             nation: pathname,
             year: currentYear,
-            language: currentLanguage, // cn language추가
+            language: pathname === "china" ? currentLanguage : undefined,
           },
         })
         .then((res) => {

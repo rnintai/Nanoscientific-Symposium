@@ -27,6 +27,10 @@ const usePageViews = () => {
       result = firstPath;
       break;
     }
+    case "china" : {
+      result = firstPath;
+      break;
+    }
     case "": {
       result = "home";
       break;

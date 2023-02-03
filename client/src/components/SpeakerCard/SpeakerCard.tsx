@@ -12,6 +12,7 @@ import SpeakerImage from "components/SpeakerImage/SpeakerImage";
 import Link from "components/Link/LinkWithSearch";
 import usePageViews from "hooks/usePageViews";
 import InnerHTML from "dangerously-set-html-content";
+import useAdminStore from "store/AdminStore";
 
 const Item = styled("div")(({ theme }) => ({
   ...theme.typography.body2,
@@ -35,6 +36,17 @@ const SpeakerCard = ({
 }: SpeakerCardProps) => {
   const theme = useTheme();
   const pathname = usePageViews();
+  const { currentLanguage } = useAdminStore();
+  const langSfx = currentLanguage === "china" ? "" : "_en";
+
+  const currentName =
+    pathname === "china" ? speaker[`name${langSfx}`] : speaker.name;
+  const currentBelong =
+    pathname === "china" ? speaker[`belong${langSfx}`] : speaker.belong;
+  const currentDescription =
+    pathname === "china"
+      ? speaker[`description${langSfx}`]
+      : speaker.description;
 
   return (
     <Grid
@@ -59,7 +71,7 @@ const SpeakerCard = ({
         }}
       >
         <Item className="speaker-card">
-          <SpeakerImage src={speaker.image_path} alt={`${speaker.name}`} />
+          <SpeakerImage src={speaker.image_path} alt={`${currentName}`} />
           <Typography
             variant="h6"
             color={theme.palette.text.primary}
@@ -70,7 +82,7 @@ const SpeakerCard = ({
               marginBottom: 0,
             }}
           >
-            {speaker.name}
+            {currentName}
           </Typography>
           <Typography
             variant="body2"
@@ -79,9 +91,9 @@ const SpeakerCard = ({
             fontWeight={theme.typography.fontWeightMedium}
             style={{ margin: 0 }}
           >
-            {speaker.belong}
+            {currentBelong}
           </Typography>
-          {speaker.description && (
+          {currentDescription && (
             <Typography
               sx={{
                 mt: 1,
@@ -90,7 +102,7 @@ const SpeakerCard = ({
               color={theme.palette.grey[600]}
               fontSize={xsmallFontSize}
             >
-              <InnerHTML html={speaker.description} />
+              <InnerHTML html={currentDescription} />
             </Typography>
           )}
         </Item>
