@@ -116,6 +116,14 @@ euRoutes.push(
       path: `/eu/2023/registration/postdoc`,
       element: <EuropeRegistration2023 isStudent={false} />,
     },
+    {
+      path: `/eu/2023/registration/student/early`,
+      element: <EuropeRegistration2023 isStudent />,
+    },
+    {
+      path: `/eu/2023/registration/postdoc/early`,
+      element: <EuropeRegistration2023 isStudent={false} />,
+    },
   ],
 );
 

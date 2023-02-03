@@ -23,7 +23,7 @@ import {
 } from "utils/FontSize";
 import NSSButton from "components/Button/NSSButton";
 import MarketoForm from "components/MarketoForm/MarketoForm";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import useCurrentYear from "hooks/useCurrentYear";
 
 type TFN = 1 | 0 | -1;
@@ -42,7 +42,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
   const pathname = usePageViews();
   const currentYear = useCurrentYear();
   const nssType = useNSSType();
-  const isEarlyBird = dayjs() < dayjs("2023-06-01 02:00:00");
+  const isEarlyBird = new Date() < new Date("2023-06-01 00:00:00+2");
 
   // stage
   // const [stage, setStage] = useState<number>(1);
@@ -171,6 +171,12 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
     }
   }, [emailValid]);
 
+  useEffect(() => {
+    if (!isEarlyBird && window.location.href.indexOf("/early") !== -1) {
+      window.location.replace(window.location.href.replace("/early", ""));
+    }
+  }, []);
+
   return (
     <>
       {/* {mktoLoading && <Loading />} */}
@@ -187,84 +193,150 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
               <Typography fontSize={headingFontSize} mb={1}>
                 Registration
               </Typography>
-              <Typography fontSize={smallFontSize}>
-                After successful registration, click on LECTURE HALL button at{" "}
-                <Typography
-                  component="a"
-                  href="https://event.nanoscientific.org/eu"
-                  fontSize={smallFontSize}
-                  sx={{ padding: "0 !important" }}
-                >
-                  event.nanoscientific.org/eu
-                </Typography>{" "}
-                on the event date to join all online sessions.
-              </Typography>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: {
-                  tablet: "row",
-                  mobile: "column",
-                },
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Stack
-                className="registration-fee-container"
-                justifyContent="center"
-                alignItems="center"
-                spacing={1}
-              >
-                <Typography textAlign="center" color="white">
-                  €{isEarlyBird ? studentFee - earlyBirdDiscount : studentFee}
+            {isEarlyBird && (
+              <Box sx={{ mb: 5 }}>
+                <Typography fontWeight={700} sx={{ mb: 1 }}>
+                  Early Bird Special – valid until May 31st, 2023
                 </Typography>
-                <Typography textAlign="center" color="white">
-                  Student
-                </Typography>
-                <Button
-                  variant="contained"
-                  size="small"
-                  disableElevation
-                  onClick={() => {
-                    navigate("student");
-                    // clickFeeHandler("20");
-                    // clickFeeHandler("1");
-                    // setIsStudent(true);
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: {
+                      tablet: "row",
+                      mobile: "column",
+                    },
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  Register
-                </Button>
-              </Stack>
-              <Stack
-                className="registration-fee-container"
-                justifyContent="center"
-                alignItems="center"
-                spacing={1}
+                  <Stack
+                    className="registration-fee-container"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <Typography textAlign="center" color="white">
+                      €
+                      {isEarlyBird
+                        ? studentFee - earlyBirdDiscount
+                        : studentFee}
+                    </Typography>
+                    <Typography textAlign="center" color="white">
+                      Student
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => {
+                        navigate("student/early");
+                        // clickFeeHandler("20");
+                        // clickFeeHandler("1");
+                        // setIsStudent(true);
+                      }}
+                    >
+                      Register
+                    </Button>
+                  </Stack>
+                  <Stack
+                    className="registration-fee-container"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <Typography textAlign="center" color="white">
+                      €
+                      {isEarlyBird
+                        ? notStudentFee - earlyBirdDiscount
+                        : notStudentFee}
+                    </Typography>
+                    <Typography textAlign="center" color="white">
+                      Profs, PhDs and Industry
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      disableElevation
+                      onClick={() => {
+                        navigate("postdoc/early");
+                        // clickFeeHandler("35");
+                        // setIsStudent(false);
+                      }}
+                    >
+                      Register
+                    </Button>
+                  </Stack>
+                </Box>
+              </Box>
+            )}
+            <Box sx={{ mb: 5 }}>
+              <Typography fontWeight={700} sx={{ mb: 1 }}>
+                Regular Rates – valid from June 1st, 2023
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: {
+                    tablet: "row",
+                    mobile: "column",
+                  },
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
               >
-                <Typography textAlign="center" color="white">
-                  €
-                  {isEarlyBird
-                    ? notStudentFee - earlyBirdDiscount
-                    : notStudentFee}
-                </Typography>
-                <Typography textAlign="center" color="white">
-                  Profs, PhDs and Industry
-                </Typography>
-                <Button
-                  variant="contained"
-                  size="small"
-                  disableElevation
-                  onClick={() => {
-                    navigate("postdoc");
-                    // clickFeeHandler("35");
-                    // setIsStudent(false);
-                  }}
+                <Stack
+                  className="registration-fee-container"
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={1}
                 >
-                  Register
-                </Button>
-              </Stack>
+                  <Typography textAlign="center" color="white">
+                    €{studentFee}
+                  </Typography>
+                  <Typography textAlign="center" color="white">
+                    Student
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    disableElevation
+                    onClick={() => {
+                      navigate("student");
+                      // clickFeeHandler("20");
+                      // clickFeeHandler("1");
+                      // setIsStudent(true);
+                    }}
+                  >
+                    Register
+                  </Button>
+                </Stack>
+                <Stack
+                  className="registration-fee-container"
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={1}
+                >
+                  <Typography textAlign="center" color="white">
+                    €{notStudentFee}
+                  </Typography>
+                  <Typography textAlign="center" color="white">
+                    Profs, PhDs and Industry
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    disableElevation
+                    onClick={() => {
+                      navigate("postdoc");
+                      // clickFeeHandler("35");
+                      // setIsStudent(false);
+                    }}
+                  >
+                    Register
+                  </Button>
+                </Stack>
+              </Box>
             </Box>
           </Stack>
         )}
@@ -360,7 +432,8 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                           {
                             amount: {
                               value: `${
-                                isEarlyBird
+                                isEarlyBird &&
+                                window.location.href.indexOf("/early") !== -1
                                   ? registrationFee - earlyBirdDiscount
                                   : registrationFee
                               }`,
