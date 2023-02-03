@@ -548,7 +548,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "EXHIBIT HALL",
       // sponsors: "SPONSORS",
       home: "HOME",
-      // registration: "REGISTRATION",
+      registration: "REGISTRATION",
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
@@ -558,7 +558,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       emailInputLabel: "Email Address",
       passwordInputLabel: "Password",
       forgotPasswordText: "Forgot your password?",
-      // createAccountText: "Create an account",
+      createAccountText: "Create an account",
       changePasswordBtnText: "Change Password",
       // landing
       showLandingSection1: true,

@@ -51,6 +51,10 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
   const [registrationFee, setRegistrationFee] = useState<number>(
     isStudent ? studentFee : notStudentFee,
   );
+  const finalFee =
+    isEarlyBird && window.location.href.indexOf("/early") !== -1
+      ? registrationFee - earlyBirdDiscount
+      : registrationFee;
 
   //
   const [checkout, setCheckout] = useState<boolean>(false);
@@ -390,6 +394,9 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
               <ArrowBackIcon />
             </IconButton>
             {!init && <MarketoForm formId="1149" />}
+            <Typography textAlign="right" fontWeight={700}>
+              Registration Fee: €{finalFee} {isEarlyBird && "(Early Bird Rate)"}
+            </Typography>
             {!mktoLoading && !checkout && (
               <NSSButton
                 variant="gradient"
@@ -431,12 +438,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                         purchase_units: [
                           {
                             amount: {
-                              value: `${
-                                isEarlyBird &&
-                                window.location.href.indexOf("/early") !== -1
-                                  ? registrationFee - earlyBirdDiscount
-                                  : registrationFee
-                              }`,
+                              value: `${finalFee}`,
                             },
                           },
                         ],
