@@ -49,6 +49,7 @@ import useAdminStore from "store/AdminStore";
 import useCurrentYear from "hooks/useCurrentYear";
 import Landing6Form from "pages/admin/Forms/Landing6Form";
 import { escapeQuotes } from "utils/String";
+import useNSSType from "hooks/useNSSType";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 import { LandingContainer } from "./LandingStyles";
 
@@ -68,7 +69,8 @@ const Landing = () => {
   // const { currentYear } = props;
 
   const pathname = usePageViews();
-  const nssType = `${pathname}${currentYear !== undefined ? currentYear : ""}`;
+  // const nssType = `${pathname}${currentYear !== undefined ? currentYear : ""}`;
+  const nssType = useNSSType();
 
   const theme = useTheme();
   const authState = useAuthState();

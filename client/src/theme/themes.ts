@@ -159,3 +159,24 @@ export const jpTheme = (isDark: boolean) => {
     palette: getDesignTokens(isDark ? "dark" : "light"),
   });
 };
+
+export const enTheme = (isDark: boolean) => {
+  return createTheme({
+    typography: {
+      allVariants: {
+        fontFamily: `'Noto Sans SC', sans-serif`,
+        // fontFamily: `"Open Sans", sans-serif`,
+      },
+    },
+    breakpoints: {
+      values: {
+        mobile: 0,
+        tablet: 768,
+        laptop: 1024,
+        desktop: 1280,
+        wide: 1921,
+      },
+    },
+    palette: getDesignTokens(isDark ? "dark" : "light"),
+  });
+};

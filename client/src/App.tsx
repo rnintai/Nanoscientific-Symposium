@@ -4,13 +4,12 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import { useNavigate as useNavigateWithSearch } from "hooks/useNavigateWithSearch";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
-import NavBar2023 from "components/2023/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
 import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
 import useNSSType from "hooks/useNSSType";
-import { theme, jpTheme } from "theme/themes";
+import { theme, jpTheme, enTheme } from "theme/themes";
 import PrivateRoute from "components/Route/PrivateRoute";
 import LoginModal from "components/Modal/LoginModal";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
@@ -24,12 +23,15 @@ import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
 import useCurrentYear, { defaultYear, yearList } from "hooks/useCurrentYear";
+import useNationRoutes from "hooks/useNationRoutes";
 import { useYearList } from "utils/useYear";
+import ChinaRoutes from "Routes/ChinaRoutes";
+import useAdminStore from "store/AdminStore";
+import AdminRoutes from "./Routes/AdminRoutes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
 import { useAlarmDispatch } from "./context/NavBarMarkContext";
-import AdminRoutes from "./Routes/AdminRoutes";
 import AsiaRoutes from "./Routes/AsiaRoutes";
 import KoreaRoutes from "./Routes/KoreaRoutes";
 import UsRoutes from "./Routes/UsRoutes";
@@ -57,6 +59,7 @@ const gaID = "G-BS77NX7Z9T";
 const App = () => {
   const pathname = usePageViews();
   const nssType = useNSSType();
+  const nationRoutes = useNationRoutes();
 
   const currentYear = useCurrentYear();
   const authState = useAuthState();
@@ -64,6 +67,7 @@ const App = () => {
   const themeState = useThemeState();
   const navigate = useNavigate();
   const navigateWithSearch = useNavigateWithSearch();
+  const enThemeObj = enTheme(themeState.darkMode);
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -78,6 +82,7 @@ const App = () => {
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
+  const { currentLanguage } = useAdminStore();
   // mode
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
@@ -246,6 +251,7 @@ const App = () => {
   useEffect(() => {
     checkYearAndRedirect();
     setDocumentTitle(useSeoTitle(pathname, currentYear, nssType));
+
     // 스크롤 to top
     window.scrollTo(0, 0);
   }, [pathname, subpath, window.location.search]);
@@ -357,6 +363,7 @@ const App = () => {
           params: {
             nation: pathname,
             year: currentYear,
+            language: currentLanguage, // cn language추가
           },
         })
         .then((res) => {
@@ -442,7 +449,11 @@ const App = () => {
     }
   }, [loginSuccess]);
 
-  if (authState.isLoading || bannerLoading)
+  // if (authState.isLoading || bannerLoading)
+  if (
+    authState.isLoading
+    // || bannerLoading
+  )
     return (
       <ThemeProvider theme={themeObj}>
         <Loading />
@@ -450,7 +461,10 @@ const App = () => {
     );
 
   return (
-    <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
+    // <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
+    <ThemeProvider
+      theme={currentLanguage === "english" ? enThemeObj : themeObj}
+    >
       <AppContainer>
         {pathname !== "home" &&
           pathname !== "" &&
@@ -474,31 +488,16 @@ const App = () => {
         <Routes>
           {/* common */}
           <Route path="/" element={<EventLanding />} />
-          {/* asia */}
-          {AsiaRoutes.map((route) => {
-            return routeLoopHelper(route);
-          })}
-          {/* korea */}
-          {KoreaRoutes.map((route) => {
-            return routeLoopHelper(route);
-          })}
-          {/* us */}
-          {UsRoutes.map((route) => {
-            return routeLoopHelper(route);
-          })}
-          {/* japan */}
-          {JapanRoutes.map((route) => {
-            return routeLoopHelper(route);
-          })}
-          {/* europe */}
-          {EuropeRoutes.map((route) => {
-            return routeLoopHelper(route);
-          })}
           {/* admin */}
           {AdminRoutes.map((route) => {
             return routeLoopHelper(route, true);
           })}
           <Route path="*" element={<NotFound />} />
+          {nationRoutes.map((m) => {
+            return m.map((route) => {
+              return routeLoopHelper(route);
+            });
+          })}
         </Routes>
         {pathname !== "home" &&
           window.location.pathname.indexOf("admin") === -1 && <Footer />}

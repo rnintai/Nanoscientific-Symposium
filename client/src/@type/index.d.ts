@@ -5,8 +5,11 @@ declare namespace Program {
     start_time: string;
     end_time: string;
     title: string;
+    title_en?: string;
     speakers: string;
+    speakers_en?: string;
     description: string;
+    description_en?: string;
     next_id: string;
     emphasize: number;
   }
@@ -23,6 +26,7 @@ declare namespace Program {
   interface sessionType {
     id: number;
     session_title: string;
+    session_title_en?: string;
     date: string;
   }
 }
@@ -31,8 +35,11 @@ declare namespace Speaker {
   interface speakerType {
     id: number;
     name: string;
+    name_en?: string;
     belong: string;
+    belong_en?: string;
     description: string;
+    description_en?: string;
     image_path: string;
     status: number;
     keynote?: number;
@@ -43,11 +50,14 @@ declare namespace Speaker {
   interface speakerDetailType {
     id: number;
     name: string;
+    name_en?: string;
     title: string;
+    title_en?: string;
     image_path: string;
     belong: string;
+    belong_en?: string;
     description: string;
-    rawDescription?: string;
+    description_en?: string;
   }
 
   interface speakerAbstractType {
@@ -112,6 +122,7 @@ declare namespace Announcement {
 
 declare namespace Common {
   type showStatus = "show" | "hide";
+  type languageType = "china" | "english";
 
   interface menuType {
     id: number;
@@ -180,6 +191,12 @@ declare namespace Common {
     signOutBtnText?: string;
     changePasswordBtnText?: string;
     passwordSetDescription?: string;
+
+    // lecture hall
+    liveText?: string;
+    browserJoinBtnText?: string;
+    appJoinBtnText?: string;
+    
 
     // registration 관련
     registrationStep1Label?: string;

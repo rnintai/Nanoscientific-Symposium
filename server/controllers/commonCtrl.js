@@ -1,3 +1,4 @@
+const e = require("express");
 const path = require("path");
 const { getCurrentPool } = require("../utils/getCurrentPool");
 
@@ -56,7 +57,7 @@ const commonCtrl = {
     }
   },
   getSessions: async (req, res) => {
-    const { nation, year } = req.query;
+    const { nation, year, language } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -294,7 +295,26 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `
+      let sql;
+      if(nation === "china"){
+        sql =   `SELECT 
+        S.id, 
+        S.name,
+        S.name_en,
+        S.image_path,
+        S.description as title,
+        S.description_en as title_en,
+        SA.belong,
+        SA.belong_en,
+        SA.description,
+        SA.description_en
+      FROM speakers as S 
+      INNER JOIN speaker_abstract as SA 
+        ON S.id=SA.speaker_id WHERE S.id=${id}
+      `;
+      }
+      else {
+        sql = `
       SELECT 
         S.id, 
         S.name, 
@@ -306,6 +326,7 @@ const commonCtrl = {
       INNER JOIN speaker_abstract as SA 
         ON S.id=SA.speaker_id WHERE S.id=${id}
       `;
+      }
       const result = await connection.query(sql);
       connection.release();
       if (result[0].length === 0) {
@@ -388,17 +409,33 @@ const commonCtrl = {
     }
   },
   getLandingSectionList: async (req, res) => {
-    const { nation, year } = req.query;
+    const { nation, year,language } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `
-      SELECT * FROM landing_section${
-        year && year !== "2022"
-          ? ` WHERE year="${year}"`
-          : ` WHERE year IS NULL`
-      };
-      `;
+      let sql;
+      if(nation == "china"){
+        sql = `
+        SELECT
+        id,
+        ${language === "china" ? "title" : "title_en"} as title,
+        landing_section.show
+        FROM landing_section${
+          year && year !== "2022"
+            ? ` WHERE year="${year}"`
+            : ` WHERE year IS NULL`
+        };
+        `;
+      }
+      else {
+        sql =  `
+        SELECT * FROM landing_section${
+          year && year !== "2022"
+            ? ` WHERE year="${year}"`
+            : ` WHERE year IS NULL`
+        };
+        `;
+      }
       const row = await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -443,13 +480,25 @@ const commonCtrl = {
     }
   },
   setLandingTitle: async (req, res) => {
-    const { nation, title, year } = req.body;
+    const { nation, title, year,language} = req.body;
     const { id } = req.params;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `
+      let sql;
+      if(nation == "china"){
+        sql = `
+        UPDATE landing_section SET 
+        landing_section.${language === "china" ? "title" : "title_en"}='${title}'
+        WHERE id=${id} and${
+          year && year !== "2022"
+            ? ` year="${year}"`
+            : ` year IS NULL`
+        }
+        `;
+      }
+      else sql = `
         UPDATE landing_section SET 
         landing_section.title='${title}'
         WHERE id=${id} and${
@@ -500,8 +549,33 @@ const commonCtrl = {
       });
     }
   },
+  getLanding2Content: async (req, res) => {
+    const { nation, language } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      const sql = `
+    SELECT ${
+      language === "china" ? "description" : "description_en"
+    } as description
+    FROM landing_section_2;
+    `;
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      connection.release();
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
   setLanding2Content: async (req, res) => {
-    const { nation, title, description, year } = req.body;
+    const { nation, title, description, year,language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     let queryId;
@@ -515,14 +589,27 @@ const commonCtrl = {
       }
     }
     try {
-      const sql = `UPDATE landing_section_2 SET 
+      let sql;
+      if(nation == "china") {
+        sql = `UPDATE landing_section_2 SET 
+        ${language === "china" ? "description" : "description_en"}='${description}'
+        WHERE id=1 and year${year&&year!="2022" ? `=${year}` : ` IS NULL`}`;
+      }
+      else sql = `UPDATE landing_section_2 SET 
       description='${description}'
-      WHERE year${year ? `=${year}` : ` IS NULL`}
+      WHERE id = 1 and year${year&&year!="2022" ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql);
       connection.release();
 
-      const sql2 = `UPDATE landing_section SET 
+      let sql2;
+      if(nation=="china"){
+        `UPDATE landing_section SET 
+    ${language === "china" ? "title" : "title_en"}='${title}'
+    WHERE id=${queryId}`;
+      }
+      else
+      sql2 = `UPDATE landing_section SET 
       title='${title}'
       WHERE id=${queryId}
       `;
@@ -540,8 +627,41 @@ const commonCtrl = {
       });
     }
   },
+  getLanding3Content: async (req, res) => {
+    const { nation, language,year } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    try {
+      let sql;
+      if(nation == "china"){
+        sql = `
+    SELECT ${
+      language === "china" ? "description" : "description_en"
+    } as description
+    FROM landing_section_3
+    where year${year&&year!="2022" ? `=${year}` : ` IS NULL`};
+    `;
+      }
+      else sql  = `SELECT description
+      FROM landing_section_3
+      where year${year&&year!="2022" ? `=${year}` : ` IS NULL`};
+      `;
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      connection.release();
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
   setLanding3Content: async (req, res) => {
-    const { nation, title, description, year } = req.body;
+    const { nation, title, description, year,language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     let queryId;
@@ -555,14 +675,25 @@ const commonCtrl = {
       }
     }
     try {
-      const sql = `UPDATE landing_section_3 SET 
+      let sql;
+      if(nation == "china"){
+        sql =  `UPDATE landing_section_3 SET 
+        ${language === "china" ? "description" : "description_en"}='${description}'
+        WHERE year${year&&year!="2022" ? `=${year}` : ` IS NULL`}`;
+      }
+      else sql = `UPDATE landing_section_3 SET 
       description='${description}'
-      WHERE year${year ? `=${year}` : ` IS NULL`}
+      WHERE year${year&&year!="2022" ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql);
       connection.release();
-
-      const sql2 = `UPDATE landing_section SET 
+      let sql2;
+      if(nation == "china") {
+        sql2=  `UPDATE landing_section SET 
+        ${language === "china" ? "title" : "title_en"}='${title}'
+      WHERE id=${queryId}`;
+      }
+      else sql2 = `UPDATE landing_section SET 
       title='${title}'
       WHERE id=${queryId}
       `;
@@ -580,12 +711,59 @@ const commonCtrl = {
       });
     }
   },
-  setLanding6Content: async (req, res) => {
-    const { nation, title, description, year } = req.body;
+  getLanding6Content: async (req, res) => {
+    const { nation, language,year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    const langSfx = language === "china" ? "" : "_en";
     try {
-      const sql = `UPDATE landing_section_6 SET 
+      let sql;
+      if(nation == "china"){
+        sql =  `
+        SELECT 
+        description${langSfx} as description,
+        url,
+        button_text${langSfx} as button_text
+        FROM landing_section_6
+        WHERE year${year&&year!="2022" ? `=${year}` : ` IS NULL`}
+        `;
+      }
+      else  sql = `
+    SELECT 
+    description${langSfx} as description,
+    url,
+    button_text${langSfx} as button_text
+    FROM landing_section_6;
+    WHERE year${year ? `=${year}` : ` IS NULL`}
+    `;
+    console.log(sql)
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      connection.release();
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+  setLanding6Content: async (req, res) => {
+    const { nation, title, description, year,language } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    const langSfx = language === "china" ? "" : "_en";
+    try {
+      let sql;
+      if(nation == "china"){
+        `UPDATE landing_section_6 SET 
+    description${langSfx}='${description}'
+    WHERE id=1 and year${year ? `=${year}` : " IS NULL"}`;
+      }
+      else sql = `UPDATE landing_section_6 SET 
       description='${description}'
       WHERE year${year ? `=${year}` : " IS NULL"};
       `;
@@ -604,11 +782,19 @@ const commonCtrl = {
     }
   },
   setLanding6Button: async (req, res) => {
-    const { nation, url, buttonText, year } = req.body;
+    const { nation, url, buttonText, year ,language} = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    const langSfx = language === "china" ? "" : "_en";
     try {
-      const sql = `UPDATE landing_section_6 SET 
+      let sql;
+      if(nation == "china") {
+        sql =  `UPDATE landing_section_6 SET 
+        url='${url}',
+        button_text${langSfx}='${buttonText}'
+        WHERE year${year ? `=${year}` : " IS NULL"}`
+      }
+      else  sql = `UPDATE landing_section_6 SET 
       url='${url}',
       button_text='${buttonText}'
       WHERE year${year ? `=${year}` : " IS NULL"}
