@@ -133,6 +133,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                 const res = await axios.post("/api/users/checkemail", {
                   email: target.value,
                   nation,
+                  year: currentYear,
                 });
                 setEmailValid(!res.data.result ? 1 : 0);
               } catch (err) {
@@ -403,6 +404,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                                 state: formData.State,
                                 nation,
                                 isStudent,
+                                year: currentYear,
                               },
                             );
 
@@ -430,6 +432,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                                 nation,
                                 email: formData.Email,
                                 password: null,
+                                year: currentYear,
                               });
                               if (res.data.success) {
                                 dispatchLogin(
@@ -438,7 +441,9 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                                   res.data.accessToken,
                                 );
                               }
-                              navigate(`/${nation}/user/reset-password`);
+                              navigate(
+                                `/${nation}/${currentYear}/user/reset-password`,
+                              );
                             } catch (err) {
                               console.log(err);
                               alert("login failed");

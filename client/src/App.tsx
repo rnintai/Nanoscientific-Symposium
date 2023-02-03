@@ -217,7 +217,7 @@ const App = () => {
           }
           // 비밀번호 미설정 시 reset 시키기
           if (!isPasswordSet) {
-            navigate(`/${pathname}/user/reset-password`);
+            navigate(`/${pathname}/${currentYear}/user/reset-password`);
           }
         } else {
           if (pathname !== "" && pathname !== "home") {

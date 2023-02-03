@@ -104,12 +104,14 @@ const ResetPassword = () => {
         if (res.data.success) {
           setPasswordSetSuccessAlert(true);
           setTimeout(() => {
-            navigate(`/${pathname}`);
+            navigate(`/${pathname}/${currentYear}`);
           }, 1500);
         } else {
           switch (res.data.code) {
             case "T40":
             case "T41":
+              console.log("hi");
+
               setTokenNotMatchAlert(true);
               setTimeout(() => {
                 navigate(0);

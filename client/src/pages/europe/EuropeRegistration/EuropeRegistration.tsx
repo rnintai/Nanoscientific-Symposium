@@ -429,7 +429,9 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
                                   res.data.accessToken,
                                 );
                               }
-                              navigate(`/${nation}/user/reset-password`);
+                              navigate(
+                                `/${nation}/${currentYear}/user/reset-password`,
+                              );
                             } catch (err) {
                               console.log(err);
                               alert("login failed");
