@@ -5,14 +5,7 @@ const {
   issueRefreshTokenByYear,
   issueAccessTokenByYear,
 } = require("../utils/jwt");
-const {
-  issueAccessToken,
-  issueRefreshToken,
-  issueRefreshTokenByYear,
-  issueAccessTokenByYear,
-} = require("../utils/jwt");
 const { getCurrentPool } = require("../utils/getCurrentPool");
-const useYearList = ["eu"];
 const useYearList = ["eu"];
 
 const usersCtrl = {
@@ -30,13 +23,7 @@ const usersCtrl = {
       let sql;
       if (useYearList.indexOf(req.body.nation) === -1) {
         // useYearList에 없는 경우
-      if (useYearList.indexOf(req.body.nation) === -1) {
-        // useYearList에 없는 경우
         sql = `SELECT email, password, role FROM user WHERE email='${userEmail}'`;
-      } else
-        sql = `SELECT email, password, role FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE email='${userEmail}';`;
       } else
         sql = `SELECT email, password, role FROM ${
           year && year !== "2022" ? `user_${year}` : `user`
@@ -63,21 +50,11 @@ const usersCtrl = {
       let refreshToken = issueRefreshToken(userEmail);
       if (useYearList.indexOf(req.body.nation) === -1) {
         // useYearList에 없는 경우
-      if (useYearList.indexOf(req.body.nation) === -1) {
-        // useYearList에 없는 경우
         // refreshToken = issueRefreshToken(userEmail);
         insertSql = `UPDATE user SET refresh_token='${refreshToken}' WHERE email='${userEmail}'`;
         getUserIdSql = `SELECT id FROM user WHERE email='${userEmail}'`;
       } else {
-      } else {
         // refreshToken = issueRefreshTokenByYear(userEmail,year);
-        insertSql = `UPDATE ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } SET refresh_token='${refreshToken}' WHERE email='${userEmail}'`;
-        getUserIdSql = `SELECT id FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE email='${userEmail}'`;
-      }
         insertSql = `UPDATE ${
           year && year !== "2022" ? `user_${year}` : `user`
         } SET refresh_token='${refreshToken}' WHERE email='${userEmail}'`;
@@ -96,7 +73,6 @@ const usersCtrl = {
 
         // access토큰 생성
         let accessToken = issueAccessToken(userEmail);
-
 
         // 쿠키 세팅
         res.cookie("refreshToken", refreshToken, {
@@ -144,14 +120,8 @@ const usersCtrl = {
       let sql;
       if (useYearList.indexOf(req.body.nation) === -1) {
         // useYearList에 없는 경우
-      if (useYearList.indexOf(req.body.nation) === -1) {
-        // useYearList에 없는 경우
         sql = `UPDATE user SET refresh_token='' 
         WHERE email='${userEmail}' AND refresh_token='${refreshToken}'`;
-      } else
-        sql = `UPDATE ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } SET refresh_token='' 
       } else
         sql = `UPDATE ${
           year && year !== "2022" ? `user_${year}` : `user`
@@ -181,9 +151,10 @@ const usersCtrl = {
     }
   },
   checkEmail: async (req, res) => {
-    const { year, email, nation } = req.body;
-    const currentPool = getCurrentPool(nation);
+    const currentPool = getCurrentPool(req.body.nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    const year = req.body.year;
+    const userEmail = req.body.email;
 
     try {
       let sql;
@@ -198,6 +169,7 @@ const usersCtrl = {
           year && year !== "2022" ? `user_${year}` : `user`
         } WHERE email="${userEmail}"
       ) as result;`;
+
       const result = await connection.query(sql);
       connection.release();
 
@@ -223,12 +195,7 @@ const usersCtrl = {
     try {
       let sql;
       if (useYearList.indexOf(req.body.nation) === -1) {
-      if (useYearList.indexOf(req.body.nation) === -1) {
         sql = `SELECT is_password_set FROM user WHERE email="${userEmail}"`;
-      } else
-        sql = `SELECT is_password_set FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE email="${userEmail}"`;
       } else
         sql = `SELECT is_password_set FROM ${
           year && year !== "2022" ? `user_${year}` : `user`
@@ -296,10 +263,10 @@ const usersCtrl = {
 
   // 비밀번호 재설정
   resetPassword: async (req, res) => {
-    const { nation, year } = req.body;
-    const currentPool = getCurrentPool(nation);
+    const currentPool = getCurrentPool(req.body.nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
+    const year = req.body.year;
     const userEmail = res.locals.email;
     const curPassword = req.body.curPassword;
     const newPassword = hasher.HashPassword(req.body.newPassword);
@@ -307,12 +274,7 @@ const usersCtrl = {
     try {
       let sql1;
       if (useYearList.indexOf(nation) === -1) {
-      if (useYearList.indexOf(nation) === -1) {
         sql1 = `SELECT password FROM user WHERE email='${userEmail}'`;
-      } else
-        sql1 = `SELECT password FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE email='${userEmail}'`;
       } else
         sql1 = `SELECT password FROM ${
           year && year !== "2022" ? `user_${year}` : `user`
@@ -323,12 +285,7 @@ const usersCtrl = {
       if (hasher.CheckPassword(curPassword, passwordRow[0][0].password)) {
         let sql2;
         if (useYearList.indexOf(nation) === -1) {
-        if (useYearList.indexOf(nation) === -1) {
           sql2 = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
-        } else
-          sql2 = `UPDATE ${
-            year && year !== "2022" ? `user_${year}` : `user`
-          } SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
         } else
           sql2 = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
@@ -367,7 +324,6 @@ const usersCtrl = {
 
     try {
       let sql;
-      if (useYearList.indexOf(nation) === -1) {
       if (useYearList.indexOf(nation) === -1) {
         sql = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
       } else
@@ -419,8 +375,6 @@ const usersCtrl = {
 
     try {
       let sql;
-      if (nation === "eu") {
-        // eu는 년도별로 회원받음
       if (nation === "eu") {
         // eu는 년도별로 회원받음
         sql = `INSERT INTO ${year && year !== "2022" ? `user_${year}` : `user`}(
@@ -513,7 +467,6 @@ const usersCtrl = {
       await connection.commit();
       connection.release();
     } catch (err) {
-      console.log(err);
       connection.release();
       res.status(500).json({
         success: false,
@@ -532,8 +485,6 @@ const usersCtrl = {
       let sql;
       if (useYearList.indexOf(nation) === -1) {
         // useYearList에 없는 경우
-      if (useYearList.indexOf(nation) === -1) {
-        // useYearList에 없는 경우
         if (req.body.flag === "cached") {
           sql = `UPDATE user SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${req.body.email}'`;
         } else if (req.body.flag === "add") {
@@ -542,13 +493,7 @@ const usersCtrl = {
           sql = `UPDATE user SET is_announcement_cached=0 WHERE email='${req.body.email}'`;
         }
       } else {
-      } else {
         if (req.body.flag === "cached") {
-          sql = `UPDATE ${
-            year && year !== "2022" ? `user_${year}` : `user`
-          } SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${
-            req.body.email
-          }'`;
           sql = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
           } SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${
@@ -560,15 +505,7 @@ const usersCtrl = {
           }r SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${
             req.body.email
           }'`;
-          sql = `UPDATE ${
-            year && year !== "2022" ? `user_${year}` : `user`
-          }r SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${
-            req.body.email
-          }'`;
         } else if (req.body.flag === "delete") {
-          sql = `UPDATE ${
-            year && year !== "2022" ? `user_${year}` : `user`
-          } SET is_announcement_cached=0 WHERE email='${req.body.email}'`;
           sql = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
           } SET is_announcement_cached=0 WHERE email='${req.body.email}'`;
@@ -604,12 +541,7 @@ const usersCtrl = {
     try {
       let sql;
       if (useYearList.indexOf(nation) === -1) {
-      if (useYearList.indexOf(nation) === -1) {
         sql = `SELECT is_new_announcement FROM user WHERE id=${id}`;
-      } else
-        sql = `SELECT is_new_announcement FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE id=${id}`;
       } else
         sql = `SELECT is_new_announcement FROM ${
           year && year !== "2022" ? `user_${year}` : `user`
@@ -644,12 +576,7 @@ const usersCtrl = {
     try {
       let sql;
       if (useYearList.indexOf(nation) === -1) {
-      if (useYearList.indexOf(nation) === -1) {
         sql = `DELETE FROM user WHERE id=${id}`;
-      } else
-        sql = `DELETE FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE id=${id}`;
       } else
         sql = `DELETE FROM ${
           year && year !== "2022" ? `user_${year}` : `user`
@@ -670,4 +597,3 @@ const usersCtrl = {
 };
 
 module.exports = usersCtrl;
-

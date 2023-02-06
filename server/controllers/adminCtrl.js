@@ -157,11 +157,6 @@ const adminCtrl = {
         } WHERE id!=${
           sqlResult[0].insertId
         } AND session=${session} AND next_id IS NULL AND${
-        const adjustSql = `UPDATE programs SET next_id=${
-          sqlResult[0].insertId
-        } WHERE id!=${
-          sqlResult[0].insertId
-        } AND session=${session} AND next_id IS NULL AND${
           year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
         };`;
         const adjustSqlResult = await connection.query(adjustSql);
@@ -287,9 +282,6 @@ const adminCtrl = {
       VALUES(${session_id},${program_id},'${title}','${speakers}', ${
         year && year !== "2022" ? `'${year}'` : null
       })`;
-      VALUES(${session_id},${program_id},'${title}','${speakers}', ${
-        year && year !== "2022" ? `'${year}'` : null
-      })`;
 
       const sqlResult = await connection.query(sql);
 
@@ -299,7 +291,6 @@ const adminCtrl = {
         WHERE 
         id!=${sqlResult[0].insertId} 
         AND program_id=${program_id}
-        AND ${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`}
         AND ${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`}
         AND next_id=99999`;
         const adjustSqlResult = await connection.query(adjustSql);
@@ -326,8 +317,6 @@ const adminCtrl = {
     }
   },
   modifyAgenda: async (req, res) => {
-    const { nation, title, id, program_id, speakers, session_id, year } =
-      req.body;
     const { nation, title, id, program_id, speakers, session_id, year } =
       req.body;
 
@@ -410,15 +399,11 @@ const adminCtrl = {
 
   getHideProgram: async (req, res) => {
     const { nation, year } = req.query;
-    const { nation, year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM programs WHERE status=0 and${
-        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-      };`;
       const sql = `SELECT * FROM programs WHERE status=0 and${
         year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
       };`;
@@ -432,15 +417,11 @@ const adminCtrl = {
 
   getHideSession: async (req, res) => {
     const { nation, year } = req.query;
-    const { nation, year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM program_sessions WHERE status=0 and${
-        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-      };`;
       const sql = `SELECT * FROM program_sessions WHERE status=0 and${
         year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
       };`;
@@ -604,7 +585,6 @@ const adminCtrl = {
       abstractDesc_en,
       hasAbstract,
       year,
-      year,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
@@ -632,7 +612,6 @@ const adminCtrl = {
       keynote=${keynote},
       description='${description}', 
       has_abstract=${hasAbstract},
-      year=${year && year !== "2022" ? `'${year}'` : null}
       year=${year && year !== "2022" ? `'${year}'` : null}
       WHERE id=${id}
       `;
@@ -674,14 +653,12 @@ const adminCtrl = {
           '${abstractBelong}',
           '${abstractDesc}',
           ${year && year !== "2022" ? `'${year}'` : null}
-          ${year && year !== "2022" ? `'${year}'` : null}
         )
         ON DUPLICATE KEY UPDATE
           belong='${abstractBelong}',
           description='${abstractDesc}',
           year=${year && year !== "2022" ? `'${year}'` : null}
         `;
-
 
       await connection.query(sql2);
       connection.release();
@@ -742,15 +719,11 @@ const adminCtrl = {
 
   getHideSpeaker: async (req, res) => {
     const { nation, year } = req.query;
-    const { nation, year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM speakers WHERE status=0 and${
-        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-      };`;
       const sql = `SELECT * FROM speakers WHERE status=0 and${
         year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
       };`;
@@ -763,7 +736,7 @@ const adminCtrl = {
   },
 
   getUsers: async (req, res) => {
-    const { nation, year } = req.query;
+    const { nation } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
