@@ -58,6 +58,13 @@ export const RegistrationContainer = styled.div`
     }
   }
 
+  .disabled {
+    .registration-fee-container {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+
   .mktoLabel {
     color: ${() => {
       const theme = useTheme();
