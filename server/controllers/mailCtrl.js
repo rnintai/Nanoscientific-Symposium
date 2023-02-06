@@ -38,7 +38,9 @@ const mailCtrl = {
       });
 
       const info = await transporter.sendMail({
-        from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
+        from: `${year} Nanoscientific ${
+          nation === "eu" ? "Forum" : "Symposium"
+        } <event@nanoscientific.org>`,
         to: email,
         subject: `[${code}] Verification Code`,
         html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
@@ -109,7 +111,7 @@ const mailCtrl = {
   },
 
   sendAbstractAlert: async (req, res) => {
-    const { email, attachments, nation, formData } = req.body;
+    const { email, attachments, nation, formData, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     const {
@@ -153,10 +155,12 @@ const mailCtrl = {
       });
 
       const info = await transporter.sendMail({
-        from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
+        from: `${year} NANOscientific ${
+          nation === "eu" ? "Forum" : "Symposium"
+        } <event@nanoscientific.org>`,
         to: email,
         subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
-        html: mailHTML.abstractMailHTML(formData),
+        html: mailHTML.abstractMailHTML(formData, year),
         attachments: attachmentArr,
       });
 

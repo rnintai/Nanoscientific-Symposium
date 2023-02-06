@@ -50,10 +50,10 @@ export const globalData = new Map<string, Common.globalDataType>([
       eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
       eventLandingDesc: `
       The growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing. And those who strive to acquire the technology.
-      NanoScientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.
+      NANOscientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.
       An opportunity to discuss and experience firsthand what innovative research results have been derived using the latest SPM (Scanning Probe Microscopy) technology.
-      We invite you to the NanoScientific Symposium 2022.
-      Expand your insight through the Nanoscientific Symposium.
+      We invite you to the NANOscientific Symposium 2022.
+      Expand your insight through the NANOscientific Symposium.
       `,
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
       sponsor2LogoURL: `${S3_URL}/common/Park_logo.svg`,
@@ -68,7 +68,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "asia2022",
     {
-      fullName: "2022 NanoScientific Symposium Asia | NSS Asia",
+      fullName: "2022 NANOscientific Symposium Asia | NSS Asia",
       fullDate: "November 25, 2022",
       eventLocation: "Marina Bay Sands, Singapore (Hybrid Event)",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
@@ -96,7 +96,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/asia/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/asia/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join us for the 4th edition of the NanoScientific Symposium Asia 2022 to be held on November 25, 2022.",
+        "Join us for the 4th edition of the NANOscientific Symposium Asia 2022 to be held on November 25, 2022.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -119,7 +119,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "asia2023",
     {
-      fullName: "2023 NanoScientific Symposium Asia | NSS Asia",
+      fullName: "2023 NANOscientific Symposium Asia | NSS Asia",
       fullDate: "November 25, 2022",
       eventLocation: "Marina Bay Sands, Singapore (Hybrid Event)",
       logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
@@ -147,7 +147,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/asia/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/asia/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join us for the 4th edition of the NanoScientific Symposium Asia 2022 to be held on November 25, 2022.",
+        "Join us for the 4th edition of the NANOscientific Symposium Asia 2022 to be held on November 25, 2022.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -170,7 +170,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr2022",
     {
-      fullName: "2022 NanoScientific Symposium Korea | NSS Korea",
+      fullName: "2022 NANOscientific Symposium Korea | NSS Korea",
       fullDate: "2022년 11월 23일",
       eventLocation: "대전컨벤션센터 컨퍼런스홀",
       logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
@@ -200,9 +200,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.png`,
       landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
       landingSection1Desc: `
-        NanoScientific Symposium Korea 등록하기
+        NANOscientific Symposium Korea 등록하기
         <br/><br/>
-        국내 원자현미경 전문 심포지엄 NanoScientific Symposium Korea (NSS Korea) 등록을 위해 '등록(registration)' 을 클릭해주세요.
+        국내 원자현미경 전문 심포지엄 NANOscientific Symposium Korea (NSS Korea) 등록을 위해 '등록(registration)' 을 클릭해주세요.
         `,
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -227,7 +227,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr2023",
     {
-      fullName: "2022 NanoScientific Symposium Korea | NSS Korea",
+      fullName: "2022 NANOscientific Symposium Korea | NSS Korea",
       fullDate: "2022년 11월 23일",
       eventLocation: "대전컨벤션센터 컨퍼런스홀",
       logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
@@ -257,9 +257,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.png`,
       landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
       landingSection1Desc: `
-        NanoScientific Symposium Korea 등록하기
+        NANOscientific Symposium Korea 등록하기
         <br/><br/>
-        국내 원자현미경 전문 심포지엄 NanoScientific Symposium Korea (NSS Korea) 등록을 위해 '등록(registration)' 을 클릭해주세요.
+        국내 원자현미경 전문 심포지엄 NANOscientific Symposium Korea (NSS Korea) 등록을 위해 '등록(registration)' 을 클릭해주세요.
         `,
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -284,7 +284,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "jp2022",
     {
-      fullName: "2022 NanoScientific Symposium Japan | NSS Japan",
+      fullName: "2022 NANOscientific Symposium Japan | NSS Japan",
       fullDate: "2022年11月18日金曜日",
       eventLocation: "東京大学 本郷キャンパス 工学部２号館",
       logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
@@ -338,7 +338,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "jp2023",
     {
-      fullName: "2022 NanoScientific Symposium Japan | NSS Japan",
+      fullName: "2022 NANOscientific Symposium Japan | NSS Japan",
       fullDate: "2022年11月18日金曜日",
       eventLocation: "東京大学 本郷キャンパス 工学部２号館",
       logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
@@ -392,7 +392,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "americas2022",
     {
-      fullName: "2022 NanoScientific Symposium Americas | NSS Americas",
+      fullName: "2022 NANOscientific Symposium Americas | NSS Americas",
       fullDate: "September 29, 2022",
       // eventLocation: "TBD",
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
@@ -419,7 +419,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/us/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join the 2022 NanoScientific Symposium Americas (NSS Americas)- Connecting the Nanomaterials Community.",
+        "Join the 2022 NANOscientific Symposium Americas (NSS Americas)- Connecting the Nanomaterials Community.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -440,7 +440,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "americas2023",
     {
-      fullName: "2022 NanoScientific Symposium Americas | NSS Americas",
+      fullName: "2022 NANOscientific Symposium Americas | NSS Americas",
       fullDate: "September 29, 2022",
       // eventLocation: "TBD",
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
@@ -467,7 +467,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/us/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join the 2022 NanoScientific Symposium Americas (NSS Americas)- Connecting the Nanomaterials Community.",
+        "Join the 2022 NANOscientific Symposium Americas (NSS Americas)- Connecting the Nanomaterials Community.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -488,9 +488,9 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu2022",
     {
-      fullName: "2022 NanoScientific Forum Europe | NSF Europe",
+      fullName: "2022 NANOscientific Forum Europe | NSF Europe",
       fullDate: "October 6-7, 2022",
-      logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
+      logoURL: `${S3_URL}/eu/menu-bar-logo.png?v=0.04`,
       speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -514,7 +514,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/eu/main-page-banner.jpg`,
       landingSection1LogoURL: `${S3_URL}/eu/logo-type-1b.svg`,
       landingSection1Desc: `Welcome to the virtual platform of
-      NanoScientific Forum Europe (NSFE)
+      NANOscientific Forum Europe (NSFE)
       `,
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -538,10 +538,10 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "eu2023",
     {
-      fullName: "2023 NanoScientific Forum Europe | NSFE",
+      fullName: "2023 NANOscientific Forum Europe | NSF Europe",
       fullDate: "September 13-15, 2023",
       eventLocation: "ICFO - The Institute of Photonic Sciences, Barcelona",
-      logoURL: `${S3_URL}/eu/menu-bar-logo.svg?v=0.03`,
+      logoURL: `${S3_URL}/eu/menu-bar-logo.png?v=0.04`,
       speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -565,7 +565,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${S3_URL}/eu/2023-europe-banner.png`,
       landingSection1LogoURL: `${S3_URL}/eu/2023NSFE_logo.svg`,
       // landingSection1Desc: `Welcome to the virtual platform of
-      // NanoScientific Forum Europe (NSFE)
+      // NANOscientific Forum Europe (NSFE)
       // `,
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -588,6 +588,9 @@ export const globalData = new Map<string, Common.globalDataType>([
       //
       registrationTitle: "Registration",
       registrationDesc: "",
+      registrationStep1Label: "Your Information",
+      registrationStep2Label: "Checkout",
+      registrationStep3Label: "Complete",
     },
   ],
 ]);
