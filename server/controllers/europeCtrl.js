@@ -64,6 +64,13 @@ const europeCtrl = {
       });
     });
   },
+  // 얼리버드 체크
+  getIsEarlyBird: async (req, res) => {
+    const result = new Date() < new Date("2023-06-01 00:00:00+2");
+    return res.status(200).json({
+      result,
+    });
+  },
 };
 
 module.exports = europeCtrl;

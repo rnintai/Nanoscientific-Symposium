@@ -87,6 +87,8 @@ router
   .route("/transaction")
   .post(europeCtrl.saveTransaction)
   .delete(europeCtrl.deleteTransaction);
-// data
+
+// 서버시간 통해 얼리버드 체크
+router.route("/early").get(europeCtrl.getIsEarlyBird);
 
 module.exports = router;
