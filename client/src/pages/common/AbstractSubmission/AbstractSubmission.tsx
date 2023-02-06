@@ -120,6 +120,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
           email: configState.alert_receive_email,
           nation: pathname,
           formData,
+          year: currentYear,
         });
 
         setSubmitSuccess(true);
