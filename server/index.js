@@ -36,6 +36,9 @@ app.use("/api/zoom", require("./routes/zoomRouter"));
 app.use("/api/announcement", require("./routes/announcementRouter"));
 app.use("/api/abstract", require("./routes/abstractRouter"));
 app.use("/api/configuration", require("./routes/configurationRouter"));
+app.use("/api/ondemand", require("./routes/onDemandRouter"));
+// 추가
+
 
 app.use(
   "/api/docs",

@@ -151,23 +151,25 @@ const usersCtrl = {
     }
   },
   checkEmail: async (req, res) => {
-    const { year, email, nation } = req.body;
-    const currentPool = getCurrentPool(nation);
+    const currentPool = getCurrentPool(req.body.nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    const year = req.body.year;
+    const userEmail = req.body.email;
 
     try {
       let sql;
       if (useYearList.indexOf(nation) === -1) {
         // useYearList에 없는 경우
-        sql = `SELECT EXISTS(
-          SELECT email FROM user WHERE email="${email}"
+        sql = `SELECT EXISTS( 
+          SELECT email FROM user WHERE email="${userEmail}"
         ) as result;`;
       } else
         sql = `SELECT EXISTS( 
         SELECT email FROM ${
           year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE email="${email}"
+        } WHERE email="${userEmail}"
       ) as result;`;
+
       const result = await connection.query(sql);
       connection.release();
 
@@ -228,13 +230,12 @@ const usersCtrl = {
     const userEmail = req.body.email;
     const year = req.body.year;
     const userPassword = hasher.HashPassword(req.body.password);
-
     try {
       let sql;
-      if (useYearList.indexOf(nation) === -1) {
+      if (useYearList.indexOf(req.body.nation) === -1) {
         sql = `UPDATE user SET password='${userPassword}', is_password_set=1 WHERE email='${userEmail}'`;
       } else
-        `UPDATE ${
+        sql = `UPDATE ${
           year && year !== "2022" ? `user_${year}` : `user`
         } SET password='${userPassword}', is_password_set=1 WHERE email='${userEmail}'`;
       try {
@@ -262,10 +263,10 @@ const usersCtrl = {
 
   // 비밀번호 재설정
   resetPassword: async (req, res) => {
-    const { nation, year } = req.body;
-    const currentPool = getCurrentPool(nation);
+    const currentPool = getCurrentPool(req.body.nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
+    const year = req.body.year;
     const userEmail = res.locals.email;
     const curPassword = req.body.curPassword;
     const newPassword = hasher.HashPassword(req.body.newPassword);
@@ -326,7 +327,7 @@ const usersCtrl = {
       if (useYearList.indexOf(nation) === -1) {
         sql = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
       } else
-        `UPDATE ${
+        sql = `UPDATE ${
           year && year !== "2022" ? `user_${year}` : `user`
         } SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
 
@@ -466,7 +467,6 @@ const usersCtrl = {
       await connection.commit();
       connection.release();
     } catch (err) {
-      console.log(err);
       connection.release();
       res.status(500).json({
         success: false,

@@ -108,25 +108,13 @@ const EventLanding = () => {
               >
                 {nations &&
                   nations.map((nation) => {
-                    if (nation.name === "NSS China") {
-                      return (
-                        <LandingNationCard
-                          key={nation.name}
-                          img={nation.img}
-                          name={nation.name}
-                          date={nation.date}
-                          path={nation.path}
-                          // disabled -> coming soon
-                        />
-                      );
-                    }
                     return (
                       <LandingNationCard
                         key={nation.name}
                         img={nation.img}
                         name={nation.name}
                         date={nation.date}
-                        path={`/${nation.path}`}
+                        path={nation.path}
                         // disabled -> coming soon
                       />
                     );

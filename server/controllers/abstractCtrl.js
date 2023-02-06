@@ -2,14 +2,16 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const abstractCtrl = {
   getSubmissions: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
       const sql = `
       SELECT * from abstract_submission ${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);

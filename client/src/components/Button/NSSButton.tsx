@@ -1,5 +1,5 @@
 /* eslint-disable react/require-default-props */
-import { CircularProgress, Typography, useTheme } from "@mui/material";
+import { CircularProgress, Stack, Typography, useTheme } from "@mui/material";
 import Loading from "components/Loading/Loading";
 import React from "react";
 import { mainFontSize } from "utils/FontSize";
@@ -15,6 +15,7 @@ interface NSSButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   fontWeight?: any;
   letterSpacing?: string;
   isMoreverIcon?: boolean;
+  startIcon?: JSX.Element | JSX.Element[] | string | string[];
   // markAnnouncementAlarm?: boolean;
 }
 const NSSButton = (props: NSSButtonProps) => {
@@ -27,6 +28,7 @@ const NSSButton = (props: NSSButtonProps) => {
     fontWeight,
     letterSpacing,
     isMoreverIcon,
+    startIcon,
     // markAnnouncementAlarm,
     ...rest
   } = props;
@@ -45,13 +47,17 @@ const NSSButton = (props: NSSButtonProps) => {
       {loading ? (
         <CircularProgress className="loading" size="22px" />
       ) : (
-        <Typography
-          fontSize={fontSize || mainFontSize}
-          fontWeight={fontWeight || theme.typography.fontWeightMedium}
-          letterSpacing={letterSpacing || "inherit"}
-        >
-          {children}
-        </Typography>
+        <Stack direction="row" alignItems="center">
+          {startIcon}
+          <Typography
+            fontSize={fontSize || mainFontSize}
+            fontWeight={fontWeight || theme.typography.fontWeightMedium}
+            letterSpacing={letterSpacing || "inherit"}
+            ml={startIcon ? 0.5 : 0}
+          >
+            {children}
+          </Typography>
+        </Stack>
       )}
     </NSSButtonContainer>
   );

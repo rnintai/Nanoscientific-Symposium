@@ -3,15 +3,23 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const adminCtrl = {
   addSession: async (req, res) => {
-    const { nation, title, date, year } = req.body;
+    const { nation, title, date, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    const langSfx = language === "china" ? "" : "_en";
 
     try {
-      const sql = `INSERT INTO program_sessions(session_title,date,year) VALUES('${title}','${date.substr(
-        0,
-        10
-      )}', ${year && year !== "2022" ? `'${year}'` : null})`;
+      let sql;
+      if (nation === "china") {
+        sql = `INSERT INTO program_sessions(session_title, session_title_en,date,year) VALUES('${title}','${title_en}','${date.substr(
+          0,
+          10
+        )}',${year && year !== "2022" ? `'${year}'` : null})`;
+      } else
+        sql = `INSERT INTO program_sessions(session_title,date,year) VALUES('${title}','${date.substr(
+          0,
+          10
+        )}', ${year && year !== "2022" ? `'${year}'` : null})`;
 
       const result = await connection.query(sql);
       res.status(200).json({
@@ -24,15 +32,23 @@ const adminCtrl = {
     }
   },
   modifySession: async (req, res) => {
-    const { nation, title, date, id, status } = req.body;
+    const { nation, title, title_en, date, id, status, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
+    const langSfx = language === "china" ? "" : "_en";
 
     try {
-      const sql = `UPDATE program_sessions SET session_title='${title}',date='${date.substr(
-        0,
-        10
-      )}', status=${status} WHERE id=${id}`;
+      let sql;
+      if (nation === "china") {
+        sql = `UPDATE program_sessions SET session_title='${title}',session_title_en='${title_en}',date='${date.substr(
+          0,
+          10
+        )}', status=${status} WHERE id=${id}`;
+      } else
+        sql = `UPDATE program_sessions SET session_title='${title}',date='${date.substr(
+          0,
+          10
+        )}', status=${status} WHERE id=${id}`;
 
       const result = await connection.query(sql);
       res.status(200).json({
@@ -82,10 +98,14 @@ const adminCtrl = {
   addProgram: async (req, res) => {
     const {
       nation,
+      language,
       session,
       title,
+      title_en,
       speakers,
+      speakers_en,
       description,
+      description_en,
       startTime,
       endTime,
       emphasize,
@@ -96,7 +116,36 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description, emphasize,year) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}', ${emphasize},
+      let sql;
+      if (nation === "china") {
+        sql = `INSERT INTO programs(
+          session,
+          start_time,
+          end_time,
+          title,
+          title_en,
+          speakers,
+          speakers_en,
+          description,
+          description_en,
+          emphasize,
+          year
+          ) VALUES(
+            ${session},
+            '${startTime}',
+            '${endTime}',
+            '${title}',
+            '${title_en}',
+            '${speakers}',
+            '${speakers_en}',
+            '${description}',
+            '${description_en}',
+            ${emphasize},
+            ${year && year !== "2022" ? `'${year}'` : null}
+          )`;
+      } else
+        sql =
+          sql = `INSERT INTO programs(session,start_time,end_time,title,speakers,description, emphasize,year) VALUES(${session},'${startTime}','${endTime}','${title}','${speakers}','${description}', ${emphasize},
       ${year && year !== "2022" ? `'${year}'` : null})`;
 
       const sqlResult = await connection.query(sql);
@@ -138,10 +187,12 @@ const adminCtrl = {
     const {
       nation,
       title,
-      id,
+      title_en,
       session,
       speakers,
+      speakers_en,
       description,
+      description_en,
       startTime,
       endTime,
       emphasize,
@@ -150,7 +201,21 @@ const adminCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE programs SET 
+      let sql;
+      if (nation === "china") {
+        sql = `UPDATE programs SET 
+      session=${session}, 
+      title='${title}',
+      title_en='${title_en}',
+      speakers='${speakers}',
+      speakers_en='${speakers_en}',
+      description="${description}",
+      description_en="${description_en}",
+      start_time='${startTime}',
+      end_time='${endTime}',
+      emphasize=${emphasize} WHERE id=${id}`;
+      } else
+        sql = `UPDATE programs SET 
       session=${session}, 
       title='${title}',
       speakers='${speakers}',
@@ -258,9 +323,7 @@ const adminCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE program_agenda SET session_id=${session_id},program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id} and${
-        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-      } `;
+      const sql = `UPDATE program_agenda SET session_id=${session_id},program_id=${program_id}, title='${title}',speakers='${speakers}' WHERE id=${id} `;
 
       await connection.query(sql);
       res.status(200).json({
@@ -279,27 +342,21 @@ const adminCtrl = {
   },
 
   deleteAgenda: async (req, res) => {
-    const { nation, year } = req.query;
+    const { nation } = req.query;
     const id = req.params.id;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql = `SELECT * FROM program_agenda WHERE id=${id} and${
-        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-      }`;
+      let sql = `SELECT * FROM program_agenda WHERE id=${id}`;
 
       const selectResult = await connection.query(sql);
       const nextId = selectResult[0][0].next_id;
 
-      sql = `DELETE FROM program_agenda WHERE id=${id} and${
-        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-      } `;
+      sql = `DELETE FROM program_agenda WHERE id=${id}`;
       await connection.query(sql);
 
-      sql = `UPDATE program_agenda SET next_id=${nextId} WHERE next_id=${id} and${
-        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-      }`;
+      sql = `UPDATE program_agenda SET next_id=${nextId} WHERE next_id=${id}`;
       await connection.query(sql);
 
       res.status(200).json({
@@ -317,17 +374,13 @@ const adminCtrl = {
   },
 
   reorderAgenda: async (req, res) => {
-    const { agendaList, nation, year } = req.body;
+    const { agendaList, nation } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
       for (const agenda of agendaList) {
-        const sql = `UPDATE program_agenda SET next_id=${
-          agenda.next_id
-        } WHERE id=${agenda.id} and${
-          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-        }`;
+        const sql = `UPDATE program_agenda SET next_id=${agenda.next_id} WHERE id=${agenda.id}`;
         await connection.query(sql);
       }
       res.status(200).json({
@@ -424,12 +477,17 @@ const adminCtrl = {
     const {
       nation,
       name,
+      name_en,
       belong,
+      belong_en,
       imagePath,
       keynote,
       description,
+      description_en,
       abstractBelong,
+      abstractBelong_en,
       abstractDesc,
+      abstractDesc_en,
       hasAbstract,
       year,
     } = req.body;
@@ -438,18 +496,66 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `INSERT INTO speakers
+      let sql;
+      if (nation === "china") {
+        sql = `INSERT INTO speakers
+        (
+          name,
+          name_en,
+          belong,
+          belong_en,
+          image_path,
+          status,
+          keynote,
+          description,
+          description_en,
+          has_abstract,
+          year
+        )
+        VALUES(
+          '${name}',
+          '${name_en}',
+          '${belong}',
+          '${belong_en}',
+          '${imagePath}',
+          1,
+           ${keynote},
+          '${description}',
+          '${description_en}',
+           ${hasAbstract},
+           ${year && year !== "2022" ? `'${year}'` : null}
+        )`;
+      } else
+        sql = `INSERT INTO speakers
       (name,belong,image_path,status,keynote,description,has_abstract,year)
       VALUES('${name}','${belong}','${imagePath}',1, ${keynote},'${description}', ${hasAbstract}, ${
-        year && year !== "2022" ? `'${year}'` : null
-      })`;
+          year && year !== "2022" ? `'${year}'` : null
+        })`;
       const data = await connection.query(sql);
       connection.release();
-
-      const sql2 = `INSERT INTO speaker_abstract(speaker_id,belong,description,year)
+      let sql2;
+      if (nation === "china") {
+        sql2 = `INSERT INTO speaker_abstract(
+          speaker_id,
+          belong,
+          belong_en,
+          description,
+          description_en,
+          year
+        )
+        VALUES(
+          ${data[0].insertId},
+          '${abstractBelong}',
+          '${abstractBelong_en}',
+          '${abstractDesc}',
+          '${abstractDesc_en}',
+          ${year && year !== "2022" ? `'${year}'` : null}
+        )`;
+      } else
+        sql2 = `INSERT INTO speaker_abstract(speaker_id,belong,description,year)
           VALUES(${data[0].insertId},'${abstractBelong}','${abstractDesc}',${
-        year && year !== "2022" ? `'${year}'` : null
-      })`;
+          year && year !== "2022" ? `'${year}'` : null
+        })`;
       await connection.query(sql2);
       connection.release();
 
@@ -465,13 +571,18 @@ const adminCtrl = {
     const {
       nation,
       name,
+      name_en,
       belong,
+      belong_en,
       imagePath,
       id,
       keynote,
       description,
+      description_en,
       abstractBelong,
+      abstractBelong_en,
       abstractDesc,
+      abstractDesc_en,
       hasAbstract,
       year,
     } = req.body;
@@ -479,7 +590,22 @@ const adminCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE speakers SET 
+      if (nation === "china") {
+        sql = `UPDATE speakers SET 
+      name='${name}',
+      name_en='${name_en}',
+      belong='${belong}',
+      belong_en='${belong_en}',
+      image_path='${imagePath}',
+      keynote=${keynote},
+      description='${description}', 
+      description_en='${description_en}', 
+      has_abstract=${hasAbstract},
+      year=${year && year !== "2022" ? `'${year}'` : null}
+      WHERE id=${id}
+      `;
+      } else
+        sql = `UPDATE speakers SET 
       name='${name}',
       belong='${belong}',
       image_path='${imagePath}',
@@ -492,8 +618,32 @@ const adminCtrl = {
 
       const data = await connection.query(sql);
       connection.release();
-
-      const sql2 = `INSERT INTO speaker_abstract (
+      let sql2;
+      if (nation === "china") {
+        sql2 = `INSERT INTO speaker_abstract (
+          speaker_id,
+          belong,
+          belong_en,
+          description,
+          description_en,
+          year
+          ) VALUES (
+            ${id},
+            '${abstractBelong}',
+            '${abstractBelong_en}',
+            '${abstractDesc}',
+            '${abstractDesc_en}',
+            ${year && year !== "2022" ? `'${year}'` : null}
+          )
+          ON DUPLICATE KEY UPDATE
+            belong='${abstractBelong}',
+            belong_en='${abstractBelong_en}',
+            description='${abstractDesc}',
+            description_en='${abstractDesc_en}',
+            ${year && year !== "2022" ? `'${year}'` : null}
+          `;
+      } else
+        sql2 = `INSERT INTO speaker_abstract (
         speaker_id,
         belong,
         description,
@@ -586,15 +736,16 @@ const adminCtrl = {
   },
 
   getUsers: async (req, res) => {
-    const { nation, year } = req.query;
+    const { nation } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       let sql = "";
       if (nation === "eu") {
-        sql = `SELECT id,email,title,role,last_name,first_name,institute,department,createdAt FROM user${
-          year !== "" ? `_${year}` : ""
+        // eu 일땐 점수메기는항목 5개 존재
+        sql = `SELECT id,email,title,role,last_name,first_name,institute,department,createdAt FROM ${
+          year && year !== "2022" ? `user_${year}` : `user`
         }`;
       } else {
         sql = `SELECT * FROM user`;

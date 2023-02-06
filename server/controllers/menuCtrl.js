@@ -2,14 +2,33 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const menuCtrl = {
   getMenuList: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year, language } = req.query;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `
+      let sql;
+      if (nation === "china") {
+        sql = `SELECT 
+      id, 
+      ${language === "china" ? "name" : "name_en"} as name, 
+      path, 
+      is_published, 
+      is_main, 
+      parent, 
+      menu.show, 
+      has_child
+      FROM menu${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      };`;
+      } else
+        sql = `
       SELECT * FROM menu${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
