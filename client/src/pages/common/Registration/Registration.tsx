@@ -18,6 +18,7 @@ import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import { smallFontSize } from "utils/FontSize";
 import MarketoForm from "components/MarketoForm/MarketoForm";
+import useNSSType from "hooks/useNSSType";
 import { RegistrationContainer, MktoFormContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {

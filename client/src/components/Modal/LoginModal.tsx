@@ -447,14 +447,17 @@ const EuropeLoginModal = ({
           >
             {/* {pathname === "eu" ? ( */}
 
-            <Link to={`${pathname}/registration`} onClick={closeAllModal}>
+            <Link
+              to={`${pathname}/${currentYear}/registration`}
+              onClick={closeAllModal}
+            >
               <Typography fontSize={smallFontSize}>
                 {createAccountText}
               </Typography>
             </Link>
 
             <Link
-              to={`${pathname}/user/forgot-password`}
+              to={`${pathname}/${currentYear}/user/forgot-password`}
               onClick={closeAllModal}
             >
               <Typography fontSize={smallFontSize}>

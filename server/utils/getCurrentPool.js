@@ -30,7 +30,7 @@ module.exports = {
         currentPool = chinaPool;
         break;
       default:
-        currentPool = "";
+        currentPool = commonPool;
         break;
     }
     return currentPool;

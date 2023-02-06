@@ -36,7 +36,8 @@ const usePageViews = () => {
       break;
     }
     default: {
-      result = "";
+      // result = "home";
+      result = "common";
     }
   }
 

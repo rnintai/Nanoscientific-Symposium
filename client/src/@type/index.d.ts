@@ -154,6 +154,26 @@ declare namespace Common {
     height?: number;
   }
 
+  interface onDemandVideoType {
+    id: number;
+    title: string;
+    speaker: string;
+    speaker_page?: string;
+    region: string;
+    year: string;
+    language: string;
+    affiliation: string;
+    thumbnail?: string;
+    video: string;
+    application?: string[];
+    abstract_desc?: string;
+  }
+
+  interface onDemandTagType {
+    type: "region" | "year" | "language" | "application";
+    value: string;
+  }
+
   interface globalDataType {
     fullName?: string;
     fullDate?: string;
@@ -269,6 +289,10 @@ declare namespace Common {
 
     // pdf uploader
     pdfUploadDescription?: string;
+
+    // registration page
+    registrationTitle?: string;
+    registrationDesc?: string;
   }
 
   interface MetaTagType {

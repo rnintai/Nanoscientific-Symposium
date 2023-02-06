@@ -193,6 +193,7 @@ navProps) => {
               className="menu-item-wrap"
             >
               {!menuStateLoading &&
+                menuList &&
                 menuList.map((menu) => {
                   if (
                     (menu.show || editorRole.includes(authState.role)) &&
@@ -217,7 +218,7 @@ navProps) => {
                     return (
                       <Box
                         key={menu.name}
-                        className="parent"
+                        className={`parent${menu.show === 0 ? " op5" : ""}`}
                         ref={(element) => {
                           submenuRefs.current[menu.id] = element;
                         }}

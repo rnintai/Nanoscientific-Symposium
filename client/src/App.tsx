@@ -51,7 +51,6 @@ declare global {
 }
 
 const gaID = "G-BS77NX7Z9T";
-// 주소에 연도 비포함 시 redirect시킬 연도
 
 const App = () => {
   const pathname = usePageViews();
@@ -227,7 +226,7 @@ const App = () => {
             // );
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
-            } else {
+            } else if (pathname !== "common" && pathname !== "home") {
               calcAnnouncementCached();
             }
             if (isNewAnnouncement) {
@@ -236,7 +235,7 @@ const App = () => {
           }
           // 비밀번호 미설정 시 reset 시키기
           if (!isPasswordSet) {
-            navigate(`/${pathname}/user/reset-password`);
+            navigate(`/${pathname}/${currentYear}/user/reset-password`);
           }
         } else {
           if (pathname !== "" && pathname !== "home") {
@@ -285,7 +284,7 @@ const App = () => {
   const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
   // const [menuList, setMenuList] = useState<Common.menuType[]>(null);
   const menuStore = useMenuStore();
-  const { menuList, currentMenu, setMenuList, setCurrentMenuState } = menuStore;
+  const { menuList, currentMenu, setMenuList, setCurrentMenu } = menuStore;
   const [documentTitle, setDocumentTitle] = useState<string>();
 
   // config state
@@ -394,7 +393,7 @@ const App = () => {
   }, [pathname]);
 
   useEffect(() => {
-    setCurrentMenuState(window.location.pathname);
+    setCurrentMenu(window.location.pathname);
     // ga
     const { title } = window.document;
     const { href } = window.location;
@@ -435,7 +434,12 @@ const App = () => {
   }, [bannerURL, window.location.href]);
 
   useEffect(() => {
-    if (loginSuccess && authState.isLogin) {
+    if (
+      pathname !== "common" &&
+      pathname !== "home" &&
+      loginSuccess &&
+      authState.isLogin
+    ) {
       // 캐쉬가 되어있든 안되어있든 로그인하자마자 데이터 획득
       // useeffect memory error x
       if (window.location.pathname.includes("announcement")) {

@@ -15,6 +15,12 @@ export const AppContainer = styled.div`
     return theme.palette.text.primary;
   }};
 
+  hr.dashed {
+    margin: 0;
+    border-style: dashed;
+    border-color: #ececec;
+  }
+
   a {
     color: ${() => {
       const theme = useTheme();
@@ -38,6 +44,13 @@ export const AppContainer = styled.div`
           return theme.palette.primary.main;
         }};
       }
+    }
+
+    &.hover-blue:hover {
+      color: ${() => {
+        const theme = useTheme();
+        return theme.palette.primary.main;
+      }};
     }
 
     &.link-default {
@@ -94,6 +107,14 @@ export const AppContainer = styled.div`
 
   .body-fit-banner {
     min-height: calc(100vh - 364px);
+  }
+
+  .ellipsis {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .p0 {

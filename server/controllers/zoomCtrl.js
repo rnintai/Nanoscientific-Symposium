@@ -64,12 +64,14 @@ const zoomCtrl = {
   // },
 
   getWebinarList: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      const sql = `SELECT * FROM webinar where ${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`};`;
+      const sql = `SELECT * FROM webinar where ${
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      };`;
       const row = await connection.query(sql);
 
       const webinarList = row[0].filter((w) => !w.is_meeting);
@@ -450,12 +452,14 @@ const zoomCtrl = {
     // }
   },
   addWebinar: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year } = req.query;
     const { webinarId } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `INSERT INTO webinar (webinar_id, year) VALUES ("${webinarId}", ${year && year !== "2022" ?`"${year}"` : null})`;
+      const sql = `INSERT INTO webinar (webinar_id, year) VALUES ("${webinarId}", ${
+        year && year !== "2022" ? `"${year}"` : null
+      })`;
       await connection.query(sql);
       connection.release();
       res.status(200).json({

@@ -4,6 +4,18 @@ const data = fs.readFileSync("./database.json");
 const conf = JSON.parse(data);
 const mysql = require("mysql2/promise");
 
+const commonPool = mysql.createPool({
+  host: conf.host,
+  user: conf.user,
+  password: conf.password,
+  port: conf.port,
+  database: "common",
+  connectionLimit: 30,
+  enableKeepAlive: true,
+  waitForConnections: true,
+  queueLimit: 0,
+});
+
 const asiaPool = mysql.createPool({
   host: conf.host,
   user: conf.user,
