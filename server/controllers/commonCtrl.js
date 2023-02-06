@@ -26,9 +26,8 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `SELECT * FROM programs WHERE status=1 and${
-        year && year !== "2022"
-          ? ` year="${year}"`
-          : ` year IS NULL`} ORDER BY start_time `;
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      } ORDER BY start_time `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -43,9 +42,8 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `SELECT * FROM program_agenda where${
-        year && year !== "2022"
-          ? ` year="${year}"`
-          : ` year IS NULL`} ORDER BY program_id,next_id`;
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      } ORDER BY program_id,next_id`;
       const result = await connection.query(sql);
       connection.release();
       res.status(200).json({ success: 1, data: result[0] });
@@ -61,9 +59,8 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `SELECT * FROM program_sessions WHERE status=1 and${
-        year && year !== "2022"
-          ? ` year="${year}"`
-          : ` year IS NULL`} ORDER BY date `;
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      } ORDER BY date `;
       const result = await connection.query(sql);
       connection.release();
       res.send(result[0]);
@@ -97,9 +94,11 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM speaker_abstract as S WHERE year${year&&year!=="2022" ? `=${year}` : ` IS NULL`};`;
+      const sql = `SELECT * FROM speaker_abstract as S WHERE year${
+        year && year !== "2022" ? `=${year}` : ` IS NULL`
+      };`;
       const result = await connection.query(sql);
-      console.log(sql)
+      console.log(sql);
       connection.release();
       res.send(result[0]);
     } catch (err) {
@@ -108,7 +107,7 @@ const commonCtrl = {
     }
   },
   updateSpeakerList: async (req, res) => {
-    const { nation, list, abstractlist,year } = req.body;
+    const { nation, list, abstractlist, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -141,7 +140,9 @@ const commonCtrl = {
 
       while (abstractlist.length > 0) {
         const { id, speaker_id, belong, description } = abstractlist.shift();
-        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}', year='${year && year !== "2022" ? year : null}' WHERE id=${id}
+        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}', year='${
+          year && year !== "2022" ? year : null
+        }' WHERE id=${id}
         };`;
         await connection.query(sql);
         connection.release();
@@ -159,7 +160,7 @@ const commonCtrl = {
     }
   },
   getPosters: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -178,8 +179,16 @@ const commonCtrl = {
   },
   // poster add
   addPoster: async (req, res) => {
-    const { nation, id, title, affiliation, author, previewURL, filePath, year } =
-      req.body;
+    const {
+      nation,
+      id,
+      title,
+      affiliation,
+      author,
+      previewURL,
+      filePath,
+      year,
+    } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -187,7 +196,9 @@ const commonCtrl = {
       let sql = "";
       if (id === undefined) {
         sql = `INSERT INTO poster (title,sub_title,author,image,attachment, year) VALUES 
-        ('${title}','${affiliation}','${author}','${previewURL}','${filePath}', ${year && year !== "2022" ?`'${year}'` : null})`;
+        ('${title}','${affiliation}','${author}','${previewURL}','${filePath}', ${
+          year && year !== "2022" ? `'${year}'` : null
+        })`;
       } else {
         sql = `UPDATE poster SET 
         title='${title}',
@@ -333,7 +344,7 @@ const commonCtrl = {
   },
 
   getBanner: async (req, res) => {
-    const { nation,year, path } = req.query;
+    const { nation, year, path } = req.query;
     const currentPool = getCurrentPool(nation);
     if (!currentPool) {
       res.status(200).json({
@@ -344,8 +355,9 @@ const commonCtrl = {
     }
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
-      ` year="${year}"`: ` year IS NULL`}`;
+      const sql = `SELECT banner_path from banner WHERE path='${decodeURIComponent(
+        path
+      )}' and${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`}`;
       const row = await connection.query(sql);
       connection.release();
       if (row[0].length === 0) {
@@ -372,8 +384,9 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(path)}' and${year && year !== "2022" ?
-      ` year="${year}"`: ` year IS NULL`}`
+      const sql = `UPDATE banner SET banner_path='${imagePath}' WHERE path='${decodeURIComponent(
+        path
+      )}' and${year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`}`;
       await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -453,10 +466,8 @@ const commonCtrl = {
         UPDATE landing_section SET 
         landing_section.title='${title}'
         WHERE id=${id} and${
-          year && year !== "2022"
-            ? ` year="${year}"`
-            : ` year IS NULL`
-        }
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      }
         `;
       await connection.query(sql);
       connection.release();
@@ -765,13 +776,15 @@ const commonCtrl = {
   },
 
   getAbstractDesc: async (req, res) => {
-    const { nation,year } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
       SELECT * FROM abstract_submission_desc${
-        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
       };
       `;
       const row = await connection.query(sql);
@@ -789,21 +802,24 @@ const commonCtrl = {
     }
   },
   setAbstractDesc: async (req, res) => {
-    const { nation, desc,year,id} = req.body;
+    const { nation, desc, year, id } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-   
+
     try {
       let sql;
-      console.log(id)
-      if(id){
+      console.log(id);
+      if (id) {
         sql = `UPDATE abstract_submission_desc as a SET a.desc="${desc}"${
-          year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+          year && year !== "2022"
+            ? ` WHERE year="${year}"`
+            : ` WHERE year IS NULL`
         };`;
-      }
-      else  sql = `
-      INSERT INTO abstract_submission_desc (${'`desc`'},year) VALUES ('${desc}', '${year}');
+      } else {
+        sql = `
+      INSERT INTO abstract_submission_desc (${"`desc`"},year) VALUES ('${desc}', '${year}');
       `;
+      }
       await connection.query(sql);
       connection.release();
       res.status(200).json({
