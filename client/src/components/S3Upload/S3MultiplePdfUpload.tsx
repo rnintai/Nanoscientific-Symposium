@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import useNSSType from "hooks/useNSSType";
 import S3 from "aws-sdk/clients/s3";
 import { Button, Fab, Stack, Typography, useTheme } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
@@ -13,6 +14,7 @@ import usePageViews from "hooks/usePageViews";
 import { globalData, S3_URL } from "utils/GlobalData";
 import { Box } from "@mui/system";
 import { smallFontSize } from "utils/FontSize";
+import useCurrentYear from "hooks/useCurrentYear";
 import NSSButton from "components/Button/NSSButton";
 import axios from "axios";
 import useConfigStore from "store/ConfigStore";
@@ -53,6 +55,8 @@ const S3MultiplePdfUpload = ({
 }: S3PdfUploadProps) => {
   const [progress, setProgress] = useState<number>(-1);
   const theme = useTheme();
+  const nssType = useNSSType();
+  const currentYear = useCurrentYear();
 
   const configStore = useConfigStore();
   const { configState } = configStore;
@@ -68,7 +72,7 @@ const S3MultiplePdfUpload = ({
   const [filePathList, setFilePathList] = useState<FilePathType[]>([]);
 
   const { submitBtnText, pdfUploadDescription, uploadBtnText } =
-    globalData.get(pathname);
+    globalData.get(nssType);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -175,6 +179,7 @@ const S3MultiplePdfUpload = ({
           afm_model: psExistingAFMBrand,
           presentation_form: psPresentationForm,
           pdf_file_path: filePathList.map((f) => f.path).join(","),
+          year: currentYear,
         });
 
         // 메일 전송

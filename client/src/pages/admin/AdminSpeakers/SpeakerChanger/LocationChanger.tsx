@@ -7,6 +7,7 @@ import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import {
   ArrowButtonContainer,
   SpeakerRowContainer,
@@ -42,6 +43,7 @@ const LocationChanger = ({
 }: LocationChangerProps) => {
   const pathname = usePageViews();
   const theme = useTheme();
+  const currentYear = useCurrentYear();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
@@ -63,6 +65,7 @@ const LocationChanger = ({
   const config = {
     params: {
       nation: pathname,
+      year: currentYear,
     },
   };
   const getSpeakers = async () => {

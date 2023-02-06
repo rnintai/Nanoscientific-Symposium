@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
+import { useNavigate as useNavigateWithSearch } from "hooks/useNavigateWithSearch";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import NavBar2023 from "components/2023/NavBar/NavBar";
@@ -8,6 +9,7 @@ import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
 import { ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
+import useNSSType from "hooks/useNSSType";
 import { theme, jpTheme } from "theme/themes";
 import PrivateRoute from "components/Route/PrivateRoute";
 import LoginModal from "components/Modal/LoginModal";
@@ -21,8 +23,8 @@ import { S3_URL } from "utils/GlobalData";
 import useLoadingStore from "store/LoadingStore";
 import useWindowSize from "hooks/useWindowSize";
 import setMetaTag from "utils/MetaTag/SetMetaTag";
-import useCurrentYear from "hooks/useCurrentYear";
-import CommonRoutes from "Routes/CommonRoutes";
+import useCurrentYear, { defaultYear, yearList } from "hooks/useCurrentYear";
+import { useYearList } from "utils/useYear";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
@@ -53,11 +55,14 @@ const gaID = "G-BS77NX7Z9T";
 
 const App = () => {
   const pathname = usePageViews();
+  const nssType = useNSSType();
+
   const currentYear = useCurrentYear();
   const authState = useAuthState();
   const authDispatch = useAuthDispatch();
   const themeState = useThemeState();
   const navigate = useNavigate();
+  const navigateWithSearch = useNavigateWithSearch();
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -76,6 +81,20 @@ const App = () => {
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
   }, []);
+  // url에 year가 없으면 추가해주기
+  const checkYearAndRedirect = () => {
+    if (
+      pathname !== "home" &&
+      pathname !== "" &&
+      !yearList.includes(window.location.pathname.split("/")[2])
+    ) {
+      const addressWithYear = window.location.href.replace(
+        pathname,
+        `${pathname}/${defaultYear}`,
+      );
+      window.location.replace(addressWithYear);
+    }
+  };
 
   // 로그인 모달 state
   const [emailModalOpen, setEmailModalOpen] = useState<boolean>(false);
@@ -91,7 +110,9 @@ const App = () => {
   const [bannerURL, setBannerURL] = useState<string>("");
   const calcAnnouncementCached = () => {
     axios
-      .get(`/api/announcement/readlist?nation=${pathname}&id=${authState.id}`)
+      .get(
+        `/api/announcement/readlist?nation=${pathname}&id=${authState.id}&year=${currentYear}`,
+      )
       .then((res) => {
         if (res.data.success) {
           if (res.data.result) {
@@ -102,6 +123,7 @@ const App = () => {
                 email: authState.email,
                 nation: pathname,
                 flag: "cached",
+                year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
               })
               .then((res) => {
                 if (res.data.success === true) {
@@ -111,7 +133,7 @@ const App = () => {
                 }
               });
           } else if (!res.data.result) {
-            console.log(res.data.result, res.data.unread);
+            // console.log(res.data.result, res.data.unread);
             // 모두 읽지 않음
             alarmDispatch({ type: "ON" });
           }
@@ -127,7 +149,7 @@ const App = () => {
   const getBanner = async () => {
     setBannerLoading(true);
     const banner = await axios.get(
-      `/api/page/common/banner?nation=${pathname}&path=${encodeURIComponent(
+      `/api/page/common/banner?nation=${pathname}&year=${currentYear}&path=${encodeURIComponent(
         window.location.pathname
           .replace(`/${pathname}`, "")
           .replace(/\/+(\d)+/g, ""),
@@ -136,7 +158,6 @@ const App = () => {
     if (banner.data.success) {
       setBannerURL(banner.data.result);
     } else {
-      console.log("poster-hall의 banner path를 DB에 추가해주세요~"); // 원래 poster-hall의 banner path는 따로 정해져있지 않다.
       setBannerURL("");
     }
 
@@ -148,6 +169,7 @@ const App = () => {
       .post("/api/users/check", {
         accessToken: authState.accessToken,
         nation: pathname === "" ? "" : pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         /** 로그인 시, 페이지 이동 및 새로고침 할 때마다 검사 */
@@ -177,13 +199,13 @@ const App = () => {
                 isAnnouncementCached,
               },
             });
-            console.log(
-              "sNewAnnouncement",
-              isNewAnnouncement,
-              "isAnnouncementCached",
-              isAnnouncementCached,
-              "in App.tsx",
-            );
+            // console.log(
+            //   "sNewAnnouncement",
+            //   isNewAnnouncement,
+            //   "isAnnouncementCached",
+            //   isAnnouncementCached,
+            //   "in App.tsx",
+            // );
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
             } else if (pathname !== "common" && pathname !== "home") {
@@ -195,7 +217,7 @@ const App = () => {
           }
           // 비밀번호 미설정 시 reset 시키기
           if (!isPasswordSet) {
-            navigate(`/${pathname}/user/reset-password`);
+            navigate(`/${pathname}/${currentYear}/user/reset-password`);
           }
         } else {
           if (pathname !== "" && pathname !== "home") {
@@ -221,12 +243,11 @@ const App = () => {
     //
   }, [authState.isLoading, pathname, subpath]);
   useEffect(() => {
-    setDocumentTitle(useSeoTitle(pathname));
-
+    checkYearAndRedirect();
+    setDocumentTitle(useSeoTitle(pathname, currentYear, nssType));
     // 스크롤 to top
     window.scrollTo(0, 0);
   }, [pathname, subpath, window.location.search]);
-
   // 로그아웃
 
   const routeLoopHelper = (route: routeType, isPrivate?: boolean) => {
@@ -244,7 +265,7 @@ const App = () => {
   const [menuStateLoading, setMenuStateLoading] = useState<boolean>(true);
   // const [menuList, setMenuList] = useState<Common.menuType[]>(null);
   const menuStore = useMenuStore();
-  const { menuList, currentMenu, setMenuList, setCurrentMenuState } = menuStore;
+  const { menuList, currentMenu, setMenuList, setCurrentMenu } = menuStore;
   const [documentTitle, setDocumentTitle] = useState<string>();
 
   // config state
@@ -258,7 +279,9 @@ const App = () => {
 
   const setLocalStorage = useCallback(async () => {
     console.log("setlocalstorage in App");
-    const savedData = localStorage.getItem(`readAnnouncementList_${pathname}`);
+    const savedData = localStorage.getItem(
+      `readAnnouncementList_${pathname}${currentYear}`,
+    );
     if (!savedData) {
       const readAnnouncementObj = {
         country: pathname,
@@ -269,13 +292,15 @@ const App = () => {
       };
 
       localStorage.setItem(
-        `readAnnouncementList_${pathname}`,
+        `readAnnouncementList_${pathname}${currentYear}`,
         JSON.stringify(readAnnouncementObj),
       );
 
       // 먼저 해당 지역에 해당하는 공지사항이 있는지 확인
       axios
-        .get(`/api/announcement/originlist?nation=${pathname}`)
+        .get(
+          `/api/announcement/originlist?nation=${pathname}&year=${currentYear}`,
+        )
         .then((res) => {
           if (res.data.success) {
             if (typeof res.data.result === "number") {
@@ -297,7 +322,7 @@ const App = () => {
         if (parsedData.isThereNewAnnouncement) {
           try {
             const response = await axios.get(
-              `/api/announcement/originlist?nation=${pathname}`,
+              `/api/announcement/originlist?nation=${pathname}&year=${currentYear}`,
             );
             if (response.data.success) {
               parsedData.announcementLength = response.data.result;
@@ -317,7 +342,7 @@ const App = () => {
         }
       }
       localStorage.setItem(
-        `readAnnouncementList_${pathname}`,
+        `readAnnouncementList_${pathname}${currentYear}`,
         JSON.stringify(parsedData),
       );
     }
@@ -327,7 +352,12 @@ const App = () => {
     if (pathname !== "" && pathname !== "home") {
       setMenuStateLoading(true);
       axios
-        .get(`/api/menu/list?nation=${pathname}`)
+        .get(`/api/menu/list`, {
+          params: {
+            nation: pathname,
+            year: currentYear,
+          },
+        })
         .then((res) => {
           setMenuList(res.data.result);
         })
@@ -343,7 +373,7 @@ const App = () => {
   }, [pathname]);
 
   useEffect(() => {
-    setCurrentMenuState(window.location.pathname);
+    setCurrentMenu(window.location.pathname);
     // ga
     const { title } = window.document;
     const { href } = window.location;
@@ -395,7 +425,7 @@ const App = () => {
       if (window.location.pathname.includes("announcement")) {
         axios
           .get(
-            `/api/announcement/readlist?nation=${pathname}&id=${authState.id}`,
+            `/api/announcement/readlist?nation=${pathname}&id=${authState.id}&year=${currentYear}`,
           )
           .then((res) => {
             if (res.data.success) {
@@ -427,8 +457,7 @@ const App = () => {
     <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
       <AppContainer>
         {pathname !== "home" &&
-          // pathname !== "" &&
-          currentYear === "2022" &&
+          pathname !== "" &&
           subpath.indexOf("admin") === -1 && (
             <NavBar
               checkLoading={authState.isLoading}
@@ -438,15 +467,6 @@ const App = () => {
               menuStateLoading={menuStateLoading}
             />
           )}
-        {currentYear === "2023" && (
-          <NavBar2023
-            checkLoading={authState.isLoading}
-            setEmailModalOpen={setEmailModalOpen}
-            setLogoutSuccess={setLogoutSuccess}
-            setLogoutLoading={setLogoutLoading}
-            menuStateLoading={menuStateLoading}
-          />
-        )}
         {!bannerLoading && bannerURL && (
           <LandingSection
             className="banner"

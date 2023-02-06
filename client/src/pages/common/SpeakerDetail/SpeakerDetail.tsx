@@ -6,6 +6,7 @@ import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Link from "components/Link/LinkWithSearch";
+import useNSSType from "hooks/useNSSType";
 import {
   mainFontSize,
   smallFontSize,
@@ -20,12 +21,13 @@ import { SpeakerDetailContainer } from "./SpeakerDetailStyles";
 const SpeakerDetail = () => {
   const { id } = useParams();
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const theme = useTheme();
 
   const [speakerData, setSpeakerData] =
     useState<Speaker.speakerDetailType>(null);
   const [speakerLoading, setSpeakerLoading] = useState<boolean>(true);
-  const nationData = globalData.get(pathname) as Common.globalDataType;
+  const nationData = globalData.get(nssType) as Common.globalDataType;
 
   const { speakerBannerURL } = globalData.get(
     "common",

@@ -11,6 +11,8 @@ import useMenuStore from "store/MenuStore";
 import { editorRole } from "utils/Roles";
 import { useAuthState } from "context/AuthContext";
 import NSSButton from "components/Button/NSSButton";
+import useNSSType from "hooks/useNSSType";
+import useCurrentYear from "hooks/useCurrentYear";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -21,8 +23,10 @@ import ProgramTitle from "./ProgramTitle/ProgramTitle";
 
 const ProgramsList = () => {
   const { currentMenu } = useMenuStore();
+  const nssType = useNSSType();
   const authState = useAuthState();
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
   const [programAgenda, setProgramAgenda] = useState<
     Program.programAgendaType[]
@@ -33,10 +37,11 @@ const ProgramsList = () => {
   const [selectedTimezone, setSelectedTimezone] = useState(
     Intl.DateTimeFormat().resolvedOptions().timeZone,
   );
-  const { programFileLink } = globalData.get(pathname) as Common.globalDataType;
+  const { programFileLink } = globalData.get(nssType) as Common.globalDataType;
   const config = {
     params: {
       nation: pathname,
+      year: currentYear,
     },
   };
   useEffect(() => {

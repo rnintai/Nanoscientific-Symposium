@@ -8,6 +8,7 @@ import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 
 interface AgendaFormProps {
   openAgendaForm: boolean;
@@ -38,6 +39,7 @@ const AgendaForm = ({
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
 
   const [selectedProgram, setSelectedProgram] = useState<number>(
     edit ? selectedAgenda.program_id : programs[0].id,
@@ -63,6 +65,7 @@ const AgendaForm = ({
         program_id: selectedProgram,
         title: title.value,
         speakers: speakers.value,
+        year: currentYear,
       });
     } else {
       data = await axios.post("/api/admin/program/agenda", {
@@ -71,6 +74,7 @@ const AgendaForm = ({
         program_id: selectedProgram,
         title: title.value,
         speakers: speakers.value,
+        year: currentYear,
       });
     }
 
@@ -102,7 +106,7 @@ const AgendaForm = ({
     try {
       setDeleteLoading(true);
       const result = await axios.delete(
-        `/api/admin/program/agenda/${selectedAgenda.id}?nation=${pathname}`,
+        `/api/admin/program/agenda/${selectedAgenda.id}?nation=${pathname}&year=${currentYear}`,
       );
       if (result.data.success) {
         setAgendaSuccess(true);

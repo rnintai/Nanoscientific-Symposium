@@ -5,6 +5,7 @@ import { useNavigate } from "hooks/useNavigateWithSearch";
 import { NavBarContainer } from "components/NavBar/NavBarStyles";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
+import useNSSType from "hooks/useNSSType";
 import { LoadingButton } from "@mui/lab";
 import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
@@ -77,6 +78,8 @@ const NavBar2023 = ({
   };
   const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
 
+  const nssType = useNSSType();
+
   const pathname = usePageViews();
   const subpath = useSubPath();
   const navigate = useNavigate();
@@ -123,7 +126,7 @@ const NavBar2023 = ({
     adminBtnText,
     signOutBtnText,
     changePasswordBtnText,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>

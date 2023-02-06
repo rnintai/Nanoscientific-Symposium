@@ -24,6 +24,7 @@ import {
 } from "@mui/material";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import useInput from "hooks/useInput";
+import useCurrentYear from "hooks/useCurrentYear";
 import { AdminUsersContainer } from "./AdminUsersStyles";
 import UserDetailForm from "../Forms/UserDetailForm";
 import Loading from "../../../components/Loading/Loading";
@@ -157,8 +158,9 @@ const AdminUsers = () => {
     setPage(0);
   };
 
+  const currentYear = useCurrentYear();
   const config = {
-    params: { nation: pathname },
+    params: { nation: pathname, year: currentYear },
   };
 
   const getUsers = async () => {

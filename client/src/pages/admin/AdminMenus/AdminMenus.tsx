@@ -3,6 +3,7 @@ import axios from "axios";
 import AdminLayout from "components/AdminLayout/AdminLayout";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
+import useCurrentYear from "hooks/useCurrentYear";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -18,6 +19,7 @@ interface adminMenuType extends Common.menuType {
 }
 const AdminMenus = () => {
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
   const [menuList, setMenuList] = useState<adminMenuType[]>(null);
   const [menuListLoading, setMenuListLoading] = useState<boolean>(true);
   const [isChanged, setIsChanged] = useState<boolean>(false);
@@ -27,7 +29,7 @@ const AdminMenus = () => {
 
   useEffect(() => {
     axios
-      .get(`/api/menu/list?nation=${pathname}`)
+      .get(`/api/menu/list?nation=${pathname}&year=${currentYear}`)
       .then((res) => {
         const menusCpy = res.data.result as adminMenuType[];
         menusCpy.forEach((menu) => {
@@ -57,7 +59,11 @@ const AdminMenus = () => {
   const applyHandler = () => {
     setApplyLoading(true);
     axios
-      .post("/api/menu/list", { nation: pathname, menus: menuList })
+      .post("/api/menu/list", {
+        nation: pathname,
+        menus: menuList,
+        year: currentYear,
+      })
       .then((res) => {
         setSuccessAlert(true);
       })

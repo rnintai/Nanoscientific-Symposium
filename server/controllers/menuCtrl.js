@@ -2,13 +2,16 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const menuCtrl = {
   getMenuList: async (req, res) => {
-    const { nation } = req.query;
+    const { nation,year } = req.query;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT * FROM menu`;
-
+      const sql = `
+      SELECT * FROM menu${
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+      };
+      `;
       const row = await connection.query(sql);
       connection.release();
 
@@ -35,7 +38,7 @@ const menuCtrl = {
     }
   },
   updateMenuList: async (req, res) => {
-    const { nation, menus } = req.body;
+    const { nation, menus, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
@@ -44,7 +47,10 @@ const menuCtrl = {
           const sql = `UPDATE menu SET 
           is_published=${menu.is_published},
           menu.show=${menu.show} 
-          WHERE id=${menu.id}`;
+          WHERE id=${menu.id} and${
+            year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+          };
+    `;
           const row = await connection.query(sql);
           connection.release();
         }

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React from "react";
 import Landing from "pages/common/Landing/Landing";
 import ExhibitParkSystems from "pages/common/Exhibit/ExhibitParkSystems";
@@ -18,94 +19,101 @@ import RedirectRoute from "components/RedirectRoute/RedirectRoute";
 import RegisterInfo from "pages/korea/RegisterInfo/RegisterInfo";
 import KoreaRegistration from "pages/korea/KoreaRegistration/KoreaRegistration";
 
-const pathname = "kr";
 const formNo = "1972";
 const abstractFormNo = "1897";
+const yearList = ["", "2022", "2023"];
+const krRoutes = [];
 
-export default [
-  {
-    path: `/${pathname}`,
-    element: <Landing key={`${pathname}-landing-section`} />,
-  },
-  // {
-  //   path: `/${pathname}/lecture-hall`,
-  //   element: <LectureHall />,
-  //   isPrivate: true,
-  // },
-  {
-    path: `/${pathname}/register-info`,
-    element: <RegisterInfo />,
-  },
-  {
-    path: `/${pathname}/exhibit/parksystems`,
-    element: <ExhibitParkSystems />,
-  },
-  {
-    path: `/${pathname}/exhibit/nanoscientific`,
-    element: <ExhibitNanoScientific />,
-  },
-  {
-    path: `/${pathname}/sponsors`,
-    element: <Sponsors />,
-  },
-  {
-    path: `/${pathname}/program`,
-    element: <Programs />,
-  },
-  {
-    path: `/${pathname}/speakers`,
-    element: <Speakers />,
-  },
-  {
-    path: `/${pathname}/speakers/:id`,
-    element: <SpeakerDetail />,
-  },
-  {
-    path: `/${pathname}/registration`,
-    element: <KoreaRegistration formNo={formNo} />,
-  },
-  {
-    path: `/${pathname}/user/reset-password`,
-    element: <ResetPassword />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/user/forgot-password`,
-    element: <ForgotPassword />,
-  },
-  {
-    path: `/${pathname}/announcement`,
-    element: <Announcement />,
-  },
-  {
-    path: `/${pathname}/announcement/:id`,
-    element: <AnnouncementDetail />,
-  },
-  {
-    path: `/${pathname}/poster-hall`,
-    element: <PosterHall />,
-    isPrivate: true,
-  },
-  {
-    path: `/${pathname}/abstract`,
-    element: <AbstractSubmission formNo={abstractFormNo} />,
-  },
-  {
-    path: `/${pathname}/event-info/venue`,
-    element: (
-      <RedirectRoute
-        path="https://dcckorea.or.kr/page.do?pageId=148&menuNo=58"
-        target="_blank"
-      />
-    ),
-  },
-  {
-    path: `/${pathname}/event-info/accomodation`,
-    element: (
-      <RedirectRoute
-        path="https://dcckorea.or.kr/page.do?pageId=153&menuNo=63"
-        target="_blank"
-      />
-    ),
-  },
-];
+yearList.map((y) => {
+  const pathname = `kr${y === "" ? "" : `/${y}`}`;
+  krRoutes.push(
+    ...[
+      {
+        path: `/${pathname}`,
+        element: <Landing key={`${pathname}-landing-section`} />,
+      },
+      // {
+      //   path: `/${pathname}/lecture-hall`,
+      //   element: <LectureHall />,
+      //   isPrivate: true,
+      // },
+      {
+        path: `/${pathname}/register-info`,
+        element: <RegisterInfo />,
+      },
+      {
+        path: `/${pathname}/exhibit/parksystems`,
+        element: <ExhibitParkSystems />,
+      },
+      {
+        path: `/${pathname}/exhibit/nanoscientific`,
+        element: <ExhibitNanoScientific />,
+      },
+      {
+        path: `/${pathname}/sponsors`,
+        element: <Sponsors />,
+      },
+      {
+        path: `/${pathname}/program`,
+        element: <Programs />,
+      },
+      {
+        path: `/${pathname}/speakers`,
+        element: <Speakers />,
+      },
+      {
+        path: `/${pathname}/speakers/:id`,
+        element: <SpeakerDetail />,
+      },
+      {
+        path: `/${pathname}/registration`,
+        element: <KoreaRegistration formNo={formNo} />,
+      },
+      {
+        path: `/${pathname}/user/reset-password`,
+        element: <ResetPassword />,
+        isPrivate: true,
+      },
+      {
+        path: `/${pathname}/user/forgot-password`,
+        element: <ForgotPassword />,
+      },
+      {
+        path: `/${pathname}/announcement`,
+        element: <Announcement />,
+      },
+      {
+        path: `/${pathname}/announcement/:id`,
+        element: <AnnouncementDetail />,
+      },
+      {
+        path: `/${pathname}/poster-hall`,
+        element: <PosterHall />,
+        isPrivate: true,
+      },
+      {
+        path: `/${pathname}/abstract`,
+        element: <AbstractSubmission formNo={abstractFormNo} />,
+      },
+      {
+        path: `/${pathname}/event-info/venue`,
+        element: (
+          <RedirectRoute
+            path="https://dcckorea.or.kr/page.do?pageId=148&menuNo=58"
+            target="_blank"
+          />
+        ),
+      },
+      {
+        path: `/${pathname}/event-info/accomodation`,
+        element: (
+          <RedirectRoute
+            path="https://dcckorea.or.kr/page.do?pageId=153&menuNo=63"
+            target="_blank"
+          />
+        ),
+      },
+    ],
+  );
+});
+export default krRoutes;

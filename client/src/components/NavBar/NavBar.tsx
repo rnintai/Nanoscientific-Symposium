@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Link from "components/Link/LinkWithSearch";
-import { useNavigate } from "hooks/useNavigateWithSearch";
+import { useNavigate } from "react-router";
 import {
   NavBarContainer,
   AnnouncementMenuItemContainer,
@@ -15,6 +15,7 @@ import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
+import useNSSType from "hooks/useNSSType";
 import {
   IconButton,
   Menu,
@@ -29,6 +30,7 @@ import {
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
+import { useYearList } from "utils/useYear";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { mainFontSize, smallFontSize } from "utils/FontSize";
@@ -36,6 +38,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useMenuStore from "store/MenuStore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import useCurrentYear from "hooks/useCurrentYear";
 import LoginModal from "../Modal/LoginModal";
 import MobileNavBar from "./MobileNavBar";
 
@@ -87,6 +90,7 @@ navProps) => {
   const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
 
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const subpath = useSubPath();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -95,6 +99,7 @@ navProps) => {
   const authDispatch = useAuthDispatch();
   const alarmState = useAlarmState();
   const alarmDispatch = useAlarmDispatch();
+  const currentYear = useCurrentYear();
 
   // submenu refs
   const submenuRefs = useRef({});
@@ -105,6 +110,7 @@ navProps) => {
       .post("/api/users/logout", {
         email,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         if (res.data.success === true) {
@@ -135,7 +141,7 @@ navProps) => {
     adminBtnText,
     signOutBtnText,
     changePasswordBtnText,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
@@ -161,7 +167,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname === "common" ? "" : pathname}`}
+            to={`/${pathname}/${currentYear}`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -174,6 +180,7 @@ navProps) => {
               className="menu-item-wrap"
             >
               {!menuStateLoading &&
+                menuList &&
                 menuList.map((menu) => {
                   if (
                     (menu.show || editorRole.includes(authState.role)) &&
@@ -184,9 +191,7 @@ navProps) => {
                     return (
                       <MenuLink
                         key={menu.name}
-                        to={`${pathname === "common" ? "" : `/${pathname}`}${
-                          menu.path
-                        }`}
+                        to={`/${pathname}/${currentYear}${menu.path}`}
                         className={menu.show === 0 && "op5"}
                       >
                         {menu.name.toUpperCase()}
@@ -200,7 +205,7 @@ navProps) => {
                     return (
                       <Box
                         key={menu.name}
-                        className="parent"
+                        className={`parent${menu.show === 0 ? " op5" : ""}`}
                         ref={(element) => {
                           submenuRefs.current[menu.id] = element;
                         }}
@@ -279,7 +284,7 @@ navProps) => {
                                     >
                                       <Link
                                         key={m.name}
-                                        to={`/${pathname}${m.path}`}
+                                        to={`/${pathname}/${currentYear}${m.path}`}
                                       >
                                         <Typography
                                           fontSize={smallFontSize}
@@ -301,63 +306,67 @@ navProps) => {
                   return null;
                 })}
               <div className="user-menu-wrap">
-                {(menuList.filter((m) => !m.is_main && m.show).length !== 0 ||
-                  (editorRole.includes(authState.role) &&
-                    menuList.filter((m) => !m.is_main).length !== 0)) && (
-                  <>
-                    <NSSButton
-                      id="basic-button"
-                      className="user-menu"
-                      type="button"
-                      variant="icon"
-                      onClick={handleMoreMenuClick}
-                      aria-controls={openUserMenu ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={openUserMenu ? "true" : undefined}
-                      isMoreverIcon
-                      // markAnnouncementAlarm={markAnnouncementAlarm}
-                    >
-                      <MoreVertIcon />
-                    </NSSButton>
-                    <Menu
-                      id="basic-menu"
-                      open={openMoreMenu}
-                      onClose={handleMoreMenuClose}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                      }}
-                      anchorEl={moreMenuanchorEl}
-                      disableScrollLock
-                    >
-                      <MenuList dense>
-                        {menuList
-                          .filter((m) => !m.is_main)
-                          .map((m) => {
-                            if (m.show || editorRole.includes(authState.role)) {
-                              return (
-                                <Link
-                                  to={pathname + m.path}
-                                  onClick={handleMoreMenuClose}
-                                >
-                                  <AnnouncementMenuItemContainer
-                                    key={`menu-${m.id}`}
-                                    className={m.name}
+                {menuList &&
+                  (menuList.filter((m) => !m.is_main && m.show).length !== 0 ||
+                    (editorRole.includes(authState.role) &&
+                      menuList.filter((m) => !m.is_main).length !== 0)) && (
+                    <>
+                      <NSSButton
+                        id="basic-button"
+                        className="user-menu"
+                        type="button"
+                        variant="icon"
+                        onClick={handleMoreMenuClick}
+                        aria-controls={openUserMenu ? "basic-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openUserMenu ? "true" : undefined}
+                        isMoreverIcon
+                        // markAnnouncementAlarm={markAnnouncementAlarm}
+                      >
+                        <MoreVertIcon />
+                      </NSSButton>
+                      <Menu
+                        id="basic-menu"
+                        open={openMoreMenu}
+                        onClose={handleMoreMenuClose}
+                        MenuListProps={{
+                          "aria-labelledby": "basic-button",
+                        }}
+                        anchorEl={moreMenuanchorEl}
+                        disableScrollLock
+                      >
+                        <MenuList dense>
+                          {menuList
+                            .filter((m) => !m.is_main)
+                            .map((m) => {
+                              if (
+                                m.show ||
+                                editorRole.includes(authState.role)
+                              ) {
+                                return (
+                                  <Link
+                                    to={`${pathname}/${currentYear}${m.path}`}
+                                    onClick={handleMoreMenuClose}
                                   >
-                                    {m.name.toLowerCase() === "announcement" &&
-                                    alarmState.alarm ? (
-                                      <AnnouncementAlarm />
-                                    ) : null}
-                                    {m.name}
-                                  </AnnouncementMenuItemContainer>
-                                </Link>
-                              );
-                            }
-                            return null;
-                          })}
-                      </MenuList>
-                    </Menu>
-                  </>
-                )}
+                                    <AnnouncementMenuItemContainer
+                                      key={`menu-${m.id}`}
+                                      className={m.name}
+                                    >
+                                      {m.name.toLowerCase() ===
+                                        "announcement" && alarmState.alarm ? (
+                                        <AnnouncementAlarm />
+                                      ) : null}
+                                      {m.name}
+                                    </AnnouncementMenuItemContainer>
+                                  </Link>
+                                );
+                              }
+                              return null;
+                            })}
+                        </MenuList>
+                      </Menu>
+                    </>
+                  )}
                 {(pathname !== "kr" || editorRole.includes(authState.role)) && (
                   <>
                     <NSSButton
@@ -387,7 +396,7 @@ navProps) => {
                           {editorRole.includes(authState.role) && (
                             <MenuItem>
                               <Link
-                                to={`${pathname}/admin`}
+                                to={`${pathname}/${currentYear}/admin`}
                                 target="_blank"
                                 style={{
                                   padding: 0,

@@ -272,6 +272,10 @@ declare namespace Common {
 
     // pdf uploader
     pdfUploadDescription?: string;
+
+    // registration page
+    registrationTitle?: string;
+    registrationDesc?: string;
   }
 
   interface MetaTagType {

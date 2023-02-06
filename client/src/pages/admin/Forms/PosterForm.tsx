@@ -9,6 +9,7 @@ import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import useCurrentYear from "hooks/useCurrentYear";
 import { headingFontSize } from "utils/FontSize";
 import { S3_URL } from "utils/GlobalData";
 
@@ -58,6 +59,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
     setDeleteFailed,
   } = posterformProps;
 
+  const currentYear = useCurrentYear();
   const title = useInput(edit ? selected.title : "");
   const author = useInput(edit ? selected.author : "");
   const affiliation = useInput(edit ? selected.sub_title : "");
@@ -120,6 +122,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
           author: author.value,
           previewURL,
           filePath,
+          year: currentYear,
         }
       : {
           nation: pathname,
@@ -128,6 +131,7 @@ const PosterForm = (posterformProps: PosterFormProps) => {
           author: author.value,
           previewURL,
           filePath,
+          year: currentYear,
         };
     try {
       setUploadLoading(true);
@@ -166,7 +170,9 @@ const PosterForm = (posterformProps: PosterFormProps) => {
   };
 
   const getAbstractSubmissions = async () => {
-    const res = await axios("/api/abstract", { params: { nation: pathname } });
+    const res = await axios("/api/abstract", {
+      params: { nation: pathname, year: currentYear },
+    });
     setSubmissionList(res.data.result);
     if (res.data.result.length === 0 || edit) {
       setStage(2);
