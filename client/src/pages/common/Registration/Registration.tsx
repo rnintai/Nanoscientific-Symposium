@@ -5,6 +5,7 @@ import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import { globalData } from "utils/GlobalData";
+import useNSSType from "hooks/useNSSType";
 import { useYearList } from "utils/useYear";
 import { LoadingButton } from "@mui/lab";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
@@ -36,6 +37,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const currentYear = useCurrentYear();
   const authState = useAuthState();
   const dispatch = useAuthDispatch();
+  const nssType = useNSSType();
 
   // alert
   const [emailNotValidAlert, setEmailNotValidAlert] = useState<boolean>(false);
@@ -45,7 +47,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
     registrationStep1Label,
     registrationStep2Label,
     registrationStep3Label,
-  } = globalData.get(nation) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   const dispatchLogin = (e: string, r: string, t: string) =>
     dispatch({
@@ -150,7 +152,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
 
   const pathname = usePageViews();
   const { goNextText, logoURL } = globalData.get(
-    pathname,
+    nssType,
   ) as Common.globalDataType;
   const theme = useTheme();
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
@@ -6,7 +7,7 @@ import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
-import { ThemeProvider } from "@mui/material/styles";
+import { Theme, ThemeProvider } from "@mui/material/styles";
 import useSubPath from "hooks/useSubPath";
 import useNSSType from "hooks/useNSSType";
 import { theme, jpTheme, enTheme } from "theme/themes";
@@ -27,16 +28,12 @@ import useNationRoutes from "hooks/useNationRoutes";
 import { useYearList } from "utils/useYear";
 import ChinaRoutes from "Routes/ChinaRoutes";
 import useAdminStore from "store/AdminStore";
+import useCurrentURL from "hooks/useCurrentURL";
 import AdminRoutes from "./Routes/AdminRoutes";
 import { useAuthState, useAuthDispatch } from "./context/AuthContext";
 import { useThemeState, useThemeDispatch } from "./context/ThemeContext";
 import { useUnreadListDispatch } from "./context/UnreadAnnouncementList";
 import { useAlarmDispatch } from "./context/NavBarMarkContext";
-import AsiaRoutes from "./Routes/AsiaRoutes";
-import KoreaRoutes from "./Routes/KoreaRoutes";
-import UsRoutes from "./Routes/UsRoutes";
-import EuropeRoutes from "./Routes/EuropeRoutes";
-import JapanRoutes from "./Routes/JapanRoutes";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
 import "./css/font.css";
@@ -67,7 +64,6 @@ const App = () => {
   const themeState = useThemeState();
   const navigate = useNavigate();
   const navigateWithSearch = useNavigateWithSearch();
-  const enThemeObj = enTheme(themeState.darkMode);
   // 로그인 관련
   const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
@@ -77,15 +73,22 @@ const App = () => {
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
   const themeObj = theme(themeState.darkMode);
   const jpThemeObj = jpTheme(themeState.darkMode);
+  const enThemeObj = enTheme(themeState.darkMode);
   const themeDispatch = useThemeDispatch();
   const alarmDispatch = useAlarmDispatch();
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
-  const { currentLanguage } = useAdminStore();
+  const { currentLanguage, setCurrentLanguage } = useAdminStore();
+  const [currentTheme, setCurrentTheme] = useState<Theme>(themeObj);
+  const [nationList, setNationList] = useState([]);
+
+  const currentURL = useCurrentURL();
+
   // mode
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
+    // setCurrentLanguage(pathname);
   }, []);
   // url에 year가 없으면 추가해주기
   const checkYearAndRedirect = () => {
@@ -171,6 +174,16 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (pathname === "jp") {
+      setCurrentTheme(jpThemeObj);
+    } else if (pathname === "china")
+      setCurrentTheme(currentLanguage === "china" ? enThemeObj : themeObj);
+    else setCurrentTheme(themeObj);
+
+    if (currentURL === "china") {
+      setNationList(["china"]);
+    } else setNationList(["asia", "eu", "jp", "kr", "americas"]);
+
     axios
       .post("/api/users/check", {
         accessToken: authState.accessToken,
@@ -462,13 +475,12 @@ const App = () => {
 
   return (
     // <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
-    <ThemeProvider
-      theme={currentLanguage === "english" ? enThemeObj : themeObj}
-    >
+    <ThemeProvider theme={currentTheme}>
       <AppContainer>
         {pathname !== "home" &&
           pathname !== "" &&
-          subpath.indexOf("admin") === -1 && (
+          subpath.indexOf("admin") === -1 &&
+          nationList.indexOf(pathname) !== -1 && (
             <NavBar
               checkLoading={authState.isLoading}
               setEmailModalOpen={setEmailModalOpen}

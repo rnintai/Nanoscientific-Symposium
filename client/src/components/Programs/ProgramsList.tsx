@@ -13,6 +13,7 @@ import { useAuthState } from "context/AuthContext";
 import NSSButton from "components/Button/NSSButton";
 import useNSSType from "hooks/useNSSType";
 import useCurrentYear from "hooks/useCurrentYear";
+import useAdminStore from "store/AdminStore";
 import {
   ProgramsListContainer,
   StyledTimezoneSelect,
@@ -23,14 +24,12 @@ import ProgramTitle from "./ProgramTitle/ProgramTitle";
 
 const ProgramsList = () => {
   const { currentMenu } = useMenuStore();
+  const { currentLanguage } = useAdminStore();
   const nssType = useNSSType();
   const authState = useAuthState();
   const pathname = usePageViews();
   const currentYear = useCurrentYear();
   const [programs, setPrograms] = useState<Program.programType[]>([]);
-  const [programAgenda, setProgramAgenda] = useState<
-    Program.programAgendaType[]
-  >([]);
   const [sessions, setSessions] = useState<Program.sessionType[]>([]);
   const [programLoading, setProgramLoading] = useState<boolean>(false);
   const [sessionLoading, setSessionLoading] = useState<boolean>(false);
@@ -52,33 +51,7 @@ const ProgramsList = () => {
       setProgramLoading(false);
     };
 
-    const getProgramAgenda = async () => {
-      setProgramLoading(true);
-      const result = await axios.get(
-        `/api/page/common/programs/agenda`,
-        config,
-      );
-      const agendaList = result.data.data;
-      const sorted = agendaList
-        .sort(
-          (aa: Program.programAgendaType, bb: Program.programAgendaType) => {
-            if (aa.next_id === bb.id) return -1;
-            if (aa.next_id !== bb.id || aa.next_id === 9999) return 1;
-            return 0;
-          },
-        )
-        .sort(
-          (aa: Program.programAgendaType, bb: Program.programAgendaType) => {
-            if (aa.program_id >= bb.program_id) return 1;
-            return 0;
-          },
-        );
-      setProgramAgenda(sorted);
-      setProgramLoading(false);
-    };
-
     getPrograms();
-    getProgramAgenda();
   }, []);
 
   useEffect(() => {

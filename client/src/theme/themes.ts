@@ -45,6 +45,7 @@ declare module "@mui/material/styles" {
     overlay?: string;
     mainBg?: string;
   }
+
 }
 
 const getDesignTokens = (mode: PaletteMode) => ({

@@ -31,7 +31,8 @@ const LandingNationCard = ({
       onClick={() => {
         if (!disabled) {
           if (path.indexOf("cn") === -1) {
-            navigate(path);
+            // navigate(path);
+            window.location.href = path;
           } else {
             window.location.href = path + search;
           }

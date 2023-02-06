@@ -42,6 +42,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useCurrentYear from "hooks/useCurrentYear";
 import LanguageIcon from "@mui/icons-material/Language";
 import LanguageSwitcher from "components/LanguageSwitcher/LanguageSwitcher";
+import useCurrentURL from "hooks/useCurrentURL";
 import useAdminStore from "store/AdminStore";
 import MobileNavBar from "./MobileNavBar";
 
@@ -112,6 +113,7 @@ navProps) => {
   const submenuRefs = useRef({});
 
   const { currentLanguage, setCurrentLanguage } = useAdminStore();
+
   const isEnglish = currentLanguage === "english";
   const isChinese = currentLanguage === "china";
 
@@ -161,7 +163,7 @@ navProps) => {
         className="return-main-btn"
         style={{ position: "absolute", padding: "8px 8px 8px 0" }}
         onClick={() => {
-          navigate(`https://event.nanoscientific.org`);
+          window.location.href = `https://event.nanoscientific.org`;
         }}
       >
         <ChevronLeftIcon />
