@@ -4,7 +4,6 @@ import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import { useNavigate as useNavigateWithSearch } from "hooks/useNavigateWithSearch";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
-import NavBar2023 from "components/2023/NavBar/NavBar";
 import usePageViews from "hooks/usePageViews";
 import Footer from "components/Footer/Footer";
 import { ThemeProvider } from "@mui/material/styles";
