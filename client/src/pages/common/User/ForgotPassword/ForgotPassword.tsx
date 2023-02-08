@@ -73,6 +73,7 @@ const ForgotPassword = () => {
       const res = await axios.post("/api/mail/vcode/send", {
         email: email.value,
         nation: pathname,
+        year: currentYear,
       });
       if (res.data.result) {
         // 인증번호 세팅
