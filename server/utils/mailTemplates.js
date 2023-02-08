@@ -64,8 +64,8 @@ module.exports = {
     </tr>
     <tr>
       <td>
-      <p style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;color: #16aee5;font-weight: 700;">
-      ${year} <span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
+      <p style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
+      <span style="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
         </span></span>
       </p>
       </td>
@@ -165,8 +165,8 @@ module.exports = {
       Please check attachment.
       </div>
       <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
-      <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;color: #16aee5;font-weight: 700;">
-      ${year} <span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
+      <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
+      <span syle="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
       </span></span></div>  
       <div class="desc-wrap text-center" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 12px;">
         <span class="desc desc-1">
