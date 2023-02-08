@@ -93,7 +93,7 @@ const App = () => {
   const checkYearAndRedirect = () => {
     if (
       pathname !== "home" &&
-      pathname !== "" &&
+      pathname !== "common" &&
       !yearList.includes(window.location.pathname.split("/")[2])
     ) {
       const addressWithYear = window.location.href.replace(

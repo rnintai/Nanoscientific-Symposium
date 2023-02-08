@@ -5,6 +5,7 @@ const {
   japanPool,
   europePool,
   chinaPool,
+  commonPool,
 } = require("../dbConfigPool");
 
 module.exports = {

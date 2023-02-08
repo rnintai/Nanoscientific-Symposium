@@ -83,6 +83,8 @@ const chinaPool = mysql.createPool({
   waitForConnections: true,
   queueLimit: 0,
 });
+
+module.exports.commonPool = commonPool;
 module.exports.asiaPool = asiaPool;
 module.exports.koreaPool = koreaPool;
 module.exports.japanPool = japanPool;

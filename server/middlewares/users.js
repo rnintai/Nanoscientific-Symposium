@@ -8,18 +8,21 @@ const {
   compareRefreshToken,
 } = require("../utils/jwt");
 
-const useYearList = ["eu"]
+const useYearList = ["eu"];
 
 module.exports = {
   checkToken: async (req, res, next) => {
-    if (getCurrentPool(req.body.nation) === "") {
+    if (
+      getCurrentPool(req.body.nation) === "" ||
+      getCurrentPool(req.body.nation) === "home"
+    ) {
       res.status(200).json({
         success: false,
         message: "no pool selected. (root)",
       });
       return;
     }
-  
+
     const accessToken = verifyToken(req.body.accessToken);
     const refreshToken = verifyToken(req.cookies.refreshToken);
 
@@ -60,7 +63,8 @@ module.exports = {
 
     try {
       let sql;
-      if(useYearList.indexOf(req.body.nation) === -1){ // useYearList에 없는 경우
+      if (useYearList.indexOf(req.body.nation) === -1) {
+        // useYearList에 없는 경우
         sql = `SELECT 
         id,
         email,
@@ -70,8 +74,9 @@ module.exports = {
         is_announcement_cached
         FROM user 
         WHERE email="${accessToken.email}"
-        AND refresh_token="${req.cookies.refreshToken}";`
-      } else sql = `SELECT 
+        AND refresh_token="${req.cookies.refreshToken}";`;
+      } else {
+        sql = `SELECT 
       id,
       email,
       role,
@@ -81,6 +86,7 @@ module.exports = {
       FROM ${year && year !== "2022" ? `user_${year}` : `user`}
       WHERE email="${accessToken.email}"
       AND refresh_token="${req.cookies.refreshToken}"`;
+      }
 
       const result = await connection.query(sql);
       if (result[0].length === 0) {
