@@ -145,17 +145,19 @@ navProps) => {
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
-      <NSSButton
-        variant="icon"
-        className="return-main-btn"
-        style={{ position: "absolute", padding: "8px 8px 8px 0" }}
-        onClick={() => {
-          navigate(`/`);
-        }}
-      >
-        <ChevronLeftIcon />
-        <PublicIcon sx={{ marginLeft: "-4px" }} />
-      </NSSButton>
+      {currentYear === "2022" && (
+        <NSSButton
+          variant="icon"
+          className="return-main-btn"
+          style={{ position: "absolute", padding: "8px 8px 8px 0" }}
+          onClick={() => {
+            navigate(`/`);
+          }}
+        >
+          <ChevronLeftIcon />
+          <PublicIcon sx={{ marginLeft: "-4px" }} />
+        </NSSButton>
+      )}
       {!menuStateLoading && (
         <Stack
           direction="row"
