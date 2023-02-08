@@ -65,9 +65,9 @@ module.exports = {
     <tr>
       <td>
       <p style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;color: #16aee5;font-weight: 700;">
-        <span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span> ${year}
+      ${year} <span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
         </span></span>
-      </p>${year}
+      </p>
       </td>
     </tr>
     <tr>
@@ -166,7 +166,7 @@ module.exports = {
       </div>
       <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
       <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;color: #16aee5;font-weight: 700;">
-        <span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span> ${year}
+      ${year} <span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
       </span></span></div>  
       <div class="desc-wrap text-center" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 12px;">
         <span class="desc desc-1">
