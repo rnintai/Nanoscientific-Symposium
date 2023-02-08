@@ -8,7 +8,6 @@ import {
   // Pagination
 } from "@mui/material";
 import Pagination from "react-js-pagination";
-// npm install react-js-pagination
 import { Box } from "@mui/system";
 import axios from "axios";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
