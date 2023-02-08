@@ -7,7 +7,7 @@ const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
 const mailCtrl = {
   sendVcode: async (req, res) => {
-    const { email, nation } = req.body;
+    const { email, nation, year } = req.body;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);

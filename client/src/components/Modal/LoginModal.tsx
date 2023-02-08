@@ -141,6 +141,7 @@ const EuropeLoginModal = ({
       const res = await axios.post("/api/mail/vcode/send", {
         email: email.value,
         nation: pathname,
+        year: currentYear,
       });
       if (res.data.result) {
         setEmailSentAlert(true);
