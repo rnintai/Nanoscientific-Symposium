@@ -108,9 +108,11 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
   };
 
   // 랭킹 드롭다운 박스 이벤트 부여
-  // helper
+
+  // n = 순위 개수
+  const n = 4;
   const optionList = [];
-  for (let i = 1; i <= 6; i += 1) {
+  for (let i = 1; i <= n; i += 1) {
     const option = document.createElement("option");
     option.setAttribute("value", `${i}`);
     option.innerText = `${i}`;
@@ -165,12 +167,9 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
       $this?.classList.add("psnsforumregistration");
       $this.dataset.prev = "";
     };
-    initSelectElement("1");
-    initSelectElement("2");
-    initSelectElement("3");
-    initSelectElement("4");
-    initSelectElement("5");
-    initSelectElement("6");
+    for (let i = 1; i <= n; i += 1) {
+      initSelectElement(`${i}`);
+    }
     document.querySelectorAll(".psnsforumregistration").forEach(($this) => {
       $this.addEventListener("change", selectChangeHandler);
     });
@@ -335,7 +334,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                 </Box>
               </Box>
             )}
-            <Box sx={{ mb: 5 }} className={`${isEarlyBird ? "disabled" : ""}`}>
+            <Box className={`${isEarlyBird ? "disabled" : ""}`}>
               {isEarlyBird && (
                 <Typography fontWeight={700} sx={{ mb: 1 }}>
                   Regular Rates – valid from June 1st, 2023
@@ -404,6 +403,11 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                   </Button>
                 </Stack>
               </Box>
+            </Box>
+            <Box mt={1}>
+              <Typography fontWeight={700} fontStyle="italic">
+                Registration will close on September 5th 2023.
+              </Typography>
             </Box>
           </Stack>
         )}
