@@ -32,7 +32,9 @@ const OnDemandTest = () => {
 
   // 현재 페이지
   const query = useQuery();
-  const [page, setPage] = useState(query.get("page") ? query.get("page") : 1); // useState 적용
+  const [page, setPage] = useState<string>(
+    query.get("page") ? query.get("page") : "1",
+  ); // useState 적용
   const [yearString, setYearString] = useState(""); // useState 적용
   const [regionString, setRegionString] = useState("");
   const [languageString, setLanguageString] = useState(""); // useState 적용
@@ -392,7 +394,7 @@ const OnDemandTest = () => {
           </Grid>
 
           <Pagination
-            activePage={page}
+            activePage={Number(page)}
             itemsCountPerPage={itemPerPage}
             totalItemsCount={totalCount}
             pageRangeDisplayed={2}

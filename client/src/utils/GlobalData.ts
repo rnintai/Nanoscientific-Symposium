@@ -82,6 +82,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       createAccountText: "Create an account",
       changePasswordBtnText: "Change Password",
       // landing
+      signInText: "Sign in",
     },
   ],
   [

@@ -24,7 +24,7 @@ import useInput from "hooks/useInput";
 import { smallFontSize } from "utils/FontSize";
 import useNSSType from "hooks/useNSSType";
 import useCurrentYear from "hooks/useCurrentYear";
-import usePageViews from "../../hooks/usePageViews";
+import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
 interface ModalProps {
