@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, {
   Dispatch,
   SetStateAction,
@@ -20,14 +21,11 @@ import axios from "axios";
 import useConfigStore from "store/ConfigStore";
 
 interface S3PdfUploadProps {
-  // edit: boolean;
-  // previewURL: string;
-  // setPreviewURL: Dispatch<SetStateAction<string>>;
   uploadLoading: boolean;
   setUploadLoading: Dispatch<SetStateAction<boolean>>;
   setSubmitSuccess: Dispatch<SetStateAction<boolean>>;
-  // eslint-disable-next-line react/require-default-props
   align?: "flex-start" | "center" | "flex-end";
+  required?: boolean;
 }
 
 interface FilePathType {
@@ -52,6 +50,7 @@ const S3MultiplePdfUpload = ({
   setUploadLoading,
   setSubmitSuccess,
   align = "center",
+  required = false,
 }: S3PdfUploadProps) => {
   const [progress, setProgress] = useState<number>(-1);
   const theme = useTheme();
@@ -188,6 +187,7 @@ const S3MultiplePdfUpload = ({
           attachments: filePathList,
           nation: pathname,
           formData,
+          year: currentYear,
         });
 
         setSubmitSuccess(true);
@@ -239,6 +239,12 @@ const S3MultiplePdfUpload = ({
           justifyContent={align}
           alignItems="center"
         >
+          {required && (
+            <Typography color="red" mr={1}>
+              *
+            </Typography>
+          )}
+
           <Stack
             flexDirection="row"
             sx={{
@@ -325,7 +331,7 @@ const S3MultiplePdfUpload = ({
         variant="gradient"
         className="registration-btn"
         onClick={submitHandler}
-        disabled={uploadLoading}
+        disabled={uploadLoading || (required && fileList.length === 0)}
         loading={submitLoading}
       >
         {submitBtnText}

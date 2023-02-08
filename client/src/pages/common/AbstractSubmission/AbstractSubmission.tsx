@@ -228,6 +228,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
               uploadLoading={uploadLoading}
               setUploadLoading={setUploadLoading}
               setSubmitSuccess={setSubmitSuccess}
+              required
             />
           </Stack>
         )}
