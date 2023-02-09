@@ -11,7 +11,6 @@ import {
   // Pagination
 } from "@mui/material";
 import Pagination from "react-js-pagination";
-// npm install react-js-pagination
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
@@ -376,7 +375,7 @@ const OnDemand = () => {
           </Grid>
 
           <Pagination
-            activePage={page}
+            activePage={Number(page)}
             itemsCountPerPage={itemPerPage}
             totalItemsCount={totalCount}
             pageRangeDisplayed={2}

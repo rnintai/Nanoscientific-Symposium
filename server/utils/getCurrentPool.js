@@ -4,6 +4,7 @@ const {
   usPool,
   japanPool,
   europePool,
+  chinaPool,
   commonPool,
 } = require("../dbConfigPool");
 
@@ -26,8 +27,8 @@ module.exports = {
       case "eu":
         currentPool = europePool;
         break;
-      case "home":
-        currentPool = commonPool;
+      case "china":
+        currentPool = chinaPool;
         break;
       default:
         currentPool = commonPool;

@@ -2,13 +2,16 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const announcementReadCtrl = {
   getPostByUserID: async (req, res) => {
-    const { nation, id } = req.query;
+    const { nation, id,year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const annoucementReadSQL = `SELECT user_id, announcement_id FROM announcement_read WHERE user_id=${id}`;
-      const annoucementSQL = `SELECT id FROM announcement`;
-
+      const annoucementReadSQL = `SELECT user_id, announcement_id FROM announcement_read WHERE user_id=${id} and${
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      };`;
+      const annoucementSQL = `SELECT id FROM announcement${
+        year && year !== "2022" ? ` WHERE year="${year}"` : ` WHERE year IS NULL`
+      };`;
       const announcementReadData = await connection.query(annoucementReadSQL);
       const announcementData = await connection.query(annoucementSQL);
       const readDataLen = announcementReadData[0].length;
@@ -66,10 +69,11 @@ const announcementReadCtrl = {
     }
   },
   addReadPostInfo: async (req, res) => {
-    const currentPool = getCurrentPool(req.body.nation);
+    const { nation, userId, announcementId, year} = req.body;
+    const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      let sql = `INSERT IGNORE INTO announcement_read (user_id, announcement_id) VALUES ('${req.body.userId}', '${req.body.announcementId}')`;
+      let sql = `INSERT IGNORE INTO announcement_read (user_id, announcement_id, year) VALUES ('${userId}', '${announcementId}', '${year&& year!=="2022" ? year : null}')`;
       await connection.query(sql);
       connection.release();
 
@@ -87,11 +91,13 @@ const announcementReadCtrl = {
     }
   },
   deleteReadPostInfo: async (req, res) => {
-    const { nation, announcementId } = req.query;
+    const { nation, announcementId,year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `DELETE FROM announcement_read WHERE announcement_id=${announcementId}`;
+      const sql = `DELETE FROM announcement_read WHERE announcement_id=${announcementId} and${
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      }; `;
       await connection.query(sql);
       connection.release();
 

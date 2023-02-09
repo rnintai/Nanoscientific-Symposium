@@ -10,6 +10,8 @@ import Timer from "components/Timer/Timer";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import CircularProgress from "@mui/material/CircularProgress";
 import NSSButton from "components/Button/NSSButton";
+import useCurrentYear from "hooks/useCurrentYear";
+import { useYearList } from "utils/useYear";
 import { ForgotPasswordContainer } from "./ForgotPasswordStyles";
 
 const ForgotPassword = () => {
@@ -45,6 +47,7 @@ const ForgotPassword = () => {
 
   const pathname = usePageViews();
   const navigate = useNavigate();
+  const currentYear = useCurrentYear();
 
   // password ref
   const passwordInputRef = useRef<HTMLInputElement>(null);
@@ -70,6 +73,7 @@ const ForgotPassword = () => {
       const res = await axios.post("/api/mail/vcode/send", {
         email: email.value,
         nation: pathname,
+        year: currentYear,
       });
       if (res.data.result) {
         // 인증번호 세팅
@@ -118,6 +122,7 @@ const ForgotPassword = () => {
         email: email.value,
         password: password1.value,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       });
       setPasswordChangeSuccessAlert(true);
       // 1.5초 후 홈으로.

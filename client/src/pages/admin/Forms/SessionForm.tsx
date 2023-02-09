@@ -11,6 +11,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { getUserTimezoneDate, isDateValid } from "utils/Date";
 import usePageViews from "hooks/usePageViews";
+import useAdminStore from "store/AdminStore";
+import useCurrentYear from "hooks/useCurrentYear";
 import { escapeQuotes } from "utils/String";
 import { useAuthState } from "../../../context/AuthContext";
 
@@ -42,6 +44,7 @@ const SessionForm = ({
 }: SessionFormProps) => {
   const authState = useAuthState();
   const pathname = usePageViews();
+  const { currentLanguage } = useAdminStore();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
@@ -51,6 +54,8 @@ const SessionForm = ({
   );
 
   const title = useInput(edit ? selectedSession.session_title : "");
+  const title_en = useInput(edit ? selectedSession.session_title_en : "");
+  const currentYear = useCurrentYear();
 
   const sessionSubmitHandler = async () => {
     if (title.value === "" || !date.isValid()) {
@@ -64,17 +69,23 @@ const SessionForm = ({
     if (edit) {
       data = await axios.put("/api/admin/session", {
         nation: pathname,
+        language: pathname === "china" ? currentLanguage : undefined,
         id: selectedSession.id,
         title: escapeQuotes(title.value),
+        title_en: pathname === "china" ? title_en.value : undefined,
         status: status === "show" ? 1 : 0,
         date,
+        year: currentYear,
       });
     } else {
       // 추가 모달이라면 post 호출
       data = await axios.post("/api/admin/session", {
         nation: pathname,
         title: escapeQuotes(title.value),
+        title_en: pathname === "china" ? title_en.value : undefined,
+        language: pathname === "china" ? currentLanguage : undefined,
         date,
+        year: currentYear,
       });
     }
     if (data.data.success) {
@@ -129,17 +140,44 @@ const SessionForm = ({
       submitDisabled={title.value === "" || !date.isValid()}
       deleteHandler={edit && deleteHandler}
     >
-      <TextField
-        autoFocus
-        margin="dense"
-        label="Session Title"
-        fullWidth
-        variant="filled"
-        sx={{ marginBottom: "30px" }}
-        required
-        {...title}
-        error={title.value === ""}
-      />
+      {pathname === "china" ? ( // china 일때는 language 2개
+        <>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Session Title (Chinese)"
+            fullWidth
+            variant="filled"
+            required
+            {...title}
+            error={title.value === ""}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Session Title (English)"
+            fullWidth
+            variant="filled"
+            sx={{ marginBottom: "30px" }}
+            required
+            {...title_en}
+            error={title_en.value === ""}
+          />
+        </>
+      ) : (
+        <TextField
+          autoFocus
+          margin="dense"
+          label="Title"
+          fullWidth
+          variant="filled"
+          sx={{ marginBottom: "30px" }}
+          required
+          {...title}
+          error={title.value === ""}
+        />
+      )}
+
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DesktopDatePicker
           label="Session Date"

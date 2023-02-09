@@ -6,293 +6,87 @@ import AdminSpeakers from "pages/admin/AdminSpeakers/AdminSpeakers";
 import AdminMenus from "pages/admin/AdminMenus/AdminMenus";
 import AdminPosters from "pages/admin/AdminPosters/AdminPosters";
 import AdminConfig from "pages/admin/AdminConfig/AdminConfig";
+import useCurrentURL from "hooks/useCurrentURL";
 import AdminUsers from "../pages/admin/AdminUsers/AdminUsers";
 
 // 어드민이어야 접근가능한 element 들을 모아둔 라우츠 입니다.
 // App.tsx 에서 이것을 호출합니다
 // components 폴더에 있는 AdminRoute 와 PrivateRoute 와는 다른것입니다.
 
-export default [
-  {
-    path: "/asia/admin",
-    element: (
-      <AdminRoute key="/asia/admin">
-        <Admin />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/kr/admin",
-    element: (
-      <AdminRoute key="/kr/admin">
-        <Admin />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/americas/admin",
-    element: (
-      <AdminRoute key="/americas/admin">
-        <Admin />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/jp/admin",
-    element: (
-      <AdminRoute key="/jp/admin">
-        <Admin />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/eu/admin",
-    element: (
-      <AdminRoute key="/eu/admin">
-        <Admin />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/asia/admin/program",
-    element: (
-      <AdminRoute key="/asia/admin/program">
-        <AdminPrograms />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/kr/admin/program",
-    element: (
-      <AdminRoute key="/kr/admin/program">
-        <AdminPrograms />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/americas/admin/program",
-    element: (
-      <AdminRoute key="/americas/admin/program">
-        <AdminPrograms />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/jp/admin/program",
-    element: (
-      <AdminRoute key="/jp/admin/program">
-        <AdminPrograms />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/eu/admin/program",
-    element: (
-      <AdminRoute key="/eu/admin/program">
-        <AdminPrograms />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/asia/admin/speakers",
-    element: (
-      <AdminRoute key="/asia/admin/speakers">
-        <AdminSpeakers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/kr/admin/speakers",
-    element: (
-      <AdminRoute key="/kr/admin/speakers">
-        <AdminSpeakers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/americas/admin/speakers",
-    element: (
-      <AdminRoute key="/americas/admin/speakers">
-        <AdminSpeakers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/jp/admin/speakers",
-    element: (
-      <AdminRoute key="/jp/admin/speakers">
-        <AdminSpeakers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/eu/admin/speakers",
-    element: (
-      <AdminRoute key="/eu/admin/speakers">
-        <AdminSpeakers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/asia/admin/users",
-    element: (
-      <AdminRoute key="/asia/admin/users">
-        <AdminUsers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/kr/admin/users",
-    element: (
-      <AdminRoute key="/kr/admin/users">
-        <AdminUsers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/jp/admin/users",
-    element: (
-      <AdminRoute key="/jp/admin/users">
-        <AdminUsers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/americas/admin/users",
-    element: (
-      <AdminRoute key="/americas/admin/users">
-        <AdminUsers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/eu/admin/users",
-    element: (
-      <AdminRoute key="/eu/admin/users">
-        <AdminUsers />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/asia/admin/menus",
-    element: (
-      <AdminRoute key="/asia/admin/menus">
-        <AdminMenus />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/kr/admin/menus",
-    element: (
-      <AdminRoute key="/kr/admin/menus">
-        <AdminMenus />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/jp/admin/menus",
-    element: (
-      <AdminRoute key="/jp/admin/menus">
-        <AdminMenus />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/americas/admin/menus",
-    element: (
-      <AdminRoute key="/americas/admin/menus">
-        <AdminMenus />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/eu/admin/menus",
-    element: (
-      <AdminRoute key="/eu/admin/menus">
-        <AdminMenus />
-      </AdminRoute>
-    ),
-  },
-  // poster
-  {
-    path: "/americas/admin/poster",
-    element: (
-      <AdminRoute key="/americas/admin/poster">
-        <AdminPosters />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/eu/admin/poster",
-    element: (
-      <AdminRoute key="/eu/admin/poster">
-        <AdminPosters />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/jp/admin/poster",
-    element: (
-      <AdminRoute key="/jp/admin/poster">
-        <AdminPosters />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/kr/admin/poster",
-    element: (
-      <AdminRoute key="/kr/admin/poster">
-        <AdminPosters />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/asia/admin/poster",
-    element: (
-      <AdminRoute key="/asia/admin/poster">
-        <AdminPosters />
-      </AdminRoute>
-    ),
-  },
-  // config
-  {
-    path: "/americas/admin/config",
-    element: (
-      <AdminRoute key="/americas/admin/config">
-        <AdminConfig />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/jp/admin/config",
-    element: (
-      <AdminRoute key="/jp/admin/config">
-        <AdminConfig />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/asia/admin/config",
-    element: (
-      <AdminRoute key="/asia/admin/config">
-        <AdminConfig />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/kr/admin/config",
-    element: (
-      <AdminRoute key="/kr/admin/config">
-        <AdminConfig />
-      </AdminRoute>
-    ),
-  },
-  {
-    path: "/eu/admin/config",
-    element: (
-      <AdminRoute key="/eu/admin/config">
-        <AdminConfig />
-      </AdminRoute>
-    ),
-  },
-];
+const currentURL = useCurrentURL();
+let nationList;
+
+if (currentURL === "china") {
+  nationList = ["china"];
+} else nationList = ["asia", "eu", "jp", "kr", "americas"];
+
+const yearList = ["", "2022", "2023"];
+const routes = [];
+
+nationList.forEach((n) =>
+  yearList.forEach((y) => {
+    const nationYearString = `/${n}${y === "" ? "" : `/${y}`}/admin`;
+    routes.push(
+      ...[
+        {
+          path: `${nationYearString}`,
+          element: (
+            <AdminRoute key={`${nationYearString}`}>
+              <Admin />
+            </AdminRoute>
+          ),
+        },
+        {
+          path: `${nationYearString}/program`,
+          element: (
+            <AdminRoute key={`${nationYearString}/program`}>
+              <AdminPrograms />
+            </AdminRoute>
+          ),
+        },
+        {
+          path: `${nationYearString}/speakers`,
+          element: (
+            <AdminRoute key={`${nationYearString}/speakers`}>
+              <AdminSpeakers />
+            </AdminRoute>
+          ),
+        },
+        {
+          path: `${nationYearString}/users`,
+          element: (
+            <AdminRoute key={`${nationYearString}/users`}>
+              <AdminUsers />
+            </AdminRoute>
+          ),
+        },
+        {
+          path: `${nationYearString}/menus`,
+          element: (
+            <AdminRoute key={`${nationYearString}/menus`}>
+              <AdminMenus />
+            </AdminRoute>
+          ),
+        },
+        {
+          path: `${nationYearString}/poster`,
+          element: (
+            <AdminRoute key={`${nationYearString}/poster`}>
+              <AdminPosters />
+            </AdminRoute>
+          ),
+        },
+        {
+          path: `${nationYearString}/config`,
+          element: (
+            <AdminRoute key={`${nationYearString}/config`}>
+              <AdminConfig />
+            </AdminRoute>
+          ),
+        },
+      ],
+    );
+  }),
+);
+
+export default routes;

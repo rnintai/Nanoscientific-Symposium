@@ -1,10 +1,12 @@
 import { Stack, Typography, useTheme } from "@mui/material";
+import usePageViews from "hooks/usePageViews";
 import React from "react";
 import { smallFontSize, xsmallFontSize } from "utils/FontSize";
 import { FooterContainer } from "./FooterStyles";
 
 const Footer = () => {
   const theme = useTheme();
+  const pathname = usePageViews();
 
   return (
     <FooterContainer>
@@ -24,7 +26,8 @@ const Footer = () => {
           fontWeight={700}
           color={theme.palette.grey[500]}
         >
-          © {new Date().getFullYear()} NanoScientific Symposium
+          © {new Date().getFullYear()} NANOscientific{" "}
+          {pathname === "eu" ? "Forum" : "Symposium"}
         </Typography>
       </Stack>
     </FooterContainer>

@@ -17,6 +17,8 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
+import useAdminStore from "store/AdminStore";
 import { mainFontSize } from "utils/FontSize";
 
 interface ProgramContentProps extends Program.programType {
@@ -40,9 +42,12 @@ const ProgramContent = ({
   start_time,
   end_time,
   title,
+  title_en,
   speakers,
+  speakers_en,
   emphasize,
   description,
+  description_en,
   index,
   isAdmin,
   onClick,
@@ -54,6 +59,20 @@ const ProgramContent = ({
 }: ProgramContentProps) => {
   const theme = useTheme();
   const nation = usePageViews();
+  const currentYear = useCurrentYear();
+  const { currentLanguage } = useAdminStore();
+  const langSfx = currentLanguage === "china" ? "" : "_en";
+
+  const curSpeaker =
+    nation === "china" && currentLanguage === "english"
+      ? speakers_en
+      : speakers;
+  const curTitle =
+    nation === "china" && currentLanguage === "english" ? title_en : title;
+  const curDescription =
+    nation === "china" && currentLanguage === "english"
+      ? description_en
+      : description;
 
   // 아젠다 edit 여부 포함된 리스트
 
@@ -125,27 +144,6 @@ const ProgramContent = ({
     },
   }));
 
-  const reorderAgendaHandler = (agendaList: programAgendaEditType[]) => {
-    setReorderLoading(true);
-    axios
-      .post("/api/admin/program/agenda/reorder", {
-        agendaList,
-        nation,
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setReorderLoading(false);
-      });
-  };
-
-  const agendaEditHandler = (agenda: Program.programAgendaType) => {
-    if (setSelectedAgenda && setOpenAgendaForm && setAgendaEdit) {
-      setSelectedAgenda(agenda);
-      setOpenAgendaForm(true);
-      setAgendaEdit(true);
-    }
-  };
-
   const clickUpHandler = (
     agenda: Program.programAgendaType,
     indexInParent: number,
@@ -183,7 +181,6 @@ const ProgramContent = ({
     if (indexInParent - 2 >= 0 && listCpy[index - 2].next_id !== 99999) {
       updatedList.unshift(listCpy[index - 2]);
     }
-    reorderAgendaHandler(updatedList);
   };
 
   const clickDownHandler = (
@@ -224,7 +221,6 @@ const ProgramContent = ({
     if (indexInParent > 0) {
       updatedList.unshift(listCpy[index - 1]);
     }
-    reorderAgendaHandler(updatedList);
   };
 
   return (
@@ -255,7 +251,7 @@ const ProgramContent = ({
               fontSize={mainFontSize}
               fontWeight={theme.typography.fontWeightMedium}
             >
-              {speakers}
+              {curSpeaker}
             </Typography>
           )}
           {speakers && title && (
@@ -275,7 +271,7 @@ const ProgramContent = ({
             fontSize={mainFontSize}
             fontWeight={theme.typography.fontWeightMedium}
           >
-            {title}
+            {curTitle}
           </Typography>
           <br />
           <Typography
@@ -284,7 +280,7 @@ const ProgramContent = ({
             fontWeight={theme.typography.fontWeightMedium}
             color={theme.palette.grey[600]}
           >
-            {description}
+            {curDescription}
           </Typography>
         </StyledTableCell>
       </StyledTableRow>
@@ -329,20 +325,8 @@ const ProgramContent = ({
                 </StyledTableCell>
               )}
 
-              <StyledTableCell
-                align="center"
-                width="15%"
-                onClick={() => {
-                  agendaEditHandler(agenda);
-                }}
-              />
-              <StyledTableCell
-                align="left"
-                width="50%"
-                onClick={() => {
-                  agendaEditHandler(agenda);
-                }}
-              >
+              <StyledTableCell align="center" width="15%" />
+              <StyledTableCell align="left" width="50%">
                 <li style={{ listStyle: "square" }}>{agenda.title}</li>
               </StyledTableCell>
             </StyledTableRow>

@@ -15,6 +15,7 @@ import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import { subHeadingFontSize, mainFontSize } from "utils/FontSize";
 import MarketoForm from "components/MarketoForm/MarketoForm";
+import useNSSType from "hooks/useNSSType";
 import {
   RegistrationContainer,
   MktoFormContainer,
@@ -137,8 +138,9 @@ const KoreaRegistration = ({ formNo }: RegistrationProps) => {
   }, [emailValid, emailValidLoading]);
 
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const { registration, logoURL } = globalData.get(
-    pathname,
+    nssType,
   ) as Common.globalDataType;
   const theme = useTheme();
 

@@ -5,10 +5,14 @@ import { Box, Stack, TextField, Typography, useTheme } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import NSSButton from "components/Button/NSSButton";
 import useInput from "hooks/useInput";
+import useNSSType from "hooks/useNSSType";
+
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
 import { useNavigate } from "react-router";
+import useCurrentYear from "hooks/useCurrentYear";
+import { useYearList } from "utils/useYear";
 import { globalData } from "utils/GlobalData";
 import LandingSection from "components/Section/LandingSection";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
@@ -31,8 +35,10 @@ const inputBoxStyle = {
 const ResetPassword = () => {
   const authState = useAuthState();
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const navigate = useNavigate();
   const theme = useTheme();
+  const currentYear = useCurrentYear();
 
   const {
     resetPasswordHeading,
@@ -47,7 +53,7 @@ const ResetPassword = () => {
     registrationStep2Label,
     registrationStep3Label,
     passwordSetDescription,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
   const curPassword = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
@@ -92,17 +98,20 @@ const ResetPassword = () => {
         curPassword: isUserPasswordSet ? curPassword.value : null,
         newPassword: password1.value,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         if (res.data.success) {
           setPasswordSetSuccessAlert(true);
           setTimeout(() => {
-            navigate(`/${pathname}`);
+            navigate(`/${pathname}/${currentYear}`);
           }, 1500);
         } else {
           switch (res.data.code) {
             case "T40":
             case "T41":
+              console.log("hi");
+
               setTokenNotMatchAlert(true);
               setTimeout(() => {
                 navigate(0);
@@ -141,6 +150,7 @@ const ResetPassword = () => {
       .post("/api/users/passwordset/check", {
         nation: pathname,
         email: authState.email,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         setIsUserPasswordSet(res.data.result);

@@ -10,6 +10,7 @@ import axios from "axios";
 import { Checkbox, DialogContentText, FormControlLabel } from "@mui/material";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
+import useCurrentYear from "hooks/useCurrentYear";
 import { ProgramHideFormContentContainer } from "./ProgramHideFormStyles";
 
 interface ProgramHideFormProps {
@@ -35,9 +36,11 @@ const ProgramHideForm = ({
   const [hideSessions, setHideSessions] = useState<Program.sessionType[]>();
 
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
   const config = {
     params: {
       nation: pathname,
+      year: currentYear,
     },
   };
   useEffect(() => {

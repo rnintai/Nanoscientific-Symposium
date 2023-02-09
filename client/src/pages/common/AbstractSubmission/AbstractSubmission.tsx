@@ -7,6 +7,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import useNSSType from "hooks/useNSSType";
 import axios from "axios";
 import NSSButton from "components/Button/NSSButton";
 import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
@@ -15,6 +16,7 @@ import MarketoForm from "components/MarketoForm/MarketoForm";
 import S3MultiplePdfUpload from "components/S3Upload/S3MultiplePdfUpload";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useRef, useState } from "react";
+import useCurrentYear from "hooks/useCurrentYear";
 import { useNavigate } from "react-router";
 import useConfigStore from "store/ConfigStore";
 import {
@@ -33,6 +35,8 @@ interface abstractProps {
 const AbstractSubmission = ({ formNo }: abstractProps) => {
   const theme = useTheme();
   const pathname = usePageViews();
+  const nssType = useNSSType();
+  const currentYear = useCurrentYear();
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
 
   const mktoRef = useRef<HTMLFormElement>();
@@ -45,6 +49,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   //
   const [description, setDescription] = useState<string>("");
   const [initialDescription, setInitialDescription] = useState<string>("");
+  const [descId, setDescId] = useState(0);
   const [descriptionEdit, setDescriptionEdit] = useState<boolean>(false);
   const [descriptionPreview, setDescriptionPreview] = useState<boolean>(false);
   const [descriptionPreviewContent, setDescriptionPreviewContent] =
@@ -54,7 +59,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
 
   const configStore = useConfigStore();
   const { configState } = configStore;
-  const { submitBtnText } = globalData.get(pathname);
+  const { submitBtnText } = globalData.get(nssType);
   const navigate = useNavigate();
 
   const jpSubmitHandler = async () => {
@@ -107,6 +112,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
           email: Email,
           phone: Phone,
           presentation_form: "Poster",
+          year: currentYear,
         });
 
         // 메일 전송
@@ -114,6 +120,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
           email: configState.alert_receive_email,
           nation: pathname,
           formData,
+          year: currentYear,
         });
 
         setSubmitSuccess(true);
@@ -130,21 +137,27 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
     const res = await axios.get("/api/page/common/abstract", {
       params: {
         nation: pathname,
+        year: currentYear,
       },
     });
+    setDescId(res.data.result[0].id);
     const { desc } = res.data.result[0];
-    setDescription(desc);
     setInitialDescription(desc);
+    setDescription(desc);
   };
 
   const applyDescription = async () => {
     // eslint-disable-next-line no-alert
+    console.log(initialDescription);
     if (confirm("Are you sure?")) {
       const result = await axios.post(`/api/page/common/abstract`, {
         nation: pathname,
         desc: escapeQuotes(description),
+        id: descId,
+        year: currentYear,
       });
-      setInitialDescription(description);
+      // setInitialDescription(description);
+      getDescription();
       setDescriptionEdit(false);
     }
   };
@@ -215,6 +228,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
               uploadLoading={uploadLoading}
               setUploadLoading={setUploadLoading}
               setSubmitSuccess={setSubmitSuccess}
+              required
             />
           </Stack>
         )}

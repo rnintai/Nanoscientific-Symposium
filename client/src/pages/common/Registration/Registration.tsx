@@ -5,10 +5,13 @@ import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
 import { globalData } from "utils/GlobalData";
+import useNSSType from "hooks/useNSSType";
+import { useYearList } from "utils/useYear";
 import { LoadingButton } from "@mui/lab";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import NSSButton from "components/Button/NSSButton";
+import useCurrentYear from "hooks/useCurrentYear";
 import LandingSection from "components/Section/LandingSection";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
@@ -31,8 +34,10 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const navigate = useNavigate();
 
   const nation = usePageViews();
+  const currentYear = useCurrentYear();
   const authState = useAuthState();
   const dispatch = useAuthDispatch();
+  const nssType = useNSSType();
 
   // alert
   const [emailNotValidAlert, setEmailNotValidAlert] = useState<boolean>(false);
@@ -42,7 +47,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
     registrationStep1Label,
     registrationStep2Label,
     registrationStep3Label,
-  } = globalData.get(nation) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   const dispatchLogin = (e: string, r: string, t: string) =>
     dispatch({
@@ -71,6 +76,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
           const res = await axios.post("/api/users/checkemail", {
             email: target.value,
             nation,
+            year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
           });
           setEmailValid(!res.data.result ? 1 : 0);
         } catch (err) {
@@ -146,7 +152,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
 
   const pathname = usePageViews();
   const { goNextText, logoURL } = globalData.get(
-    pathname,
+    nssType,
   ) as Common.globalDataType;
   const theme = useTheme();
 
@@ -174,6 +180,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
         country: formData.Country,
         state: formData.State,
         nation,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       });
       console.log("test");
 
@@ -198,6 +205,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
           nation,
           email: formData.Email,
           password: null,
+          // year: currentYear,
         });
         if (res.data.success) {
           dispatchLogin(formData.Email, res.data.role, res.data.accessToken);

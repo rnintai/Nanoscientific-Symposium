@@ -2,13 +2,17 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const abstractCtrl = {
   getSubmissions: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
       const sql = `
-      SELECT * from abstract_submission
+      SELECT * from abstract_submission ${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      };
       `;
       const row = await connection.query(sql);
       connection.release();
@@ -42,6 +46,7 @@ const abstractCtrl = {
       afm_model,
       presentation_form,
       pdf_file_path,
+      year,
     } = req.body;
 
     const currentPool = getCurrentPool(nation);
@@ -64,7 +69,8 @@ const abstractCtrl = {
         application,
         afm_model,
         presentation_form,
-        pdf_file_path
+        pdf_file_path,
+        year
       ) VALUES 
       (
         '${abstract_title}',
@@ -80,7 +86,8 @@ const abstractCtrl = {
         '${application}',
         '${afm_model}',
         '${presentation_form}',
-        '${pdf_file_path}'
+        '${pdf_file_path}',
+        '${year}'
       )
       `;
       const result = await connection.query(sql);

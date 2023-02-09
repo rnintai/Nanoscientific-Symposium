@@ -9,6 +9,8 @@ interface AdminState {
   setIsSponsorPreview: (newState: boolean) => void;
   isSponsor2Preview: boolean;
   setIsSponsor2Preview: (newState: boolean) => void;
+  currentLanguage: string;
+  setCurrentLanguage: (lang: string) => void;
 }
 
 const useAdminStore = create<AdminState>((set) => ({
@@ -17,11 +19,18 @@ const useAdminStore = create<AdminState>((set) => ({
   disableDarkMode: () => set(() => ({ darkMode: false })),
   toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
   isSponsorPreview: false,
-  setIsSponsorPreview: (newState) =>
-    set((state) => ({ ...state, isSponsorPreview: newState })),
   isSponsor2Preview: false,
   setIsSponsor2Preview: (newState) =>
     set((state) => ({ ...state, isSponsorPreview: newState })),
+  setIsSponsorPreview: (newState) =>
+    set((state) => ({ ...state, isSponsorPreview: newState })),
+  currentLanguage: localStorage.getItem("nss-lang")
+    ? localStorage.getItem("nss-lang")
+    : "china",
+  setCurrentLanguage: (lang) => {
+    localStorage.setItem("nss-lang", lang);
+    set((state) => ({ ...state, currentLanguage: lang }));
+  },
 }));
 
 export default useAdminStore;

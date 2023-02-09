@@ -4,12 +4,14 @@ import React from "react";
 import { subHeadingFontSize } from "utils/FontSize";
 import { globalData } from "utils/GlobalData";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import useNSSType from "hooks/useNSSType";
 import { ComingSoonContainer } from "./ComingSoonStyles";
 
 const ComingSoon = () => {
   const theme = useTheme();
+  const nssType = useNSSType();
   const pathname = usePageViews();
-  const { comingSoonText } = globalData.get(pathname) as Common.globalDataType;
+  const { comingSoonText } = globalData.get(nssType) as Common.globalDataType;
   return (
     <ComingSoonContainer>
       <FeedbackIcon sx={{ color: theme.palette.grey.A400 }} />

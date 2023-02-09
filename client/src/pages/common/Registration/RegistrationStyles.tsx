@@ -58,6 +58,13 @@ export const RegistrationContainer = styled.div`
     }
   }
 
+  .disabled {
+    .registration-fee-container {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+
   .mktoLabel {
     color: ${() => {
       const theme = useTheme();
@@ -142,6 +149,16 @@ export const RegistrationContainer = styled.div`
 
   &.loading form {
     display: none;
+  }
+
+  input#psDietaryInformationOthers {
+    top: -20px;
+    position: relative;
+  }
+
+  .mktoHtmlText {
+    width: auto !important;
+    word-break: break-word;
   }
 
   @media screen and (max-width: 768px) {

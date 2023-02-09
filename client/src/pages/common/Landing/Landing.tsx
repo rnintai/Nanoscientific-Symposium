@@ -46,8 +46,10 @@ import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
 import EditIcon from "@mui/icons-material/Edit";
 import SponsorForm from "pages/admin/Forms/SponsorForm";
 import useAdminStore from "store/AdminStore";
+import useCurrentYear from "hooks/useCurrentYear";
 import Landing6Form from "pages/admin/Forms/Landing6Form";
 import { escapeQuotes } from "utils/String";
+import useNSSType from "hooks/useNSSType";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 import { LandingContainer } from "./LandingStyles";
 
@@ -58,20 +60,22 @@ interface LandingSectionProps extends React.ComponentPropsWithRef<"div"> {
   fullWidth?: boolean;
   background?: string;
 }
-interface LandingProps {
-  nssYear?: string;
-}
+// interface LandingProps {
+//   currentYear?: string;
+// }
 
-const Landing = (props: LandingProps) => {
-  const { nssYear } = props;
+const Landing = () => {
+  const currentYear = useCurrentYear();
+  // const { currentYear } = props;
 
   const pathname = usePageViews();
-  const nssType = `${pathname}${nssYear !== undefined ? nssYear : ""}`;
-
+  // const nssType = `${pathname}${currentYear !== undefined ? currentYear : ""}`;
+  const nssType = useNSSType();
   const theme = useTheme();
   const authState = useAuthState();
   const isEditor = editorRole.includes(authState.role);
   const isAdmin = adminRole.includes(authState.role);
+  const { currentLanguage } = useAdminStore();
 
   const landingRefList = [
     useRef<HTMLDivElement>(null),
@@ -235,7 +239,8 @@ const Landing = (props: LandingProps) => {
       const res = await axios.get(`/api/page/common/landing`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          language: pathname === "china" ? currentLanguage : undefined,
+          year: currentYear,
         },
       });
       setLandingList(res.data.result);
@@ -260,7 +265,8 @@ const Landing = (props: LandingProps) => {
       const res = await axios.get(`/api/page/common/landing/2`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          language: pathname === "china" ? currentLanguage : undefined,
+          year: currentYear,
         },
       });
       setLanding2Desc(res.data.result[0].description);
@@ -275,10 +281,11 @@ const Landing = (props: LandingProps) => {
         nation: pathname,
         title: escapeQuotes(landing2Title),
         description: escapeQuotes(landing2Desc),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
-      setLanding2Title(landing2Title);
-      setLanding2Desc(landing2Desc);
+      landingList[0].title = landing2Title;
+      setLanding2DescCpy(landing2Desc);
       setLanding2TitleEdit(false);
       setLanding2DescEdit(false);
     }
@@ -290,7 +297,8 @@ const Landing = (props: LandingProps) => {
       const res = await axios.get(`/api/page/common/landing/3`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          language: pathname === "china" ? currentLanguage : undefined,
+          year: currentYear,
         },
       });
       setLanding3Desc(res.data.result[0].description);
@@ -305,10 +313,11 @@ const Landing = (props: LandingProps) => {
         nation: pathname,
         title: escapeQuotes(landing3Title),
         description: escapeQuotes(landing3Desc),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
-      setLanding3Title(landing3Title);
-      setLanding3Desc(landing3Desc);
+      landingList[1].title = landing3Title;
+      setLanding3DescCpy(landing3Desc);
       setLanding3TitleEdit(false);
       setLanding3DescEdit(false);
     }
@@ -321,7 +330,7 @@ const Landing = (props: LandingProps) => {
       const result = await axios.get(`/api/page/common/landing/4`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          year: currentYear,
         },
       });
       setLandingSection4List(result.data.result);
@@ -337,7 +346,8 @@ const Landing = (props: LandingProps) => {
       const result = await axios.post(`/api/page/common/landing/title/4`, {
         nation: pathname,
         title: escapeQuotes(landing4Title),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
       setLanding4Title(landing4Title);
       setLanding4TitleEdit(false);
@@ -360,7 +370,8 @@ const Landing = (props: LandingProps) => {
       const result = await axios.post(`/api/page/common/landing/title/5`, {
         nation: pathname,
         title: escapeQuotes(landing5Title),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
       setLanding5Title(landing5Title);
       setLanding5TitleEdit(false);
@@ -372,7 +383,8 @@ const Landing = (props: LandingProps) => {
       const result = await axios.post(`/api/page/common/landing/title/6`, {
         nation: pathname,
         title: escapeQuotes(landing6Title),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
       setLanding6Title(landing6Title);
       setLanding6TitleEdit(false);
@@ -386,7 +398,8 @@ const Landing = (props: LandingProps) => {
         nation: pathname,
         title: escapeQuotes(landing6Title),
         description: escapeQuotes(landing6Desc),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
       setLanding6Title(landing6Title);
       setLanding6Desc(landing6Desc);
@@ -400,7 +413,8 @@ const Landing = (props: LandingProps) => {
       const result = await axios.get(`/api/page/common/landing/6`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          language: pathname === "china" ? currentLanguage : undefined,
+          year: currentYear,
         },
       });
       setLanding6Content(result.data.result[0]);
@@ -418,7 +432,7 @@ const Landing = (props: LandingProps) => {
       const res = await axios.get(`/api/page/common/speakers/keynote`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          year: currentYear,
         },
       });
       setKeynoteSpeakers(res.data);
@@ -433,7 +447,8 @@ const Landing = (props: LandingProps) => {
       const result = await axios.post(`/api/page/common/landing/title/7`, {
         nation: pathname,
         title: escapeQuotes(landing7Title),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
       setLanding7Title(landing7Title);
       setLanding7TitleEdit(false);
@@ -444,7 +459,7 @@ const Landing = (props: LandingProps) => {
       const result = await axios.get(`/api/page/common/landing/7`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          year: currentYear,
         },
       });
       setLandingSection7Sponsors(result.data.result);
@@ -452,6 +467,7 @@ const Landing = (props: LandingProps) => {
       console.log(err);
     }
   };
+
   const addSponsorHandler = () => {
     setSelectedSponsor(null);
     setEditSponsor(false);
@@ -473,7 +489,8 @@ const Landing = (props: LandingProps) => {
       const result = await axios.post(`/api/page/common/landing/title/8`, {
         nation: pathname,
         title: escapeQuotes(landing8Title),
-        year: nssYear,
+        language: pathname === "china" ? currentLanguage : undefined,
+        year: currentYear,
       });
       setLanding8Title(landing8Title);
       setLanding8TitleEdit(false);
@@ -484,7 +501,8 @@ const Landing = (props: LandingProps) => {
       const result = await axios.get(`/api/page/common/landing/8`, {
         params: {
           nation: pathname,
-          year: nssYear,
+          language: pathname === "china" ? currentLanguage : undefined,
+          year: currentYear,
         },
       });
       setLandingSection8Sponsors(result.data.result);
@@ -597,8 +615,8 @@ const Landing = (props: LandingProps) => {
               alt="logo"
               style={{
                 maxWidth: "600px",
-                height: nssYear === "2023" ? "250px" : "300px",
-                marginBottom: nssYear === "2023" ? "40px" : "0",
+                height: currentYear === "2023" ? "250px" : "300px",
+                marginBottom: currentYear === "2023" ? "40px" : "0",
                 width: "100%",
                 minWidth: "200px",
               }}
@@ -659,8 +677,8 @@ const Landing = (props: LandingProps) => {
                   style={{ padding: 0, color: "white" }}
                   to={
                     pathname === "kr"
-                      ? `/${pathname}/register-info`
-                      : `/${pathname}/registration`
+                      ? `/${pathname}/${currentYear}/register-info`
+                      : `/${pathname}/${currentYear}/registration`
                   }
                 >
                   {registration || ""}
@@ -912,7 +930,7 @@ const Landing = (props: LandingProps) => {
               setOpen={setOpenSection4Modal}
               edit={editSection4}
               selectedSection={selectedSection4}
-              year={nssYear}
+              year={currentYear}
             />
           )}
           {/* </BackgroundVectorColored> */}
@@ -1217,149 +1235,6 @@ const Landing = (props: LandingProps) => {
               </Stack>
             </LandingSection>
           )}
-          {/* section8 */}
-          {landingList[6] &&
-            landingList[6].show !== 0 &&
-            landingSection8Sponsors && (
-              <LandingSection fullWidth maxWidth="1920px">
-                <Box ref={landingRefList[6]} />
-                <Stack className="layout">
-                  <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    alignItems="center"
-                  >
-                    <LandingTextEditor
-                      initialValue={landingList[6].title}
-                      value={landing8Title}
-                      setValue={setLanding8Title}
-                      edit={landing8TitleEdit}
-                      setEdit={setLanding8TitleEdit}
-                      preview={landing8TitlePreview}
-                      setPreview={setLanding8TitlePreview}
-                      previewContent={landing8TitlePreviewContent}
-                      setPreviewContent={setLanding8TitlePreviewContent}
-                      applyHandler={applyLanding8Title}
-                      sx={{
-                        mb: 3,
-                        fontSize: headingFontSize,
-                        fontWeight: theme.typography.fontWeightBold,
-                      }}
-                    >
-                      {landing8Title || ""}
-                    </LandingTextEditor>
-                    {isSponsor2Preview && (
-                      <Button variant="outlined" onClick={handleReturnSponsor2}>
-                        Return to editor
-                      </Button>
-                    )}
-                  </Stack>
-                  <Stack
-                    flexWrap="wrap"
-                    alignItems="center"
-                    sx={{
-                      flexDirection: "row",
-                      justifyContent: {
-                        mobile: "center",
-                        tablet: "flex-start",
-                      },
-                    }}
-                  >
-                    {isSponsor2Preview &&
-                      previewSponsor2List.map((sponsor) => (
-                        <Box>
-                          <a
-                            className="hover-zoom"
-                            href={sponsor.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            style={{
-                              pointerEvents: sponsor.url ? "inherit" : "none",
-                              position: "relative",
-                            }}
-                          >
-                            <img
-                              src={`${S3_URL}/${sponsor.image_path}`}
-                              alt={sponsor.name}
-                              style={{
-                                maxHeight: sponsor.height
-                                  ? sponsor.height
-                                  : "80px",
-                                width: "100%",
-                              }}
-                            />
-                          </a>
-                          {isEditor && !isSponsor2Preview && (
-                            <IconButton
-                              component="span"
-                              className="sponsor-edit-btn"
-                              size="small"
-                              onClick={() => {
-                                editSponsorHandler2(sponsor);
-                              }}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          )}
-                        </Box>
-                      ))}
-                    {!isSponsor2Preview &&
-                      landingSection8Sponsors.map((sponsor) => (
-                        <Box>
-                          <a
-                            className="hover-zoom"
-                            href={sponsor.url}
-                            target="_blank"
-                            rel="noreferrer"
-                            style={{
-                              pointerEvents: sponsor.url ? "inherit" : "none",
-                              position: "relative",
-                            }}
-                          >
-                            <img
-                              src={`${S3_URL}/${sponsor.image_path}`}
-                              alt={sponsor.name}
-                              style={{
-                                maxHeight: sponsor.height
-                                  ? sponsor.height
-                                  : "80px",
-                                width: "100%",
-                              }}
-                            />
-                          </a>
-                          {isEditor && !isSponsor2Preview && (
-                            <IconButton
-                              component="span"
-                              className="sponsor-edit-btn"
-                              size="small"
-                              color="primary"
-                              onClick={() => {
-                                editSponsorHandler2(sponsor);
-                              }}
-                            >
-                              <EditIcon />
-                            </IconButton>
-                          )}
-                        </Box>
-                      ))}
-                    {isEditor && !isSponsor2Preview && (
-                      <Stack
-                        sx={{
-                          width: "110px",
-                          height: "80px",
-                        }}
-                        justifyContent="center"
-                        alignItems="center"
-                      >
-                        <IconButton onClick={addSponsorHandler2}>
-                          <AddCircleOutlineIcon color="primary" />
-                        </IconButton>
-                      </Stack>
-                    )}
-                  </Stack>
-                </Stack>
-              </LandingSection>
-            )}
           {/* sticky menu */}
           {isEditor && (
             <Stack className="sticky-menu">
@@ -1445,7 +1320,7 @@ const Landing = (props: LandingProps) => {
               sponsorList={landingSection7Sponsors}
               setIsSponsorPreview={setIsSponsorPreview}
               setPreviewSponsorList={setPreviewSponsorList}
-              year={nssYear}
+              year={currentYear}
             />
           )}
           {(openSponsorModal2 || isSponsor2Preview) && (
@@ -1460,7 +1335,7 @@ const Landing = (props: LandingProps) => {
               sponsorList={landingSection8Sponsors}
               setIsSponsorPreview={setIsSponsor2Preview}
               setPreviewSponsorList={setPreviewSponsor2List}
-              year={nssYear}
+              year={currentYear}
             />
           )}
           {openLanding6Modal && (
@@ -1468,7 +1343,7 @@ const Landing = (props: LandingProps) => {
               open={openLanding6Modal}
               setOpen={setOpenLanding6Modal}
               selected={landing6Content}
-              year={nssYear}
+              year={currentYear}
             />
           )}
         </BackgroundVectorColored>

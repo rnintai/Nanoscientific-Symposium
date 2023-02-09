@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 import Link from "components/Link/LinkWithSearch";
-import { useNavigate } from "hooks/useNavigateWithSearch";
+import { useNavigate } from "react-router";
 import {
   NavBarContainer,
   AnnouncementMenuItemContainer,
@@ -15,6 +16,7 @@ import { editorRole } from "utils/Roles";
 import useSubPath from "hooks/useSubPath";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import MenuIcon from "@mui/icons-material/Menu";
+import useNSSType from "hooks/useNSSType";
 import {
   IconButton,
   Menu,
@@ -29,6 +31,7 @@ import {
 import NSSButton from "components/Button/NSSButton";
 import MenuLink from "components/Link/MenuLink";
 import { globalData } from "utils/GlobalData";
+import { useYearList } from "utils/useYear";
 import PersonIcon from "@mui/icons-material/Person";
 
 import { mainFontSize, smallFontSize } from "utils/FontSize";
@@ -36,7 +39,11 @@ import PublicIcon from "@mui/icons-material/Public";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useMenuStore from "store/MenuStore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import LoginModal from "../Modal/LoginModal";
+import useCurrentYear from "hooks/useCurrentYear";
+import LanguageIcon from "@mui/icons-material/Language";
+import LanguageSwitcher from "components/LanguageSwitcher/LanguageSwitcher";
+import useCurrentURL from "hooks/useCurrentURL";
+import useAdminStore from "store/AdminStore";
 import MobileNavBar from "./MobileNavBar";
 
 interface navProps {
@@ -68,6 +75,8 @@ navProps) => {
     React.useState<null | HTMLElement>(null);
   const openUserMenu = Boolean(userMenuanchorEl);
   const openMoreMenu = Boolean(moreMenuanchorEl);
+  const [langMenuAnchorEl, setLangMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
   const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     if (!authState.isLogin && !checkLoading) {
       setEmailModalOpen(true);
@@ -84,9 +93,12 @@ navProps) => {
   const handleMoreMenuClose = () => {
     setMoreMenuAnchorEl(null);
   };
+  const { search } = useLocation();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [openMobileNav, setOpenMobileNav] = useState<boolean>(false);
 
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const subpath = useSubPath();
   const navigate = useNavigate();
   const theme = useTheme();
@@ -95,9 +107,15 @@ navProps) => {
   const authDispatch = useAuthDispatch();
   const alarmState = useAlarmState();
   const alarmDispatch = useAlarmDispatch();
+  const currentYear = useCurrentYear();
 
   // submenu refs
   const submenuRefs = useRef({});
+
+  const { currentLanguage, setCurrentLanguage } = useAdminStore();
+
+  const isEnglish = currentLanguage === "english";
+  const isChinese = currentLanguage === "china";
 
   const logoutHandler = async (email: string) => {
     setLogoutLoading(true);
@@ -105,6 +123,7 @@ navProps) => {
       .post("/api/users/logout", {
         email,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         if (res.data.success === true) {
@@ -135,21 +154,23 @@ navProps) => {
     adminBtnText,
     signOutBtnText,
     changePasswordBtnText,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
-      <NSSButton
-        variant="icon"
-        className="return-main-btn"
-        style={{ position: "absolute", padding: "8px 8px 8px 0" }}
-        onClick={() => {
-          navigate(`/`);
-        }}
-      >
-        <ChevronLeftIcon />
-        <PublicIcon sx={{ marginLeft: "-4px" }} />
-      </NSSButton>
+      {currentYear === "2022" && (
+        <NSSButton
+          variant="icon"
+          className="return-main-btn"
+          style={{ position: "absolute", padding: "8px 8px 8px 0" }}
+          onClick={() => {
+            window.location.href = `https://event.nanoscientific.org`;
+          }}
+        >
+          <ChevronLeftIcon />
+          <PublicIcon sx={{ marginLeft: "-4px" }} />
+        </NSSButton>
+      )}
       {!menuStateLoading && (
         <Stack
           direction="row"
@@ -161,7 +182,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname === "common" ? "" : pathname}`}
+            to={`/${pathname}/${currentYear}`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -174,6 +195,7 @@ navProps) => {
               className="menu-item-wrap"
             >
               {!menuStateLoading &&
+                menuList &&
                 menuList.map((menu) => {
                   if (
                     (menu.show || editorRole.includes(authState.role)) &&
@@ -184,9 +206,7 @@ navProps) => {
                     return (
                       <MenuLink
                         key={menu.name}
-                        to={`${pathname === "common" ? "" : `/${pathname}`}${
-                          menu.path
-                        }`}
+                        to={`/${pathname}/${currentYear}${menu.path}`}
                         className={menu.show === 0 && "op5"}
                       >
                         {menu.name.toUpperCase()}
@@ -200,7 +220,7 @@ navProps) => {
                     return (
                       <Box
                         key={menu.name}
-                        className="parent"
+                        className={`parent${menu.show === 0 ? " op5" : ""}`}
                         ref={(element) => {
                           submenuRefs.current[menu.id] = element;
                         }}
@@ -279,7 +299,7 @@ navProps) => {
                                     >
                                       <Link
                                         key={m.name}
-                                        to={`/${pathname}${m.path}`}
+                                        to={`/${pathname}/${currentYear}${m.path}`}
                                       >
                                         <Typography
                                           fontSize={smallFontSize}
@@ -305,6 +325,7 @@ navProps) => {
                   (editorRole.includes(authState.role) &&
                     menuList.filter((m) => !m.is_main).length !== 0)) && (
                   <>
+                    {pathname === "china" ? <LanguageSwitcher /> : undefined}
                     <NSSButton
                       id="basic-button"
                       className="user-menu"
@@ -336,7 +357,7 @@ navProps) => {
                             if (m.show || editorRole.includes(authState.role)) {
                               return (
                                 <Link
-                                  to={pathname + m.path}
+                                  to={`${pathname}/${currentYear}${m.path}`}
                                   onClick={handleMoreMenuClose}
                                 >
                                   <AnnouncementMenuItemContainer
@@ -387,7 +408,7 @@ navProps) => {
                           {editorRole.includes(authState.role) && (
                             <MenuItem>
                               <Link
-                                to={`${pathname}/admin`}
+                                to={`${pathname}/${currentYear}/admin`}
                                 target="_blank"
                                 style={{
                                   padding: 0,

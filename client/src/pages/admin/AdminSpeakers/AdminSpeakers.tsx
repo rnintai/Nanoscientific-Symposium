@@ -6,6 +6,7 @@ import Loading from "components/Loading/Loading";
 import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import usePageViews from "hooks/usePageViews";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import useCurrentYear from "hooks/useCurrentYear";
 import { SpeakersContainer } from "../../common/Speakers/SpeakersStyles";
 import SpeakerForm from "../Forms/SpeakerForm";
 import SpeakerHideForm from "../Forms/SpeakerHideForm";
@@ -13,6 +14,7 @@ import LocationChanger from "./SpeakerChanger/LocationChanger";
 
 const AdminSpeakers = () => {
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
 
   const [openSpeakerForm, setOpenSpeakerForm] = useState<boolean>(false);
   const [openLocationChanger, setOpenLocationChanger] =
@@ -56,6 +58,7 @@ const AdminSpeakers = () => {
   const config = {
     params: {
       nation: pathname,
+      year: currentYear,
     },
   };
   const getSpeakers = async () => {

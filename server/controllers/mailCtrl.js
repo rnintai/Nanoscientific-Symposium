@@ -7,7 +7,7 @@ const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
 const mailCtrl = {
   sendVcode: async (req, res) => {
-    const { email, nation } = req.body;
+    const { email, nation, year } = req.body;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
@@ -38,7 +38,9 @@ const mailCtrl = {
       });
 
       const info = await transporter.sendMail({
-        from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
+        from: `${year} Nanoscientific ${
+          nation === "eu" ? "Forum" : "Symposium"
+        } <event@nanoscientific.org>`,
         to: email,
         subject: `[${code}] Verification Code`,
         html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
@@ -109,7 +111,7 @@ const mailCtrl = {
   },
 
   sendAbstractAlert: async (req, res) => {
-    const { email, attachments, nation, formData } = req.body;
+    const { email, attachments, nation, formData, year, isFailed } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     const {
@@ -131,7 +133,7 @@ const mailCtrl = {
 
     let attachmentArr = [];
     if (attachments && attachments.length !== 0) {
-      for (attachment of attachments) {
+      for (let attachment of attachments) {
         attachmentArr.push({
           filename: attachment.name,
           path: encodeURI(`${S3_URL}/${attachment.path}`),
@@ -152,13 +154,27 @@ const mailCtrl = {
         },
       });
 
-      const info = await transporter.sendMail({
-        from: "2022 Nanoscientific Symposium <event@nanoscientific.org>",
+      let info;
+      // if (!isFailed) {
+      //   info = await transporter.sendMail({
+      //     from: `${year} NANOscientific ${
+      //       nation === "eu" ? "Forum" : "Symposium"
+      //     } <event@nanoscientific.org>`,
+      //     to: email,
+      //     subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
+      //     html: mailHTML.abstractMailHTML(formData, year),
+      //     attachments: attachmentArr,
+      //   });
+      // } else {
+      info = await transporter.sendMail({
+        from: `${year} NANOscientific ${
+          nation === "eu" ? "Forum" : "Symposium"
+        } <event@nanoscientific.org>`,
         to: email,
         subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
-        html: mailHTML.abstractMailHTML(formData),
-        attachments: attachmentArr,
+        html: mailHTML.abstractMailHTML(formData, year, attachments),
       });
+      // }
 
       // info.accepted: [], info.rejected: [].
       // length를 통해 성공 실패 여부 판단 가능.

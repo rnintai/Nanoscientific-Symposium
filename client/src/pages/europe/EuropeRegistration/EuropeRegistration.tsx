@@ -4,6 +4,7 @@ import { Button, Box, Stack, Typography, IconButton } from "@mui/material";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useNavigate } from "react-router";
 import { globalData } from "utils/GlobalData";
+import { useYearList } from "utils/useYear";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "context/AuthContext";
@@ -15,6 +16,8 @@ import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import useNSSType from "hooks/useNSSType";
+import useCurrentYear from "hooks/useCurrentYear";
 import {
   smallFontSize,
   headingFontSize,
@@ -32,6 +35,7 @@ interface props {
 
 const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
   const pathname = usePageViews();
+  const nssType = useNSSType();
 
   // stage
   // const [stage, setStage] = useState<number>(1);
@@ -49,6 +53,7 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
   const [emailValid, setEmailValid] = useState<TFN>(-1);
   const navigate = useNavigate();
   const nation = usePageViews();
+  const currentYear = useCurrentYear();
 
   const authState = useAuthState();
   const dispatch = useAuthDispatch();
@@ -59,7 +64,7 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
     registrationStep1Label,
     registrationStep2Label,
     registrationStep3Label,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   // alert
   const [emailNotValidAlert, setEmailNotValidAlert] = useState<boolean>(false);
@@ -122,6 +127,7 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
                 const res = await axios.post("/api/users/checkemail", {
                   email: target.value,
                   nation,
+                  year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
                 });
                 setEmailValid(!res.data.result ? 1 : 0);
               } catch (err) {
@@ -386,6 +392,7 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
                                 state: formData.State,
                                 nation,
                                 isStudent,
+                                year: currentYear,
                               },
                             );
 
@@ -413,6 +420,7 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
                                 nation,
                                 email: formData.Email,
                                 password: null,
+                                year: currentYear,
                               });
                               if (res.data.success) {
                                 dispatchLogin(
@@ -421,7 +429,9 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
                                   res.data.accessToken,
                                 );
                               }
-                              navigate(`/${nation}/user/reset-password`);
+                              navigate(
+                                `/${nation}/${currentYear}/user/reset-password`,
+                              );
                             } catch (err) {
                               console.log(err);
                               alert("login failed");

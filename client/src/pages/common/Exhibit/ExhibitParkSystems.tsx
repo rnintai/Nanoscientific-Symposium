@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import useNSSType from "hooks/useNSSType";
 import InnerHTML from "dangerously-set-html-content";
 import useHTML from "hooks/useHTML";
 import usePageViews from "hooks/usePageViews";
@@ -8,7 +8,8 @@ import { globalData } from "utils/GlobalData";
 
 const ExhibitParkSystems = () => {
   const pathname = usePageViews();
-  const { exhibitHall } = globalData.get(pathname) as Common.globalDataType;
+  const nssType = useNSSType();
+  const { exhibitHall } = globalData.get(nssType) as Common.globalDataType;
   // useEffect(() => {
   //   document.title = `${exhibitHall} | Nanoscientific 2022 ${pathname
   //     .replace("/", "")

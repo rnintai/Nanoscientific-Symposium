@@ -1,5 +1,7 @@
+const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
+
 module.exports = {
-  forgotPasswordHTML: (heading, code, desc) => {
+  forgotPasswordHTML: (heading, code, desc, year) => {
     return `
     <table
   cellpadding="0"
@@ -64,8 +66,8 @@ module.exports = {
     </tr>
     <tr>
       <td>
-      <p style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;color: #16aee5;font-weight: 700;">
-        <span style="color: #003e7f">Nano<span><span style="color: #16aee5">Scientific</span> 2022
+      <p style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
+      <span style="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
         </span></span>
       </p>
       </td>
@@ -74,13 +76,13 @@ module.exports = {
       <td>
         <p style="font-size: 12px;">
           <span>
-            NanoScientific plans are underway to continue the excitement that comes
-            from scientific innovation and discovery with a new line up for 2022!
+            NANOscientific plans are underway to continue the excitement that comes
+            from scientific innovation and discovery with a new line up for ${year}!
           </span>
           <span>
-            Stay tuned for the 2022 NanoScientific Event Calendar for your chance to
+            Stay tuned for the ${year} NANOscientific Event Calendar for your chance to
             network with leading experts who are pioneering the evolution of
-            scientific discovery at NanoScientific Conferences Worldwide.
+            scientific discovery at NANOscientific Conferences Worldwide.
           </span> 
         </p>
       </td>
@@ -110,7 +112,7 @@ module.exports = {
   </tbody>
 </table>`;
   },
-  abstractMailHTML: (formData) => {
+  abstractMailHTML: (formData, year, attachments) => {
     const {
       psAbstractTitle,
       abstractDescription,
@@ -127,6 +129,15 @@ module.exports = {
       psExistingAFMBrand,
       psPresentationForm,
     } = formData;
+
+    const attachmentHTMLList = [];
+    if (attachments) {
+      for (let i = 0; i < attachments.length; i += 1) {
+        attachmentHTMLList.push(`
+        <a href="${S3_URL + "/" + attachments[i].path}">Attachment ${i + 1}</a>
+        `);
+      }
+    }
 
     return `<body class="text-center">
     <div style="padding: 20px 60px;font-family: &quot;Open Sans&quot;, sans-serif;">
@@ -161,22 +172,27 @@ module.exports = {
           }
         </ul>
       </div>
-      <div style="margin-top: 20px">
-      Please check attachment.
-      </div>
+      ${
+        !attachments
+          ? `<div style="margin-top: 20px">
+        Please check attachment.
+        </div>`
+          : ``
+      }
+      ${attachments ? attachmentHTMLList.map((a) => a) : ``}
       <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
-      <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;color: #16aee5;font-weight: 700;">
-        <span style="color: #003e7f">Nano<span><span style="color: #16aee5">Scientific</span> 2022
+      <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
+      <span syle="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
       </span></span></div>  
       <div class="desc-wrap text-center" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 12px;">
         <span class="desc desc-1">
-          NanoScientific plans are underway to continue the excitement that comes
-          from scientific innovation and discovery with a new line up for 2022!
+          NANOscientific plans are underway to continue the excitement that comes
+          from scientific innovation and discovery with a new line up for ${year}!
         </span>
         <span class="desc desc-2">
-          Stay tuned for the 2022 NanoScientific Event Calendar for your chance to
+          Stay tuned for the ${year} NANOscientific Event Calendar for your chance to
           network with leading experts who are pioneering the evolution of
-          scientific discovery at NanoScientific Conferences Worldwide.
+          scientific discovery at NANOscientific Conferences Worldwide.
         </span>
       </div>
       <a href="https://event.nanoscientific.org/" target="_blank" style="margin-top: 20px; font-size: 13px">https://event.nanoscientific.org/

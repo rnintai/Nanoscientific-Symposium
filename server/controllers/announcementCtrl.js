@@ -2,11 +2,15 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const announcementCtrl = {
   getPostAllListLength: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `SELECT id FROM announcement`;
+      const sql = `SELECT id FROM announcement${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      };`;
       const row = await connection.query(sql);
       connection.release();
       if (row[0].length != 0) {
@@ -32,7 +36,7 @@ const announcementCtrl = {
     }
   },
   getPostList: async (req, res) => {
-    const { nation, page } = req.query;
+    const { nation, page, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const postPerPage = 5;
 
@@ -41,10 +45,13 @@ const announcementCtrl = {
       const sql = `SELECT 
       *,
       (SELECT count(*) FROM announcement) as total_count
-      FROM announcement 
+      FROM announcement${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      }
       ORDER BY created DESC 
       LIMIT ${(Number(page) - 1) * postPerPage},${postPerPage}`;
-
       const row = await connection.query(sql);
       connection.release();
       if (row[0].length !== 0) {
@@ -70,20 +77,29 @@ const announcementCtrl = {
     }
   },
   getPostById: async (req, res) => {
-    const { nation, id, admin } = req.query;
+    const { nation, id, admin, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql =
         admin == 1
-          ? `SELECT id,title,content,created, hits FROM announcement WHERE id=${id}`
-          : `SELECT id,title,content,created, hits+1 as hits FROM announcement WHERE id=${id}`;
+          ? `SELECT id,title,content,created, hits FROM announcement WHERE id=${id} and${
+              year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+            };`
+          : `SELECT id,title,content,created, hits+1 as hits FROM announcement WHERE id=${id} and${
+              year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+            };`;
+
       const row = await connection.query(sql);
       connection.release();
 
       // 조회수 추가
       if (admin == 0) {
-        const sql2 = `UPDATE announcement SET hits=${row[0][0].hits} WHERE id=${id}`;
+        const sql2 = `UPDATE announcement SET hits=${
+          row[0][0].hits
+        } WHERE id=${id} and${
+          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+        };`;
         const row2 = await connection.query(sql2);
       }
       connection.release();
@@ -110,7 +126,7 @@ const announcementCtrl = {
     }
   },
   addPost: async (req, res) => {
-    const { nation, title, content, id, created } = req.body;
+    const { nation, title, content, id, created, year } = req.body;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
@@ -119,16 +135,20 @@ const announcementCtrl = {
       let sql;
       if (!id) {
         sql = `INSERT INTO announcement
-        (title, content)
+        (title, content, year)
         VALUES
-        ('${title}','${content}')
+        ('${title}','${content}' , ${
+          year && year !== "2022" ? `'${year}'` : null
+        })
         `;
       } else {
         sql = `
         UPDATE announcement SET
         title='${title}',
-        content='${content}'
-        WHERE id=${id}
+        content='${content}',
+        WHERE id=${id} and${
+          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+        };
         `;
       }
       const row = await connection.query(sql);
@@ -148,12 +168,14 @@ const announcementCtrl = {
     }
   },
   deletePost: async (req, res) => {
-    const { nation, id } = req.query;
+    const { nation, id, year } = req.query;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `DELETE FROM announcement WHERE id=${id}`;
+      const sql = `DELETE FROM announcement WHERE id=${id} and${
+        year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
+      };`;
       const row = await connection.query(sql);
       connection.release();
 

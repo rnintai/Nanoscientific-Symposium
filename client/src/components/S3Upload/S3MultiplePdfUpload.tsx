@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React, {
   Dispatch,
   SetStateAction,
@@ -5,6 +6,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import useNSSType from "hooks/useNSSType";
 import S3 from "aws-sdk/clients/s3";
 import { Button, Fab, Stack, Typography, useTheme } from "@mui/material";
 import AddPhotoAlternateTwoToneIcon from "@mui/icons-material/AddPhotoAlternateTwoTone";
@@ -13,19 +15,18 @@ import usePageViews from "hooks/usePageViews";
 import { globalData, S3_URL } from "utils/GlobalData";
 import { Box } from "@mui/system";
 import { smallFontSize } from "utils/FontSize";
+import useCurrentYear from "hooks/useCurrentYear";
 import NSSButton from "components/Button/NSSButton";
 import axios from "axios";
 import useConfigStore from "store/ConfigStore";
+import { cloneDeep } from "lodash";
 
 interface S3PdfUploadProps {
-  // edit: boolean;
-  // previewURL: string;
-  // setPreviewURL: Dispatch<SetStateAction<string>>;
   uploadLoading: boolean;
   setUploadLoading: Dispatch<SetStateAction<boolean>>;
   setSubmitSuccess: Dispatch<SetStateAction<boolean>>;
-  // eslint-disable-next-line react/require-default-props
   align?: "flex-start" | "center" | "flex-end";
+  required?: boolean;
 }
 
 interface FilePathType {
@@ -50,9 +51,12 @@ const S3MultiplePdfUpload = ({
   setUploadLoading,
   setSubmitSuccess,
   align = "center",
+  required = false,
 }: S3PdfUploadProps) => {
   const [progress, setProgress] = useState<number>(-1);
   const theme = useTheme();
+  const nssType = useNSSType();
+  const currentYear = useCurrentYear();
 
   const configStore = useConfigStore();
   const { configState } = configStore;
@@ -68,12 +72,12 @@ const S3MultiplePdfUpload = ({
   const [filePathList, setFilePathList] = useState<FilePathType[]>([]);
 
   const { submitBtnText, pdfUploadDescription, uploadBtnText } =
-    globalData.get(pathname);
+    globalData.get(nssType);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
-    const fileListCpy = [];
-    const filePathListCpy = JSON.parse(JSON.stringify(filePathList));
+    const fileListCpy = cloneDeep(fileList);
+    const filePathListCpy = cloneDeep(filePathList);
     for (let i = 0; i < event.target.files.length; i += 1) {
       const file = event.target.files[i];
       fileListCpy.push(file);
@@ -124,8 +128,8 @@ const S3MultiplePdfUpload = ({
     ) {
       // 마케토 validator가 알려줌
     } else {
-      fileList.forEach((f, i) => {
-        uploadFile(f, filePathList[i].path);
+      fileList.forEach(async (f, i) => {
+        await uploadFile(f, filePathList[i].path);
       });
 
       setSubmitLoading(true);
@@ -157,6 +161,7 @@ const S3MultiplePdfUpload = ({
       mktoForm.submit().onSuccess(() => {
         return false;
       });
+      let res2;
       try {
         // DB에 저장
         const res = await axios.post("/api/abstract", {
@@ -175,26 +180,40 @@ const S3MultiplePdfUpload = ({
           afm_model: psExistingAFMBrand,
           presentation_form: psPresentationForm,
           pdf_file_path: filePathList.map((f) => f.path).join(","),
+          year: currentYear,
         });
 
         // 메일 전송
-        const res2 = await axios.post("/api/mail/abstract", {
+        res2 = await axios.post("/api/mail/abstract", {
           email: configState.alert_receive_email,
           attachments: filePathList,
           nation: pathname,
           formData,
+          year: currentYear,
+          isFailed: false,
         });
-
         setSubmitSuccess(true);
       } catch (err) {
+        // try {
+        //   await axios.post("/api/mail/abstract", {
+        //     email: configState.alert_receive_email,
+        //     attachments: filePathList,
+        //     nation: pathname,
+        //     formData,
+        //     year: currentYear,
+        //     isFailed: true,
+        //   });
+        //   setSubmitSuccess(true);
+        // } catch (err) {
         alert(err);
+        // }
       } finally {
         setSubmitLoading(false);
       }
     }
   };
 
-  const uploadFile = (file: File, filePath: string) => {
+  const uploadFile = async (file: File, filePath: string) => {
     setProgress(0);
     setUploadLoading(true);
 
@@ -209,14 +228,25 @@ const S3MultiplePdfUpload = ({
         Key: filePath,
       };
 
-      myBucket
-        .putObject(params)
-        .on("httpUploadProgress", (evt, res) => {
-          setProgress(Math.round((evt.loaded / evt.total) * 100));
-        })
-        .send((err, data) => {
-          if (err) console.log(err);
+      const putObjectWrapper = (params) => {
+        return new Promise((resolve, reject) => {
+          myBucket
+            .putObject(params)
+            .on("httpUploadProgress", (evt, res) => {
+              setProgress(Math.round((evt.loaded / evt.total) * 100));
+            })
+            .send((err, data) => {
+              if (err) reject(err);
+              if (data) resolve(data);
+            });
         });
+      };
+
+      try {
+        await putObjectWrapper(params);
+      } catch (error) {
+        alert("upload file error");
+      }
     }
   };
 
@@ -234,6 +264,12 @@ const S3MultiplePdfUpload = ({
           justifyContent={align}
           alignItems="center"
         >
+          {required && (
+            <Typography color="red" mr={1}>
+              *
+            </Typography>
+          )}
+
           <Stack
             flexDirection="row"
             sx={{
@@ -320,7 +356,7 @@ const S3MultiplePdfUpload = ({
         variant="gradient"
         className="registration-btn"
         onClick={submitHandler}
-        disabled={uploadLoading}
+        disabled={uploadLoading || (required && fileList.length === 0)}
         loading={submitLoading}
       >
         {submitBtnText}

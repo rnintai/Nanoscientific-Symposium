@@ -19,9 +19,12 @@ import CloseButton from "components/CloseButton/CloseButton";
 import axios from "axios";
 import Timer from "components/Timer/Timer";
 import { globalData } from "utils/GlobalData";
+import { useYearList } from "utils/useYear";
 import useInput from "hooks/useInput";
 import { smallFontSize } from "utils/FontSize";
-import usePageViews from "../../hooks/usePageViews";
+import useNSSType from "hooks/useNSSType";
+import useCurrentYear from "hooks/useCurrentYear";
+import usePageViews from "hooks/usePageViews";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
 interface ModalProps {
@@ -95,11 +98,13 @@ const EuropeLoginModal = ({
 
   //
   const pathname = usePageViews();
+  const nssType = useNSSType();
   const email = useInput("");
   const password = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
   const verificationCode = useInput("");
+  const currentYear = useCurrentYear();
 
   // refs
   const emailFocus = useRef<HTMLInputElement>(null);
@@ -116,7 +121,7 @@ const EuropeLoginModal = ({
     createAccountText,
     goNextText,
     goPrevText,
-  } = globalData.get(pathname) as Common.globalDataType;
+  } = globalData.get(nssType) as Common.globalDataType;
 
   const handleOpen = (setOpen: (val: boolean) => void) => {
     setOpen(true);
@@ -136,6 +141,7 @@ const EuropeLoginModal = ({
       const res = await axios.post("/api/mail/vcode/send", {
         email: email.value,
         nation: pathname,
+        year: currentYear,
       });
       if (res.data.result) {
         setEmailSentAlert(true);
@@ -227,6 +233,7 @@ const EuropeLoginModal = ({
           email,
           password,
           nation: pathname,
+          year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
         },
         {
           withCredentials: true,
@@ -262,6 +269,7 @@ const EuropeLoginModal = ({
       .post("/api/users/passwordset/check", {
         email: email.value,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         if (res.data.success) {
@@ -310,6 +318,7 @@ const EuropeLoginModal = ({
         email: email.value,
         password: password1.value,
         nation: pathname,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
       })
       .then((res) => {
         if (res.data.success) {
@@ -439,14 +448,17 @@ const EuropeLoginModal = ({
           >
             {/* {pathname === "eu" ? ( */}
 
-            <Link to={`${pathname}/registration`} onClick={closeAllModal}>
+            <Link
+              to={`${pathname}/${currentYear}/registration`}
+              onClick={closeAllModal}
+            >
               <Typography fontSize={smallFontSize}>
                 {createAccountText}
               </Typography>
             </Link>
 
             <Link
-              to={`${pathname}/user/forgot-password`}
+              to={`${pathname}/${currentYear}/user/forgot-password`}
               onClick={closeAllModal}
             >
               <Typography fontSize={smallFontSize}>
