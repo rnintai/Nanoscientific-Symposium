@@ -37,6 +37,7 @@ import { useAlarmDispatch } from "./context/NavBarMarkContext";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
 import "./css/font.css";
+import CommonRoutes from "Routes/CommonRoutes";
 
 interface routeType {
   path: string;
@@ -87,6 +88,7 @@ const App = () => {
   // mode
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
+
     // setCurrentLanguage(pathname);
   }, []);
   // url에 year가 없으면 추가해주기
@@ -180,8 +182,8 @@ const App = () => {
     else setCurrentTheme(themeObj);
 
     if (currentURL === "china") {
-      setNationList(["china"]);
-    } else setNationList(["asia", "eu", "jp", "kr", "americas"]);
+      setNationList(["china", "common"]);
+    } else setNationList(["asia", "eu", "jp", "kr", "americas", "common"]);
 
     axios
       .post("/api/users/check", {
@@ -481,7 +483,6 @@ const App = () => {
     <ThemeProvider theme={currentTheme}>
       <AppContainer>
         {pathname !== "home" &&
-          pathname !== "" &&
           subpath.indexOf("admin") === -1 &&
           nationList.indexOf(pathname) !== -1 && (
             <NavBar
@@ -502,7 +503,9 @@ const App = () => {
         )}
         <Routes>
           {/* common */}
-          <Route path="/" element={<EventLanding />} />
+          {CommonRoutes.map((route) => {
+            return routeLoopHelper(route);
+          })}
           {/* admin */}
           {AdminRoutes.map((route) => {
             return routeLoopHelper(route, true);
