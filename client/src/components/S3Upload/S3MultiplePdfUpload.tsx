@@ -194,19 +194,19 @@ const S3MultiplePdfUpload = ({
         });
         setSubmitSuccess(true);
       } catch (err) {
-        try {
-          await axios.post("/api/mail/abstract", {
-            email: configState.alert_receive_email,
-            attachments: filePathList,
-            nation: pathname,
-            formData,
-            year: currentYear,
-            isFailed: true,
-          });
-          setSubmitSuccess(true);
-        } catch (error) {
-          alert(error);
-        }
+        // try {
+        //   await axios.post("/api/mail/abstract", {
+        //     email: configState.alert_receive_email,
+        //     attachments: filePathList,
+        //     nation: pathname,
+        //     formData,
+        //     year: currentYear,
+        //     isFailed: true,
+        //   });
+        //   setSubmitSuccess(true);
+        // } catch (err) {
+        alert(err);
+        // }
       } finally {
         setSubmitLoading(false);
       }

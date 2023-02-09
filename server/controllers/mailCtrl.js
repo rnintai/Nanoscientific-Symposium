@@ -155,26 +155,26 @@ const mailCtrl = {
       });
 
       let info;
-      if (!isFailed) {
-        info = await transporter.sendMail({
-          from: `${year} NANOscientific ${
-            nation === "eu" ? "Forum" : "Symposium"
-          } <event@nanoscientific.org>`,
-          to: email,
-          subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
-          html: mailHTML.abstractMailHTML(formData, year),
-          attachments: attachmentArr,
-        });
-      } else {
-        info = await transporter.sendMail({
-          from: `${year} NANOscientific ${
-            nation === "eu" ? "Forum" : "Symposium"
-          } <event@nanoscientific.org>`,
-          to: email,
-          subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
-          html: mailHTML.abstractMailHTML(formData, year, attachments),
-        });
-      }
+      // if (!isFailed) {
+      //   info = await transporter.sendMail({
+      //     from: `${year} NANOscientific ${
+      //       nation === "eu" ? "Forum" : "Symposium"
+      //     } <event@nanoscientific.org>`,
+      //     to: email,
+      //     subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
+      //     html: mailHTML.abstractMailHTML(formData, year),
+      //     attachments: attachmentArr,
+      //   });
+      // } else {
+      info = await transporter.sendMail({
+        from: `${year} NANOscientific ${
+          nation === "eu" ? "Forum" : "Symposium"
+        } <event@nanoscientific.org>`,
+        to: email,
+        subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
+        html: mailHTML.abstractMailHTML(formData, year, attachments),
+      });
+      // }
 
       // info.accepted: [], info.rejected: [].
       // length를 통해 성공 실패 여부 판단 가능.
@@ -193,7 +193,7 @@ const mailCtrl = {
       }
     } catch (err) {
       console.log(err);
-      res.status(200).json({
+      res.status(500).json({
         success: false,
         err,
       });
