@@ -151,6 +151,16 @@ export const RegistrationContainer = styled.div`
     display: none;
   }
 
+  input#psDietaryInformationOthers {
+    top: -20px;
+    position: relative;
+  }
+
+  .mktoHtmlText {
+    width: auto !important;
+    word-break: break-word;
+  }
+
   @media screen and (max-width: 768px) {
     .registration-fee-container {
       width: 100%;
