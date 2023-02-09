@@ -166,6 +166,7 @@ const mailCtrl = {
 
       // info.accepted: [], info.rejected: [].
       // length를 통해 성공 실패 여부 판단 가능.
+      console.log(info);
       if (info.accepted.length > 0) {
         res.status(200).json({
           success: true,

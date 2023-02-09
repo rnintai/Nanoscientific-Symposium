@@ -127,9 +127,10 @@ const S3MultiplePdfUpload = ({
     ) {
       // 마케토 validator가 알려줌
     } else {
-      fileList.forEach((f, i) => {
-        uploadFile(f, filePathList[i].path);
+      fileList.forEach(async (f, i) => {
+        await uploadFile(f, filePathList[i].path);
       });
+      console.log("upload ended");
 
       setSubmitLoading(true);
       const mktoForm =
@@ -161,6 +162,8 @@ const S3MultiplePdfUpload = ({
         return false;
       });
       try {
+        console.log("abstract post start");
+
         // DB에 저장
         const res = await axios.post("/api/abstract", {
           nation: pathname,
@@ -199,7 +202,7 @@ const S3MultiplePdfUpload = ({
     }
   };
 
-  const uploadFile = (file: File, filePath: string) => {
+  const uploadFile = async (file: File, filePath: string) => {
     setProgress(0);
     setUploadLoading(true);
 
