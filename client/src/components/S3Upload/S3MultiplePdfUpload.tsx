@@ -217,14 +217,25 @@ const S3MultiplePdfUpload = ({
         Key: filePath,
       };
 
-      myBucket
-        .putObject(params)
-        .on("httpUploadProgress", (evt, res) => {
-          setProgress(Math.round((evt.loaded / evt.total) * 100));
-        })
-        .send((err, data) => {
-          if (err) console.log(err);
+      const putObjectWrapper = (params) => {
+        return new Promise((resolve, reject) => {
+          myBucket
+            .putObject(params)
+            .on("httpUploadProgress", (evt, res) => {
+              setProgress(Math.round((evt.loaded / evt.total) * 100));
+            })
+            .send((err, data) => {
+              if (err) reject(err);
+              if (data) resolve(data);
+            });
         });
+      };
+
+      try {
+        await putObjectWrapper(params);
+      } catch (error) {
+        alert("upload file error");
+      }
     }
   };
 
