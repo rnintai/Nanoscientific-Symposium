@@ -117,6 +117,10 @@ navProps) => {
   const isEnglish = currentLanguage === "english";
   const isChinese = currentLanguage === "china";
 
+  //
+  const nationAndYear =
+    pathname !== "common" ? `${pathname}/${currentYear}` : "";
+
   const logoutHandler = async (email: string) => {
     setLogoutLoading(true);
     axios
@@ -182,7 +186,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`/${pathname}/${currentYear}`}
+            to={`${nationAndYear}`}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
@@ -206,7 +210,7 @@ navProps) => {
                     return (
                       <MenuLink
                         key={menu.name}
-                        to={`/${pathname}/${currentYear}${menu.path}`}
+                        to={`${nationAndYear}${menu.path}`}
                         className={menu.show === 0 && "op5"}
                       >
                         {menu.name.toUpperCase()}
@@ -259,8 +263,8 @@ navProps) => {
                         <Box>
                           <Box
                             className={`parent-label${
-                              `/${pathname + subpath}`.indexOf(
-                                `/${pathname + menu.path}`,
+                              `${pathname + subpath}`.indexOf(
+                                `${nationAndYear + menu.path}`,
                               ) !== -1
                                 ? " hover"
                                 : ""
@@ -291,15 +295,15 @@ navProps) => {
                                       key={m.id}
                                       component="li"
                                       className={`child-item${
-                                        `/${pathname}${m.path}` ===
-                                        `/${pathname + subpath}`
+                                        `${nationAndYear}${m.path}` ===
+                                        `${pathname + subpath}`
                                           ? " active"
                                           : ""
                                       }`}
                                     >
                                       <Link
                                         key={m.name}
-                                        to={`/${pathname}/${currentYear}${m.path}`}
+                                        to={`${nationAndYear}${m.path}`}
                                       >
                                         <Typography
                                           fontSize={smallFontSize}
@@ -357,7 +361,7 @@ navProps) => {
                             if (m.show || editorRole.includes(authState.role)) {
                               return (
                                 <Link
-                                  to={`${pathname}/${currentYear}${m.path}`}
+                                  to={`${nationAndYear}${m.path}`}
                                   onClick={handleMoreMenuClose}
                                 >
                                   <AnnouncementMenuItemContainer
@@ -405,20 +409,21 @@ navProps) => {
                     >
                       {authState.isLogin && !checkLoading && (
                         <MenuList dense>
-                          {editorRole.includes(authState.role) && (
-                            <MenuItem>
-                              <Link
-                                to={`${pathname}/${currentYear}/admin`}
-                                target="_blank"
-                                style={{
-                                  padding: 0,
-                                  color: "rgba(0,0,0,0.87)",
-                                }}
-                              >
-                                {adminBtnText || "Admin Page"}
-                              </Link>
-                            </MenuItem>
-                          )}
+                          {pathname !== "common" &&
+                            editorRole.includes(authState.role) && (
+                              <MenuItem>
+                                <Link
+                                  to={`${nationAndYear}/admin`}
+                                  target="_blank"
+                                  style={{
+                                    padding: 0,
+                                    color: "rgba(0,0,0,0.87)",
+                                  }}
+                                >
+                                  {adminBtnText || "Admin Page"}
+                                </Link>
+                              </MenuItem>
+                            )}
                           <MenuItem
                             onClick={() => {
                               handleUserMenuClose();

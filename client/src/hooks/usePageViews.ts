@@ -31,12 +31,12 @@ const usePageViews = () => {
       result = firstPath;
       break;
     }
-    case "": {
-      result = "home";
-      break;
-    }
     default: {
-      result = "common";
+      if (pathname === "" || pathname === "/") {
+        result = "home";
+      } else {
+        result = "common";
+      }
     }
   }
 

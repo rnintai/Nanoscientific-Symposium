@@ -22,7 +22,7 @@ const MenuLink = (props: MenuLinkProps) => {
 
   const theme = useTheme();
   useEffect(() => {
-    if (to === `${(pathname === "common" ? "" : `/${pathname}`) + subpath}`) {
+    if (to === `${(pathname === "common" ? "" : `${pathname}`) + subpath}`) {
       setActive("active");
     } else {
       setActive("");

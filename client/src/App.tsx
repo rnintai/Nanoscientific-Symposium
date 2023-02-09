@@ -27,6 +27,7 @@ import useCurrentYear, { defaultYear, yearList } from "hooks/useCurrentYear";
 import useNationRoutes from "hooks/useNationRoutes";
 import { useYearList } from "utils/useYear";
 import ChinaRoutes from "Routes/ChinaRoutes";
+import CommonRoutes from "Routes/CommonRoutes";
 import useAdminStore from "store/AdminStore";
 import useCurrentURL from "hooks/useCurrentURL";
 import AdminRoutes from "./Routes/AdminRoutes";
@@ -37,7 +38,6 @@ import { useAlarmDispatch } from "./context/NavBarMarkContext";
 import Loading from "./components/Loading/Loading";
 import { AppContainer } from "./AppStyles";
 import "./css/font.css";
-import CommonRoutes from "Routes/CommonRoutes";
 
 interface routeType {
   path: string;
@@ -479,7 +479,6 @@ const App = () => {
     );
 
   return (
-    // <ThemeProvider theme={pathname === "jp" ? jpThemeObj : themeObj}>
     <ThemeProvider theme={currentTheme}>
       <AppContainer>
         {pathname !== "home" &&
