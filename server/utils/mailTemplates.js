@@ -1,3 +1,5 @@
+const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
+
 module.exports = {
   forgotPasswordHTML: (heading, code, desc, year) => {
     return `
@@ -110,7 +112,7 @@ module.exports = {
   </tbody>
 </table>`;
   },
-  abstractMailHTML: (formData, year) => {
+  abstractMailHTML: (formData, year, attachments) => {
     const {
       psAbstractTitle,
       abstractDescription,
@@ -127,6 +129,15 @@ module.exports = {
       psExistingAFMBrand,
       psPresentationForm,
     } = formData;
+
+    const attachmentHTMLList = [];
+    if (attachments) {
+      for (let i = 0; i < attachments.length; i += 1) {
+        attachmentHTMLList.push(`
+        <a href="${S3_URL + "/" + attachments[i].path}">Attachment ${i + 1}</a>
+        `);
+      }
+    }
 
     return `<body class="text-center">
     <div style="padding: 20px 60px;font-family: &quot;Open Sans&quot;, sans-serif;">
@@ -161,9 +172,14 @@ module.exports = {
           }
         </ul>
       </div>
-      <div style="margin-top: 20px">
-      Please check attachment.
-      </div>
+      ${
+        !attachments
+          ? `<div style="margin-top: 20px">
+        Please check attachment.
+        </div>`
+          : ``
+      }
+      ${attachments ? attachmentHTMLList.map((a) => a) : ``}
       <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
       <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
       <span syle="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>

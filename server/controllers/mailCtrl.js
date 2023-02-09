@@ -111,7 +111,7 @@ const mailCtrl = {
   },
 
   sendAbstractAlert: async (req, res) => {
-    const { email, attachments, nation, formData, year } = req.body;
+    const { email, attachments, nation, formData, year, isFailed } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     const {
@@ -154,19 +154,30 @@ const mailCtrl = {
         },
       });
 
-      const info = await transporter.sendMail({
-        from: `${year} NANOscientific ${
-          nation === "eu" ? "Forum" : "Symposium"
-        } <event@nanoscientific.org>`,
-        to: email,
-        subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
-        html: mailHTML.abstractMailHTML(formData, year),
-        attachments: attachmentArr,
-      });
+      let info;
+      if (!isFailed) {
+        info = await transporter.sendMail({
+          from: `${year} NANOscientific ${
+            nation === "eu" ? "Forum" : "Symposium"
+          } <event@nanoscientific.org>`,
+          to: email,
+          subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
+          html: mailHTML.abstractMailHTML(formData, year),
+          attachments: attachmentArr,
+        });
+      } else {
+        info = await transporter.sendMail({
+          from: `${year} NANOscientific ${
+            nation === "eu" ? "Forum" : "Symposium"
+          } <event@nanoscientific.org>`,
+          to: email,
+          subject: `[${nation.toUpperCase()}] Abstract Submission: (${psPresentationForm}) ${psAbstractTitle}`,
+          html: mailHTML.abstractMailHTML(formData, year, attachments),
+        });
+      }
 
       // info.accepted: [], info.rejected: [].
       // length를 통해 성공 실패 여부 판단 가능.
-      console.log(info);
       if (info.accepted.length > 0) {
         res.status(200).json({
           success: true,
@@ -182,7 +193,7 @@ const mailCtrl = {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json({
+      res.status(200).json({
         success: false,
         err,
       });

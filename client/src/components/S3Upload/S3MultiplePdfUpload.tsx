@@ -19,6 +19,7 @@ import useCurrentYear from "hooks/useCurrentYear";
 import NSSButton from "components/Button/NSSButton";
 import axios from "axios";
 import useConfigStore from "store/ConfigStore";
+import { cloneDeep } from "lodash";
 
 interface S3PdfUploadProps {
   uploadLoading: boolean;
@@ -75,8 +76,8 @@ const S3MultiplePdfUpload = ({
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
-    const fileListCpy = [];
-    const filePathListCpy = JSON.parse(JSON.stringify(filePathList));
+    const fileListCpy = cloneDeep(fileList);
+    const filePathListCpy = cloneDeep(filePathList);
     for (let i = 0; i < event.target.files.length; i += 1) {
       const file = event.target.files[i];
       fileListCpy.push(file);
@@ -130,7 +131,6 @@ const S3MultiplePdfUpload = ({
       fileList.forEach(async (f, i) => {
         await uploadFile(f, filePathList[i].path);
       });
-      console.log("upload ended");
 
       setSubmitLoading(true);
       const mktoForm =
@@ -162,8 +162,6 @@ const S3MultiplePdfUpload = ({
         return false;
       });
       try {
-        console.log("abstract post start");
-
         // DB에 저장
         const res = await axios.post("/api/abstract", {
           nation: pathname,
@@ -185,14 +183,19 @@ const S3MultiplePdfUpload = ({
         });
 
         // 메일 전송
-        const res2 = await axios.post("/api/mail/abstract", {
+        const payload = {
           email: configState.alert_receive_email,
           attachments: filePathList,
           nation: pathname,
           formData,
           year: currentYear,
-        });
-
+          isFailed: false,
+        };
+        const res2 = await axios.post("/api/mail/abstract", payload);
+        if (!res2.data.success) {
+          payload.isFailed = true;
+          await axios.post("/api/mail/abstract", payload);
+        }
         setSubmitSuccess(true);
       } catch (err) {
         alert(err);
