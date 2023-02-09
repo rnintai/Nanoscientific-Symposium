@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
 import React, {
   useState,
@@ -35,6 +36,7 @@ import QuillEditor from "components/QuillEditor/QuillEditor";
 import { escapeQuotes } from "utils/String";
 import NSSButton from "components/Button/NSSButton";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import cloneDeep from "lodash/cloneDeep";
 
 interface OnDemandFormProps {
   open: boolean;
@@ -75,7 +77,6 @@ const OnDemandForm = ({
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [openEditApplication, setOpenEditApplication] =
     useState<boolean>(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const [thumbnail, setThumbnail] = useState<string>(
     edit ? selected.thumbnail : "",
@@ -97,13 +98,28 @@ const OnDemandForm = ({
   const [abstractDesc, setAbstractDesc] = useState<string>(
     edit ? selected.abstract_desc : "",
   );
+  const [selectedIndex, setSelectedIndex] = useState([]);
+  const [selectedApplication, setSelectedApplication] = useState([]);
 
-  const [selectedApplication, setSelectedApplication] = useState("");
-  const [AddApplication, setAddApplication] = useState("");
+  const addApplication = useInput("");
+  // const [addApplication, setaddApplication] = useState("");
 
   useEffect(() => {
     getApplicationList();
+    initList(); // selectedIndex, selectedApplication 에 이미 seleted된 value넣어주기
   }, []);
+
+  const initList = async () => {
+    setSelectedApplication(application);
+    try {
+      const res = await axios.get("/api/ondemand/application/list/id", {
+        params: { application: application.map((m) => `"${m}"`).join(",") },
+      });
+      setSelectedIndex(res.data.result.map((m) => m.id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async () => {
     try {
@@ -157,14 +173,17 @@ const OnDemandForm = ({
   };
 
   const deleteApplicationList = async () => {
-    try {
-      alert(`[${selectedApplication}] deleted`);
-      await axios.delete("/api/ondemand/application/list", {
-        params: { id: selectedIndex },
-      });
-      getApplicationList();
-    } catch (error) {
-      console.log(error);
+    if (confirm("Are you sure?")) {
+      try {
+        console.log(selectedIndex);
+        alert(`[${selectedApplication}] deleted`);
+        await axios.delete("/api/ondemand/application/list", {
+          params: { id: selectedIndex },
+        });
+        getApplicationList();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -178,37 +197,52 @@ const OnDemandForm = ({
 
   const PostApplication = async () => {
     if (
-      applicationList.findIndex((el) => el.application === AddApplication) ===
-      -1
+      applicationList.findIndex(
+        (el) => el.application === addApplication.value,
+      ) === -1
     ) {
-      try {
-        alert(`[${AddApplication}] added`);
-        await axios.post("/api/ondemand/application/list", {
-          application: `"${AddApplication}"`,
-        });
-        getApplicationList();
-        applicationInput.current.value = "";
-        setAddApplication("");
-      } catch (error) {
-        console.log(error);
+      if (confirm("Are you sure?")) {
+        try {
+          alert(`[${addApplication.value}] added`);
+          await axios.post("/api/ondemand/application/list", {
+            application: `"${addApplication.value}"`,
+          });
+          getApplicationList();
+          applicationInput.current.value = "";
+          addApplication.setValue("");
+        } catch (error) {
+          console.log(error);
+        }
       }
-    } else
+    } else {
       alert(
-        `[${AddApplication}] already exists. \nplease enter another application name!`,
+        `[${addApplication.value}] already exists. \nplease enter another application name!`,
       );
+    }
   };
   const handleListItemClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     id: number,
     application: string,
   ) => {
-    if (selectedIndex !== id) {
-      setSelectedIndex(id);
-      setSelectedApplication(application);
+    let newIndexArray;
+    let newApplicationArray;
+    if (selectedIndex.indexOf(id) === -1) {
+      newIndexArray = cloneDeep(selectedIndex); // deep copy 사용
+      newIndexArray.push(id);
+      setSelectedIndex(newIndexArray);
+      newApplicationArray = selectedApplication;
+      newApplicationArray.push(application);
+      setSelectedApplication(newApplicationArray);
     } else {
-      setSelectedIndex(-1);
-      setSelectedApplication("");
+      newIndexArray = cloneDeep(selectedIndex);
+      newIndexArray.splice(selectedIndex.indexOf(id), 1);
+      setSelectedIndex(newIndexArray);
+      newApplicationArray = selectedApplication;
+      newApplicationArray.splice(selectedApplication.indexOf(application), 1);
+      setSelectedApplication(newApplicationArray);
     }
+    // console.log(selectedIndex);
   };
 
   // const AppCompononetHandler = (isAppEdit: boolean, t: string) => {
@@ -381,15 +415,15 @@ const OnDemandForm = ({
                 required
                 variant="outlined"
                 size="small"
-                onChange={(e) => setAddApplication(e.target.value)}
                 inputRef={applicationInput}
+                {...addApplication}
               />
               <NSSButton
                 variant="gradient"
                 style={{
                   margin: "5px",
-                  opacity: AddApplication ? "1" : "0.5",
-                  pointerEvents: AddApplication ? "auto" : "none",
+                  opacity: addApplication.value ? "1" : "0.5",
+                  pointerEvents: addApplication.value ? "auto" : "none",
                 }}
                 onClick={() => {
                   PostApplication();
@@ -424,10 +458,10 @@ const OnDemandForm = ({
                     }}
                   >
                     <ListItemButton
-                      selected={selectedIndex === el.id}
                       onClick={(e) =>
                         handleListItemClick(e, el.id, el.application)
                       }
+                      selected={selectedIndex.indexOf(el.id) !== -1}
                     >
                       <ListItemText primary={`${idx + 1}. ${el.application}`} />
                     </ListItemButton>
@@ -438,8 +472,8 @@ const OnDemandForm = ({
                 variant="gradient"
                 onClick={deleteApplicationList}
                 style={{
-                  opacity: selectedIndex !== -1 ? "1" : "0.5",
-                  pointerEvents: selectedIndex !== -1 ? "auto" : "none",
+                  opacity: selectedIndex.length > 0 ? "1" : "0.5",
+                  pointerEvents: selectedIndex.length > 0 ? "auto" : "none",
                 }}
               >
                 delete

@@ -143,7 +143,7 @@ const onDemandCtrl = {
         LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
       `;
       }
-      sql2 = `
+      const sql2 = `
       SELECT count(*) as count FROM on_demand WHERE
         ${
           year
@@ -184,9 +184,8 @@ const onDemandCtrl = {
                 })
                 .join(" or ")} `
             : `IFNULL(application, '') LIKE '%'`
-        } LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
+        } ORDER BY year DESC, region ;
       `;
-      console.log(sql);
       const row = await connection.query(sql);
       const row2 = await connection.query(sql2);
       const result = row[0].map((arr) => {
@@ -363,9 +362,12 @@ const onDemandCtrl = {
     const { id } = req.query;
     try {
       const sql = `
-      DELETE FROM on_demand_application WHERE id=${id}
+      DELETE FROM on_demand_application WHERE ${id
+        .map((m) => {
+          return `id = ${m}`;
+        })
+        .join(" or ")}
       `;
-      console.log(sql);
       const row = await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -387,7 +389,30 @@ const onDemandCtrl = {
     const { application } = req.body;
     try {
       const sql = `INSERT INTO on_demand_application (application) VALUES(${application});`;
-      console.log(sql);
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        result: row[0],
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      console.log(err);
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+
+  getOnDemandApplicationId: async (req, res) => {
+    const currentPool = getCurrentPool("common");
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    const { application } = req.query;
+    try {
+      const sql = `SELECT id from on_demand_application where application in (${application
+        .split(",")
+        .join(" , ")})`;
       const row = await connection.query(sql);
       connection.release();
       res.status(200).json({
