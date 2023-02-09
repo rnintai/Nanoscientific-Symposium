@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-globals */
 import {
   Button,
+  CircularProgress,
   Grid,
   IconButton,
   Stack,
@@ -55,6 +56,10 @@ const OnDemand = () => {
 
   const [applicationList, setApplicationList] = useState<any[]>([]);
 
+  // loading
+  const [getOnDemandAllFilterLoading, setGetOnDemandAllFilterLoading] =
+    useState<boolean>(true);
+
   // admin state
   const [edit, setEdit] = useState<boolean>(false);
   const [openEditModal, setOpenEditModal] = useState<boolean>(false);
@@ -85,6 +90,7 @@ const OnDemand = () => {
 
   const getOnDemandAllFilter = async () => {
     try {
+      setGetOnDemandAllFilterLoading(true);
       const res = await axios.get("/api/ondemand/filter/list");
       setYearList(
         res.data.year.map((v) => {
@@ -109,6 +115,8 @@ const OnDemand = () => {
       setAllFilter(res.data.result);
     } catch (error) {
       console.log(error);
+    } finally {
+      setGetOnDemandAllFilterLoading(false);
     }
   };
 
@@ -325,17 +333,22 @@ const OnDemand = () => {
             {totalCount} results
           </Typography>
           <Grid className="video-result" maxHeight="660px" overflow="auto">
-            {videoList.map((v, idx) => (
-              <ThumbnailCard
-                key={`card-${v.id}`}
-                video={v}
-                getList={getOndemandPageList}
-                setSelected={setSelectedVideo}
-                setOpenModal={setOpenEditModal}
-                edit={edit}
-                setEdit={setEdit}
-              />
-            ))}
+            {getOnDemandAllFilterLoading &&
+              new Array(6)
+                .fill(null)
+                .map(() => <ThumbnailCard key="skeleton" loading />)}
+            {!getOnDemandAllFilterLoading &&
+              videoList.map((v, idx) => (
+                <ThumbnailCard
+                  key={`card-${v.id}`}
+                  video={v}
+                  getList={getOndemandPageList}
+                  setSelected={setSelectedVideo}
+                  setOpenModal={setOpenEditModal}
+                  edit={edit}
+                  setEdit={setEdit}
+                />
+              ))}
 
             {/* {filteredVideoList.map((v, idx) => (
               <ThumbnailCard

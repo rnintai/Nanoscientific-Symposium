@@ -61,6 +61,12 @@ export const OnDemandContainer = styled.div`
     grid-gap: 20px;
   }
 
+  .pagination {
+    li.active {
+      pointer-events: none;
+    }
+  }
+
   @media screen and (max-width: 1350px) {
     .on-demand-wrap {
       flex-direction: column;

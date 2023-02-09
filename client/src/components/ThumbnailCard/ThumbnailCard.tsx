@@ -30,16 +30,18 @@ import InnerHTML from "dangerously-set-html-content";
 import { ThumbnailCardContainer } from "./ThumbnailCardStyles";
 
 interface ThumbnailCardProps {
-  video: Common.onDemandVideoType;
-  getList: () => void;
-  setSelected: React.Dispatch<React.SetStateAction<Common.onDemandVideoType>>;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  edit: boolean;
-  setEdit: React.Dispatch<React.SetStateAction<boolean>>;
+  loading?: boolean;
+  video?: Common.onDemandVideoType;
+  getList?: () => void;
+  setSelected?: React.Dispatch<React.SetStateAction<Common.onDemandVideoType>>;
+  setOpenModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  edit?: boolean;
+  setEdit?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ThumbnailCard = (props: ThumbnailCardProps) => {
-  const { video, getList, setSelected, setOpenModal, edit, setEdit } = props;
+  const { loading, video, getList, setSelected, setOpenModal, edit, setEdit } =
+    props;
   const theme = useTheme();
   const authState = useAuthState();
 
@@ -87,79 +89,117 @@ const ThumbnailCard = (props: ThumbnailCardProps) => {
   return (
     <ThumbnailCardContainer className="grid-item">
       <Box sx={{ position: "relative" }}>
-        <Card
-          sx={
-            {
-              // visibility: isLoaded ? "visible" : "hidden",
+        {loading && (
+          <Card
+            sx={
+              {
+                // visibility: isLoaded ? "visible" : "hidden",
+              }
             }
-          }
-          elevation={0}
-        >
-          <Box
-            className="content-wrap"
-            onClick={() => {
-              window.location.href = `/on-demand/${video.id}`;
-            }}
+            elevation={0}
           >
-            <CardMedia
-              component="img"
-              image={video.thumbnail}
-              // ref={imgRef}
-            />
-            <CardContent
-              className="desc"
-              sx={{ padding: "16px 0 0 0", pb: "0 !important" }}
+            <Box className="content-wrap">
+              <Skeleton variant="rectangular" width="100%" height="185px" />
+              <CardContent
+                className="desc"
+                sx={{ padding: "16px 0 0 0", pb: "0 !important" }}
+              >
+                <Skeleton
+                  variant="text"
+                  className="ellipsis title"
+                  sx={{ fontSize: mainFontSize }}
+                  height={43}
+                />
+                <Skeleton
+                  variant="text"
+                  className="ellipsis title"
+                  sx={{ fontSize: xsmallFontSize }}
+                />
+                <Skeleton
+                  variant="text"
+                  className="ellipsis title"
+                  sx={{ fontSize: xsmallFontSize }}
+                />
+              </CardContent>
+            </Box>
+          </Card>
+        )}
+        {!loading && (
+          <Card
+            sx={
+              {
+                // visibility: isLoaded ? "visible" : "hidden",
+              }
+            }
+            elevation={0}
+          >
+            <Box
+              className="content-wrap"
+              onClick={() => {
+                window.location.href = `/on-demand/${video.id}`;
+              }}
             >
-              <Typography
-                component="span"
-                title={video.title}
-                className="ellipsis title"
-                fontSize={mainFontSize}
-                fontWeight={700}
+              <CardMedia
+                component="img"
+                image={video.thumbnail}
+                // ref={imgRef}
+              />
+              <CardContent
+                className="desc"
+                sx={{ padding: "16px 0 0 0", pb: "0 !important" }}
               >
-                {video.title}
-              </Typography>
-              <Typography
-                component="span"
-                className="p0"
-                fontSize={xsmallFontSize}
-                fontWeight={500}
-                color={theme.palette.grey[600]}
-              >
-                {video.speaker}
-              </Typography>
-              <Typography
-                component="span"
-                className="ellipsis affiliation"
-                title={video.affiliation}
-                fontSize={xsmallFontSize}
-                color={theme.palette.grey[500]}
-              >
-                {video.affiliation}
-              </Typography>
-            </CardContent>
-          </Box>
+                <Typography
+                  component="span"
+                  title={video.title}
+                  className="ellipsis title"
+                  fontSize={mainFontSize}
+                  fontWeight={700}
+                >
+                  {video.title}
+                </Typography>
+                <Typography
+                  component="span"
+                  className="p0"
+                  fontSize={xsmallFontSize}
+                  fontWeight={500}
+                  color={theme.palette.grey[600]}
+                >
+                  {video.speaker}
+                </Typography>
+                <Typography
+                  component="span"
+                  className="ellipsis affiliation"
+                  title={video.affiliation}
+                  fontSize={xsmallFontSize}
+                  color={theme.palette.grey[500]}
+                >
+                  {video.affiliation}
+                </Typography>
+              </CardContent>
+            </Box>
 
-          {isAdmin && (
+            {isAdmin && (
+              <NSSButton
+                variant="gradient"
+                fontSize={xsmallFontSize}
+                style={{ position: "absolute" }}
+                startIcon={<EditIcon sx={{ fontSize: "0.9em" }} />}
+                onClick={editClickHandler}
+              >
+                Edit
+              </NSSButton>
+            )}
             <NSSButton
               variant="gradient"
               fontSize={xsmallFontSize}
-              style={{ position: "absolute" }}
-              startIcon={<EditIcon sx={{ fontSize: "0.9em" }} />}
-              onClick={editClickHandler}
+              style={{ marginLeft: "auto" }}
+              onClick={detailClickHandler}
             >
-              Edit
+              Detail
             </NSSButton>
-          )}
-          <NSSButton
-            variant="gradient"
-            fontSize={xsmallFontSize}
-            style={{ marginLeft: "auto" }}
-            onClick={detailClickHandler}
-          >
-            Detail
-          </NSSButton>
-        </Card>
+          </Card>
+        )}
+
         <Card
           sx={{
             position: "absolute",

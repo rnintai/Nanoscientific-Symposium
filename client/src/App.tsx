@@ -381,7 +381,7 @@ const App = () => {
     } else {
       setBannerURL("");
     }
-  }, [bannerURL, window.location.href]);
+  }, [bannerURL, window.location.pathname]);
 
   useEffect(() => {
     if (
