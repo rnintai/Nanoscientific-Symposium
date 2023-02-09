@@ -161,6 +161,7 @@ const S3MultiplePdfUpload = ({
       mktoForm.submit().onSuccess(() => {
         return false;
       });
+      let res2;
       try {
         // DB에 저장
         const res = await axios.post("/api/abstract", {
@@ -183,22 +184,29 @@ const S3MultiplePdfUpload = ({
         });
 
         // 메일 전송
-        const payload = {
+        res2 = await axios.post("/api/mail/abstract", {
           email: configState.alert_receive_email,
           attachments: filePathList,
           nation: pathname,
           formData,
           year: currentYear,
           isFailed: false,
-        };
-        const res2 = await axios.post("/api/mail/abstract", payload);
-        if (!res2.data.success) {
-          payload.isFailed = true;
-          await axios.post("/api/mail/abstract", payload);
-        }
+        });
         setSubmitSuccess(true);
       } catch (err) {
-        alert(err);
+        try {
+          await axios.post("/api/mail/abstract", {
+            email: configState.alert_receive_email,
+            attachments: filePathList,
+            nation: pathname,
+            formData,
+            year: currentYear,
+            isFailed: true,
+          });
+          setSubmitSuccess(true);
+        } catch (error) {
+          alert(error);
+        }
       } finally {
         setSubmitLoading(false);
       }
