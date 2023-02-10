@@ -106,23 +106,34 @@ euRoutes.push(
     },
     {
       path: `/eu/2023/registration`,
-      element: <EuropeRegistration2023 init isStudent={false} />,
+      element: (
+        <EuropeRegistration2023 key="eu-2023-reg" init isStudent={false} />
+      ),
     },
     {
       path: `/eu/2023/registration/student`,
-      element: <EuropeRegistration2023 isStudent />,
+      element: <EuropeRegistration2023 key="eu-2023-reg-student" isStudent />,
     },
     {
       path: `/eu/2023/registration/postdoc`,
-      element: <EuropeRegistration2023 isStudent={false} />,
+      element: (
+        <EuropeRegistration2023 key="eu-2023-reg-postdoc" isStudent={false} />
+      ),
     },
     {
       path: `/eu/2023/registration/student/early`,
-      element: <EuropeRegistration2023 isStudent />,
+      element: (
+        <EuropeRegistration2023 key="eu-2023-reg-early-student" isStudent />
+      ),
     },
     {
       path: `/eu/2023/registration/postdoc/early`,
-      element: <EuropeRegistration2023 isStudent={false} />,
+      element: (
+        <EuropeRegistration2023
+          key="eu-2023-reg-early-postdoc"
+          isStudent={false}
+        />
+      ),
     },
   ],
 );
