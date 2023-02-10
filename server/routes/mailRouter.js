@@ -51,4 +51,7 @@ router.route("/vcode/check").post(mailCtrl.checkVcode);
  */
 router.route("/abstract").post(mailCtrl.sendAbstractAlert);
 
+// regisrtation
+router.route("/registration").post(mailCtrl.sendRegistrationAlert);
+
 module.exports = router;

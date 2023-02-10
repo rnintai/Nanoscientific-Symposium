@@ -25,6 +25,7 @@ import NSSButton from "components/Button/NSSButton";
 import MarketoForm from "components/MarketoForm/MarketoForm";
 import dayjs from "dayjs";
 import useCurrentYear from "hooks/useCurrentYear";
+import useConfigStore from "store/ConfigStore";
 
 type TFN = 1 | 0 | -1;
 
@@ -42,6 +43,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
   const pathname = usePageViews();
   const currentYear = useCurrentYear();
   const nssType = useNSSType();
+  const { configState } = useConfigStore();
   const [isEarlyBird, setIsEarlyBird] = useState<boolean>(false);
   const [isEarlyBirdLoading, setIsEarlyBirdLoading] = useState<boolean>(true);
 
@@ -92,8 +94,18 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
       },
     });
 
-  const thanksHandler = () => {
+  const thanksHandler = (formData: any) => {
     setStage(2);
+    sendAlertMail(formData);
+  };
+
+  const sendAlertMail = async (formData: any) => {
+    const res = await axios.post("/api/mail/registration", {
+      email: configState.alert_receive_email,
+      nation: pathname,
+      formData,
+      year: currentYear,
+    });
   };
 
   const getIsEarlyBird = async () => {
@@ -554,7 +566,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                               ].submit()
                               .onSuccess(() => {
                                 console.log("mkto success");
-                                thanksHandler();
+                                thanksHandler(formData);
                                 return false;
                               });
                           } catch (err) {

@@ -200,4 +200,100 @@ module.exports = {
   </body>
   `;
   },
+  registrationAlertHTML: (formData, year) => {
+    const {
+      Salutation,
+      FirstName,
+      LastName,
+      Company,
+      Department,
+      Email,
+      Phone,
+      Country,
+      psDietaryInformation,
+      psDietaryInformationOthers,
+      psnsforumregistrationq01,
+      psnsforumregistrationq02,
+      psnsforumregistrationq03,
+      psnsforumregistrationq04,
+      psnsforumregistrationq05,
+      psnsforumregistrationq06,
+    } = formData;
+
+    return `<body class="text-center">
+    <div style="padding: 20px 60px;font-family: &quot;Open Sans&quot;, sans-serif;">
+      <h3>Registration Received</h3>
+      <div class="box" style="font-family: &quot;Open Sans&quot;, sans-serif;width: 50%;border: 1px solid #d8d8d8;margin: 0 auto;padding: 10px 20px;font-size: 14px;">
+        <ul>
+          ${Email ? `<li>Email Address: ${Email}</li>` : ""} 
+          <li>Name: ${
+            Salutation ? Salutation : ""
+          } ${FirstName} ${LastName}</li>
+          <li>Company/Organization: ${Company}</li>
+          <li>Department: ${Department ? Department : "N/A"}</li>
+          <li>Contact Number: ${Phone}</li>
+          ${Country ? `<li>Country/Region: ${Country}</li>` : ""}
+          ${
+            psDietaryInformation
+              ? `<li>Dietary requirements: ${psDietaryInformation}</li>`
+              : ``
+          }
+          ${
+            psDietaryInformationOthers
+              ? `<li>Dietary requirements: ${psDietaryInformationOthers}</li>`
+              : ``
+          }
+          ${
+            psnsforumregistrationq01
+              ? `<li>Hands On Session #1: ${psnsforumregistrationq01}</li>`
+              : ``
+          }
+          ${
+            psnsforumregistrationq02
+              ? `<li>Hands On Session #2: ${psnsforumregistrationq02}</li>`
+              : ``
+          }
+          ${
+            psnsforumregistrationq03
+              ? `<li>Hands On Session #3: ${psnsforumregistrationq03}</li>`
+              : ``
+          }
+          ${
+            psnsforumregistrationq04
+              ? `<li>Hands On Session #4: ${psnsforumregistrationq04}</li>`
+              : ``
+          }
+          ${
+            psnsforumregistrationq05
+              ? `<li>Hands On Session #5: ${psnsforumregistrationq05}</li>`
+              : ``
+          }
+          ${
+            psnsforumregistrationq05
+              ? `<li>Hands On Session #5: ${psnsforumregistrationq05}</li>`
+              : ``
+          }
+          
+        </ul>
+      </div>
+      <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
+      <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
+      <span syle="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
+      </span></span></div>  
+      <div class="desc-wrap text-center" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 12px;">
+        <span class="desc desc-1">
+          NANOscientific plans are underway to continue the excitement that comes
+          from scientific innovation and discovery with a new line up for ${year}!
+        </span>
+        <span class="desc desc-2">
+          Stay tuned for the ${year} NANOscientific Event Calendar for your chance to
+          network with leading experts who are pioneering the evolution of
+          scientific discovery at NANOscientific Conferences Worldwide.
+        </span>
+      </div>
+      <a href="https://event.nanoscientific.org/" target="_blank" style="margin-top: 20px; font-size: 13px">https://event.nanoscientific.org/
+    </a></div>
+  </body>
+  `;
+  },
 };
