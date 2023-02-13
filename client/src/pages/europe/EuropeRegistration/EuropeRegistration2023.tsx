@@ -251,6 +251,20 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
     }
   }, [isEarlyBirdLoading]);
 
+  const setRegistrationType = () => {
+    // registration type field 채우기
+    const registrationType = `${isStudent ? "student" : "postdoc"}${
+      window.location.href.indexOf("/early") !== -1 ? "-early" : "-regular"
+    }`;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    window.MktoForms2.allForms()[
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      window.MktoForms2.allForms().length - 1
+    ].addHiddenFields({ psFamtParticipationType: registrationType });
+  };
   return (
     <>
       {/* {mktoLoading && <Loading />} */}
@@ -506,6 +520,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                       // 마케토 validator가 알려줌
                     } else {
                       setCheckout(true);
+                      setRegistrationType();
                     }
                   }}
                 >
