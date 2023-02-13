@@ -213,30 +213,6 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
         const check2 = document.querySelector("#LblpsOptin")?.parentElement;
         check1?.classList.add("flex-reverse");
         check2?.classList.add("flex-reverse");
-
-        // validation & 중복체크
-        document
-          .querySelector("input#Email")
-          ?.addEventListener("focusout", async (e: Event) => {
-            const target = e.target as HTMLInputElement;
-            if (
-              target.value.indexOf("@") === -1 &&
-              target.value.indexOf(".") === -1
-            ) {
-              setEmailValid(0);
-            } else {
-              try {
-                const res = await axios.post("/api/users/checkemail", {
-                  email: target.value,
-                  nation,
-                  year: currentYear,
-                });
-                setEmailValid(!res.data.result ? 1 : 0);
-              } catch (err) {
-                console.log(err);
-              }
-            }
-          });
       },
     );
   }, []);
