@@ -218,6 +218,7 @@ module.exports = {
       psnsforumregistrationq04,
       psnsforumregistrationq05,
       psnsforumregistrationq06,
+      psFamtParticipationType,
     } = formData;
 
     return `<body class="text-center">
@@ -225,6 +226,11 @@ module.exports = {
       <h3>Registration Received</h3>
       <div class="box" style="font-family: &quot;Open Sans&quot;, sans-serif;width: 50%;border: 1px solid #d8d8d8;margin: 0 auto;padding: 10px 20px;font-size: 14px;">
         <ul>
+          ${
+            psFamtParticipationType
+              ? `<li>Registration Type: ${psFamtParticipationType}</li>`
+              : ``
+          }
           ${Email ? `<li>Email Address: ${Email}</li>` : ""} 
           <li>Name: ${
             Salutation ? Salutation : ""
