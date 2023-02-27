@@ -137,15 +137,15 @@ const announcementCtrl = {
         sql = `INSERT INTO announcement
         (title, content, year)
         VALUES
-        ('${title}','${content}' , ${
-          year && year !== "2022" ? `'${year}'` : null
+        ('${title}','${content}'${
+          year && year !== "2022" ? `,'${year}'` : null
         })
         `;
       } else {
         sql = `
         UPDATE announcement SET
         title='${title}',
-        content='${content}',
+        content='${content}'
         WHERE id=${id} and${
           year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
         };

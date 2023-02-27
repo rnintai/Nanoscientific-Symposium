@@ -477,38 +477,34 @@ const usersCtrl = {
   },
 
   updateAnnouncementCache: async (req, res) => {
-    const currentPool = getCurrentPool(req.body.nation);
-    const year = req.body.year;
+    const { nation, year, flag, email } = req.body;
+    const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
       let sql;
       if (useYearList.indexOf(nation) === -1) {
         // useYearList에 없는 경우
-        if (req.body.flag === "cached") {
-          sql = `UPDATE user SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${req.body.email}'`;
-        } else if (req.body.flag === "add") {
-          sql = `UPDATE user SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${req.body.email}'`;
-        } else if (req.body.flag === "delete") {
-          sql = `UPDATE user SET is_announcement_cached=0 WHERE email='${req.body.email}'`;
+        if (flag === "cached") {
+          sql = `UPDATE user SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${email}'`;
+        } else if (flag === "add") {
+          sql = `UPDATE user SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${email}'`;
+        } else if (flag === "delete") {
+          sql = `UPDATE user SET is_announcement_cached=0 WHERE email='${email}'`;
         }
       } else {
-        if (req.body.flag === "cached") {
+        if (flag === "cached") {
           sql = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
-          } SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${
-            req.body.email
-          }'`;
-        } else if (req.body.flag === "add") {
+          } SET is_new_announcement=0, is_announcement_cached=1 WHERE email='${email}'`;
+        } else if (flag === "add") {
           sql = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
-          }r SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${
-            req.body.email
-          }'`;
-        } else if (req.body.flag === "delete") {
+          }r SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${email}'`;
+        } else if (flag === "delete") {
           sql = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
-          } SET is_announcement_cached=0 WHERE email='${req.body.email}'`;
+          } SET is_announcement_cached=0 WHERE email='${email}'`;
         }
       }
       await connection.query(sql);
@@ -521,7 +517,7 @@ const usersCtrl = {
       });
     } catch (err) {
       console.log(err);
-      connection.realse();
+      connection.release();
 
       res.status(500).json({
         success: false,
