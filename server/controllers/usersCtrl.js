@@ -500,7 +500,7 @@ const usersCtrl = {
         } else if (flag === "add") {
           sql = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
-          }r SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${email}'`;
+          } SET is_new_announcement=1, is_announcement_cached=0 WHERE email='${email}'`;
         } else if (flag === "delete") {
           sql = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
