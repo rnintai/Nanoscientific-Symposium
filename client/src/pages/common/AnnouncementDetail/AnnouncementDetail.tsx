@@ -22,6 +22,7 @@ import InnerHTML from "dangerously-set-html-content";
 import CommonModal from "components/CommonModal/CommonModal";
 import QuillEditor from "components/QuillEditor/QuillEditor";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
+import { escapeQuotes } from "utils/String";
 import { AnnouncementDetailContainer } from "./AnnouncementDetailStyles";
 
 const AnnouncementDetail = () => {
@@ -75,7 +76,7 @@ const AnnouncementDetail = () => {
         nation: pathname,
         id: currentAnnouncement.id,
         title,
-        content,
+        content: escapeQuotes(content),
         year: currentYear,
       });
       getAnnouncementDetail();
