@@ -20,7 +20,6 @@ export const EventLandingContainer = styled.div`
     max-width: 1920px;
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 405px);
     height: 100%;
     margin: 0px auto;
     justify-content: center;
@@ -28,9 +27,6 @@ export const EventLandingContainer = styled.div`
   }
 
   @media screen and (max-width: 1024px) {
-    .body-container {
-      min-height: initial;
-    }
     .video-section {
       padding-top: 35px;
     }
@@ -47,9 +43,6 @@ export const EventLandingContainer = styled.div`
   @media screen and (min-width: 1921px) {
     .banner-section {
       height: 600px;
-    }
-    .body-container {
-      min-height: calc(100vh - 705px);
     }
   }
 `;
