@@ -8,6 +8,7 @@ const {
   compareRefreshToken,
 } = require("../utils/jwt");
 
+// 유저 검증 연도별로 할지, 관계없이 할지 여부
 const useYearList = ["eu"];
 
 module.exports = {

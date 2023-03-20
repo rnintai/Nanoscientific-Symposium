@@ -151,25 +151,24 @@ const usersCtrl = {
     }
   },
   checkEmail: async (req, res) => {
-    const currentPool = getCurrentPool(req.body.nation);
+    const { year, email, nation } = req.body;
+    const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-    const year = req.body.year;
-    const userEmail = req.body.email;
 
     try {
       let sql;
       if (useYearList.indexOf(nation) === -1) {
         // useYearList에 없는 경우
         sql = `SELECT EXISTS( 
-          SELECT email FROM user WHERE email="${userEmail}"
-        ) as result;`;
-      } else
+          SELECT email FROM user WHERE email="${email}"
+          ) as result;`;
+      } else {
         sql = `SELECT EXISTS( 
-        SELECT email FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        } WHERE email="${userEmail}"
-      ) as result;`;
-
+          SELECT email FROM ${
+            year && year !== "2022" ? `user_${year}` : `user`
+          } WHERE email="${email}"
+          ) as result;`;
+      }
       const result = await connection.query(sql);
       connection.release();
 

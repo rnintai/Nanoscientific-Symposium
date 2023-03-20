@@ -70,6 +70,15 @@ const ForgotPassword = () => {
     setIsExpired(false);
     setSendHandlerLoading(true);
     try {
+      const passCheckRes = await axios.post("/api/users/checkemail", {
+        email: email.value,
+        nation: pathname,
+        year: currentYear,
+      });
+      if (!passCheckRes.data.result) {
+        setEmailNotExistAlert(true);
+        return;
+      }
       const res = await axios.post("/api/mail/vcode/send", {
         email: email.value,
         nation: pathname,
