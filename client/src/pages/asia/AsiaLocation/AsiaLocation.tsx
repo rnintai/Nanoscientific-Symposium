@@ -3,6 +3,7 @@
 import { Box } from "@mui/system";
 import axios from "axios";
 import LandingTextEditor from "components/LandingTextEditor/LandingTextEditor";
+import useCurrentYear from "hooks/useCurrentYear";
 import usePageViews from "hooks/usePageViews";
 import React, { useEffect, useState } from "react";
 import { escapeQuotes } from "utils/String";
@@ -10,6 +11,7 @@ import { AsiaLocationContainer } from "./AsiaLocationStyles";
 
 const AsiaLocation = () => {
   const pathname = usePageViews();
+  const currentYear = useCurrentYear();
 
   const [initialDescription, setInitialDescription] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -23,6 +25,7 @@ const AsiaLocation = () => {
         params: {
           nation: pathname,
           tableName: "location",
+          year: currentYear,
         },
       });
 
@@ -39,6 +42,7 @@ const AsiaLocation = () => {
           nation: pathname,
           content: escapeQuotes(description),
           tableName: "location",
+          year: currentYear,
         });
         setDescription(description);
         setInitialDescription(description);
