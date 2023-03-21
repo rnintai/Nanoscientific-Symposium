@@ -612,11 +612,13 @@ const Landing = () => {
               src={landingSection1LogoURL}
               alt="logo"
               style={{
-                maxWidth: "600px",
-                height: currentYear === "2023" ? "250px" : "300px",
-                marginBottom: currentYear === "2023" ? "40px" : "0",
-                width: "100%",
-                minWidth: "200px",
+                // maxWidth: "600px",
+                // height: currentYear === "2023" ? "250px" : "300px",
+                // marginBottom: currentYear === "2023" ? "40px" : "0",
+                // width: "100%",
+                // minWidth: "200px",
+                height: "300px",
+                marginBottom: "40px",
               }}
             />
             <Stack
