@@ -604,7 +604,7 @@ const adminCtrl = {
       year=${year && year !== "2022" ? `'${year}'` : null}
       WHERE id=${id}
       `;
-      } else
+      } else {
         sql = `UPDATE speakers SET 
       name='${name}',
       belong='${belong}',
@@ -615,6 +615,7 @@ const adminCtrl = {
       year=${year && year !== "2022" ? `'${year}'` : null}
       WHERE id=${id}
       `;
+      }
 
       const data = await connection.query(sql);
       connection.release();
@@ -640,9 +641,9 @@ const adminCtrl = {
             belong_en='${abstractBelong_en}',
             description='${abstractDesc}',
             description_en='${abstractDesc_en}',
-            ${year && year !== "2022" ? `'${year}'` : null}
+            year=${year && year !== "2022" ? `'${year}'` : null}
           `;
-      } else
+      } else {
         sql2 = `INSERT INTO speaker_abstract (
         speaker_id,
         belong,
@@ -659,6 +660,7 @@ const adminCtrl = {
           description='${abstractDesc}',
           year=${year && year !== "2022" ? `'${year}'` : null}
         `;
+      }
 
       await connection.query(sql2);
       connection.release();

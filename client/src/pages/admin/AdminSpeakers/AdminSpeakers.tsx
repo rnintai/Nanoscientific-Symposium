@@ -7,14 +7,18 @@ import SpeakerCard from "components/SpeakerCard/SpeakerCard";
 import usePageViews from "hooks/usePageViews";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import useCurrentYear from "hooks/useCurrentYear";
+import LanguageSwitcher from "components/LanguageSwitcher/LanguageSwitcher";
+import useAdminStore from "store/AdminStore";
 import { SpeakersContainer } from "../../common/Speakers/SpeakersStyles";
 import SpeakerForm from "../Forms/SpeakerForm";
 import SpeakerHideForm from "../Forms/SpeakerHideForm";
 import LocationChanger from "./SpeakerChanger/LocationChanger";
+import SpeakerFormCN from "../Forms/SpeakerFormCN";
 
 const AdminSpeakers = () => {
   const pathname = usePageViews();
   const currentYear = useCurrentYear();
+  const { currentLanguage } = useAdminStore();
 
   const [openSpeakerForm, setOpenSpeakerForm] = useState<boolean>(false);
   const [openLocationChanger, setOpenLocationChanger] =
@@ -55,12 +59,21 @@ const AdminSpeakers = () => {
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker.speakerType>();
   const [selectedSpeakerDetail, setSelectedSpeakerDetail] =
     useState<Speaker.speakerDetailType>();
-  const config = {
-    params: {
-      nation: pathname,
-      year: currentYear,
-    },
-  };
+  const config =
+    pathname !== "china"
+      ? {
+          params: {
+            nation: pathname,
+            year: currentYear,
+          },
+        }
+      : {
+          params: {
+            nation: pathname,
+            year: currentYear,
+            language: currentLanguage,
+          },
+        };
   const getSpeakers = async () => {
     setLoading(true);
     const speakers = await axios.get(`/api/page/common/speakers`, config);
@@ -141,6 +154,7 @@ const AdminSpeakers = () => {
         isPublished={isPublished}
       >
         <Box className="layout body-fit" sx={{ flexGrow: 1 }}>
+          {pathname === "china" && <LanguageSwitcher />}
           <Grid
             container
             spacing={{ xs: 4, md: 7 }}
@@ -161,8 +175,21 @@ const AdminSpeakers = () => {
             ))}
           </Grid>
         </Box>
-        {openSpeakerForm && (
+        {openSpeakerForm && pathname !== "china" && (
           <SpeakerForm
+            edit={edit}
+            setSpeakerSuccessAlert={setSpeakerSuccessAlert}
+            selectedSpeaker={selectedSpeaker as Speaker.speakerType}
+            selectedSpeakerDetail={
+              selectedSpeakerDetail as Speaker.speakerDetailType
+            }
+            refreshFunction={getSpeakers}
+            openSpeakerForm={openSpeakerForm}
+            setOpenSpeakerForm={setOpenSpeakerForm}
+          />
+        )}
+        {openSpeakerForm && pathname === "china" && (
+          <SpeakerFormCN
             edit={edit}
             setSpeakerSuccessAlert={setSpeakerSuccessAlert}
             selectedSpeaker={selectedSpeaker as Speaker.speakerType}

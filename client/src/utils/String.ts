@@ -8,3 +8,7 @@ export const snakeToPrettyString = (input: string) => {
 export const escapeQuotes = (input: string) => {
   return input.replace(/'/g, `\\'`).replace(/"/g, `\\"`);
 };
+
+export const replaceBr = (input: string) => {
+  return input ? input.replace(/<br \/>/gi, "\n") : "";
+};
