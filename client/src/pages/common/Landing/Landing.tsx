@@ -576,9 +576,7 @@ const Landing = () => {
     getLandingSection4();
     getLandingSection6();
     getLandingSection7();
-    if (pathname === "jp" || pathname === "kr" || pathname === "eu") {
-      getLandingSection8();
-    }
+    getLandingSection8();
   }, []);
 
   if (landingListLoading) {
@@ -1168,6 +1166,7 @@ const Landing = () => {
                           <IconButton
                             component="span"
                             className="sponsor-edit-btn"
+                            key="sponsor-1-edit"
                             size="small"
                             onClick={() => {
                               editSponsorHandler(sponsor);
@@ -1206,6 +1205,7 @@ const Landing = () => {
                           <IconButton
                             component="span"
                             className="sponsor-edit-btn"
+                            key="sponsor-1-edit"
                             size="small"
                             color="primary"
                             onClick={() => {
@@ -1227,6 +1227,149 @@ const Landing = () => {
                       alignItems="center"
                     >
                       <IconButton onClick={addSponsorHandler}>
+                        <AddCircleOutlineIcon color="primary" />
+                      </IconButton>
+                    </Stack>
+                  )}
+                </Stack>
+              </Stack>
+            </LandingSection>
+          )}
+          {/* section8 */}
+          {landingList[6].show !== 0 && landingSection8Sponsors && (
+            <LandingSection fullWidth maxWidth="1920px">
+              <Box ref={landingRefList[6]} />
+              <Stack className="layout">
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <LandingTextEditor
+                    initialValue={landingList[6].title}
+                    value={landing8Title}
+                    setValue={setLanding8Title}
+                    edit={landing8TitleEdit}
+                    setEdit={setLanding8TitleEdit}
+                    preview={landing8TitlePreview}
+                    setPreview={setLanding8TitlePreview}
+                    previewContent={landing8TitlePreviewContent}
+                    setPreviewContent={setLanding8TitlePreviewContent}
+                    applyHandler={applyLanding8Title}
+                    sx={{
+                      mb: 3,
+                      fontSize: headingFontSize,
+                      fontWeight: theme.typography.fontWeightBold,
+                    }}
+                  >
+                    {landing8Title || ""}
+                  </LandingTextEditor>
+                  {isSponsorPreview && (
+                    <Button variant="outlined" onClick={handleReturnSponsor2}>
+                      Return to editor
+                    </Button>
+                  )}
+                </Stack>
+                <Stack
+                  flexWrap="wrap"
+                  alignItems="center"
+                  sx={{
+                    flexDirection: "row",
+                    justifyContent: {
+                      mobile: "center",
+                      tablet: "flex-start",
+                    },
+                  }}
+                >
+                  {isSponsorPreview &&
+                    previewSponsorList.map((sponsor) => (
+                      <Box>
+                        <a
+                          className="hover-zoom"
+                          href={sponsor.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            pointerEvents: sponsor.url ? "inherit" : "none",
+                            position: "relative",
+                          }}
+                        >
+                          <img
+                            src={`${S3_URL}/${sponsor.image_path}`}
+                            alt={sponsor.name}
+                            style={{
+                              maxHeight: sponsor.height
+                                ? sponsor.height
+                                : "80px",
+                              width: "100%",
+                            }}
+                          />
+                        </a>
+                        {isEditor && !isSponsorPreview && (
+                          <IconButton
+                            component="span"
+                            className="sponsor-edit-btn"
+                            key="sponsor-2-edit"
+                            size="small"
+                            onClick={() => {
+                              editSponsorHandler2(sponsor);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        )}
+                      </Box>
+                    ))}
+                  {!isSponsorPreview &&
+                    landingSection8Sponsors.map((sponsor) => (
+                      <Box>
+                        <a
+                          className="hover-zoom"
+                          href={sponsor.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          style={{
+                            pointerEvents: sponsor.url ? "inherit" : "none",
+                            position: "relative",
+                          }}
+                        >
+                          <img
+                            src={`${S3_URL}/${sponsor.image_path}`}
+                            alt={sponsor.name}
+                            style={{
+                              maxHeight: sponsor.height
+                                ? sponsor.height
+                                : "80px",
+                              width: "100%",
+                            }}
+                          />
+                        </a>
+                        {isEditor && !isSponsorPreview && (
+                          <IconButton
+                            component="span"
+                            className="sponsor-edit-btn"
+                            key="sponsor-2-edit"
+                            size="small"
+                            color="primary"
+                            onClick={() => {
+                              editSponsorHandler2(sponsor);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        )}
+                      </Box>
+                    ))}
+                  {isEditor && !isSponsorPreview && (
+                    <Stack
+                      sx={{
+                        width: "110px",
+                        height: "80px",
+                      }}
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <IconButton onClick={addSponsorHandler2}>
                         <AddCircleOutlineIcon color="primary" />
                       </IconButton>
                     </Stack>

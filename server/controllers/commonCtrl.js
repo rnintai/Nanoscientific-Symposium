@@ -537,7 +537,13 @@ const commonCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       let sql;
-      if (nation === "china" && id !== "4" && id !== "7" && id !== "6") {
+      if (
+        nation === "china" &&
+        id !== "4" &&
+        id !== "7" &&
+        id !== "8" &&
+        id !== "6"
+      ) {
         sql = `
         SELECT ${
           language === "china" ? "description" : "description_en"
@@ -667,7 +673,6 @@ const commonCtrl = {
       FROM landing_section_3
       where year${year && year != "2022" ? `=${year}` : ` IS NULL`};
       `;
-      console.log(sql);
       const row = await connection.query(sql);
       connection.release();
       res.status(200).json({
@@ -915,7 +920,6 @@ const commonCtrl = {
       `;
       const row = await connection.query(sql);
       connection.release();
-
       res.status(200).json({
         success: true,
       });
@@ -1033,12 +1037,15 @@ const commonCtrl = {
   },
 
   getEditorContent: async (req, res) => {
-    const { nation, tableName } = req.query;
+    const { nation, tableName, year } = req.query;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
       SELECT * FROM ${tableName}_content
+      ${
+        year && year !== "2022" ? ` WHERE year="${year}"` : `WHERE year IS NULL`
+      }
       `;
       const row = await connection.query(sql);
 
@@ -1057,13 +1064,15 @@ const commonCtrl = {
     }
   },
   updateEditorContent: async (req, res) => {
-    const { nation, content, tableName } = req.body;
+    const { nation, content, tableName, year } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       const sql = `
       UPDATE ${tableName}_content SET description='${content}'
-      WHERE id=1
+      ${
+        year && year !== "2022" ? ` WHERE year="${year}"` : `WHERE year IS NULL`
+      }
       `;
       await connection.query(sql);
       connection.release();
