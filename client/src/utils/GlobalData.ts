@@ -460,7 +460,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "americas2023",
     {
-      fullName: "2022 NANOscientific Symposium Americas | NSS Americas",
+      fullName: "2023 NANOscientific Symposium Americas | NSS Americas",
       fullDate: "September 29, 2022",
       // eventLocation: "TBD",
       logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
@@ -667,6 +667,11 @@ export const globalData = new Map<string, Common.globalDataType>([
 
       // comingSoon
       comingSoonText: "没有要显示的内容。",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+      uploadBtnText: "Upload",
     },
   ],
   [
@@ -722,6 +727,132 @@ export const globalData = new Map<string, Common.globalDataType>([
 
       // comingSoon
       comingSoonText: "Coming Soon",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+      uploadBtnText: "Upload",
+    },
+  ],
+  [
+    "china2023_china",
+    {
+      fullName: "2023 NanoScientific Symposium China | NSS China",
+      fullDate: "10月27-28日",
+      eventLocation: "郑州大学",
+      logoURL: `${CHINA_S3_URL}/menu-bar-logo.svg?v=0.1`,
+      speakers: "报告人",
+      programs: "会议日程",
+      lectureHall: "会议室",
+      exhibitHall: "展位",
+      home: "主页",
+      registration: "报名参会",
+      // buttonText
+      signInText: "登录",
+      goNextText: "下一步",
+      goPrevText: "上一步",
+      submitBtnText: "提交",
+      // user관련
+      emailInputLabel: "邮箱地址",
+      passwordInputLabel: "密码",
+      forgotPasswordText: "忘记密码",
+      createAccountText: "创建新账户",
+
+      // lecture hall 관련
+      liveText: "直播",
+      browserJoinBtnText: "通过浏览器页面参加",
+      appJoinBtnText: "通过Zoom App参加",
+      registerBtnText: "登录",
+
+      adminBtnText: "ADMIN",
+      signOutBtnText: "退出",
+      changePasswordBtnText: "更改密码",
+      // landing
+      showLandingSection1: true,
+      landingSection1BackgroundURL: `${CHINA_S3_URL}/main-page-banner.jpg`,
+      landingSection1LogoURL: `${CHINA_S3_URL}/logo-type-1b.svg`,
+      landingSection1Desc:
+        "点击参加2022年第四届纳米科学大会- 纳米科学与扫描探针显微术交流平台",
+
+      // resetPassword
+      resetPasswordHeading: "更改密码",
+      setPasswordHeading: "设置密码",
+      resetPasswordCurrentLabel: "当前密码",
+      resetPasswordNewLabel: "新密码",
+      resetPasswordNewConfirmLabel: "新密码确认",
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
+
+      // comingSoon
+      comingSoonText: "没有要显示的内容。",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+      uploadBtnText: "Upload",
+    },
+  ],
+  [
+    "china2023_english",
+    {
+      fullName: "2023 NanoScientific Symposium China | NSS China",
+      fullDate: "October 27-28, 2022",
+      eventLocation: "Zhengzhou University",
+      logoURL: `${CHINA_S3_URL}/menu-bar-logo.svg?v=0.1`,
+      speakers: "Speakers",
+      programs: "Progrmas",
+      lectureHall: "Lecture Hall",
+      exhibitHall: "Exhibit Hall",
+      home: "Home",
+      registration: "REGISTRATION",
+      // buttonText
+      signInText: "Sign in",
+      goNextText: "Next",
+      goPrevText: "Prev",
+      submitBtnText: "SUBMIT",
+      // user관련
+      emailInputLabel: "Email Address",
+      passwordInputLabel: "Password",
+      forgotPasswordText: "Forgot your password?",
+      createAccountText: "Create an account",
+      // lecture hall 관련
+      liveText: "LIVE",
+      browserJoinBtnText: "Join via Browser",
+      appJoinBtnText: "Join via Zoom App",
+      registerBtnText: "Register",
+
+      adminBtnText: "Admin",
+      signOutBtnText: "Sign Out",
+      changePasswordBtnText: "Change Password",
+      // landing
+      showLandingSection1: true,
+      landingSection1BackgroundURL: `${CHINA_S3_URL}/main-page-banner.jpg`,
+      landingSection1LogoURL: `${CHINA_S3_URL}/logo-type-1b.svg`,
+      landingSection1Desc:
+        "Join the 2022 NanoScientific Symposium China (NSS China) – Connecting the SPM Community.",
+
+      // resetPassword
+      resetPasswordHeading: "Change a Password",
+      setPasswordHeading: "Set a Password",
+      resetPasswordCurrentLabel: "Current Password",
+      resetPasswordNewLabel: "New Password",
+      resetPasswordNewConfirmLabel: "New Password Confirm",
+
+      // cookie
+      cookieConsentText:
+        "We use cookies and similar technologies to enable services and functionality on our site and to understand your interaction with our sevice. By clicking on accept, you agree to our use of such technologies for marketing and analytics.",
+      seePrivacyPolicyText: "See privacy policy",
+
+      // comingSoon
+      comingSoonText: "Coming Soon",
+
+      // pdf upload
+      pdfUploadDescription:
+        "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+      uploadBtnText: "Upload",
     },
   ],
 ]);
