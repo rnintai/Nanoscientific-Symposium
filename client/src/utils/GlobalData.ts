@@ -142,7 +142,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       fullName: "2023 NANOscientific Symposium Asia | NSS Asia",
       fullDate: "November 25, 2022",
       eventLocation: "Marina Bay Sands, Singapore (Hybrid Event)",
-      logoURL: `${S3_URL}/asia/menu-bar-logo.svg?v=0.03`,
+      logoURL: `${S3_URL}/asia/nss-logo-fixed-asia.png`,
       speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -165,7 +165,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/asia/main-page-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/asia/logo-type-1b.svg`,
+      landingSection1LogoURL: `${S3_URL}/asia/nss-logo-2023-asia.png`,
       landingSection1Desc:
         "Join us for the 4th edition of the NANOscientific Symposium Asia 2022 to be held on November 25, 2022.",
 
@@ -250,7 +250,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       fullName: "2022 NANOscientific Symposium Korea | NSS Korea",
       fullDate: "2022년 11월 23일",
       eventLocation: "대전컨벤션센터 컨퍼런스홀",
-      logoURL: `${S3_URL}/kr/menu-bar-logo.svg?v=0.03`,
+      logoURL: `${S3_URL}/kr/nss-logo-fixed-kr.png`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
       programs: "프로그램",
@@ -275,7 +275,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.png`,
-      landingSection1LogoURL: `${S3_URL}/kr/logo-type-1b.svg`,
+      landingSection1LogoURL: `${S3_URL}/kr/nss-logo-2023-kr.png`,
       landingSection1Desc: `
         NANOscientific Symposium Korea 등록하기
         <br/><br/>
@@ -361,7 +361,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       fullName: "2022 NANOscientific Symposium Japan | NSS Japan",
       fullDate: "2022年11月18日金曜日",
       eventLocation: "東京大学 本郷キャンパス 工学部２号館",
-      logoURL: `${S3_URL}/jp/menu-bar-logo.svg?v=0.03`,
+      logoURL: `${S3_URL}/jp/nss-logo-fixed-jp.png`,
       speakers: "講演者",
       programs: "プログラム",
       lectureHall: "Web講演会",
@@ -389,7 +389,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/jp/main-page-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/jp/logo-type-1b.svg`,
+      landingSection1LogoURL: `${S3_URL}/jp/nss-logo-2023-jp.png`,
       landingSection1Desc: `
         ナノテクノロジーとSPMに特化したナノ科学シンポジウム 2022 参加登録受付中！
         `,
@@ -463,7 +463,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       fullName: "2023 NANOscientific Symposium Americas | NSS Americas",
       fullDate: "September 29, 2022",
       // eventLocation: "TBD",
-      logoURL: `${S3_URL}/us/menu-bar-logo.svg?v=0.03`,
+      logoURL: `${S3_URL}/us/nss-logo-fixed-americas.png`,
       speakers: "Speakers",
       programs: "PROGRAM",
       lectureHall: "LECTURE HALL",
@@ -485,7 +485,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
-      landingSection1LogoURL: `${S3_URL}/us/logo-type-1b.svg`,
+      landingSection1LogoURL: `${S3_URL}/us/nss-logo-2023-americas.png`,
       landingSection1Desc:
         "Join the 2022 NANOscientific Symposium Americas (NSS Americas)- Connecting the Nanomaterials Community.",
 
@@ -740,7 +740,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       fullName: "2023 NanoScientific Symposium China | NSS China",
       fullDate: "10月27-28日",
       eventLocation: "郑州大学",
-      logoURL: `${CHINA_S3_URL}/menu-bar-logo.svg?v=0.1`,
+      logoURL: `${CHINA_S3_URL}/nss-logo-fixed-cn.png`,
       speakers: "报告人",
       programs: "会议日程",
       lectureHall: "会议室",
@@ -770,7 +770,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${CHINA_S3_URL}/main-page-banner.jpg`,
-      landingSection1LogoURL: `${CHINA_S3_URL}/logo-type-1b.svg`,
+      landingSection1LogoURL: `${CHINA_S3_URL}/nss-logo-2023-cn.png`,
       landingSection1Desc:
         "点击参加2022年第四届纳米科学大会- 纳米科学与扫描探针显微术交流平台",
 
@@ -801,7 +801,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       fullName: "2023 NanoScientific Symposium China | NSS China",
       fullDate: "October 27-28, 2022",
       eventLocation: "Zhengzhou University",
-      logoURL: `${CHINA_S3_URL}/menu-bar-logo.svg?v=0.1`,
+      logoURL: `${CHINA_S3_URL}/nss-logo-fixed-cn.png`,
       speakers: "Speakers",
       programs: "Progrmas",
       lectureHall: "Lecture Hall",
@@ -830,7 +830,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${CHINA_S3_URL}/main-page-banner.jpg`,
-      landingSection1LogoURL: `${CHINA_S3_URL}/logo-type-1b.svg`,
+      landingSection1LogoURL: `${CHINA_S3_URL}/nss-logo-2023-cn.png`,
       landingSection1Desc:
         "Join the 2022 NanoScientific Symposium China (NSS China) – Connecting the SPM Community.",
 
