@@ -14,7 +14,7 @@ const YoutubeEmbed = ({ embedId, url, width, height }: YoutubeEmbedProps) => {
   if (embedId) {
     resultSrc = `https://www.youtube.com/embed/${embedId}?autoplay=1&mute=1&playsinline=1`;
   } else if (url) {
-    if (url.indexOf("embed") !== -1) {
+    if (url.indexOf("embed") !== -1 || url.indexOf("bilibili") !== -1) {
       resultSrc = url;
     } else if (url.indexOf("watch") !== -1) {
       const calculatedEmbedId = url.split("v=")[1].split("&")[0];
