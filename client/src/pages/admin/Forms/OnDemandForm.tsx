@@ -112,10 +112,12 @@ const OnDemandForm = ({
   const initList = async () => {
     setSelectedApplication(application);
     try {
-      const res = await axios.get("/api/ondemand/application/list/id", {
-        params: { application: application.map((m) => `"${m}"`).join(",") },
-      });
-      setSelectedIndex(res.data.result.map((m) => m.id));
+      if (application.length > 0) {
+        const res = await axios.get("/api/ondemand/application/list/id", {
+          params: { application: application.map((m) => `"${m}"`).join(",") },
+        });
+        setSelectedIndex(res.data.result.map((m) => m.id));
+      }
     } catch (error) {
       console.log(error);
     }
