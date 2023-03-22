@@ -1,7 +1,7 @@
 const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
 module.exports = {
-  forgotPasswordHTML: (heading, code, desc, year) => {
+  forgotPasswordHTML: (heading, code, year) => {
     return `
     <table
   cellpadding="0"
@@ -67,7 +67,9 @@ module.exports = {
     <tr>
       <td>
       <p style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
-      <span style="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
+      <span style="color: black;">${
+        year ? `${year} ` : ""
+      }</span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
         </span></span>
       </p>
       </td>
@@ -77,10 +79,14 @@ module.exports = {
         <p style="font-size: 12px;">
           <span>
             NANOscientific plans are underway to continue the excitement that comes
-            from scientific innovation and discovery with a new line up for ${year}!
+            from scientific innovation and discovery with a new line up for ${
+              year ? `${year} ` : ""
+            }
           </span>
           <span>
-            Stay tuned for the ${year} NANOscientific Event Calendar for your chance to
+            Stay tuned for the ${
+              year ? `${year} ` : ""
+            }NANOscientific Event Calendar for your chance to
             network with leading experts who are pioneering the evolution of
             scientific discovery at NANOscientific Conferences Worldwide.
           </span> 
@@ -182,15 +188,21 @@ module.exports = {
       ${attachments ? attachmentHTMLList.map((a) => a) : ``}
       <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
       <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
-      <span syle="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
+      <span syle="color: black;">${
+        year ? `${year} ` : ""
+      }</span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
       </span></span></div>  
       <div class="desc-wrap text-center" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 12px;">
         <span class="desc desc-1">
           NANOscientific plans are underway to continue the excitement that comes
-          from scientific innovation and discovery with a new line up for ${year}!
+          from scientific innovation and discovery with a new line up for ${
+            year ? `${year} ` : ""
+          }
         </span>
         <span class="desc desc-2">
-          Stay tuned for the ${year} NANOscientific Event Calendar for your chance to
+          Stay tuned for the ${
+            year ? `${year} ` : ""
+          }NANOscientific Event Calendar for your chance to
           network with leading experts who are pioneering the evolution of
           scientific discovery at NANOscientific Conferences Worldwide.
         </span>
@@ -284,15 +296,21 @@ module.exports = {
       </div>
       <hr style="margin: 20px 0;width: 100%;border-top: 1px solid #d8d8d8;">
       <div class="comming-title" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 20px;font-weight: 700;">
-      <span syle="color: black;">${year} </span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
+      <span syle="color: black;">${
+        year ? `${year} ` : ""
+      }</span><span style="color: #003e7f">NANO<span><span style="color: #16aee5">scientific</span>
       </span></span></div>  
       <div class="desc-wrap text-center" style="font-family: &quot;Open Sans&quot;, sans-serif;font-size: 12px;">
         <span class="desc desc-1">
           NANOscientific plans are underway to continue the excitement that comes
-          from scientific innovation and discovery with a new line up for ${year}!
+          from scientific innovation and discovery with a new line up for ${
+            year ? `${year} ` : ""
+          }
         </span>
         <span class="desc desc-2">
-          Stay tuned for the ${year} NANOscientific Event Calendar for your chance to
+          Stay tuned for the ${
+            year ? `${year} ` : ""
+          }NANOscientific Event Calendar for your chance to
           network with leading experts who are pioneering the evolution of
           scientific discovery at NANOscientific Conferences Worldwide.
         </span>

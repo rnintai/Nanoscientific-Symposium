@@ -43,7 +43,7 @@ const mailCtrl = {
         } <event@nanoscientific.org>`,
         to: email,
         subject: `[${code}] Verification Code`,
-        html: mailHTML.forgotPasswordHTML("Reset Your Password", code),
+        html: mailHTML.forgotPasswordHTML("Reset Your Password", code, year),
       });
 
       // info.accepted: [], info.rejected: [].
