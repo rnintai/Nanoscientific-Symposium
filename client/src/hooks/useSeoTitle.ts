@@ -12,6 +12,7 @@ const useSeoTitle = (pathname: string, year: string, nssType: string) => {
     case "jp":
     case "kr":
     case "asia":
+    case "china":
     case "eu": {
       fullName = globalData.get(nssType).fullName;
       break;
