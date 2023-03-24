@@ -140,8 +140,8 @@ export const globalData = new Map<string, Common.globalDataType>([
     "asia2023",
     {
       fullName: "2023 NANOscientific Symposium Asia | NSS Asia",
-      fullDate: "November 25, 2022",
-      eventLocation: "Marina Bay Sands, Singapore (Hybrid Event)",
+      fullDate: "November 3, 2023",
+      eventLocation: "Indian Institute of Science, Bangalore​",
       logoURL: `${S3_URL}/asia/nss-logo-fixed-asia.png`,
       speakers: "Speakers",
       programs: "PROGRAM",
@@ -247,9 +247,9 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "kr2023",
     {
-      fullName: "2022 NANOscientific Symposium Korea | NSS Korea",
-      fullDate: "2022년 11월 23일",
-      eventLocation: "대전컨벤션센터 컨퍼런스홀",
+      fullName: "2023 NANOscientific Symposium Korea | NSS Korea",
+      fullDate: "TBD",
+      eventLocation: "차세대융합기술원",
       logoURL: `${S3_URL}/kr/nss-logo-fixed-kr.png`,
       speakers: "초청연사",
       symposium: "심포지엄 안내",
@@ -358,9 +358,9 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "jp2023",
     {
-      fullName: "2022 NANOscientific Symposium Japan | NSS Japan",
-      fullDate: "2022年11月18日金曜日",
-      eventLocation: "東京大学 本郷キャンパス 工学部２号館",
+      fullName: "2023 NANOscientific Symposium Japan | NSS Japan",
+      fullDate: "TBD",
+      eventLocation: "Kanto Gakuin University, Kannai Campus",
       logoURL: `${S3_URL}/jp/nss-logo-fixed-jp.png`,
       speakers: "講演者",
       programs: "プログラム",
@@ -461,8 +461,9 @@ export const globalData = new Map<string, Common.globalDataType>([
     "americas2023",
     {
       fullName: "2023 NANOscientific Symposium Americas | NSS Americas",
-      fullDate: "September 29, 2022",
-      // eventLocation: "TBD",
+      fullDate: "November 29, 2023",
+      eventLocation:
+        "Instituto de Física, Universidad Nacional Autónoma de México",
       logoURL: `${S3_URL}/us/nss-logo-fixed-americas.png`,
       speakers: "Speakers",
       programs: "PROGRAM",
@@ -560,7 +561,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2023 NANOscientific Forum Europe | NSF Europe",
       fullDate: "September 13-15, 2023",
-      eventLocation: "ICFO - The Institute of Photonic Sciences, Barcelona",
+      eventLocation: "ICFO, Barcelona",
       logoURL: `${S3_URL}/eu/menu-bar-logo.png?v=0.04`,
       speakers: "Speakers",
       programs: "PROGRAM",
@@ -738,8 +739,8 @@ export const globalData = new Map<string, Common.globalDataType>([
     "china2023_china",
     {
       fullName: "2023 NanoScientific Symposium China | NSS China",
-      fullDate: "10月27-28日",
-      eventLocation: "郑州大学",
+      fullDate: "TBD",
+      // eventLocation: "郑州大学",
       logoURL: `${CHINA_S3_URL}/nss-logo-fixed-cn.png`,
       speakers: "报告人",
       programs: "会议日程",
@@ -799,8 +800,8 @@ export const globalData = new Map<string, Common.globalDataType>([
     "china2023_english",
     {
       fullName: "2023 NanoScientific Symposium China | NSS China",
-      fullDate: "October 27-28, 2022",
-      eventLocation: "Zhengzhou University",
+      fullDate: "TBD",
+      // eventLocation: "Zhengzhou University",
       logoURL: `${CHINA_S3_URL}/nss-logo-fixed-cn.png`,
       speakers: "Speakers",
       programs: "Progrmas",
