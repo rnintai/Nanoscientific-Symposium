@@ -584,7 +584,8 @@ const commonCtrl = {
     SELECT ${
       language === "china" ? "description" : "description_en"
     } as description
-    FROM landing_section_2;
+    FROM landing_section_2 
+    WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`};
     `;
       const row = await connection.query(sql);
       connection.release();
@@ -604,16 +605,7 @@ const commonCtrl = {
     const { nation, title, description, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-    let queryId;
-    switch (year) {
-      case "2023": {
-        queryId = 8;
-        break;
-      }
-      default: {
-        queryId = 1;
-      }
-    }
+
     try {
       let sql;
       if (nation === "china") {
@@ -621,11 +613,11 @@ const commonCtrl = {
         ${
           language === "china" ? "description" : "description_en"
         }='${description}'
-        WHERE id=1 and year${year && year != "2022" ? `=${year}` : ` IS NULL`}`;
+        WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`}`;
       } else
         sql = `UPDATE landing_section_2 SET 
       description='${description}'
-      WHERE id = 1 and year${year && year != "2022" ? `=${year}` : ` IS NULL`}
+      WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql);
       connection.release();
@@ -634,11 +626,14 @@ const commonCtrl = {
       if (nation === "china") {
         `UPDATE landing_section SET 
     ${language === "china" ? "title" : "title_en"}='${title}'
-    WHERE id=${queryId}`;
+    WHERE section_no=2 and
+    year${year && year != "2022" ? `=${year}` : ` IS NULL`}
+    `;
       } else
         sql2 = `UPDATE landing_section SET 
       title='${title}'
-      WHERE id=${queryId}
+      WHERE section_no=2 and
+      year${year && year != "2022" ? `=${year}` : ` IS NULL`}
       `;
       await connection.query(sql2);
       connection.release();
@@ -648,6 +643,7 @@ const commonCtrl = {
       });
     } catch (err) {
       connection.release();
+      console.log(err);
       res.status(500).json({
         success: false,
         err,
@@ -692,6 +688,7 @@ const commonCtrl = {
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     let queryId;
+    const sectionNo = 3;
     switch (year) {
       case "2023": {
         queryId = 9;
