@@ -503,17 +503,15 @@ const commonCtrl = {
         landing_section.${
           language === "china" ? "title" : "title_en"
         }='${title}'
-        WHERE id=${id} and${
-          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-        }
+        WHERE section_no=${id} and
+        year${year && year != "2022" ? `=${year}` : ` IS NULL`}
         `;
       } else
         sql = `
         UPDATE landing_section SET 
         landing_section.title='${title}'
-        WHERE id=${id} and${
-          year && year !== "2022" ? ` year="${year}"` : ` year IS NULL`
-        }
+        WHERE section_no=${id} and
+        year${year && year != "2022" ? `=${year}` : ` IS NULL`}
         `;
       await connection.query(sql);
       connection.release();
@@ -687,17 +685,7 @@ const commonCtrl = {
     const { nation, title, description, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
-    let queryId;
-    const sectionNo = 3;
-    switch (year) {
-      case "2023": {
-        queryId = 9;
-        break;
-      }
-      default: {
-        queryId = 3;
-      }
-    }
+
     try {
       let sql;
       if (nation === "china") {
@@ -705,7 +693,8 @@ const commonCtrl = {
         ${
           language === "china" ? "description" : "description_en"
         }='${description}'
-        WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`}`;
+        WHERE year${year && year != "2022" ? `=${year}` : ` IS NULL`}
+        `;
       } else
         sql = `UPDATE landing_section_3 SET 
       description='${description}'
@@ -717,11 +706,15 @@ const commonCtrl = {
       if (nation === "china") {
         sql2 = `UPDATE landing_section SET 
         ${language === "china" ? "title" : "title_en"}='${title}'
-      WHERE id=${queryId}`;
+        WHERE section_no=3 and
+        year${year && year != "2022" ? `=${year}` : ` IS NULL`}
+      `;
       } else
         sql2 = `UPDATE landing_section SET 
       title='${title}'
-      WHERE id=${queryId}
+      WHERE section_no=3 and
+      year${year && year != "2022" ? `=${year}` : ` IS NULL`}
+  
       `;
       await connection.query(sql2);
       connection.release();
