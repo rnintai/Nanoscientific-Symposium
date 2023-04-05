@@ -1,7 +1,7 @@
 import OnDemand from "pages/common/OnDemand/OnDemand";
-import EventLanding from "pages/common/EventLanding/EventLanding";
 import React from "react";
 import OnDemandVideo from "pages/common/OnDemandVideo/OnDemandVideo";
+import EventLanding from "pages/common/EventLanding/EventLanding";
 
 export default [
   {

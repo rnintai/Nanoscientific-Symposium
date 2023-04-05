@@ -14,54 +14,135 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       nations: [
         {
-          name: "NSS Americas",
-          date: "Sep 29, 2022",
-          path: "https://event.nanoscientific.org/americas",
-          img: `${S3_URL}/us/main-page-banner.jpg`,
-        },
-        {
-          name: "NSF Europe",
-          date: "Oct 06 - 07, 2022",
-          path: "https://event.nanoscientific.org/eu",
-          img: `${S3_URL}/eu/main-page-banner.jpg`,
-        },
-        {
-          name: "NSS China",
-          date: "Oct 27 - 28, 2022",
-          path: "https://nanoscientific.com.cn/china",
-          img: `${S3_URL}/cn/main-page-banner.jpg`,
-        },
-        {
-          name: "NSS Japan",
-          date: "Nov 18, 2022",
-          path: "https://event.nanoscientific.org/jp",
-          img: `${S3_URL}/jp/main-page-banner.jpg`,
-        },
-        {
-          name: "NSS Korea",
-          date: "Nov 23, 2022",
+          name: "Suwon, South Korea",
+          date: "29 - 30 June 2023",
           path: "https://event.nanoscientific.org/kr",
-          img: `${S3_URL}/kr/main-page-banner.jpg`,
+          img: `${S3_URL}/common/landing/Web_Korea.jpg`,
+          type: "NSS Korea",
         },
         {
-          name: "NSS Asia",
-          date: "Nov 25, 2022",
+          name: "Barcelona, Spain",
+          date: "13 - 15 September 2023",
+          path: "https://event.nanoscientific.org/eu",
+          img: `${S3_URL}/common/landing/Web_Europe.jpg`,
+          type: "NSF Europe",
+        },
+        {
+          name: "Yokohama, Japan",
+          date: "20 October 2023",
+          path: "https://event.nanoscientific.org/jp",
+          img: `${S3_URL}/common/landing/Web_Japan.jpg`,
+          type: "NSS Japan",
+        },
+        {
+          name: "Bangalore​, India",
+          date: "3 November 2023",
           path: "https://event.nanoscientific.org/asia",
-          img: `${S3_URL}/asia/main-page-banner.jpg`,
+          img: `${S3_URL}/common/landing/Web_Asia.jpg`,
+          type: "NSS Asia",
+        },
+        {
+          name: "México City, México​",
+          date: "29 November 2023",
+          path: "https://event.nanoscientific.org/americas",
+          img: `${S3_URL}/common/landing/Web_Americas.jpg`,
+          type: "NSS Americas",
+        },
+
+        {
+          name: "Beijing, China",
+          date: "COMING SOON",
+          path: "https://nanoscientific.com.cn/china",
+          img: `${S3_URL}/common/landing/Web_China.jpg`,
+          type: "NSS China",
         },
       ],
       logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
       teaserVideoURL: `${S3_URL}/common/2022NSS_Teaser_v1.0_LQ.mp4`,
       teaserVideoEmbed: "R9vwS37g9SU",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
-      eventLandingMainBannerURL: `${S3_URL}/common/main-landing-banner.jpg`,
+      eventLandingMainBannerURL: `${S3_URL}/common/landing/Main_Banner.jpg`,
+      eventLandingMainBannerMobileURL: `${S3_URL}/common/landing/2023NSS_Mobile_Banner.jpg`,
+      eventLandingHeading:
+        "Connecting Global Experts in SPM for Advancements in Nanoscience and Technology",
       eventLandingDesc: `
-      The growing importance of nanotechnology in many fields, including surface science, organic chemistry, molecular biology, semiconductor physics, and micro-manufacturing. And those who strive to acquire the technology.
-      NANOscientific Symposium brings together industry experts, researchers, business leaders, scholars, and futurist to share the latest nanotechnology trends and various nanotechnology-based research results.
-      An opportunity to discuss and experience firsthand what innovative research results have been derived using the latest SPM (Scanning Probe Microscopy) technology.
-      We invite you to the NANOscientific Symposium 2022.
-      Expand your insight through the NANOscientific Symposium.
+      Join us for a truly international symposium on scanning probe microscopy! Our event will feature speakers from across the world, presenting groundbreaking research and discussing the latest advancements and techniques in SPM. Don't miss this opportunity to connect with the worldwide community of SPM researchers and expand your knowledge of this exciting field. 
+      <br /><br />Our symposium brings together experts from around the globe to explore the science, engineering, and applications of nanotechnology. Featuring keynote addresses and virtual networking opportunities, attendees can form connections and propel their research, innovation, and businesses forward.
       `,
+      eventLandingSection2Heading:
+        "Experience the Diverse Benefits of In-Person Interactions!",
+      eventLandingSection2Content: [
+        {
+          icon: `${S3_URL}/common/landing/Icon_Keynote.svg`,
+          title: "Face-to-Face Networking",
+          desc: "Get insights from renowned experts in the field of nanotechnology and SPM.",
+        },
+        {
+          icon: `${S3_URL}/common/landing/Icon_Demo.svg`,
+          title: "Live Demos",
+          desc: "See SPM equipment in action and learn from the SPM/AFM experts.",
+        },
+        {
+          icon: `${S3_URL}/common/landing/Icon_Hands-on.svg`,
+          title: "Hands-on Session",
+          desc: "Take your knowledge to the next level with the hands-on session, facilitated by experienced professionals.",
+        },
+        {
+          icon: `${S3_URL}/common/landing/Icon_Poster.svg`,
+          title: "Poster Session",
+          desc: "Showcase your research of SPM application and win awards during the poster session. ",
+        },
+        {
+          icon: `${S3_URL}/common/landing/Icon_Exhibit.svg`,
+          title: "Exhibit",
+          desc: "Discover the latest and most advanced SPM-related equipment at the Park exhibit hall.",
+        },
+      ],
+      eventLandingSection3Heading: "Get More NANOscieitific Knowledge",
+      eventLandingSection3Content: [
+        {
+          image: `${S3_URL}/common/landing/NANOscientific_Magazine.jpg`,
+          title: "NanoScientific Magazine",
+          desc: "NanoScientific Magazine provides in-depth coverage of the latest techniques and trends related to nano research, with a focus on SPM and its related fields. It is a go-to resource for scientists, researchers, and industry professionals seeking the latest insights and analysis in nanoscale imaging and manipulation, cutting-edge developments in materials science, and beyond.",
+          link: "https://nanoscientific.org/",
+        },
+        {
+          image: `${S3_URL}/common/landing/NanoScientific_On-Demand.jpg`,
+          title: "NanoScientific On-Demand",
+          desc: "NanoScientific On-Demand provides easy access to recorded presentations from all the NSS symposiums, categorized by topics. It allows you to deep dive into specific techniques or applications, stay current with the latest SPM research, catch up on missed sessions, review key topics, and stay ahead in your field.",
+          link: "https://www.youtube.com/@parksystems/playlists",
+        },
+        {
+          image: `${S3_URL}/common/landing/NanoAcademy-Online.jpg`,
+          title: "NanoAcademy Online",
+          desc: "The NanoAcademy Online provides scientific research and educational materials on subjects related to nanoscience. You can explore interactive webinars, tutorials, and live demonstrations, and discover both the basics and advanced atomic force microscopy techniques from AFM experts.",
+          link: "https://www.parksystems.com/learning-center/programs/online-nanoacademy",
+        },
+      ],
+
+      eventLandingSponsorSectionHeading: "Sponsors",
+      eventLandingSponsorSectionDesc:
+        "The NanoScientific Symposium is sponsored by Park Systems, a leading manufacturer of nanoscale microscopy and metrology solutions that encompasses the atomic force microscopy, white light interferometry, infrared spectroscopy and ellipsometry systems. As a trusted name in the industry, Park Systems is committed to providing high-quality and innovative solutions to researchers and scientists worldwide. We are grateful for its support in making this event possible.",
+      eventLandingSponsorSectionContent: [
+        {
+          name: "NANOscientific",
+          img: `${S3_URL}/common/landing/NANOscientific_logo_BK.png`,
+          url: "https://nanoscientific.org/",
+          height: 30,
+        },
+        {
+          name: "Park Systems",
+          img: `${S3_URL}/common/landing/park_logo.png`,
+          url: "https://parksystems.com/",
+          height: 125,
+        },
+        {
+          name: "NWA",
+          img: `${S3_URL}/common/landing/NWA_logo.PNG`,
+          url: "https://www.nanotechnologyworld.org/",
+          height: 140,
+        },
+      ],
       sponsor1LogoURL: `${S3_URL}/common/sponsored_by_NS.svg`,
       sponsor2LogoURL: `${S3_URL}/common/Park_logo.svg`,
       sponsor3LogoURL: `${S3_URL}/upload/china/sponsor/NWAlogo2022_1664861519562.PNG`,

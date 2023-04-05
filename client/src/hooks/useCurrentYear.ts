@@ -1,7 +1,7 @@
 import { useLocation } from "react-router";
 
 export const yearList = ["2022", "2023"];
-export const defaultYear = "2022";
+export const defaultYear = "2023";
 
 const useCurrentYear = () => {
   const { pathname } = useLocation();

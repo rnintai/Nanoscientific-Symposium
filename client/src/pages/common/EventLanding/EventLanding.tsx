@@ -1,20 +1,26 @@
-import { Box, Stack, Typography, useTheme } from "@mui/material";
-import LandingNationCard from "components/Card/LandingNationCard";
+import { Box, Stack, Typography } from "@mui/material";
 import LandingSection from "components/Section/LandingSection";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { globalData } from "utils/GlobalData";
-import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
-import BackgroundVectorColored from "components/BackgroundVector/BackgroundVectorColored";
-import { mainFontSize } from "utils/FontSize";
 import InnerHTML from "dangerously-set-html-content";
+import LandingNationCard from "components/Card/LandingNationCard";
+import EventLandingTopicCard from "components/Card/EventLandingTopicCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper";
+import useWindowSize from "hooks/useWindowSize";
+import EventLandingKnowledgeCard from "components/Card/EventLandingKnowledgeCard";
 import { EventLandingContainer } from "./EventLandingStyles";
 
 const EventLanding = () => {
+  const { width } = useWindowSize();
+  const isMobile = width <= 768;
   const {
     eventLandingMainBannerURL,
+    eventLandingMainBannerMobileURL,
     logoURL,
     fullLogoURL,
+    eventLandingHeading,
     eventLandingDesc,
     eventLandingBodyBackground,
     teaserVideoEmbed,
@@ -24,75 +30,49 @@ const EventLanding = () => {
     sponsor1LogoURL,
     sponsor2LogoURL,
     sponsor3LogoURL,
+    eventLandingSection2Heading,
+    eventLandingSection2Content,
+    eventLandingSection3Heading,
+    eventLandingSection3Content,
+    eventLandingSponsorSectionHeading,
+    eventLandingSponsorSectionContent,
+    eventLandingSponsorSectionDesc,
   } = globalData.get("common") as Common.globalDataType;
 
-  const theme = useTheme();
   return (
     <EventLandingContainer>
+      <LandingSection className="top-logo-section">
+        <img src={logoURL} alt="logo" />
+      </LandingSection>
       <LandingSection
         className="banner-section"
-        background={eventLandingMainBannerURL}
+        background={
+          isMobile ? eventLandingMainBannerMobileURL : eventLandingMainBannerURL
+        }
         fullWidth
       />
-
-      <Stack
-        className="video-section"
-        sx={{
-          width: "100%",
-          flexDirection: {
-            laptop: "row",
-            mobile: "column",
-          },
-        }}
-        alignItems={{
-          mobile: "center",
-          laptop: "center",
-        }}
-        justifyContent="center"
-      >
-        <img className="section-logo" src={logoURL} alt="logo" />
-        {teaserVideoURL && (
-          // eslint-disable-next-line jsx-a11y/media-has-caption
-          // <video
-          //   className="teaser-video"
-          //   src={teaserVideoURL}
-          //   height="250"
-          //   autoPlay
-          //   muted
-          //   loop
-          //   playsInline
-          //   controls
-          //   controlsList="nodownload"
-          // />
-          <YoutubeEmbed embedId={teaserVideoEmbed} width="400" height="250" />
-        )}
-      </Stack>
 
       <Box className="body-container">
         {teaserVideoEmbed && (
           <LandingSection fullWidth>
-            <Stack className="layout" spacing={4} alignItems="center">
-              {/* 영상, desc */}
+            <Stack className="landing-layout" alignItems="center">
+              {/* desc */}
               <Stack
+                className="section"
                 justifyContent="space-between"
-                spacing={4}
                 alignItems="center"
+                sx={{ marginBottom: "80px" }}
               >
+                <Typography className="title">{eventLandingHeading}</Typography>
                 <Typography
+                  className="desc"
                   textAlign="left"
-                  mt={1}
-                  color={theme.palette.grey[600]}
+                  color="#6A6E83"
                   sx={{
-                    fontSize: mainFontSize,
-                    width: {
-                      laptop: "90%",
-                    },
+                    fontSize: "15px",
                   }}
                 >
-                  {/* <InnerHTML html={eventLandingDesc || ""} /> */}
-                  <span
-                    dangerouslySetInnerHTML={{ __html: eventLandingDesc }}
-                  />
+                  <InnerHTML html={eventLandingDesc || ""} />
                 </Typography>
               </Stack>
 
@@ -101,7 +81,8 @@ const EventLanding = () => {
                 direction="row"
                 width={{ laptop: "100%" }}
                 flexWrap="wrap"
-                justifyContent="center"
+                className="nation-card-wrap"
+                justifyContent="space-between"
                 sx={{
                   minWidth: "200px",
                 }}
@@ -115,55 +96,99 @@ const EventLanding = () => {
                         name={nation.name}
                         date={nation.date}
                         path={nation.path}
+                        type={nation.type}
                         // disabled -> coming soon
                       />
                     );
                   })}
               </Stack>
-              {/* 스폰서 */}
             </Stack>
-            {/* Sponsor */}
           </LandingSection>
         )}
       </Box>
-      <LandingSection fullWidth>
-        <Stack
-          justifyContent="center"
-          sx={{
-            flexDirection: {
-              laptop: "row",
-            },
-            alignItems: {
-              mobile: "center",
-            },
-          }}
-        >
-          <a
-            href="https://nanoscientific.org"
-            target="_blank"
-            rel="noreferrer"
-            // className="hover-zoom"
-          >
-            <img src={sponsor1LogoURL} alt="ns logo" height="70" />
-          </a>
-          <a
-            href="https://parksystems.com"
-            target="_blank"
-            rel="noreferrer"
-            // className="hover-zoom"
-          >
-            <img src={sponsor2LogoURL} alt="park logo" height="70" />
-          </a>
-          <a
-            href="https://www.nanotechnologyworld.org/"
-            target="_blank"
-            rel="noreferrer"
-            // className="hover-zoom"
-          >
-            <img src={sponsor3LogoURL} alt="nwa logo" height="110" />
-          </a>
-        </Stack>
+      <LandingSection className="bg-skyblue">
+        <Box className="landing-layout">
+          <Box sx={{ mb: "80px;" }}>
+            {/* section2 */}
+            <Typography className="title">
+              {eventLandingSection2Heading}
+            </Typography>
+            <Swiper
+              className="swiper-topic"
+              key={isMobile ? "mobile" : "desktop"}
+              slidesPerView={isMobile ? 2 : 5}
+              autoplay={{ delay: 2500, pauseOnMouseEnter: false }}
+              modules={[Autoplay]}
+            >
+              {eventLandingSection2Content.map((content) => (
+                <SwiperSlide>
+                  <EventLandingTopicCard selected={content} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <Typography className="caution">
+              ※ The programs and sessions may vary based on the region
+            </Typography>
+          </Box>
+          <Box>
+            {/* section3 */}
+            <Typography className="title">
+              {eventLandingSection3Heading}
+            </Typography>
+            <Box className="section-3-wrap">
+              {eventLandingSection3Content.map((content) => (
+                <EventLandingKnowledgeCard selected={content} />
+              ))}
+            </Box>
+          </Box>
+        </Box>
       </LandingSection>
+
+      <Box className="body-container">
+        <LandingSection fullWidth>
+          <Box className="landing-layout">
+            <Typography className="title sponsors-title">
+              {eventLandingSponsorSectionHeading}
+            </Typography>
+            <Typography
+              className="desc sponsor-desc"
+              textAlign="left"
+              color="#6A6E83"
+              sx={{
+                fontSize: "15px",
+              }}
+            >
+              {eventLandingSponsorSectionDesc}
+            </Typography>
+            <Stack
+              justifyContent="center"
+              sx={{
+                flexDirection: {
+                  laptop: "row",
+                },
+                alignItems: {
+                  mobile: "center",
+                },
+              }}
+            >
+              {eventLandingSponsorSectionContent.map((sponsor, i) => (
+                <a
+                  className={`sponsor-logo sponsor-${i + 1}-logo`}
+                  href={sponsor.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <img
+                    src={sponsor.img}
+                    alt={`${sponsor.name}-logo`}
+                    height={sponsor.height}
+                  />
+                </a>
+              ))}
+            </Stack>
+          </Box>
+        </LandingSection>
+      </Box>
     </EventLandingContainer>
   );
 };
