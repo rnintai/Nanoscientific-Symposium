@@ -170,19 +170,19 @@ const Registration = ({ formNo }: RegistrationProps) => {
     setSubmitBlock(true);
     try {
       // user db submit
-      // const regResponse = await axios.post("/api/users/register", {
-      //   title: formData.Salutation,
-      //   firstName: formData.FirstName,
-      //   lastName: formData.LastName,
-      //   email: formData.Email,
-      //   phone: formData.Phone,
-      //   institute: formData.Company,
-      //   department: formData.Department,
-      //   country: formData.Country,
-      //   state: formData.State,
-      //   nation,
-      //   year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
-      // });
+      const regResponse = await axios.post("/api/users/register", {
+        title: formData.Salutation,
+        firstName: formData.FirstName,
+        lastName: formData.LastName,
+        email: formData.Email,
+        phone: formData.Phone,
+        institute: formData.Company,
+        department: formData.Department,
+        country: formData.Country,
+        state: formData.State,
+        nation,
+        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+      });
 
       const mktoFormInstance =
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -201,30 +201,30 @@ const Registration = ({ formNo }: RegistrationProps) => {
         .onSubmit(() => {
           console.log("start");
         })
-        .onSuccess(async () => {
-          console.log("onSuccess");
-          setMktoSaveCompleted(true);
+        .onSuccess(() => {
           return false;
         });
+      console.log("onSuccess");
+      setMktoSaveCompleted(true);
     } catch (err) {
       console.log(err);
       alert("error: saving user data. Please try again.");
-    } finally {
-      setSubmitBlock(false);
     }
   };
 
   useEffect(() => {
     if (mktoSaveCompleted) {
-      const formData =
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        window.MktoForms2.allForms()[
+      setTimeout(() => {
+        const formData =
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          window.MktoForms2.allForms().length - 1
-        ].getValues();
-      handleAfterSubmitMkto(formData);
+          window.MktoForms2.allForms()[
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            window.MktoForms2.allForms().length - 1
+          ].getValues();
+        handleAfterSubmitMkto(formData);
+      }, 3000);
     }
   }, [mktoSaveCompleted]);
 
@@ -247,17 +247,10 @@ const Registration = ({ formNo }: RegistrationProps) => {
     } catch (err) {
       console.log(err);
       alert("login failed");
+    } finally {
+      setSubmitBlock(false);
     }
   };
-
-  // 마케토폼 2개 렌더링 될 시 refresh
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     if (document.querySelectorAll("#LblpsOptin").length > 2) {
-  //       navigate(0);
-  //     }
-  //   }, 300);
-  // }, [mktoLoading]);
 
   return (
     <>
