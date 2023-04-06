@@ -262,13 +262,13 @@ const usersCtrl = {
 
   // 비밀번호 재설정
   resetPassword: async (req, res) => {
-    const currentPool = getCurrentPool(req.body.nation);
+    const { nation, curPassword, newPassword, year } = req.body;
+    const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
-    const year = req.body.year;
     const userEmail = res.locals.email;
-    const curPassword = req.body.curPassword;
-    const newPassword = hasher.HashPassword(req.body.newPassword);
+
+    const hashedNewPassword = hasher.HashPassword(newPassword);
 
     try {
       let sql1;
@@ -284,11 +284,11 @@ const usersCtrl = {
       if (hasher.CheckPassword(curPassword, passwordRow[0][0].password)) {
         let sql2;
         if (useYearList.indexOf(nation) === -1) {
-          sql2 = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
+          sql2 = `UPDATE user SET password='${hashedNewPassword}', is_password_set=1 WHERE email='${userEmail}'`;
         } else
           sql2 = `UPDATE ${
             year && year !== "2022" ? `user_${year}` : `user`
-          } SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
+          } SET password='${hashedNewPassword}', is_password_set=1 WHERE email='${userEmail}'`;
         await connection.query(sql2);
         connection.release();
         res.status(200).json({
@@ -323,7 +323,7 @@ const usersCtrl = {
 
     try {
       let sql;
-      if (useYearList.indexOf(nation) === -1) {
+      if (useYearList.indexOf(req.body.nation) === -1) {
         sql = `UPDATE user SET password='${newPassword}', is_password_set=1 WHERE email='${userEmail}'`;
       } else
         sql = `UPDATE ${
