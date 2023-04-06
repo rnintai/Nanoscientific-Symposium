@@ -612,7 +612,7 @@ const Landing = () => {
         <LandingSection
           fullWidth
           maxWidth="1920px"
-          background={landingBannerContent.background}
+          background={`${S3_URL}/${landingBannerContent.background}`}
           className="section1"
         >
           <Box
