@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap');
-*{
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100;300;400;500;700;900&display=swap");
+* {
   box-sizing: border-box;
 }
 
@@ -10,6 +10,12 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+#root {
+  overflow-x: hidden;
 }
 
 div::-webkit-scrollbar,
@@ -42,7 +48,7 @@ code {
     monospace;
 }
 
-ul{
+ul {
   margin: 0;
 }
 

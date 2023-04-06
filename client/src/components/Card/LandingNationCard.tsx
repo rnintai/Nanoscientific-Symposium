@@ -3,7 +3,7 @@ import React from "react";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { useLocation } from "react-router";
 import { useNavigate } from "hooks/useNavigateWithSearch";
-import { mainFontSize } from "utils/FontSize";
+import { mainFontSize, subHeadingFontSize } from "utils/FontSize";
 import { LandingNationCardContainer } from "./LandingNationCardStyles";
 
 interface LandingNationCardProps {
@@ -11,6 +11,7 @@ interface LandingNationCardProps {
   date: string;
   path: string;
   img: string;
+  type: string;
   disabled?: boolean;
 }
 
@@ -19,6 +20,7 @@ const LandingNationCard = ({
   date,
   path,
   img,
+  type,
   disabled,
 }: LandingNationCardProps) => {
   const theme = useTheme();
@@ -27,70 +29,51 @@ const LandingNationCard = ({
 
   return (
     <LandingNationCardContainer
-      className="hover-zoom"
       onClick={() => {
         if (!disabled) {
           if (path.indexOf("cn") === -1) {
             // navigate(path);
-            window.location.href = path;
+            window.open(path, "_blank");
           } else {
-            window.location.href = path + search;
+            window.open(path + search, "_blank");
           }
         } else {
           alert("Coming Soon!");
         }
       }}
     >
-      <Stack className="card-wrap">
-        <div
-          className="card-image-container"
-          style={{
-            height: "80px",
-          }}
-        >
+      <Box className="card-wrap">
+        <div className="card-image-container">
           <div
             className="card-background"
             style={{
               backgroundImage: `url("${img}")`,
             }}
           />
-          <div className="overlay bluescale z0" />
+          <div className="overlay z0" />
+          <Box className="region-txt">{type}</Box>
+          <Box className="date-name-bg">{/*  */}</Box>
+          <Box className="date-name-txt">
+            <Typography
+              variant="body2"
+              component="span"
+              fontWeight={600}
+              color="white"
+              className="name-txt"
+            >
+              {name}
+            </Typography>
+            <Typography
+              variant="body2"
+              fontWeight={theme.typography.fontWeightLight}
+              color="white"
+              className="date-txt"
+            >
+              {date}
+            </Typography>
+          </Box>
         </div>
-        <Box
-          sx={{
-            background: theme.palette.primary.gradation,
-            color: "#fff",
-            mx: "10px",
-            mt: 2,
-            borderRadius: "15px",
-          }}
-        >
-          <Typography
-            variant="body2"
-            component="span"
-            fontWeight={theme.typography.fontWeightBold}
-            sx={{
-              fontSize: mainFontSize,
-            }}
-          >
-            {name}
-          </Typography>
-        </Box>
-
-        <Typography
-          variant="body2"
-          fontWeight={theme.typography.fontWeightBold}
-          sx={{
-            backgroundColor: theme.palette.common.white,
-            mx: "10px",
-            mb: 2,
-            borderRadius: "0 0 7px 7px",
-            fontSize: mainFontSize,
-          }}
-        >
-          {date}
-        </Typography>
-      </Stack>
+      </Box>
     </LandingNationCardContainer>
   );
 };

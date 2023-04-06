@@ -145,6 +145,19 @@ declare namespace Common {
     date: string;
     path: string;
     img: string;
+    type: string;
+  }
+
+  interface eventLandingSection2Type {
+    icon: string;
+    title: string;
+    desc: string;
+  }
+  interface eventLandingSection3Type {
+    image: string;
+    title: string;
+    desc: string;
+    link: string;
   }
 
   interface sponsorType {
@@ -216,7 +229,6 @@ declare namespace Common {
     liveText?: string;
     browserJoinBtnText?: string;
     appJoinBtnText?: string;
-    
 
     // registration 관련
     registrationStep1Label?: string;
@@ -226,9 +238,18 @@ declare namespace Common {
     // common
     nations?: nationType[];
     eventLandingMainBannerURL?: string;
+    eventLandingMainBannerMobileURL?: string;
     fullLogoURL?: string;
+    eventLandingHeading?: string;
     eventLandingDesc?: string;
     eventLandingBodyBackground?: string;
+    eventLandingSection2Heading?: string;
+    eventLandingSection2Content?: eventLandingSection2Type[];
+    eventLandingSection3Heading?: string;
+    eventLandingSection3Content?: eventLandingSection3Type[];
+    eventLandingSponsorSectionHeading?: string;
+    eventLandingSponsorSectionDesc?: string;
+    eventLandingSponsorSectionContent?: sponsorType[];
     teaserVideoURL?: string;
     teaserVideoEmbed?: string;
     bannerLogoURL?: string;
