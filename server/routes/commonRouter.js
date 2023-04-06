@@ -224,6 +224,11 @@ router.route("/speakers/detail").get(commonCtrl.getSpeakerDetailById);
 router.route("/banner").get(commonCtrl.getBanner).post(commonCtrl.setBanner);
 
 router
+  .route("/landing/banner")
+  .get(commonCtrl.getLandingBanner)
+  .post(commonCtrl.setLandingBanner);
+
+router
   .route("/landing")
   .get(commonCtrl.getLandingSectionList)
   .post(commonCtrl.setLandingSectionList);

@@ -50,6 +50,7 @@ import useCurrentYear from "hooks/useCurrentYear";
 import Landing6Form from "pages/admin/Forms/Landing6Form";
 import { escapeQuotes } from "utils/String";
 import useNSSType from "hooks/useNSSType";
+import LandingBannerForm from "pages/admin/Forms/LandingBannerForm";
 import { SpeakersContainer } from "../Speakers/SpeakersStyles";
 import { LandingContainer } from "./LandingStyles";
 
@@ -87,14 +88,11 @@ const Landing = () => {
     useRef<HTMLDivElement>(null),
   ];
 
-  const {
-    registration,
-    fullDate,
-    eventLocation,
-    landingSection1Desc,
-    landingSection1LogoURL,
-    landingSection1BackgroundURL,
-  } = globalData.get(nssType) as Common.globalDataType;
+  const { registration } = globalData.get(nssType) as Common.globalDataType;
+
+  // S: landing banner 관련
+
+  // E: landing banner 관련
 
   const navigate = useNavigate();
 
@@ -120,6 +118,10 @@ const Landing = () => {
     useState<Landing.landing4Type[]>(null);
   const [landing6Desc, setLanding6Desc] = useState<string>("");
   const [landing6DescCpy, setLanding6DescCpy] = useState<string>("");
+
+  // landing banner content
+  const [landingBannerContent, setLandingBannerContent] =
+    useState<Landing.landingBannerType>(null);
 
   // landing4 modal
   const [openSection4Modal, setOpenSection4Modal] = useState<boolean>(false);
@@ -162,6 +164,8 @@ const Landing = () => {
   const [openSponsorModal2, setOpenSponsorModal2] = useState<boolean>(false);
   const [editSponsor2, setEditSponsor2] = useState<boolean>(false);
 
+  const [openLandingBannerModal, setOpenLandingBannerModal] =
+    useState<boolean>(false);
   // for text editor
   const [landing2TitleEdit, setLanding2TitleEdit] = useState<boolean>(false);
   const [landing2TitlePreviewContent, setLanding2TitlePreviewContent] =
@@ -232,6 +236,25 @@ const Landing = () => {
   const openLink = (url: string) => {
     window.open(url, "_blank");
   };
+
+  const getLandingBanner = async () => {
+    try {
+      const res = await axios.get(`/api/page/common/landing/banner`, {
+        params: {
+          nation: pathname,
+          language: pathname === "china" ? currentLanguage : undefined,
+          year: currentYear,
+        },
+      });
+      setLandingBannerContent(res.data.result[0]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    console.log(landingBannerContent);
+  }, [landingBannerContent]);
 
   const getLandingList = async () => {
     try {
@@ -569,6 +592,7 @@ const Landing = () => {
   };
 
   useEffect(() => {
+    getLandingBanner();
     getLandingList();
     getKeynoteList();
     getLandingSection2();
@@ -584,108 +608,114 @@ const Landing = () => {
   }
   return (
     <LandingContainer>
-      <LandingSection
-        fullWidth
-        maxWidth="1920px"
-        background={landingSection1BackgroundURL}
-        className="section1"
-      >
-        <BackgroundVectorWhite maxWidth="1920px">
-          {nssType === "eu2023" ? (
-            <div className="overlay greyscale z0" />
-          ) : (
-            <div className="overlay secondary z0" />
-          )}
-          <Stack
-            className="layout"
-            direction="column"
-            alignItems="center"
-            spacing={5}
-            sx={{
-              padding: { laptop: "135px 50px !important" },
-              maxWidth: "1400px !important",
-              textAlign: "center",
-            }}
+      {landingBannerContent && (
+        <LandingSection
+          fullWidth
+          maxWidth="1920px"
+          background={landingBannerContent.background}
+          className="section1"
+        >
+          <Box
+            sx={{ cursor: isEditor ? "pointer" : "default" }}
+            onClick={
+              isEditor &&
+              (() => {
+                setOpenLandingBannerModal(true);
+              })
+            }
           >
-            <img
-              className="z1"
-              src={landingSection1LogoURL}
-              alt="logo"
-              style={{
-                // maxWidth: "600px",
-                // height: currentYear === "2023" ? "250px" : "300px",
-                // marginBottom: currentYear === "2023" ? "40px" : "0",
-                // width: "100%",
-                // minWidth: "200px",
-                height: "300px",
-                marginBottom: "40px",
-              }}
-            />
-            <Stack
-              className="z1"
-              sx={{
-                flexDirection: {
-                  mobile: "column",
-                  laptop: "row",
-                },
-                backgroundColor: theme.palette.common.white,
-                padding: "0 10px",
-              }}
-              style={{ marginTop: 0 }}
-              alignItems="center"
-            >
-              {eventLocation !== undefined && (
-                <>
-                  <Typography
-                    fontSize={headingFontSize}
-                    fontWeight={700}
-                    color={theme.palette.primary.navy}
-                  >
-                    {eventLocation}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      display: { mobile: "none", laptop: "inline-block" },
-                      margin: "0 8px",
-                    }}
-                    fontWeight={700}
-                    fontSize={subHeadingFontSize}
-                    color={theme.palette.primary.navy}
-                  >
-                    |
-                  </Typography>
-                </>
-              )}
-              <Typography
-                fontSize={headingFontSize}
-                fontWeight={700}
-                color={theme.palette.primary.navy}
+            <BackgroundVectorWhite maxWidth="1920px">
+              <div
+                className="overlay z0"
+                style={{ background: landingBannerContent.bg_overlay }}
+              />
+              <Stack
+                className="layout"
+                direction="column"
+                alignItems="center"
+                spacing={5}
+                sx={{
+                  padding: { laptop: "135px 50px !important" },
+                  maxWidth: "1400px !important",
+                  textAlign: "center",
+                }}
               >
-                {fullDate}
-              </Typography>
-            </Stack>
-            {registration && (
-              <NSSButton
-                className="z1"
-                variant="gradient"
-                style={{ padding: "5px 20px" }}
-                fontSize={mainFontSize}
-                fontWeight={theme.typography.fontWeightBold}
-                letterSpacing="1.2px"
-              >
-                <Link
-                  style={{ padding: 0, color: "white" }}
-                  to={
-                    pathname === "kr"
-                      ? `/${pathname}/${currentYear}/register-info`
-                      : `/${pathname}/${currentYear}/registration`
-                  }
+                <img
+                  className="z1"
+                  src={landingBannerContent.logo}
+                  alt="logo"
+                  style={{
+                    height: "300px",
+                    marginBottom: "40px",
+                  }}
+                />
+                <Stack
+                  className="z1"
+                  sx={{
+                    flexDirection: {
+                      mobile: "column",
+                      laptop: "row",
+                    },
+                    backgroundColor: theme.palette.common.white,
+                    padding: "0 10px",
+                  }}
+                  style={{ marginTop: 0 }}
+                  alignItems="center"
                 >
-                  {registration || ""}
-                </Link>
-              </NSSButton>
-            )}
-            {/* {pathname === "jp" && (
+                  {landingBannerContent.venue && (
+                    <>
+                      <Typography
+                        fontSize={headingFontSize}
+                        fontWeight={700}
+                        color={theme.palette.primary.navy}
+                      >
+                        {landingBannerContent.venue}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          display: { mobile: "none", laptop: "inline-block" },
+                          margin: "0 8px",
+                        }}
+                        fontWeight={700}
+                        fontSize={subHeadingFontSize}
+                        color={theme.palette.primary.navy}
+                      >
+                        |
+                      </Typography>
+                    </>
+                  )}
+                  {landingBannerContent.date && (
+                    <Typography
+                      fontSize={headingFontSize}
+                      fontWeight={700}
+                      color={theme.palette.primary.navy}
+                    >
+                      {landingBannerContent.date}
+                    </Typography>
+                  )}
+                </Stack>
+                {landingBannerContent.show_register === 1 && (
+                  <NSSButton
+                    className="z1"
+                    variant="gradient"
+                    style={{ padding: "5px 20px" }}
+                    fontSize={mainFontSize}
+                    fontWeight={theme.typography.fontWeightBold}
+                    letterSpacing="1.2px"
+                  >
+                    <Link
+                      style={{ padding: 0, color: "white" }}
+                      to={
+                        pathname === "kr"
+                          ? `/${pathname}/${currentYear}/register-info`
+                          : `/${pathname}/${currentYear}/registration`
+                      }
+                    >
+                      {registration || ""}
+                    </Link>
+                  </NSSButton>
+                )}
+                {/* {pathname === "jp" && (
               <NSSButton
                 className="z1"
                 variant="gradient"
@@ -702,18 +732,30 @@ const Landing = () => {
                 </Link>
               </NSSButton>
             )} */}
-            <Typography
-              className="z1"
-              textAlign="center"
-              color={theme.palette.common.white}
-              fontWeight={theme.typography.fontWeightMedium}
-              fontSize={subHeadingFontSize}
-            >
-              {landingSection1Desc && <InnerHTML html={landingSection1Desc} />}
-            </Typography>
-          </Stack>
-        </BackgroundVectorWhite>
-      </LandingSection>
+                <Typography
+                  className="z1"
+                  textAlign="center"
+                  color={theme.palette.common.white}
+                  fontWeight={theme.typography.fontWeightMedium}
+                  fontSize={subHeadingFontSize}
+                >
+                  {landingBannerContent.desc && (
+                    <InnerHTML html={landingBannerContent.desc} />
+                  )}
+                </Typography>
+              </Stack>
+            </BackgroundVectorWhite>
+          </Box>
+        </LandingSection>
+      )}
+      {openLandingBannerModal && (
+        <LandingBannerForm
+          year={currentYear}
+          open={openLandingBannerModal}
+          setOpen={setOpenLandingBannerModal}
+          selected={landingBannerContent}
+        />
+      )}
 
       {/* section2 */}
       {!landingListLoading && landingList.length !== 0 && (

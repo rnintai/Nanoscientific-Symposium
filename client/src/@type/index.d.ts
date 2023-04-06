@@ -353,6 +353,17 @@ declare namespace Admin {
 }
 
 declare namespace Landing {
+  interface landingBannerType {
+    id: number;
+    background: string;
+    bg_overlay?: number;
+    logo: string;
+    venue?: string;
+    date?: string;
+    show_register: number;
+    desc?: string;
+    year?: string;
+  }
   interface landingType {
     id: number;
     title: string;
