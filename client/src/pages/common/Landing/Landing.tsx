@@ -612,7 +612,11 @@ const Landing = () => {
         <LandingSection
           fullWidth
           maxWidth="1920px"
-          background={`${S3_URL}/${landingBannerContent.background}`}
+          background={
+            landingBannerContent.background.indexOf("https://") === -1
+              ? `${S3_URL}/${landingBannerContent.background}`
+              : landingBannerContent.background
+          }
           className="section1"
         >
           <Box
