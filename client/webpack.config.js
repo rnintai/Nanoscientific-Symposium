@@ -2,6 +2,7 @@
 const path = require("path");
 const webpack = require("webpack");
 
+const TARGET = process.env.npm_lifecycle_event;
 // .env
 const dotenv = require("dotenv");
 
@@ -133,6 +134,7 @@ module.exports = (env, argv) => {
     // proxy 설정
     devServer: {
       historyApiFallback: true,
+      port: env.port,
       proxy: {
         "/api": "http://localhost:5000",
       },

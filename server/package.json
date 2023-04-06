@@ -7,10 +7,12 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd .. && cd client && npm run start",
+    "client-cn": "cd .. && cd client && npm run start-cn",
     "server-install": "npm install",
     "client-install": "cd client && npm install",
     "install-all": "concurrently \"npm run server-install\" \"npm run client-install\"",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev-cn": "concurrently \"npm run server\" \"npm run client-cn\""
   },
   "author": "",
   "license": "ISC",
