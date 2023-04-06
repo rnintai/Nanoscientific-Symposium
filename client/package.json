@@ -58,7 +58,7 @@
     "start-cn": "webpack-dev-server --env port=8081 --mode development --hot --open",  
     "debug": "webpack server --mode devleopment --display-error-details",
     "build": "webpack --env port=8080 --mode production --progress",
-    "build-cn": "webpack --env port=8081  --mode production --progress"
+    "build-cn": "webpack --env port=8081 --mode production --progress"
   },
   "eslintConfig": {
     "extends": [
