@@ -216,7 +216,15 @@ const Registration = ({ formNo }: RegistrationProps) => {
 
   useEffect(() => {
     if (mktoSaveCompleted) {
-      await handleAfterSubmitMkto(formData);
+      const formData =
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.MktoForms2.allForms()[
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          window.MktoForms2.allForms().length - 1
+        ].getValues();
+      handleAfterSubmitMkto(formData);
     }
   }, [mktoSaveCompleted]);
 
