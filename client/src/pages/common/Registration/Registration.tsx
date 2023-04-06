@@ -32,6 +32,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
   const [emailValid, setEmailValid] = useState<TFN>(-1);
   const [emailValidLoading, setEmailValidLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+  const [mktoSaveCompleted, setMktoSaveCompleted] = useState<boolean>(false);
 
   const nation = usePageViews();
   const currentYear = useCurrentYear();
@@ -169,57 +170,75 @@ const Registration = ({ formNo }: RegistrationProps) => {
     setSubmitBlock(true);
     try {
       // user db submit
-      const regResponse = await axios.post("/api/users/register", {
-        title: formData.Salutation,
-        firstName: formData.FirstName,
-        lastName: formData.LastName,
-        email: formData.Email,
-        phone: formData.Phone,
-        institute: formData.Company,
-        department: formData.Department,
-        country: formData.Country,
-        state: formData.State,
-        nation,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
-      });
-      console.log("test");
+      // const regResponse = await axios.post("/api/users/register", {
+      //   title: formData.Salutation,
+      //   firstName: formData.FirstName,
+      //   lastName: formData.LastName,
+      //   email: formData.Email,
+      //   phone: formData.Phone,
+      //   institute: formData.Company,
+      //   department: formData.Department,
+      //   country: formData.Country,
+      //   state: formData.State,
+      //   nation,
+      //   year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+      // });
+
+      const mktoFormInstance =
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        window.MktoForms2.allForms()[
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          window.MktoForms2.allForms().length - 1
+        ];
 
       // marketo submit
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      window.MktoForms2.allForms()
-        [
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          window.MktoForms2.allForms().length - 1
-        ].submit()
-        .onSuccess(() => {
+      mktoFormInstance
+        .submit()
+        .onSubmit(() => {
+          console.log("start");
+        })
+        .onSuccess(async () => {
+          console.log("onSuccess");
+          setMktoSaveCompleted(true);
           return false;
         });
-      await axios.post(`/api/zoom/webinar/registrant/fetch`, {
-        email: formData.Email,
-        nation: pathname,
-      });
-      try {
-        const res = await axios.post("/api/users/login", {
-          nation,
-          email: formData.Email,
-          password: null,
-          // year: currentYear,
-        });
-        if (res.data.success) {
-          dispatchLogin(formData.Email, res.data.role, res.data.accessToken);
-        }
-        navigate(`/${nation}/user/reset-password`);
-      } catch (err) {
-        console.log(err);
-        alert("login failed");
-      }
     } catch (err) {
       console.log(err);
       alert("error: saving user data. Please try again.");
     } finally {
       setSubmitBlock(false);
+    }
+  };
+
+  useEffect(() => {
+    if (mktoSaveCompleted) {
+      await handleAfterSubmitMkto(formData);
+    }
+  }, [mktoSaveCompleted]);
+
+  const handleAfterSubmitMkto = async (formData) => {
+    await axios.post(`/api/zoom/webinar/registrant/fetch`, {
+      email: formData.Email,
+      nation: pathname,
+    });
+    try {
+      const res = await axios.post("/api/users/login", {
+        nation,
+        email: formData.Email,
+        password: null,
+        // year: currentYear,
+      });
+      if (res.data.success) {
+        dispatchLogin(formData.Email, res.data.role, res.data.accessToken);
+        navigate(`/${nation}/user/reset-password`);
+      }
+    } catch (err) {
+      console.log(err);
+      alert("login failed");
     }
   };
 
