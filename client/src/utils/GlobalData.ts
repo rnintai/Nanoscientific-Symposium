@@ -230,7 +230,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       exhibitHall: "EXHIBIT HALL",
       // sponsors: "SPONSORS",
       home: "HOME",
-      // registration: "REGISTRATION",
+      registration: "REGISTRATION",
       // buttonText
       goNextText: "NEXT",
       goPrevText: "PREV",
@@ -329,7 +329,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     "kr2023",
     {
       fullName: "2023 NANOscientific Symposium Korea | NSS Korea",
-      fullDate: "TBD",
+      fullDate: "2023년 6월 29일 - 30일",
       eventLocation: "차세대융합기술원",
       logoURL: `${S3_URL}/kr/nss-logo-fixed-kr.png`,
       speakers: "초청연사",
@@ -440,7 +440,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     "jp2023",
     {
       fullName: "2023 NANOscientific Symposium Japan | NSS Japan",
-      fullDate: "TBD",
+      fullDate: "2023年10月28日土曜日",
       eventLocation: "Kanto Gakuin University, Kannai Campus",
       logoURL: `${S3_URL}/jp/nss-logo-fixed-jp.png`,
       speakers: "講演者",
@@ -454,7 +454,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       archive: "アーカイブ",
 
       signInText: "ログイン",
-      // registration: "参加登録はこちらから",
+      registration: "参加登録はこちらから",
       goNextText: "NEXT",
       goPrevText: "PREV",
       uploadBtnText: "ポスターのアップロード",
@@ -821,7 +821,7 @@ export const globalData = new Map<string, Common.globalDataType>([
     {
       fullName: "2023 NanoScientific Symposium China | NSS China",
       fullDate: "TBD",
-      // eventLocation: "郑州大学",
+      eventLocation: "Renmin University of China, Beijing",
       logoURL: `${CHINA_S3_URL}/nss-logo-fixed-cn.png`,
       speakers: "报告人",
       programs: "会议日程",

@@ -528,6 +528,99 @@ const commonCtrl = {
       connection.release();
     }
   },
+  getLandingBanner: async (req, res) => {
+    const { nation, year, language } = req.query;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    const langSfx = language === "china" ? "" : "_en";
+
+    try {
+      let sql;
+      if (nation === "china") {
+        sql = `SELECT  
+        background,
+        bg_overlay,
+        logo,
+        venue${langSfx} as venue,
+        date${langSfx} as date,
+        show_register,
+        \`desc${langSfx}\` as \`desc\`
+        from landing_banner
+      ${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      }`;
+      } else {
+        sql = `SELECT * from landing_banner
+      ${
+        year && year !== "2022"
+          ? ` WHERE year="${year}"`
+          : ` WHERE year IS NULL`
+      }`;
+      }
+
+      const row = await connection.query(sql);
+      connection.release();
+      res.status(200).json({
+        success: true,
+        result: row[0],
+      });
+    } catch (err) {
+      connection.release();
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
+  setLandingBanner: async (req, res) => {
+    const {
+      nation,
+      year,
+      language,
+      date,
+      desc,
+      venue,
+      background, //
+    } = req.body;
+    const currentPool = getCurrentPool(nation);
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    const langSfx = language === "china" ? "" : "_en";
+
+    try {
+      let sql;
+      if (nation === "china") {
+        sql = `UPDATE landing_banner SET
+        date${langSfx}='${date}',
+        landing_banner.desc='${desc}',
+        venue${langSfx}='${venue}',
+        background='${background}'
+        WHERE year${year && year !== "2022" ? `=${year}` : " IS NULL"}
+        `;
+      } else {
+        sql = `UPDATE landing_banner SET
+        date='${date}',
+        landing_banner.desc='${desc}',
+        venue='${venue}',
+        background='${background}'
+        WHERE year${year && year !== "2022" ? `=${year}` : " IS NULL"}
+        `;
+      }
+      await connection.query(sql);
+      connection.release();
+
+      res.status(200).json({
+        success: true,
+      });
+    } catch (err) {
+      connection.release();
+      res.status(500).json({
+        success: false,
+        err,
+      });
+    }
+  },
   getLandingContent: async (req, res) => {
     const { nation, year, language } = req.query;
     const { id } = req.params;
@@ -622,17 +715,18 @@ const commonCtrl = {
 
       let sql2;
       if (nation === "china") {
-        `UPDATE landing_section SET 
-    ${language === "china" ? "title" : "title_en"}='${title}'
-    WHERE section_no=2 and
-    year${year && year != "2022" ? `=${year}` : ` IS NULL`}
-    `;
-      } else
         sql2 = `UPDATE landing_section SET 
-      title='${title}'
-      WHERE section_no=2 and
-      year${year && year != "2022" ? `=${year}` : ` IS NULL`}
-      `;
+        ${language === "china" ? "title" : "title_en"}='${title}'
+        WHERE section_no=2 and
+        year${year && year != "2022" ? `=${year}` : ` IS NULL`}
+        `;
+      } else {
+        sql2 = `UPDATE landing_section SET 
+        title='${title}'
+        WHERE section_no=2 and
+        year${year && year != "2022" ? `=${year}` : ` IS NULL`}
+        `;
+      }
       await connection.query(sql2);
       connection.release();
 
