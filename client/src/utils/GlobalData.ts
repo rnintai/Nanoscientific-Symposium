@@ -53,7 +53,7 @@ export const globalData = new Map<string, Common.globalDataType>([
           name: "Beijing, China",
           date: "COMING SOON",
           path: "https://nanoscientific.com.cn/china",
-          img: `${S3_URL}/common/landing/Web_China.jpg`,
+          img: `${S3_URL}/common/landing/Web_China.jpg?v=0.1`,
           type: "NSS China",
         },
       ],
