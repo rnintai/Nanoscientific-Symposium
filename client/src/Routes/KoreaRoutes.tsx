@@ -18,6 +18,7 @@ import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmissi
 import RedirectRoute from "components/RedirectRoute/RedirectRoute";
 import RegisterInfo from "pages/korea/RegisterInfo/RegisterInfo";
 import KoreaRegistration from "pages/korea/KoreaRegistration/KoreaRegistration";
+import Registration from "pages/common/Registration/Registration";
 
 const formNo = "1972";
 const abstractFormNo = "1897";
@@ -66,8 +67,12 @@ yearList.map((y) => {
         element: <SpeakerDetail />,
       },
       {
-        path: `/${pathname}/registration`,
+        path: `/${pathname}/2022/registration`,
         element: <KoreaRegistration formNo={formNo} />,
+      },
+      {
+        path: `/${pathname}/2023/registration`,
+        element: <Registration formNo={formNo} />,
       },
       {
         path: `/${pathname}/user/reset-password`,
