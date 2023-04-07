@@ -66,8 +66,8 @@ export const globalData = new Map<string, Common.globalDataType>([
       eventLandingHeading:
         "Connecting Global Experts in SPM for Advancements in Nanoscience and Technology",
       eventLandingDesc: `
-      Join us for a truly international symposium on scanning probe microscopy! Our event will feature speakers from across the world, presenting groundbreaking research and discussing the latest advancements and techniques in SPM. Don't miss this opportunity to connect with the worldwide community of SPM researchers and expand your knowledge of this exciting field. 
-      <br /><br />Our symposium brings together experts from around the globe to explore the science, engineering, and applications of nanotechnology. Featuring keynote addresses and virtual networking opportunities, attendees can form connections and propel their research, innovation, and businesses forward.
+      Join us for a truly international symposium on scanning probe microscopy! NANOscientific Symposium event will feature speakers from across the world, presenting groundbreaking research and discussing the latest advancements and techniques in SPM. Don't miss this opportunity to connect with the worldwide community of SPM researchers and expand your knowledge of this exciting field. 
+      <br /><br />NANOscientific Symposium brings together experts from around the globe to explore the science, engineering, and applications of nanotechnology. Featuring keynote addresses and virtual networking opportunities, attendees can form connections and propel their research, innovation, and businesses forward.
       `,
       eventLandingSection2Heading:
         "Experience the Diverse Benefits of In-Person Interactions!",
