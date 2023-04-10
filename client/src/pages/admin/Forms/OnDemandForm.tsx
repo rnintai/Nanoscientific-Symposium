@@ -46,17 +46,6 @@ interface OnDemandFormProps {
   getList: () => void;
 }
 
-// const applicationList = [
-//   "Semiconductor",
-//   "Metrology",
-//   "Electromagnetic",
-//   "Nanomechanical",
-//   "Electrochemistry",
-//   "Photonics",
-//   "Lifescience",
-//   "Lithography",
-// ];
-
 const OnDemandForm = ({
   open,
   setOpen,
@@ -319,7 +308,12 @@ const OnDemandForm = ({
 
         <FormControl variant="filled" sx={{ width: "48%" }}>
           <InputLabel>Region</InputLabel>
-          <Select label="Region" placeholder="Please Select" {...region}>
+          <Select
+            label="Region"
+            required
+            placeholder="Please Select"
+            {...region}
+          >
             <MenuItem value="China">China</MenuItem>
             <MenuItem value="Europe">Europe</MenuItem>
             <MenuItem value="Japan">Japan</MenuItem>
