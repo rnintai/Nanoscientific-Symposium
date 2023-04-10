@@ -55,6 +55,9 @@ export const NavBarContainer = styled.div`
     .user-menu-wrap {
       display: flex;
       margin-left: 20px;
+      .user-menu {
+        padding: 10px 10px 15px 10px;
+      }
     }
 
     .menu-item-wrap {

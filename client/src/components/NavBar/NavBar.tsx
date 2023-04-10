@@ -383,67 +383,63 @@ navProps) => {
                     </Menu>
                   </>
                 )}
-                {(pathname !== "kr" || editorRole.includes(authState.role)) && (
-                  <>
-                    <NSSButton
-                      id="basic-button"
-                      className="user-menu"
-                      type="button"
-                      variant="icon"
-                      onClick={handleUserMenuClick}
-                      aria-controls={openUserMenu ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={openUserMenu ? "true" : undefined}
-                    >
-                      <PersonIcon />
-                    </NSSButton>
-                    <Menu
-                      id="basic-menu"
-                      open={openUserMenu}
-                      onClose={handleUserMenuClose}
-                      MenuListProps={{
-                        "aria-labelledby": "basic-button",
-                      }}
-                      anchorEl={userMenuanchorEl}
-                      disableScrollLock
-                    >
-                      {authState.isLogin && !checkLoading && (
-                        <MenuList dense>
-                          {pathname !== "common" &&
-                            editorRole.includes(authState.role) && (
-                              <MenuItem>
-                                <Link
-                                  to={`${nationAndYear}/admin`}
-                                  target="_blank"
-                                  style={{
-                                    padding: 0,
-                                    color: "rgba(0,0,0,0.87)",
-                                  }}
-                                >
-                                  {adminBtnText || "Admin Page"}
-                                </Link>
-                              </MenuItem>
-                            )}
-                          <MenuItem
-                            onClick={() => {
-                              handleUserMenuClose();
-                              navigate(`${pathname}/user/reset-password`);
-                            }}
-                          >
-                            {changePasswordBtnText || "Change Password"}
+                <NSSButton
+                  id="basic-button"
+                  className="user-menu"
+                  type="button"
+                  variant="icon"
+                  onClick={handleUserMenuClick}
+                  aria-controls={openUserMenu ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openUserMenu ? "true" : undefined}
+                >
+                  <PersonIcon />
+                </NSSButton>
+                <Menu
+                  id="basic-menu"
+                  open={openUserMenu}
+                  onClose={handleUserMenuClose}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                  anchorEl={userMenuanchorEl}
+                  disableScrollLock
+                >
+                  {authState.isLogin && !checkLoading && (
+                    <MenuList dense>
+                      {pathname !== "common" &&
+                        editorRole.includes(authState.role) && (
+                          <MenuItem>
+                            <Link
+                              to={`${nationAndYear}/admin`}
+                              target="_blank"
+                              style={{
+                                padding: 0,
+                                color: "rgba(0,0,0,0.87)",
+                              }}
+                            >
+                              {adminBtnText || "Admin Page"}
+                            </Link>
                           </MenuItem>
-                          <MenuItem
-                            onClick={() => {
-                              logoutHandler(authState.email);
-                            }}
-                          >
-                            {signOutBtnText || "Sign out"}
-                          </MenuItem>
-                        </MenuList>
-                      )}
-                    </Menu>
-                  </>
-                )}
+                        )}
+                      <MenuItem
+                        onClick={() => {
+                          handleUserMenuClose();
+                          navigate(`${pathname}/user/reset-password`);
+                        }}
+                      >
+                        {changePasswordBtnText || "Change Password"}
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          logoutHandler(authState.email);
+                        }}
+                      >
+                        {signOutBtnText || "Sign out"}
+                      </MenuItem>
+                    </MenuList>
+                  )}
+                </Menu>
               </div>
             </Stack>
           </div>
