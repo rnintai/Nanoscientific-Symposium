@@ -56,8 +56,11 @@ const onDemandCtrl = {
         year: row[0][0].yearFilter.split(","),
         region: row[0][0].regionFilter.split(","),
         language: row[0][0].languageFilter.split(","),
-        application: [...new Set(row[0][0].applicationFilter.split(","))],
-
+        application: [
+          ...new Set(
+            row[0][0].applicationFilter.split(",").filter((v) => v !== "")
+          ),
+        ],
         success: true,
       });
     } catch (err) {
