@@ -11,7 +11,7 @@ export const MenuLinkContainer = styled.div`
   }};
   a {
     position: relative;
-    padding: 10px !important;
+    padding: 10px 10px 22px 10px !important;
 
     &.active {
       color: ${() => {
@@ -45,6 +45,7 @@ export const MenuLinkContainer = styled.div`
 
   @media screen and (max-width: 1024px) {
     a {
+      padding: 10px !important;
       &::before {
         // width: calc(100% - 10px);
       }

@@ -3,7 +3,7 @@ import { useTheme, MenuItem } from "@mui/material";
 
 export const NavBarContainer = styled.div`
   .op5 {
-    opacity: .5;
+    opacity: 0.5;
   }
   width: 100%;
   height: 110px;
@@ -31,7 +31,7 @@ export const NavBarContainer = styled.div`
     transition: opacity 0.3s ease-in-out, visibility 0s linear 1s;
   }
   .nav-wrap {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
     height: 100%;
     padding: 10px 0;
@@ -43,16 +43,10 @@ export const NavBarContainer = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      // height: 131px;
-      // width: 25%;
-      // height: 100%;
+      margin-right: auto;
       img {
-        // width: 100%;
-        // height: 100%;
         height: 85px;
         padding: 20px 0;
-        margin-top: 13px;
-        margin-right: 10px;
       }
       &.disabled {
         pointer-events: none;
@@ -85,6 +79,7 @@ export const NavBarContainer = styled.div`
   .parent {
     display: flex;
     align-items: center;
+    position: relative;
 
     &.active {
       .parent-label {
@@ -114,6 +109,7 @@ export const NavBarContainer = styled.div`
       transition: color 0.2s ease-in-out;
       span {
         position: relative;
+        padding: 10px 10px 22px 10px !important;
         &::before {
           content: "";
           position: absolute;
@@ -123,6 +119,9 @@ export const NavBarContainer = styled.div`
           background-color: transparent;
           transition: background-color 0.2s ease-in-out;
         }
+      }
+      svg {
+        margin-bottom: 14px;
       }
       &.active {
         cursor: default;
@@ -161,6 +160,8 @@ export const NavBarContainer = styled.div`
       position: absolute;
       background-color: white;
       overflow: hidden;
+      top: 43px;
+      min-width: calc(100% - 23px);
       max-height: 0%;
       border-width: 0px;
       border-style: solid;
@@ -236,6 +237,7 @@ export const NavBarContainer = styled.div`
         right: 0;
       }
       .logo-link {
+        margin-right: 0;
         img {
           margin: 0;
           height: 73px;
@@ -264,18 +266,22 @@ export const NavBarContainer = styled.div`
         .parent {
           .parent-label {
             justify-content: center;
-
-            &.hover
+            span {
+              padding: 10px !important;
+            }
+            svg {
+              margin-bottom: 0px;
+            }
           }
           .child-container {
             width: 100vw;
             display: none;
             position: relative;
             background-color: #0000000b;
-
-            .child-item{
+            top: 0;
+            .child-item {
               &.active,
-              &:hover{
+              &:hover {
                 background-color: rgb(33 173 229 / 13%);
               }
             }

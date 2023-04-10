@@ -15,11 +15,11 @@ export const EventLandingContainer = styled.div`
   }
 
   .top-logo-section {
-    max-width: 1520px;
+    max-width: 1222px;
 
     img {
-      width: 355px;
-      margin: 15px 0;
+      width: 268px;
+      margin: 24px 0px;
     }
   }
 

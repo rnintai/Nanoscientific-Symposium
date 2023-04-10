@@ -43,6 +43,11 @@ export const LandingContainer = styled.div`
     border: 1px solid #21ade542;
   }
 
+  .banner-logo {
+    height: 300px;
+    margin-bottom: 40px;
+  }
+
   .sponsor-edit-btn {
     transform: translateX(-30px);
     margin: 0;
@@ -50,5 +55,12 @@ export const LandingContainer = styled.div`
   .landing6-edit-btn {
     transform: translate(270px, -51px);
     margin: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .banner-logo {
+      height: auto;
+      width: 100%;
+    }
   }
 `;

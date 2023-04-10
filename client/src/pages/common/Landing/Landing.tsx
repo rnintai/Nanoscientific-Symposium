@@ -645,13 +645,9 @@ const Landing = () => {
                 }}
               >
                 <img
-                  className="z1"
+                  className="z1 banner-logo"
                   src={landingBannerContent.logo}
                   alt="logo"
-                  style={{
-                    height: "300px",
-                    marginBottom: "40px",
-                  }}
                 />
                 <Stack
                   className="z1"
@@ -781,17 +777,7 @@ const Landing = () => {
                 justifyContent="space-between"
                 spacing={{ mobile: 5, tablet: 0 }}
               >
-                <Stack
-                  flexDirection="column"
-                  width="100%"
-                  height="100%"
-                  sx={{
-                    mr: {
-                      mobile: 0,
-                      tablet: 5,
-                    },
-                  }}
-                >
+                <Stack flexDirection="column" width="100%" height="100%">
                   <LandingTextEditor
                     initialValue={landingList[0].title}
                     value={landing2Title}

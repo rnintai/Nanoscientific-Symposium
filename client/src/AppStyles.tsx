@@ -88,7 +88,7 @@ export const AppContainer = styled.div`
 
   .layout {
     margin: 0 auto;
-    padding: 70px 50px;
+    padding: 70px 0px;
     box-sizing: border-box;
   }
 
@@ -154,22 +154,22 @@ export const AppContainer = styled.div`
       height: 195px;
     }
     .layout {
-      padding: 35px;
+      width: 90%;
     }
 
     a {
       padding: 10px 5px;
     }
   }
-  @media screen and (min-width: 1024px) {
+  @media screen and (min-width: 1200px) {
     // banner
     .banner {
       height: 300px;
     }
 
     .layout {
-      padding: 70px 50px;
-      max-width: 1024px;
+      padding: 50px 0px;
+      max-width: 1200px;
     }
     a {
       padding: 15px 10px;
