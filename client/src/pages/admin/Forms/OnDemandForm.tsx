@@ -306,14 +306,9 @@ const OnDemandForm = ({
           {...year}
         />
 
-        <FormControl variant="filled" sx={{ width: "48%" }}>
+        <FormControl required variant="filled" sx={{ width: "48%" }}>
           <InputLabel>Region</InputLabel>
-          <Select
-            label="Region"
-            required
-            placeholder="Please Select"
-            {...region}
-          >
+          <Select label="Region" placeholder="Please Select" {...region}>
             <MenuItem value="China">China</MenuItem>
             <MenuItem value="Europe">Europe</MenuItem>
             <MenuItem value="Japan">Japan</MenuItem>
