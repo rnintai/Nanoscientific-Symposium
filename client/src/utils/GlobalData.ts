@@ -6,7 +6,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "home",
     {
-      logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
+      logoURL: `${S3_URL}/common/landing/2023_NSS_Logo.png`,
     },
   ],
   [
@@ -57,7 +57,7 @@ export const globalData = new Map<string, Common.globalDataType>([
           type: "NSS China",
         },
       ],
-      logoURL: `${S3_URL}/common/NSS_logo_Type3.svg`,
+      logoURL: `${S3_URL}/common/landing/2023_NSS_Logo.png`,
       teaserVideoURL: `${S3_URL}/common/2022NSS_Teaser_v1.0_LQ.mp4`,
       teaserVideoEmbed: "R9vwS37g9SU",
       bannerLogoURL: `${S3_URL}/common/NSS_logo_white_main.svg`,
@@ -102,14 +102,14 @@ export const globalData = new Map<string, Common.globalDataType>([
       eventLandingSection3Content: [
         {
           image: `${S3_URL}/common/landing/NANOscientific_Magazine.jpg`,
-          title: "NanoScientific Magazine",
-          desc: "NanoScientific Magazine provides in-depth coverage of the latest techniques and trends related to nano research, with a focus on SPM and its related fields. It is a go-to resource for scientists, researchers, and industry professionals seeking the latest insights and analysis in nanoscale imaging and manipulation, cutting-edge developments in materials science, and beyond.",
+          title: "NANOscientific Magazine",
+          desc: "NANOscientific Magazine provides in-depth coverage of the latest techniques and trends related to nano research, with a focus on SPM and its related fields. It is a go-to resource for scientists, researchers, and industry professionals seeking the latest insights and analysis in nanoscale imaging and manipulation, cutting-edge developments in materials science, and beyond.",
           link: "https://nanoscientific.org/",
         },
         {
           image: `${S3_URL}/common/landing/NanoScientific_On-Demand.jpg`,
-          title: "NanoScientific On-Demand",
-          desc: "NanoScientific On-Demand provides easy access to recorded presentations from all the NSS symposiums, categorized by topics. It allows you to deep dive into specific techniques or applications, stay current with the latest SPM research, catch up on missed sessions, review key topics, and stay ahead in your field.",
+          title: "NANOscientific On-Demand",
+          desc: "NANOscientific On-Demand provides easy access to recorded presentations from all the NSS symposiums, categorized by topics. It allows you to deep dive into specific techniques or applications, stay current with the latest SPM research, catch up on missed sessions, review key topics, and stay ahead in your field.",
           link: "https://www.youtube.com/@parksystems/playlists",
         },
         {
@@ -122,7 +122,7 @@ export const globalData = new Map<string, Common.globalDataType>([
 
       eventLandingSponsorSectionHeading: "Sponsors",
       eventLandingSponsorSectionDesc:
-        "The NanoScientific Symposium is sponsored by Park Systems, a leading manufacturer of nanoscale microscopy and metrology solutions that encompasses the atomic force microscopy, white light interferometry, infrared spectroscopy and ellipsometry systems. As a trusted name in the industry, Park Systems is committed to providing high-quality and innovative solutions to researchers and scientists worldwide. We are grateful for its support in making this event possible.",
+        "The NANOscientific Symposium is sponsored by Park Systems, a leading manufacturer of nanoscale microscopy and metrology solutions that encompasses the atomic force microscopy, white light interferometry, infrared spectroscopy and ellipsometry systems. As a trusted name in the industry, Park Systems is committed to providing high-quality and innovative solutions to researchers and scientists worldwide. We are grateful for its support in making this event possible.",
       eventLandingSponsorSectionContent: [
         {
           name: "NANOscientific",
@@ -698,7 +698,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "china2022_china",
     {
-      fullName: "2022 NanoScientific Symposium China | NSS China",
+      fullName: "2022 NANOscientific Symposium China | NSS China",
       fullDate: "10月27-28日",
       eventLocation: "郑州大学",
       logoURL: `${CHINA_S3_URL}/menu-bar-logo.svg?v=0.1`,
@@ -759,7 +759,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "china2022_english",
     {
-      fullName: "2022 NanoScientific Symposium China | NSS China",
+      fullName: "2022 NANOscientific Symposium China | NSS China",
       fullDate: "October 27-28, 2022",
       eventLocation: "Zhengzhou University",
       logoURL: `${CHINA_S3_URL}/menu-bar-logo.svg?v=0.1`,
@@ -793,7 +793,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${CHINA_S3_URL}/main-page-banner.jpg`,
       landingSection1LogoURL: `${CHINA_S3_URL}/logo-type-1b.svg`,
       landingSection1Desc:
-        "Join the 2022 NanoScientific Symposium China (NSS China) – Connecting the SPM Community.",
+        "Join the 2022 NANOscientific Symposium China (NSS China) – Connecting the SPM Community.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",
@@ -819,7 +819,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "china2023_china",
     {
-      fullName: "2023 NanoScientific Symposium China | NSS China",
+      fullName: "2023 NANOscientific Symposium China | NSS China",
       fullDate: "TBD",
       eventLocation: "Renmin University of China, Beijing",
       logoURL: `${CHINA_S3_URL}/nss-logo-fixed-cn.png`,
@@ -880,7 +880,7 @@ export const globalData = new Map<string, Common.globalDataType>([
   [
     "china2023_english",
     {
-      fullName: "2023 NanoScientific Symposium China | NSS China",
+      fullName: "2023 NANOscientific Symposium China | NSS China",
       fullDate: "TBD",
       // eventLocation: "Zhengzhou University",
       logoURL: `${CHINA_S3_URL}/nss-logo-fixed-cn.png`,
@@ -914,7 +914,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       landingSection1BackgroundURL: `${CHINA_S3_URL}/main-page-banner.jpg`,
       landingSection1LogoURL: `${CHINA_S3_URL}/nss-logo-2023-cn.png`,
       landingSection1Desc:
-        "Join the 2022 NanoScientific Symposium China (NSS China) – Connecting the SPM Community.",
+        "Join the 2022 NANOscientific Symposium China (NSS China) – Connecting the SPM Community.",
 
       // resetPassword
       resetPasswordHeading: "Change a Password",

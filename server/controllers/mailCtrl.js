@@ -38,7 +38,7 @@ const mailCtrl = {
       });
 
       const info = await transporter.sendMail({
-        from: `${year} Nanoscientific ${
+        from: `${year} NANOscientific ${
           nation === "eu" ? "Forum" : "Symposium"
         } <event@nanoscientific.org>`,
         to: email,
