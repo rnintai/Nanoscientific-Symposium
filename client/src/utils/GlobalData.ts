@@ -24,7 +24,7 @@ export const globalData = new Map<string, Common.globalDataType>([
           name: "Barcelona, Spain",
           date: "13 - 15 September 2023",
           path: "https://event.nanoscientific.org/eu",
-          img: `${S3_URL}/common/landing/Web_Europe.jpg`,
+          img: `${S3_URL}/common/landing/Web_Europe.jpg?v=0.1`,
           type: "NSF Europe",
         },
         {
