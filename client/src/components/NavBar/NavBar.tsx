@@ -162,19 +162,17 @@ navProps) => {
 
   return (
     <NavBarContainer className={`${openMobileNav ? "mobile" : ""}`}>
-      {currentYear === "2022" && (
-        <NSSButton
-          variant="icon"
-          className="return-main-btn"
-          style={{ position: "absolute", padding: "8px 8px 8px 0" }}
-          onClick={() => {
-            window.location.href = `https://event.nanoscientific.org`;
-          }}
-        >
-          <ChevronLeftIcon />
-          <PublicIcon sx={{ marginLeft: "-4px" }} />
-        </NSSButton>
-      )}
+      <NSSButton
+        variant="icon"
+        className="return-main-btn"
+        style={{ position: "absolute", padding: "8px 8px 8px 0" }}
+        onClick={() => {
+          window.location.href = `https://event.nanoscientific.org`;
+        }}
+      >
+        <ChevronLeftIcon />
+        <PublicIcon sx={{ marginLeft: "-4px" }} />
+      </NSSButton>
       {!menuStateLoading && (
         <Stack
           direction="row"
