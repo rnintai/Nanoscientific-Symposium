@@ -16,7 +16,7 @@ import PosterHall from "pages/common/PosterHall/PosterHall";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
 import AsiaLocation from "pages/asia/AsiaLocation/AsiaLocation";
 
-const formNo = "2292";
+const formNo = "1247";
 const abstractFormNo = "1898";
 const yearList = ["", "2022", "2023"];
 const asiaRoutes = [];
