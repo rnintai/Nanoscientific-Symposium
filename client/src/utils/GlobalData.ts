@@ -29,7 +29,7 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
         {
           name: "Yokohama, Japan",
-          date: "20 October 2023",
+          date: "27 October 2023",
           path: "https://event.nanoscientific.org/jp",
           img: `${S3_URL}/common/landing/Web_Japan.jpg`,
           type: "NSS Japan",
