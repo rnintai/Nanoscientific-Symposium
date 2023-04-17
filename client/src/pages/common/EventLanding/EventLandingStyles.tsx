@@ -97,8 +97,10 @@ export const EventLandingContainer = styled.div`
       width: 90%;
     }
     .top-logo-section {
+      display: flex !important;
+      justify-content: center;
       img {
-        width: 100%;
+        width: auto;
         margin: 10px 0;
         height: 40px;
       }
