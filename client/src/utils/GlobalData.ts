@@ -114,8 +114,8 @@ export const globalData = new Map<string, Common.globalDataType>([
         },
         {
           image: `${S3_URL}/common/landing/NanoAcademy-Online.jpg`,
-          title: "NanoAcademy Online",
-          desc: "The NanoAcademy Online provides scientific research and educational materials on subjects related to nanoscience. You can explore interactive webinars, tutorials, and live demonstrations, and discover both the basics and advanced atomic force microscopy techniques from AFM experts.",
+          title: "NANOacademy Online",
+          desc: "The NANOacademy Online provides scientific research and educational materials on subjects related to nanoscience. You can explore interactive webinars, tutorials, and live demonstrations, and discover both the basics and advanced atomic force microscopy techniques from AFM experts.",
           link: "https://www.parksystems.com/learning-center/programs/online-nanoacademy",
         },
       ],
