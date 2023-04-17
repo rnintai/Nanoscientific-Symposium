@@ -98,7 +98,7 @@ export const globalData = new Map<string, Common.globalDataType>([
           desc: "Discover the latest and most advanced SPM-related equipment at the Park exhibit hall.",
         },
       ],
-      eventLandingSection3Heading: "Get More NANOscieitific Knowledge",
+      eventLandingSection3Heading: "Get More NANOscieintific Knowledge",
       eventLandingSection3Content: [
         {
           image: `${S3_URL}/common/landing/NANOscientific_Magazine.jpg`,
