@@ -77,7 +77,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
           const res = await axios.post("/api/users/checkemail", {
             email: target.value,
             nation,
-            year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+            year: currentYear,
           });
           setEmailValid(!res.data.result ? 1 : 0);
         } catch (err) {
@@ -181,7 +181,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
         country: formData.Country,
         state: formData.State,
         nation,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+        year: currentYear,
       });
 
       const mktoFormInstance =

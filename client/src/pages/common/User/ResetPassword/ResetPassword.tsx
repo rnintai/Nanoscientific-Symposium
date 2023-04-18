@@ -98,7 +98,7 @@ const ResetPassword = () => {
         curPassword: isUserPasswordSet ? curPassword.value : null,
         newPassword: password1.value,
         nation: pathname,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+        year: currentYear,
       })
       .then((res) => {
         if (res.data.success) {
@@ -150,7 +150,7 @@ const ResetPassword = () => {
       .post("/api/users/passwordset/check", {
         nation: pathname,
         email: authState.email,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+        year: currentYear,
       })
       .then((res) => {
         setIsUserPasswordSet(res.data.result);

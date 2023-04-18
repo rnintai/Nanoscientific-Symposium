@@ -127,7 +127,7 @@ navProps) => {
       .post("/api/users/logout", {
         email,
         nation: pathname,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+        year: currentYear || "2022",
       })
       .then((res) => {
         if (res.data.success === true) {

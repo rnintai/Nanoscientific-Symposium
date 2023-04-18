@@ -64,20 +64,20 @@ module.exports = {
 
     try {
       let sql;
-      if (useYearList.indexOf(req.body.nation) === -1) {
-        // useYearList에 없는 경우
-        sql = `SELECT 
-        id,
-        email,
-        role,
-        is_password_set,
-        is_new_announcement,
-        is_announcement_cached
-        FROM user 
-        WHERE email="${accessToken.email}"
-        AND refresh_token="${req.cookies.refreshToken}";`;
-      } else {
-        sql = `SELECT 
+      // if (useYearList.indexOf(req.body.nation) === -1) {
+      //   // useYearList에 없는 경우
+      //   sql = `SELECT
+      //   id,
+      //   email,
+      //   role,
+      //   is_password_set,
+      //   is_new_announcement,
+      //   is_announcement_cached
+      //   FROM user
+      //   WHERE email="${accessToken.email}"
+      //   AND refresh_token="${req.cookies.refreshToken}";`;
+      // } else {
+      sql = `SELECT 
       id,
       email,
       role,
@@ -87,7 +87,7 @@ module.exports = {
       FROM ${year && year !== "2022" ? `user_${year}` : `user`}
       WHERE email="${accessToken.email}"
       AND refresh_token="${req.cookies.refreshToken}"`;
-      }
+      // }
 
       const result = await connection.query(sql);
       if (result[0].length === 0) {

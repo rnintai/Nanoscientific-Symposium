@@ -133,7 +133,7 @@ const App = () => {
                 email: authState.email,
                 nation: pathname,
                 flag: "cached",
-                year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+                year: currentYear,
               })
               .then((res) => {
                 if (res.data.success === true) {
@@ -189,7 +189,7 @@ const App = () => {
       .post("/api/users/check", {
         accessToken: authState.accessToken,
         nation: pathname === "" ? "" : pathname,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+        year: currentYear,
       })
       .then((res) => {
         /** 로그인 시, 페이지 이동 및 새로고침 할 때마다 검사 */

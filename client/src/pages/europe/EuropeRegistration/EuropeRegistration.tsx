@@ -127,7 +127,7 @@ const EuropeRegistration = ({ isStudent = false, init = false }: props) => {
                 const res = await axios.post("/api/users/checkemail", {
                   email: target.value,
                   nation,
-                  year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+                  year: currentYear,
                 });
                 setEmailValid(!res.data.result ? 1 : 0);
               } catch (err) {

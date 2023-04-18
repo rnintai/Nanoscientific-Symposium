@@ -19,7 +19,6 @@ import CloseButton from "components/CloseButton/CloseButton";
 import axios from "axios";
 import Timer from "components/Timer/Timer";
 import { globalData } from "utils/GlobalData";
-import { useYearList } from "utils/useYear";
 import useInput from "hooks/useInput";
 import { smallFontSize } from "utils/FontSize";
 import useNSSType from "hooks/useNSSType";
@@ -233,7 +232,7 @@ const EuropeLoginModal = ({
           email,
           password,
           nation: pathname,
-          year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+          year: currentYear,
         },
         {
           withCredentials: true,
@@ -269,7 +268,7 @@ const EuropeLoginModal = ({
       .post("/api/users/passwordset/check", {
         email: email.value,
         nation: pathname,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+        year: currentYear,
       })
       .then((res) => {
         if (res.data.success) {
@@ -318,7 +317,7 @@ const EuropeLoginModal = ({
         email: email.value,
         password: password1.value,
         nation: pathname,
-        year: useYearList.indexOf(pathname) === -1 ? "" : currentYear,
+        year: currentYear,
       })
       .then((res) => {
         if (res.data.success) {
