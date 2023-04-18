@@ -16,6 +16,8 @@ import Announcement from "pages/common/Announcement/Announcement";
 import SpeakerDetail from "pages/common/SpeakerDetail/SpeakerDetail";
 import PosterHall from "pages/common/PosterHall/PosterHall";
 import AbstractSubmission from "pages/common/AbstractSubmission/AbstractSubmission";
+import OnDemand from "pages/common/OnDemand/OnDemand";
+import OnDemandVideo from "pages/common/OnDemandVideo/OnDemandVideo";
 
 const formNo = "1184";
 const abstractFormNo = "1899";
@@ -88,6 +90,15 @@ yearList.map((y) => {
       {
         path: `/${pathname}/abstract`,
         element: <AbstractSubmission formNo={abstractFormNo} />,
+      },
+      {
+        path: `/${pathname}/on-demand`,
+        element: <OnDemand />,
+        // isPrivate: true,
+      },
+      {
+        path: `/${pathname}/on-demand/:id`,
+        element: <OnDemandVideo />,
       },
     ],
   );

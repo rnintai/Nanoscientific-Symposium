@@ -16,11 +16,14 @@ const usersCtrl = {
     const year = req.body.year;
     const userEmail = req.body.email;
     const userPw = req.body.password;
+    const isCommon = req.body.isCommon;
 
+    const yearList = ["2022", "2023"];
     let checked = false;
 
+    let sql;
+
     try {
-      let sql;
       // if (useYearList.indexOf(req.body.nation) === -1) {
       //   // useYearList에 없는 경우
       //   sql = `SELECT email, password, role FROM user WHERE email='${userEmail}'`;

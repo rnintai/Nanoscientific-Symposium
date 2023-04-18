@@ -4,7 +4,15 @@ import React, { useEffect, useState, useRef } from "react";
 import Link from "components/Link/LinkWithSearch";
 import { useNavigate } from "hooks/useNavigateWithSearch";
 import Box from "@mui/material/Box";
-import { Button, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -24,6 +32,8 @@ import { smallFontSize } from "utils/FontSize";
 import useNSSType from "hooks/useNSSType";
 import useCurrentYear from "hooks/useCurrentYear";
 import usePageViews from "hooks/usePageViews";
+import useSelect from "hooks/useSelect";
+import useAdminStore from "store/AdminStore";
 import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 
 interface ModalProps {
@@ -96,12 +106,16 @@ const EuropeLoginModal = ({
     useState<boolean>(false);
 
   //
+  const { currentNation, setCurrentNation } = useAdminStore();
+
+  //
   const pathname = usePageViews();
   const nssType = useNSSType();
   const email = useInput("");
   const password = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
+  const region = useSelect(pathname === "common" ? currentNation : pathname);
   const verificationCode = useInput("");
   const currentYear = useCurrentYear();
 
@@ -139,7 +153,7 @@ const EuropeLoginModal = ({
     try {
       const res = await axios.post("/api/mail/vcode/send", {
         email: email.value,
-        nation: pathname,
+        nation: currentNation,
         year: currentYear,
       });
       if (res.data.result) {
@@ -161,7 +175,7 @@ const EuropeLoginModal = ({
   const confirmCodeHandler = async () => {
     try {
       const res = await axios.post(`/api/mail/vcode/check`, {
-        nation: pathname,
+        nation: currentNation,
         email: email.value.trim(),
         code: verificationCode.value.trim(),
       });
@@ -210,7 +224,13 @@ const EuropeLoginModal = ({
   const state = useAuthState();
   const dispatch = useAuthDispatch();
 
-  const dispatchLogin = (e: string, r: string, t: string, i: number) =>
+  const dispatchLogin = (
+    e: string,
+    r: string,
+    n: string,
+    t: string,
+    i: number,
+  ) =>
     dispatch({
       type: "LOGIN",
       authState: {
@@ -218,6 +238,7 @@ const EuropeLoginModal = ({
         isLogin: true,
         role: r,
         email: e,
+        nation: currentNation,
         accessToken: t,
         id: i,
       },
@@ -231,8 +252,8 @@ const EuropeLoginModal = ({
         {
           email,
           password,
-          nation: pathname,
           year: currentYear,
+          nation: currentNation,
         },
         {
           withCredentials: true,
@@ -242,6 +263,7 @@ const EuropeLoginModal = ({
         dispatchLogin(
           email,
           res.data.role,
+          currentNation,
           res.data.accessToken,
           res.data.userId,
         );
@@ -250,7 +272,7 @@ const EuropeLoginModal = ({
 
         await axios.post(`/api/zoom/webinar/registrant/fetch`, {
           email,
-          nation: pathname,
+          nation: currentNation,
         });
       } else {
         setPasswordNotMatchAlert(true);
@@ -267,8 +289,8 @@ const EuropeLoginModal = ({
     axios
       .post("/api/users/passwordset/check", {
         email: email.value,
-        nation: pathname,
         year: currentYear,
+        nation: currentNation,
       })
       .then((res) => {
         if (res.data.success) {
@@ -316,7 +338,7 @@ const EuropeLoginModal = ({
       .post("/api/users/passwordset", {
         email: email.value,
         password: password1.value,
-        nation: pathname,
+        nation: currentNation,
         year: currentYear,
       })
       .then((res) => {
@@ -402,6 +424,27 @@ const EuropeLoginModal = ({
         <DialogTitle>{signInText || "SIGN IN"}</DialogTitle>
         {emailInputLabel && (
           <DialogContent>
+            <FormControl fullWidth sx={{ mt: 2, mb: 2 }}>
+              <InputLabel id="region-label">Region</InputLabel>
+              <Select
+                labelId="region-label"
+                label="Region"
+                error={region.value === ""}
+                readOnly={pathname !== "common"}
+                onBlur={() => {
+                  setCurrentNation(region.value);
+                }}
+                {...region}
+              >
+                <MenuItem value="">Please Select Region</MenuItem>
+                <MenuItem value="americas">Americas</MenuItem>
+                <MenuItem value="asia">Asia</MenuItem>
+                <MenuItem value="china">China</MenuItem>
+                <MenuItem value="eu">Europe</MenuItem>
+                <MenuItem value="jp">Japan</MenuItem>
+                <MenuItem value="kr">Korea</MenuItem>
+              </Select>
+            </FormControl>
             <TextField
               disabled={!emailModalOpen}
               ref={emailFocus}

@@ -9,6 +9,8 @@ interface AdminState {
   setIsSponsorPreview: (newState: boolean) => void;
   isSponsor2Preview: boolean;
   setIsSponsor2Preview: (newState: boolean) => void;
+  currentNation: string;
+  setCurrentNation: (lang: string) => void;
   currentLanguage: string;
   setCurrentLanguage: (lang: string) => void;
 }
@@ -24,6 +26,11 @@ const useAdminStore = create<AdminState>((set) => ({
     set((state) => ({ ...state, isSponsorPreview: newState })),
   setIsSponsorPreview: (newState) =>
     set((state) => ({ ...state, isSponsorPreview: newState })),
+  currentNation: localStorage.getItem("nss-nation"),
+  setCurrentNation: (nation) => {
+    localStorage.setItem("nss-nation", nation);
+    set((state) => ({ ...state, currentNation: nation }));
+  },
   currentLanguage: localStorage.getItem("nss-lang")
     ? localStorage.getItem("nss-lang")
     : "china",

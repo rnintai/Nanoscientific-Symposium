@@ -90,6 +90,7 @@ router.post(
         id: res.locals.id,
         email: res.locals.email,
         role: res.locals.role,
+        nation: res.locals.nation,
         accessToken: res.locals.accessToken,
         isPasswordSet: res.locals.is_password_set,
         isNewAnnouncement: res.locals.is_new_announcement,

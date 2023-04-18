@@ -72,3 +72,11 @@ ul {
 .css-kpm0tx-MuiButtonBase-root-MuiButton-root {
   font-size: 16px !important;
 }
+
+.MuiModal-root.MuiDialog-root .mktoForm {
+  font-family: "Open Sans" !important;
+}
+.MuiModal-root.MuiDialog-root .register {
+  position: absolute;
+  top: 18px;
+}

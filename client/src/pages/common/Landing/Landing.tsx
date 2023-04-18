@@ -252,10 +252,6 @@ const Landing = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(landingBannerContent);
-  }, [landingBannerContent]);
-
   const getLandingList = async () => {
     try {
       setLandingListLoading(true);

@@ -112,7 +112,8 @@ navProps) => {
   // submenu refs
   const submenuRefs = useRef({});
 
-  const { currentLanguage, setCurrentLanguage } = useAdminStore();
+  const { currentLanguage, setCurrentLanguage, currentNation } =
+    useAdminStore();
 
   const isEnglish = currentLanguage === "english";
   const isChinese = currentLanguage === "china";
@@ -126,7 +127,7 @@ navProps) => {
     axios
       .post("/api/users/logout", {
         email,
-        nation: pathname,
+        nation: currentNation,
         year: currentYear || "2022",
       })
       .then((res) => {

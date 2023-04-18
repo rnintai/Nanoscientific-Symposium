@@ -79,7 +79,12 @@ const App = () => {
   const unreadAnnouncementListDispatch = useUnreadListDispatch();
   const { bannerLoading, setBannerLoading, landingListLoading } =
     useLoadingStore();
-  const { currentLanguage, setCurrentLanguage } = useAdminStore();
+  const {
+    currentLanguage,
+    setCurrentLanguage,
+    currentNation,
+    setCurrentNation,
+  } = useAdminStore();
   const [currentTheme, setCurrentTheme] = useState<Theme>(themeObj);
   const [nationList, setNationList] = useState([]);
 
@@ -89,8 +94,12 @@ const App = () => {
   useEffect(() => {
     themeDispatch({ type: "LIGHTMODE" });
 
-    // setCurrentLanguage(pathname);
+    // 현재 nation 값 저장
+    if (pathname !== "home" && pathname !== "common") {
+      setCurrentNation(pathname);
+    }
   }, []);
+
   // url에 year가 없으면 추가해주기
   const checkYearAndRedirect = () => {
     if (
@@ -131,7 +140,7 @@ const App = () => {
             axios
               .post("/api/users/updateAnnouncementCache", {
                 email: authState.email,
-                nation: pathname,
+                nation: currentNation,
                 flag: "cached",
                 year: currentYear,
               })
@@ -174,21 +183,11 @@ const App = () => {
     setBannerLoading(false);
   };
 
-  useEffect(() => {
-    if (pathname === "jp") {
-      setCurrentTheme(jpThemeObj);
-    } else if (pathname === "china")
-      setCurrentTheme(currentLanguage === "china" ? enThemeObj : themeObj);
-    else setCurrentTheme(themeObj);
-
-    if (currentURL === "china") {
-      setNationList(["china", "common"]);
-    } else setNationList(["asia", "eu", "jp", "kr", "americas", "common"]);
-
+  const checkUser = (nation: string) => {
     axios
       .post("/api/users/check", {
         accessToken: authState.accessToken,
-        nation: pathname === "" ? "" : pathname,
+        nation,
         year: currentYear,
       })
       .then((res) => {
@@ -199,6 +198,7 @@ const App = () => {
             id,
             email,
             role,
+            nation,
             isPasswordSet,
             isNewAnnouncement,
             isAnnouncementCached,
@@ -212,6 +212,7 @@ const App = () => {
                 id,
                 email,
                 role,
+                nation,
                 accessToken,
                 isPasswordSet,
                 isLoading: false,
@@ -219,16 +220,10 @@ const App = () => {
                 isAnnouncementCached,
               },
             });
-            // console.log(
-            //   "sNewAnnouncement",
-            //   isNewAnnouncement,
-            //   "isAnnouncementCached",
-            //   isAnnouncementCached,
-            //   "in App.tsx",
-            // );
+
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
-            } else if (pathname !== "common" && pathname !== "home") {
+            } else if (nation !== "common" && nation !== "home") {
               calcAnnouncementCached();
             }
             if (isNewAnnouncement) {
@@ -237,11 +232,11 @@ const App = () => {
           }
           // 비밀번호 미설정 시 reset 시키기
           if (!isPasswordSet) {
-            navigate(`/${pathname}/${currentYear}/user/reset-password`);
+            navigate(`/${nation}/${currentYear}/user/reset-password`);
           }
         } else {
-          if (pathname !== "" && pathname !== "home") {
-            console.log("LOGOUT");
+          if (nation !== "" && nation !== "home") {
+            // console.log("LOGOUT");
             setLocalStorage();
           }
           authDispatch({
@@ -259,7 +254,24 @@ const App = () => {
         authDispatch({ type: "FINISHLOADING", authState: { ...authState } });
         // authState를 바로 사용할 수 없음 따라서, then내부에서 로그인할 때, 검사
       });
+  };
 
+  useEffect(() => {
+    if (pathname === "jp") {
+      setCurrentTheme(jpThemeObj);
+    } else if (pathname === "china")
+      setCurrentTheme(currentLanguage === "china" ? enThemeObj : themeObj);
+    else setCurrentTheme(themeObj);
+
+    if (currentURL === "china") {
+      setNationList(["china", "common"]);
+    } else setNationList(["asia", "eu", "jp", "kr", "americas", "common"]);
+
+    if (pathname !== "common") {
+      checkUser(pathname);
+    } else {
+      checkUser(currentNation);
+    }
     //
   }, [authState.isLoading, pathname, subpath]);
   useEffect(() => {

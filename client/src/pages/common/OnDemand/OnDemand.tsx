@@ -332,10 +332,16 @@ const OnDemand = () => {
             {totalCount} results
           </Typography>
           <Grid className="video-result" maxHeight="660px" overflow="auto">
-            {getOnDemandAllFilterLoading &&
-              new Array(6)
-                .fill(null)
-                .map(() => <ThumbnailCard key="skeleton" loading />)}
+            {getOnDemandAllFilterLoading && (
+              <>
+                <ThumbnailCard key="skeleton-1" loading />
+                <ThumbnailCard key="skeleton-2" loading />
+                <ThumbnailCard key="skeleton-3" loading />
+                <ThumbnailCard key="skeleton-4" loading />
+                <ThumbnailCard key="skeleton-5" loading />
+                <ThumbnailCard key="skeleton-6" loading />
+              </>
+            )}
             {!getOnDemandAllFilterLoading &&
               videoList.map((v, idx) => (
                 <ThumbnailCard

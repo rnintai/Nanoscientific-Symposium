@@ -7,6 +7,7 @@ import { editorRole } from "utils/Roles";
 import axios from "axios";
 import Loading from "components/Loading/Loading";
 import ComingSoon from "components/ComingSoon/ComingSoon";
+import useAdminStore from "store/AdminStore";
 
 interface AdminRouteProps {
   children: React.ReactNode;
@@ -21,7 +22,7 @@ const AdminRoute = ({ children, redirect }: AdminRouteProps) => {
   const navigate = useNavigate();
   const [isPublishedRoute, setIsPublishedRoute] = useState<number>(-1);
   const [loading, setLoading] = useState<boolean>(false);
-
+  const { currentNation } = useAdminStore();
   const isAdminRoute = subPath.split("/").indexOf("admin") !== -1;
   const isUserAdmin = editorRole.includes(authState.role);
 
@@ -29,7 +30,7 @@ const AdminRoute = ({ children, redirect }: AdminRouteProps) => {
     setLoading(true);
     if (!isAdminRoute) {
       axios
-        .post("/api/menu/admin", { nation: pathname, path: subPath })
+        .post("/api/menu/admin", { nation: currentNation, path: subPath })
         .then((res) => {
           setIsPublishedRoute(res.data.result ? 1 : 0);
         })

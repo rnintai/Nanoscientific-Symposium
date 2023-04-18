@@ -514,6 +514,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       forgotPasswordText: "Forgot your password?",
       createAccountText: "Create an account",
       changePasswordBtnText: "Change Password",
+      signInText: "SIGN IN",
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,
@@ -563,6 +564,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       forgotPasswordText: "Forgot your password?",
       createAccountText: "Create an account",
       changePasswordBtnText: "Change Password",
+      signInText: "SIGN IN",
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/us/main-page-banner.jpg`,

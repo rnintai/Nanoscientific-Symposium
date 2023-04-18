@@ -27,6 +27,7 @@ interface CommonModalProps {
   submitDisabled?: boolean;
   IsCustomWidth?: boolean;
   deleteHandler?: () => void;
+  hideCancel?: boolean;
 }
 
 const CommonModal = ({
@@ -44,6 +45,7 @@ const CommonModal = ({
   submitDisabled,
   IsCustomWidth,
   deleteHandler,
+  hideCancel,
 }: CommonModalProps) => {
   // theme
   const theme = useTheme();
@@ -114,18 +116,20 @@ const CommonModal = ({
                 {submitText}
               </LoadingButton>
             )}
-            <Button
-              variant="outlined"
-              onClick={handleClose}
-              sx={{
-                backgroundColor: "white",
-                "&:hover": {
-                  backgroundColor: "rgb(239 250 255)",
-                },
-              }}
-            >
-              Cancel
-            </Button>
+            {!hideCancel && (
+              <Button
+                variant="outlined"
+                onClick={handleClose}
+                sx={{
+                  backgroundColor: "white",
+                  "&:hover": {
+                    backgroundColor: "rgb(239 250 255)",
+                  },
+                }}
+              >
+                Cancel
+              </Button>
+            )}
           </DialogActions>
         </DialogContent>
       </Dialog>

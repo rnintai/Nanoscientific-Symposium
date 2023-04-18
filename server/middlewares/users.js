@@ -102,6 +102,7 @@ module.exports = {
         res.locals.id = result[0][0].id;
         res.locals.email = accessToken.email;
         res.locals.role = result[0][0].role;
+        res.locals.nation = req.body.nation;
         res.locals.is_password_set = result[0][0].is_password_set;
         res.locals.is_new_announcement = result[0][0].is_new_announcement;
         res.locals.is_announcement_cached = result[0][0].is_announcement_cached;
