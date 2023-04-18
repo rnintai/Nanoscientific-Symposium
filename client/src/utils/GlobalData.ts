@@ -28,6 +28,13 @@ export const globalData = new Map<string, Common.globalDataType>([
           type: "NSF Europe",
         },
         {
+          name: "Beijing, China",
+          date: "19 - 20 October 2023",
+          path: "https://nanoscientific.com.cn/china",
+          img: `${S3_URL}/common/landing/Web_China.jpg?v=0.1`,
+          type: "NSS China",
+        },
+        {
           name: "Yokohama, Japan",
           date: "27 October 2023",
           path: "https://event.nanoscientific.org/jp",
@@ -47,14 +54,6 @@ export const globalData = new Map<string, Common.globalDataType>([
           path: "https://event.nanoscientific.org/americas",
           img: `${S3_URL}/common/landing/Web_Americas.jpg`,
           type: "NSS Americas",
-        },
-
-        {
-          name: "Beijing, China",
-          date: "19 - 20 October 2023",
-          path: "https://nanoscientific.com.cn/china",
-          img: `${S3_URL}/common/landing/Web_China.jpg?v=0.1`,
-          type: "NSS China",
         },
       ],
       logoURL: `${S3_URL}/common/landing/2023_NSS_Logo.png`,
