@@ -16,7 +16,7 @@ export const AnnouncementCardContainer = styled.div<ContainerType>`
   .card-wrap {
     height: 270px;
     .ann-thumb {
-      width: 45%;
+      // width: 45%;
       border-right: 1px solid
         ${() => {
           const theme = useTheme();
@@ -25,7 +25,7 @@ export const AnnouncementCardContainer = styled.div<ContainerType>`
     }
     .desc-section {
       padding: 20px;
-      width: 55%;
+      // width: 55%;
     }
   }
 
@@ -54,10 +54,10 @@ export const AnnouncementCardContainer = styled.div<ContainerType>`
 
   @media screen and (max-width: 768px) {
     .card-wrap {
-      height: 400px;
+      height: auto;
       .ann-thumb {
-        width: 100%;
-        height: 40%;
+        // width: 100%;
+        // height: 40%;
         border-right: none;
         border-bottom: 1px solid
           ${() => {

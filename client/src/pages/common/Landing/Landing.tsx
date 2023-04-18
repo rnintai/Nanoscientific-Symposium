@@ -1229,9 +1229,7 @@ const Landing = () => {
                             src={`${S3_URL}/${sponsor.image_path}`}
                             alt={sponsor.name}
                             style={{
-                              maxHeight: sponsor.height
-                                ? sponsor.height
-                                : "80px",
+                              height: sponsor.height ? sponsor.height : "80px",
                               width: "100%",
                             }}
                           />
