@@ -45,7 +45,6 @@ declare module "@mui/material/styles" {
     overlay?: string;
     mainBg?: string;
   }
-
 }
 
 const getDesignTokens = (mode: PaletteMode) => ({
@@ -125,7 +124,7 @@ export const theme = (isDark: boolean) => {
   return createTheme({
     typography: {
       allVariants: {
-        fontFamily: `"Open Sans", sans-serif`,
+        fontFamily: `"Open Sans", "Noto Sans JP","Noto Sans SC", sans-serif`,
       },
     },
     breakpoints: {

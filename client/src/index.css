@@ -74,7 +74,7 @@ ul {
 }
 
 .MuiModal-root.MuiDialog-root .mktoForm {
-  font-family: "Open Sans" !important;
+  font-family: "Open Sans", "Noto Sans JP", "Noto Sans SC", sans-serif !important;
 }
 .MuiModal-root.MuiDialog-root .register {
   position: absolute;
