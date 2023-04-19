@@ -47,7 +47,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
   const navigate = useNavigate();
   const email = useInput("");
   const password = useInput("");
-  const region = useSelect(currentNation);
+  const region = useSelect(currentNation || "default");
 
   const state = useAuthState();
   const dispatch = useAuthDispatch();
@@ -116,6 +116,8 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
   };
 
   useEffect(() => {
+    console.log(region.value);
+
     if (stage === 2) {
       setFormLoading(true);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -213,7 +215,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
           IsCustomWidth
           onSubmit={handleSubmit}
           submitText={signInText}
-          submitDisabled={region.value === ""}
+          submitDisabled={region.value === "default" || !region.value}
           loading={loginLoading}
         >
           <FormControl fullWidth sx={{ mt: 2, mb: 2 }}>
@@ -221,7 +223,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
             <Select
               labelId="region-label"
               label="Region"
-              error={region.value === ""}
+              error={region.value === "default"}
               readOnly={pathname !== "common"}
               sx={{ width: "100%" }}
               onBlur={() => {
@@ -229,7 +231,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
               }}
               {...region}
             >
-              <MenuItem value="">Please Select Region</MenuItem>
+              <MenuItem value="default">Please Select Region</MenuItem>
               <MenuItem value="americas">Americas</MenuItem>
               <MenuItem value="asia">Asia</MenuItem>
               <MenuItem value="china">China</MenuItem>
@@ -268,7 +270,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
             {...password}
           />
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
-            {region.value === "" ? (
+            {region.value === "default" ? (
               <Tooltip title="Please Select Region" placement="bottom">
                 <Typography
                   fontSize={smallFontSize}
@@ -287,7 +289,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
                 </Typography>
               </Link>
             )}
-            {region.value === "" ? (
+            {region.value === "default" ? (
               <Tooltip title="Please Select Region" placement="bottom">
                 <Button
                   sx={{
@@ -316,8 +318,6 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
                   },
                 }}
                 onClick={() => {
-                  console.log("click");
-
                   setStage(2);
                 }}
               >
@@ -325,7 +325,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
                 Explore without logging in
               </Button>
             )}
-            {region.value === "" ? (
+            {region.value === "default" ? (
               <Tooltip title="Please Select Region" placement="bottom">
                 <Typography
                   fontSize={smallFontSize}

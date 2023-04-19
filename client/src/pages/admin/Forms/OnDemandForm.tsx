@@ -79,7 +79,7 @@ const OnDemandForm = ({
   const affiliation = useInput(edit ? selected.affiliation : "");
   const region = useSelect(edit ? selected.region : "");
   const year = useInput(edit ? selected.year : "");
-  const language = useInput(edit ? selected.language : "");
+  const language = useSelect(edit ? selected.language : "");
   const video = useInput(edit ? selected.video : "");
   const [application, setApplication] = useState<string[]>(
     edit && selected.application ? selected.application : [],
@@ -117,10 +117,10 @@ const OnDemandForm = ({
       setSubmitLoading(true);
       await axios.post("/api/ondemand", {
         id: edit ? selected.id : undefined,
-        title: title.value,
+        title: escapeQuotes(title.value),
         speaker: speaker.value,
         affiliation: affiliation.value,
-        abstractDesc: abstractDesc ? escapeQuotes(abstractDesc) : null,
+        abstractDesc: abstractDesc ? escapeQuotes(abstractDesc) : "",
         region: region.value,
         year: year.value,
         application,
@@ -254,6 +254,22 @@ const OnDemandForm = ({
 
   // };
 
+  // 비디오가 유튜브일 경우 썸네일 자동추출
+  useEffect(() => {
+    if (video.value.indexOf("youtube.com") !== -1) {
+      const videoCode = new URL(video.value).searchParams.get("v");
+      const resultURL = `https://i.ytimg.com/vi/${videoCode}/mqdefault.jpg`;
+      if (thumbnail !== resultURL) {
+        setTimeout(() => {
+          if (confirm("Do you want to import Youtube thumbnail?")) {
+            setThumbnail(resultURL);
+            setThumbnailPreview(resultURL);
+          }
+        }, 500);
+      }
+    }
+  }, [video.value]);
+
   return (
     <CommonModal
       open={open}
@@ -303,23 +319,24 @@ const OnDemandForm = ({
           required
           size="small"
           sx={{ width: "48%", marginBottom: "15px" }}
+          inputProps={{ maxLength: 4 }}
           {...year}
         />
 
         <FormControl required variant="filled" sx={{ width: "48%" }}>
           <InputLabel>Region</InputLabel>
           <Select label="Region" placeholder="Please Select" {...region}>
+            <MenuItem value="Americas">Americas</MenuItem>
+            <MenuItem value="Asia">Asia</MenuItem>
             <MenuItem value="China">China</MenuItem>
             <MenuItem value="Europe">Europe</MenuItem>
             <MenuItem value="Japan">Japan</MenuItem>
             <MenuItem value="Korea">Korea</MenuItem>
-            <MenuItem value="SE Asia">SE Asia</MenuItem>
-            <MenuItem value="United States">United States</MenuItem>
           </Select>
         </FormControl>
       </Stack>
       <Stack direction="row" justifyContent="space-between">
-        <TextField
+        {/* <TextField
           margin="dense"
           label="Language"
           fullWidth
@@ -328,7 +345,16 @@ const OnDemandForm = ({
           size="small"
           sx={{ width: "48%", marginBottom: "15px" }}
           {...language}
-        />
+        /> */}
+        <FormControl required variant="filled" sx={{ width: "48%" }}>
+          <InputLabel>Language</InputLabel>
+          <Select label="Language" placeholder="Please Select" {...language}>
+            <MenuItem value="English">English</MenuItem>
+            <MenuItem value="Chinese">Chinese</MenuItem>
+            <MenuItem value="Japanese">Japanese</MenuItem>
+            <MenuItem value="Korean">Korean</MenuItem>
+          </Select>
+        </FormControl>
         <TextField
           margin="dense"
           label="Video"
