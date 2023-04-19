@@ -30,9 +30,6 @@ const OnDemandVideo = () => {
   ]);
 
   const checkUser = () => {
-    console.log("checkUser");
-    console.log(cookies.isSubmittedOnDemand, isLogin);
-
     if (cookies.isSubmittedOnDemand === "true" || isLogin) {
       setOpenLoginModal(false);
       getOnDemandVideo();

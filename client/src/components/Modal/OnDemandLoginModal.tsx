@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
   FormControl,
   InputLabel,
@@ -12,13 +13,16 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import CommonModal from "components/CommonModal/CommonModal";
+import Loading from "components/Loading/Loading";
 import MarketoForm from "components/MarketoForm/MarketoForm";
 import { useAuthDispatch, useAuthState } from "context/AuthContext";
 import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
 import useSelect from "hooks/useSelect";
 import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
 import useAdminStore from "store/AdminStore";
 import { smallFontSize } from "utils/FontSize";
@@ -61,6 +65,8 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
     });
 
   const [stage, setStage] = useState<number>(1);
+  const [formId, setFormId] = useState<string>("");
+  const [formLoading, setFormLoading] = useState<boolean>(false);
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
   const [loginFailAlert, setLoginFailAlert] = useState<boolean>(false);
 
@@ -111,12 +117,13 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
 
   useEffect(() => {
     if (stage === 2) {
+      setFormLoading(true);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       window.MktoForms2.loadForm(
         "//pages.parksystems.com",
         "988-FTP-549",
-        2312,
+        formId,
         (form: any) => {
           const $check1 =
             document.querySelector("#LblpsmktOptin")?.parentElement;
@@ -140,12 +147,45 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
           //   "css-1xsmak0-MuiButtonBase-root-MuiButton-root-MuiLoadingButton-root",
           //   "register",
           // );
+          setFormLoading(false);
         },
       );
     }
   }, [stage]);
+  // 나라 변경에 따라 formNo 변경
+  useEffect(() => {
+    switch (currentNation) {
+      case "europe": {
+        setFormId("2312");
+        break;
+      }
+      case "china": {
+        setFormId("2325");
+        break;
+      }
+      case "jp": {
+        setFormId("2326");
+        break;
+      }
+      case "kr": {
+        setFormId("2327");
+        break;
+      }
+      case "asia": {
+        setFormId("2328");
+        break;
+      }
+      case "americas": {
+        setFormId("2330");
+        break;
+      }
+      default:
+        break;
+    }
+  }, [currentNation]);
 
-  const submitHandler = () => {
+  const [cookies, setCookie] = useCookies(["isSubmittedOnDemand"]);
+  const handleSubmitMktoForm = () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     window.MktoForms2.allForms()
@@ -155,7 +195,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
         window.MktoForms2.allForms().length - 1
       ].submit()
       .onSuccess(() => {
-        console.log("success");
+        setCookie("isSubmittedOnDemand", "true");
       });
   };
   const { createAccountText, forgotPasswordText, signInText } = globalData.get(
@@ -183,6 +223,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
               label="Region"
               error={region.value === ""}
               readOnly={pathname !== "common"}
+              sx={{ width: "100%" }}
               onBlur={() => {
                 setCurrentNation(region.value);
               }}
@@ -315,11 +356,37 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
           onCloseCallback={handleClose}
           IsCustomWidth
           loading={loginLoading}
+          onSubmit={handleSubmitMktoForm}
+          submitText="Submit"
         >
-          <MarketoForm formId="2312" />
-          <Button onClick={submitHandler} sx={{ position: "absolute" }}>
-            Submit
-          </Button>
+          {formLoading && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "300px",
+                height: "300px",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          {!formLoading && (
+            <ArrowBackIcon
+              sx={{
+                mb: 1,
+                opacity: "0.5",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                "&:hover": { opacity: "1.0" },
+              }}
+              onClick={() => {
+                setStage(1);
+              }}
+            />
+          )}
+          <MarketoForm formId={formId} />
         </CommonModal>
       )}
     </>
