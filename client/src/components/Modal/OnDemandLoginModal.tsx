@@ -299,6 +299,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
                     "&:hover": {
                       backgroundColor: "transparent",
                     },
+                    margin: "0 30px",
                     opacity: 0.3,
                     cursor: "default",
                   }}
@@ -313,6 +314,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
                   p: 0,
                   textTransform: "none",
                   color: "black",
+                  margin: "0 30px",
                   "&:hover": {
                     backgroundColor: "transparent",
                   },
