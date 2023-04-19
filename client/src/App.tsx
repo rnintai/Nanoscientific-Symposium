@@ -69,6 +69,8 @@ const App = () => {
   const [loginFailed, setLoginFailed] = useState<boolean>(false);
   const [passwordSetSuccessAlert, setPasswordSetSuccessAlert] =
     useState<boolean>(false);
+  const [noRegionAlert, setNoRegionAlert] = useState<boolean>(false);
+
   const [logoutSuccess, setLogoutSuccess] = useState<boolean>(false);
   const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
   const themeObj = theme(themeState.darkMode);
@@ -535,6 +537,7 @@ const App = () => {
           <LoginModal
             setSuccess={setLoginSuccess}
             setFailed={setLoginFailed}
+            setNoRegionAlert={setNoRegionAlert}
             emailModalOpen={emailModalOpen}
             setEmailModalOpen={setEmailModalOpen}
             setPasswordSetSuccessAlert={setPasswordSetSuccessAlert}
@@ -574,6 +577,13 @@ const App = () => {
           variant="filled"
           severity="success"
           content="Password is successfully set."
+        />
+        <TopCenterSnackBar
+          value={noRegionAlert}
+          setValue={setNoRegionAlert}
+          variant="filled"
+          severity="error"
+          content="Please select your region."
         />
       </AppContainer>
     </ThemeProvider>

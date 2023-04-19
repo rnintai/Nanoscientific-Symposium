@@ -11,6 +11,7 @@ import {
   MenuItem,
   Select,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -39,6 +40,7 @@ import { useAuthState, useAuthDispatch } from "../../context/AuthContext";
 interface ModalProps {
   setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
   setFailed: React.Dispatch<React.SetStateAction<boolean>>;
+  setNoRegionAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setPasswordSetSuccessAlert: React.Dispatch<React.SetStateAction<boolean>>;
   emailModalOpen: boolean;
   setEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -65,9 +67,10 @@ const TransitionLeft = React.forwardRef(function Transition(
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
-const EuropeLoginModal = ({
+const LoginModal = ({
   setSuccess,
   setFailed,
+  setNoRegionAlert,
   setPasswordSetSuccessAlert,
   emailModalOpen,
   setEmailModalOpen,
@@ -104,7 +107,6 @@ const EuropeLoginModal = ({
   const [codeWrongAlert, setCodeWrongAlert] = useState<boolean>(false);
   const [passwordChangeSuccessAlert, setPasswordChangeSuccessAlert] =
     useState<boolean>(false);
-
   //
   const { currentNation, setCurrentNation } = useAdminStore();
 
@@ -285,6 +287,12 @@ const EuropeLoginModal = ({
   };
 
   const nextHandler = () => {
+    if (region.value === "default") {
+      console.log("hi");
+
+      setNoRegionAlert(true);
+      return;
+    }
     setLoading(true);
     axios
       .post("/api/users/passwordset/check", {
@@ -429,14 +437,14 @@ const EuropeLoginModal = ({
               <Select
                 labelId="region-label"
                 label="Region"
-                error={region.value === ""}
+                error={region.value === "default"}
                 readOnly={pathname !== "common"}
                 onBlur={() => {
                   setCurrentNation(region.value);
                 }}
                 {...region}
               >
-                <MenuItem value="">Please Select Region</MenuItem>
+                <MenuItem value="default">Please Select Region</MenuItem>
                 <MenuItem value="americas">Americas</MenuItem>
                 <MenuItem value="asia">Asia</MenuItem>
                 <MenuItem value="china">China</MenuItem>
@@ -464,7 +472,7 @@ const EuropeLoginModal = ({
           </DialogContent>
         )}
         <DialogActions style={{ flexDirection: "column" }}>
-          {loading && (
+          {/* {loading && (
             <LoadingButton
               loading
               style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
@@ -472,16 +480,28 @@ const EuropeLoginModal = ({
             >
               Loading
             </LoadingButton>
-          )}
-          {!loading && (
-            <Button
+          )} */}
+          {region.value === "default" ? (
+            <Tooltip title="Please Select Region" placement="bottom">
+              <LoadingButton
+                style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
+                sx={{ opacity: 0.3, cursor: "default" }}
+                variant="contained"
+                color="primary"
+              >
+                {goNextText}
+              </LoadingButton>
+            </Tooltip>
+          ) : (
+            <LoadingButton
+              loading={loading}
               style={{ margin: "10px", borderRadius: "30px", width: "100%" }}
               variant="contained"
               color="primary"
               onClick={nextHandler}
             >
               {goNextText}
-            </Button>
+            </LoadingButton>
           )}
           <Stack
             direction="row"
@@ -490,23 +510,44 @@ const EuropeLoginModal = ({
           >
             {/* {pathname === "eu" ? ( */}
 
-            <Link
-              to={`${pathname}/${currentYear}/registration`}
-              onClick={closeAllModal}
-            >
-              <Typography fontSize={smallFontSize}>
-                {createAccountText}
-              </Typography>
-            </Link>
-
-            <Link
-              to={`${pathname}/${currentYear}/user/forgot-password`}
-              onClick={closeAllModal}
-            >
-              <Typography fontSize={smallFontSize}>
-                {forgotPasswordText}
-              </Typography>
-            </Link>
+            {region.value === "default" ? (
+              <Tooltip title="Please Select Region" placement="bottom">
+                <Typography
+                  fontSize={smallFontSize}
+                  sx={{ opacity: 0.3, cursor: "default" }}
+                >
+                  {createAccountText}
+                </Typography>
+              </Tooltip>
+            ) : (
+              <Link
+                to={`${pathname}/${currentYear}/registration`}
+                onClick={closeAllModal}
+              >
+                <Typography fontSize={smallFontSize}>
+                  {createAccountText}
+                </Typography>
+              </Link>
+            )}
+            {region.value === "default" ? (
+              <Tooltip title="Please Select Region" placement="bottom">
+                <Typography
+                  fontSize={smallFontSize}
+                  sx={{ opacity: 0.3, cursor: "default" }}
+                >
+                  {forgotPasswordText}
+                </Typography>
+              </Tooltip>
+            ) : (
+              <Link
+                to={`${pathname}/${currentYear}/user/forgot-password`}
+                onClick={closeAllModal}
+              >
+                <Typography fontSize={smallFontSize}>
+                  {forgotPasswordText}
+                </Typography>
+              </Link>
+            )}
           </Stack>
         </DialogActions>
       </Dialog>
@@ -787,4 +828,4 @@ const EuropeLoginModal = ({
   );
 };
 
-export default EuropeLoginModal;
+export default LoginModal;
