@@ -382,7 +382,7 @@ const OnDemandLoginModal = (props: OnDemandLoginModalProps) => {
                 "&:hover": { opacity: "1.0" },
               }}
               onClick={() => {
-                setStage(1);
+                navigate(0);
               }}
             />
           )}
