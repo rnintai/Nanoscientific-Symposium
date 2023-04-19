@@ -384,7 +384,7 @@ const OnDemand = () => {
             activePage={Number(page)}
             itemsCountPerPage={itemPerPage}
             totalItemsCount={totalCount}
-            pageRangeDisplayed={2}
+            pageRangeDisplayed={5}
             prevPageText="‹"
             nextPageText="›"
             onChange={handlePageChange}

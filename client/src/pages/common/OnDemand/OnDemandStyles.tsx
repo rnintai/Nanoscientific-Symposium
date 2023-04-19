@@ -105,7 +105,7 @@ export const OnDemandContainer = styled.div`
   .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 25px;
   }
 
   ul {
@@ -122,6 +122,17 @@ export const OnDemandContainer = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 1rem;
+    transition: all 0.2s ease;
+  }
+  ul.pagination li:hover {
+    background: #21ade521;
+  }
+  ul.pagination li.disabled {
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  ul.pagination li.disabled:hover {
+    background: none;
   }
 
   ul.pagination li:first-child {
@@ -143,12 +154,7 @@ export const OnDemandContainer = styled.div`
   }
 
   ul.pagination li.active {
-    background-color: #337ab7;
-  }
-
-  ul.pagination li a:hover,
-  ul.pagination li a.active {
-    color: blue;
+    background-color: #21ade5;
   }
 
   .page-selection {
