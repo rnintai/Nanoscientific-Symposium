@@ -185,7 +185,7 @@ navProps) => {
             <MenuIcon />
           </IconButton>
           <Link
-            to={`${nationAndYear}`}
+            to={pathname === "common" ? "/" : nationAndYear}
             className={`${hideMenu ? "logo-link disabled" : "logo-link"}`}
             style={{ padding: "0px" }}
           >
