@@ -9,6 +9,7 @@ router
 
 router.route("/:id").get(onDemandCtrl.getOnDemandVideo);
 router.route("/filter/list").get(onDemandCtrl.getOnDemandAllFilter);
+router.route("/filter/search").get(onDemandCtrl.getSearchVideo);
 router.route("/page/list").get(onDemandCtrl.getOnDemandPageVideo);
 router
   .route("/application/list")

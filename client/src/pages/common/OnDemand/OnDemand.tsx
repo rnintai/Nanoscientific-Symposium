@@ -3,9 +3,14 @@
 import {
   Button,
   CircularProgress,
+  FormControl,
   Grid,
   IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   Stack,
+  TextField,
   Typography,
   useTheme,
   // Pagination
@@ -24,6 +29,9 @@ import OnDemandForm from "pages/admin/Forms/OnDemandForm";
 import useQuery from "hooks/useQuery";
 import OnDemandFilter from "components/OnDemandFilter/OnDemandFilter";
 import ThumbnailCard from "components/ThumbnailCard/ThumbnailCard";
+import useInput from "hooks/useInput";
+import SearchIcon from "@mui/icons-material/Search";
+import { escapeQuotes } from "utils/String";
 import { OnDemandContainer } from "./OnDemandStyles";
 
 const itemPerPage = 6;
@@ -44,16 +52,14 @@ const OnDemand = () => {
 
   const [totalCount, setTotalCount] = useState(1);
   const [videoListLoading, setVideoListLoading] = useState<boolean>(false);
-
   const [filterList, setFilterList] = useState<Common.onDemandTagType[]>([]);
-
   const [yearList, setYearList] = useState<any[]>([]);
-
   const [regionList, setRegionList] = useState<any[]>([]);
-
   const [languageList, setLanguageList] = useState<any[]>([]);
-
   const [applicationList, setApplicationList] = useState<any[]>([]);
+
+  // input
+  const keyword = useInput("");
 
   // loading
   const [getOnDemandAllFilterLoading, setGetOnDemandAllFilterLoading] =
@@ -122,7 +128,29 @@ const OnDemand = () => {
   const getOndemandPageList = async () => {
     try {
       setVideoListLoading(true);
-      const res = await axios.get(`/api/ondemand/page/list${search}`);
+      console.log(search);
+
+      const res = await axios.get(`/api/ondemand/page/list`, {
+        params: {
+          page: query.get("page") ? escapeQuotes(query.get("page")) : null,
+          itemPerPage: query.get("itemPerPage")
+            ? escapeQuotes(query.get("itemPerPage"))
+            : null,
+          year: query.get("year") ? escapeQuotes(query.get("year")) : null,
+          region: query.get("region")
+            ? escapeQuotes(query.get("region"))
+            : null,
+          language: query.get("language")
+            ? escapeQuotes(query.get("language"))
+            : null,
+          application: query.get("application")
+            ? escapeQuotes(query.get("application"))
+            : null,
+          keyword: query.get("keyword")
+            ? escapeQuotes(query.get("keyword"))
+            : null,
+        },
+      });
       setVideoList(res.data.result);
       // 페이지 넘어간후 필터 클릭했을때 아무것도 안뜨는거 방지
       if (res.data.totalCount <= itemPerPage) handlePageChange(1);
@@ -163,6 +191,13 @@ const OnDemand = () => {
         .split(",")
         .map((m) => newFilterList.push({ type: "application", value: m }));
     }
+    if (query.get("keyword")) {
+      newFilterList.push({
+        type: "keyword",
+        value: query.get("keyword"),
+      });
+    }
+
     // 일단 태그에 active 모두 삭제 => 초기화
     document.querySelectorAll(`.tag`).forEach((e) => {
       e.classList.remove("active");
@@ -199,7 +234,9 @@ const OnDemand = () => {
     t: Common.onDemandTagType,
   ) => {
     const tagRef = document.querySelector(
-      `.tag.tag-${t.type}-${t.value.replace(/\s/g, "-")}`,
+      `.tag.tag-${t.type}-${t.value
+        .replace(/\s/g, "-")
+        .replace(/('|"|,|\/|`)/g, "")}`,
     );
     if (tagRef !== null) {
       tagRef.classList.add("active");
@@ -207,6 +244,8 @@ const OnDemand = () => {
   };
 
   const handleClearFilter = () => {
+    // keyword input 비우기
+    keyword.setValue("");
     // filterList를 빈 리스트로 대체.
     setFilterList([]);
     navigate("");
@@ -226,6 +265,12 @@ const OnDemand = () => {
     navigate(`?${query.toString()}`);
   };
 
+  // 검색 기능
+  const handleSearch = () => {
+    query.set("keyword", keyword.value);
+    navigate(`?${query.toString()}`);
+  };
+
   return (
     <OnDemandContainer>
       <Stack
@@ -233,94 +278,129 @@ const OnDemand = () => {
         flexDirection="row"
         justifyContent="center"
       >
-        {/* control panel */}
-        <Stack className="control-panel" sx={{ p: "8px 12px" }}>
-          <Box className="selected-filters">
-            <Stack direction="row" justifyContent="space-between">
-              <Typography
-                fontSize={xsmallFontSize}
-                color={theme.palette.grey[600]}
-                mb="5px"
-              >
-                Selected Filters
-              </Typography>
-              <Typography
-                component="button"
-                className="clear-btn"
-                fontSize={xsmallFontSize}
-                color={theme.palette.grey[600]}
-                mb="5px"
-                onClick={handleClearFilter}
-              >
-                Clear
-              </Typography>
-            </Stack>
-            {/* selected filter List */}
-            <Stack mb={1} direction="row" flexWrap="wrap">
-              {filterList.length === 0 ? (
-                <Typography
-                  color={theme.palette.grey[400]}
-                  fontSize={smallFontSize}
-                >
-                  None
-                </Typography>
-              ) : (
-                filterList.map((f) => (
-                  <Typography
-                    key={`selected-tag-${f.type}-${f.value}`}
-                    className="tag selected"
-                    // sx={{ cursor: "default !important" }}
-                    onClick={() => {
-                      handleAddTag(null, f);
-                    }}
-                    mb="10px"
-                  >
-                    {f.value} &times;
-                  </Typography>
-                ))
-              )}
-            </Stack>
-          </Box>
-          <hr className="dashed" />
-          <Typography
-            fontSize={xsmallFontSize}
-            color={theme.palette.grey[600]}
-            sx={{ mt: 1 }}
+        <Stack>
+          {/* keyword search */}
+          <FormControl
+            variant="outlined"
+            sx={{
+              mb: 1,
+              width: { laptop: "300px", mobile: "100%" },
+            }}
           >
-            Filters
-          </Typography>
-          <Stack className="filter-wrap">
-            <OnDemandFilter
-              label="Year"
-              filterList={yearList}
-              selectedFilter={filterList.filter((f) => f.type === "year")}
-              handleClick={handleAddTag}
+            <OutlinedInput
+              id="keyword"
+              margin="dense"
+              size="small"
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="Search"
+                    onClick={handleSearch}
+                    edge="end"
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                </InputAdornment>
+              }
+              onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
+              {...keyword}
             />
+          </FormControl>
+          {/* control panel */}
+          <Stack className="control-panel" sx={{ p: "8px 12px" }}>
+            <Box className="selected-filters">
+              <Stack direction="row" justifyContent="space-between">
+                <Typography
+                  fontSize={xsmallFontSize}
+                  color={theme.palette.grey[600]}
+                  mb="5px"
+                >
+                  Selected Filters
+                </Typography>
+                <Typography
+                  component="button"
+                  className="clear-btn"
+                  fontSize={xsmallFontSize}
+                  color={theme.palette.grey[600]}
+                  mb="5px"
+                  onClick={handleClearFilter}
+                >
+                  Clear
+                </Typography>
+              </Stack>
+              {/* selected filter List */}
+              <Stack mb={1} direction="row" flexWrap="wrap">
+                {filterList.length === 0 ? (
+                  <Typography
+                    color={theme.palette.grey[400]}
+                    fontSize={smallFontSize}
+                  >
+                    None
+                  </Typography>
+                ) : (
+                  filterList.map((f) => (
+                    <Typography
+                      key={`selected-tag-${f.type}-${f.value}`}
+                      className="tag selected"
+                      // sx={{ cursor: "default !important" }}
+                      onClick={() => {
+                        handleAddTag(null, f);
+                      }}
+                      mb="10px"
+                    >
+                      {f.type === "keyword" ? `Search: ${f.value}` : f.value}{" "}
+                      &times;
+                    </Typography>
+                  ))
+                )}
+              </Stack>
+            </Box>
             <hr className="dashed" />
-            <OnDemandFilter
-              label="Region"
-              filterList={regionList}
-              selectedFilter={filterList.filter((f) => f.type === "region")}
-              handleClick={handleAddTag}
-            />
-            <hr className="dashed" />
-            <OnDemandFilter
-              label="Language"
-              filterList={languageList}
-              selectedFilter={filterList.filter((f) => f.type === "language")}
-              handleClick={handleAddTag}
-            />
-            <hr className="dashed" />
-            <OnDemandFilter
-              label="Application"
-              filterList={applicationList}
-              selectedFilter={filterList.filter(
-                (f) => f.type === "application",
-              )}
-              handleClick={handleAddTag}
-            />
+            <Typography
+              fontSize={xsmallFontSize}
+              color={theme.palette.grey[600]}
+              sx={{ mt: 1 }}
+            >
+              Filters
+            </Typography>
+            <Stack className="filter-wrap">
+              <OnDemandFilter
+                label="Year"
+                filterList={yearList}
+                selectedFilter={filterList.filter((f) => f.type === "year")}
+                handleClick={handleAddTag}
+              />
+              <hr className="dashed" />
+              <OnDemandFilter
+                label="Region"
+                filterList={regionList}
+                selectedFilter={filterList.filter((f) => f.type === "region")}
+                handleClick={handleAddTag}
+              />
+              <hr className="dashed" />
+              <OnDemandFilter
+                label="Language"
+                filterList={languageList}
+                selectedFilter={filterList.filter((f) => f.type === "language")}
+                handleClick={handleAddTag}
+              />
+              <hr className="dashed" />
+              <OnDemandFilter
+                label="Application"
+                filterList={applicationList}
+                selectedFilter={filterList.filter(
+                  (f) => f.type === "application",
+                )}
+                handleClick={handleAddTag}
+              />
+            </Stack>
           </Stack>
         </Stack>
+
         {/* videos */}
         <Stack alignItems="center">
           <Typography

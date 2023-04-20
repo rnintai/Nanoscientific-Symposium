@@ -75,7 +75,7 @@ const onDemandCtrl = {
 
   getOnDemandPageVideo: async (req, res) => {
     const currentPool = getCurrentPool("common");
-    const { page, itemPerPage, year, region, language, application } =
+    const { page, itemPerPage, year, region, language, application, keyword } =
       req.query;
     const connection = await currentPool.getConnection(async (conn) => conn);
 
@@ -89,7 +89,14 @@ const onDemandCtrl = {
         !language &&
         !application
       )
-        sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT 0,6;`;
+        sql = `SELECT * FROM on_demand 
+        ${
+          keyword
+            ? `WHERE concat_ws('',title, speaker, affiliation, abstract_desc) 
+            LIKE "%${keyword}%"`
+            : ``
+        }
+        ORDER BY year DESC,region LIMIT 0,6;`;
       else if (
         page &&
         itemPerPage &&
@@ -98,7 +105,14 @@ const onDemandCtrl = {
         !language &&
         !application
       ) {
-        sql = `SELECT * FROM on_demand ORDER BY year DESC,region LIMIT ${
+        sql = `SELECT * FROM on_demand
+        ${
+          keyword
+            ? `WHERE concat_ws('',title, speaker, affiliation, abstract_desc) 
+            LIKE "%${keyword}%"`
+            : ``
+        }
+        ORDER BY year DESC,region LIMIT ${
           (page - 1) * itemPerPage
         }, ${itemPerPage};`;
       } else {
@@ -142,7 +156,13 @@ const onDemandCtrl = {
                 })
                 .join(" or ")} `
             : `IFNULL(application, '') LIKE '%'`
-        }  ORDER BY year DESC, region
+        }  
+        ${
+          keyword
+            ? `and concat_ws('',title, speaker, affiliation, abstract_desc) 
+            LIKE "%${keyword}%"`
+            : ``
+        } ORDER BY year DESC, region
         LIMIT ${(page - 1) * itemPerPage}, ${itemPerPage};
       `;
       }
@@ -187,10 +207,17 @@ const onDemandCtrl = {
                 })
                 .join(" or ")} `
             : `IFNULL(application, '') LIKE '%'`
+        } 
+        ${
+          keyword
+            ? `and concat_ws('',title, speaker, affiliation, abstract_desc) 
+            LIKE "%${keyword}%"`
+            : ``
         } ORDER BY year DESC, region ;
       `;
       const row = await connection.query(sql);
       const row2 = await connection.query(sql2);
+
       const result = row[0].map((arr) => {
         return {
           ...arr,
@@ -430,6 +457,13 @@ const onDemandCtrl = {
         err,
       });
     }
+  },
+
+  getSearchVideo: async (req, res) => {
+    const currentPool = getCurrentPool("common");
+    const connection = await currentPool.getConnection(async (conn) => conn);
+    const { query } = req.query;
+    console.log(query);
   },
 };
 

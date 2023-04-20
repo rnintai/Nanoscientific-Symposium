@@ -183,7 +183,7 @@ declare namespace Common {
   }
 
   interface onDemandTagType {
-    type: "region" | "year" | "language" | "application";
+    type: "region" | "year" | "language" | "application" | "keyword";
     value: string;
   }
 
