@@ -238,7 +238,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
         nation,
         email: formData.Email,
         password: null,
-        // year: currentYear,
+        year: currentYear,
       });
       if (res.data.success) {
         dispatchLogin(formData.Email, res.data.role, res.data.accessToken);
