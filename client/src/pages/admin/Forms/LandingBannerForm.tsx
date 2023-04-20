@@ -8,6 +8,7 @@ import usePageViews from "hooks/usePageViews";
 import { useNavigate } from "react-router";
 import S3Upload from "components/S3Upload/S3Upload";
 import useAdminStore from "store/AdminStore";
+import { escapeQuotes } from "utils/String";
 
 interface LandingBannerFormProps extends React.ComponentPropsWithoutRef<"div"> {
   open: boolean;
@@ -47,10 +48,10 @@ const LandingBannerForm = ({
         nation: pathname,
         year,
         language: pathname === "china" ? currentLanguage : undefined,
-        date: date.value,
-        desc: desc.value,
+        date: escapeQuotes(date.value),
+        desc: escapeQuotes(desc.value),
         // logo: logo.value,
-        venue: venue.value,
+        venue: escapeQuotes(venue.value),
         background: imagePath,
       });
       setOpen(false);
