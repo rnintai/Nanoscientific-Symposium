@@ -1,7 +1,13 @@
 /* eslint-disable no-unused-expressions */
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { Routes, Route, useNavigate, Link } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  useNavigate,
+  Link,
+  useLocation,
+} from "react-router-dom";
 import { useNavigate as useNavigateWithSearch } from "hooks/useNavigateWithSearch";
 import EventLanding from "pages/common/EventLanding/EventLanding";
 import NavBar from "components/NavBar/NavBar";
@@ -185,6 +191,7 @@ const App = () => {
     setBannerLoading(false);
   };
 
+  const location = useLocation();
   const checkUser = (nation: string) => {
     axios
       .post("/api/users/check", {
@@ -225,7 +232,7 @@ const App = () => {
 
             if (isAnnouncementCached) {
               alarmDispatch({ type: "OFF" });
-            } else if (nation !== "common" && nation !== "home") {
+            } else if (pathname !== "common" && pathname !== "home") {
               calcAnnouncementCached();
             }
             if (isNewAnnouncement) {
@@ -233,8 +240,12 @@ const App = () => {
             }
           }
           // 비밀번호 미설정 시 reset 시키기
-          if (!isPasswordSet) {
-            navigate(`/${nation}/${currentYear}/user/reset-password`);
+          if (!isPasswordSet && !location.pathname.includes("reset-password")) {
+            localStorage.setItem("redirectTo", location.pathname);
+            navigate({
+              pathname: `/${nation}/${currentYear}/user/reset-password`,
+              search: `?redirectTo=${localStorage.getItem("redirectTo")}`,
+            });
           }
         } else {
           if (nation !== "" && nation !== "home") {
@@ -477,8 +488,9 @@ const App = () => {
             console.log(err);
           });
       }
-
-      calcAnnouncementCached();
+      if (pathname !== "common" && pathname !== "home") {
+        calcAnnouncementCached();
+      }
     }
   }, [loginSuccess]);
 
