@@ -10,7 +10,7 @@ import useNSSType from "hooks/useNSSType";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import useCurrentYear from "hooks/useCurrentYear";
 import { useYearList } from "utils/useYear";
 import { globalData } from "utils/GlobalData";
@@ -21,6 +21,7 @@ import Looks3Icon from "@mui/icons-material/Looks3";
 import Loading from "components/Loading/Loading";
 
 import { smallFontSize, subHeadingFontSize } from "utils/FontSize";
+import useQuery from "hooks/useQuery";
 import {
   ResetPasswordContainer,
   OuterResetContainer,
@@ -57,6 +58,8 @@ const ResetPassword = () => {
   const curPassword = useInput("");
   const password1 = useInput("");
   const password2 = useInput("");
+
+  const query = useQuery();
 
   // state
   const [changePasswordloading, setChangePasswordLoading] =
@@ -110,11 +113,13 @@ const ResetPassword = () => {
           switch (res.data.code) {
             case "T40":
             case "T41":
-              console.log("hi");
-
               setTokenNotMatchAlert(true);
               setTimeout(() => {
-                navigate(0);
+                if (query.get("redirectTo")) {
+                  navigate(query.get("redirectTo"));
+                } else {
+                  navigate(0);
+                }
               }, 1500);
               break;
             // case "P40":
