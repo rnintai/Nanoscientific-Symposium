@@ -128,8 +128,6 @@ const OnDemand = () => {
   const getOndemandPageList = async () => {
     try {
       setVideoListLoading(true);
-      console.log(search);
-
       const res = await axios.get(`/api/ondemand/page/list`, {
         params: {
           page: query.get("page") ? escapeQuotes(query.get("page")) : null,
