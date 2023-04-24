@@ -109,7 +109,7 @@ export const globalData = new Map<string, Common.globalDataType>([
           image: `${S3_URL}/common/landing/NanoScientific_On-Demand.jpg`,
           title: "NANOscientific On-Demand",
           desc: "NANOscientific On-Demand provides easy access to recorded presentations from all the NSS symposiums, categorized by topics. It allows you to deep dive into specific techniques or applications, stay current with the latest SPM research, catch up on missed sessions, review key topics, and stay ahead in your field.",
-          link: "https://www.youtube.com/@parksystems/playlists",
+          link: "/on-demand",
         },
         {
           image: `${S3_URL}/common/landing/NanoAcademy-Online.jpg`,
