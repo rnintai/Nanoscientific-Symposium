@@ -5,6 +5,9 @@ export const OnDemandContainer = styled.div`
   min-height: calc(100vh - 60px);
   padding: 80px 40px;
 
+  .filter-container {
+    margin-top: 25px;
+  }
   // control panel
   .control-panel {
     width: 300px;
@@ -55,7 +58,7 @@ export const OnDemandContainer = styled.div`
   }
 
   .video-result {
-    width: 1000px;
+    width: 987px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 315px));
     grid-gap: 20px;

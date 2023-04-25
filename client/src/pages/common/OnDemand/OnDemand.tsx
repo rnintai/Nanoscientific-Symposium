@@ -276,7 +276,7 @@ const OnDemand = () => {
         flexDirection="row"
         justifyContent="center"
       >
-        <Stack>
+        <Stack className="filter-container">
           {/* keyword search */}
           <FormControl
             variant="outlined"
