@@ -33,7 +33,7 @@ const PrivateRoute = ({ children, setEmailModalOpen }: PrivateRouteProps) => {
     }
   }, []);
 
-  if (nonVisitorRole.includes(authState.role)) {
+  if (authState.role !== "guest" && authState.role !== "visitor") {
     return <>{children} </>;
   }
   return (
