@@ -400,7 +400,38 @@ const usersCtrl = {
           )
           `;
       } else if (nation === "kr") {
-        sql = `INSERT INTO ${year && year !== "2022" ? `user_${year}` : `user`}(
+        if (year === "2023") {
+          sql = `INSERT INTO ${
+            year && year !== "2022" ? `user_${year}` : `user`
+          }(
+            title,
+            first_name,
+            last_name,
+            email,
+            password,
+            phone,
+            institute,
+            department,
+            country,
+            role,
+            )
+          VALUES(
+            '${title}',
+            '${firstName}',
+            '${lastName}',
+            '${email}',
+            '${hasher.HashPassword(null)}',
+            '${phone}',
+            '${institute}',
+            '${department}',
+            '${country}',
+            'visitor'
+          )
+          `;
+        } else {
+          sql = `INSERT INTO ${
+            year && year !== "2022" ? `user_${year}` : `user`
+          }(
           title,
           first_name,
           last_name,
@@ -427,6 +458,7 @@ const usersCtrl = {
           ${issueBill ? 1 : 0}
         )
         `;
+        }
       } else {
         sql = `INSERT INTO ${year && year !== "2022" ? `user_${year}` : `user`}(
           title,

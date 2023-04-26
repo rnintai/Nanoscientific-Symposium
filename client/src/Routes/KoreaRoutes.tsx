@@ -19,6 +19,7 @@ import RedirectRoute from "components/RedirectRoute/RedirectRoute";
 import RegisterInfo from "pages/korea/RegisterInfo/RegisterInfo";
 import KoreaRegistration from "pages/korea/KoreaRegistration/KoreaRegistration";
 import Registration from "pages/common/Registration/Registration";
+import RegisterInfo2023 from "pages/korea/RegisterInfo/RegisterInfo2023";
 
 const formNo = "1972";
 const abstractFormNo = "1897";
@@ -39,8 +40,12 @@ yearList.map((y) => {
       //   isPrivate: true,
       // },
       {
-        path: `/${pathname}/register-info`,
+        path: `/${pathname}/2022/register-info`,
         element: <RegisterInfo />,
+      },
+      {
+        path: `/${pathname}/register-info`,
+        element: <RegisterInfo2023 />,
       },
       {
         path: `/${pathname}/exhibit/parksystems`,
@@ -117,6 +122,11 @@ yearList.map((y) => {
             target="_blank"
           />
         ),
+      },
+      {
+        path: `/${pathname}/lecture-hall`,
+        element: <LectureHall />,
+        isPrivate: true,
       },
     ],
   );

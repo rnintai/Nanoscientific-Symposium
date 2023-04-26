@@ -379,6 +379,12 @@ export const globalData = new Map<string, Common.globalDataType>([
       // pdf upload
       pdfUploadDescription:
         "Upload file (.pdf,.docx,.pptx) (Maximum size: 15MB)",
+
+      // private route 안내 메시지
+
+      privateRouteMessage: `승인 대기 중입니다. 입금 내역 확인이 완료되는 대로 이용하실 수 있습니다.<br />
+        문의처: <a class="link-default" href="mailto:raina@parksystems.com">raina@parksystems.com</a><br />
+        `,
     },
   ],
   [

@@ -257,6 +257,9 @@ declare namespace Common {
     sponsor2LogoURL?: string;
     sponsor3LogoURL?: string;
 
+    // private route 안내 메시지
+    privateRouteMessage?: string;
+
     // programs
     programFileLink?: string;
 
