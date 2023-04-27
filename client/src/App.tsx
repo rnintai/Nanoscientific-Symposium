@@ -49,6 +49,7 @@ interface routeType {
   path: string;
   element: JSX.Element;
   isPrivate?: boolean;
+  allowVisitor?: boolean;
 }
 
 declare global {
@@ -300,7 +301,10 @@ const App = () => {
     let resultElement = route.element;
     if (route.isPrivate || isPrivate) {
       resultElement = (
-        <PrivateRoute setEmailModalOpen={setEmailModalOpen}>
+        <PrivateRoute
+          setEmailModalOpen={setEmailModalOpen}
+          allowVisitor={route.allowVisitor}
+        >
           {route.element}
         </PrivateRoute>
       );

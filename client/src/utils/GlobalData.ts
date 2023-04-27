@@ -383,6 +383,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       // private route 안내 메시지
 
       privateRouteMessage: `승인 대기 중입니다. 입금 내역 확인이 완료되는 대로 이용하실 수 있습니다.<br />
+        <a href="/kr/2023/register-info" class="link-default" target="_blank" >등록 안내 바로가기</a><br /><br />
         문의처: <a class="link-default" href="mailto:raina@parksystems.com">raina@parksystems.com</a><br />
         `,
     },

@@ -738,20 +738,16 @@ const adminCtrl = {
   },
 
   getUsers: async (req, res) => {
-    const { nation } = req.query;
+    const { nation, year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
       let sql = "";
-      if (nation === "eu") {
-        // eu 일땐 점수메기는항목 5개 존재
-        sql = `SELECT id,email,title,role,last_name,first_name,institute,department,createdAt FROM ${
-          year && year !== "2022" ? `user_${year}` : `user`
-        }`;
-      } else {
-        sql = `SELECT * FROM user`;
-      }
+      sql = `SELECT id,email,title,role,last_name,first_name,institute,department,createdAt FROM ${
+        year && year !== "2022" ? `user_${year}` : `user`
+      }`;
+
       const result = await connection.query(sql);
       res.send(result[0]);
       connection.release();
@@ -759,14 +755,17 @@ const adminCtrl = {
       console.log(err);
     }
   },
-
+  // api/admin/users/role
   updateRole: async (req, res) => {
-    const { nation, id, role } = req.body;
+    const { nation, id, role, year } = req.body;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     try {
-      const sql = `UPDATE user SET role='${role}' WHERE id=${id}`;
+      const sql = `UPDATE ${
+        year && year !== "2022" ? `user_${year}` : "user"
+      } SET role='${role}' WHERE id=${id}`;
+      console.log(sql);
       await connection.query(sql);
       res.status(200).json({
         success: true,

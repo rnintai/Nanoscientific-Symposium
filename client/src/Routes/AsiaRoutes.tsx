@@ -62,6 +62,7 @@ yearList.map((y) => {
         path: `/${pathname}/user/reset-password`,
         element: <ResetPassword />,
         isPrivate: true,
+        allowVisitor: true,
       },
       {
         path: `/${pathname}/user/forgot-password`,

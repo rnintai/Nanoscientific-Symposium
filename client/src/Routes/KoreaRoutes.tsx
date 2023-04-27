@@ -20,6 +20,7 @@ import RegisterInfo from "pages/korea/RegisterInfo/RegisterInfo";
 import KoreaRegistration from "pages/korea/KoreaRegistration/KoreaRegistration";
 import Registration from "pages/common/Registration/Registration";
 import RegisterInfo2023 from "pages/korea/RegisterInfo/RegisterInfo2023";
+import RegistrationComplete from "pages/common/RegistrationComplete/RegistrationComplete";
 
 const formNo = "1972";
 const abstractFormNo = "1897";
@@ -34,11 +35,6 @@ yearList.map((y) => {
         path: `/${pathname}`,
         element: <Landing key={`${pathname}-landing-section`} />,
       },
-      // {
-      //   path: `/${pathname}/lecture-hall`,
-      //   element: <LectureHall />,
-      //   isPrivate: true,
-      // },
       {
         path: `/${pathname}/2022/register-info`,
         element: <RegisterInfo />,
@@ -83,6 +79,7 @@ yearList.map((y) => {
         path: `/${pathname}/user/reset-password`,
         element: <ResetPassword />,
         isPrivate: true,
+        allowVisitor: true,
       },
       {
         path: `/${pathname}/user/forgot-password`,
@@ -127,6 +124,13 @@ yearList.map((y) => {
         path: `/${pathname}/lecture-hall`,
         element: <LectureHall />,
         isPrivate: true,
+      },
+      // 가입자 승인대기 안내 페이지로
+      {
+        path: `/${pathname}/registration/complete`,
+        element: <RegistrationComplete />,
+        isPrivate: true,
+        allowVisitor: true,
       },
     ],
   );

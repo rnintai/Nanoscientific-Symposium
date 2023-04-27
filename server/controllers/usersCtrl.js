@@ -413,7 +413,7 @@ const usersCtrl = {
             institute,
             department,
             country,
-            role,
+            role
             )
           VALUES(
             '${title}',
@@ -470,7 +470,8 @@ const usersCtrl = {
           institute,
           department,
           country,
-          state)
+          state
+          )
         VALUES(
           '${title}',
           '${firstName}',
@@ -594,17 +595,13 @@ const usersCtrl = {
     }
   },
   unregister: async (req, res) => {
-    const { nation, id } = req.query;
+    const { nation, id, year } = req.query;
 
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      let sql;
-      // if (useYearList.indexOf(nation) === -1) {
-      //   sql = `DELETE FROM user WHERE id=${id}`;
-      // } else
-      sql = `DELETE FROM ${
+      const sql = `DELETE FROM ${
         year && year !== "2022" ? `user_${year}` : `user`
       } WHERE id=${id}`;
 

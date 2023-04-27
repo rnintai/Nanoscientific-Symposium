@@ -9,6 +9,7 @@ import usePageViews from "hooks/usePageViews";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
 import { adminRole, editorOnly } from "utils/Roles";
+import useCurrentYear from "hooks/useCurrentYear";
 
 interface UserDetailFormProps {
   openUserDetailForm: boolean;
@@ -44,6 +45,7 @@ const UserDetailForm = ({
   const role = useSelect(selectedUser.role);
   const pathname = usePageViews();
   const authState = useAuthState();
+  const year = useCurrentYear();
   const isAdmin = adminRole.includes(authState.role);
 
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
@@ -72,6 +74,7 @@ const UserDetailForm = ({
         params: {
           nation: pathname,
           id: selectedUser.id,
+          year,
         },
       });
       setOpenUserDetailForm(false);

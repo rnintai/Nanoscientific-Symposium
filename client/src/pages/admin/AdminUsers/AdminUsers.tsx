@@ -18,6 +18,7 @@ import {
   Button,
   CircularProgress,
   IconButton,
+  Stack,
   TableFooter,
   TablePagination,
   TextField,
@@ -28,6 +29,7 @@ import useCurrentYear from "hooks/useCurrentYear";
 import { AdminUsersContainer } from "./AdminUsersStyles";
 import UserDetailForm from "../Forms/UserDetailForm";
 import Loading from "../../../components/Loading/Loading";
+import WaitListForm from "../Forms/WaitListForm";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -140,10 +142,23 @@ const AdminUsers = () => {
   const [openUserDetailForm, setOpenUserDetailForm] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<User.userType>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [openWaitlistForm, setOpenWaitlistForm] = useState<boolean>(false);
   // Avoid a layout jump when reaching the last page with empty rows.
 
   // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users?.length) : 0;
 
+  const visitorList = users
+    .filter((u) => u.role === "visitor")
+    .sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+
+      if (dateA >= dateB) {
+        return -1;
+      }
+      return 1;
+    });
+  //
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number,
@@ -199,26 +214,56 @@ const AdminUsers = () => {
   return (
     <AdminUsersContainer>
       <AdminLayout title="Users">
-        <TextField
-          label="Search By Email"
-          variant="filled"
-          size="small"
-          sx={{ mb: 2, mr: 1 }}
-          onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
-            if (e.key === "Enter") {
-              handleClickSearch();
-            }
-          }}
-          {...emailQuery}
-        />
-        <Button
-          variant="contained"
-          onClick={handleClickSearch}
-          size="small"
-          sx={{ mr: 1 }}
-        >
-          Search
-        </Button>
+        <Stack flexDirection="row" justifyContent="space-between">
+          <Stack flexDirection="row" alignItems="center">
+            <TextField
+              label="Search By Email"
+              variant="filled"
+              size="small"
+              sx={{ mb: 2, mr: 1 }}
+              onKeyDown={(e: React.KeyboardEvent<HTMLDivElement>) => {
+                if (e.key === "Enter") {
+                  handleClickSearch();
+                }
+              }}
+              {...emailQuery}
+            />
+            <Button
+              variant="contained"
+              onClick={handleClickSearch}
+              size="small"
+              sx={{ mr: 1 }}
+            >
+              Search
+            </Button>
+          </Stack>
+          {pathname === "kr" && currentYear === "2023" && (
+            <Stack flexDirection="row" position="relative">
+              <Button
+                onClick={() => {
+                  setOpenWaitlistForm(true);
+                }}
+              >
+                Waitlist
+              </Button>
+              {/* dot indicator */}
+              {visitorList.length > 0 && (
+                <Box
+                  sx={{
+                    width: "5px",
+                    height: "5px",
+                    backgroundColor: "#dc4040",
+                    borderRadius: "50px",
+                    top: "22px",
+                    position: "relative",
+                    left: "-5px",
+                  }}
+                />
+              )}
+            </Stack>
+          )}
+        </Stack>
+
         <TableContainer component={Paper}>
           <Table aria-label="customized table">
             <TableHead>
@@ -294,6 +339,14 @@ const AdminUsers = () => {
           setOpenUserDetailForm={setOpenUserDetailForm}
           selectedUser={selectedUser as User.userType}
           getUsers={getUsers}
+        />
+      )}
+      {openWaitlistForm && (
+        <WaitListForm
+          open={openWaitlistForm}
+          setOpen={setOpenWaitlistForm}
+          list={visitorList}
+          handleFetch={getUsers}
         />
       )}
     </AdminUsersContainer>

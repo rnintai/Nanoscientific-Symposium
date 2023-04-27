@@ -14,9 +14,15 @@ import { mainFontSize } from "utils/FontSize";
 interface PrivateRouteProps {
   children: React.ReactNode;
   setEmailModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // eslint-disable-next-line react/require-default-props
+  allowVisitor?: boolean;
 }
 
-const PrivateRoute = ({ children, setEmailModalOpen }: PrivateRouteProps) => {
+const PrivateRoute = ({
+  children,
+  setEmailModalOpen,
+  allowVisitor = false,
+}: PrivateRouteProps) => {
   const authState = useAuthState();
   const pathname = usePageViews();
   const currentYear = useCurrentYear();
@@ -33,34 +39,37 @@ const PrivateRoute = ({ children, setEmailModalOpen }: PrivateRouteProps) => {
     }
   }, []);
 
-  if (authState.role !== "guest" && authState.role !== "visitor") {
-    return <>{children} </>;
-  }
-  return (
-    // <Navigate to={`/${pathname}`} />
-    <Box
-      className="body-fit"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
-      {privateRouteMessage && !nonVisitorRole.includes(authState.role) && (
-        <Typography fontSize={mainFontSize} textAlign="center">
-          <InnerHTML html={privateRouteMessage} />
-        </Typography>
-      )}
-      <br />
-      <NSSButton
-        variant="gradient"
-        onClick={() => {
-          navigate(-1);
-        }}
+  if (
+    authState.role === "guest" ||
+    (authState.role === "visitor" && !allowVisitor)
+  ) {
+    return (
+      // <Navigate to={`/${pathname}`} />
+      <Box
+        className="body-fit"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
       >
-        Go to a previous page
-      </NSSButton>
-    </Box>
-  );
+        {privateRouteMessage && !nonVisitorRole.includes(authState.role) && (
+          <Typography fontSize={mainFontSize} textAlign="center">
+            <InnerHTML html={privateRouteMessage} />
+          </Typography>
+        )}
+        <br />
+        <NSSButton
+          variant="gradient"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          Go to a previous page
+        </NSSButton>
+      </Box>
+    );
+  }
+  return <>{children} </>;
 };
 
 export default PrivateRoute;

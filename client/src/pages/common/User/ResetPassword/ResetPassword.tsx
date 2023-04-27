@@ -106,9 +106,22 @@ const ResetPassword = () => {
       .then((res) => {
         if (res.data.success) {
           setPasswordSetSuccessAlert(true);
-          setTimeout(() => {
-            navigate(`/${pathname}/${currentYear}`);
-          }, 1500);
+          if (!isUserPasswordSet) {
+            if (nssType === "kr2023") {
+              setTimeout(() => {
+                navigate(`/${pathname}/${currentYear}/registration/complete`);
+              }, 1500);
+            } else {
+              setTimeout(() => {
+                navigate(`/${pathname}/${currentYear}`);
+              }, 1500);
+            }
+          } else {
+            // redirect 설정
+            setTimeout(() => {
+              navigate(`/${pathname}/${currentYear}`);
+            }, 1500);
+          }
         } else {
           switch (res.data.code) {
             case "T40":

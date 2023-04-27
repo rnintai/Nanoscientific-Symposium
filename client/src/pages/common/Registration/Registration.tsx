@@ -206,8 +206,10 @@ const Registration = ({ formNo }: RegistrationProps) => {
         });
       console.log("onSuccess");
       setMktoSaveCompleted(true);
+      setSubmitBlock(false);
     } catch (err) {
       console.log(err);
+      setSubmitBlock(false);
       alert("error: saving user data. Please try again.");
     }
   };

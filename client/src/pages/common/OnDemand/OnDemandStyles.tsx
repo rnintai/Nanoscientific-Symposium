@@ -58,7 +58,7 @@ export const OnDemandContainer = styled.div`
   }
 
   .video-result {
-    width: 987px;
+    width: 992px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 315px));
     grid-gap: 20px;
