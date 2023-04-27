@@ -251,6 +251,12 @@ const RegisterInfo2023 = () => {
               }}
             />
           }
+          sx={{
+            ".MuiFormControlLabel-label": {
+              fontWeight: 600,
+              fontSize: mainFontSize,
+            },
+          }}
           label="*NSS Korea 참가 등록을 위해 한국표면분석학회 홈페이지로 이동하여 결제하는 것에 동의합니다."
           labelPlacement="end"
         />
