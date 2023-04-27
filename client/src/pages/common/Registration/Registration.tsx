@@ -204,9 +204,7 @@ const Registration = ({ formNo }: RegistrationProps) => {
         .onSuccess(() => {
           return false;
         });
-      console.log("onSuccess");
       setMktoSaveCompleted(true);
-      setSubmitBlock(false);
     } catch (err) {
       console.log(err);
       setSubmitBlock(false);
