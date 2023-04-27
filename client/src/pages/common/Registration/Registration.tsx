@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
-import { useNavigate } from "react-router";
 import axios from "axios";
 import usePageViews from "hooks/usePageViews";
 import Loading from "components/Loading/Loading";
@@ -18,6 +17,7 @@ import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import Looks3Icon from "@mui/icons-material/Looks3";
 import { smallFontSize } from "utils/FontSize";
 import MarketoForm from "components/MarketoForm/MarketoForm";
+import { useNavigate } from "hooks/useNavigateWithSearch";
 import { RegistrationContainer, MktoFormContainer } from "./RegistrationStyles";
 
 interface RegistrationProps {

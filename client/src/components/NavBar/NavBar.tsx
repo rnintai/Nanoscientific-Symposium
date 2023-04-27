@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Link from "components/Link/LinkWithSearch";
-import { useNavigate } from "react-router";
 import {
   NavBarContainer,
   AnnouncementMenuItemContainer,
@@ -44,6 +43,7 @@ import LanguageIcon from "@mui/icons-material/Language";
 import LanguageSwitcher from "components/LanguageSwitcher/LanguageSwitcher";
 import useCurrentURL from "hooks/useCurrentURL";
 import useAdminStore from "store/AdminStore";
+import { useNavigate } from "hooks/useNavigateWithSearch";
 import MobileNavBar from "./MobileNavBar";
 
 interface navProps {
@@ -168,7 +168,7 @@ navProps) => {
         className="return-main-btn"
         style={{ position: "absolute", padding: "8px 8px 8px 0" }}
         onClick={() => {
-          window.location.href = `https://event.nanoscientific.org`;
+          navigate(`/`);
         }}
       >
         <ChevronLeftIcon />

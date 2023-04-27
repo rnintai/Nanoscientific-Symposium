@@ -2,41 +2,23 @@
 import React from "react";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { useLocation } from "react-router";
-import { useNavigate } from "hooks/useNavigateWithSearch";
 import { mainFontSize, subHeadingFontSize } from "utils/FontSize";
 import { LandingNationCardContainer } from "./LandingNationCardStyles";
 
 interface LandingNationCardProps {
-  name: string;
-  date: string;
-  path: string;
-  img: string;
-  type: string;
+  nation: Common.nationType;
   disabled?: boolean;
 }
 
-const LandingNationCard = ({
-  name,
-  date,
-  path,
-  img,
-  type,
-  disabled,
-}: LandingNationCardProps) => {
+const LandingNationCard = ({ nation }: LandingNationCardProps) => {
   const theme = useTheme();
-  const navigate = useNavigate();
   const { search } = useLocation();
-
+  const { name, date, img, type, disabled, path } = nation;
   return (
     <LandingNationCardContainer
       onClick={() => {
         if (!disabled) {
-          if (path.indexOf("cn") === -1) {
-            // navigate(path);
-            window.open(path, "_blank");
-          } else {
-            window.open(path + search, "_blank");
-          }
+          window.open(path + search, "_blank");
         } else {
           alert("Coming Soon!");
         }

@@ -89,17 +89,7 @@ const EventLanding = () => {
               >
                 {nations &&
                   nations.map((nation) => {
-                    return (
-                      <LandingNationCard
-                        key={nation.name}
-                        img={nation.img}
-                        name={nation.name}
-                        date={nation.date}
-                        path={nation.path}
-                        type={nation.type}
-                        // disabled -> coming soon
-                      />
-                    );
+                    return <LandingNationCard nation={nation} />;
                   })}
               </Stack>
             </Stack>

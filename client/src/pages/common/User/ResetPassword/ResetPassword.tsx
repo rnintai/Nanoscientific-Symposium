@@ -10,7 +10,6 @@ import useNSSType from "hooks/useNSSType";
 import TopCenterSnackBar from "components/TopCenterSnackBar/TopCenterSnackBar";
 import { useAuthState } from "context/AuthContext";
 import usePageViews from "hooks/usePageViews";
-import { useLocation, useNavigate } from "react-router";
 import useCurrentYear from "hooks/useCurrentYear";
 import { useYearList } from "utils/useYear";
 import { globalData } from "utils/GlobalData";
@@ -22,6 +21,7 @@ import Loading from "components/Loading/Loading";
 
 import { smallFontSize, subHeadingFontSize } from "utils/FontSize";
 import useQuery from "hooks/useQuery";
+import { useNavigate } from "hooks/useNavigateWithSearch";
 import {
   ResetPasswordContainer,
   OuterResetContainer,

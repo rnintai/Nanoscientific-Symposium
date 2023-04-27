@@ -143,9 +143,10 @@ declare namespace Common {
   interface nationType {
     name: string;
     date: string;
-    path: string;
     img: string;
     type: string;
+    path: string;
+    disabled?: string;
   }
 
   interface eventLandingSection2Type {
