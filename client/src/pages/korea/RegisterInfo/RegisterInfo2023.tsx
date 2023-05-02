@@ -70,6 +70,7 @@ const RegisterInfo2023 = () => {
   const currentYear = useCurrentYear();
 
   const [agreeChecked, setAgreeChecked] = useState<boolean>(false);
+  const [agreeIndicator, setAgreeIndicator] = useState<boolean>(false);
 
   return (
     <Box className="layout body-fit">
@@ -247,6 +248,11 @@ const RegisterInfo2023 = () => {
               required
               checked={agreeChecked}
               onChange={() => {
+                if (agreeChecked) {
+                  setAgreeIndicator(true);
+                } else {
+                  setAgreeIndicator(false);
+                }
                 setAgreeChecked(!agreeChecked);
               }}
             />
@@ -256,6 +262,7 @@ const RegisterInfo2023 = () => {
               fontWeight: 600,
               fontSize: mainFontSize,
             },
+            border: agreeIndicator ? "1px solid #d60000" : "none",
           }}
           label="*NSS Korea 참가 등록을 위해 한국표면분석학회 홈페이지로 이동하여 결제하는 것에 동의합니다."
           labelPlacement="end"
@@ -266,9 +273,13 @@ const RegisterInfo2023 = () => {
         variant="gradient"
         style={{ margin: "0 auto" }}
         onClick={() => {
-          navigate(`/kr/${currentYear}/registration`);
+          if (agreeChecked) {
+            navigate(`/kr/${currentYear}/registration`);
+          } else {
+            alert("NSS Korea에 등록하려면 위 조건에 동의하셔야 합니다.");
+            setAgreeIndicator(true);
+          }
         }}
-        disabled={!agreeChecked}
       >
         등록하기
       </NSSButton>
