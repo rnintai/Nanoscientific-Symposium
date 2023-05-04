@@ -344,7 +344,12 @@ const RegisterInfo2023 = () => {
       <Typography fontSize={mainFontSize}>
         NANOscientific Sympopsium Korea 사무국: 이연수 차장
         <br />
-        TEL) 031-546-6819 E-mail){" "}
+        TEL){" "}
+        <a className="link-default" href="tel:+82315466819">
+          031-546-6819
+        </a>
+        <br />
+        E-mail){" "}
         <a className="link-default" href="mailto:raina@parksystems.com">
           raina@parksystems.com
         </a>
