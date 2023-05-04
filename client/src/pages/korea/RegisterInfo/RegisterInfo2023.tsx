@@ -153,15 +153,6 @@ const RegisterInfo2023 = () => {
       <br />
       <Typography fontSize={mainFontSize} fontWeight={600}>
         *정회원: 한국표면분석학회에 회원가입 후, 연회비 납부한 회원
-        <br />
-        <a
-          className="link-default"
-          href="https://surfaceanalysis.kr/bbs/content.php?co_id=sign_info&cat=5&sub=0"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          ※ 한국표면분석학회 가입안내
-        </a>
       </Typography>
       <br />
       <Typography
@@ -332,6 +323,17 @@ const RegisterInfo2023 = () => {
         </TableBody>
       </Table>
       <br />
+      <Typography fontSize={mainFontSize}>
+        <a
+          className="link-default"
+          href="https://surfaceanalysis.kr/bbs/content.php?co_id=sign_info&cat=5&sub=0"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          ※ 한국표면분석학회 가입안내
+        </a>
+      </Typography>
+      <br />
       <Typography
         color={{ color: Colors.navy }}
         fontSize={subHeadingFontSize}
@@ -339,7 +341,6 @@ const RegisterInfo2023 = () => {
       >
         문의처
       </Typography>
-      <br />
       <Typography fontSize={mainFontSize}>
         NANOscientific Sympopsium Korea 사무국: 이연수 차장
         <br />
