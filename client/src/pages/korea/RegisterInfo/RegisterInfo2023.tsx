@@ -32,7 +32,7 @@ export const Colors = {
 };
 
 const tableStyle = {
-  width: "95%",
+  width: "90%",
   margin: "0 auto",
   border: "1px solid #000",
   "th,td": {
@@ -95,17 +95,6 @@ const RegisterInfo2023 = () => {
           ※ NANOscientific Symposium Korea(NSS Korea)는 한국표면분석학회 주최,
           NANOscientific 주관으로 개최합니다.
         </span>
-        <p>
-          ※ 정회원: 한국표면분석학회에 회원가입(연회비 납부) 시 적용.{" "}
-          <a
-            className="link-default"
-            href="https://surfaceanalysis.kr/bbs/content.php?co_id=sign_info&cat=5&sub=0"
-            target="_blank"
-            rel="noreferrer"
-          >
-            학회 가입 안내
-          </a>
-        </p>
       </Typography>
       <br />
       <Typography
@@ -119,7 +108,7 @@ const RegisterInfo2023 = () => {
       <Table sx={tableStyle}>
         <TableHead>
           <TableRow>
-            <TableCell sx={bgGrey} colSpan={2} width="40%">
+            <TableCell sx={bgGrey} colSpan={2} width="30%">
               구분
             </TableCell>
             <TableCell sx={bgGrey}>현장등록</TableCell>
@@ -133,41 +122,45 @@ const RegisterInfo2023 = () => {
         <TableBody>
           <TableRow>
             <TableCell sx={bgGrey} rowSpan={2}>
-              회원
+              정회원*
             </TableCell>
-            <TableCell sx={bgGrey}>정회원</TableCell>
-            <TableCell>350,000원</TableCell>
-            <TableCell sx={bgYellow}>150,000원</TableCell>
+            <TableCell sx={bgGrey} width="20%">
+              일반
+            </TableCell>
+            <TableCell>200,000원</TableCell>
+            <TableCell sx={bgYellow}>100,000원</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell sx={bgGrey}>학생회원</TableCell>
-            <TableCell>200,000원</TableCell>
-            <TableCell sx={bgYellow}>75,000원</TableCell>
+            <TableCell sx={bgGrey}>학생</TableCell>
+            <TableCell>100,000원</TableCell>
+            <TableCell sx={bgYellow}>50,000원</TableCell>
           </TableRow>
           <TableRow>
             <TableCell sx={bgGrey} rowSpan={2}>
               비회원
             </TableCell>
             <TableCell sx={bgGrey}>일반</TableCell>
-            <TableCell>450,000원</TableCell>
+            <TableCell>400,000원</TableCell>
             <TableCell sx={bgYellow}>200,000원</TableCell>
           </TableRow>
           <TableRow>
             <TableCell sx={bgGrey}>학생</TableCell>
-            <TableCell>250,000원</TableCell>
+            <TableCell>200,000원</TableCell>
             <TableCell sx={bgYellow}>100,000원</TableCell>
           </TableRow>
         </TableBody>
       </Table>
       <br />
-      <Typography fontSize={mainFontSize}>
+      <Typography fontSize={mainFontSize} fontWeight={600}>
+        *정회원: 한국표면분석학회에 회원가입 후, 연회비 납부한 회원
+        <br />
         <a
           className="link-default"
           href="https://surfaceanalysis.kr/bbs/content.php?co_id=sign_info&cat=5&sub=0"
           target="_blank"
           rel="noreferrer noopener"
         >
-          ※ 학회 가입 안내 바로가기
+          ※ 한국표면분석학회 가입안내
         </a>
       </Typography>
       <br />
@@ -224,6 +217,8 @@ const RegisterInfo2023 = () => {
           kossa@surfaceanalysis.kr
         </a>
       </Typography>
+      <br />
+      <hr style={{ borderColor: "#ffffff" }} />
       <br />
       <Typography fontSize={mainFontSize} fontWeight={600} color={Colors.navy}>
         ※ 심포지엄(6/29) 결제안내: 한국표면분석학회 홈페이지에서 결제 가능
