@@ -216,6 +216,7 @@ const LocationChanger = ({
         nation: pathname,
         list: changed,
         abstractlist: changedAbstract,
+        year: currentYear,
       });
 
       setOpenChangingOrderModal(false);

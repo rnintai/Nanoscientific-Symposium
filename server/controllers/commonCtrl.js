@@ -131,7 +131,7 @@ const commonCtrl = {
         keynote=${keynote},
         description='${description}', 
         has_abstract=${has_abstract},
-        year=${year},
+        year=${year}
         WHERE id=${id}
         `;
         await connection.query(sql);
@@ -140,10 +140,12 @@ const commonCtrl = {
 
       while (abstractlist.length > 0) {
         const { id, speaker_id, belong, description } = abstractlist.shift();
-        const sql = `UPDATE speaker_abstract SET speaker_id='${speaker_id}', belong='${belong}', description='${description}', year='${
-          year && year !== "2022" ? year : null
-        }' WHERE id=${id}
-        };`;
+        const sql = `UPDATE speaker_abstract SET 
+        speaker_id='${speaker_id}',
+        belong='${belong}',
+        description='${description}',
+        year='${year && year !== "2022" ? year : null}' WHERE id=${id};`;
+        console.log(sql);
         await connection.query(sql);
         connection.release();
       }
