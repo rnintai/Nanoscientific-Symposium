@@ -209,7 +209,7 @@ const LocationChanger = ({
         changedAbstract.push(p);
       }
     });
-    console.log(changed, changedAbstract);
+    // console.log(changed, changedAbstract);
     try {
       setApplyOrderLoading(true);
       speakerResult = await axios.post("/api/page/common/speakers/list", {

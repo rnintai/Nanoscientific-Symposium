@@ -145,7 +145,7 @@ const commonCtrl = {
         belong='${belong}',
         description='${description}',
         year='${year && year !== "2022" ? year : null}' WHERE id=${id};`;
-        console.log(sql);
+
         await connection.query(sql);
         connection.release();
       }
