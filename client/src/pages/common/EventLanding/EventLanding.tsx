@@ -10,6 +10,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import useWindowSize from "hooks/useWindowSize";
 import EventLandingKnowledgeCard from "components/Card/EventLandingKnowledgeCard";
+import YoutubeEmbed from "components/YoutubeEmbed/YoutubeEmbed";
 import { EventLandingContainer } from "./EventLandingStyles";
 
 const EventLanding = () => {
@@ -57,24 +58,36 @@ const EventLanding = () => {
           <LandingSection fullWidth>
             <Stack className="landing-layout" alignItems="center">
               {/* desc */}
-              <Stack
+              <Box
+                display="flex"
                 className="section"
                 justifyContent="space-between"
-                alignItems="center"
-                sx={{ marginBottom: "80px" }}
               >
-                <Typography className="title">{eventLandingHeading}</Typography>
-                <Typography
-                  className="desc"
-                  textAlign="left"
-                  color="#6A6E83"
-                  sx={{
-                    fontSize: "15px",
-                  }}
+                <Stack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  width="50%"
                 >
-                  <InnerHTML html={eventLandingDesc || ""} />
-                </Typography>
-              </Stack>
+                  <Typography className="title">
+                    {eventLandingHeading}
+                  </Typography>
+                  <Typography
+                    className="desc"
+                    textAlign="left"
+                    color="#6A6E83"
+                    sx={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    <InnerHTML html={eventLandingDesc || ""} />
+                  </Typography>
+                </Stack>
+                <YoutubeEmbed
+                  url="https://www.youtube.com/watch?v=isH9y30E8N8"
+                  width="580"
+                  height="360"
+                />
+              </Box>
 
               {/* 나라 카드 */}
               <Stack
