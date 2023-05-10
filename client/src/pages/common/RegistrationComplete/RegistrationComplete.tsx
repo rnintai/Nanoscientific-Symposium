@@ -84,7 +84,7 @@ const RegistrationComplete = () => {
             NANOscientific Sympoisum Korea는 한국표면분석학회 주최,
             NANOscientific 주관으로 개최합니다. <br /> 등록비 결제는 주최사인{" "}
             <a
-              href="https://surfaceanalysis.kr/bbs/content.php?co_id=sign_info&cat=5&sub=0"
+              href="https://surfaceanalysis.kr/bbs/content.php?co_id=nssk&cat=4&sub=2"
               target="_blank"
               rel="noopener noreferrer"
               className="link-default"
@@ -94,14 +94,28 @@ const RegistrationComplete = () => {
             에서 진행됩니다.
           </Typography>
           <br />
-          <NSSButton
-            variant="gradient"
-            onClick={() => {
-              navigate(`/${pathname}/${year}/register-info`);
-            }}
-          >
-            등록 안내 바로가기
-          </NSSButton>
+          <Box display="flex">
+            <NSSButton
+              variant="gradient"
+              onClick={() => {
+                window.open(
+                  "https://surfaceanalysis.kr/bbs/content.php?co_id=nssk&cat=4&sub=2",
+                  "_blank",
+                );
+              }}
+            >
+              결제 바로가기
+            </NSSButton>
+            &nbsp;&nbsp;
+            <NSSButton
+              variant="gradient"
+              onClick={() => {
+                navigate(`/${pathname}/${year}/register-info`);
+              }}
+            >
+              등록 안내 바로가기
+            </NSSButton>
+          </Box>
         </Stack>
       </LandingSection>
     </RegistrationContainer>
