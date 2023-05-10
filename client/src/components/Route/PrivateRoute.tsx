@@ -29,7 +29,7 @@ const PrivateRoute = ({
   const navigate = useNavigate();
 
   const { privateRouteMessage } = globalData.get(
-    `${pathname}${currentYear}`,
+    `${pathname}${currentYear}${pathname === "china" ? "_english" : ""}`,
   ) as Common.globalDataType;
 
   useEffect(() => {
