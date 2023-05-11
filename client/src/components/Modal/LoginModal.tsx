@@ -454,7 +454,7 @@ const LoginModal = ({
               </Select>
             </FormControl>
             <TextField
-              disabled={!emailModalOpen}
+              disabled={!emailModalOpen || loading}
               ref={emailFocus}
               margin="dense"
               id="email"
