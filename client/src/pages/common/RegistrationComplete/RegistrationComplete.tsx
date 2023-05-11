@@ -116,6 +116,21 @@ const RegistrationComplete = () => {
               등록 안내 바로가기
             </NSSButton>
           </Box>
+          <br />
+          <Stack textAlign="justify">
+            <Typography fontSize={mainFontSize}>
+              ✔ 결제 바로가기 버튼 클릭
+            </Typography>
+            <Typography fontSize={mainFontSize}>
+              ✔ 한국표면분석학회 홈페이지 이동
+            </Typography>
+            <Typography fontSize={mainFontSize}>
+              ✔ 페이지 하단의 결제하기 버튼 클릭
+            </Typography>
+            <Typography fontSize={mainFontSize}>
+              ✔ 한국표면분석학회 홈페이지 회원가입(또는 로그인) 후 결제 진행
+            </Typography>
+          </Stack>
         </Stack>
       </LandingSection>
     </RegistrationContainer>
