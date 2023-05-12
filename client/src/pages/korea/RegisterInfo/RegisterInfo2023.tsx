@@ -305,7 +305,7 @@ const RegisterInfo2023 = () => {
             <TableCell sx={{ width: "25%" }} />
           </TableRow>
           <TableRow>
-            <TableCellBold>연락처</TableCellBold>
+            <TableCellBold>희망 프로그램</TableCellBold>
             <TableCell colSpan={3} />
           </TableRow>
           <TableRow>
