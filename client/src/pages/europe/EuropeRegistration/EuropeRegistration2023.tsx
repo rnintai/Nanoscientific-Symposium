@@ -550,7 +550,10 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
               <div className="paypal-container">
                 <PayPalScriptProvider
                   options={{
-                    "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
+                    "client-id":
+                      authState.role === "admin"
+                        ? process.env.REACT_APP_PAYPAL_CLIENT_ID_DEV
+                        : process.env.REACT_APP_PAYPAL_CLIENT_ID,
                     currency: "EUR",
                   }}
                 >
@@ -588,7 +591,6 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                             ].getValues();
 
                           try {
-                            // marketo submit
                             // user db submit
                             const regResponse = await axios.post(
                               "/api/users/register",
@@ -613,6 +615,7 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                               details,
                               userId: regResponse.data.id,
                             });
+                            // marketo submit
                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                             // @ts-ignore
                             window.MktoForms2.allForms()
