@@ -60,7 +60,7 @@ const LocationChanger = ({
     useState<speakersAbstractType[]>([]);
   const [openChangingOrderModal, setOpenChangingOrderModal] =
     useState<boolean>(false);
-  const [disableApplyBtn, setDisableApplyBtn] = useState<boolean>(true);
+  const [disableApplyBtn, setDisableApplyBtn] = useState<boolean>(false);
 
   const config = {
     params: {
@@ -104,11 +104,12 @@ const LocationChanger = ({
         originalSpeakerList[i].isChanged = false;
       }
     }
-    if (changedCnt > 0) {
-      setDisableApplyBtn(false);
-    } else {
-      setDisableApplyBtn(true);
-    }
+
+    // if (changedCnt > 0) {
+    //   setDisableApplyBtn(false);
+    // } else {
+    //   setDisableApplyBtn(true);
+    // }
     return updatedList;
   };
   // speakerAbstract 순서 변경 여부 탐지
@@ -128,19 +129,17 @@ const LocationChanger = ({
         originalSpeakerAbstractList[i].isChanged = false;
       }
     }
-    if (changedCnt > 0) {
-      setDisableApplyBtn(false);
-    } else {
-      setDisableApplyBtn(true);
-    }
+    // if (changedCnt > 0) {
+    //   setDisableApplyBtn(false);
+    // } else {
+    //   setDisableApplyBtn(true);
+    // }
     return updatedList;
   };
 
   const handleClickUp = (idx: number) => {
-    // console.log(speakerList);
     let l = JSON.parse(JSON.stringify(speakerList)); // speakerList 객체 복사지만 speakerList와 달리 미리 변한다
     let Al = JSON.parse(JSON.stringify(speakerAbstractList));
-    // console.log(l);
     const tmp = l[idx].id;
     l[idx].id = l[idx - 1].id;
     l[idx - 1].id = tmp;
