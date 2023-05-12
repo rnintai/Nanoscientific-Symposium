@@ -185,6 +185,7 @@ const adminCtrl = {
   },
   modifyProgram: async (req, res) => {
     const {
+      id,
       nation,
       title,
       title_en,
