@@ -351,7 +351,7 @@ export const globalData = new Map<string, Common.globalDataType>([
       emailInputLabel: "이메일 주소",
       passwordInputLabel: "비밀번호",
       forgotPasswordText: "비밀번호 찾기",
-      // createAccountText: "계정 등록",
+      createAccountText: "계정 등록",
       // landing
       showLandingSection1: true,
       landingSection1BackgroundURL: `${S3_URL}/kr/main-page-banner.png`,

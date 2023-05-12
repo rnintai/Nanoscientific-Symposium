@@ -521,7 +521,11 @@ const LoginModal = ({
               </Tooltip>
             ) : (
               <Link
-                to={`${pathname}/${currentYear}/registration`}
+                to={
+                  pathname === "kr"
+                    ? `${pathname}/${currentYear}/register-info`
+                    : `${pathname}/${currentYear}/registration`
+                }
                 onClick={closeAllModal}
               >
                 <Typography fontSize={smallFontSize}>
