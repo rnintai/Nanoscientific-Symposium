@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React, { useEffect, useState } from "react";
 import { dateToLocaleString } from "utils/Date";
+import InnerHTML from "dangerously-set-html-content";
 import {
   styled,
   TableRow,
@@ -280,7 +281,7 @@ const ProgramContent = ({
             fontWeight={theme.typography.fontWeightMedium}
             color={theme.palette.grey[600]}
           >
-            {curDescription}
+            <InnerHTML html={curDescription} />
           </Typography>
         </StyledTableCell>
       </StyledTableRow>
