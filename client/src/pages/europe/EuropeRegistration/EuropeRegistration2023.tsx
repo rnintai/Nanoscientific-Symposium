@@ -213,6 +213,29 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
         const check2 = document.querySelector("#LblpsOptin")?.parentElement;
         check1?.classList.add("flex-reverse");
         check2?.classList.add("flex-reverse");
+        // validation & 중복체크
+        document
+          .querySelector("input#Email")
+          ?.addEventListener("focusout", async (e: Event) => {
+            const target = e.target as HTMLInputElement;
+            if (
+              target.value.indexOf("@") === -1 &&
+              target.value.indexOf(".") === -1
+            ) {
+              setEmailValid(0);
+            } else {
+              try {
+                const res = await axios.post("/api/users/checkemail", {
+                  email: target.value,
+                  nation,
+                  year: currentYear,
+                });
+                setEmailValid(!res.data.result ? 1 : 0);
+              } catch (err) {
+                console.log(err);
+              }
+            }
+          });
       },
     );
   }, []);
@@ -226,6 +249,23 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
       window.location.replace(window.location.href.replace("/early", ""));
     }
   }, [isEarlyBirdLoading]);
+
+  useEffect(() => {
+    if (document.querySelector(".validation-msg") !== null) {
+      const validationDOM = document.querySelector(
+        ".validation-msg",
+      ) as HTMLParagraphElement;
+      if (emailValid === 1) {
+        validationDOM.classList.add("valid");
+        validationDOM.classList.remove("invalid");
+        validationDOM.innerText = "Valid Email!";
+      } else if (emailValid === 0) {
+        validationDOM.classList.add("invalid");
+        validationDOM.classList.remove("valid");
+        validationDOM.innerText = "Invalid or duplicate email.";
+      }
+    }
+  }, [emailValid]);
 
   const setRegistrationType = () => {
     // registration type field 채우기
@@ -494,9 +534,11 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                       ]?.validate()
                     ) {
                       // 마케토 validator가 알려줌
+                    } else if (emailValid !== 1) {
+                      setEmailNotValidAlert(true);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
                     } else {
                       setCheckout(true);
-                      setRegistrationType();
                     }
                   }}
                 >
@@ -547,6 +589,30 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
 
                           try {
                             // marketo submit
+                            // user db submit
+                            const regResponse = await axios.post(
+                              "/api/users/register",
+                              {
+                                title: formData.Salutation,
+                                firstName: formData.FirstName,
+                                lastName: formData.LastName,
+                                email: formData.Email,
+                                phone: formData.Phone,
+                                institute: formData.Company,
+                                department: formData.Department,
+                                country: formData.Country,
+                                state: formData.State,
+                                nation,
+                                isStudent,
+                                year: currentYear,
+                              },
+                            );
+
+                            // save transaction to db
+                            await axios.post("/api/page/eu/transaction", {
+                              details,
+                              userId: regResponse.data.id,
+                            });
                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                             // @ts-ignore
                             window.MktoForms2.allForms()
@@ -560,6 +626,27 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
                                 thanksHandler(formData);
                                 return false;
                               });
+                            try {
+                              const res = await axios.post("/api/users/login", {
+                                nation,
+                                email: formData.Email,
+                                password: null,
+                                year: currentYear,
+                              });
+                              if (res.data.success) {
+                                dispatchLogin(
+                                  formData.Email,
+                                  res.data.role,
+                                  res.data.accessToken,
+                                );
+                              }
+                              navigate(
+                                `/${nation}/${currentYear}/user/reset-password`,
+                              );
+                            } catch (err) {
+                              console.log(err);
+                              alert("login failed");
+                            }
                           } catch (err) {
                             console.log(err);
                             alert("error: saving user data. Please try again.");
@@ -600,6 +687,13 @@ const EuropeRegistration2023 = ({ isStudent = false, init = false }: props) => {
             )}
           </LandingSection>
         )}
+        <TopCenterSnackBar
+          value={emailNotValidAlert}
+          setValue={setEmailNotValidAlert}
+          severity="warning"
+          content="Email already exists or not valid."
+          variant="filled"
+        />
       </RegistrationContainer>
     </>
   );
