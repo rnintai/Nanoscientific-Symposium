@@ -702,10 +702,9 @@ const Landing = () => {
                     <Link
                       style={{ padding: 0, color: "white" }}
                       to={
-                        // pathname === "kr"
-                        //   ? `/${pathname}/${currentYear}/register-info`
-                        //   :
-                        `/${pathname}/${currentYear}/registration`
+                        pathname === "kr"
+                          ? `/${pathname}/${currentYear}/register-info`
+                          : `/${pathname}/${currentYear}/registration`
                       }
                     >
                       {registration || ""}
