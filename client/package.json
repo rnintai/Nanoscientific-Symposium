@@ -29,7 +29,7 @@
     "@types/styled-components": "^5.1.21",
     "aws-sdk": "^2.1074.0",
     "axios": "^0.25.0",
-    "dangerously-set-html-content": "1.0.9",
+    "dangerously-set-html-content": "1.0.6",
     "date-fns": "^2.28.0",
     "history": "^5.2.0",
     "lodash": "^4.17.21",
@@ -56,7 +56,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --env port=8080 --mode development --hot --open",
-    "start-cn": "webpack-dev-server --env port=8081 --mode development --hot --open",  
+    "start-cn": "webpack-dev-server --env port=8081 --mode development --hot --open",
     "debug": "webpack server --mode devleopment --display-error-details",
     "build": "webpack --env port=8080 --mode production --progress",
     "build-cn": "webpack --env port=8081 --mode production --progress"
