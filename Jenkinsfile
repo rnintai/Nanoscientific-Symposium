@@ -16,9 +16,9 @@ pipeline {
                     dir('client'){
                         sh '''
                         ls -al
-                        npm install
+                        yarn
                         echo "REACT_APP_S3_ACCESS_KEY=${REACT_APP_S3_ACCESS_KEY_EXT}\nREACT_APP_S3_SECRET_ACCESS_KEY=${REACT_APP_S3_SECRET_ACCESS_KEY_EXT}\nREACT_APP_PAYPAL_CLIENT_ID=${REACT_APP_PAYPAL_CLIENT_ID_EXT}\nREACT_APP_PAYPAL_CLIENT_ID_DEV=${REACT_APP_PAYPAL_CLIENT_ID_DEV_EXT}" >> .env.production
-                        CI=false npm run build
+                        CI=false yarn run build
                         '''
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
                     dir('server'){
                      sh '''
                      ls -al
-                     npm install
+                     yarn install
                      sudo cp -r . /home/ubuntu/server
                      '''
                     }
