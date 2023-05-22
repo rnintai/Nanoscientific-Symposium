@@ -9,6 +9,8 @@ pipeline {
                 echo 'prepare'
                  git branch: "main", credentialsId: "github_access_token_chanhyuk", url: 'https://github.com/Park-Systems-web/Nanoscientific-Symposium.git'
                  sh  'ls -al'
+                 sh "npm install -g yarn"
+                 sh "yarn install"
             }
         }
         stage('client-build') {
@@ -16,7 +18,7 @@ pipeline {
                     dir('client'){
                         sh '''
                         ls -al
-                        yarn
+                        yarn install
                         echo "REACT_APP_S3_ACCESS_KEY=${REACT_APP_S3_ACCESS_KEY_EXT}\nREACT_APP_S3_SECRET_ACCESS_KEY=${REACT_APP_S3_SECRET_ACCESS_KEY_EXT}\nREACT_APP_PAYPAL_CLIENT_ID=${REACT_APP_PAYPAL_CLIENT_ID_EXT}\nREACT_APP_PAYPAL_CLIENT_ID_DEV=${REACT_APP_PAYPAL_CLIENT_ID_DEV_EXT}" >> .env.production
                         CI=false yarn run build
                         '''
