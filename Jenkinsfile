@@ -9,8 +9,6 @@ pipeline {
                 echo 'prepare'
                  git branch: "main", credentialsId: "github_access_token_chanhyuk", url: 'https://github.com/Park-Systems-web/Nanoscientific-Symposium.git'
                  sh  'ls -al'
-                 sh "npm install -g yarn"
-                 sh "yarn install"
             }
         }
         stage('client-build') {
