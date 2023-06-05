@@ -179,8 +179,16 @@ export const EventLandingContainer = styled.div`
       font-size: 13px;
     }
 
+    .section-1-wrap .section,
     .section-3-wrap {
       flex-direction: column;
+    }
+    .section-1-wrap .section {
+      width: 100%;
+      .desc-wrap {
+        width: 100%;
+        margin-bottom: 30px;
+      }
     }
   }
 `;

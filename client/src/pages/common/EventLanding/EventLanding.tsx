@@ -55,8 +55,11 @@ const EventLanding = () => {
 
       <Box className="body-container">
         {teaserVideoEmbed && (
-          <LandingSection fullWidth>
-            <Stack className="landing-layout" alignItems="center">
+          <LandingSection>
+            <Stack
+              className="landing-layout section-1-wrap"
+              alignItems="center"
+            >
               {/* desc */}
               <Box
                 display="flex"
@@ -64,6 +67,7 @@ const EventLanding = () => {
                 justifyContent="space-between"
               >
                 <Stack
+                  className="desc-wrap"
                   justifyContent="space-between"
                   alignItems="center"
                   width="50%"
