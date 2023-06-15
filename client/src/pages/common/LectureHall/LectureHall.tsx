@@ -118,7 +118,10 @@ const LectureHall = () => {
 
   useEffect(() => {
     if (lectureStage === 1 && webinarList.length < 1) {
-      fetchRegistrants();
+      const asyncFetchRegistrants = async () => {
+        await fetchRegistrants();
+      };
+      asyncFetchRegistrants();
       getWebinars();
     }
     if (lectureStage === 2 && discussionList.length < 1) {

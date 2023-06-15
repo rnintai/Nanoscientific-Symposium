@@ -13,7 +13,11 @@ const zoomMiddle = require("../middlewares/zoomMiddle");
  *        '200':
  *          description: successful operation
  */
-router.get("/webinar/list", zoomMiddle.getZoomToken, zoomCtrl.getWebinarList);
+router.get(
+  "/webinar/list",
+  zoomMiddle.getZoomTokenOAuth,
+  zoomCtrl.getWebinarList
+);
 
 /**
  * @swagger
@@ -35,7 +39,7 @@ router.get("/webinar/list", zoomMiddle.getZoomToken, zoomCtrl.getWebinarList);
  */
 router.get(
   "/webinar/registrant/questions/:webinarId",
-  zoomMiddle.getZoomToken,
+  zoomMiddle.getZoomTokenOAuth,
   zoomCtrl.getRegistrationQuestions
 );
 
@@ -66,22 +70,26 @@ router.get(
 
 router
   .route("/webinar/registrants/:webinarId")
-  .get(zoomMiddle.getZoomToken, zoomCtrl.getRegistrantLink)
-  .post(zoomMiddle.getZoomToken, zoomCtrl.addRegistrant);
+  .get(zoomMiddle.getZoomTokenOAuth, zoomCtrl.getRegistrantLink)
+  .post(zoomMiddle.getZoomTokenOAuth, zoomCtrl.addRegistrant);
 
 router.post(
   "/webinar/registrant/fetch",
-  zoomMiddle.getZoomToken,
+  zoomMiddle.getZoomTokenOAuth,
   zoomCtrl.fetchRegistrantId
 );
 
-router.post("/webinar", zoomMiddle.getZoomToken, zoomCtrl.addWebinar);
+router.post("/webinar", zoomMiddle.getZoomTokenOAuth, zoomCtrl.addWebinar);
 router
   .route("/webinar/:webinarId")
-  .get(zoomMiddle.getZoomToken, zoomCtrl.getWebinar)
-  .delete(zoomMiddle.getZoomToken, zoomCtrl.removeWebinar);
+  .get(zoomMiddle.getZoomTokenOAuth, zoomCtrl.getWebinar)
+  .delete(zoomMiddle.getZoomTokenOAuth, zoomCtrl.removeWebinar);
 
-router.get("/meeting/list", zoomMiddle.getZoomToken, zoomCtrl.getMeetingList);
+router.get(
+  "/meeting/list",
+  zoomMiddle.getZoomTokenOAuth,
+  zoomCtrl.getMeetingList
+);
 router.post("/webinar/live", zoomCtrl.setLiveStatus);
 
 module.exports = router;

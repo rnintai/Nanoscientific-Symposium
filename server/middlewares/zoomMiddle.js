@@ -1,5 +1,5 @@
 const { getCurrentPool } = require("../utils/getCurrentPool");
-const { issueZoomToken } = require("../utils/jwt");
+const { issueZoomToken, issueZoomTokenOAuth } = require("../utils/jwt");
 
 const zoomMiddle = {
   getZoomToken: async (req, res, next) => {
@@ -26,17 +26,32 @@ const zoomMiddle = {
       res.status(400).json({ success: false, err });
     }
   },
-  getZoomToken2: async (req, res, next) => {
+  getZoomTokenOAuth: async (req, res, next) => {
     const nation = req.query.nation || req.body.nation;
     const currentPool = getCurrentPool(nation);
 
     const connection = await currentPool.getConnection((conn) => conn);
 
     try {
-      const { PSE_API_KEY, PSE_API_SECRET } = proces.env;
+      const sql = `
+      SELECT zoom_email, zoom_account_id, zoom_client_id, zoom_client_secret from configuration;
+      `;
 
-      res.locals.zoom_token = issueZoomToken(PSE_API_KEY, PSE_API_SECRET);
+      const row = await connection.query(sql);
 
+      const {
+        zoom_email,
+        zoom_account_id,
+        zoom_client_id,
+        zoom_client_secret,
+      } = row[0][0];
+
+      res.locals.zoom_email = zoom_email;
+      res.locals.zoom_token = await issueZoomTokenOAuth(
+        zoom_account_id,
+        zoom_client_id,
+        zoom_client_secret
+      );
       next();
     } catch (err) {
       connection.release();

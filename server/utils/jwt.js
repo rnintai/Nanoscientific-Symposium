@@ -1,3 +1,4 @@
+const axios = require("axios");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -27,5 +28,18 @@ module.exports = {
       exp: new Date().getTime() + 5000,
     };
     return jwt.sign(payload, apiSecret);
+  },
+  issueZoomTokenOAuth: async (accountID, cId, cSecret) => {
+    const res = await axios.post(
+      `https://zoom.us/oauth/token?grant_type=account_credentials&account_id=${accountID}`,
+      {},
+      {
+        auth: {
+          username: cId,
+          password: cSecret,
+        },
+      }
+    );
+    return res.data.access_token;
   },
 };
