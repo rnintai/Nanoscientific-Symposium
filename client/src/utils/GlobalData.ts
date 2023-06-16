@@ -103,7 +103,7 @@ export const globalData = new Map<string, Common.globalDataType>([
           image: `${S3_URL}/common/landing/NANOscientific_Magazine.jpg`,
           title: "NANOscientific Magazine",
           desc: "NANOscientific Magazine provides in-depth coverage of the latest techniques and trends related to nano research, with a focus on SPM and its related fields. It is a go-to resource for scientists, researchers, and industry professionals seeking the latest insights and analysis in nanoscale imaging and manipulation, cutting-edge developments in materials science, and beyond.",
-          link: `${S3_URL}/common/landing/NS_Vol24-Spring-2023_A4_May10_Regular.pdf`,
+          link: `https://magazine.nanoscientific.org`,
         },
         {
           image: `${S3_URL}/common/landing/NanoScientific_On-Demand.jpg`,
