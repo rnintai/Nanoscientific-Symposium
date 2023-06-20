@@ -305,7 +305,7 @@ const ZoomCard = ({
             <CardHeader
               title={
                 <Stack alignItems="flex-start">
-                  {isEditor ? (
+                  {/* {isEditor ? (
                     <button
                       type="button"
                       className={`live-icon${currentLive ? "" : " off"}`}
@@ -320,7 +320,7 @@ const ZoomCard = ({
                     <span className={`live-icon${currentLive ? "" : " off"}`}>
                       LIVE
                     </span>
-                  )}
+                  )} */}
                   <Typography fontSize={subHeadingFontSize}>
                     {webinar.topic}
                   </Typography>
