@@ -29,6 +29,28 @@ module.exports = {
     };
     return jwt.sign(payload, apiSecret);
   },
+  checkZoomTokenExpired: async (email, token) => {
+    if (token === null) {
+      // 1. 토큰 존재 x
+      return true;
+    } else if (jwt.decode(token).exp <= Math.floor(Date.now() / 1000)) {
+      // 2. 토큰 존재, 기간 만료
+      return true;
+    } else {
+      // 3. 토큰 존재, 기간 만료 x
+      try {
+        await axios.get(`https://api.zoom.us/v2/users/${email}/webinars`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return false;
+      } catch (err) {
+        // 4. 다른 곳에서 재발급되어 invalid
+        return true;
+      }
+    }
+  },
   issueZoomTokenOAuth: async (accountID, cId, cSecret) => {
     const res = await axios.post(
       `https://zoom.us/oauth/token?grant_type=account_credentials&account_id=${accountID}`,
@@ -40,6 +62,7 @@ module.exports = {
         },
       }
     );
+    console.log(res.data.access_token);
     return res.data.access_token;
   },
 };

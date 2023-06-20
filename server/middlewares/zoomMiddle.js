@@ -1,5 +1,9 @@
 const { getCurrentPool } = require("../utils/getCurrentPool");
-const { issueZoomToken, issueZoomTokenOAuth } = require("../utils/jwt");
+const {
+  issueZoomToken,
+  issueZoomTokenOAuth,
+  checkZoomTokenExpired,
+} = require("../utils/jwt");
 
 const zoomMiddle = {
   getZoomToken: async (req, res, next) => {
@@ -34,7 +38,7 @@ const zoomMiddle = {
 
     try {
       const sql = `
-      SELECT zoom_email, zoom_account_id, zoom_client_id, zoom_client_secret from configuration;
+      SELECT zoom_email, zoom_account_id, zoom_client_id, zoom_client_secret, zoom_token from configuration;
       `;
 
       const row = await connection.query(sql);
@@ -44,14 +48,24 @@ const zoomMiddle = {
         zoom_account_id,
         zoom_client_id,
         zoom_client_secret,
+        zoom_token,
       } = row[0][0];
 
       res.locals.zoom_email = zoom_email;
-      res.locals.zoom_token = await issueZoomTokenOAuth(
-        zoom_account_id,
-        zoom_client_id,
-        zoom_client_secret
-      );
+      if (await checkZoomTokenExpired(zoom_email, zoom_token)) {
+        res.locals.zoom_token = await issueZoomTokenOAuth(
+          zoom_account_id,
+          zoom_client_id,
+          zoom_client_secret
+        );
+        const insertSql = `
+        UPDATE configuration SET zoom_token="${res.locals.zoom_token}"
+        WHERE id=1
+        `;
+        await connection.query(insertSql);
+      } else {
+        res.locals.zoom_token = zoom_token;
+      }
       next();
     } catch (err) {
       connection.release();

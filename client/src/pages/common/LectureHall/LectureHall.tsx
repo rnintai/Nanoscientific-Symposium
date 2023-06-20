@@ -71,32 +71,28 @@ const LectureHall = () => {
 
   const getWebinars = async () => {
     setGetWebinarLoading(true);
-    axios
-      .get(`/api/zoom/webinar/list?nation=${pathname}&year=${currentYear}`)
-      .then(async (res) => {
-        setWebinarList(res.data.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setGetWebinarLoading(false);
-      });
+    try {
+      const res = await axios.get(
+        `/api/zoom/webinar/list?nation=${pathname}&year=${currentYear}`,
+      );
+      setWebinarList(res.data.result);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setGetWebinarLoading(false);
+    }
   };
 
   const getDiscussions = async () => {
     setGetDiscussionLoading(true);
-    axios
-      .get(`/api/zoom/meeting/list?nation=${pathname}`)
-      .then(async (res) => {
-        setDiscussionList(res.data.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setGetDiscussionLoading(false);
-      });
+    try {
+      const res = await axios.get(`/api/zoom/meeting/list?nation=${pathname}`);
+      setDiscussionList(res.data.result);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setGetDiscussionLoading(false);
+    }
   };
 
   const handleAddWebinar = () => {
@@ -121,8 +117,11 @@ const LectureHall = () => {
       const asyncFetchRegistrants = async () => {
         await fetchRegistrants();
       };
+      const asyncGetWebinars = async () => {
+        await getWebinars();
+      };
       asyncFetchRegistrants();
-      getWebinars();
+      asyncGetWebinars();
     }
     if (lectureStage === 2 && discussionList.length < 1) {
       getDiscussions();
