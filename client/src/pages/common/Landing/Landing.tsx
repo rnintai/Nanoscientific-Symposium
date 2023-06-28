@@ -1369,6 +1369,7 @@ const Landing = () => {
                                 ? sponsor.height
                                 : "80px",
                               width: "100%",
+                              objectFit: "contain",
                             }}
                           />
                         </a>
