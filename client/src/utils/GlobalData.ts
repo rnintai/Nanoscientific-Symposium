@@ -35,10 +35,10 @@ export const globalData = new Map<string, Common.globalDataType>([
           type: "NSS China",
         },
         {
-          name: "Yokohama, Japan",
+          name: "Tokyo, Japan",
           date: "27 October 2023",
           path: "https://event.nanoscientific.org/jp",
-          img: `${S3_URL}/common/landing/Web_Japan.jpg`,
+          img: `${S3_URL}/jp/main-page-banner.jpg`,
           type: "NSS Japan",
         },
         {
