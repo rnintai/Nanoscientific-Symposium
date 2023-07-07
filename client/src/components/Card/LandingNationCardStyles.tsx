@@ -82,6 +82,11 @@ export const LandingNationCardContainer = styled.button`
       }
     }
   }
+  .card-wrap.japan {
+    .card-background {
+      background-position: left;
+    }
+  }
   @media screen and (max-width: 768px) {
     width: 49%;
     &:not(:nth-child(2n)) {

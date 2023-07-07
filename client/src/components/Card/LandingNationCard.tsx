@@ -24,7 +24,7 @@ const LandingNationCard = ({ nation }: LandingNationCardProps) => {
         }
       }}
     >
-      <Box className="card-wrap">
+      <Box className={`card-wrap ${nation.type.split(" ")[1].toLowerCase()}`}>
         <div className="card-image-container">
           <div
             className="card-background"
