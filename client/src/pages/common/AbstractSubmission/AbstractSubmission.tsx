@@ -26,6 +26,9 @@ import {
 } from "utils/FontSize";
 import { globalData } from "utils/GlobalData";
 import { escapeQuotes } from "utils/String";
+import useMenuStore from "store/MenuStore";
+import { editorRole } from "utils/Roles";
+import { useAuthState } from "context/AuthContext";
 import { AbstractSubmissionContainer } from "./AbstractSubmissionStyles";
 
 interface abstractProps {
@@ -38,6 +41,8 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   const nssType = useNSSType();
   const currentYear = useCurrentYear();
   const [mktoLoading, setMktoLoading] = useState<boolean>(false);
+  const { currentMenu } = useMenuStore();
+  const authState = useAuthState();
 
   const mktoRef = useRef<HTMLFormElement>();
 
@@ -163,6 +168,7 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
   };
   useEffect(() => {
     getDescription();
+    console.log(currentMenu);
   }, []);
 
   useEffect(() => {
@@ -209,19 +215,24 @@ const AbstractSubmission = ({ formNo }: abstractProps) => {
             {initialDescription || ""}
           </LandingTextEditor>
         </Box>
-        {mktoLoading && (
-          <Box
-            sx={{
-              width: "100%",
-              margin: "25% 0",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        )}
-        {!submitSuccess && <MarketoForm formId={formNo} />}
+        {((currentMenu && currentMenu.show === 1) ||
+          editorRole.includes(authState.role)) &&
+          mktoLoading && (
+            <Box
+              sx={{
+                width: "100%",
+                margin: "25% 0",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+
+        {((currentMenu && currentMenu.show === 1) ||
+          editorRole.includes(authState.role)) &&
+          !submitSuccess && <MarketoForm formId={formNo} />}
         {!mktoLoading && !submitSuccess && pathname !== "jp" && (
           <Stack justifyContent="center" alignItems="center">
             <S3MultiplePdfUpload
