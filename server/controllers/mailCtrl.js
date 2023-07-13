@@ -2,6 +2,7 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 const nodemailer = require("nodemailer");
 const vCode = require("../utils/verificationCode");
 const mailHTML = require("../utils/mailTemplates");
+const emailValidator = require("deep-email-validator");
 
 const S3_URL = "https://d3gxipca0cw0l2.cloudfront.net";
 
@@ -286,6 +287,23 @@ const mailCtrl = {
       });
     } finally {
       connection.release();
+    }
+  },
+  deepValidate: async (req, res) => {
+    const { email } = req.body;
+    try {
+      const result = await emailValidator.validate(email);
+
+      res.status(200).json({
+        success: result.valid,
+        reason: result.reason,
+        validators: result.validators,
+      });
+    } catch (err) {
+      res.status(200).json({
+        success: false,
+        err,
+      });
     }
   },
 };

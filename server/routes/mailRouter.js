@@ -51,7 +51,10 @@ router.route("/vcode/check").post(mailCtrl.checkVcode);
  */
 router.route("/abstract").post(mailCtrl.sendAbstractAlert);
 
-// regisrtation
+// registration
 router.route("/registration").post(mailCtrl.sendRegistrationAlert);
+
+// check email validity
+router.route("/deep-validation").post(mailCtrl.deepValidate);
 
 module.exports = router;
