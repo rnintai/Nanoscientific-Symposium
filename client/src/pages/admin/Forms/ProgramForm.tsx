@@ -209,7 +209,8 @@ const ProgramForm = ({
       loading={loading}
       submitDisabled={
         // title.value === "" ||
-        !isDateStringValid(startTime) || !isDateStringValid(endTime)
+        // !isDateStringValid(startTime) || !isDateStringValid(endTime)
+        false
       }
       deleteHandler={edit && deleteHandler}
     >
