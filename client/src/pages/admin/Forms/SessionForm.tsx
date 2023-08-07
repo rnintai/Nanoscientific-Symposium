@@ -73,7 +73,7 @@ const SessionForm = ({
   const currentYear = useCurrentYear();
 
   const sessionSubmitHandler = async () => {
-    if (title.value === "" || !date.isValid()) {
+    if (title.value === "" || !date || !date.isValid()) {
       setSessionValidAlert(true);
       return;
     }

@@ -97,11 +97,7 @@ const ProgramForm = ({
   const currentYear = useCurrentYear();
 
   const programSubmitHandler = async () => {
-    if (
-      // title.value === "" ||
-      !startTime.isValid() ||
-      !endTime.isValid()
-    ) {
+    if (!startTime || !endTime || !startTime.isValid() || !endTime.isValid()) {
       setProgramValidAlert(true);
       return;
     }
@@ -222,16 +218,6 @@ const ProgramForm = ({
       speakers.value = "";
     }
   }, [speakerCheck]);
-
-  useEffect(() => {
-    console.log(startTime);
-    console.log(
-      calTimezoneDate(
-        userTimezoneToUTC(dayjs(startTime), new Date().getTimezoneOffset()),
-        selectedTimeZoneOffset,
-      ),
-    );
-  }, [startTime]);
 
   return (
     <CommonModal
