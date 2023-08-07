@@ -3,7 +3,7 @@ const { getCurrentPool } = require("../utils/getCurrentPool");
 
 const adminCtrl = {
   addSession: async (req, res) => {
-    const { nation, title, date, year, language } = req.body;
+    const { nation, title, title_en, date, year, language } = req.body;
     const currentPool = getCurrentPool(nation);
     const connection = await currentPool.getConnection(async (conn) => conn);
     const langSfx = language === "china" ? "" : "_en";
@@ -68,10 +68,6 @@ const adminCtrl = {
     const connection = await currentPool.getConnection(async (conn) => conn);
 
     try {
-      // delete agendas
-      let sql = `DELETE FROM program_agenda WHERE session_id=${id}`;
-      const agendaResult = await connection.query(sql);
-
       // delete programs
       sql = `DELETE FROM programs WHERE session=${id}`;
       const programResult = await connection.query(sql);
@@ -82,7 +78,7 @@ const adminCtrl = {
 
       res.status(200).json({
         success: true,
-        message: `1개의 세션 삭제, ${programResult[0].affectedRows}개의 프로그램 삭제, ${agendaResult[0].affectedRows}개의 아젠다 삭제`,
+        message: `1개의 세션 삭제, ${programResult[0].affectedRows}개의 프로그램 삭제`,
       });
     } catch (err) {
       console.log(err);
