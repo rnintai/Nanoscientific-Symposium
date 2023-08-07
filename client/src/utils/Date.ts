@@ -1,3 +1,5 @@
+import dayjs, { Dayjs } from "dayjs";
+
 export const dateToLocaleString = (
   date: string,
   timeZone?: string,
@@ -109,6 +111,25 @@ export const calculateDurationToDate = (
   const minute = time.getMinutes();
   time.setMinutes(minute + duration);
   return time;
+};
+
+export const calTimezoneDate = (
+  time: Dayjs,
+  timeZoneOffset: string,
+  isMinus?: boolean,
+) => {
+  let offset = 0;
+  const splitted = timeZoneOffset.split(":");
+  offset = (isMinus ? -1 * Number(splitted[0]) : Number(splitted[0])) * 60;
+  if (splitted.length === 2) {
+    offset += Number(`${splitted[0][0]}${splitted[1]}`);
+  }
+
+  return time.add(offset, "minute");
+};
+
+export const userTimezoneToUTC = (time: Dayjs, timeZoneOffset: number) => {
+  return time.add(timeZoneOffset, "minute");
 };
 
 //

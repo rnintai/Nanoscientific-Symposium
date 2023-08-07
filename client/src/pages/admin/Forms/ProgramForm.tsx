@@ -16,7 +16,6 @@ import {
   LocalizationProvider,
   MobileDateTimePicker,
 } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { escapeQuotes } from "utils/String";
 import { LoadingButton } from "@mui/lab";
 import dayjs, { Dayjs } from "dayjs";
@@ -26,10 +25,15 @@ import useInput from "hooks/useInput";
 import usePageViews from "hooks/usePageViews";
 import useCurrentYear from "hooks/useCurrentYear";
 import {
+  calTimezoneDate,
   getUserTimezoneDate,
   getUserTimezoneString,
   isDateStringValid,
+  isDateValid,
+  userTimezoneToUTC,
 } from "utils/Date";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { MuiPickersAdapter } from "@mui/x-date-pickers/internals";
 
 interface ProgramFormProps {
   openProgramForm: boolean;
@@ -57,11 +61,27 @@ const ProgramForm = ({
   selectedTimeZoneOffset,
   edit = false,
 }: ProgramFormProps) => {
-  const [startTime, setStartTime] = useState<string | null>(
-    edit ? selectedProgram.start_time : sessions[0].date,
+  const [startTime, setStartTime] = useState<Dayjs | null>(
+    edit
+      ? calTimezoneDate(
+          userTimezoneToUTC(
+            dayjs(selectedProgram.start_time),
+            new Date().getTimezoneOffset(),
+          ),
+          selectedTimeZoneOffset,
+        )
+      : dayjs(sessions[0].date),
   );
-  const [endTime, setEndTime] = useState<string | null>(
-    edit ? selectedProgram.end_time : sessions[0].date,
+  const [endTime, setEndTime] = useState<Dayjs | null>(
+    edit
+      ? calTimezoneDate(
+          userTimezoneToUTC(
+            dayjs(selectedProgram.end_time),
+            new Date().getTimezoneOffset(),
+          ),
+          selectedTimeZoneOffset,
+        )
+      : dayjs(sessions[0].date),
   );
   const [emphasizeCheck, setEmphasizeCheck] = useState<boolean>(
     edit ? selectedProgram.emphasize === 1 : false,
@@ -79,8 +99,8 @@ const ProgramForm = ({
   const programSubmitHandler = async () => {
     if (
       // title.value === "" ||
-      !isDateStringValid(startTime) ||
-      !isDateStringValid(endTime)
+      !startTime.isValid() ||
+      !endTime.isValid()
     ) {
       setProgramValidAlert(true);
       return;
@@ -95,14 +115,18 @@ const ProgramForm = ({
         title: escapeQuotes(title.value),
         speakers: escapeQuotes(speakers.value),
         description: escapeQuotes(description.value),
-        // startTime: startTime.toDate()?.toLocaleString("sv-SE", {
-        //   timeZone: "utc",
-        // }),
-        // endTime: endTime.toDate()?.toLocaleString("sv-SE", {
-        //   timeZone: "utc",
-        // }),
-        startTime: getUserTimezoneString(startTime, "utc"),
-        endTime: getUserTimezoneString(endTime, "utc"),
+        startTime: calTimezoneDate(
+          dayjs(startTime),
+          selectedTimeZoneOffset,
+          true,
+        )
+          .toDate()
+          .toLocaleString("sv-SE"),
+        endTime: calTimezoneDate(dayjs(endTime), selectedTimeZoneOffset, true)
+          .toDate()
+          .toLocaleString("sv-SE"),
+        // startTime: getUserTimezoneString(startTime, "utc"),
+        // endTime: getUserTimezoneString(endTime, "utc"),
         session: selectedSession,
         emphasize: emphasizeCheck,
         year: currentYear,
@@ -114,14 +138,18 @@ const ProgramForm = ({
         title: escapeQuotes(title.value),
         speakers: escapeQuotes(speakers.value),
         description: escapeQuotes(description.value),
-        // startTime: startTime.toDate()?.toLocaleString("sv-SE", {
-        //   timeZone: "utc",
-        // }),
-        // endTime: endTime.toDate()?.toLocaleString("sv-SE", {
-        //   timeZone: "utc",
-        // }),
-        startTime: getUserTimezoneString(startTime, "utc"),
-        endTime: getUserTimezoneString(endTime, "utc"),
+        startTime: calTimezoneDate(
+          dayjs(startTime),
+          selectedTimeZoneOffset,
+          true,
+        )
+          .toDate()
+          .toLocaleString("sv-SE"),
+        endTime: calTimezoneDate(dayjs(endTime), selectedTimeZoneOffset, true)
+          .toDate()
+          .toLocaleString("sv-SE"),
+        // startTime: getUserTimezoneString(startTime, "utc"),
+        // endTime: getUserTimezoneString(endTime, "utc"),
         emphasize: emphasizeCheck ? 1 : 0,
         year: currentYear,
       });
@@ -150,25 +178,25 @@ const ProgramForm = ({
     const selectedSessionArr = sessions.filter((session) => {
       return session.id === event.target.value;
     });
-    // const selectedDate = dayjs(selectedSessionArr[0].date);
-    // const newYear = selectedDate.get("year");
-    // const newMonth = selectedDate.get("month");
-    // const newDate = selectedDate.get("date");
+    const selectedDate = dayjs(selectedSessionArr[0].date);
+    const newYear = selectedDate.get("year");
+    const newMonth = selectedDate.get("month");
+    const newDate = selectedDate.get("date");
 
-    // const newStart = dayjs()
-    //   .set("year", newYear)
-    //   .set("month", newMonth)
-    //   .set("date", newDate);
+    const newStart = dayjs()
+      .set("year", newYear)
+      .set("month", newMonth)
+      .set("date", newDate);
 
-    // setStartTime(newStart);
-    // setEndTime(newStart);
+    setStartTime(newStart);
+    setEndTime(newStart);
 
-    const newDate = getUserTimezoneString(
-      selectedSessionArr[0].date,
-      selectedTimezone,
-    );
-    setStartTime(newDate);
-    setEndTime(newDate);
+    // const newDate = getUserTimezoneString(
+    //   selectedSessionArr[0].date,
+    //   selectedTimezone,
+    // );
+    // setStartTime(newDate);
+    // setEndTime(newDate);
   };
 
   const deleteHandler = async () => {
@@ -194,6 +222,16 @@ const ProgramForm = ({
       speakers.value = "";
     }
   }, [speakerCheck]);
+
+  useEffect(() => {
+    console.log(startTime);
+    console.log(
+      calTimezoneDate(
+        userTimezoneToUTC(dayjs(startTime), new Date().getTimezoneOffset()),
+        selectedTimeZoneOffset,
+      ),
+    );
+  }, [startTime]);
 
   return (
     <CommonModal
@@ -281,33 +319,25 @@ const ProgramForm = ({
         sx={{ marginBottom: "30px" }}
         {...description}
       />
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <LocalizationProvider dateAdapter={AdapterDayjs as any}>
         <DateTimePicker
-          renderInput={(props) => <TextField {...props} />}
           label="Start Time"
-          value={getUserTimezoneDate(startTime, selectedTimezone)}
-          inputFormat="YYYY/MM/DD hh:mm a"
+          value={startTime}
           onChange={(newValue: Dayjs) => {
-            if (!newValue) return;
-            setStartTime(
-              newValue.toDate().toLocaleString("sv-SE") +
-                selectedTimeZoneOffset,
-            );
+            setStartTime(newValue);
           }}
+          format="YYYY-MM-DD HH:mm"
+          ampm={false}
         />
         {"  "}
         <DateTimePicker
-          renderInput={(props) => <TextField {...props} />}
           label="End Time"
-          inputFormat="YYYY/MM/DD hh:mm a"
-          value={getUserTimezoneDate(endTime, selectedTimezone)}
+          value={endTime}
           onChange={(newValue: Dayjs) => {
-            if (!newValue) return;
-            setEndTime(
-              newValue.toDate().toLocaleString("sv-SE") +
-                selectedTimeZoneOffset,
-            );
+            setEndTime(newValue);
           }}
+          format="YYYY-MM-DD HH:mm"
+          ampm={false}
         />
       </LocalizationProvider>
       <h3 style={{ marginTop: "5px" }}>

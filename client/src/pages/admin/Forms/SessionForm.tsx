@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { LoadingButton } from "@mui/lab";
 import axios, { AxiosResponse } from "axios";
 import CommonModal from "components/CommonModal/CommonModal";
@@ -9,7 +9,12 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
-import { getUserTimezoneDate, isDateValid } from "utils/Date";
+import {
+  calTimezoneDate,
+  getUserTimezoneDate,
+  isDateValid,
+  userTimezoneToUTC,
+} from "utils/Date";
 import usePageViews from "hooks/usePageViews";
 import useAdminStore from "store/AdminStore";
 import useCurrentYear from "hooks/useCurrentYear";
@@ -24,6 +29,7 @@ interface SessionFormProps {
   getSessions: () => void;
   getPrograms: () => void;
   selectedTimezone: string;
+  selectedTimeZoneOffset: string;
   edit: boolean;
   sessionValidAlert: boolean;
   setSessionValidAlert: Dispatch<SetStateAction<boolean>>;
@@ -37,6 +43,7 @@ const SessionForm = ({
   getSessions,
   getPrograms,
   selectedTimezone,
+  selectedTimeZoneOffset,
   sessionValidAlert,
   setSessionValidAlert,
   // 편집모달일때는 edit 이 true 로 넘어온다
@@ -50,7 +57,15 @@ const SessionForm = ({
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [status, setStatus] = useState<Common.showStatus>("show");
   const [date, setDate] = useState<Dayjs | null>(
-    edit ? dayjs(selectedSession.date) : dayjs(),
+    edit
+      ? calTimezoneDate(
+          userTimezoneToUTC(
+            dayjs(selectedSession.date),
+            new Date().getTimezoneOffset(),
+          ),
+          selectedTimeZoneOffset,
+        )
+      : dayjs(),
   );
 
   const title = useInput(edit ? selectedSession.session_title : "");
@@ -74,7 +89,9 @@ const SessionForm = ({
         title: escapeQuotes(title.value),
         title_en: pathname === "china" ? title_en.value : undefined,
         status: status === "show" ? 1 : 0,
-        date,
+        date: calTimezoneDate(dayjs(date), selectedTimeZoneOffset, true)
+          .toDate()
+          .toLocaleString("sv-SE"),
         year: currentYear,
       });
     } else {
@@ -84,7 +101,9 @@ const SessionForm = ({
         title: escapeQuotes(title.value),
         title_en: pathname === "china" ? title_en.value : undefined,
         language: pathname === "china" ? currentLanguage : undefined,
-        date,
+        date: calTimezoneDate(dayjs(date), selectedTimeZoneOffset, true)
+          .toDate()
+          .toLocaleString("sv-SE"),
         year: currentYear,
       });
     }
@@ -178,13 +197,12 @@ const SessionForm = ({
         />
       )}
 
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DesktopDatePicker
+      <LocalizationProvider dateAdapter={AdapterDayjs as any}>
+        <DatePicker
           label="Session Date"
-          inputFormat="YYYY/MM/DD"
-          value={dayjs(date)}
+          value={date}
           onChange={dateChangeHandler}
-          renderInput={(params) => <TextField {...params} />}
+          format="YYYY-MM-DD"
         />
       </LocalizationProvider>
 

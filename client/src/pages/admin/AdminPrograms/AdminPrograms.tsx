@@ -287,6 +287,7 @@ const AdminPrograms = () => {
           setSessionSuccess={setSessionSuccess}
           edit={sessionEdit}
           selectedTimezone={selectedTimezone}
+          selectedTimeZoneOffset={selectedTimeZoneOffset}
           sessionValidAlert={sessionValidAlert}
           setSessionValidAlert={setSessionValidAlert}
         />
